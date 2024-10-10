@@ -1,0 +1,15 @@
+#wp-content-editor-tools,
+#ed_toolbar ,
+#side-sortables,
+#adminmenuwrap {
+	position: relative !important;
+	top: 0 !important;
+	bottom: auto !important;
+}
+.plugins .plugin-update-tr,
+.update-nag,
+#adminmenu .awaiting-mod, 
+#adminmenu .update-plugins, 
+#wp-admin-bar-updates {
+	display: none !important;
+}
