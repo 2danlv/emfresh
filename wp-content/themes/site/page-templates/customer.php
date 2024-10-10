@@ -9,7 +9,7 @@
  */
 
 get_header("customer");
-// Start the Loop.
+
 ?>
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
@@ -32,63 +32,63 @@ get_header("customer");
   <!-- Main content -->
   <section class="content">
     <?php
-    // Check if the form is submitted and handle the submission
+    
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-      // Insert a new post of custom post type 'customer'
+      
       $new_post = array(
-        'post_title'   => sanitize_text_field($_POST['post_title']),   // Sanitize and set post title
-        'post_content' => wp_kses_post($_POST['post_content']),        // Sanitize and set post content
-        'post_type'    => 'customer',                                 // Set the custom post type to 'customer'
-        'post_status'  => 'publish',                                  // Set the post status (publish, draft, etc.)
-        'post_author'  => get_current_user_id(),                      // Set the author to the current logged-in user
+        'post_title'   => sanitize_text_field($_POST['post_title']),   
+        'post_content' => wp_kses_post($_POST['post_content']),        
+        'post_type'    => 'customer',                                 
+        'post_status'  => 'publish',                                  
+        'post_author'  => get_current_user_id(),                      
       );
 
-      // Insert the post and get the newly created post ID
+      
       $post_id = wp_insert_post($new_post);
 
-      // Check if the post was created successfully
+      
       if (!is_wp_error($post_id)) {
-        // Success: Post has been created
+        
 
-        // Now, add custom fields (meta data) to the new post
+        
 
-        // Add full name
+        
         if (isset($_POST['fullname'])) {
           update_post_meta($post_id, 'fullname', sanitize_text_field($_POST['fullname']));
         }
 
-        // Add phone number
+        
         if (isset($_POST['phone'])) {
-          update_post_meta($post_id, 'phone', preg_replace('/[^0-9]/', '', $_POST['phone'])); // Sanitize phone number
+          update_post_meta($post_id, 'phone', preg_replace('/[^0-9]/', '', $_POST['phone'])); 
         }
 
-        // Add gender
+        
         if (isset($_POST['gender'])) {
           update_post_meta($post_id, 'gender', sanitize_text_field($_POST['gender']));
         }
 
-        // Add customer status
+        
         if (isset($_POST['status'])) {
           update_post_meta($post_id, 'status', sanitize_text_field($_POST['status']));
         }
 
-        // Add customer tag
+        
         if (isset($_POST['tag'])) {
           update_post_meta($post_id, 'tag', sanitize_text_field($_POST['tag']));
         }
 
-        // Add point field
+        
         if (isset($_POST['point'])) {
           update_post_meta($post_id, 'point', sanitize_text_field($_POST['point']));
         }
 
-        // Handle multiple locations
+        
         if (isset($_POST['locations'])) {
-          // Remove any existing location data just in case (not necessary for new posts, but kept for consistency)
+          
           delete_post_meta($post_id, 'location');
 
-          // Save new locations
+          
           foreach ($_POST['locations'] as $location) {
             if (!empty($location['province']) && !empty($location['district']) && !empty($location['ward'])) {
               $location_data = array(
@@ -102,10 +102,10 @@ get_header("customer");
           }
         }
 
-        // Display success message
+        
         echo '<p class="success-message">Customer added successfully!</p>';
       } else {
-        // Error: Post creation failed
+        
         echo '<p class="error-message">Error: Failed to add new customer.</p>';
       }
     }
@@ -126,7 +126,7 @@ get_header("customer");
       <div class="row">
         <div class="col-md-6">
           <?php
-          // Ensure user is logged in (optional if you want to restrict access to logged-in users)
+          
           if (!is_user_logged_in()) {
             echo '<p>You need to log in to edit this content.</p>';
             return;
@@ -284,38 +284,39 @@ get_header("customer");
     var fieldCount = 1;
     var maxFields = 5;
 
-    // Fetch the JSON data from the provided URL
-    fetch('https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json')
+    // Fetching data from the new API endpoint
+    fetch('https://provinces.open-api.vn/api/?depth=3')
       .then(response => response.json())
       .then(data => {
-        // Function to populate province select
+
+        // Function to populate the province dropdown
         function populateProvinces(selectElement, selectedValue) {
-          selectElement.innerHTML = '<option value="">Select  Tỉnh/Thành phố</option>';
+          selectElement.innerHTML = '<option value="">Select Tỉnh/Thành phố</option>';
           data.forEach(province => {
             var option = document.createElement('option');
-            option.value = province.Name;
-            option.text = province.Name;
-            if (selectedValue && selectedValue === province.Name) {
+            option.value = province.name;
+            option.text = province.name;
+            if (selectedValue && selectedValue === province.name) {
               option.selected = true;
             }
             selectElement.appendChild(option);
           });
         }
 
-        // Function to handle district and ward population
+        // Function to handle cascading changes in province, district, and ward
         function handleLocationChange(provinceSelect, districtSelect, wardSelect) {
           provinceSelect.addEventListener('change', function() {
             districtSelect.innerHTML = '<option value="">Select Quận/Huyện</option>';
             wardSelect.innerHTML = '<option value="">Select Phường/Xã</option>';
             wardSelect.disabled = true;
 
-            var selectedProvince = data.find(p => p.Name === this.value);
+            var selectedProvince = data.find(p => p.name === this.value);
 
             if (selectedProvince) {
-              selectedProvince.Districts.forEach(district => {
+              selectedProvince.districts.forEach(district => {
                 var option = document.createElement('option');
-                option.value = district.Name;
-                option.text = district.Name;
+                option.value = district.name;
+                option.text = district.name;
                 districtSelect.appendChild(option);
               });
               districtSelect.disabled = false;
@@ -327,14 +328,14 @@ get_header("customer");
           districtSelect.addEventListener('change', function() {
             wardSelect.innerHTML = '<option value="">Select Phường/Xã</option>';
 
-            var selectedProvince = data.find(p => p.Name === provinceSelect.value);
-            var selectedDistrict = selectedProvince.Districts.find(d => d.Name === this.value);
+            var selectedProvince = data.find(p => p.name === provinceSelect.value);
+            var selectedDistrict = selectedProvince.districts.find(d => d.name === this.value);
 
             if (selectedDistrict) {
-              selectedDistrict.Wards.forEach(ward => {
+              selectedDistrict.wards.forEach(ward => {
                 var option = document.createElement('option');
-                option.value = ward.Name;
-                option.text = ward.Name;
+                option.value = ward.name;
+                option.text = ward.name;
                 wardSelect.appendChild(option);
               });
               wardSelect.disabled = false;
@@ -344,7 +345,7 @@ get_header("customer");
           });
         }
 
-        // Initialize existing locations
+        // Initialize existing address groups
         document.querySelectorAll('.address-group').forEach(function(group, index) {
           var provinceSelect = group.querySelector('.province-select');
           var districtSelect = group.querySelector('.district-select');
@@ -354,7 +355,7 @@ get_header("customer");
           handleLocationChange(provinceSelect, districtSelect, wardSelect);
         });
 
-        // Add new location field set
+        // Add new address group functionality
         addButton.addEventListener('click', function(e) {
           e.preventDefault();
           if (fieldCount < maxFields) {
@@ -410,10 +411,10 @@ get_header("customer");
       })
       .catch(error => {
         console.error('Error fetching location data:', error);
-        //alert('There was an error loading the location data. Please try again later.');
       });
   });
 </script>
+
 
 
 

@@ -653,26 +653,26 @@ function site_auto_update_scheduled() {
     } 
 }
 add_action( 'init', 'site_auto_update_scheduled' );
-// Register the meta box for locations in wp-admin
+//
 function custom_location_meta_box() {
     add_meta_box(
-        'custom_location_meta_box',    // ID of the meta box
-        'Information',                   // Title of the meta box
-        'custom_location_meta_box_callback', // Callback function to display the meta box content
-        'customer',                        // Post type where this meta box will appear ('post' or your custom post type slug)
-        'normal',                      // Context (where the box will appear)
-        'default'                      // Priority of the box
+        'custom_location_meta_box',    
+        'Information',                   
+        'custom_location_meta_box_callback', 
+        'customer',                        
+        'normal',                      
+        'default'                      
     );
 }
 add_action('add_meta_boxes', 'custom_location_meta_box');
 
-// Meta box display callback function
+
 function custom_location_meta_box_callback($post) {
-    // Get saved locations from post meta
-    $post_id = get_the_ID(); // Adjust based on where you're using this form
-	// Fetch the current post data (title, content, and locations)
+    
+    $post_id = get_the_ID(); 
+	
 	$post = get_post($post_id);
-	$locations = get_post_meta($post_id, 'location', false); // Fetch all location entries
+	$locations = get_post_meta($post_id, 'location', false); 
 	
     $fullname = get_post_meta($post_id, 'fullname', true);
     $phone = get_post_meta($post_id, 'phone', true);
@@ -681,7 +681,7 @@ function custom_location_meta_box_callback($post) {
     $tag = get_post_meta($post_id, 'tag', true);
     $point = get_post_meta($post_id, 'point', true);
 	
-	// If $locations is not an array, make it an empty array
+	
 	if (!is_array($locations)) {
 		$locations = array();
 	}
@@ -698,7 +698,7 @@ function custom_location_meta_box_callback($post) {
 		<?php
 		if (!empty($locations)) {
 			foreach ($locations as $index => $location) {
-				// Ensure $location is an array
+				
 				$address = isset($location['address']) ? esc_attr($location['address']) : '';
 				$province = isset($location['province']) ? esc_attr($location['province']) : '';
 				$district = isset($location['district']) ? esc_attr($location['district']) : '';
@@ -717,14 +717,14 @@ function custom_location_meta_box_callback($post) {
 
 }
 
-// Save the updated location data from wp-admin
+
 function save_custom_location_meta_box($post_id) {
-    // Check if our nonce is set and is valid
+    
     if (!isset($_POST['locations'])) {
         return;
     }
 
-    // Sanitize and update location data
+    
     $locations = array();
     foreach ($_POST['locations'] as $location) {
         $locations[] = array(
@@ -734,12 +734,12 @@ function save_custom_location_meta_box($post_id) {
         );
     }
 
-    // Update the post meta with new locations
+    
     update_post_meta($post_id, 'location', $locations);
 }
-// add_action('save_post', 'save_custom_location_meta_box');
 
-// Populate the custom column with location data
+
+
 function custom_location_column_content($column, $post_id) {
     if ($column === 'locations') {
         $locations = get_post_meta($post_id, 'location', true);
@@ -753,4 +753,4 @@ function custom_location_column_content($column, $post_id) {
         }
     }
 }
-add_action('manage_post_posts_custom_column', 'custom_location_column_content', 10, 2); // Adjust for your custom post type
+add_action('manage_post_posts_custom_column', 'custom_location_column_content', 10, 2); 

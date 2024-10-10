@@ -15,7 +15,7 @@ function page_404_wp_head()
 {
 	echo '<meta http-equiv="refresh" content="0; url='. home_url(). '">';
 }
-add_action('wp_head', 'page_404_wp_head');
+//add_action('wp_head', 'page_404_wp_head');
 
 get_header(); ?>
 

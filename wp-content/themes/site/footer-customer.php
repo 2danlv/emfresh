@@ -46,6 +46,10 @@
 <script src="https://cdn.datatables.net/plug-ins/1.10.16/sorting/natural.js"></script>
 <script>
   $(function () {
+    //Initialize Select2 Elements
+    $('.select2,.acf_viet_nam_select2').select2()
+  });
+  $(function () {
     $("#example1").DataTable({
       "responsive": true, 
       "lengthChange": false, 
