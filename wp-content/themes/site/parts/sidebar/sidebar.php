@@ -68,7 +68,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/add-customer/" class="nav-link">
+                <a href="/customer/add-customer/" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Add Customer</p>
                 </a>

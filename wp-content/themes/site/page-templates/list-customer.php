@@ -71,12 +71,12 @@ get_header('customer');
                 if (is_array($record)) { // Check if each record is an array
             ?>
                   <tr>
-                    <td><a href="/detail-customer/?customer_id=<?php echo $record['id'] ?>"><?php echo $record['fullname']; ?></a></td>
+                    <td><a href="detail-customer/?customer_id=<?php echo $record['id'] ?>"><?php echo $record['fullname']; ?></a></td>
                     <td><?php echo $record['phone']; ?></td>
                     <td><?php echo $record['tag_name']; ?></td>
                     <td><?php echo $record['point']; ?>
                       <div class="float-sm-right">
-                        <a class="btn btn-info btn-sm" href="/detail-customer/?customer_id=<?php echo $record['id'] ?>">
+                        <a class="btn btn-info btn-sm" href="detail-customer/?customer_id=<?php echo $record['id'] ?>">
                           <i class="fas fa-pencil-alt">
                           </i>
                           Edit
@@ -105,6 +105,7 @@ get_header('customer');
       </div>
     </div>
     <!-- /.card-body -->
+     </section>
 </div>
 
 <!-- /.card-body -->
@@ -132,7 +133,7 @@ get_header('customer');
   </div>
 
 </div>
-</div>
+
 <?php
 // endwhile;
 get_footer('customer');

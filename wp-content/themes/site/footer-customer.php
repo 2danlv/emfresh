@@ -49,11 +49,10 @@
     var url = location.href.replace(/\/+$/, ''), //rtrim `/`
         parts = url.split("/"),
         last_part = parts[parts.length - 1];
-    console.log((window.location.pathname));
-
+    console.log(last_part);
     if (last_part != "") {
         
-            $('.nav-treeview a[href*="/' + last_part + '/"]').addClass('active');
+            $('.nav-treeview a[href*="/' + last_part + '/"]:first').addClass('active');
         
     }
     $("#example1").DataTable({
