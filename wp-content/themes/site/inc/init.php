@@ -15,6 +15,8 @@ require get_theme_file_path( '/inc/functions/menu.php' );
 // require get_theme_file_path( '/inc/functions/Hoper_Wish_Walker_Nav_Menu.php' );
 // require get_theme_file_path( '/inc/functions/template-tags.php' );
 
+require get_theme_file_path( '/inc/functions/user.php' );
+
 // Custom type
 require get_theme_file_path( '/inc/post_types/customer.php' );
 require get_theme_file_path( '/inc/post_types/info.php' );

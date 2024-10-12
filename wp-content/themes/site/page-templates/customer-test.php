@@ -165,10 +165,9 @@ get_header("customer");
                 </div>
               </div>
               <div id="location-fields">
-                <hr>
                 <div class="address-group">
                 <div class="form-group row">
-                  <div class="col-sm-3"><label>Địa chỉ (*):</label></div>
+                  <div class="col-sm-3"><label>Địa chỉ (*) </label></div>
                   <div class="col-sm-9">
                     <input id="address_0" class="form-control" name="locations[0][address]" required />
                   </div>
@@ -179,7 +178,7 @@ get_header("customer");
 
                   </div>
                   <div class="col-sm-9">
-                    <select id="province_0" name="locations[0][province]" class="province-select form-control" required>
+                    <select id="province_0" name="locations[0][province]" class="province-select form-control" >
                       <option value="">Select Tỉnh/Thành phố</option>
                     </select>
                   </div>
@@ -189,7 +188,7 @@ get_header("customer");
                     <label for="district_0">Quận/Huyện:</label>
                   </div>
                   <div class="col-sm-9">
-                    <select id="district_0" name="locations[0][district]" class="district-select form-control"  disabled required>
+                    <select id="district_0" name="locations[0][district]" class="district-select form-control"  disabled>
                       <option value="">Select Quận/Huyện</option>
                     </select>
                   </div>
@@ -199,11 +198,12 @@ get_header("customer");
                     <label for="ward_0">Phường/Xã:</label>
                   </div>
                   <div class="col-sm-9">
-                    <select id="ward_0" name="locations[0][ward]" class="ward-select form-control"  disabled required>
+                    <select id="ward_0" name="locations[0][ward]" class="ward-select form-control"  disabled>
                       <option value="">Select Phường/Xã</option>
                     </select>
                   </div>
                 </div>
+                <p class="text-right"><span class="btn bg-gradient-danger  delete-location-button">Xóa địa chỉ <i class="fas fa-minus"></i></span></p>
               </div>
               </div>
               <p><span class="btn bg-gradient-primary" id="add-location-button">Thêm địa chỉ <i class="fas fa-plus"></i></span></p>
@@ -225,7 +225,7 @@ get_header("customer");
               <div class="form-group row">
                 <div class="col-sm-3"><label for="inputStatus">Trạng thái khách hàng (*)</label></div>
                 <div class="col-sm-9"><select id="inputStatus" name="status" class="form-control custom-select" required>
-                    <option disabled>Select one</option>
+                    <option selected disabled>Select one</option>
                     <?php 
                     foreach ($status as $key => $value) { ?>
                       <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
@@ -236,7 +236,7 @@ get_header("customer");
               <div class="form-group row">
                 <div class="col-sm-3"><label for="inputTag">Tag phân loại (*)</label></div>
                 <div class="col-sm-9"><select class="form-control" name="tag" style="width: 100%;" required>
-                    <option disabled>Select one</option>
+                    <option selected disabled>Select one</option>
                     <?php 
                     foreach ($tag as $key => $value) { ?>
                       <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
@@ -343,10 +343,9 @@ get_footer('customer');
                     if (fieldCount < maxFields) {
 
                         var newGroup = `
-                        <hr>
                     <div class="address-group">
                         <div class="form-group row">
-                            <div class="col-sm-3"><label>Địa chỉ (*):</label></div>
+                            <div class="col-sm-3"><label>Địa chỉ (*)</label></div>
                             <div class="col-sm-9">
                                 <input id="address_${fieldCount}" class="form-control" name="locations[${fieldCount}][address]" required />
                             </div>
