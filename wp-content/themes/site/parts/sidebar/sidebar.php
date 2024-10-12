@@ -68,19 +68,19 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/add-customer" class="nav-link">
+                <a href="/add-customer/" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Add Customer</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="search.php" class="nav-link">
+                <a href="/search/" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Search</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="chart.php" class="nav-link">
+                <a href="/chart/" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Chart</p>
                 </a>

@@ -46,10 +46,16 @@
 <script src="https://cdn.datatables.net/plug-ins/1.10.16/sorting/natural.js"></script>
 <script>
   $(function () {
-    //Initialize Select2 Elements
-    $('.select2,.acf_viet_nam_select2').select2()
-  });
-  $(function () {
+    var url = location.href.replace(/\/+$/, ''), //rtrim `/`
+        parts = url.split("/"),
+        last_part = parts[parts.length - 1];
+    console.log((window.location.pathname));
+
+    if (last_part != "") {
+        
+            $('.nav-treeview a[href*="/' + last_part + '/"]').addClass('active');
+        
+    }
     $("#example1").DataTable({
       "responsive": true, 
       "lengthChange": false, 
