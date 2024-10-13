@@ -60,11 +60,11 @@ while (have_posts()) : the_post();
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword2">Mật khẩu mới</label>
-                            <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password" name="newpassword" required>
+                            <input type="password" class="form-control" id="exampleInputPassword2" placeholder="New Password" name="newpassword" required>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword3">Xác nhận mật khẩu mới</label>
-                            <input type="password" class="form-control" id="exampleInputPassword3" placeholder="Password" name="confirmpassword" required>
+                            <input type="password" class="form-control" id="exampleInputPassword3" placeholder="Confirm Password" name="confirmpassword" required>
                         </div>
                     </div>
                     <div class="card-footer">

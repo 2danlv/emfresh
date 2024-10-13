@@ -76,7 +76,7 @@ get_header('customer');
                     <td><?php echo $record['tag_name']; ?></td>
                     <td><?php echo $record['point']; ?>
                       <div class="float-sm-right">
-                        <a class="btn btn-info btn-sm" href="detail-customer/?customer_id=<?php echo $record['id'] ?>">
+                        <a class="btn btn-info btn-sm" href="detail-customer/?customer_id=<?php echo $record['id'] ?>#settings">
                           <i class="fas fa-pencil-alt">
                           </i>
                           Edit

@@ -195,7 +195,7 @@ get_header('customer');
                                             <div class="row">
                                                 <div class="col px-4">
                                                     <div>
-                                                        <div class="float-right">2021-04-20 04:04pm</div>
+                                                        <div class="float-right"></div>
                                                         <h3><a href="/customer/detail-customer/?customer_id=<?php echo $record['id'] ?>"><?php echo $record['fullname']; ?></a></h3>
                                                         <p>Số điện thoại: <?php echo $record['phone']; ?></p>
                                                         <p>Địa chỉ: <?php echo $record['address']; ?>, <?php echo $record['ward']; ?>, <?php echo $record['district']; ?>,  <?php echo $record['city']; ?></p>
@@ -203,7 +203,7 @@ get_header('customer');
                                                         <p>Điểm tích lũy: <?php echo $record['point']; ?></p>
                                                     </div>
                                                     <div>
-                                                        <a class="btn btn-info btn-sm" href="/customer/detail-customer/?customer_id=<?php echo $record['id'] ?>">
+                                                        <a class="btn btn-info btn-sm" href="/customer/detail-customer/?customer_id=<?php echo $record['id'] ?>#settings">
                                                             <i class="fas fa-pencil-alt">
                                                             </i>
                                                             Edit

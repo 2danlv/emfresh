@@ -465,6 +465,16 @@ get_footer('customer');
 ?>
 <script type="text/javascript">
     $(document).ready(function() {
+        
+        var hash = window.location.hash;
+        if(hash){
+            $('li.nav-item a,.tab-content .tab-pane').removeClass('active');
+            $('li.nav-item a[href="' + hash +'"]').addClass('active');
+            var elementID = hash.replace('#', '');
+            console.log('log',elementID);
+            $('#'+elementID).addClass('active');
+        }
+        
         var $locationFields = $('#location-fields');
         var $addButton = $('#add-location-button');
         var fieldCount = <?php echo count($response_get_location['data']); ?>;
