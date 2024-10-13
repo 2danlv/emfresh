@@ -480,7 +480,11 @@ get_footer('customer');
             url: 'https://provinces.open-api.vn/api/?depth=3',
             method: 'GET',
             success: function(data) {
-
+                // Move the province with code 79 to the top of the data array
+                var topProvince = data.find(p => p.code === 79);
+                if (topProvince) {
+                    data = [topProvince].concat(data.filter(p => p.code !== 79));
+                }
                 // Function to populate the province dropdown
                 function populateProvinces($selectElement, selectedValue) {
                     $selectElement.html('<option value="">Select Tỉnh/Thành phố</option>');

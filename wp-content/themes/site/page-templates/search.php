@@ -28,7 +28,7 @@ get_header('customer');
         </div><!-- /.container-fluid -->
     </section>
     <!-- Main content -->
-    <section class="content">
+    <section class="content pb-5">
         <div class="container-fluid">
             <?php
             $response_filter['code'] = 0;
@@ -47,7 +47,7 @@ get_header('customer');
                     'point' => $point,
                     'status' => $status,
                     'paged' => 1,
-                    'limit' => 10,
+                    //'limit' => 10,
                     'address' => $address,
                     'ward' => $ward,
                     'district' => $district,
@@ -56,8 +56,14 @@ get_header('customer');
                 $response_filter = em_api_request('customer/list', $customer_filter);
             }
 
-
-            //var_dump($response);
+            if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['remove'])) {
+                $customer_id   = sanitize_text_field($_POST['customer_id']);
+                $customer_data = [
+                  'id' => $customer_id,
+                ];
+                $response = em_api_request('customer/delete', $customer_data);
+              }
+            
             ?>
             <form method="post" action="<?php the_permalink() ?>">
                 <div class="row address-group">
@@ -65,28 +71,28 @@ get_header('customer');
                     <div class="col-4">
                         <div class="form-group">
                             <label>Tên hoặc một phần tên khách hàng:</label>
-                            <input type="text" class="form-control" name="fullname" placeholder="Type your keywords here" value="">
+                            <input type="text" class="form-control" name="fullname" placeholder="Type your keywords here" value="<?php echo isset($customer_filter['fullname']) ? ($customer_filter['fullname']):'' ?>">
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="form-group">
                             <label>Số điện thoại:</label>
-                            <input type="number" class="form-control" name="phone" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" value="">
+                            <input type="number" class="form-control" name="phone" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" value="<?php echo isset($customer_filter['phone']) ? ($customer_filter['phone']):'' ?>">
                         </div>
                     </div>
-                    <div class="col-4">
+                    <!-- <div class="col-4">
                         <div class="form-group">
                             <label>Tổng giá trị các đơn hàng:</label>
                             <input type="number" class="form-control" placeholder="Type your keywords here" value="">
                         </div>
-                    </div>
-                    <div class="col-3">
+                    </div> -->
+                    <!-- <div class="col-3">
                         <div class="form-group">
                             <label>Số lượng đơn hàng đã đặt:</label>
                             <input type="number" class="form-control" placeholder="Type your keywords here" value="">
                         </div>
-                    </div>
-                    <div class="col-3">
+                    </div> -->
+                    <!-- <div class="col-3">
                         <div class="form-group">
                             <label>Khách hàng đang có đơn hàng diễn ra:</label>
                             <select class="form-control custom-select" style="width: 100%;">
@@ -95,7 +101,7 @@ get_header('customer');
                                 <option>No</option>
                             </select>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="col-3">
                         <div class="form-group">
                             <label>Trạng thái khách hàng:</label>
@@ -104,7 +110,7 @@ get_header('customer');
                                 <?php
                                 $status = $em_customer->get_statuses();
                                 foreach ($status as $key => $value) { ?>
-                                    <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
+                                    <option value="<?php echo $key; ?>" <?php isset($customer_filter['status']) ? selected ($customer_filter['status'], $key):''; ?>><?php echo $value; ?></option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -112,15 +118,15 @@ get_header('customer');
                     <div class="col-3">
                         <div class="form-group">
                             <label>Điểm tích lũy:</label>
-                            <input type="number" class="form-control" name="point" placeholder="Type your keywords here" value="">
+                            <input type="number" class="form-control" name="point" placeholder="Type your keywords here" value="<?php echo isset($customer_filter['point']) ? ($customer_filter['point']):'' ?>">
                         </div>
                     </div>
 
-                    <div class="col-3">
+                    <div class="col-12">
                         <div class="form-group row">
                             <div class="col-sm-12"><label>Địa chỉ (*):</label></div>
                             <div class="col-sm-12">
-                                <input id="address_0" class="form-control" name="address" />
+                                <input id="address_0" class="form-control" name="address"value="<?php echo isset($customer_filter['address']) ? ($customer_filter['address']):'' ?>" />
                             </div>
                         </div>
                     </div>
@@ -175,7 +181,7 @@ get_header('customer');
             </form>
             <?php
             if ($response_filter['code'] == 200 && $response_filter['total'] != 0) {
-                var_dump($response_filter);
+                //var_dump($response_filter);
                 if (isset($response_filter['data']) && is_array($response_filter['data'])) {
             ?>
                     <div class="row mt-3">
@@ -191,7 +197,10 @@ get_header('customer');
                                                     <div>
                                                         <div class="float-right">2021-04-20 04:04pm</div>
                                                         <h3><a href="/customer/detail-customer/?customer_id=<?php echo $record['id'] ?>"><?php echo $record['fullname']; ?></a></h3>
-                                                        <p>phone: <?php echo $record['phone']; ?></p>
+                                                        <p>Số điện thoại: <?php echo $record['phone']; ?></p>
+                                                        <p>Địa chỉ: <?php echo $record['address']; ?>, <?php echo $record['ward']; ?>, <?php echo $record['district']; ?>,  <?php echo $record['city']; ?></p>
+                                                        <p>Trạng thái khách hàng: <?php echo $record['status_name']; ?></p>
+                                                        <p>Điểm tích lũy: <?php echo $record['point']; ?></p>
                                                     </div>
                                                     <div>
                                                         <a class="btn btn-info btn-sm" href="/customer/detail-customer/?customer_id=<?php echo $record['id'] ?>">
@@ -234,6 +243,31 @@ get_header('customer');
                 <?php } ?>
         </div>
     </section>
+    <!-- /.card-body -->
+<div class="modal fade" id="modal-default" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Thông báo!</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="post" id="list-customer" action="<?php the_permalink() ?>">
+          <input type="hidden" class="customer_id" name="customer_id" value="">
+          <p>Bạn muốn xóa khách hàng này?</p>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" name="remove" class="btn btn-primary">Save changes</button>
+      </div>
+      </form>
+    </div>
+
+  </div>
+
+</div>
 </div>
 </div>
 <?php
@@ -309,4 +343,12 @@ get_footer('customer');
             }
         });
     });
+</script>
+<script>
+  $(document).ready(function() {
+    $(document).on('click', '.remove-customer', function(e) {
+        var val = $(this).children('span').text();
+      $('#list-customer').find('.customer_id').val(val);
+    });
+  });
 </script>

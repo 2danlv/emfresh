@@ -141,6 +141,7 @@ get_footer('customer');
 <script>
   $(document).ready(function() {
     $(document).on('click', '.remove-customer', function(e) {
+      var val = $(this).children('span').text();
       $('#list-customer').find('.customer_id').val(val);
     });
   });

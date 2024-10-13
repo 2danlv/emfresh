@@ -7,16 +7,14 @@
       <li class="nav-item d-none d-sm-inline-block">
         <a href="index.php" class="nav-link">Home</a>
       </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
-      </li>
+
     </ul>
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Navbar Search -->
 
-      
+
       <li class="nav-item">
         <a class="nav-link" data-widget="fullscreen" href="#" role="button">
           <i class="fas fa-expand-arrows-alt"></i>
@@ -38,13 +36,14 @@
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-      <?php global $current_user; wp_get_current_user(); ?>
-      
+        <?php global $current_user;
+        wp_get_current_user(); ?>
+
         <div class="image">
-          <img src="<?php echo esc_url( get_avatar_url( get_current_user_id() ) ); ?>" class="img-circle elevation-2" alt="User Image">
+          <img src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block"><?php echo $current_user->display_name; ?></a>
+          <a href="/management/" class="d-block"><?php echo $current_user->display_name; ?></a>
         </div>
       </div>
       <!-- Sidebar Menu -->
@@ -79,10 +78,33 @@
                   <p>Search</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a href="/chart/" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Chart</p>
+                </a>
+              </li> -->
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-book"></i>
+              <p>
+                Management
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/change-password/" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Đổi mật khẩu</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/import-export/" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Import/Export</p>
                 </a>
               </li>
             </ul>
