@@ -34,10 +34,12 @@ while (have_posts()) : the_post();
 
                 <div class="card card-outline card-primary">
                     <div class="card-header text-center">
-                        <a href="../../index2.html" class="h1"><b>emFresh</b></a>
+                        <h1 class="h1"><b>emFresh</b></h1>
                     </div>
                     <div class="card-body">
-                        <p class="login-box-msg">Sign in to start your session</p>
+                        <?php if (isset($_GET['login']) && trim($_GET['login']) == 'error') : ?>
+                            <div class="auto-hide login-box-msg" style="color: red; line-height: 22px;">Vui lòng nhập đúng thông tin</div>
+                            <?php endif; ?>
                         <form action="<?php the_permalink() ?>" method="post" id="quickForm">
                             <div class="input-group mb-3">
                                 <input type="email" name="uname" class="form-control" id="uname" placeholder="Nhập email" required>
@@ -72,9 +74,7 @@ while (have_posts()) : the_post();
                                 <input type="hidden" name="_wp_http_referer" value="<?php echo esc_url($referer); ?>" />
                             </div>
                         </form>
-                        <?php if (isset($_GET['login']) && trim($_GET['login']) == 'error') : ?>
-                            <div class="auto-hide" style="color: red; line-height: 22px;">Vui lòng nhập đúng thông tin</div>
-                            <?php endif; ?>
+                        
 
                         <p class="mb-1">
                             <!-- <a href="forgot-password.html">I forgot my password</a> -->
