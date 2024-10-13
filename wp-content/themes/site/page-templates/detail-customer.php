@@ -307,7 +307,7 @@ get_header('customer');
                                             } else {
                                               $response_location = em_api_request('location/add', $location_data);
                                             }
-                                            var_dump($location['id']);
+                                            //var_dump($location['id']);
                                           }
                                           // xóa location
                                         //   $location_data = [
