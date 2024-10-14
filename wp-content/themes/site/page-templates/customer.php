@@ -8,67 +8,37 @@
  * @since Twenty Twelve 1.0
  */
 
-if(get_current_user_id() == 0) {
-  // wp_redirect(add_query_arg([], home_url('login')));
-  wp_redirect(home_url('login'));
-  exit();
-}
 
-get_header("customer");
-// Start the Loop.
+global $em_customer;
 
-?>
-<?php
-    global $em_customer;
-      
-    $response_add_customer = em_api_request('customer/list', []);
-    $status = $em_customer->get_statuses();
-    $gender = $em_customer->get_genders();
-    $tag = $em_customer->get_tags();
-    $list = [];
-    if(isset($response_add_customer['data'])) {
-      $list = $response_add_customer['data'];
-    }
-    
-    $response_add_customer = [];
-    // Check if the form is submitted and handle the submission
-    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
+$response_add_customer = [];
 
-      $nickname   = sanitize_text_field($_POST['nickname']);
-      $fullname   = sanitize_text_field($_POST['fullname']);
-      $phone    = sanitize_text_field($_POST['phone']);
-      $gender_post = sanitize_text_field($_POST['gender']);
-      $status_post = sanitize_text_field($_POST['status']);
-      $tag_post = sanitize_text_field($_POST['tag']);
-      $point = isset($_POST['point']) ? intval($_POST['point']) : 0;
-      $note = sanitize_textarea_field($_POST['note']);
-      
-      // foreach ($_POST['locations'] as $location) {
-      //   if (!empty($location['province']) && !empty($location['district']) && !empty($location['ward'])) {
-      //     $location_data = array(
-      //       'address'  => sanitize_text_field($location['address']),
-      //       'province' => sanitize_text_field($location['province']),
-      //       'district' => sanitize_text_field($location['district']),
-      //       'ward'     => sanitize_text_field($location['ward']),
-      //     );
-      //     add_post_meta($post_id, 'location', $location_data);
-      //   }
-      // }
-      
-      
-      $data = [
-        'nickname'          => $nickname,
-        'fullname'      => $fullname,
-        'phone'         => $phone,
-        'status'        => $status_post,
-        'gender'        => $gender_post,
-        'note'          => $note,
-        'tag'           => $tag_post,
-        'point'         => $point
-    ];
-    //var_dump($data);
-    $response_add_customer = em_api_request('customer/add', $data);
-    
+// Check if the form is submitted and handle the submission
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
+  $nickname   = sanitize_text_field($_POST['nickname']);
+  $fullname   = sanitize_text_field($_POST['fullname']);
+  $phone    = sanitize_text_field($_POST['phone']);
+  $gender_post = sanitize_text_field($_POST['gender']);
+  $status_post = sanitize_text_field($_POST['status']);
+  $tag_post = sanitize_text_field($_POST['tag']);
+  $point = isset($_POST['point']) ? intval($_POST['point']) : 0;
+  $note = sanitize_textarea_field($_POST['note']);
+
+  $data = [
+    'nickname'          => $nickname,
+    'fullname'      => $fullname,
+    'phone'         => $phone,
+    'status'        => $status_post,
+    'gender'        => $gender_post,
+    'note'          => $note,
+    'tag'           => $tag_post,
+    'point'         => $point
+  ];
+
+  //var_dump($data);
+  $response_add_customer = em_api_request('customer/add', $data);
+
+  if($response_add_customer['code'] == 200) {
     foreach ($_POST['locations'] as $location) {
       $location_data = [
         'customer_id'   => $response_add_customer['data']['insert_id'],
@@ -78,11 +48,19 @@ get_header("customer");
         'city'          => sanitize_text_field($location['province']),
       ];
       $response_location = em_api_request('location/add', $location_data);
-      
-      }
     }
-    ?>
+  }
+}
 
+
+$status = $em_customer->get_statuses();
+$gender = $em_customer->get_genders();
+$tag = $em_customer->get_tags();
+
+get_header("customer");
+// Start the Loop.
+
+?>
 <div class="content-wrapper pb-5">
   <!-- Content Header (Page header) -->
   <section class="content-header">
@@ -103,30 +81,18 @@ get_header("customer");
 
   <!-- Main content -->
   <section class="content">
-    
-    <?php if(count($list) > 0) : ?>
-        <!-- <h3>List</h3> -->
-    <ul>
-        <?php // foreach($list as $item) :?>
-        <!-- <li><?php // echo $item['id'] . ') ' . $item['fullname'] ;?></li> -->
-        <?php // endforeach; ?>
-    </ul>
-    <?php endif;?>
     <?php 
-        if(isset($response_add_customer['code'])&&$response_add_customer['code']==200) {
-            echo '<div class="alert alert-success mt-3" role="alert">'.$response_add_customer['message'].'</div>';
-        } 
-        if(isset($response_add_customer['code'])&&$response_add_customer['code']==400) {
-          echo '<div class="alert alert-warning mt-3" role="alert">'.$response_add_customer['message'].'</div>';
+      if(isset($response_add_customer['code'])&&$response_add_customer['code']==200) {
+        echo '<div class="alert alert-success mt-3" role="alert">'.$response_add_customer['message'].'</div>';
+      } 
+      if(isset($response_add_customer['code'])&&$response_add_customer['code']==400) {
+        echo '<div class="alert alert-warning mt-3" role="alert">';
+        foreach($response_add_customer['data'] as $field => $value) {
+          echo "<p>$field : $value </p>";
+        }        
+        echo '</div>';
       }
     ?>
-    <?php
-          // Ensure user is logged in (optional if you want to restrict access to logged-in users)
-          if (!is_user_logged_in()) {
-            echo '<p>You need to log in to edit this content.</p>';
-            return;
-          }
-          ?>
     <form method="post" action="<?php the_permalink() ?>">
 
       <div class="row">
@@ -228,7 +194,7 @@ get_header("customer");
               </div>
               <div class="form-group row">
                 <div class="col-sm-3"><label for="inputStatus">Trạng thái khách hàng (*)</label></div>
-                <div class="col-sm-9"><select id="inputStatus" name="status" class="form-control custom-select" required>
+                <div class="col-sm-9"><select id="inputStatus" name="status" class="form-control custom-select text-capitalize" required>
                     <option value="">Select one</option>
                     <?php 
                     foreach ($status as $key => $value) { ?>
@@ -239,7 +205,7 @@ get_header("customer");
               </div>
               <div class="form-group row">
                 <div class="col-sm-3"><label for="inputTag">Tag phân loại (*)</label></div>
-                <div class="col-sm-9"><select class="form-control" name="tag" style="width: 100%;" required>
+                <div class="col-sm-9"><select class="form-control text-capitalize" name="tag" style="width: 100%;" required>
                     <option value="">Select one</option>
                     <?php 
                     foreach ($tag as $key => $value) { ?>
@@ -250,7 +216,7 @@ get_header("customer");
               </div>
               <div class="form-group row">
                 <div class="col-sm-3"><label for="inputPoint">Điểm tích lũy</label></div>
-                <div class="col-sm-9"><input type="number" id="inputPoint" name="point" class="form-control"></div>
+                <div class="col-sm-9"><input type="number" id="inputPoint" name="point" value="0" class="form-control"></div>
               </div>
             </div>
             <!-- /.card-body -->
