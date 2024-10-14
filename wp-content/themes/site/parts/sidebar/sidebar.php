@@ -66,27 +66,27 @@
               <li class="nav-item">
                 <a href="/customer/" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>List Customer</p>
+                  <p>Danh sách khách hàng</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="/customer/add-customer/" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Add Customer</p>
+                  <p>Thêm khách hàng mới</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="/search/" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Search</p>
+                  <p>Tìm kiếm</p>
                 </a>
               </li>
-              <!-- <li class="nav-item">
+              <li class="nav-item">
                 <a href="/chart/" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Chart</p>
+                  <p>Thống kê</p>
                 </a>
-              </li> -->
+              </li>
             </ul>
           </li>
           <li class="nav-item">
