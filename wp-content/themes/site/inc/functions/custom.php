@@ -653,3 +653,110 @@ function site_auto_update_scheduled() {
     } 
 }
 add_action( 'init', 'site_auto_update_scheduled' );
+//
+function custom_location_meta_box() {
+    add_meta_box(
+        'custom_location_meta_box',    
+        'Information',                   
+        'custom_location_meta_box_callback', 
+        'customer',                        
+        'normal',                      
+        'default'                      
+    );
+}
+add_action('add_meta_boxes', 'custom_location_meta_box');
+
+
+function custom_location_meta_box_callback($post) {
+    
+    $post_id = get_the_ID(); 
+	
+	$post = get_post($post_id);
+	$locations = get_post_meta($post_id, 'location', false); 
+	
+    $fullname = get_post_meta($post_id, 'fullname', true);
+    $phone = get_post_meta($post_id, 'phone', true);
+    $gender = get_post_meta($post_id, 'gender', true);
+    $status = get_post_meta($post_id, 'status', true);
+    $tag = get_post_meta($post_id, 'tag', true);
+    $point = get_post_meta($post_id, 'point', true);
+	
+	
+	if (!is_array($locations)) {
+		$locations = array();
+	}
+?>
+
+	<!-- Location Fields -->
+	<div id="location-fields">
+		<p>Full Name: <?php echo esc_html($fullname); ?></p>
+		<p>Phone: <?php echo esc_html($phone); ?></p>
+		<p>Gender: <?php echo esc_html($gender); ?></p>
+		<p>Status: <?php echo esc_html($status); ?></p>
+		<p>Tag: <?php echo esc_html($tag); ?></p>
+		<p>Points: <?php echo esc_html($point); ?></p>
+		<?php
+		if (!empty($locations)) {
+			foreach ($locations as $index => $location) {
+				
+				$address = isset($location['address']) ? esc_attr($location['address']) : '';
+				$province = isset($location['province']) ? esc_attr($location['province']) : '';
+				$district = isset($location['district']) ? esc_attr($location['district']) : '';
+				$ward     = isset($location['ward']) ? esc_attr($location['ward']) : '';
+				?>
+				<div class="location-group">
+					<p>Addess <?php echo $index +1; ?>: <?php echo $address; ?>, <?php echo $ward; ?>, <?php echo $district; ?>, <?php echo $province; ?></p>
+				</div>
+				<?php
+			}
+		}
+		?>
+	</div>
+
+	<?php
+
+}
+
+
+function save_custom_location_meta_box($post_id) {
+    
+    if (!isset($_POST['locations'])) {
+        return;
+    }
+
+    
+    $locations = array();
+    foreach ($_POST['locations'] as $location) {
+        $locations[] = array(
+            'province' => sanitize_text_field($location['province']),
+            'district' => sanitize_text_field($location['district']),
+            'ward'     => sanitize_text_field($location['ward']),
+        );
+    }
+
+    
+    update_post_meta($post_id, 'location', $locations);
+}
+
+
+
+function custom_location_column_content($column, $post_id) {
+    if ($column === 'locations') {
+        $locations = get_post_meta($post_id, 'location', true);
+        
+        if (!empty($locations)) {
+            foreach ($locations as $location) {
+                echo esc_html($location['province']) . ', ' . esc_html($location['district']) . ', ' . esc_html($location['ward']) . '<br>';
+            }
+        } else {
+            echo 'No locations';
+        }
+    }
+}
+add_action('manage_post_posts_custom_column', 'custom_location_column_content', 10, 2); 
+
+
+function custom_ucwords_utf8($str)
+{
+    return mb_convert_case($str, MB_CASE_TITLE, "UTF-8");
+}

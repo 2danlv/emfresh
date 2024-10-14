@@ -9,20 +9,13 @@
  * @since Twenty Fourteen 1.0
  */
 
-// site_get_options in inc/admin/setting
-// extract( site_get_options() );
-
-
 ?>
-
-<footer class="main-footer">
+  <footer class="main-footer">
     <div class="float-right d-none d-sm-block">
       <b>Version</b> 1.0
     </div>
     <strong>Copyright &copy; 2024.</strong> All rights reserved.
   </footer>
-
-
   <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
@@ -49,7 +42,6 @@
     var url = location.href.replace(/\/+$/, ''), //rtrim `/`
         parts = url.split("/"),
         last_part = parts[parts.length - 1];
-    //console.log(last_part);
     if (last_part != "") {
         
             $('.nav-treeview a[href*="/' + last_part + '/"]:first').addClass('active');
@@ -66,5 +58,14 @@
     });
   });
 </script>
+<?php
+global $site_scripts;
+
+if(is_array($site_scripts)) {
+  foreach($site_scripts as $src) {
+    echo '<script src="'.$src.'"></script>' . "\n";
+  }
+}
+?>
 </body>
 </html>
