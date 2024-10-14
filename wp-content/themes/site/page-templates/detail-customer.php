@@ -97,7 +97,7 @@ get_header('customer');
                             <hr>
                             <strong><i class="fas fa-phone mr-1"></i> Số điện thoại</strong>: <br><?php echo $response_customer['data']['phone'] ?>
                             <hr>
-                            <strong><i class="fas fa-map-marker-alt mr-1"></i> Location</strong>
+                            <strong><i class="fas fa-map-marker-alt mr-1"></i> Địa chỉ</strong>
                             <?php
                             foreach ($response_get_location['data'] as $index => $record) { ?>
                                 <p>
@@ -127,7 +127,7 @@ get_header('customer');
                             <ul class="nav nav-pills">
                                 <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Lịch sử giao dịch</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Ngày bắt đầu đơn hàng</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Cập nhật thông tin</a></li>
                             </ul>
                         </div><!-- /.card-header -->
                         <div class="card-body">
@@ -314,6 +314,7 @@ get_header('customer');
                                         //     'id' => 1
                                         // ];
                                         // $response = em_api_request('location/delete', $location_filter);
+                                        echo "<meta http-equiv='refresh' content='0'>";
                                     }
                                     ?>
                                     <form class="form-horizontal" method="POST" action="<?php the_permalink() ?>?customer_id=<?php echo $customer_id ?>">

@@ -52,6 +52,7 @@ get_header('customer');
         <table id="example1" class="table table-bordered table-striped">
           <thead>
             <tr>
+              <th>Tên khách hàng</th>
               <th>Tên đầy đủ</th>
               <th>Số điện thoại</th>
               <th>Tag phân loại</th>
@@ -71,6 +72,7 @@ get_header('customer');
                 if (is_array($record)) { // Check if each record is an array
             ?>
                   <tr>
+                    <td><a href="detail-customer/?customer_id=<?php echo $record['id'] ?>"><?php echo $record['nickname']; ?></a></td>
                     <td><a href="detail-customer/?customer_id=<?php echo $record['id'] ?>"><?php echo $record['fullname']; ?></a></td>
                     <td><?php echo $record['phone']; ?></td>
                     <td><?php echo $record['tag_name']; ?></td>

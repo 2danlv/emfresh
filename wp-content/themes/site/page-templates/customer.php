@@ -66,7 +66,7 @@ get_header("customer");
         'tag'           => $tag_post,
         'point'         => $point
     ];
-    var_dump($data);
+    //var_dump($data);
     $response_add_customer = em_api_request('customer/add', $data);
     
     foreach ($_POST['locations'] as $location) {
@@ -277,7 +277,10 @@ get_footer('customer');
     var $addButton = $('#add-location-button');
     var fieldCount = 1;
     var maxFields = 5;
-
+    $(document).on('click', '.delete-location-button', function (e) {
+            e.preventDefault();
+            $(this).closest('.address-group').remove(); 
+        });
     // Fetching data from the new API endpoint
     $.getJSON('https://provinces.open-api.vn/api/?depth=3', function(data) {
       
@@ -346,6 +349,7 @@ get_footer('customer');
         e.preventDefault();
         if (fieldCount < maxFields) {
           var newGroup = `
+          <hr>
             <div class="address-group">
               <div class="form-group row">
                 <div class="col-sm-3"><label>Địa chỉ (*) </label></div>
@@ -383,6 +387,7 @@ get_footer('customer');
                   </select>
                 </div>
               </div>
+              <p class="text-right"><span class="btn bg-gradient-danger  delete-location-button">Xóa địa chỉ <i class="fas fa-minus"></i></span></p>
             </div>`;
           
           $locationFields.append(newGroup);

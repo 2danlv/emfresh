@@ -28,8 +28,8 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="index.php" class="brand-link">
-      <img src="/assets/dist/img/emfresh_logo.jpg" alt="emfresh" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">emfresh</span>
+      <img src="/assets/dist/img/emfresh_logo.jpg" alt="em.fresh" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <span class="brand-text font-weight-light">em.fresh</span>
     </a>
 
     <!-- Sidebar -->
@@ -43,7 +43,10 @@
           <img src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="/management/" class="d-block"><?php echo $current_user->display_name; ?></a>
+          <span class="d-block text-info"><?php echo $current_user->display_name; ?></span>
+        </div>
+        <div class="info ml-auto">
+          <span class="d-block text-primary"><a href="<?php echo wp_logout_url( home_url()); ?>">Logout</a></span>
         </div>
       </div>
       <!-- Sidebar Menu -->

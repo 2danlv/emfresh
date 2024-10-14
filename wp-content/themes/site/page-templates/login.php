@@ -29,12 +29,15 @@ while (have_posts()) : the_post();
 
         <!-- Main content -->
 
-     
+     <div class="text-center">
+        <p><img src="/assets/dist/img/emfresh_logo.jpg" width="100px" alt=""></p>
+     </div>
+        
             <div class="login-box">
 
                 <div class="card card-outline card-primary">
                     <div class="card-header text-center">
-                        <h1 class="h1"><b>emFresh</b></h1>
+                        <h1 class="h1">Login to <b class="text-success">em.fresh</b></h1>
                     </div>
                     <div class="card-body">
                         <?php if (isset($_GET['login']) && trim($_GET['login']) == 'error') : ?>

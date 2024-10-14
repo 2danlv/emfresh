@@ -181,7 +181,7 @@ get_header('customer');
             </form>
             <?php
             if ($response_filter['code'] == 200 && $response_filter['total'] != 0) {
-                //var_dump($response_filter);
+                var_dump($response_filter);
                 if (isset($response_filter['data']) && is_array($response_filter['data'])) {
             ?>
                     <div class="row mt-3">
@@ -281,6 +281,11 @@ get_footer('customer');
             url: 'https://provinces.open-api.vn/api/?depth=3',
             method: 'GET',
             success: function(data) {
+                // Move the province with code 79 to the top of the data array
+                var topProvince = data.find(p => p.code === 79);
+                if (topProvince) {
+                    data = [topProvince].concat(data.filter(p => p.code !== 79));
+                }
 
                 // Function to populate the province dropdown
                 function populateProvinces($selectElement, selectedValue) {
