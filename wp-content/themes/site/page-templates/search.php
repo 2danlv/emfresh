@@ -32,22 +32,22 @@ get_header('customer');
         <div class="container-fluid">
             <?php
             $response_filter['code'] = 0;
-            if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_post'])) {
-                $fullname = sanitize_text_field($_POST['fullname']);
-                $phone    = sanitize_text_field($_POST['phone']);
-                $status = isset($_POST['status']) ? sanitize_text_field($_POST['status']) : '';
-                $point = sanitize_text_field($_POST['point']);
-                $address = sanitize_text_field($_POST['address']);
-                $ward = isset($_POST['ward']) ? sanitize_text_field($_POST['ward']) : '';
-                $district = isset($_POST['district']) ? sanitize_text_field($_POST['district']) : '';
-                $city = isset($_POST['province']) ? sanitize_text_field($_POST['province']) : '';
+            if (isset($_GET['submit_post'])) {
+                $fullname = sanitize_text_field($_GET['fullname']);
+                $phone    = sanitize_text_field($_GET['phone']);
+                $status = isset($_GET['status']) ? sanitize_text_field($_GET['status']) : '';
+                $point = sanitize_text_field($_GET['point']);
+                $address = sanitize_text_field($_GET['address']);
+                $ward = isset($_GET['ward']) ? sanitize_text_field($_GET['ward']) : '';
+                $district = isset($_GET['district']) ? sanitize_text_field($_GET['district']) : '';
+                $city = isset($_GET['province']) ? sanitize_text_field($_GET['province']) : '';
                 $customer_filter = [
                     'fullname'  => $fullname,
                     'phone' => $phone,
                     'point' => $point,
                     'status' => $status,
                     'paged' => 1,
-                    //'limit' => 10,
+                    'limit' => -1,
                     'address' => $address,
                     'ward' => $ward,
                     'district' => $district,
@@ -62,10 +62,10 @@ get_header('customer');
                   'id' => $customer_id,
                 ];
                 $response = em_api_request('customer/delete', $customer_data);
-              }
+            }
             
             ?>
-            <form method="post" action="<?php the_permalink() ?>">
+            <form method="get" action="<?php the_permalink() ?>">
                 <div class="row address-group">
 
                     <div class="col-4">
@@ -105,7 +105,7 @@ get_header('customer');
                     <div class="col-3">
                         <div class="form-group">
                             <label>Trạng thái khách hàng:</label>
-                            <select class="form-control custom-select" name="status" style="width: 100%;">
+                            <select class="form-control custom-select text-capitalize" name="status" style="width: 100%;">
                                 <option selected disabled>Select one</option>
                                 <?php
                                 $status = $em_customer->get_statuses();
@@ -180,16 +180,22 @@ get_header('customer');
 
             </form>
             <?php
-            if ($response_filter['code'] == 200 && $response_filter['total'] != 0) {
-                var_dump($response_filter);
+            if ($response_filter['code'] == 200 && $response_filter['total'] != 0) {                
                 if (isset($response_filter['data']) && is_array($response_filter['data'])) {
             ?>
+                <!-- <?php var_dump($response_filter); ?> -->
                     <div class="row mt-3">
                         <div class="col-md-10 offset-md-1">
                             <div class="list-group">
                                 <?php
                                 foreach ($response_filter['data'] as $record) {
                                     if (is_array($record)) { // Check if each record is an array
+                                        $location = [
+                                            $record['address'],
+                                            $record['ward'],
+                                            $record['district'],
+                                            $record['city']
+                                        ];
                                 ?>
                                         <div class="list-group-item">
                                             <div class="row">
@@ -198,7 +204,7 @@ get_header('customer');
                                                         <div class="float-right"></div>
                                                         <h3><a href="/customer/detail-customer/?customer_id=<?php echo $record['id'] ?>"><?php echo $record['fullname']; ?></a></h3>
                                                         <p>Số điện thoại: <?php echo $record['phone']; ?></p>
-                                                        <p>Địa chỉ: <?php echo $record['address']; ?>, <?php echo $record['ward']; ?>, <?php echo $record['district']; ?>,  <?php echo $record['city']; ?></p>
+                                                        <p>Địa chỉ: <?php echo $record['address']!='' ? implode(', ', $location) : 'Chưa Rõ'; ?></p>
                                                         <p>Trạng thái khách hàng: <?php echo $record['status_name']; ?></p>
                                                         <p>Điểm tích lũy: <?php echo $record['point']; ?></p>
                                                     </div>
@@ -281,11 +287,6 @@ get_footer('customer');
             url: 'https://provinces.open-api.vn/api/?depth=3',
             method: 'GET',
             success: function(data) {
-                // Move the province with code 79 to the top of the data array
-                var topProvince = data.find(p => p.code === 79);
-                if (topProvince) {
-                    data = [topProvince].concat(data.filter(p => p.code !== 79));
-                }
 
                 // Function to populate the province dropdown
                 function populateProvinces($selectElement, selectedValue) {
