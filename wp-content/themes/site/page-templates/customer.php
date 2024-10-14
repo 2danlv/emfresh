@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
   //var_dump($data);
   $response_add_customer = em_api_request('customer/add', $data);
 
-  if($response_add_customer['code'] == 200) {
+  if ($response_add_customer['code'] == 200) {
     foreach ($_POST['locations'] as $location) {
       $location_data = [
         'customer_id'   => $response_add_customer['data']['insert_id'],
@@ -81,30 +81,30 @@ get_header("customer");
 
   <!-- Main content -->
   <section class="content">
-    <?php 
-      if(isset($response_add_customer['code'])&&$response_add_customer['code']==200) {
-        echo '<div class="alert alert-success mt-3" role="alert">'.$response_add_customer['message'].'</div>';
-      } 
-      if(isset($response_add_customer['code'])&&$response_add_customer['code']==400) {
-        echo '<div class="alert alert-warning mt-3" role="alert">';
-        foreach($response_add_customer['data'] as $field => $value) {
-          echo "<p>$field : $value </p>";
-        }        
-        echo '</div>';
+    <?php
+    if (isset($response_add_customer['code']) && $response_add_customer['code'] == 200) {
+      echo '<div class="alert alert-success mt-3" role="alert">' . $response_add_customer['message'] . '</div>';
+    }
+    if (isset($response_add_customer['code']) && $response_add_customer['code'] == 400) {
+      echo '<div class="alert alert-warning mt-3" role="alert">';
+      foreach ($response_add_customer['data'] as $field => $value) {
+        echo "<p>$field : $value </p>";
       }
+      echo '</div>';
+    }
     ?>
     <form method="post" action="<?php the_permalink() ?>">
 
       <div class="row">
         <div class="col-md-6">
-          
+
 
 
           <div class="card card-primary">
             <div class="card-header">
               <h3 class="card-title">General</h3>
             </div>
-            
+
             <div class="card-body">
               <div class="form-group row">
                 <div class="col-sm-3"><label>Tên khách hàng (*)</label></div>
@@ -122,59 +122,59 @@ get_header("customer");
               </div>
               <div class="form-group row">
                 <div class="col-sm-3"><label>Giới tính (*)</label></div>
-                <div class="col-sm-9">
-                <?php 
-                    foreach ($gender as $key => $value) { ?>
+                <div class="col-sm-9 text-capitalize">
+                  <?php
+                  foreach ($gender as $key => $value) { ?>
                     <div class="icheck-primary d-inline mr-2">
-                    <input type="radio" id="radioPrimary<?php echo $key; ?>" value="<?php echo $key; ?>" name="gender" required>
-                    <label for="radioPrimary<?php echo $key; ?>">
-                      <?php echo $value; ?>
-                    </label>
-                  </div>
-                    <?php } ?>
+                      <input type="radio" id="radioPrimary<?php echo $key; ?>" value="<?php echo $key; ?>" name="gender" required>
+                      <label for="radioPrimary<?php echo $key; ?>">
+                        <?php echo $value; ?>
+                      </label>
+                    </div>
+                  <?php } ?>
                 </div>
               </div>
               <div id="location-fields">
                 <hr>
                 <div class="address-group">
-                <div class="form-group row">
-                  <div class="col-sm-3"><label>Địa chỉ (*):</label></div>
-                  <div class="col-sm-9">
-                    <input id="address_0" class="form-control" name="locations[0][address]" required />
+                  <div class="form-group row">
+                    <div class="col-sm-3"><label>Địa chỉ (*):</label></div>
+                    <div class="col-sm-9">
+                      <input id="address_0" class="form-control" name="locations[0][address]" required />
+                    </div>
                   </div>
-                </div>
-                <div class="form-group row">
-                  <div class="col-sm-3">
-                    <label for="province_0">Tỉnh/Thành phố:</label>
+                  <div class="form-group row">
+                    <div class="col-sm-3">
+                      <label for="province_0">Tỉnh/Thành phố:</label>
 
+                    </div>
+                    <div class="col-sm-9">
+                      <select id="province_0" name="locations[0][province]" class="province-select form-control" required>
+                        <option value="">Select Tỉnh/Thành phố</option>
+                      </select>
+                    </div>
                   </div>
-                  <div class="col-sm-9">
-                    <select id="province_0" name="locations[0][province]" class="province-select form-control" required>
-                      <option value="">Select Tỉnh/Thành phố</option>
-                    </select>
+                  <div class="form-group row">
+                    <div class="col-sm-3">
+                      <label for="district_0">Quận/Huyện:</label>
+                    </div>
+                    <div class="col-sm-9">
+                      <select id="district_0" name="locations[0][district]" class="district-select form-control" required disabled>
+                        <option value="">Select Quận/Huyện</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-sm-3">
+                      <label for="ward_0">Phường/Xã:</label>
+                    </div>
+                    <div class="col-sm-9">
+                      <select id="ward_0" name="locations[0][ward]" class="ward-select form-control" required disabled>
+                        <option value="">Select Phường/Xã</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
-                <div class="form-group row">
-                  <div class="col-sm-3">
-                    <label for="district_0">Quận/Huyện:</label>
-                  </div>
-                  <div class="col-sm-9">
-                    <select id="district_0" name="locations[0][district]" class="district-select form-control" required disabled>
-                      <option value="">Select Quận/Huyện</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <div class="col-sm-3">
-                    <label for="ward_0">Phường/Xã:</label>
-                  </div>
-                  <div class="col-sm-9">
-                    <select id="ward_0" name="locations[0][ward]" class="ward-select form-control" required disabled>
-                      <option value="">Select Phường/Xã</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
               </div>
               <p><span class="btn bg-gradient-primary" id="add-location-button">Thêm địa chỉ <i class="fas fa-plus"></i></span></p>
             </div>
@@ -183,7 +183,7 @@ get_header("customer");
           <!-- /.card -->
         </div>
         <div class="col-md-6">
-          <div class="card card-success">
+          <div class="card card-success mb-3">
             <div class="card-header">
               <h3 class="card-title">Ghi chú đặc biệt</h3>
             </div>
@@ -192,22 +192,30 @@ get_header("customer");
                 <div class="col-sm-3"><label>Ghi chú đặc biệt</label></div>
                 <div class="col-sm-9"><textarea name="note" class="form-control" rows="4"></textarea></div>
               </div>
+            </div>
+            </div>
+            <div class="card card-info">
+            <div class="card-header">
+              <h3 class="card-title">Trạng thái khách hàng</h3>
+            </div>
+            <div class="card-body">
               <div class="form-group row">
                 <div class="col-sm-3"><label for="inputStatus">Trạng thái khách hàng (*)</label></div>
                 <div class="col-sm-9"><select id="inputStatus" name="status" class="form-control custom-select text-capitalize" required>
                     <option value="">Select one</option>
-                    <?php 
+                    <?php
                     foreach ($status as $key => $value) { ?>
                       <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
                     <?php } ?>
                   </select>
                 </div>
               </div>
+              <hr>
               <div class="form-group row">
                 <div class="col-sm-3"><label for="inputTag">Tag phân loại (*)</label></div>
                 <div class="col-sm-9"><select class="form-control text-capitalize" name="tag" style="width: 100%;" required>
                     <option value="">Select one</option>
-                    <?php 
+                    <?php
                     foreach ($tag as $key => $value) { ?>
                       <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
                     <?php } ?>
@@ -243,13 +251,13 @@ get_footer('customer');
     var $addButton = $('#add-location-button');
     var fieldCount = 1;
     var maxFields = 5;
-    $(document).on('click', '.delete-location-button', function (e) {
-            e.preventDefault();
-            $(this).closest('.address-group').remove(); 
-        });
+    $(document).on('click', '.delete-location-button', function(e) {
+      e.preventDefault();
+      $(this).closest('.address-group').remove();
+    });
     // Fetching data from the new API endpoint
     $.getJSON('https://provinces.open-api.vn/api/?depth=3', function(data) {
-      
+
       // Move the province with code 79 to the top of the data array
       var topProvince = data.find(p => p.code === 79);
       if (topProvince) {
@@ -355,7 +363,7 @@ get_footer('customer');
               </div>
               <p class="text-right"><span class="btn bg-gradient-danger  delete-location-button">Xóa địa chỉ <i class="fas fa-minus"></i></span></p>
             </div>`;
-          
+
           $locationFields.append(newGroup);
           var $newProvinceSelect = $(`#province_${fieldCount}`);
           var $newDistrictSelect = $(`#district_${fieldCount}`);
@@ -373,6 +381,3 @@ get_footer('customer');
     });
   });
 </script>
-
-
-
