@@ -33,19 +33,15 @@ get_header('customer');
     <section class="content">
         <div class="container-fluid">
             <?php
-            // Ensure user is logged in (optional - you can use capabilities check instead)
-            if (!is_user_logged_in()) {
-                echo '<p>You need to log in to edit this content.</p>';
-                return;
-            }
             $status = $em_customer->get_statuses();
             $gender = $em_customer->get_genders();
             $tag = $em_customer->get_tags();
+            $actives = $em_customer->get_actives();
             // lấy 1 customer
             $customer_id = isset($_GET['customer_id']) ? intval($_GET['customer_id']) : 0;
-            if($customer_id == 0) {
+            if ($customer_id == 0) {
                 die('customer_id is null!');
-              } 
+            }
             $customer_filter = [
                 'id' => $customer_id
             ];
@@ -126,7 +122,7 @@ get_header('customer');
                         <div class="card-header p-2">
                             <ul class="nav nav-pills">
                                 <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Lịch sử giao dịch</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Ngày bắt đầu đơn hàng</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Trao đổi</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Cập nhật thông tin</a></li>
                             </ul>
                         </div><!-- /.card-header -->
@@ -255,6 +251,7 @@ get_header('customer');
                                         $phone    = sanitize_text_field($_POST['phone']);
                                         $gender_post = sanitize_text_field($_POST['gender']);
                                         $status_post = sanitize_text_field($_POST['status']);
+                                        $active_post = sanitize_text_field($_POST['active']);
                                         $tag_post = sanitize_text_field($_POST['tag']);
                                         $point = sanitize_text_field($_POST['point']);
                                         $note = sanitize_textarea_field($_POST['post_content']);
@@ -266,6 +263,7 @@ get_header('customer');
                                             'nickname'          => $nickname,
                                             'fullname'      => $fullname,
                                             'phone'         => $phone,
+                                            'active'        => $active_post,
                                             'status'        => $status_post,
                                             'gender'        => $gender_post,
                                             'note'          => $note,
@@ -273,43 +271,43 @@ get_header('customer');
                                             'point'         => $point,
                                         ];
                                         $response_update = em_api_request('customer/update', $customer_data);
-                                        
-                                        if($customer_id == 0) {
+
+                                        if ($customer_id == 0) {
                                             die('customer_id is null!');
-                                          } 
-                                        
-                                          foreach ($_POST['locations'] as $location) {
+                                        }
+
+                                        foreach ($_POST['locations'] as $location) {
                                             // thêm data cho location
                                             if (isset($location['address'])) {
-                                              $address       = sanitize_text_field($location['address']);
+                                                $address       = sanitize_text_field($location['address']);
                                             }
                                             if (isset($location['ward'])) {
-                                              $ward       = sanitize_text_field($location['ward']);
+                                                $ward       = sanitize_text_field($location['ward']);
                                             }
                                             if (isset($location['district'])) {
-                                              $district       = sanitize_text_field($location['district']);
+                                                $district       = sanitize_text_field($location['district']);
                                             }
                                             if (isset($location['province'])) {
-                                              $city       = sanitize_text_field($location['province']);
+                                                $city       = sanitize_text_field($location['province']);
                                             }
-                                            
+
                                             $location_data = [
-                                              'customer_id'   => $customer_id,
-                                              'address'       => $address,
-                                              'ward'          => $ward,
-                                              'district'      => $district,
-                                              'city'          => $city
+                                                'customer_id'   => $customer_id,
+                                                'address'       => $address,
+                                                'ward'          => $ward,
+                                                'district'      => $district,
+                                                'city'          => $city
                                             ];
-                                        
+
                                             if (isset($location['id']) && intval($location['id']) > 0) {
-                                              $location_data['id'] = $location['id'];
-                                              $response_location = em_api_request('location/update', $location_data);
+                                                $location_data['id'] = $location['id'];
+                                                $response_location = em_api_request('location/update', $location_data);
                                             } else {
-                                              $response_location = em_api_request('location/add', $location_data);
+                                                $response_location = em_api_request('location/add', $location_data);
                                             }
                                             //var_dump($location['id']);
-                                          }
-                                          // xóa location
+                                        }
+                                        // xóa location
                                         //   $location_data = [
                                         //     'id' => 1
                                         // ];
@@ -319,6 +317,20 @@ get_header('customer');
                                     ?>
                                     <form class="form-horizontal" method="POST" action="<?php the_permalink() ?>?customer_id=<?php echo $customer_id ?>">
                                         <?php wp_nonce_field('save_locations', 'edit_locations_nonce'); ?>
+                                        <div class="form-group row">
+                                            <div class="col-sm-3"><label>Active</label></div>
+                                            <div class="col-sm-9 text-capitalize">
+                                                <?php
+                                                foreach ($actives as $value => $label) { ?>
+                                                    <div class="icheck-primary d-inline mr-2 text-capitalize">
+                                                        <input type="radio" id="radioActive<?php echo $value; ?>" value="<?php echo $value; ?>" <?php checked($response_customer['data']['active'], $value); ?> name="active" required>
+                                                        <label for="radioActive<?php echo $value; ?>">
+                                                            <?php echo $label; ?>
+                                                        </label>
+                                                    </div>
+                                                <?php } ?>
+                                            </div>
+                                        </div>
                                         <div class="form-group row">
                                             <div class="col-sm-3"><label for="inputName">Tên khách hàng (*)</label></div>
                                             <div class="col-sm-9">
@@ -336,13 +348,12 @@ get_header('customer');
                                         <div class="form-group row">
                                             <div class="col-sm-3"><label>Giới tính (*)</label></div>
                                             <div class="col-sm-9 text-capitalize">
-
                                                 <?php
-                                                foreach ($gender as $key => $value) { ?>
+                                                foreach ($gender as $value => $label) { ?>
                                                     <div class="icheck-primary d-inline mr-2 text-capitalize">
-                                                        <input type="radio" id="radioPrimary<?php echo $key; ?>" value="<?php echo $key; ?>" <?php checked($response_customer['data']['gender_name'], $value); ?> name="gender" required>
-                                                        <label for="radioPrimary<?php echo $key; ?>">
-                                                            <?php echo $value; ?>
+                                                        <input type="radio" id="radioPrimary<?php echo $value; ?>" value="<?php echo $value; ?>" <?php checked($response_customer['data']['gender'], $value); ?> name="gender" required>
+                                                        <label for="radioPrimary<?php echo $value; ?>">
+                                                            <?php echo $label; ?>
                                                         </label>
                                                     </div>
                                                 <?php } ?>
@@ -394,15 +405,15 @@ get_header('customer');
                                             <div class="col-sm-9"><textarea id="post_content" name="post_content" class="form-control" rows="4"><?php echo $response_customer['data']['note']; ?></textarea>
                                             </div>
                                         </div>
-                                        
+                                        <hr>
                                         <div class="form-group row">
                                             <div class="col-sm-3"><label for="inputStatus">Trạng thái khách hàng (*)</label></div>
                                             <div class="col-sm-9">
                                                 <select id="inputStatus" name="status" class="form-control custom-select text-capitalize" required>
                                                     <option selected disabled>Select one</option>
                                                     <?php
-                                                    foreach ($status as $key => $value) { ?>
-                                                        <option value="<?php echo $key; ?>" <?php selected($response_customer['data']['status_name'], $value); ?>><?php echo $value; ?></option>
+                                                    foreach ($status as $value => $label) { ?>
+                                                        <option value="<?php echo $value; ?>" <?php selected($response_customer['data']['status'], $value); ?>><?php echo $label; ?></option>
                                                     <?php } ?>
 
                                                 </select>
@@ -413,8 +424,8 @@ get_header('customer');
                                             <div class="col-sm-9">
                                                 <select class="form-control text-capitalize" name="tag" style="width: 100%;" required>
                                                     <?php
-                                                    foreach ($tag as $key => $value) { ?>
-                                                        <option value="<?php echo $key; ?>" <?php selected($response_customer['data']['tag_name'], $value); ?>><?php echo $value; ?></option>
+                                                    foreach ($tag as $value => $label) { ?>
+                                                        <option value="<?php echo $value; ?>" <?php selected($response_customer['data']['tag'], $value); ?>><?php echo $label; ?></option>
                                                     <?php } ?>
                                                 </select>
                                             </div>
@@ -462,21 +473,21 @@ get_footer('customer');
 ?>
 <script type="text/javascript">
     $(document).ready(function() {
-        
+
         var hash = window.location.hash;
-        if(hash){
+        if (hash) {
             $('li.nav-item a,.tab-content .tab-pane').removeClass('active');
-            $('li.nav-item a[href="' + hash +'"]').addClass('active');
+            $('li.nav-item a[href="' + hash + '"]').addClass('active');
             var elementID = hash.replace('#', '');
-            console.log('log',elementID);
-            $('#'+elementID).addClass('active');
+            console.log('log', elementID);
+            $('#' + elementID).addClass('active');
         }
-        
+
         var $locationFields = $('#location-fields');
         var $addButton = $('#add-location-button');
         var fieldCount = <?php echo count($response_get_location['data']); ?>;
         var maxFields = 5;
-        $(document).on('click', '.delete-location-button', function (e) {
+        $(document).on('click', '.delete-location-button', function(e) {
             e.preventDefault();
             $(this).closest('.address-group').remove(); // Remove only the closest address group
             // fieldCount = fieldCount + 1;

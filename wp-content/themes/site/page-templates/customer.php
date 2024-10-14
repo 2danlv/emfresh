@@ -130,20 +130,7 @@ get_header("customer");
             </div>
             
             <div class="card-body">
-              <div class="form-group row">
-                <div class="col-sm-3"><label>Active</label></div>
-                <div class="col-sm-9 text-capitalize">
-                  <?php 
-                    foreach ($actives as $key => $value) { ?>
-                    <div class="icheck-primary d-inline mr-2">
-                    <input type="radio" id="radioActive<?php echo $key; ?>" value="<?php echo $key; ?>" name="active" required>
-                    <label for="radioActive<?php echo $key; ?>">
-                      <?php echo $value; ?>
-                    </label>
-                  </div>
-                    <?php } ?>
-                </div>
-              </div>
+              
               <div class="form-group row">
                 <div class="col-sm-3"><label>Tên khách hàng (*)</label></div>
                 <div class="col-sm-9">
@@ -236,8 +223,22 @@ get_header("customer");
               <h3 class="card-title">Trạng thái</h3>
             </div>
             <div class="card-body">
+            <div class="form-group row">
+                <div class="col-sm-3"><label>Trạng thái khách hàng</label></div>
+                <div class="col-sm-9 text-capitalize">
+                  <?php 
+                    foreach ($actives as $key => $value) { ?>
+                    <div class="icheck-primary d-inline mr-2">
+                    <input type="radio" id="radioActive<?php echo $key; ?>" value="<?php echo $key; ?>" name="active" required>
+                    <label for="radioActive<?php echo $key; ?>">
+                      <?php echo $value; ?>
+                    </label>
+                  </div>
+                    <?php } ?>
+                </div>
+              </div>
               <div class="form-group row">
-                <div class="col-sm-3"><label for="inputStatus">Trạng thái khách hàng (*)</label></div>
+                <div class="col-sm-3"><label for="inputStatus">Trạng thái đặt hàng (*)</label></div>
                 <div class="col-sm-9"><select id="inputStatus" name="status" class="form-control custom-select text-capitalize" required>
                     <option value="">Select one</option>
                     <?php 
