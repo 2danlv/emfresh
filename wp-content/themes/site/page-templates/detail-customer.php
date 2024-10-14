@@ -67,17 +67,17 @@ get_header('customer');
                                     src="/assets/dist/img/user4-128x128.jpg"
                                     alt="User profile picture">
                             </div>
-                            <h3 class="profile-username text-center">
+                            <h3 class="profile-username text-center text-capitalize">
                                 <?php echo $response_customer['data']['fullname'] ?>
                             </h3>
-                            <ul class="list-group list-group-unbordered mb-0">
+                            <!-- <ul class="list-group list-group-unbordered mb-0">
                                 <li class="list-group-item">
                                     <b>Tổng số lượng đơn hàng đã đặt</b>: <a class="float-right">1,322</a>
                                 </li>
                                 <li class="list-group-item">
                                     <b>Tổng số ngày đã dùng bữa</b>: <a class="float-right">543</a>
                                 </li>
-                            </ul>
+                            </ul> -->
                         </div>
                         <!-- /.card-body -->
                     </div>
@@ -91,9 +91,9 @@ get_header('customer');
                         <div class="card-body">
                             <strong><i class="fas fa-coins mr-1"></i> Điểm tích lũy</strong>: <?php echo $response_customer['data']['point'] ?>
                             <hr>
-                            <strong><i class="fas fa-venus-mars mr-1"></i> Giới tính</strong>: <br><?php echo $response_customer['data']['gender_name'] ?><br>
+                            <strong><i class="fas fa-venus-mars mr-1"></i> Giới tính</strong>: <br><span class="text-capitalize"><?php echo $response_customer['data']['gender_name'] ?></span><br>
                             <hr>
-                            <strong><i class="fas fa-signal mr-1"></i> Trạng thái khách hàng</strong>: <br><?php echo $response_customer['data']['status_name'] ?><br>
+                            <strong><i class="fas fa-signal mr-1"></i> Trạng thái khách hàng</strong>: <br><span class="text-capitalize"><?php echo $response_customer['data']['status_name'] ?></span><br>
                             <hr>
                             <strong><i class="fas fa-phone mr-1"></i> Số điện thoại</strong>: <br><?php echo $response_customer['data']['phone'] ?>
                             <hr>
@@ -109,7 +109,7 @@ get_header('customer');
                             <?php }
                             ?>
                             <hr>
-                            <strong><i class="fas fa-pencil-alt mr-1"></i> Tag phân loại</strong>: <br><?php echo $response_customer['data']['tag_name'] ?><br>
+                            <strong><i class="fas fa-pencil-alt mr-1"></i> Tag phân loại</strong>: <br><span class="text-capitalize"><?php echo $response_customer['data']['tag_name'] ?></span><br>
                             <hr>
                             <strong><i class="far fa-file-alt mr-1"></i> Ghi chú đặc biệt</strong>:
                             <p class="text-muted">
@@ -339,15 +339,13 @@ get_header('customer');
 
                                                 <?php
                                                 foreach ($gender as $key => $value) { ?>
-                                                    <div class="icheck-primary d-inline mr-2">
+                                                    <div class="icheck-primary d-inline mr-2 text-capitalize">
                                                         <input type="radio" id="radioPrimary<?php echo $key; ?>" value="<?php echo $key; ?>" <?php checked($response_customer['data']['gender_name'], $value); ?> name="gender" required>
                                                         <label for="radioPrimary<?php echo $key; ?>">
                                                             <?php echo $value; ?>
                                                         </label>
                                                     </div>
                                                 <?php } ?>
-
-
                                             </div>
                                         </div>
                                         <div id="location-fields">
@@ -387,9 +385,6 @@ get_header('customer');
                                                     </div>
                                                     <p class="text-right"><span class="btn bg-gradient-danger  delete-location-button">Xóa địa chỉ <i class="fas fa-minus"></i></span></p>
                                                 </div>
-
-
-
                                             <?php } ?>
                                         </div>
                                         <p><span class="btn bg-gradient-primary" id="add-location-button">Thêm địa chỉ <i class="fas fa-plus"></i></span></p>
@@ -402,7 +397,7 @@ get_header('customer');
                                         <div class="form-group row">
                                             <div class="col-sm-3"><label for="inputStatus">Trạng thái khách hàng (*)</label></div>
                                             <div class="col-sm-9">
-                                                <select id="inputStatus" name="status" class="form-control custom-select" required>
+                                                <select id="inputStatus" name="status" class="form-control custom-select text-capitalize" required>
                                                     <option selected disabled>Select one</option>
                                                     <?php
                                                     foreach ($status as $key => $value) { ?>
@@ -415,7 +410,7 @@ get_header('customer');
                                         <div class="form-group row">
                                             <div class="col-sm-3"><label for="inputTag">Tag phân loại (*)</label></div>
                                             <div class="col-sm-9">
-                                                <select class="form-control" name="tag" style="width: 100%;" required>
+                                                <select class="form-control text-capitalize" name="tag" style="width: 100%;" required>
                                                     <?php
                                                     foreach ($tag as $key => $value) { ?>
                                                         <option value="<?php echo $key; ?>" <?php selected($response_customer['data']['tag_name'], $value); ?>><?php echo $value; ?></option>
@@ -425,7 +420,7 @@ get_header('customer');
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-sm-3"><label for="inputPoint">Điểm tích lũy</label></div>
-                                            <div class="col-sm-9"><input type="number" id="inputPoint" name="point" value="<?php echo $response_customer['data']['point']; ?>" class="form-control"></div>
+                                            <div class="col-sm-9"><input type="number" id="inputPoint" name="point" value="<?php echo intval($response_customer['data']['point']); ?>" class="form-control"></div>
                                         </div>
                                         <div class="form-group row">
                                             <div class="offset-sm-3 col-sm-9">
