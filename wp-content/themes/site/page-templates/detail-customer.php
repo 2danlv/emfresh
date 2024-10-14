@@ -335,7 +335,7 @@ get_header('customer');
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-sm-3"><label>Giới tính (*)</label></div>
-                                            <div class="col-sm-9">
+                                            <div class="col-sm-9 text-capitalize">
 
                                                 <?php
                                                 foreach ($gender as $key => $value) { ?>
@@ -394,6 +394,7 @@ get_header('customer');
                                             <div class="col-sm-9"><textarea id="post_content" name="post_content" class="form-control" rows="4"><?php echo $response_customer['data']['note']; ?></textarea>
                                             </div>
                                         </div>
+                                        
                                         <div class="form-group row">
                                             <div class="col-sm-3"><label for="inputStatus">Trạng thái khách hàng (*)</label></div>
                                             <div class="col-sm-9">
