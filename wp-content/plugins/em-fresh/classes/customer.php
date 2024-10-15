@@ -32,7 +32,6 @@ class EM_Customer extends EF_Default
             `gender` tinyint(1) NOT NULL DEFAULT '0',
             `tag` tinyint(1) NOT NULL DEFAULT '1',
             `note` text COLLATE utf8mb4_general_ci,
-            `address` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
             `point` int NOT NULL DEFAULT '0',
             `parent` bigint NOT NULL DEFAULT '0',
             `created` datetime DEFAULT NULL,
@@ -112,18 +111,23 @@ class EM_Customer extends EF_Default
         // Location
         $location_wheres = $this->get_where($args, 'location.');
 
-        $query = " SELECT * FROM $table_customer AS customer ";
+        $query = " SELECT customer.*  "
+                ." ,location.address "
+                ." ,location.ward "
+                ." ,location.district "
+                ." ,location.city "
+                ." FROM $table_customer AS customer "
+                ." LEFT JOIN $table_location AS location ON location.customer_id = customer.id ";
 
         if (count($location_wheres) > 0) {
             $wheres = array_merge($wheres, $location_wheres);
-
-            $query .= " JOIN $table_location AS location ON location.customer_id = customer.id ";
         }
 
         if (count($wheres) > 0) {
             $query .= ' WHERE ' . implode(' AND ', $wheres);
         }
 
+        $query .= " GROUP BY {$tbl_prefix}id ";
         $query .= " ORDER BY $orderby ";
 
         if ($limit > 0) {
@@ -286,8 +290,9 @@ class EM_Customer extends EF_Default
             'status'        => 1,
             'gender'        => 0,
             'note'          => '',
+            'note_shipping' => '',
+            'note_cook'     => '',
             'tag'           => 0,
-            'address'       => '',
             'point'         => 0,
             'parent'        => 0,
             'created'       => '',
@@ -304,9 +309,7 @@ class EM_Customer extends EF_Default
         $rules = array(
             'fullname'      => 'required',
             'phone'         => 'phone',
-            'status'        => 'min:1,max:3',
-            'gender'        => 'min:1,max:3',
-            'tag'           => 'min:1,max:5',
+            'gender'        => 'number'
         );
 
         if ($action == 'add') {
@@ -336,7 +339,9 @@ class EM_Customer extends EF_Default
         $list = [
             1 => 'đặt đơn',
             2 => 'dí món',
-            3 => 'chưa rõ'
+            3 => 'chưa rõ',
+            4 => 'ngừng',
+            5 => 'bảo lưu'
         ];
 
         if ($key > 0) {
@@ -366,8 +371,8 @@ class EM_Customer extends EF_Default
     function get_actives($key = 0)
     {
         $list = [
-            0 => 'inactive',
-            1 => 'active'
+            1 => 'active',
+            0 => 'inactive'
         ];
 
         if ($key > 0) {
@@ -423,7 +428,6 @@ class EM_Customer extends EF_Default
             'gender'        => 'number',
             'note'          => 'textarea',
             'tag'           => 'number',
-            'address'       => 'textarea',
         );
 
         $rules = $this->get_rules();
