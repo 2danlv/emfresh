@@ -49,7 +49,7 @@ get_header('customer');
     <div class="card">
       <div class="card-body">
 
-        <table id="example1" class="table table-bordered table-striped">
+        <table id="example1" class="table table-bordered table-striped text-capitalize">
           <thead>
             <tr>
               <th>Tên khách hàng</th>
