@@ -21,12 +21,12 @@ get_header('customer');
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>List Customer</h1>
+          <h1><?php the_title(); ?></h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active">List Customer</li>
+            <li class="breadcrumb-item active"><?php the_title(); ?></li>
           </ol>
         </div>
       </div>
@@ -48,15 +48,19 @@ get_header('customer');
     <!-- Default box -->
     <div class="card">
       <div class="card-body">
-
+      <span class="mr-2"><a href="/import-export/" class="btn btn-primary">Import/Export Excel/CSV</a></span>
+      <span class="ml-2"><a href="#" class="btn btn-info">Quản lý tag</a></span>
         <table id="example1" class="table table-bordered table-striped text-capitalize">
           <thead>
             <tr>
               <th>Tên khách hàng</th>
-              <th>Tên đầy đủ</th>
               <th>Số điện thoại</th>
-              <th>Tag phân loại</th>
+              <th>Địa chỉ</th>
+              <th>Trạng thái đặt đơn</th>
               <th>Điểm tích lũy</th>
+              <th>Tag phân loại</th>
+              <th>Người cập nhật cuối</th>
+              <th>thời gian nhật cuối</th>
             </tr>
           </thead>
           <tbody>
@@ -73,11 +77,14 @@ get_header('customer');
             ?>
                   <tr>
                     <td><a href="detail-customer/?customer_id=<?php echo $record['id'] ?>"><?php echo $record['nickname']; ?></a></td>
-                    <td><a href="detail-customer/?customer_id=<?php echo $record['id'] ?>"><?php echo $record['fullname']; ?></a></td>
                     <td><?php echo $record['phone']; ?></td>
-                    <td><?php echo $record['tag_name']; ?></td>
+                    <td><?php echo $record['address']; ?></td>
+                    <td><?php echo $record['status_name']; ?></td>
                     <td><?php echo $record['point']; ?>
-                      <div class="float-sm-right">
+                    <td><?php echo $record['tag_name']; ?></td>
+                    <td><?php echo $record['created_author']; ?></td>
+                    <td><?php echo $record['modified']; ?>
+                      <small class="float-sm-left">
                         <a class="btn btn-info btn-sm" href="detail-customer/?customer_id=<?php echo $record['id'] ?>#settings">
                           <i class="fas fa-pencil-alt">
                           </i>
@@ -90,7 +97,7 @@ get_header('customer');
                           Delete
                           <span class="d-none"><?php echo $record['id'] ?></span>
                         </button>
-                      </div>
+                      </small>
                     </td>
                   </tr>
             <?php  } else {
