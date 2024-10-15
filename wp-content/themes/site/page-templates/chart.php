@@ -9,6 +9,9 @@
  */
 
 get_header('customer');
+
+global $em_customer;
+
 $genders = site_statistic_get_customer('gender', []);
 $tags = site_statistic_get_customer('tag', []);
 $statuses = site_statistic_get_customer('status', []);
@@ -38,7 +41,7 @@ $response_customer = em_api_request('customer/list', $customer_filter);
   <!-- Main content -->
   <section class="content">
     <div class="container-fluid">
-      <div class="card card-default">
+      <!-- <div class="card card-default">
         <div class="card-header">
           <h3 class="card-title">Filter</h3>
           <div class="card-tools">
@@ -90,7 +93,7 @@ $response_customer = em_api_request('customer/list', $customer_filter);
             <button class="btn btn-primary">Filter</button>
           </div>
         </div>
-      </div>
+      </div> -->
       <div class="row">
         <div class="col-md-6">
           <!-- AREA CHART -->
@@ -258,20 +261,17 @@ get_footer('customer');
 
     var tagsCanvas = $('#tagsChart').get(0).getContext('2d')
     var tagsData = {
-      labels: [
-        <?php
+      labels: [<?php
         foreach ($tags as $item) {
           $name = custom_ucwords_utf8($item['name']);
           echo "'{$name}'" . ',';
-        } ?>
-      ],
+        } ?>],
       datasets: [{
         data: [
           <?php
           foreach ($tags as $item) {
-            echo "'{$item['total']}'" . ',';
-          } ?>
-        ],
+            echo $item['total'] . ',';
+          } ?>],
         backgroundColor: ['#f39c12', '#00c0ef', '#c1c7d1', '#3b8bba', '#f56954'],
       }]
     }
@@ -292,22 +292,18 @@ get_footer('customer');
     // Get context with jQuery - using jQuery's .get() method.
     var genderCanvas = $('#genderChart').get(0).getContext('2d')
     var genderData = {
-      labels: [
-        <?php
+      labels: [<?php
         foreach ($genders as $item) {
           $name = custom_ucwords_utf8($item['name']);
           echo "'{$name}'" . ',';
         }
-        ?>
-      ],
+        ?>],
       datasets: [{
-        data: [
-          <?php
+        data: [<?php
           foreach ($genders as $item) {
-            echo "{$item['total']}" . ',';
+            echo $item['total'] . ',';
           }
-          ?>
-        ],
+          ?>],
         backgroundColor: ['#f56954', '#00a65a', '#00c0ef'],
       }]
     }
@@ -326,22 +322,18 @@ get_footer('customer');
     // Get context with jQuery - using jQuery's .get() method.
     var statusCanvas = $('#statusChart').get(0).getContext('2d')
     var statusData = {
-      labels: [
-        <?php
+      labels: [<?php
         foreach ($statuses as $item) {
           $name = custom_ucwords_utf8($item['name']);
           echo "'{$name}'" . ',';
         }
-        ?>
-      ],
+        ?>],
       datasets: [{
-        data: [
-          <?php
+        data: [<?php
           foreach ($statuses as $item) {
-            echo "{$item['total']}" . ',';
+            echo $item['total'] . ',';
           }
-          ?>
-        ],
+          ?>],
         backgroundColor: ['#f56954', '#00a65a', '#00c0ef'],
       }]
     }
