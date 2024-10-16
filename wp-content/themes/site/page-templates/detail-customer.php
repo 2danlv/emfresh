@@ -384,10 +384,7 @@ get_header('customer');
                           <div class="form-group row">
                             <div class="col-sm-9"><input type="hidden" name="locations[<?php echo $index ?>][id]" value="<?php echo $record['id'] ?>" placeholder="id" readonly /></div>
                           </div>
-                          <div class="form-group row">
-                            <div class="col-sm-3"><label for="address_<?php echo $record['id'] ?>">Địa chỉ (*):</label></div>
-                            <div class="col-sm-9"><input id="address_<?php echo $record['id'] ?>" class="form-control" value="<?php echo $record['address']; ?>" name="locations[<?php echo $index ?>][address]" required /></div>
-                          </div>
+                          
                           <div class="form-group row">
                             <div class="col-sm-3"><label for="province_<?php echo $record['id'] ?>">Tỉnh/Thành phố:</label></div>
                             <div class="col-sm-9">
@@ -411,6 +408,10 @@ get_header('customer');
                                 <option value="<?php echo esc_attr($record['ward']); ?>" selected><?php echo $record['ward']; ?></option>
                               </select>
                             </div>
+                          </div>
+                          <div class="form-group row">
+                            <div class="col-sm-3"><label for="address_<?php echo $record['id'] ?>">Địa chỉ (*):</label></div>
+                            <div class="col-sm-9"><input id="address_<?php echo $record['id'] ?>" class="form-control" value="<?php echo $record['address']; ?>" name="locations[<?php echo $index ?>][address]" required /></div>
                           </div>
                           <p class="text-right"><span class="btn bg-gradient-danger delete-location-button" data-id="<?php echo $record['id'] ?>">Xóa địa chỉ <i class="fas fa-minus"></i></span></p>
                         </div>
@@ -479,8 +480,15 @@ get_header('customer');
                       <div class="col-sm-9"><input type="number" id="inputPoint" name="point" value="<?php echo intval($response_customer['data']['point']); ?>" class="form-control"></div>
                     </div>
                     <div class="form-group row">
-                      <div class="offset-sm-3 col-sm-9">
+                      <div class="col-sm-9">
                         <button type="submit" class="btn btn-primary" name="add_post">Update</button>
+                      </div>
+                      <div class="col-sm-3 text-right">
+                      <button type="button" class="btn btn-danger remove-customer" data-toggle="modal" data-target="#modal-default">
+                          <i class="fas fa-trash">
+                          </i>
+                          Delete
+                        </button>
                       </div>
                     </div>
                     <input type="hidden" name="customer_id" value="<?php echo $customer_id ?>" />
@@ -502,6 +510,32 @@ get_header('customer');
   </section>
   <!-- /.content -->
 </div>
+<!-- /.card-body -->
+<div class="modal fade" id="modal-default" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Thông báo!</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="post" id="list-customer" action="<?php the_permalink() ?>">
+          <input type="hidden" class="customer_id" name="customer_id" value="<?php echo $response_customer['data']['id'] ?>">
+          <p>Bạn muốn xóa khách hàng này?</p>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" name="remove" class="btn btn-primary">Save changes</button>
+      </div>
+      </form>
+    </div>
+
+  </div>
+
+</div>
+
 <style>
   .success-message {
     color: green;
@@ -581,7 +615,7 @@ get_footer('customer');
     });
     // Fetching data from the new API endpoint
     $.ajax({
-      url: 'https://provinces.open-api.vn/api/?depth=3',
+      url: 'https://provinces.open-api.vn/api/p/79?depth=3',
       method: 'GET',
       success: function(data) {
         // Move the province with code 79 to the top of the data array
@@ -651,12 +685,7 @@ get_footer('customer');
             var newGroup = `
                         <hr>
                     <div class="address-group">
-                        <div class="form-group row">
-                            <div class="col-sm-3"><label>Địa chỉ (*):</label></div>
-                            <div class="col-sm-9">
-                                <input id="address_${fieldCount}" class="form-control" name="locations[${fieldCount}][address]" required />
-                            </div>
-                        </div>
+                        
                         <div class="form-group row">
                             <div class="col-sm-3"><label for="province_${fieldCount}">Tỉnh/Thành phố:</label></div>
                             <div class="col-sm-9">
@@ -679,6 +708,12 @@ get_footer('customer');
                                 <select id="ward_${fieldCount}" name="locations[${fieldCount}][ward]" class="ward-select form-control" required disabled>
                                     <option value="">Select Phường/Xã</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-3"><label>Địa chỉ (*):</label></div>
+                            <div class="col-sm-9">
+                                <input id="address_${fieldCount}" class="form-control" name="locations[${fieldCount}][address]" required />
                             </div>
                         </div>
                         <p class="text-right"><span class="btn bg-gradient-danger  delete-location-button">Xóa địa chỉ <i class="fas fa-minus"></i></span></p>

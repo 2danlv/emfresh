@@ -18,9 +18,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
   $fullname   = isset($_POST['fullname']) ? sanitize_text_field($_POST['fullname']):'';
   $phone    = sanitize_text_field($_POST['phone']);
   $gender_post = sanitize_text_field($_POST['gender']);
-  $status_post = sanitize_text_field($_POST['status']);
+  $status_post = isset($_POST['status']) ? intval($_POST['status']): 0;
   $active_post = sanitize_text_field($_POST['active']);
-  $tag_post = sanitize_text_field($_POST['tag']);
+  $tag_post = isset($_POST['tag']) ? intval($_POST['tag']): 0;
   $point = isset($_POST['point']) ? intval($_POST['point']) : 0;
   $note = sanitize_textarea_field($_POST['note']);
   $note_shipping = sanitize_textarea_field($_POST['note_shipping']);
@@ -132,8 +132,8 @@ get_header("customer");
                 </div>
               </div>
               <div class="form-group row">
-                <div class="col-sm-3"><label>Tên đầy đủ</label></div>
-                <div class="col-sm-9"><input type="text" name="fullname" class="form-control"></div>
+                <div class="col-sm-3"><label>Tên đầy đủ*</label></div>
+                <div class="col-sm-9"><input type="text" name="fullname" class="form-control" required></div>
               </div>
               <div class="form-group row">
                 <div class="col-sm-3"><label>Số điện thoại (*)</label></div>
@@ -156,12 +156,7 @@ get_header("customer");
               <div id="location-fields">
                 <hr>
                 <div class="address-group">
-                  <div class="form-group row">
-                    <div class="col-sm-3"><label>Địa chỉ (*):</label></div>
-                    <div class="col-sm-9">
-                      <input id="address_0" class="form-control" name="locations[0][address]" required />
-                    </div>
-                  </div>
+                  
                   <div class="form-group row">
                     <div class="col-sm-3">
                       <label for="province_0">Tỉnh/Thành phố:</label>
@@ -190,6 +185,12 @@ get_header("customer");
                       <select id="ward_0" name="locations[0][ward]" class="ward-select form-control" required disabled>
                         <option value="">Select Phường/Xã</option>
                       </select>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-sm-3"><label>Địa chỉ (*):</label></div>
+                    <div class="col-sm-9">
+                      <input id="address_0" class="form-control" name="locations[0][address]" required />
                     </div>
                   </div>
                 </div>
@@ -255,8 +256,8 @@ get_header("customer");
                 </div>
               </div>
               <div class="form-group row">
-                <div class="col-sm-3"><label for="inputStatus">Trạng thái đặt hàng</label></div>
-                <div class="col-sm-9"><select id="inputStatus" name="status" class="form-control custom-select text-capitalize">
+                <div class="col-sm-3"><label for="inputStatus">Trạng thái đặt hàng*</label></div>
+                <div class="col-sm-9"><select id="inputStatus" name="status" required class="form-control custom-select text-capitalize">
                     <option value="">Select one</option>
                     <?php
                     foreach ($status as $key => $value) { ?>
@@ -266,8 +267,8 @@ get_header("customer");
                 </div>
               </div>
               <div class="form-group row">
-                <div class="col-sm-3"><label for="inputTag">Tag phân loại</label></div>
-                <div class="col-sm-9"><select class="form-control text-capitalize" name="tag" style="width: 100%;">
+                <div class="col-sm-3"><label for="inputTag">Tag phân loại*</label></div>
+                <div class="col-sm-9"><select class="form-control text-capitalize" required name="tag" style="width: 100%;">
                     <option value="">Select one</option>
                     <?php
                     foreach ($tag as $key => $value) { ?>
@@ -344,7 +345,7 @@ get_footer('customer');
       $(this).closest('.address-group').remove();
     });
     // Fetching data from the new API endpoint
-    $.getJSON('https://provinces.open-api.vn/api/?depth=3', function(data) {
+    $.getJSON('https://provinces.open-api.vn/api/p/79?depth=3', function(data) {
 
       // Move the province with code 79 to the top of the data array
       var topProvince = data.find(p => p.code === 79);
@@ -413,12 +414,7 @@ get_footer('customer');
           var newGroup = `
           <hr>
             <div class="address-group">
-              <div class="form-group row">
-                <div class="col-sm-3"><label>Địa chỉ (*) </label></div>
-                <div class="col-sm-9">
-                  <input id="address_${fieldCount}" class="form-control" name="locations[${fieldCount}][address]" required />
-                </div>
-              </div>
+              
               <div class="form-group row">
                 <div class="col-sm-3">
                   <label for="province_${fieldCount}">Tỉnh/Thành phố:</label>
@@ -447,6 +443,12 @@ get_footer('customer');
                   <select id="ward_${fieldCount}" name="locations[${fieldCount}][ward]" class="ward-select form-control" required disabled>
                     <option value="">Select Phường/Xã</option>
                   </select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-3"><label>Địa chỉ (*) </label></div>
+                <div class="col-sm-9">
+                  <input id="address_${fieldCount}" class="form-control" name="locations[${fieldCount}][address]" required />
                 </div>
               </div>
               <p class="text-right"><span class="btn bg-gradient-danger  delete-location-button">Xóa địa chỉ <i class="fas fa-minus"></i></span></p>

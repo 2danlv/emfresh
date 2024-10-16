@@ -84,20 +84,6 @@ get_header('customer');
                     <td><?php echo $record['tag_name']; ?></td>
                     <td><?php echo $record['created_author']; ?></td>
                     <td><?php echo $record['modified']; ?>
-                      <small class="float-sm-left">
-                        <a class="btn btn-info btn-sm" href="detail-customer/?customer_id=<?php echo $record['id'] ?>#settings">
-                          <i class="fas fa-pencil-alt">
-                          </i>
-                          Edit
-                        </a>
-
-                        <button type="button" class="btn btn-danger remove-customer btn-sm" data-toggle="modal" data-target="#modal-default">
-                          <i class="fas fa-trash">
-                          </i>
-                          Delete
-                          <span class="d-none"><?php echo $record['id'] ?></span>
-                        </button>
-                      </small>
                     </td>
                   </tr>
             <?php  } else {
@@ -117,31 +103,6 @@ get_header('customer');
      </section>
 </div>
 
-<!-- /.card-body -->
-<div class="modal fade" id="modal-default" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Thông báo!</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">×</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form method="post" id="list-customer" action="<?php the_permalink() ?>">
-          <input type="hidden" class="customer_id" name="customer_id" value="">
-          <p>Bạn muốn xóa khách hàng này?</p>
-      </div>
-      <div class="modal-footer justify-content-between">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="submit" name="remove" class="btn btn-primary">Save changes</button>
-      </div>
-      </form>
-    </div>
-
-  </div>
-
-</div>
 
 <?php
 // endwhile;
