@@ -16,10 +16,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
   $nickname   = sanitize_text_field($_POST['nickname']);
   $fullname   = sanitize_text_field($_POST['fullname']);
   $phone    = sanitize_text_field($_POST['phone']);
-  $gender_post = sanitize_text_field($_POST['gender']);
-  $status_post = sanitize_text_field($_POST['status']);
-  $active_post = sanitize_text_field($_POST['active']);
-  $tag_post = sanitize_text_field($_POST['tag']);
+  $gender_post = isset($_POST['gender']) ? intval($_POST['gender']) : 0;
+  $status_post = isset($_POST['status']) ? intval($_POST['status']) : 0;
+  $active_post = isset($_POST['active']) ? intval($_POST['active']) : 0;
+  $tag_post    = isset($_POST['tag']) ? intval($_POST['tag']) : 0;
   $point = sanitize_text_field($_POST['point']);
   $note = sanitize_textarea_field($_POST['note']);
   $note_shipping = sanitize_textarea_field($_POST['note_shipping']);
@@ -108,6 +108,7 @@ $customer_filter = [
   'id' => $customer_id
 ];
 $response_customer = em_api_request('customer/item', $customer_filter);
+
 // lấy danh sách location
 $location_filter = [
   'customer_id' => $customer_id,
@@ -361,7 +362,7 @@ get_header('customer');
                     </div>
                     <div class="form-group row">
                       <div class="col-sm-3"><label for="phone">Số điện thoại (*)</label></div>
-                      <div class="col-sm-9"><input type="number" id="phone" name="phone" class="form-control" value="<?php echo $response_customer['data']['phone'] ?>" required></div>
+                      <div class="col-sm-9"><input type="tel" id="phone" name="phone" class="form-control" value="<?php echo $response_customer['data']['phone'] ?>" required></div>
                     </div>
                     <div class="form-group row">
                       <div class="col-sm-3"><label>Giới tính (*)</label></div>
@@ -454,20 +455,20 @@ get_header('customer');
                     <div class="form-group row">
                       <div class="col-sm-3"><label for="inputStatus">Trạng thái khách hàng (*)</label></div>
                       <div class="col-sm-9">
-                        <select id="inputStatus" name="status" class="form-control custom-select text-capitalize" required>
-                          <option selected disabled>Select one</option>
+                        <select id="inputStatus" name="status" class="form-control custom-select text-capitalize">
+                          <option value="0">Select one</option>
                           <?php
                           foreach ($status as $value => $label) { ?>
                             <option value="<?php echo $value; ?>" <?php selected($response_customer['data']['status'], $value); ?>><?php echo $label; ?></option>
                           <?php } ?>
-
                         </select>
                       </div>
                     </div>
                     <div class="form-group row">
-                      <div class="col-sm-3"><label for="inputTag">Tag phân loại (*)</label></div>
+                      <div class="col-sm-3"><label for="inputTag">Tag phân loại</label></div>
                       <div class="col-sm-9">
-                        <select class="form-control text-capitalize" name="tag" style="width: 100%;" required>
+                        <select class="form-control text-capitalize" name="tag" style="width: 100%;">
+                          <option value="0">Select one</option>
                           <?php
                           foreach ($tag as $value => $label) { ?>
                             <option value="<?php echo $value; ?>" <?php selected($response_customer['data']['tag'], $value); ?>><?php echo $label; ?></option>
@@ -481,8 +482,13 @@ get_header('customer');
                     </div>
                     <div class="form-group row">
                       <div class="col-sm-9">
-                        <button type="submit" class="btn btn-primary" name="add_post">Update</button>
+                        <button type="submit" class="btn btn-primary" name="add_post">Cập nhật</button>
                       </div>
+                      <?php 
+                    $admin_role = wp_get_current_user()->roles;
+                    if(!empty($admin_role) ) {
+                      if ($admin_role[0] == 'administrator') {
+                     ?>
                       <div class="col-sm-3 text-right">
                       <button type="button" class="btn btn-danger remove-customer" data-toggle="modal" data-target="#modal-default">
                           <i class="fas fa-trash">
@@ -490,9 +496,13 @@ get_header('customer');
                           Delete
                         </button>
                       </div>
+                      <?php }
+                      } ?>
                     </div>
                     <input type="hidden" name="customer_id" value="<?php echo $customer_id ?>" />
-                    <input type="hidden" name="location_delete_ids" value="" class="location_delete_ids" />
+                    
+                      <input type="hidden" name="location_delete_ids" value="" class="location_delete_ids" />
+                    
                   </form>
 
                 </div>
@@ -549,6 +559,8 @@ get_header('customer');
 // endwhile;
 get_footer('customer');
 ?>
+<script src="/assets/js/assistant.js"></script>
+<script src="/assets/js/location.js"></script>
 <script type="text/javascript">
   $(document).ready(function() {
 
@@ -614,124 +626,6 @@ get_footer('customer');
       }
     });
     // Fetching data from the new API endpoint
-    $.ajax({
-      url: 'https://provinces.open-api.vn/api/p/79?depth=3',
-      method: 'GET',
-      success: function(data) {
-        // Move the province with code 79 to the top of the data array
-        var topProvince = data.find(p => p.code === 79);
-        if (topProvince) {
-          data = [topProvince].concat(data.filter(p => p.code !== 79));
-        }
-        // Function to populate the province dropdown
-        function populateProvinces($selectElement, selectedValue) {
-          $selectElement.html('<option value="">Select Tỉnh/Thành phố</option>');
-          $.each(data, function(index, province) {
-            var isSelected = selectedValue && selectedValue === province.name ? 'selected' : '';
-            $selectElement.append(`<option value="${province.name}" ${isSelected}>${province.name}</option>`);
-          });
-        }
-
-        // Function to handle cascading changes in province, district, and ward
-        function handleLocationChange($provinceSelect, $districtSelect, $wardSelect) {
-          $provinceSelect.on('change', function() {
-            $districtSelect.html('<option value="">Select Quận/Huyện</option>');
-            $wardSelect.html('<option value="">Select Phường/Xã</option>').prop('disabled', true);
-
-            var selectedProvince = data.find(p => p.name === $(this).val());
-
-            if (selectedProvince) {
-              $.each(selectedProvince.districts, function(index, district) {
-                $districtSelect.append(`<option value="${district.name}">${district.name}</option>`);
-              });
-              $districtSelect.prop('disabled', false);
-            } else {
-              $districtSelect.prop('disabled', true);
-            }
-          });
-
-          $districtSelect.on('change', function() {
-            $wardSelect.html('<option value="">Select Phường/Xã</option>').prop('disabled', true);
-
-            var selectedProvince = data.find(p => p.name === $provinceSelect.val());
-            var selectedDistrict = selectedProvince.districts.find(d => d.name === $(this).val());
-
-            if (selectedDistrict) {
-              $.each(selectedDistrict.wards, function(index, ward) {
-                $wardSelect.append(`<option value="${ward.name}">${ward.name}</option>`);
-              });
-              $wardSelect.prop('disabled', false);
-            } else {
-              $wardSelect.prop('disabled', true);
-            }
-          });
-        }
-
-        // Initialize existing address groups
-        $('.address-group').each(function(index, group) {
-          var $provinceSelect = $(group).find('.province-select');
-          var $districtSelect = $(group).find('.district-select');
-          var $wardSelect = $(group).find('.ward-select');
-
-          populateProvinces($provinceSelect, $provinceSelect.val());
-          handleLocationChange($provinceSelect, $districtSelect, $wardSelect);
-        });
-
-        // Add new address group functionality
-        $addButton.on('click', function(e) {
-          e.preventDefault();
-          if (fieldCount < maxFields) {
-
-            var newGroup = `
-                        <hr>
-                    <div class="address-group">
-                        
-                        <div class="form-group row">
-                            <div class="col-sm-3"><label for="province_${fieldCount}">Tỉnh/Thành phố:</label></div>
-                            <div class="col-sm-9">
-                                <select id="province_${fieldCount}" name="locations[${fieldCount}][province]" class="province-select form-control" required>
-                                    <option value="">Select Tỉnh/Thành phố</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-sm-3"><label for="district_${fieldCount}">Quận/Huyện:</label></div>
-                            <div class="col-sm-9">
-                                <select id="district_${fieldCount}" name="locations[${fieldCount}][district]" class="district-select form-control" required disabled>
-                                    <option value="">Select Quận/Huyện</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-sm-3"><label for="ward_${fieldCount}">Phường/Xã:</label></div>
-                            <div class="col-sm-9">
-                                <select id="ward_${fieldCount}" name="locations[${fieldCount}][ward]" class="ward-select form-control" required disabled>
-                                    <option value="">Select Phường/Xã</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-sm-3"><label>Địa chỉ (*):</label></div>
-                            <div class="col-sm-9">
-                                <input id="address_${fieldCount}" class="form-control" name="locations[${fieldCount}][address]" required />
-                            </div>
-                        </div>
-                        <p class="text-right"><span class="btn bg-gradient-danger  delete-location-button">Xóa địa chỉ <i class="fas fa-minus"></i></span></p>
-                    </div>`;
-
-            $locationFields.append(newGroup);
-            var $newGroup = $locationFields.find('.address-group').last();
-            populateProvinces($newGroup.find('.province-select'), '');
-            handleLocationChange($newGroup.find('.province-select'), $newGroup.find('.district-select'), $newGroup.find('.ward-select'));
-            fieldCount++;
-          } else {
-            alert('You can only add up to 5 locations.');
-          }
-        });
-      },
-      error: function(error) {
-        console.error('Error fetching location data:', error);
-      }
-    });
+    
   });
 </script>

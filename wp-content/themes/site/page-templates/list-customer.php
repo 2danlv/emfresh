@@ -48,7 +48,8 @@ get_header('customer');
     <!-- Default box -->
     <div class="card">
       <div class="card-body">
-      <span class="mr-2"><a href="/import-export/" class="btn btn-primary">Import/Export Excel/CSV</a></span>
+      <span class="mr-2"><a href="/import-export/" class="btn btn-primary">Export Excel/CSV</a></span>
+      <span class="mr-2"><a href="/import-export/" class="btn btn-primary">Import Excel/CSV</a></span>
       <span class="ml-2"><a href="#" class="btn btn-info">Quản lý tag</a></span>
         <table id="example1" class="table table-bordered table-striped text-capitalize">
           <thead>
@@ -77,7 +78,7 @@ get_header('customer');
             ?>
                   <tr>
                     <td><a href="detail-customer/?customer_id=<?php echo $record['id'] ?>"><?php echo $record['nickname']; ?></a></td>
-                    <td><?php echo $record['phone']; ?></td>
+                    <td><span class="copy"><?php echo $record['phone']; ?></span></td>
                     <td><?php echo $record['address']; ?></td>
                     <td><?php echo $record['status_name']; ?></td>
                     <td><?php echo $record['point']; ?>
@@ -110,9 +111,18 @@ get_footer('customer');
 ?>
 <script>
   $(document).ready(function() {
-    $(document).on('click', '.remove-customer', function(e) {
-      var val = $(this).children('span').text();
-      $('#list-customer').find('.customer_id').val(val);
-    });
+    $('.copy').on('click', function() {
+            const textToCopy = $(this).text();
+
+            const tempInput = $('<input>');
+            $('body').append(tempInput);
+            tempInput.val(textToCopy).select();
+
+            document.execCommand('copy');
+
+            tempInput.remove();
+
+            alert('Copied to clipboard: ' + textToCopy);
+        });
   });
 </script>

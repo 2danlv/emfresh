@@ -17,10 +17,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
   $nickname   = sanitize_text_field($_POST['nickname']);
   $fullname   = isset($_POST['fullname']) ? sanitize_text_field($_POST['fullname']):'';
   $phone    = sanitize_text_field($_POST['phone']);
-  $gender_post = sanitize_text_field($_POST['gender']);
-  $status_post = isset($_POST['status']) ? intval($_POST['status']): 0;
-  $active_post = sanitize_text_field($_POST['active']);
-  $tag_post = isset($_POST['tag']) ? intval($_POST['tag']): 0;
+  $gender_post = isset($_POST['gender']) ? intval($_POST['gender']) : 0;
+  $status_post = isset($_POST['status']) ? intval($_POST['status']) : 0;
+  $active_post = isset($_POST['active']) ? intval($_POST['active']) : 0;
+  $tag_post    = isset($_POST['tag']) ? intval($_POST['tag']): 0;
   $point = isset($_POST['point']) ? intval($_POST['point']) : 0;
   $note = sanitize_textarea_field($_POST['note']);
   $note_shipping = sanitize_textarea_field($_POST['note_shipping']);
@@ -132,12 +132,12 @@ get_header("customer");
                 </div>
               </div>
               <div class="form-group row">
-                <div class="col-sm-3"><label>Tên đầy đủ*</label></div>
-                <div class="col-sm-9"><input type="text" name="fullname" class="form-control" required></div>
+                <div class="col-sm-3"><label>Tên đầy đủ</label></div>
+                <div class="col-sm-9"><input type="text" name="fullname" class="form-control"></div>
               </div>
               <div class="form-group row">
                 <div class="col-sm-3"><label>Số điện thoại (*)</label></div>
-                <div class="col-sm-9"><input type="number" name="phone" class="form-control" required pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" /></div>
+                <div class="col-sm-9"><input type="tel" name="phone" class="form-control" required  /></div>
               </div>
               <div class="form-group row">
                 <div class="col-sm-3"><label>Giới tính (*)</label></div>
@@ -256,9 +256,9 @@ get_header("customer");
                 </div>
               </div>
               <div class="form-group row">
-                <div class="col-sm-3"><label for="inputStatus">Trạng thái đặt hàng*</label></div>
-                <div class="col-sm-9"><select id="inputStatus" name="status" required class="form-control custom-select text-capitalize">
-                    <option value="">Select one</option>
+                <div class="col-sm-3"><label for="inputStatus">Trạng thái đặt hàng</label></div>
+                <div class="col-sm-9"><select id="inputStatus" name="status" class="form-control custom-select text-capitalize">
+                    <option value="0">Select one</option>
                     <?php
                     foreach ($status as $key => $value) { ?>
                       <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
@@ -267,9 +267,9 @@ get_header("customer");
                 </div>
               </div>
               <div class="form-group row">
-                <div class="col-sm-3"><label for="inputTag">Tag phân loại*</label></div>
-                <div class="col-sm-9"><select class="form-control text-capitalize" required name="tag" style="width: 100%;">
-                    <option value="">Select one</option>
+                <div class="col-sm-3"><label for="inputTag">Tag phân loại</label></div>
+                <div class="col-sm-9"><select class="form-control text-capitalize" name="tag" style="width: 100%;">
+                    <option value="0">Select one</option>
                     <?php
                     foreach ($tag as $key => $value) { ?>
                       <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
@@ -300,6 +300,8 @@ get_header("customer");
 <?php
 get_footer('customer');
 ?>
+<script src="/assets/js/assistant.js"></script>
+<script src="/assets/js/location.js"></script>
 <script type="text/javascript">
   $(document).ready(function() {
 
@@ -334,140 +336,6 @@ get_footer('customer');
 
         input.val(list.join(", "));
       });
-    });
-
-    var $locationFields = $('#location-fields');
-    var $addButton = $('#add-location-button');
-    var fieldCount = 1;
-    var maxFields = 5;
-    $(document).on('click', '.delete-location-button', function(e) {
-      e.preventDefault();
-      $(this).closest('.address-group').remove();
-    });
-    // Fetching data from the new API endpoint
-    $.getJSON('https://provinces.open-api.vn/api/p/79?depth=3', function(data) {
-
-      // Move the province with code 79 to the top of the data array
-      var topProvince = data.find(p => p.code === 79);
-      if (topProvince) {
-        data = [topProvince].concat(data.filter(p => p.code !== 79));
-      }
-
-      // Function to populate the province dropdown
-      function populateProvinces($selectElement, selectedValue) {
-        $selectElement.html('<option value="">Select Tỉnh/Thành phố</option>');
-        $.each(data, function(index, province) {
-          var option = `<option value="${province.name}" ${selectedValue === province.name ? 'selected' : ''}>${province.name}</option>`;
-          $selectElement.append(option);
-        });
-      }
-
-      // Function to handle cascading changes in province, district, and ward
-      function handleLocationChange($provinceSelect, $districtSelect, $wardSelect) {
-        $provinceSelect.on('change', function() {
-          $districtSelect.html('<option value="">Select Quận/Huyện</option>');
-          $wardSelect.html('<option value="">Select Phường/Xã</option>').prop('disabled', true);
-
-          var selectedProvince = data.find(p => p.name === $(this).val());
-
-          if (selectedProvince) {
-            $.each(selectedProvince.districts, function(index, district) {
-              $districtSelect.append(`<option value="${district.name}">${district.name}</option>`);
-            });
-            $districtSelect.prop('disabled', false);
-          } else {
-            $districtSelect.prop('disabled', true);
-          }
-        });
-
-        $districtSelect.on('change', function() {
-          $wardSelect.html('<option value="">Select Phường/Xã</option>');
-
-          var selectedProvince = data.find(p => p.name === $provinceSelect.val());
-          var selectedDistrict = selectedProvince ? selectedProvince.districts.find(d => d.name === $(this).val()) : null;
-
-          if (selectedDistrict) {
-            $.each(selectedDistrict.wards, function(index, ward) {
-              $wardSelect.append(`<option value="${ward.name}">${ward.name}</option>`);
-            });
-            $wardSelect.prop('disabled', false);
-          } else {
-            $wardSelect.prop('disabled', true);
-          }
-        });
-      }
-
-      // Initialize existing address groups
-      $('.address-group').each(function() {
-        var $provinceSelect = $(this).find('.province-select');
-        var $districtSelect = $(this).find('.district-select');
-        var $wardSelect = $(this).find('.ward-select');
-
-        populateProvinces($provinceSelect, $provinceSelect.val());
-        handleLocationChange($provinceSelect, $districtSelect, $wardSelect);
-      });
-
-      // Add new address group functionality
-      $addButton.on('click', function(e) {
-        e.preventDefault();
-        if (fieldCount < maxFields) {
-          var newGroup = `
-          <hr>
-            <div class="address-group">
-              
-              <div class="form-group row">
-                <div class="col-sm-3">
-                  <label for="province_${fieldCount}">Tỉnh/Thành phố:</label>
-                </div>
-                <div class="col-sm-9">
-                  <select id="province_${fieldCount}" name="locations[${fieldCount}][province]" class="province-select form-control" required>
-                    <option value="">Select Tỉnh/Thành phố</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group row">
-                <div class="col-sm-3">
-                  <label for="district_${fieldCount}">Quận/Huyện:</label>
-                </div>
-                <div class="col-sm-9">
-                  <select id="district_${fieldCount}" name="locations[${fieldCount}][district]" class="district-select form-control" required disabled>
-                    <option value="">Select Quận/Huyện</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group row">
-                <div class="col-sm-3">
-                  <label for="ward_${fieldCount}">Phường/Xã:</label>
-                </div>
-                <div class="col-sm-9">
-                  <select id="ward_${fieldCount}" name="locations[${fieldCount}][ward]" class="ward-select form-control" required disabled>
-                    <option value="">Select Phường/Xã</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group row">
-                <div class="col-sm-3"><label>Địa chỉ (*) </label></div>
-                <div class="col-sm-9">
-                  <input id="address_${fieldCount}" class="form-control" name="locations[${fieldCount}][address]" required />
-                </div>
-              </div>
-              <p class="text-right"><span class="btn bg-gradient-danger  delete-location-button">Xóa địa chỉ <i class="fas fa-minus"></i></span></p>
-            </div>`;
-
-          $locationFields.append(newGroup);
-          var $newProvinceSelect = $(`#province_${fieldCount}`);
-          var $newDistrictSelect = $(`#district_${fieldCount}`);
-          var $newWardSelect = $(`#ward_${fieldCount}`);
-
-          populateProvinces($newProvinceSelect, '');
-          handleLocationChange($newProvinceSelect, $newDistrictSelect, $newWardSelect);
-          fieldCount++;
-        } else {
-          alert('You can only add up to 5 locations.');
-        }
-      });
-    }).fail(function() {
-      console.error('Error fetching location data');
     });
   });
 </script>
