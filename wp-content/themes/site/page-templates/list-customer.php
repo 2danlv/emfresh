@@ -80,7 +80,7 @@ get_header('customer');
             ?>
                   <tr>
                     <td><a href="detail-customer/?customer_id=<?php echo $record['id'] ?>"><?php echo $record['nickname']; ?></a></td>
-                    <td><span class="copy"><?php echo $record['phone']; ?></span></td>
+                    <td><span class="copy" title="Copy: <?php echo $record['phone']; ?>"><?php echo $record['phone']; ?></span></td>
                     <td><?php echo $record['address']; ?></td>
                     <td><?php echo $record['status_name']; ?></td>
                     <td><?php echo $record['point']; ?>
@@ -105,7 +105,11 @@ get_header('customer');
     <!-- /.card-body -->
      </section>
 </div>
-
+<style>
+  .copy {
+    cursor: pointer;
+  }
+</style>
 
 <?php
 // endwhile;
@@ -124,7 +128,7 @@ get_footer('customer');
 
             tempInput.remove();
 
-            alert('Copied to clipboard: ' + textToCopy);
+            alert('Đã copy số điện thoại: ' + textToCopy);
         });
   });
 </script>
