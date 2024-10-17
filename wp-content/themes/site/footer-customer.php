@@ -52,6 +52,9 @@
       "lengthChange": false, 
       "autoWidth": true,
       //"buttons": ["csv", "excel", "pdf"],
+      'order': [[7, 'desc']],
+      "lengthChange": true,
+      'lengthMenu': [50, 100, 200],
       "columnDefs": [
         { type: 'natural', targets: 0 }
      ],

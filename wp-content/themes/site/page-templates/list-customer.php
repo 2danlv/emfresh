@@ -48,9 +48,11 @@ get_header('customer');
     <!-- Default box -->
     <div class="card">
       <div class="card-body">
-      <span class="mr-2"><a href="/import-export/" class="btn btn-primary">Export Excel/CSV</a></span>
+        <div class="mb-4">
+      <span class="mr-2"><a href="/import-export/" class="btn btn-success">Export Excel/CSV</a></span>
       <span class="mr-2"><a href="/import-export/" class="btn btn-primary">Import Excel/CSV</a></span>
       <span class="ml-2"><a href="#" class="btn btn-info">Quản lý tag</a></span>
+      </div>
         <table id="example1" class="table table-bordered table-striped text-capitalize">
           <thead>
             <tr>
