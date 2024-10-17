@@ -319,7 +319,7 @@ class EM_Customer extends EF_Default
         return $rules;
     }
 
-    function get_genders($key = 0)
+    function get_genders($key = -1)
     {
         $list = [
             1 => 'nam',
@@ -327,14 +327,14 @@ class EM_Customer extends EF_Default
             3 => 'không có thông tin'
         ];
 
-        if ($key > 0) {
+        if ($key > -1) {
             return isset($list[$key]) ? $list[$key] : '';
         }
 
         return $list;
     }
 
-    function get_statuses($key = 0)
+    function get_statuses($key = -1)
     {
         $list = [
             1 => 'đặt đơn',
@@ -344,14 +344,14 @@ class EM_Customer extends EF_Default
             5 => 'bảo lưu'
         ];
 
-        if ($key > 0) {
+        if ($key > -1) {
             return isset($list[$key]) ? $list[$key] : '';
         }
 
         return $list;
     }
 
-    function get_tags($key = 0)
+    function get_tags($key = -1)
     {
         $list = [
             1 => 'thân thiết',
@@ -361,21 +361,21 @@ class EM_Customer extends EF_Default
             5 => 'bảo lưu'
         ];
 
-        if ($key > 0) {
+        if ($key > -1) {
             return isset($list[$key]) ? $list[$key] : '';
         }
 
         return $list;
     }
 
-    function get_actives($key = 0)
+    function get_actives($key = -1)
     {
         $list = [
             1 => 'active',
             0 => 'inactive'
         ];
 
-        if ($key > 0) {
+        if ($key > -1) {
             return isset($list[$key]) ? $list[$key] : '';
         }
 
@@ -398,13 +398,13 @@ class EM_Customer extends EF_Default
                 $item[$key] = $value;
 
                 if ($key == 'gender') {
-                    $item['gender_name'] = ucwords($this->get_genders($value));
+                    $item['gender_name'] = em_ucwords($this->get_genders($value));
                 } else if ($key == 'status') {
-                    $item['status_name'] = ucwords($this->get_statuses($value));
+                    $item['status_name'] = em_ucwords($this->get_statuses($value));
                 } else if ($key == 'tag') {
-                    $item['tag_name'] = ucwords($this->get_tags($value));
+                    $item['tag_name'] = em_ucwords($this->get_tags($value));
                 } else if ($key == 'active') {
-                    $item['active_name'] = ucwords($this->get_actives($value));
+                    $item['active_name'] = em_ucwords($this->get_actives($value));
                 }
             }
         }
@@ -445,7 +445,7 @@ class EM_Customer extends EF_Default
                 'name'  => $name,
                 'value' => isset($item[$name]) ? $item[$name] : '',
                 'type'  => $type,
-                'label' => ucwords(str_replace('_', ' ', $name)),
+                'label' => em_ucwords(str_replace('_', ' ', $name)),
                 'required' => isset($rules[$name]) ? 'required' : '',
             ];
 

@@ -16,11 +16,11 @@ function em_api_init()
     //     'top'
     // );
 
-    add_rewrite_rule(
-        "swagger/?$",
-        'index.php?api_name=swagger',
-        'top'
-    );
+    // add_rewrite_rule(
+    //     "swagger/?$",
+    //     'index.php?api_name=swagger',
+    //     'top'
+    // );
 }
 add_action('init', 'em_api_init');
 
@@ -97,12 +97,12 @@ function em_api_get_class($name = '')
     $emClass = null;
 
     if ($name != '') {
-        $key = 'em_' . $name;
+        $className = 'em_' . $name;
 
-        global $$key;
+        global $$className;
 
-        if(isset($$key)) {
-            $emClass = $$key;
+        if(isset($$className)) {
+            $emClass = $$className;
         }
     }
 

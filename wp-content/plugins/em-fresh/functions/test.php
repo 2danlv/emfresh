@@ -3,7 +3,7 @@
 function em_test_init()
 {
     if (isset($_GET['dev'])) {
-        @ob_start();
+        // @ob_start();
 
         $name = isset($_GET['name']) ? trim($_GET['name']) : '';
 
@@ -15,7 +15,9 @@ function em_test_init()
             em_test_customer();
         }
 
-        wp_die('<h1>Test - ' . $name . '</h1>' . ob_get_clean());
+        // wp_die('<h1>Test - ' . $name . '</h1>' . ob_get_clean());
+
+        exit();
     }
 }
 add_action('wp', 'em_test_init');
@@ -48,26 +50,26 @@ function em_test_customer()
         }
 
         $response[$dev . '-data'] = $data;
-        em_test_var_export($response);
+        em_test_print_response($response);
     } else if ($dev == 'item') {
         $data['id'] = $id;
 
         $response = em_api_request('customer/item', $data);
 
         $response[$dev . '-id'] = $id;
-        em_test_var_export($response);
+        em_test_print_response($response);
     } else if ($dev == 'delete') {
         $data['id'] = $id;
 
         $response = em_api_request('customer/delete', $data);
 
         $response[$dev . '-id'] = $id;
-        em_test_var_export($response);
+        em_test_print_response($response);
     } else if ($dev == 'history') {
         $response = em_api_request('customer/history', ['customer_id' => $id]);
 
         $response['dev'] = $dev;
-        em_test_var_export($response);
+        em_test_print_response($response);
     } else {
             
         $paged = isset($_GET['paged']) ? intval($_GET['paged']) : 1;
@@ -95,12 +97,12 @@ function em_test_customer()
             }
         }
 
-        em_test_var_export($list_args);
+        em_test_print_response($list_args);
         
         $response = em_api_request('customer/list', $list_args);
 
         $response['dev'] = $dev;
-        em_test_var_export($response);
+        em_test_print_response($response);
     }
 }
 
@@ -110,7 +112,7 @@ function em_test_location()
 
     $customer_id = isset($_GET['customer_id']) ? intval($_GET['customer_id']) : 0;
     if($customer_id == 0) {
-        em_test_var_export(['code' => 400, 'message' => 'required: customer_id > 0 (add, update)']);
+        em_test_print_response(['code' => 400, 'message' => 'required: customer_id > 0 (add, update)']);
     }
 
     $id = isset($_GET['id']) ? intval($_GET['id']) : 1;
@@ -134,21 +136,21 @@ function em_test_location()
         }
 
         $response[$dev . '-data'] = $data;
-        em_test_var_export($response);
+        em_test_print_response($response);
     } else if ($dev == 'item') {
         $data['id'] = $id;
 
         $response = em_api_request('location/item', $data);
 
         $response[$dev . '-id'] = $id;
-        em_test_var_export($response);
+        em_test_print_response($response);
     } else if ($dev == 'delete') {
         $data['id'] = $id;
 
         $response = em_api_request('location/delete', $data);
 
         $response[$dev . '-id'] = $id;
-        em_test_var_export($response);
+        em_test_print_response($response);
     } else {
         $paged = isset($_GET['paged']) ? intval($_GET['paged']) : 1;
         $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 10;
@@ -160,14 +162,13 @@ function em_test_location()
         ]);
         
         $response['dev'] = $dev;
-        em_test_var_export($response);
+        em_test_print_response($response);
     }
 }
 
-function em_test_var_export($data)
+function em_test_print_response($response)
 {
     echo '<pre>';
-    // func_get_args()
-    var_export($data);
+    var_export($response);
     echo '</pre>';
 }
