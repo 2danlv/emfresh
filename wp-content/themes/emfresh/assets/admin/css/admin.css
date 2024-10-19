@@ -1,0 +1,86 @@
+.clearfix:before,
+.clearfix:after{
+	display: block;
+	content: '';
+	clear: both;
+	height: 0;
+	overflow: hidden
+}
+
+.site_settings{
+	display: block
+}
+	.site_settings img{
+		max-width: 100%;
+	}
+	.site_settings em,
+	.site_settings i{
+		font-style: italic;
+	}
+	.site_settings strong,
+	.site_settings b{
+		font-weight: bold;
+	}
+	.site_advanced label{
+		display: inline-block;
+		min-width: 200px;
+		max-width: 100%;
+		vertical-align: top;
+	}
+	.site_advanced .inputbox{
+		display: inline-block;
+		width: 360px;
+		max-width: 100%;
+	}
+	.site_advanced .textareabox{
+		min-height: 100px;
+	}
+	.site_settings .col-md-6{
+		float: left;
+		width: 50%;
+		padding: 0 10px;
+		-webkit-box-sizing: border-box;
+		box-sizing: border-box;
+	}
+	.site_tabmenu {
+		padding: 0 0 0 10px;
+		border-bottom: 1px solid #999;
+	}
+		.site_tabmenu ul{
+			margin: 0;
+			padding: 0;
+		}
+			.site_tabmenu li{
+				display: inline-block;
+				padding: 5px 10px;
+				border: 1px solid #999;
+				margin-bottom: -1px;
+				cursor: pointer;
+				background: #e5e5e5;
+				color: #555;
+				font-weight: bold;
+			}
+			.site_tabmenu li:hover{
+				background: #fff;
+				color: #444;
+			}
+			.site_tabmenu li.active{
+				border-bottom: 1px solid #f1f1f1;
+				background: #f1f1f1;
+				color: #000;
+			}
+	.site_tabitem {
+		padding: 10px;
+		display: none;
+	}
+	.site_tabitem.active {
+		display: block;
+	}
+	
+@media screen and ( max-width: 766px )
+{
+	.site_settings .col-md-6{
+		float: none;
+		width: auto;
+	}
+}
