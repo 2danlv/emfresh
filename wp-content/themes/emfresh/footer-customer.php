@@ -47,7 +47,7 @@
             $('.nav-treeview a[href*="/' + last_part + '/"]:first').addClass('active');
         
     }
-    $("#example1").DataTable({
+    const table = new DataTable('#example1', {
       "responsive": true, 
       "lengthChange": false, 
       "autoWidth": true,
@@ -62,7 +62,18 @@
         }
      ],
     });
+    $('.filter input[type="checkbox"]').on('change', function(e) {
+      
+      
+      // Get the column API object
+      var col = table.column($(this).attr('data-column'));
+      
+      // Toggle the visibility
+      col.visible(!col.visible());
+    });
+
   });
+  
 </script>
 <?php
 global $site_scripts;

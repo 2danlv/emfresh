@@ -62,8 +62,8 @@ while (have_posts()) : the_post();
                         </div>
                     </div>
                     <div class="form-group">
-                        <button type="button" name="action" value="import" class="btn btn-primary js-import">Import</button>
-                        <button type="button" name="action" value="export" class="btn btn-success js-export">Export</button>
+                        <button type="button" name="action" value="import" class="btn btn-primary js-import"><i class="fas fa-upload"></i> Import</button>
+                        <!-- <button type="button" name="action" value="export" class="btn btn-success js-export">Export</button> -->
                     </div>
                     <?php wp_nonce_field('importoken', 'importoken', false); ?>
                 </form>
