@@ -217,6 +217,25 @@ function site__get( $name = '', $default = '' )
 	return $value;
 }
 
+function site__post($name = '', $default = '')
+{
+	$value = $default;
+
+	if (isset($_POST[$name])) {
+		$value = sanitize_text_field($_POST[$name]);
+		if (is_numeric($default)) {
+			$value = (int) $value;
+		}
+	}
+
+	return $value;
+}
+
+function site__post_e($name = '', $default = '')
+{
+	echo site__post($name, $default);
+}
+
 function site_remove_to_tel( $value = '' )
 {
 	return str_replace( array( '+','-','(',')',' ','[',']' ), '', $value);
@@ -738,8 +757,6 @@ function save_custom_location_meta_box($post_id) {
     update_post_meta($post_id, 'location', $locations);
 }
 
-
-
 function custom_location_column_content($column, $post_id) {
     if ($column === 'locations') {
         $locations = get_post_meta($post_id, 'location', true);
@@ -755,8 +772,38 @@ function custom_location_column_content($column, $post_id) {
 }
 add_action('manage_post_posts_custom_column', 'custom_location_column_content', 10, 2); 
 
-
 function custom_ucwords_utf8($str)
 {
     return mb_convert_case($str, MB_CASE_TITLE, "UTF-8");
+}
+
+function custom_get_list_cook()
+{
+    return ['Không', 'Chỉ Khăn Lạnh', 'Chỉ Dụng Cụ'];
+}
+
+function custom_get_list_notes()
+{
+    return ['Không Cà Rốt', 'Không Hành'];
+}
+
+function custom_get_list_payment_status()
+{
+	return [
+		'Đang Chờ' => 'Đang Chờ',
+		'Đang Xử Lý' => 'Đang Xử Lý',
+		'Đã Thanh Toán' => 'Đã Thanh Toán',
+		'Đang Vận Chuyển' => 'Đang Vận Chuyển',
+		'Hoàn Thành' => 'Hoàn Thành',
+		'Hủy' => 'Hủy',
+	];
+
+	// return [
+	// 	'pending' => 'Đang chờ',
+	// 	'processing' => 'Đang xử lý',
+	// 	'paid' => 'Đã thanh toán',
+	// 	'shipping' => 'Đang vận chuyển',
+	// 	'completed' => 'Hoàn thành',
+	// 	'cancel' => 'Hủy',
+	// ];
 }
