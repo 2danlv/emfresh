@@ -11,11 +11,24 @@
 get_header('customer');
 // Start the Loop.
 // while ( have_posts() ) : the_post();
-// xóa customer
-if (isset($_GET['change']) && trim($_GET['change']) == 'error') {
-  $hide_errer = '';
-}
 
+// cập nhật data cho customer
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
+  $list_id = isset($_POST['list_id']) ? sanitize_textarea_field($_POST['list_id']) : '';
+  $array_id = explode(',', $list_id);
+  $status_post = isset($_POST['status']) ? intval($_POST['status']) : 0;
+  $tag_post    = isset($_POST['tag']) ? intval($_POST['tag']) : 0;
+  $order_payment_status = isset($_POST['order_payment_status']) ? sanitize_textarea_field($_POST['order_payment_status']):'';
+  foreach ($array_id as $key => $id) {
+    $customer_update_data = [
+      'id'            => intval($id),
+      'status'        => $status_post,
+      'tag'           => $tag_post,
+      'order_payment_status' => $order_payment_status,
+    ];
+    $response_update = em_api_request('customer/update', $customer_update_data);
+  }
+}
 ?>
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
@@ -37,16 +50,6 @@ if (isset($_GET['change']) && trim($_GET['change']) == 'error') {
 
   <!-- Main content -->
   <section class="content">
-    <?php
-    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['remove'])) {
-      $customer_id   = sanitize_text_field($_POST['customer_id']);
-      $customer_data = [
-        'id' => $customer_id,
-      ];
-      $response = em_api_request('customer/delete', $customer_data);
-    }
-
-    ?>
     <!-- Default box -->
     <div class="card">
       <div class="card-body">
@@ -152,6 +155,7 @@ if (isset($_GET['change']) && trim($_GET['change']) == 'error') {
       </div>
       <div class="modal-body">
         <form method="POST" action="<?php the_permalink() ?>">
+          <input type="hidden" name="list_id" class="list_id" value="">
           <div class="form-group row">
             <div class="col-sm-3">field</div>
             <div class="col-sm-9">
@@ -166,32 +170,37 @@ if (isset($_GET['change']) && trim($_GET['change']) == 'error') {
             <div class="col-sm-3">Value</div>
             <div class="col-sm-9">
               <div class="box status_order">
-                <select class="form-control ">
-                  <option value="">Select</option>
-                  <option>Đặt đơn</option>
-                  <option>Dí món</option>
-                  <option>Chưa rõ</option>
-                  <option>Bảo lưu</option>
-                  <option>Ngừng</option>
+                <select class="form-control  text-capitalize" name="status">
+                  <option value="0">Select one</option>
+                  <option value="1">đặt đơn</option>
+                  <option value="2">dí món</option>
+                  <option value="3">chưa rõ</option>
+                  <option value="4">ngừng</option>
+                  <option value="5">bảo lưu</option>
+                  </select>
                 </select>
               </div>
               <div class="box status_pay">
-                <select class="form-control">
-                  <option value="">Select</option>
-                  <option>Rồi</option>
-                  <option>Chưa</option>
-                  <option>COD</option>
-                  <option>1 phần</option>
+                <select class="form-control  text-capitalize" name="order_payment_status">
+                <option value="">Select one</option>
+                <option value="Đang Chờ">Đang Chờ</option>
+                <option value="Đang Xử Lý">Đang Xử Lý</option>
+                <option value="Đã Thanh Toán">Đã Thanh Toán</option>
+                <option value="Đang Vận Chuyển">Đang Vận Chuyển</option>
+                <option value="Hoàn Thành">Hoàn Thành</option>
+                <option value="Hủy">Hủy</option>
+                </select>
                 </select>
               </div>
               <div class="box tag">
-                <select class="form-control ">
-                  <option value="">Select</option>
-                  <option>Thân thiết</option>
-                  <option>Ăn nhóm</option>
-                  <option>Khách có bệnh lý</option>
-                  <option>Bảo lưu</option>
-                  <option>Khách hãm</option>
+                <select class="form-control  text-capitalize" name="tag">
+                <option value="0">Select one</option>
+                <option value="1">thân thiết</option>
+                <option value="2">ăn nhóm</option>
+                <option value="3">khách có bệnh lý</option>
+                <option value="4">khách hãm</option>
+                <option value="5">bảo lưu</option>
+                </select>
                 </select>
               </div>
 
@@ -299,7 +308,27 @@ get_footer('customer');
       $('.box select').prop('selectedIndex',0);
       $('.' + $(this).val()).show();
     }).change();
-
+    $(".checkbox-element").change(function() {
+      updateAllChecked();
+    });
+    
+    $("#checkall").change(function() {
+      if (this.checked) {
+        $(".checkbox-element").prop('checked', true).change();
+      } else {
+        $(".checkbox-element").prop('checked', false).change();
+      }
+    });
+    
+    function updateAllChecked() {
+      $('.list_id').val('');
+      $(".checkbox-element").each(function() {
+        if (this.checked) {
+          let old_text = $('.list_id').val() ? $('.list_id').val() + ',' : '';
+          $('.list_id').val(old_text + $(this).val());
+        }
+      })
+    }
     $('.copy').on('click', function() {
       const textToCopy = $(this).text();
 
