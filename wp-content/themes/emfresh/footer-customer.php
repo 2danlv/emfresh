@@ -52,11 +52,14 @@
       "lengthChange": false, 
       "autoWidth": true,
       //"buttons": ["csv", "excel", "pdf"],
-      'order': [[7, 'desc']],
+      'order': [[8, 'desc']],
       "lengthChange": true,
       'lengthMenu': [50, 100, 200],
       "columnDefs": [
-        { type: 'natural', targets: 0 }
+        { type: 'natural', 
+          "targets": [0,1,2,3],
+          "orderable": false
+        }
      ],
     });
   });

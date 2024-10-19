@@ -390,7 +390,7 @@ get_header('customer');
                     <div id="location-fields">
                       <?php foreach ($response_get_location['data'] as $index => $record) { ?>
                         <hr>
-                        <div class="address-group">
+                        <div class="address-group location_<?php echo ($record['active']) ?>">
                           <input type="hidden" name="locations[<?php echo $index ?>][id]" value="<?php echo $record['id'] ?>" />
                           <div class="form-group row">
                             <div class="col-sm-3"></div>
@@ -583,6 +583,9 @@ get_header('customer');
   .error-message {
     color: red;
   }
+  .location_1 .delete-location-button{
+    display: none;
+  }
 </style>
 <?php
 // endwhile;
@@ -592,7 +595,7 @@ get_footer('customer');
 <script src="/assets/js/location.js"></script>
 <script type="text/javascript">
   $(document).ready(function() {
-
+   
     $('.js-list-note').each(function(){
       let p = $(this);
 
@@ -626,12 +629,9 @@ get_footer('customer');
       });
     });
 
-    $('[name="location_active"]').on('change', function(){
-      $('.location_active').val(0);
-      if(this.checked) {
-        $(this).next('.location_active').val(1);
-      }
-    });
+    
+    
+  
 
     var hash = window.location.hash;
     if (hash) {

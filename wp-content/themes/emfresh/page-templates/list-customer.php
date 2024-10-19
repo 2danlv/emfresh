@@ -56,6 +56,7 @@ get_header('customer');
         <table id="example1" class="table table-bordered table-striped text-capitalize">
           <thead>
             <tr>
+              <th>#</th>
               <th>Tên khách hàng</th>
               <th>Số điện thoại</th>
               <th>Địa chỉ</th>
@@ -79,12 +80,13 @@ get_header('customer');
                 if (is_array($record)) { // Check if each record is an array
             ?>
                   <tr>
+                    <td><input type="checkbox" value="<?php echo $record['id'] ?>"></td>
                     <td><a href="detail-customer/?customer_id=<?php echo $record['id'] ?>"><?php echo $record['nickname']; ?></a></td>
                     <td><span class="copy" title="Copy: <?php echo $record['phone']; ?>"><?php echo $record['phone']; ?></span></td>
                     <td><?php echo $record['address']; ?></td>
-                    <td><?php echo $record['status_name']; ?></td>
+                    <td><span class="tag btn btn-sm status_<?php echo $record['status']; ?>"><?php echo $record['status_name']; ?></td></td>
                     <td><?php echo $record['point']; ?>
-                    <td><?php echo $record['tag_name']; ?></td>
+                    <td><span class="tag btn btn-sm tag_<?php echo $record['tag']; ?>"><?php echo $record['tag_name']; ?></span></td>
                     <td><?php echo $record['created_author']; ?></td>
                     <td><?php echo $record['modified']; ?>
                     </td>
@@ -109,6 +111,22 @@ get_header('customer');
   .copy {
     cursor: pointer;
   }
+  .tag {
+    border-radius: 3px;
+    padding:0 4px;
+    color: #fff;
+  }
+  .tag_1{background-color: green;}
+  .tag_2{background-color: #0056b3;}
+  .tag_3{background-color: yellow; color: #000;}
+  .tag_4{background-color: red;}
+  .tag_5{background-color: orange;}
+  .status_1{background-color: green;}
+  .status_2{background-color: yellow; color: #000;}
+  .status_3{background-color: yellow; opacity: 0.65; color: #000;}
+  .status_4{background-color:gray;  }
+  .status_5{background-color: orange;color: #fff;}
+
 </style>
 
 <?php

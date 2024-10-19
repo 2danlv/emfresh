@@ -159,7 +159,7 @@ get_header("customer");
               </div>
               <div id="location-fields">
                 <hr>
-                <div class="address-group">
+                <div class="address-group location_1">
                   <div class="form-group row">
                     <div class="col-sm-3"></div>
                     <div class="col-sm-9">
@@ -208,6 +208,7 @@ get_header("customer");
                       <input id="address_0" class="form-control" name="locations[0][address]" required />
                     </div>
                   </div>
+                  <p class="text-right"><span class="btn bg-gradient-danger  delete-location-button">Xóa địa chỉ <i class="fas fa-minus"></i></span></p>
                 </div>
               </div>
               <p><span class="btn bg-gradient-primary" id="add-location-button">Thêm địa chỉ <i class="fas fa-plus"></i></span></p>
@@ -326,6 +327,11 @@ get_header("customer");
 <?php
 get_footer('customer');
 ?>
+<style>
+  .location_1 .delete-location-button{
+    display: none;
+  }
+</style>
 <script src="/assets/js/assistant.js"></script>
 <script src="/assets/js/location.js"></script>
 <script type="text/javascript">
