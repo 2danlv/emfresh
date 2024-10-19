@@ -112,12 +112,12 @@ class EM_Customer extends EF_Default
         $location_wheres = $this->get_where($args, 'location.');
 
         $query = " SELECT customer.*  "
-                ." ,location.address "
-                ." ,location.ward "
-                ." ,location.district "
-                ." ,location.city "
-                ." FROM $table_customer AS customer "
-                ." LEFT JOIN $table_location AS location ON location.customer_id = customer.id ";
+            . " ,location.address "
+            . " ,location.ward "
+            . " ,location.district "
+            . " ,location.city "
+            . " FROM $table_customer AS customer "
+            . " LEFT JOIN $table_location AS location ON location.customer_id = customer.id ";
 
         if (count($location_wheres) > 0) {
             $wheres = array_merge($wheres, $location_wheres);
@@ -234,9 +234,13 @@ class EM_Customer extends EF_Default
                 'district'  => '=',
                 'city'      => '=',
             ];
+
+            $wheres[] = "location.active = 1";
         } else {
             extract(shortcode_atts(array(
-                'parent'    => 0,
+                'parent' => 0,
+                'date_from' => '',
+                'date_to' => '',
             ), $args));
 
             $wheres[] = "{$tbl_prefix}`parent` = $parent";
@@ -259,9 +263,17 @@ class EM_Customer extends EF_Default
             foreach ($date_filters as $name => $format) {
                 if (!empty($args[$name])) {
                     $value = sanitize_text_field($args[$name]);
-                    
+
                     $wheres[] =  "DATE_FORMAT({$tbl_prefix}`created`, '$format') = '$value'";
                 }
+            }
+
+            if ($date_from != '') {
+                $wheres[] =  "DATE_FORMAT({$tbl_prefix}`created`, '%Y-%m-%d') >= '$date_from'";
+            }
+
+            if ($date_to != '') {
+                $wheres[] =  "DATE_FORMAT({$tbl_prefix}`created`, '%Y-%m-%d') <= '$date_to'";
             }
         }
 
@@ -292,6 +304,7 @@ class EM_Customer extends EF_Default
             'note'          => '',
             'note_shipping' => '',
             'note_cook'     => '',
+            'order_payment_status' => '',
             'tag'           => 0,
             'point'         => 0,
             'parent'        => 0,
@@ -307,7 +320,7 @@ class EM_Customer extends EF_Default
     function get_rules($action = '')
     {
         $rules = array(
-            'fullname'      => 'required',
+            'nickname'      => 'required',
             'phone'         => 'phone',
             'gender'        => 'number'
         );
@@ -319,7 +332,7 @@ class EM_Customer extends EF_Default
         return $rules;
     }
 
-    function get_genders($key = -1)
+    function get_genders($key = null)
     {
         $list = [
             1 => 'nam',
@@ -327,14 +340,14 @@ class EM_Customer extends EF_Default
             3 => 'không có thông tin'
         ];
 
-        if ($key > -1) {
+        if ($key != null) {
             return isset($list[$key]) ? $list[$key] : '';
         }
 
         return $list;
     }
 
-    function get_statuses($key = -1)
+    function get_statuses($key = null)
     {
         $list = [
             1 => 'đặt đơn',
@@ -344,14 +357,14 @@ class EM_Customer extends EF_Default
             5 => 'bảo lưu'
         ];
 
-        if ($key > -1) {
+        if ($key != null) {
             return isset($list[$key]) ? $list[$key] : '';
         }
 
         return $list;
     }
 
-    function get_tags($key = -1)
+    function get_tags($key = null)
     {
         $list = [
             1 => 'thân thiết',
@@ -361,21 +374,21 @@ class EM_Customer extends EF_Default
             5 => 'bảo lưu'
         ];
 
-        if ($key > -1) {
+        if ($key != null) {
             return isset($list[$key]) ? $list[$key] : '';
         }
 
         return $list;
     }
 
-    function get_actives($key = -1)
+    function get_actives($key = null)
     {
         $list = [
             1 => 'active',
             0 => 'inactive'
         ];
 
-        if ($key > -1) {
+        if ($key != null) {
             return isset($list[$key]) ? $list[$key] : '';
         }
 

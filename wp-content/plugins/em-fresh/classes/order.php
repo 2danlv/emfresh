@@ -4,14 +4,14 @@ defined('ABSPATH') or die();
 require_once 'default.php';
 
 /**
- * @package EM_Location
+ * @package EM_Order
  */
 
-class EM_Location extends EF_Default
+class EM_Order extends EF_Default
 {
-    protected $table = 'em_location';
+    protected $table = 'em_order';
 
-    protected $option_name = 'em_location_create_table';
+    protected $option_name = 'em_order_create_table';
 
     protected $table_ver = '1.0';
 
@@ -38,10 +38,13 @@ class EM_Location extends EF_Default
         CREATE TABLE `{$table_name}` (
             `id` bigint NOT NULL AUTO_INCREMENT,
             `customer_id` bigint NOT NULL,
-            `address` text COLLATE utf8mb4_general_ci NOT NULL,
-            `ward` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-            `district` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-            `city` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+            `location_id` bigint NOT NULL,
+            `status` tinyint(1) NOT NULL DEFAULT '1',
+            `note` text COLLATE utf8mb4_general_ci,
+            `created` datetime DEFAULT NULL,
+            `created_at` bigint DEFAULT NULL,
+            `modified` datetime DEFAULT NULL,
+            `modified_at` bigint DEFAULT NULL,
             PRIMARY KEY (`id`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;";
 
@@ -61,7 +64,6 @@ class EM_Location extends EF_Default
         ];
 
         $filters = [
-            'active' => '=',
         ];
 
         foreach ($filters as $name => $rule) {
@@ -83,11 +85,9 @@ class EM_Location extends EF_Default
     {
         $fields = array(
             'customer_id'   => 0,
-            'active'        => 0,
-            'address'       => '',
-            'ward'          => '',
-            'district'      => '',
-            'city'          => '',
+            'location_id'   => 0,
+            'status'        => 0,
+            'note'          => '',
         );
 
         return $fields;
@@ -97,10 +97,8 @@ class EM_Location extends EF_Default
     {
         $rules = array(
             'customer_id'   => 'required',
-            'address'       => 'required',
-            'ward'          => 'required',
-            'district'      => 'required',
-            'city'          => 'required',
+            'location_id'   => 'required',
+            'status'        => 'required',
         );
 
         return $rules;
@@ -116,6 +114,6 @@ class EM_Location extends EF_Default
     }
 }
 
-global $em_location;
+global $em_order;
 
-$em_location = new EM_Location();
+$em_order = new EM_Order();
