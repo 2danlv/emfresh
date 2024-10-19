@@ -11,7 +11,9 @@
 get_header('customer');
 // Start the Loop.
 // while ( have_posts() ) : the_post();
-
+$status = $em_customer->get_statuses();
+$list_payment_status = custom_get_list_payment_status();
+$tag = $em_customer->get_tags();
 // cập nhật data cho customer
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
   $list_id = isset($_POST['list_id']) ? sanitize_textarea_field($_POST['list_id']) : '';
@@ -62,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
           </form>
           <span class="ml-2"><a href="/import/" class="btn btn-primary"><i class="fas fa-upload"></i> ImportCSV</a></span>
           <span class="ml-2"><span class="btn btn-warning" data-toggle="modal" data-target="#modal-default"><i class="fas fa-filter"></i> Cột hiển thị</span></span>
-          <span class="ml-2"><span class="btn btn-info" data-toggle="modal" data-target="#modal-edit"><i class="fas fa-edit"></i> Chỉnh sửa nhanh</span></span>
+          <span class="ml-2"><span class="btn btn-info quick-edit" data-toggle="modal" data-target="#modal-edit"><i class="fas fa-edit"></i> Chỉnh sửa nhanh</span></span>
         </div>
         <table id="example1" class="table table-bordered table-striped text-capitalize">
           <thead>
@@ -172,34 +174,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
               <div class="box status_order">
                 <select class="form-control  text-capitalize" name="status">
                   <option value="0">Select one</option>
-                  <option value="1">đặt đơn</option>
-                  <option value="2">dí món</option>
-                  <option value="3">chưa rõ</option>
-                  <option value="4">ngừng</option>
-                  <option value="5">bảo lưu</option>
+                  <?php
+                    foreach ($status as $key => $value) { ?>
+                      <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
+                    <?php } ?>
                   </select>
                 </select>
               </div>
               <div class="box status_pay">
+
                 <select class="form-control  text-capitalize" name="order_payment_status">
                 <option value="">Select one</option>
-                <option value="Đang Chờ">Đang Chờ</option>
-                <option value="Đang Xử Lý">Đang Xử Lý</option>
-                <option value="Đã Thanh Toán">Đã Thanh Toán</option>
-                <option value="Đang Vận Chuyển">Đang Vận Chuyển</option>
-                <option value="Hoàn Thành">Hoàn Thành</option>
-                <option value="Hủy">Hủy</option>
+                <?php
+                    foreach ($list_payment_status as $key => $value) { ?>
+                      <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
+                    <?php } ?>
                 </select>
                 </select>
               </div>
               <div class="box tag">
                 <select class="form-control  text-capitalize" name="tag">
                 <option value="0">Select one</option>
-                <option value="1">thân thiết</option>
-                <option value="2">ăn nhóm</option>
-                <option value="3">khách có bệnh lý</option>
-                <option value="4">khách hãm</option>
-                <option value="5">bảo lưu</option>
+                <?php
+                    foreach ($tag as $key => $value) { ?>
+                      <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
+                    <?php } ?>
                 </select>
                 </select>
               </div>
@@ -213,7 +212,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
             <div class="col-sm-6 text-right">
-              <button type="submit" class="btn btn-primary" name="add_post">Cập nhật</button>
+              <button type="submit" class="btn btn-primary add_post" name="add_post">Cập nhật</button>
             </div>
 
           </div>
@@ -320,6 +319,25 @@ get_footer('customer');
       }
     });
     
+      $('.quick-edit').click(function (e) { 
+        e.preventDefault();
+        if($('.list_id').val() == '') {
+          alert('Hãy chọn ô khách hàng để chỉnh sửa nhanh!');
+          return false;
+        }
+      });
+      $("#modal-edit .add_post").click(function (e) { 
+        //e.preventDefault();
+        var status_order = $('#modal-edit .status_order select').val();
+        var status_pay = $('#modal-edit .status_pay select').val();
+        var tag = $('#modal-edit .tag select').val();
+        if (status_order == 0 && status_pay == '' && tag == 0) {
+          alert('Hãy chọn value!');
+          return false;
+        }
+      });
+      
+      
     function updateAllChecked() {
       $('.list_id').val('');
       $(".checkbox-element").each(function() {
