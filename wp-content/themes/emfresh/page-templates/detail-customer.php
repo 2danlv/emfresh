@@ -13,17 +13,18 @@ global $em_customer;
 // cập nhật data cho customer
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
   $customer_id = intval($_POST['customer_id']);
-  $nickname   = sanitize_text_field($_POST['nickname']);
-  $fullname   = sanitize_text_field($_POST['fullname']);
-  $phone    = sanitize_text_field($_POST['phone']);
+  $nickname   = isset($_POST['nickname']) ? sanitize_text_field($_POST['nickname']):'';
+  $fullname   = isset($_POST['fullname']) ? sanitize_text_field($_POST['fullname']):'';
+  $phone      = isset($_POST['phone']) ? sanitize_text_field($_POST['phone']):'';
   $gender_post = isset($_POST['gender']) ? intval($_POST['gender']) : 0;
   $status_post = isset($_POST['status']) ? intval($_POST['status']) : 0;
   $active_post = isset($_POST['active']) ? intval($_POST['active']) : 0;
   $tag_post    = isset($_POST['tag']) ? intval($_POST['tag']) : 0;
-  $point = sanitize_text_field($_POST['point']);
-  $note = sanitize_textarea_field($_POST['note']);
-  $note_shipping = sanitize_textarea_field($_POST['note_shipping']);
-  $note_cook = sanitize_textarea_field($_POST['note_cook']);
+  $point = isset($_POST['point']) ? intval($_POST['point']) : 0;
+  $note = isset($_POST['note']) ? sanitize_textarea_field($_POST['note']):'';
+  $note_shipping = isset($_POST['note_shipping']) ? sanitize_textarea_field($_POST['note_shipping']):'';
+  $note_cook = isset($_POST['note_cook']) ? sanitize_textarea_field($_POST['note_cook']):'';
+  $order_payment_status = isset($_POST['order_payment_status']) ? sanitize_textarea_field($_POST['order_payment_status']):'';
 
   $customer_data = [
     'id'            => $customer_id,
@@ -36,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
     'note'          => $note,
     'note_shipping' => $note_shipping,
     'note_cook'     => $note_cook,
+    'order_payment_status'     => $order_payment_status,
     'tag'           => $tag_post,
     'point'         => $point,
   ];
@@ -47,21 +49,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 
   foreach ($_POST['locations'] as $location) {
     // thêm data cho location
-    if (isset($location['address'])) {
-      $address       = sanitize_text_field($location['address']);
-    }
-    if (isset($location['ward'])) {
-      $ward       = sanitize_text_field($location['ward']);
-    }
-    if (isset($location['district'])) {
-      $district       = sanitize_text_field($location['district']);
-    }
-    if (isset($location['province'])) {
-      $city       = sanitize_text_field($location['province']);
-    }
-
+    $address = isset($location['address']) ? sanitize_text_field($location['address']) : '';
+    $ward = isset($location['ward']) ? sanitize_text_field($location['ward']) : '';
+    $district = isset($location['district']) ? sanitize_text_field($location['district']) : '';
+    $city = isset($location['province']) ? sanitize_text_field($location['province']) : '';
+    $active = isset($location['active']) ? intval($location['active']) : 0;
+    
     $location_data = [
       'customer_id'   => $customer_id,
+      'active'        => $active,
       'address'       => $address,
       'ward'          => $ward,
       'district'      => $district,
@@ -74,7 +70,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
     } else {
       $response_location = em_api_request('location/add', $location_data);
     }
-    //var_dump($location['id']);
   }
 
   // xóa location
@@ -88,11 +83,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
     }
   }
 
-  //   $location_data = [
-  //     'id' => 1
-  // ];
-  // $response = em_api_request('location/delete', $location_filter);
-  echo "<meta http-equiv='refresh' content='0'>";
+  // echo "<meta http-equiv='refresh' content='0'>";
+
+  wp_redirect(add_query_arg([
+    'customer_id' => $customer_id,
+    'code' => 200,
+    'message' => 'Update Success',
+  ], get_permalink()));
+  exit();
 }
 
 $status = $em_customer->get_statuses();
@@ -116,8 +114,9 @@ $location_filter = [
 ];
 $response_get_location = em_api_request('location/list', $location_filter);
 
-$list_cook = ['Không', 'Chỉ Khăn Lạnh', 'Chỉ Dụng Cụ'];
-$list_notes = ['Không Cà Rốt', 'Không Hành'];
+$list_cook = custom_get_list_cook();
+$list_notes = custom_get_list_notes();
+$list_payment_status = custom_get_list_payment_status();
 
 get_header('customer');
 // Start the Loop.
@@ -142,6 +141,13 @@ get_header('customer');
   </section>
   <!-- Main content -->
   <section class="content">
+    <?php
+    if (isset($_GET['code']) && $_GET['code'] == 200) {
+      echo '<div class="alert alert-success mt-3" role="alert">Cập nhật thành công</div>';
+    } else if (isset($_GET['code'])) {
+      echo '<div class="alert alert-warning mt-3" role="alert">Cập nhật không thành công</div>';
+    }
+    ?>
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-3">
@@ -185,14 +191,17 @@ get_header('customer');
               <hr>
               <strong><i class="fas fa-map-marker-alt mr-1"></i> Địa chỉ</strong>
               <?php
-              foreach ($response_get_location['data'] as $index => $record) { ?>
+                foreach ($response_get_location['data'] as $index => $record) { 
+                  if($record['active'] == 1) {?>
                 <p>
                   <?php echo $record['address'] ?>,
                   <?php echo $record['ward'] ?>,
                   <?php echo $record['district'] ?>,
                   <?php echo $record['city'] ?>
                 </p>
-              <?php }
+              <?php
+                  }
+                }
               ?>
               <hr>
               <strong><i class="fas fa-pencil-alt mr-1"></i> Tag phân loại</strong>: <br><span class="text-capitalize"><?php echo $response_customer['data']['tag_name'] ?></span><br>
@@ -382,10 +391,19 @@ get_header('customer');
                       <?php foreach ($response_get_location['data'] as $index => $record) { ?>
                         <hr>
                         <div class="address-group">
+                          <input type="hidden" name="locations[<?php echo $index ?>][id]" value="<?php echo $record['id'] ?>" />
                           <div class="form-group row">
-                            <div class="col-sm-9"><input type="hidden" name="locations[<?php echo $index ?>][id]" value="<?php echo $record['id'] ?>" placeholder="id" readonly /></div>
+                            <div class="col-sm-3"></div>
+                            <div class="col-sm-9">
+                              <div class="icheck-primary d-inline mr-2">
+                                <input type="radio" name="location_active" id="active_<?php echo $record['id'] ?>" value="<?php echo $record['id'] ?>" <?php checked($record['active'], 1) ?>>
+                                <input type="hidden" class="location_active" name="locations[<?php echo $index ?>][active]" value="<?php echo $record['active'] ?>" />
+                                <label for="active_<?php echo $record['id'] ?>">
+                                  Mặc định
+                                </label>
+                              </div>
+                            </div>
                           </div>
-                          
                           <div class="form-group row">
                             <div class="col-sm-3"><label for="province_<?php echo $record['id'] ?>">Tỉnh/Thành phố:</label></div>
                             <div class="col-sm-9">
@@ -452,6 +470,17 @@ get_header('customer');
                       <div class="col-sm-9"><textarea name="note_shipping" class="form-control" rows="2"><?php echo $response_customer['data']['note_shipping']; ?></textarea></div>
                     </div>
                     <hr>
+                    <div class="form-group row">
+                      <div class="col-sm-3"><label for="inputPaymentStatus">Trạng thái thanh toán</label></div>
+                      <div class="col-sm-9"><select id="inputPaymentStatus" name="order_payment_status" class="form-control custom-select text-capitalize">
+                          <option value="">Select one</option>
+                          <?php
+                          foreach ($list_payment_status as $key => $value) { ?>
+                            <option value="<?php echo $key; ?>" <?php selected($response_customer['data']['order_payment_status'], $key); ?>><?php echo $value; ?></option>
+                          <?php } ?>
+                        </select>
+                      </div>
+                    </div>
                     <div class="form-group row">
                       <div class="col-sm-3"><label for="inputStatus">Trạng thái khách hàng (*)</label></div>
                       <div class="col-sm-9">
@@ -595,6 +624,13 @@ get_footer('customer');
 
         input.val(list.join(", "));
       });
+    });
+
+    $('[name="location_active"]').on('change', function(){
+      $('.location_active').val(0);
+      if(this.checked) {
+        $(this).next('.location_active').val(1);
+      }
     });
 
     var hash = window.location.hash;

@@ -14,17 +14,18 @@ $response_add_customer = [];
 
 // Check if the form is submitted and handle the submission
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
-  $nickname   = sanitize_text_field($_POST['nickname']);
+  $nickname   = isset($_POST['nickname']) ? sanitize_text_field($_POST['nickname']):'';
   $fullname   = isset($_POST['fullname']) ? sanitize_text_field($_POST['fullname']):'';
-  $phone    = sanitize_text_field($_POST['phone']);
+  $phone      = isset($_POST['phone']) ? sanitize_text_field($_POST['phone']):'';
   $gender_post = isset($_POST['gender']) ? intval($_POST['gender']) : 0;
   $status_post = isset($_POST['status']) ? intval($_POST['status']) : 0;
   $active_post = isset($_POST['active']) ? intval($_POST['active']) : 0;
   $tag_post    = isset($_POST['tag']) ? intval($_POST['tag']): 0;
   $point = isset($_POST['point']) ? intval($_POST['point']) : 0;
-  $note = sanitize_textarea_field($_POST['note']);
-  $note_shipping = sanitize_textarea_field($_POST['note_shipping']);
-  $note_cook = sanitize_textarea_field($_POST['note_cook']);
+  $note = isset($_POST['note']) ? sanitize_textarea_field($_POST['note']):'';
+  $note_shipping = isset($_POST['note_shipping']) ? sanitize_textarea_field($_POST['note_shipping']):'';
+  $note_cook = isset($_POST['note_cook']) ? sanitize_textarea_field($_POST['note_cook']):'';
+  $order_payment_status = isset($_POST['order_payment_status']) ? sanitize_textarea_field($_POST['order_payment_status']):'';
 
   $data = [
     'nickname'      => $nickname,
@@ -36,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
     'note'          => $note,
     'note_shipping' => $note_shipping,
     'note_cook'     => $note_cook,
+    'order_payment_status' => $order_payment_status,
     'tag'           => $tag_post,
     'point'         => $point
   ];
@@ -49,10 +51,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
     foreach ($_POST['locations'] as $location) {
       $location_data = [
         'customer_id'   => $response_add_customer['data']['insert_id'],
-        'address'       => sanitize_text_field($location['address']),
-        'ward'          => sanitize_text_field($location['ward']),
-        'district'      => sanitize_text_field($location['district']),
-        'city'          => sanitize_text_field($location['province']),
+        'active'        => isset($location['active']) ? intval($location['active']) : 0,
+        'address'       => isset($location['address']) ? sanitize_text_field($location['address']) : '',
+        'ward'          => isset($location['ward']) ? sanitize_text_field($location['ward']) : '',
+        'district'      => isset($location['district']) ? sanitize_text_field($location['district']) : '',
+        'city'          => isset($location['province']) ? sanitize_text_field($location['province']) : '',
       ];
       $response_location = em_api_request('location/add', $location_data);
 
@@ -79,8 +82,9 @@ $gender = $em_customer->get_genders();
 $tag = $em_customer->get_tags();
 $actives = $em_customer->get_actives();
 
-$list_cook = ['Không', 'Chỉ Khăn Lạnh', 'Chỉ Dụng Cụ'];
-$list_notes = ['Không Cà Rốt', 'Không Hành'];
+$list_cook = custom_get_list_cook();
+$list_notes = custom_get_list_notes();
+$list_payment_status = custom_get_list_payment_status();
 
 get_header("customer");
 // Start the Loop.
@@ -128,12 +132,12 @@ get_header("customer");
               <div class="form-group row">
                 <div class="col-sm-3"><label>Tên khách hàng (*)</label></div>
                 <div class="col-sm-9">
-                  <input type="text" name="nickname" class="form-control" required>
+                  <input type="text" name="nickname" class="form-control" value="<?php site__post_e('nickname') ?>" required>
                 </div>
               </div>
               <div class="form-group row">
                 <div class="col-sm-3"><label>Tên đầy đủ</label></div>
-                <div class="col-sm-9"><input type="text" name="fullname" class="form-control"></div>
+                <div class="col-sm-9"><input type="text" name="fullname" value="<?php site__post_e('fullname') ?>" class="form-control"></div>
               </div>
               <div class="form-group row">
                 <div class="col-sm-3"><label>Số điện thoại (*)</label></div>
@@ -156,7 +160,18 @@ get_header("customer");
               <div id="location-fields">
                 <hr>
                 <div class="address-group">
-                  
+                  <div class="form-group row">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-9">
+                      <div class="icheck-primary d-inline mr-2">
+                        <input type="radio" name="location_active" id="active_0" value="1" checked>
+                        <input type="hidden" class="location_active" name="locations[0][active]" value="1" />
+                        <label for="active_0">
+                          Mặc định
+                        </label>
+                      </div>
+                    </div>
+                  </div>
                   <div class="form-group row">
                     <div class="col-sm-3">
                       <label for="province_0">Tỉnh/Thành phố:</label>
@@ -256,6 +271,17 @@ get_header("customer");
                 </div>
               </div>
               <div class="form-group row">
+                <div class="col-sm-3"><label for="inputPaymentStatus">Trạng thái thanh toán</label></div>
+                <div class="col-sm-9"><select id="inputPaymentStatus" name="order_payment_status" class="form-control custom-select text-capitalize">
+                    <option value="">Select one</option>
+                    <?php
+                    foreach ($list_payment_status as $key => $value) { ?>
+                      <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
+                    <?php } ?>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row">
                 <div class="col-sm-3"><label for="inputStatus">Trạng thái đặt hàng</label></div>
                 <div class="col-sm-9"><select id="inputStatus" name="status" class="form-control custom-select text-capitalize">
                     <option value="0">Select one</option>
@@ -337,5 +363,13 @@ get_footer('customer');
         input.val(list.join(", "));
       });
     });
+
+    $('[name="location_active"]').on('change', function(){
+      $('.location_active').val(0);
+      if(this.checked) {
+        $(this).next('.location_active').val(1);
+      }
+    });
+
   });
 </script>
