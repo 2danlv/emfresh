@@ -141,7 +141,10 @@ get_header("customer");
               </div>
               <div class="form-group row">
                 <div class="col-sm-3"><label>Số điện thoại (*)</label></div>
-                <div class="col-sm-9"><input type="tel" name="phone" class="form-control" required  /></div>
+                <div class="col-sm-9">
+                  <input type="tel" name="phone" class="form-control phone_number" onkeyup="checkphone();" required  />
+                  <p id="phone_status" class="status text-danger"></p>
+                </div>
               </div>
               <div class="form-group row">
                 <div class="col-sm-3"><label>Giới tính (*)</label></div>
@@ -335,8 +338,45 @@ get_footer('customer');
 <script src="/assets/js/assistant.js"></script>
 <script src="/assets/js/location.js"></script>
 <script type="text/javascript">
+  function checkphone() {
+  var phone = $(".phone_number").val();
+  if (phone) {
+      jQuery.ajax({
+          type: 'post',
+          url: '/assets/js/checkdata.php',
+          data: {
+              user_phone: phone,
+          },
+          success: function(response) {
+              jQuery('#phone_status').html(response);
+              if (response == "OK") {
+                jQuery('#phone_status').addClass('d-none');
+                return true;
+              } else {
+                  jQuery('#phone_status').removeClass('d-none');
+                  return false;
+              }
+          }
+      });
+      
+  } else {
+      jQuery('#phone_status').html("");
+      // return false;
+  }
+}
   $(document).ready(function() {
-
+    $('.btn-primary[name="add_post"]').on('click', function(e) {
+      if ($('#phone_status').html() == "OK" ){
+            e.stopPropagation();
+            $('.btn-primary[name="add_post"]').css({
+                "pointer-events": "none"
+            });
+        document.getElementById('customer-form').submit();
+        } else {
+          alert('Số điện thoại đã tồn tại!');
+          e.preventDefault();
+        }
+  });
     $('.js-list-note').each(function(){
       let p = $(this);
 
