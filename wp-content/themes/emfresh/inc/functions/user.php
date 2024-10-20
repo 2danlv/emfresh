@@ -1,16 +1,90 @@
 <?php
 
-function site_user_submits()
+function site_user_admin_init()
 {
+    $user = wp_get_current_user();
+    if (! in_array('administrator', $user->roles) ) {
+        wp_redirect(home_url());
+        exit();
+    }
+}
+add_action('admin_init', 'site_user_admin_init');
+
+function site_user_init()
+{
+    if(get_current_user_id() == 0 && !preg_match('/(login)/', $_SERVER['REQUEST_URI'])) {
+        wp_redirect(home_url('login'));
+        exit();
+    }
+}
+add_action('init', 'site_user_init');
+
+function site_user_submit()
+{
+    if (!empty($_POST['changeptoken'])) {
+        site_user_submit_change_password();
+    }
+
     if (!empty($_POST['logtoken'])) {
         site_user_submit_login();
     }
 
-    if (!empty($_GET['logout']) && $_GET['logout'] > 0 && get_current_user_id() > 0) {
+    if (!empty($_GET['logout']) && intval($_GET['logout']) > time()) {
         wp_logout();
+
+        wp_redirect(home_url());
+        exit();
     }
 }
-add_action('wp', 'site_user_submits');
+add_action('wp', 'site_user_submit');
+
+function site_user_submit_change_password()
+{
+    $redirect_to = get_permalink();
+
+    if (empty($_POST['oldpassword']) || empty($_POST['newpassword']) || empty($_POST['confirmpassword'])) {
+        wp_redirect($redirect_to . '?input=not-null');
+        exit();
+    }
+
+    if (! wp_verify_nonce($_POST['changeptoken'], 'changeptoken')) {
+        wp_redirect($redirect_to . '?token=error');
+        exit();
+    }
+
+    $args = shortcode_atts(array(
+        'newpassword' => '',
+        'oldpassword' => '',
+        'confirmpassword' => '',
+    ), $_POST);
+
+    $args = array_map('sanitize_text_field', $args);
+
+    $errors = [];
+
+    $user = wp_get_current_user();
+    if($args['oldpassword'] == '' || !wp_check_password($args['oldpassword'], $user->user_pass, $user->ID)) {
+        $errors[] = 'Old Password is not the correct';
+    } else if($args['newpassword'] == '' || $args['newpassword'] != $args['confirmpassword']) {
+        $errors[] = 'Newpassword not null';
+    }
+
+    if(count($errors) > 0) {
+        wp_redirect($redirect_to . '?input=error');
+        exit();
+    }
+ 
+    $user_id = wp_update_user([
+        'ID' => $user->ID,
+        'user_pass' => $args['newpassword']
+    ]);
+
+    wp_logout();
+
+    // wp_redirect(add_query_arg(['change' => 'success-' . $user_id], home_url()));
+    wp_redirect(add_query_arg(['change' => 'success'], home_url('login')));
+    exit();
+}
 
 function site_user_submit_login()
 {
