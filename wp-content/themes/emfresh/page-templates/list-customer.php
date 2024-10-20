@@ -88,6 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
               <th>Trạng thái đặt đơn</th>
               <th>Điểm tích lũy</th>
               <th>Tag phân loại</th>
+              <th>Trạng thái thanh toán</th>
               <th>Người cập nhật cuối</th>
               <th>thời gian nhật cuối</th>
             </tr>
@@ -113,6 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
                     </td>
                     <td><?php echo $record['point']; ?>
                     <td><span class="tag btn btn-sm tag_<?php echo $record['tag']; ?>"><?php echo $record['tag_name']; ?></span></td>
+                    <td><span class="tag btn btn-sm order_<?php echo $record['order_payment_status']; ?>"><?php echo $record['order_payment_status']; ?></span></td>
                     <td><?php echo $record['created_author']; ?></td>
                     <td><?php echo $record['modified']; ?>
                     </td>
@@ -148,8 +150,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
           <li><label><input type="checkbox" data-column="2" checked> Số điện thoại</label></li>
           <li><label><input type="checkbox" data-column="3" checked> Địa chỉ</label></li>
           <li><label><input type="checkbox" data-column="4" checked> Trạng thái đặt đơn</label></li>
-          <li><label><input type="checkbox" data-column="5" checked> Điểm tích lũy</label></li>
-          <li><label><input type="checkbox" data-column="6" checked> Tag phân loại</label></li>
+          <li><label><input type="checkbox" data-column="5"> Điểm tích lũy</label></li>
+          <li><label><input type="checkbox" data-column="6"> Tag phân loại</label></li>
         </ul>
       </div>
       <div class="modal-footer justify-content-center">
@@ -245,7 +247,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
   }
 
   .tag {
-    border-radius: 3px;
     padding: 0 4px;
     color: #fff;
   }

@@ -185,22 +185,28 @@ get_header('customer');
               <hr>
               <strong><i class="fas fa-venus-mars mr-1"></i> Giới tính</strong>: <br><span class="text-capitalize"><?php echo $response_customer['data']['gender_name'] ?></span><br>
               <hr>
-              <strong><i class="fas fa-signal mr-1"></i> Trạng thái khách hàng</strong>: <br><span class="text-capitalize"><?php echo $response_customer['data']['status_name'] ?></span><br>
+              <strong><i class="fas fa-signal mr-1"></i> Trạng thái đặt đơn</strong>: <br><span class="text-capitalize"><?php echo $response_customer['data']['status_name'] ?></span><br>
               <hr>
-              <strong><i class="fas fa-phone mr-1"></i> Số điện thoại</strong>: <br><?php echo $response_customer['data']['phone'] ?>
+              <strong><i class="fas fa-coins mr-1"></i> Trạng thái thanh toán</strong>: <br><span class="text-capitalize"><?php echo $response_customer['data']['order_payment_status'] ?></span><br>
+              <hr>
+              
+              <strong><i class="fas fa-phone mr-1"></i> Số điện thoại</strong>: <br><span class="copy" title="Copy: <?php echo $response_customer['data']['phone']; ?>"><?php echo $response_customer['data']['phone'] ?></span>
               <hr>
               <strong><i class="fas fa-map-marker-alt mr-1"></i> Địa chỉ</strong>
               <?php
                 foreach ($response_get_location['data'] as $index => $record) { 
-                  if($record['active'] == 1) {?>
+                  ?>
                 <p>
                   <?php echo $record['address'] ?>,
                   <?php echo $record['ward'] ?>,
                   <?php echo $record['district'] ?>,
-                  <?php echo $record['city'] ?>
+                  <?php echo $record['city'] ?> 
+                  <?php if($record['active'] == 1) {?>
+                    <span class="badge badge-warning">Mặc định</span>
+                  <?php } ?>
                 </p>
               <?php
-                  }
+                  
                 }
               ?>
               <hr>
@@ -576,6 +582,9 @@ get_header('customer');
 </div>
 
 <style>
+  .copy {
+    cursor: pointer;
+  }
   .success-message {
     color: green;
   }

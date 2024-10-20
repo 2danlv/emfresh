@@ -55,11 +55,13 @@
       'order': [[8, 'desc']],
       "lengthChange": true,
       'lengthMenu': [50, 100, 200],
+      
       "columnDefs": [
         { type: 'natural', 
           "targets": [0,1,2,3],
           "orderable": false
-        }
+        },
+        { 'visible': false, 'targets': [5,6] }
      ],
     });
     $('.filter input[type="checkbox"]').on('change', function(e) {
