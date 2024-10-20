@@ -8,12 +8,12 @@
  * @since Twenty Twelve 1.0
  */
 
+global $em_customer;
+
 get_header('customer');
 // Start the Loop.
 // while ( have_posts() ) : the_post();
-$status = $em_customer->get_statuses();
-$list_payment_status = custom_get_list_payment_status();
-$tag = $em_customer->get_tags();
+
 // cập nhật data cho customer
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
   $list_id = isset($_POST['list_id']) ? sanitize_textarea_field($_POST['list_id']) : '';
@@ -21,6 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
   $status_post = isset($_POST['status']) ? intval($_POST['status']) : 0;
   $tag_post    = isset($_POST['tag']) ? intval($_POST['tag']) : 0;
   $order_payment_status = isset($_POST['order_payment_status']) ? sanitize_textarea_field($_POST['order_payment_status']):'';
+  
+  $updated = [];
   foreach ($array_id as $key => $id) {
     $customer_update_data = [
       'id'            => intval($id),
@@ -28,8 +30,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
       'tag'           => $tag_post,
       'order_payment_status' => $order_payment_status,
     ];
-    $response_update = em_api_request('customer/update', $customer_update_data);
+
+    $response_update = $em_customer->update($customer_update_data);
+    if($response_update) {
+      $updated[$id] = 'ok';
+    }
   }
+
+  wp_redirect(add_query_arg([
+    'code' => count($updated) > 0 ? 200 : 400,
+    'message' => 'Update Success',
+  ], get_permalink()));
+  exit();
 }
 ?>
 <div class="content-wrapper">
@@ -156,6 +168,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
         </button>
       </div>
       <div class="modal-body">
+      <?php 
+      $status = $em_customer->get_statuses();
+      $list_payment_status = custom_get_list_payment_status();
+      $tag = $em_customer->get_tags();
+      ?>
         <form method="POST" action="<?php the_permalink() ?>">
           <input type="hidden" name="list_id" class="list_id" value="">
           <div class="form-group row">
