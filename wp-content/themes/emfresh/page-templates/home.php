@@ -14,6 +14,10 @@
  * @since Twenty Twelve 1.0
  */
 
+// Tam thoi cho qua customer page
+wp_redirect(home_url('customer'));
+exit();
+
 get_header(); 
 
 // Start the Loop.
