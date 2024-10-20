@@ -71,7 +71,7 @@ class EF_Default
     {
         global $wpdb;
 
-        return $wpdb->prefix.$this->table;
+        return $wpdb->prefix . $this->table;
     }
 
     /*
@@ -128,11 +128,11 @@ class EF_Default
 
         $data = shortcode_atts($fields, $data);
 
-        if (isset($data['created']) && $data['created'] === '') {
+        if (isset($data['created']) && $data['created'] == '') {
             $data['created'] = current_time('mysql');
         }
 
-        if (isset($data['created_at']) && $data['created_at'] === 0) {
+        if (isset($data['created_at']) && $data['created_at'] == 0) {
             $data['created_at'] = $this->author_id;
         }
 
@@ -175,33 +175,35 @@ class EF_Default
 
         $fields = $this->get_fields();
 
-        $data = shortcode_atts($fields, $data);
+        $em_data = em_get_data_fields($data, $fields);
 
-        unset($data['id']);
-        unset($data['created']);
-        unset($data['created_at']);
-        if (isset($data['modified'])) {
-            $data['modified'] = current_time('mysql');
+        unset($em_data['id']);
+        unset($em_data['created']);
+        unset($em_data['created_at']);
+
+        if (isset($fields['modified'])) {
+            $em_data['modified'] = current_time('mysql');
         }
-        if (isset($data['modified_at'])) {
-            $data['modified_at'] = $this->author_id;
+
+        if (isset($fields['modified_at'])) {
+            $em_data['modified_at'] = $this->author_id;
         }
 
         $type = array_map(function () {
             return '%s';
         }, $fields);
 
-        $data = apply_filters("update_table_{$this->table}_item", $data, $id);
+        $em_data = apply_filters("update_table_{$this->table}_item", $em_data, $id);
 
         $updated = $wpdb->update(
             $this->get_tbl_name(),
-            $data,
+            $em_data,
             array('id' => $id),
             $type,
             array('%s'),
         );
 
-        do_action("updated_table_{$this->table}_item", $data, $id);
+        do_action("updated_table_{$this->table}_item", $em_data, $id);
 
         return $updated;
     }

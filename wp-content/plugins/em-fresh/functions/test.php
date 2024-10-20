@@ -52,15 +52,17 @@ function em_test_customer()
         $response[$dev . '-data'] = $data;
         em_test_print_response($response);
     } else if ($dev == 'item') {
-        $data['id'] = $id;
-
+        $data = [
+            'id' => $id
+        ];
         $response = em_api_request('customer/item', $data);
 
         $response[$dev . '-id'] = $id;
         em_test_print_response($response);
     } else if ($dev == 'delete') {
-        $data['id'] = $id;
-
+        $data = [
+            'id' => $id
+        ];
         $response = em_api_request('customer/delete', $data);
 
         $response[$dev . '-id'] = $id;

@@ -77,9 +77,9 @@ class EM_Customer extends EF_Default
             return false;
         }
 
-        if (is_array($this->author->roles) == false || in_array('administrator', $this->author->roles) == false) {
-            return false;
-        }
+        // if (is_array($this->author->roles) == false || in_array('administrator', $this->author->roles) == false) {
+        //     return false;
+        // }
 
         $deleted = parent::delete($id);
 
