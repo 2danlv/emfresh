@@ -344,7 +344,7 @@ get_footer('customer');
   if (phone) {
       jQuery.ajax({
           type: 'post',
-          url: '/assets/js/checkdata.php',
+          url: '<?php echo get_template_directory_uri() ?>/assets/js/checkdata.php',
           data: {
               user_phone: phone,
           },

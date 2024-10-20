@@ -1,6 +1,9 @@
 <?php
+ini_set('display_errors', 1); 
+error_reporting(E_ALL);
 
-$mysqli = new mysqli("localhost", "shop", "k!em$NOW81", "shop");
+// $mysqli = new mysqli("localhost", 'shop', 'k!em$NOW81', 'shop');
+$mysqli = new mysqli("localhost", 'root', '', 'emfresh');
 
 
 if (isset($_POST['user_phone'])) {
