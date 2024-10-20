@@ -39,7 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
     'note_cook'     => $note_cook,
     'order_payment_status' => $order_payment_status,
     'tag'           => $tag_post,
-    'point'         => $point
+    'point'         => $point,
+    'modified'      => current_time('mysql')
   ];
 
   //var_dump($data);
