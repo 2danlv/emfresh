@@ -38,16 +38,18 @@
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <?php global $current_user;
         wp_get_current_user(); ?>
-
-        <div class="image">
-          <img src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" class="img-circle elevation-2" alt="User Image">
-        </div>
-        <div class="info">
-          <span class="d-block text-info"><?php echo $current_user->display_name; ?></span>
-        </div>
-        <div class="info ml-auto">
-          <span class="d-block text-primary"><a href="<?php echo wp_logout_url( home_url()); ?>">Logout</a></span>
-        </div>
+        <?php if ( is_user_logged_in() ) : ?>
+          <div class="image">
+            <img src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" class="img-circle elevation-2" alt="User Image">
+          </div>
+          <div class="info">
+            <span class="d-block text-info"><?php echo $current_user->display_name; ?></span>
+          </div>
+          <div class="info ml-auto">
+          
+            <span class="d-block text-primary"><a href="/logout/">Logout</a></span>
+          </div>
+        <?php endif; ?>
       </div>
       <!-- Sidebar Menu -->
       <nav class="mt-2">
