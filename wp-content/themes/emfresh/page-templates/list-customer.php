@@ -98,7 +98,7 @@ get_header('customer');
             <?php wp_nonce_field('importoken', 'importoken', false); ?>
           </form>
           <span class="ml-2"><a href="/import/" class="btn btn-primary"><i class="fas fa-upload"></i> ImportCSV</a></span>
-          <span class="ml-2"><span class="btn btn-warning" data-toggle="modal" data-target="#modal-default"><i class="fas fa-filter"></i> Cột hiển thị</span></span>
+          <span class="ml-2"><span class="btn btn-warning" data-toggle="modal" data-target="#modal-default"><i class="fas fa-eye"></i> Cột hiển thị</span></span>
           <span class="ml-2"><span class="btn btn-info quick-edit" data-toggle="modal" data-target="#modal-edit"><i class="fas fa-edit"></i> Chỉnh sửa nhanh</span></span>
         </div>
         <table id="example1" class="table table-bordered table-striped text-capitalize">

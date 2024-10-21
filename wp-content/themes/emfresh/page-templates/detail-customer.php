@@ -109,14 +109,17 @@ $gender = $em_customer->get_genders();
 $tag    = $em_customer->get_tags();
 $actives = $em_customer->get_actives();
 // lấy 1 customer
+
 $customer_id = isset($_GET['customer_id']) ? intval($_GET['customer_id']) : 0;
-if ($customer_id == 0) {
-  die('customer_id is null!');
-}
 $customer_filter = [
   'id' => $customer_id
 ];
 $response_customer = em_api_request('customer/item', $customer_filter);
+
+if ($customer_id == 0 || count($response_customer['data']) == 0) {
+  wp_redirect( esc_url('/customer/') );
+    exit;
+}
 
 // lấy danh sách location
 $location_filter = [
