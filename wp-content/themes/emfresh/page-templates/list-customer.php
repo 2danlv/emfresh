@@ -10,10 +10,6 @@
 
 global $em_customer;
 
-get_header('customer');
-// Start the Loop.
-// while ( have_posts() ) : the_post();
-
 // cập nhật data cho customer
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
   $list_id = isset($_POST['list_id']) ? sanitize_textarea_field($_POST['list_id']) : '';
@@ -43,6 +39,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
   ], get_permalink()));
   exit();
 }
+
+get_header('customer');
+// Start the Loop.
+// while ( have_posts() ) : the_post();
+
 ?>
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->

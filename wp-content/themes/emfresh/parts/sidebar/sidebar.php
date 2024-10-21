@@ -47,7 +47,7 @@
           </div>
           <div class="info ml-auto">
           
-            <span class="d-block text-primary"><a href="/logout/">Logout</a></span>
+          <span class="d-block text-primary"><a href="<?php echo wp_logout_url( home_url()); ?>">Logout</a></span>
           </div>
         <?php endif; ?>
       </div>
