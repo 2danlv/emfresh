@@ -16,7 +16,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['remove'])) {
     'id' => $customer_id,
   ];
   $response = em_api_request('customer/delete', $customer_data);
-  wp_redirect( home_url(), 301 );
+  wp_redirect( esc_url(add_query_arg([
+    'message' => 'Delete Success',
+  ], '/customer/') ));
   exit;
 }
 // cập nhật data cho customer
