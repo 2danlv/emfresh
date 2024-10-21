@@ -10,6 +10,15 @@
 
 global $em_customer,$em_order;
 
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['remove'])) {
+  $customer_id   = intval($_POST['customer_id']);
+  $customer_data = [
+    'id' => $customer_id,
+  ];
+  $response = em_api_request('customer/delete', $customer_data);
+  wp_redirect( home_url(), 301 );
+  exit;
+}
 // cập nhật data cho customer
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
   $customer_id = intval($_POST['customer_id']);
@@ -187,7 +196,7 @@ get_header('customer');
               <hr>
               <strong><i class="fas fa-signal mr-1"></i> Trạng thái đặt đơn</strong>: <br><span class="text-capitalize"><?php echo $response_customer['data']['status_name'] ?></span><br>
               <hr>
-              <strong><i class="fas fa-coins mr-1"></i> Trạng thái thanh toán</strong>: <br><span class="text-capitalize"><?php echo $response_customer['data']['order_payment_status'] ?></span><br>
+              <strong><i class="fas fa-coins mr-1"></i> Trạng thái thanh toán</strong>: <br><span class="text-capitalize"><?php echo $response_customer['data']['payment_status_name'] ?></span><br>
               <hr>
               
               <strong><i class="fas fa-phone mr-1"></i> Số điện thoại</strong>: <br><span class="copy" title="Copy: <?php echo $response_customer['data']['phone']; ?>"><?php echo $response_customer['data']['phone'] ?></span>
@@ -528,7 +537,7 @@ get_header('customer');
                       <button type="button" class="btn btn-danger remove-customer" data-toggle="modal" data-target="#modal-default">
                           <i class="fas fa-trash">
                           </i>
-                          Delete
+                          Xóa khách hàng
                         </button>
                       </div>
                       <?php }
@@ -565,15 +574,15 @@ get_header('customer');
           <span aria-hidden="true">×</span>
         </button>
       </div>
-      <div class="modal-body">
-        <form method="post" id="list-customer" action="<?php the_permalink() ?>">
-          <input type="hidden" class="customer_id" name="customer_id" value="<?php echo $response_customer['data']['id'] ?>">
-          <p>Bạn muốn xóa khách hàng này?</p>
-      </div>
-      <div class="modal-footer justify-content-between">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="submit" name="remove" class="btn btn-primary">Save changes</button>
-      </div>
+      <form method="post" id="list-customer" action="<?php the_permalink() ?>">
+        <div class="modal-body">
+            <input type="hidden" class="customer_id" name="customer_id" value="<?php echo $response_customer['data']['id'] ?>">
+            <p>Bạn muốn xóa khách hàng: <b><?php echo $response_customer['data']['nickname'] ?></b>?</p>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+          <button type="submit" name="remove" class="btn btn-danger"><i class="fas fa-trash"></i> Xóa!</button>
+        </div>
       </form>
     </div>
 
