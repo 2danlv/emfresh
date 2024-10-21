@@ -40,13 +40,13 @@ class EM_Order extends EF_Default
             `customer_id` bigint NOT NULL,
             `location_id` bigint NOT NULL,
             `status` tinyint(1) NOT NULL DEFAULT '1',
-            `note` text COLLATE utf8mb4_general_ci,
-            `created` datetime DEFAULT NULL,
-            `created_at` bigint DEFAULT NULL,
-            `modified` datetime DEFAULT NULL,
-            `modified_at` bigint DEFAULT NULL,
+            `note` text,
+            `created` datetime DEFAULT '0000-00-00 00:00:00',
+            `created_at` bigint DEFAULT '0',
+            `modified` datetime DEFAULT '0000-00-00 00:00:00',
+            `modified_at` bigint DEFAULT '0',
             PRIMARY KEY (`id`)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;";
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;";
 
         update_option($this->option_name, $this->table_ver);
 
@@ -102,6 +102,22 @@ class EM_Order extends EF_Default
         );
 
         return $rules;
+    }
+
+    function get_statuses($key = null)
+    {
+        $list = [
+            1 => "Rồi",
+            2 => "Chưa",
+            3 => "COD",
+            4 => "1 Phần"
+        ];
+
+        if ($key != null) {
+            return isset($list[$key]) ? $list[$key] : '';
+        }
+
+        return $list;
     }
 
     function auto_delete_by_customer($id = 0, $deleted = false)

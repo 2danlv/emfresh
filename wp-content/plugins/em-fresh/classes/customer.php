@@ -304,7 +304,7 @@ class EM_Customer extends EF_Default
             'note'          => '',
             'note_shipping' => '',
             'note_cook'     => '',
-            'order_payment_status' => '',
+            'order_payment_status' => 0,
             'tag'           => 0,
             'point'         => 0,
             'parent'        => 0,
@@ -407,6 +407,8 @@ class EM_Customer extends EF_Default
         $item = [];
 
         if (is_array($data)) {
+            global $em_order;
+
             foreach ($data as $key => $value) {
                 $item[$key] = $value;
 
@@ -418,6 +420,8 @@ class EM_Customer extends EF_Default
                     $item['tag_name'] = em_ucwords($this->get_tags($value));
                 } else if ($key == 'active') {
                     $item['active_name'] = em_ucwords($this->get_actives($value));
+                } else if ($key == 'order_payment_status') {
+                    $item['payment_status_name'] = em_ucwords($em_order->get_statuses($value));
                 }
             }
         }
