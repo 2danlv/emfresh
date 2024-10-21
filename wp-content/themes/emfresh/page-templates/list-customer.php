@@ -21,13 +21,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
   
   $updated = [];
   foreach ($array_id as $key => $id) {
-    $customer_update_data = [
-      'id'            => intval($id),
-      'status'        => $status_post,
-      'tag'           => $tag_post,
-      'order_payment_status' => $order_payment_status,
-    ];
-
+    if ($status_post != 0) {
+      $customer_update_data = [
+        'id'            => intval($id),
+        'status'        => $status_post
+      ];
+    }
+    if ($tag_post !=0) {
+      $customer_update_data = [
+        'id'            => intval($id),
+        'tag'           => $tag_post
+      ];
+    }
+    if ($order_payment_status != '') {
+      $customer_update_data = [
+        'id'            => intval($id),
+        'order_payment_status' => $order_payment_status
+      ];
+    }
     $response_update = $em_customer->update($customer_update_data);
     if($response_update) {
       $updated[$id] = 'ok';
@@ -84,13 +95,13 @@ get_header('customer');
           <thead>
             <tr>
               <th><input type="checkbox" name="checkall" id="checkall" /></th>
-              <th>Tên khách hàng</th>
-              <th>Số điện thoại</th>
-              <th>Địa chỉ</th>
-              <th>Trạng thái đặt đơn</th>
-              <th>Điểm tích lũy</th>
-              <th>Tag phân loại</th>
-              <th>Trạng thái thanh toán</th>
+              <th>Tên <span class="nowrap">khách hàng</span></th>
+              <th>Số <span class="nowrap">điện thoại</span></th>
+              <th class="nowrap">Địa chỉ</th>
+              <th>Trạng thái <span class="nowrap">đặt đơn</span></th>
+              <th>Điểm <span class="nowrap">tích lũy</span></th>
+              <th>Tag <span class="nowrap">phân loại</span></th>
+              <th>Trạng thái <span class="nowrap">thanh toán</span></th>
               <th>Người cập nhật cuối</th>
               <th>thời gian nhật cuối</th>
             </tr>
@@ -111,7 +122,29 @@ get_header('customer');
                     <td><input type="checkbox" class="checkbox-element" value="<?php echo $record['id'] ?>"></td>
                     <td><a href="detail-customer/?customer_id=<?php echo $record['id'] ?>"><?php echo $record['nickname']; ?></a></td>
                     <td><span class="copy" title="Copy: <?php echo $record['phone']; ?>"><?php echo $record['phone']; ?></span></td>
-                    <td><?php echo $record['address']; ?></td>
+                    <td>
+                    <?php
+                    // lấy danh sách location
+                    $location_filter = [
+                      'customer_id' => $record['id'],
+                      'limit' => 1,
+                    ];
+                    $response_get_location = em_api_request('location/list', $location_filter);
+                foreach ($response_get_location['data'] as $index => $location) { 
+                  ?><?php if($location['active'] == 1) {?>
+                <p>
+                  <?php echo $location['address'] ?>,
+                  <?php echo $location['ward'] ?>,
+                  <?php echo $location['district'] ?>,<br>
+                  <?php echo $location['city'] ?> 
+                  </p>
+                  <?php } ?>
+               
+              <?php
+                  
+                }
+              ?>
+                    </td>
                     <td><span class="tag btn btn-sm status_<?php echo $record['status']; ?>"><?php echo $record['status_name']; ?></td>
                     </td>
                     <td><?php echo $record['point']; ?>
@@ -247,7 +280,9 @@ get_header('customer');
   .copy {
     cursor: pointer;
   }
-
+  .nowrap{
+    white-space: nowrap;
+  }
   .tag {
     padding: 0 4px;
     color: #fff;
@@ -303,7 +338,6 @@ get_header('customer');
 .order_3 {background-color: orange;}
 .order_4 {background-color: yellow;}
 
-  </select>
 </style>
 
 <?php
