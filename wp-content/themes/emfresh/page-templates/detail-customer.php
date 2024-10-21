@@ -8,7 +8,7 @@
  * @since Twenty Twelve 1.0
  */
 
-global $em_customer;
+global $em_customer,$em_order;
 
 // cập nhật data cho customer
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
@@ -116,7 +116,7 @@ $response_get_location = em_api_request('location/list', $location_filter);
 
 $list_cook = custom_get_list_cook();
 $list_notes = custom_get_list_notes();
-$list_payment_status = custom_get_list_payment_status();
+$list_payment_status = $em_order->get_statuses();
 
 get_header('customer');
 // Start the Loop.

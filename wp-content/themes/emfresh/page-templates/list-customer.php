@@ -8,7 +8,8 @@
  * @since Twenty Twelve 1.0
  */
 
-global $em_customer;
+global $em_customer,$em_order;
+$list_order_status = $em_order->get_statuses();
 
 // cập nhật data cho customer
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
@@ -115,7 +116,7 @@ get_header('customer');
                     </td>
                     <td><?php echo $record['point']; ?>
                     <td><span class="tag btn btn-sm tag_<?php echo $record['tag']; ?>"><?php echo $record['tag_name']; ?></span></td>
-                    <td><span class="tag btn btn-sm order_<?php echo $record['order_payment_status']; ?>"><?php echo $record['order_payment_status']; ?></span></td>
+                    <td><span class="tag btn btn-sm order_<?php echo $record['order_payment_status']; ?>"><?php echo $record['payment_status_name']; ?></span></td>
                     <td><?php echo $record['created_author']; ?></td>
                     <td><?php echo $record['modified']; ?>
                     </td>
@@ -206,7 +207,7 @@ get_header('customer');
                 <select class="form-control  text-capitalize" name="order_payment_status">
                 <option value="">Select one</option>
                 <?php
-                    foreach ($list_payment_status as $key => $value) { ?>
+                    foreach ($list_order_status as $key => $value) { ?>
                       <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
                     <?php } ?>
                 </select>
@@ -250,6 +251,7 @@ get_header('customer');
   .tag {
     padding: 0 4px;
     color: #fff;
+    white-space: nowrap;
   }
 
   .tag_1 {
@@ -296,6 +298,12 @@ get_header('customer');
     background-color: orange;
     color: #fff;
   }
+.order_1 {background-color: green;}
+.order_2 {background-color: red;}
+.order_3 {background-color: orange;}
+.order_4 {background-color: yellow;}
+
+  </select>
 </style>
 
 <?php

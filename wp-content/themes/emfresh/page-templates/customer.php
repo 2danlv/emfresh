@@ -8,7 +8,7 @@
  * @since Twenty Twelve 1.0
  */
 
-global $em_customer;
+global $em_customer, $em_order;
 
 $response_add_customer = [];
 
@@ -85,7 +85,7 @@ $actives = $em_customer->get_actives();
 
 $list_cook = custom_get_list_cook();
 $list_notes = custom_get_list_notes();
-$list_payment_status = custom_get_list_payment_status();
+$list_payment_status = $em_order->get_statuses();
 
 get_header("customer");
 // Start the Loop.

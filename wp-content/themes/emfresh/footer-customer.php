@@ -52,7 +52,7 @@
       "lengthChange": false, 
       "autoWidth": true,
       //"buttons": ["csv", "excel", "pdf"],
-      'order': [[8, 'desc']],
+      'order': [[9, 'desc']],
       "lengthChange": true,
       'lengthMenu': [50, 100, 200],
       
