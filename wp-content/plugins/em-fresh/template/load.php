@@ -29,4 +29,4 @@ function em_template_load()
         exit();
     }
 }
-// add_action('wp', 'em_template_load');
+add_action('wp', 'em_template_load');

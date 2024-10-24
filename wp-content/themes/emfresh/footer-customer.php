@@ -52,7 +52,7 @@
       "lengthChange": false, 
       "autoWidth": true,
       //"buttons": ["csv", "excel", "pdf"],
-      'order': [[9, 'desc']],
+      'order': [[11, 'desc']],
       "lengthChange": true,
       'lengthMenu': [50, 100, 200],
       
@@ -61,7 +61,7 @@
           "targets": [0,1,2,3],
           "orderable": false
         },
-        { 'visible': false, 'targets': [5,6] }
+        { 'visible': false, 'targets': [4,5,6,7,9] }
      ],
     });
     $('.filter input[type="checkbox"]').on('change', function(e) {

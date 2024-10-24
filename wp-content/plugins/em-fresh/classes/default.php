@@ -408,8 +408,8 @@ class EF_Default
         $errors = [];
 
         if ($action == 'list') {
-            $response['data']   = $this->get_items($args);
             $response['total']  = $this->count($args);
+            $response['data']   = $this->get_items($args);
         } else if ($action == 'item') {
             $id = isset($args['id']) ? intval($args['id']) : 0;
             if ($id > 0) {

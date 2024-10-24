@@ -12,7 +12,7 @@ $items = $page->get_items();
 <table class="table mt-3">
     <thead>
         <tr>
-            <th scope="col">#</th>
+            <th scope="col">ID</th>
             <th scope="col">Title</th>
             <th scope="col">Parent</th>
             <th scope="col">Created</th>
@@ -24,16 +24,18 @@ $items = $page->get_items();
             if($items && count($items)>0)
                 foreach($items as $i => $item):
                     $title = '';
-                    if(isset($item['title'])) {
+                    if(!empty($item['title'])) {
                         $title = $item['title'];
-                    } else if(isset($item['name'])) {
+                    } else if(!empty($item['name'])) {
                         $title = $item['name'];
-                    } else if(isset($item['fullname'])) {
+                    } else if(!empty($item['fullname'])) {
                         $title = $item['fullname'];
+                    } else if(!empty($item['nickname'])) {
+                        $title = $item['nickname'];
                     }
         ?>
         <tr>
-            <th scope="row"><?php echo $i + 1 ?></th>
+            <th scope="row"><?php echo $item['id'] ?></th>
             <td>
                 <a href="<?php echo add_query_arg(['id' => $item['id']], $page_url) ?>"><?php echo $title ?></a>
             </td>

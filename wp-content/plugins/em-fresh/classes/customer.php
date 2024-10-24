@@ -192,7 +192,7 @@ class EM_Customer extends EF_Default
         if (count($location_wheres) > 0) {
             $wheres = array_merge($wheres, $location_wheres);
 
-            $query .= " JOIN $table_location AS location ON location.customer_id = customer.id ";
+            $query .= " JOIN $table_location AS location ON location.customer_id = customer.id AND location.active = 1 ";
         }
 
         if (count($wheres) > 0) {
@@ -234,8 +234,6 @@ class EM_Customer extends EF_Default
                 'district'  => '=',
                 'city'      => '=',
             ];
-
-            $wheres[] = "location.active = 1";
         } else {
             extract(shortcode_atts(array(
                 'parent' => 0,

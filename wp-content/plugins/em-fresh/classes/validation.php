@@ -97,6 +97,10 @@ class EM_Validation
             $error = "Đã tồn tại";
         }
 
+        if($error != '') {
+            $error = "$value : $error";
+        }
+
         return $error;
     }
 

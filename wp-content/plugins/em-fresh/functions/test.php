@@ -31,14 +31,13 @@ function em_test_customer()
     if ($dev == 'update' || $dev == 'add') {
         $data = [
             'fullname'      => 'Nguyen Van A',
-            // 'phone'         => '09' . rand(10000000, 99999999),
-            'phone'         => '0947559657',
+            'phone'         => '09' . rand(10000000, 99999999),
             'status'        => '1', //rand(1, 3),
             'gender'        => '1', //rand(1, 3),
             'note'          => '', //'Note ' . rand(1, 9),
             'tag'           => '5', //rand(1, 5),
             'point'         => '0', // rand(1, 3),
-            // 'address'       => sprintf('%d Le Loi, P%d, Q%d', rand(1, 300), rand(1, 10), rand(1, 2)),
+            'address'       => sprintf('%d Le Loi, P%d, Q%d', rand(1, 300), rand(1, 10), rand(1, 2)),
         ];
 
         if ($dev == 'add') {
@@ -72,6 +71,44 @@ function em_test_customer()
 
         $response['dev'] = $dev;
         em_test_print_response($response);
+    } else if ($dev == 'update-active') {
+        global $wpdb, $em_customer, $em_location;
+
+        $query = $wpdb->prepare("SELECT id,nickname FROM %i", $em_customer->get_tbl_name());
+
+        $list = $wpdb->get_results($query, ARRAY_A);
+
+        foreach($list as $customer) {
+            $locations = $em_location->get_items([
+                'customer_id' => $customer['id'],
+                'limit' => -1,
+                'orderby' => 'id ASC',
+            ]);
+
+            if(count($locations) > 0) {
+                $active = 0;
+                
+                foreach($locations as $location) {
+                    if($location['active'] == 1) {
+                        $active = 1;
+                        break;
+                    }
+                }
+
+                if($active == 0) {
+                    $em_location->update([
+                        'active' => 1,
+                        'id' => $locations[0]['id']
+                    ]);
+                }
+            }
+        }
+        
+        $response = [
+            'dev' => $dev,
+            'list' => $list,
+        ];
+        em_test_print_response($response);
     } else {
             
         $paged = isset($_GET['paged']) ? intval($_GET['paged']) : 1;
@@ -94,13 +131,13 @@ function em_test_customer()
         ];
 
         foreach($filters as $name) {
-            if(isset($_GET[$name])) {
+            if(!empty($_GET[$name])) {
                 $list_args[$name] = sanitize_text_field($_GET[$name]);
             }
         }
 
-        em_test_print_response($list_args);
-        
+        em_test_print_response(['filters' => $list_args]);
+
         $response = em_api_request('customer/list', $list_args);
 
         $response['dev'] = $dev;
