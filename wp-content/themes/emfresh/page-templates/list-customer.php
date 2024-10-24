@@ -101,7 +101,7 @@ get_header('customer');
           <span class="ml-2"><span class="btn btn-warning" data-toggle="modal" data-target="#modal-default"><i class="fas fa-eye"></i> Cột hiển thị</span></span>
           <span class="ml-2"><span class="btn btn-info quick-edit" data-toggle="modal" data-target="#modal-edit"><i class="fas fa-edit"></i> Chỉnh sửa nhanh</span></span>
         </div>
-        <table id="example1" class="table table-bordered table-striped text-capitalize" style="width:100%">
+        <table id="list-customer" class="table table-bordered table-striped text-capitalize" style="width:100%">
           <thead>
             <tr>
               <th><input type="checkbox" name="checkall" id="checkall" /></th>
@@ -114,8 +114,8 @@ get_header('customer');
               <th>Tổng số <span class="nowrap">tiền đã chi</span></th>
               <th>Điểm <span class="nowrap">tích lũy</span></th>
               <th>Tag <span class="nowrap">phân loại</span></th>
-              <th>Người cập nhật cuối</th>
-              <th>Thời gian nhật cuối</th>
+              <th><span class="nowrap">Người cập nhật</span> cuối</th>
+              <th><span class="nowrap">Thời gian nhật</span> cuối</th>
             </tr>
           </thead>
           <tbody>
@@ -145,9 +145,9 @@ get_header('customer');
                     $response_get_location = em_api_request('location/list', $location_filter);
                     foreach ($response_get_location['data'] as $index => $location) { 
                       ?><?php if($location['active'] == 1) {?>
-                    <div>
+                    <div class="nowrap">
                       <?php echo $location['address'] ?>,
-                      <?php echo $location['ward'] ?>,
+                      <?php echo $location['ward'] ?>,<br>
                       <?php echo $location['district'] ?>
                       </div>
                       <?php } ?>

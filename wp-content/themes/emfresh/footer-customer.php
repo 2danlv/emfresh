@@ -30,12 +30,12 @@
 <script src="/assets/plugins/select2/js/select2.full.min.js"></script>
 
 <!-- DataTables  & Plugins -->
-<script src="/assets/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="/assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="/assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="/assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="/assets/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="/assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/2.1.8/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/2.1.8/js/responsive.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/2.1.8/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/2.1.8/js/buttons.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.10.16/sorting/natural.js"></script>
 <script>
   $(function () {
@@ -47,7 +47,7 @@
             $('.nav-treeview a[href*="/' + last_part + '/"]:first').addClass('active');
         
     }
-    const table = new DataTable('#example1', {
+    const table = new DataTable('#list-customer', {
       "responsive": true, 
       "lengthChange": false, 
       "autoWidth": true,
@@ -57,7 +57,8 @@
       'lengthMenu': [50, 100, 200],
       scrollX: true,
       "columnDefs": [
-        { type: 'natural', 
+        { 
+          type: 'natural', 
           "targets": [0,1,2,3],
           "orderable": false
         },
