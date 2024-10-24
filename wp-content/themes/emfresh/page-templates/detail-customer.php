@@ -199,9 +199,13 @@ get_header('customer');
               <hr>
               <strong><i class="fas fa-venus-mars mr-1"></i> Giới tính</strong>: <br><span class="text-capitalize"><?php echo $response_customer['data']['gender_name'] ?></span><br>
               <hr>
-              <strong><i class="fas fa-signal mr-1"></i> Trạng thái đặt đơn</strong>: <br><span class="text-capitalize"><?php echo $response_customer['data']['status_name'] ?></span><br>
+              <strong><i class="fas fa-calendar-check mr-1"></i>Tổng số ngày đã dùng:</strong>
               <hr>
-              <strong><i class="fas fa-coins mr-1"></i> Trạng thái thanh toán</strong>: <br><span class="text-capitalize"><?php echo $response_customer['data']['payment_status_name'] ?></span><br>
+              <strong><i class="fas fa-calendar-alt mr-1"></i>Tổng số bữa ăn đã dùng:</strong>
+              <hr>
+              <strong><i class="fas fa-clipboard-list mr-1"></i>Tổng số đơn hàng:</strong>
+              <hr>
+              <strong><i class="fas fa-coins mr-1"></i>Tổng số tiền đã chi:</strong>
               <hr>
               
               <strong><i class="fas fa-phone mr-1"></i> Số điện thoại</strong>: <br><span class="copy" title="Copy: <?php echo $response_customer['data']['phone']; ?>"><?php echo $response_customer['data']['phone'] ?></span>
@@ -225,11 +229,7 @@ get_header('customer');
               ?>
               <hr>
               <strong><i class="fas fa-pencil-alt mr-1"></i> Tag phân loại</strong>: <br><span class="text-capitalize"><?php echo $response_customer['data']['tag_name'] ?></span><br>
-              <hr>
-              <strong><i class="far fa-file-alt mr-1"></i> Ghi chú đặc biệt</strong>:
-              <p class="text-muted">
-                <?php echo $response_customer['data']['note'] ?>
-              </p>
+              
             </div>
             <!-- /.card-body -->
           </div>
@@ -515,8 +515,8 @@ get_header('customer');
                     </div>
                     <div class="form-group row">
                       <div class="col-sm-3"><label for="inputTag">Tag phân loại</label></div>
-                      <div class="col-sm-9">
-                        <select class="form-control text-capitalize" name="tag" style="width: 100%;">
+                      <div class="col-sm-9 text-capitalize">
+                        <select class="form-control text-capitalize select2" multiple="multiple" name="tag" style="width: 100%;">
                           <option value="0">Select one</option>
                           <?php
                           foreach ($tag as $value => $label) { ?>
@@ -609,16 +609,43 @@ get_header('customer');
   .location_1 .delete-location-button{
     display: none;
   }
+  .select2-results {
+    text-transform: capitalize;
+  }
+  .select2-container--default .select2-selection--multiple .select2-selection__rendered li{
+    border: none;
+  }
+  .select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="thân thiết"] {
+    background-color: green;
+  }
+
+  .select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="ăn nhóm"] {
+    background-color: #0056b3;
+  }
+
+  .select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="khách có bệnh lý"] {
+    background-color: yellow;
+    color: #000;
+  }
+
+  .select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="khách hãm"] {
+    background-color: red;
+  }
+
+  .select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="bảo lưu"] {
+    background-color: orange;
+  }
 </style>
 <?php
 // endwhile;
 get_footer('customer');
 ?>
+<script src="/assets/plugins/select2/js/select2.full.min.js"></script>
 <script src="/assets/js/assistant.js"></script>
 <script src="/assets/js/location.js"></script>
 <script type="text/javascript">
   $(document).ready(function() {
-   
+    $('.select2').select2();
     $('.js-list-note').each(function(){
       let p = $(this);
 

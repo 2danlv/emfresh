@@ -16,6 +16,7 @@ $response_add_customer = [];
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
   $nickname   = isset($_POST['nickname']) ? sanitize_text_field($_POST['nickname']):'';
   $fullname   = isset($_POST['fullname']) ? sanitize_text_field($_POST['fullname']):'';
+  $customer_name   = isset($_POST['customer_name']) ? sanitize_text_field($_POST['customer_name']):'';
   $phone      = isset($_POST['phone']) ? sanitize_text_field($_POST['phone']):'';
   $gender_post = isset($_POST['gender']) ? intval($_POST['gender']) : 0;
   $status_post = isset($_POST['status']) ? intval($_POST['status']) : 0;
@@ -30,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
   $data = [
     'nickname'      => $nickname,
     'fullname'      => $fullname,
+    'customer_name'      => $customer_name,
     'phone'         => $phone,
     'status'        => $status_post,
     'gender'        => $gender_post,
@@ -131,14 +133,20 @@ get_header("customer");
             </div>
             <div class="card-body">
               <div class="form-group row">
-                <div class="col-sm-3"><label>Tên khách hàng (*)</label></div>
+                <div class="col-sm-3"><label>Tên tài khoản (*)</label></div>
                 <div class="col-sm-9">
-                  <input type="text" name="nickname" class="form-control" value="<?php site__post_e('nickname') ?>" required>
+                  <input type="text" name="nickname" class="nickname form-control" value="<?php site__post_e('nickname') ?>" required>
                 </div>
               </div>
               <div class="form-group row">
-                <div class="col-sm-3"><label>Tên đầy đủ</label></div>
+                <div class="col-sm-3"><label>Tên thật</label></div>
                 <div class="col-sm-9"><input type="text" name="fullname" value="<?php site__post_e('fullname') ?>" class="form-control"></div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-3"><label>Tên khách hàng</label></div>
+                <div class="col-sm-9">
+                  <input type="text" name="customer_name" class="customer_name form-control" value="<?php site__post_e('customer_name') ?>" required>
+                </div>
               </div>
               <div class="form-group row">
                 <div class="col-sm-3"><label>Số điện thoại (*)</label></div>
@@ -222,45 +230,17 @@ get_header("customer");
           <!-- /.card -->
         </div>
         <div class="col-md-6">
-          <div class="card card-success">
-            <div class="card-header">
-              <h3 class="card-title">Ghi chú đặc biệt</h3>
-            </div>
-            <div class="card-body">
-              <div class="form-group row">
-                <div class="col-sm-3"><label>Ghi chú dụng cụ ăn</label></div>
-                <div class="col-sm-9">
-                  <select class="form-control text-capitalize" name="note_cook" style="width: 100%;" required>
-                    <?php foreach ($list_cook as $value) { ?>
-                      <option value="<?php echo $value; ?>"><?php echo $value; ?></option>
-                    <?php } ?>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group row">
-                <div class="col-sm-3"><label>Ghi chú yêu cầu ăn đặc biệt</label></div>
-                <div class="col-sm-9 js-list-note">
-                  <div class="mb-3">
-                    <textarea name="note" class="form-control" rows="2"></textarea>
-                  </div>
-                  <p>
-                    <?php foreach ($list_notes as $value) { ?>
-                    <button type="button" class="btn btn-outline-primary"><?php echo $value; ?></button>
-                    <?php } ?>
-                  </p>
-                </div>
-              </div>
-              <div class="form-group row">
-                <div class="col-sm-3"><label>Ghi chú giao hàng đặc biệt</label></div>
-                <div class="col-sm-9"><textarea name="note_shipping" class="form-control" rows="2"></textarea></div>
-              </div>
-            </div>
-          </div>
+          
           <div class="card card-info mb-5">
             <div class="card-header">
               <h3 class="card-title">Trạng thái</h3>
             </div>
             <div class="card-body">
+            <?php 
+              $admin_role = wp_get_current_user()->roles;
+              if(!empty($admin_role) ) {
+                if ($admin_role[0] == 'administrator') {
+                ?>
               <div class="form-group row">
                 <div class="col-sm-3"><label>Trạng thái khách hàng</label></div>
                 <div class="col-sm-9 text-capitalize">
@@ -275,31 +255,12 @@ get_header("customer");
                   <?php } ?>
                 </div>
               </div>
-              <div class="form-group row">
-                <div class="col-sm-3"><label for="inputPaymentStatus">Trạng thái thanh toán</label></div>
-                <div class="col-sm-9"><select id="inputPaymentStatus" name="order_payment_status" class="form-control custom-select text-capitalize">
-                    <option value="">Select one</option>
-                    <?php
-                    foreach ($list_payment_status as $key => $value) { ?>
-                      <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
-                    <?php } ?>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group row">
-                <div class="col-sm-3"><label for="inputStatus">Trạng thái đặt hàng</label></div>
-                <div class="col-sm-9"><select id="inputStatus" name="status" class="form-control custom-select text-capitalize">
-                    <option value="0">Select one</option>
-                    <?php
-                    foreach ($status as $key => $value) { ?>
-                      <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
-                    <?php } ?>
-                  </select>
-                </div>
-              </div>
+              <?php }
+              } ?>
               <div class="form-group row">
                 <div class="col-sm-3"><label for="inputTag">Tag phân loại</label></div>
-                <div class="col-sm-9"><select class="form-control text-capitalize" name="tag" style="width: 100%;">
+                <div class="col-sm-9 text-capitalize">
+                  <select class="form-control text-capitalize select2" multiple="multiple" name="tag" style="width: 100%;">
                     <option value="0">Select one</option>
                     <?php
                     foreach ($tag as $key => $value) { ?>
@@ -328,6 +289,7 @@ get_header("customer");
   </section>
   <!-- /.content -->
 </div>
+<link rel="stylesheet" href="/assets/plugins/select2/css/select2.min.css">
 <?php
 get_footer('customer');
 ?>
@@ -335,10 +297,38 @@ get_footer('customer');
   .location_1 .delete-location-button{
     display: none;
   }
+  .select2-results {
+    text-transform: capitalize;
+  }
+  .select2-container--default .select2-selection--multiple .select2-selection__rendered li{
+    border: none;
+  }
+  .select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="thân thiết"] {
+    background-color: green;
+  }
+
+  .select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="ăn nhóm"] {
+    background-color: #0056b3;
+  }
+
+  .select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="khách có bệnh lý"] {
+    background-color: yellow;
+    color: #000;
+  }
+
+  .select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="khách hãm"] {
+    background-color: red;
+  }
+
+  .select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="bảo lưu"] {
+    background-color: orange;
+  }
 </style>
+<script src="/assets/plugins/select2/js/select2.full.min.js"></script>
 <script src="/assets/js/assistant.js"></script>
 <script src="/assets/js/location.js"></script>
 <script type="text/javascript">
+  
   function checkphone() {
   var phone = $(".phone_number").val();
   if (phone) {
@@ -366,6 +356,7 @@ get_footer('customer');
   }
 }
   $(document).ready(function() {
+    $('.select2').select2();
     $('.btn-primary[name="add_post"]').on('click', function(e) {
       if ($('#phone_status').html() == "OK" ){
             e.stopPropagation();

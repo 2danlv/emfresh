@@ -47,33 +47,7 @@
             $('.nav-treeview a[href*="/' + last_part + '/"]:first').addClass('active');
         
     }
-    const table = new DataTable('#list-customer', {
-      "responsive": true, 
-      "lengthChange": false, 
-      "autoWidth": true,
-      //"buttons": ["csv", "excel", "pdf"],
-      'order': [[11, 'desc']],
-      "lengthChange": true,
-      'lengthMenu': [50, 100, 200],
-      scrollX: true,
-      "columnDefs": [
-        { 
-          type: 'natural', 
-          "targets": [0,1,2,3],
-          "orderable": false
-        },
-        { 'visible': false, 'targets': [4,5,6,7,9,10,11] }
-     ],
-    });
-    $('.filter input[type="checkbox"]').on('change', function(e) {
-      
-      
-      // Get the column API object
-      var col = table.column($(this).attr('data-column'));
-      
-      // Toggle the visibility
-      col.visible(!col.visible());
-    });
+    
 
   });
   
