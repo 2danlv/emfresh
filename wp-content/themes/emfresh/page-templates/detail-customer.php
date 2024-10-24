@@ -262,8 +262,8 @@ get_header('customer');
                         <th>
                           Giá trị đơn hàng
                         </th>
-                        <th style="width: 8%" class="text-center">
-                          Status
+                        <th>
+                        Trạng thái thanh toán
                         </th>
                         <th style="width: 10%">
                         </th>

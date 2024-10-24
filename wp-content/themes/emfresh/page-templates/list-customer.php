@@ -113,14 +113,15 @@ get_header('customer');
               <th>Tag <span class="nowrap">phân loại</span></th>
               <th>Trạng thái <span class="nowrap">thanh toán</span></th>
               <th>Người cập nhật cuối</th>
-              <th>thời gian nhật cuối</th>
+              <th>Thời gian nhật cuối</th>
             </tr>
           </thead>
           <tbody>
 
             <?php
             $customer_filter = [
-              'paged' => 1
+              'paged' => 1,
+              'limit' => -1,
             ];
             $response = em_api_request('customer/list', $customer_filter);
             if (isset($response['data']) && is_array($response['data'])) {
@@ -160,7 +161,7 @@ get_header('customer');
                     <td><?php echo $record['point']; ?>
                     <td><span class="tag btn btn-sm tag_<?php echo $record['tag']; ?>"><?php echo $record['tag_name']; ?></span></td>
                     <td><span class="tag btn btn-sm order_<?php echo $record['order_payment_status']; ?>"><?php echo $record['payment_status_name']; ?></span></td>
-                    <td><?php echo $record['created_author']; ?></td>
+                    <td><?php echo $record['modified_author'] != '' ? $record['modified_author'] : $record['created_author']; ?></td>
                     <td><?php echo $record['modified']; ?>
                     </td>
                   </tr>
@@ -226,8 +227,6 @@ get_header('customer');
             <div class="col-sm-3">field</div>
             <div class="col-sm-9">
               <select class="form-control field">
-                <option value="status_order">Trạng Thái Đặt Đơn</option>
-                <option value="status_pay">Trạng Thái Thanh Toán</option>
                 <option value="tag">Tag Phân Loại</option>
               </select>
             </div>
@@ -235,27 +234,7 @@ get_header('customer');
           <div class="form-group row">
             <div class="col-sm-3">Value</div>
             <div class="col-sm-9">
-              <div class="box status_order">
-                <select class="form-control  text-capitalize" name="status">
-                  <option value="0">Select one</option>
-                  <?php
-                    foreach ($status as $key => $value) { ?>
-                      <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
-                    <?php } ?>
-                  </select>
-                </select>
-              </div>
-              <div class="box status_pay">
-
-                <select class="form-control  text-capitalize" name="order_payment_status">
-                <option value="">Select one</option>
-                <?php
-                    foreach ($list_order_status as $key => $value) { ?>
-                      <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
-                    <?php } ?>
-                </select>
-                </select>
-              </div>
+              
               <div class="box tag">
                 <select class="form-control  text-capitalize" name="tag">
                 <option value="0">Select one</option>
@@ -429,7 +408,7 @@ get_footer('customer');
 
       tempInput.remove();
 
-      alert('Đã copy số điện thoại: ' + textToCopy);
+      //alert('Đã copy số điện thoại: ' + textToCopy);
     });
   });
 </script>
