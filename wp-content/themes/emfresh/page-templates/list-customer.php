@@ -101,17 +101,17 @@ get_header('customer');
           <span class="ml-2"><span class="btn btn-warning" data-toggle="modal" data-target="#modal-default"><i class="fas fa-eye"></i> Cột hiển thị</span></span>
           <span class="ml-2"><span class="btn btn-info quick-edit" data-toggle="modal" data-target="#modal-edit"><i class="fas fa-edit"></i> Chỉnh sửa nhanh</span></span>
         </div>
-        <table id="example1" class="table table-bordered table-striped text-capitalize">
+        <table id="example1" class="table table-bordered table-striped text-capitalize" style="width:100%">
           <thead>
             <tr>
               <th><input type="checkbox" name="checkall" id="checkall" /></th>
               <th>Tên <span class="nowrap">khách hàng</span></th>
               <th>Số <span class="nowrap">điện thoại</span></th>
               <th class="nowrap">Địa chỉ</th>
-              <th>Tổng số ngày đã dùng</th>
-              <th>Tổng số bữa ăn đã dùng</th>
-              <th>Tổng số đơn hàng</th>
-              <th>Tổng số tiền đã chi</th>
+              <th>Tổng số <span class="nowrap">ngày đã dùng</span></th>
+              <th>Tổng số <span class="nowrap">bữa ăn đã dùng</span></th>
+              <th>Tổng số <span class="nowrap">đơn hàng</span></th>
+              <th>Tổng số <span class="nowrap">tiền đã chi</span></th>
               <th>Điểm <span class="nowrap">tích lũy</span></th>
               <th>Tag <span class="nowrap">phân loại</span></th>
               <th>Người cập nhật cuối</th>
@@ -122,7 +122,6 @@ get_header('customer');
 
             <?php
             $customer_filter = [
-              'active' => '1',
               'paged' => 1,
               'limit' => -1,
             ];
@@ -131,7 +130,7 @@ get_header('customer');
               // Loop through the data array and print each entry
               foreach ($response['data'] as $record) {
                 if (is_array($record)) { // Check if each record is an array
-            ?>
+                  if ($record['active'] !='0') {?>
                   <tr>
                     <td><input type="checkbox" class="checkbox-element" value="<?php echo $record['id'] ?>"></td>
                     <td><a href="detail-customer/?customer_id=<?php echo $record['id'] ?>"><?php echo $record['nickname']; ?></a></td>
@@ -144,37 +143,37 @@ get_header('customer');
                       'limit' => 1,
                     ];
                     $response_get_location = em_api_request('location/list', $location_filter);
-                foreach ($response_get_location['data'] as $index => $location) { 
-                  ?><?php if($location['active'] == 1) {?>
-                <p>
-                  <?php echo $location['address'] ?>,
-                  <?php echo $location['ward'] ?>,
-                  <?php echo $location['district'] ?>
-                  </p>
-                  <?php } ?>
-               
-              <?php
+                    foreach ($response_get_location['data'] as $index => $location) { 
+                      ?><?php if($location['active'] == 1) {?>
+                    <div>
+                      <?php echo $location['address'] ?>,
+                      <?php echo $location['ward'] ?>,
+                      <?php echo $location['district'] ?>
+                      </div>
+                      <?php } ?>
                   
-                }
-              ?>
+                  <?php
+                      
+                    }
+                  ?>
                     </td>
                     <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
-                    </td>
                     <td><?php echo $record['point']; ?>
                     <td><span class="tag btn btn-sm tag_<?php echo $record['tag']; ?>"><?php echo $record['tag_name']; ?></span></td>
                     <td><?php echo $record['modified_author'] != '' ? $record['modified_author'] : $record['created_author']; ?></td>
-                    <td><?php echo $record['modified']; ?>
-                    </td>
+                    <td><?php echo $record['modified']; ?></td>
                   </tr>
-            <?php  } else {
-                  echo "Invalid record format.\n";
-                }
-              }
+            <?php  }
+            
+              } else {
+                      echo "Invalid record format.\n";
+                    }
             }
-            ?>
+          }
+      ?>
 
 
 
@@ -204,6 +203,8 @@ get_header('customer');
           <li><label><input type="checkbox" data-column="6"> Tổng số đơn hàng</label></li>
           <li><label><input type="checkbox" data-column="7"> Tổng số tiền đã chi</label></li>
           <li><label><input type="checkbox" data-column="9"> Tag phân loại</label></li>
+          <li><label><input type="checkbox" data-column="10"> Người cập nhật cuối</label></li>
+          <li><label><input type="checkbox" data-column="11"> Thời gian nhật cuối</label></li>
         </ul>
       </div>
       <div class="modal-footer justify-content-center">
