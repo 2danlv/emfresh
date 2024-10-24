@@ -26,6 +26,7 @@ var maxFields = 5;
 $(document).on('click', '.delete-location-button', function(e) {
   e.preventDefault();
   $(this).closest('.address-group').remove();
+  fieldCount--;
 });
 // Fetching data from the new API endpoint
 $.getJSON('/assets/data/city.json', function(data) {
@@ -33,25 +34,21 @@ $.getJSON('/assets/data/city.json', function(data) {
    // Function to populate the province (Thành phố Hồ Chí Minh) dropdown
    function populateProvinces($selectElement, selectedValue) {
       $selectElement.html('<option value="">Select Tỉnh/Thành phố</option>');
-      var option = `<option value="${data[0].Name}" ${selectedValue === data[0].Name ? 'selected' : ''}>${data[0].Name}</option>`;
+      var option = `<option value="${data[0].Name}" selected>${data[0].Name}</option>`;
       $selectElement.append(option);
+      $selectElement.prop('disabled', true);
     }
 
     // Function to handle cascading changes in province, district, and ward
     function handleLocationChange($provinceSelect, $districtSelect, $wardSelect) {
-      $provinceSelect.on('change', function() {
-        $districtSelect.html('<option value="">Select Quận/Huyện</option>');
-        $wardSelect.html('<option value="">Select Phường/Xã</option>').prop('disabled', true);
+      // Auto-select "Thành phố Hồ Chí Minh" and populate districts on load
+      $districtSelect.html('<option value="">Select Quận/Huyện</option>');
+      $wardSelect.html('<option value="">Select Phường/Xã</option>').prop('disabled', true);
 
-        if ($(this).val() === data[0].Name) {
-          $.each(data[0].Districts, function(index, district) {
-            $districtSelect.append(`<option value="${district.Name}">${district.Name}</option>`);
-          });
-          $districtSelect.prop('disabled', false);
-        } else {
-          $districtSelect.prop('disabled', true);
-        }
+      $.each(data[0].Districts, function(index, district) {
+        $districtSelect.append(`<option value="${district.Name}">${district.Name}</option>`);
       });
+      $districtSelect.prop('disabled', false);
 
       $districtSelect.on('change', function() {
         $wardSelect.html('<option value="">Select Phường/Xã</option>');
@@ -146,9 +143,11 @@ $.getJSON('/assets/data/city.json', function(data) {
       handleLocationChange($newProvinceSelect, $newDistrictSelect, $newWardSelect);
       fieldCount++;
     } else {
-      alert('You can only add up to 5 locations.');
+      alert('Chỉ được thêm tối đa 5 địa chỉ.');
     }
   });
+  // Remove address group functionality
+  
 }).fail(function() {
   console.error('Error fetching location data');
 });

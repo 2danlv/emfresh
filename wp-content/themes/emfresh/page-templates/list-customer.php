@@ -108,10 +108,12 @@ get_header('customer');
               <th>Tên <span class="nowrap">khách hàng</span></th>
               <th>Số <span class="nowrap">điện thoại</span></th>
               <th class="nowrap">Địa chỉ</th>
-              <th>Trạng thái <span class="nowrap">đặt đơn</span></th>
+              <th>Tổng số ngày đã dùng</th>
+              <th>Tổng số bữa ăn đã dùng</th>
+              <th>Tổng số đơn hàng</th>
+              <th>Tổng số tiền đã chi</th>
               <th>Điểm <span class="nowrap">tích lũy</span></th>
               <th>Tag <span class="nowrap">phân loại</span></th>
-              <th>Trạng thái <span class="nowrap">thanh toán</span></th>
               <th>Người cập nhật cuối</th>
               <th>Thời gian nhật cuối</th>
             </tr>
@@ -120,6 +122,7 @@ get_header('customer');
 
             <?php
             $customer_filter = [
+              'active' => '1',
               'paged' => 1,
               'limit' => -1,
             ];
@@ -146,8 +149,7 @@ get_header('customer');
                 <p>
                   <?php echo $location['address'] ?>,
                   <?php echo $location['ward'] ?>,
-                  <?php echo $location['district'] ?>,<br>
-                  <?php echo $location['city'] ?> 
+                  <?php echo $location['district'] ?>
                   </p>
                   <?php } ?>
                
@@ -156,11 +158,13 @@ get_header('customer');
                 }
               ?>
                     </td>
-                    <td><span class="tag btn btn-sm status_<?php echo $record['status']; ?>"><?php echo $record['status_name']; ?></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                     </td>
                     <td><?php echo $record['point']; ?>
                     <td><span class="tag btn btn-sm tag_<?php echo $record['tag']; ?>"><?php echo $record['tag_name']; ?></span></td>
-                    <td><span class="tag btn btn-sm order_<?php echo $record['order_payment_status']; ?>"><?php echo $record['payment_status_name']; ?></span></td>
                     <td><?php echo $record['modified_author'] != '' ? $record['modified_author'] : $record['created_author']; ?></td>
                     <td><?php echo $record['modified']; ?>
                     </td>
@@ -195,9 +199,11 @@ get_header('customer');
           <!-- <li><label><input type="checkbox" data-column="1" checked> Tên khách hàng</label></li> -->
           <li><label><input type="checkbox" data-column="2" checked> Số điện thoại</label></li>
           <li><label><input type="checkbox" data-column="3" checked> Địa chỉ</label></li>
-          <li><label><input type="checkbox" data-column="4" checked> Trạng thái đặt đơn</label></li>
-          <li><label><input type="checkbox" data-column="5"> Điểm tích lũy</label></li>
-          <li><label><input type="checkbox" data-column="6"> Tag phân loại</label></li>
+          <li><label><input type="checkbox" data-column="4"> Tổng số ngày đã dùng</label></li>
+          <li><label><input type="checkbox" data-column="5"> Tổng số bữa ăn đã dùng</label></li>
+          <li><label><input type="checkbox" data-column="6"> Tổng số đơn hàng</label></li>
+          <li><label><input type="checkbox" data-column="7"> Tổng số tiền đã chi</label></li>
+          <li><label><input type="checkbox" data-column="9"> Tag phân loại</label></li>
         </ul>
       </div>
       <div class="modal-footer justify-content-center">
