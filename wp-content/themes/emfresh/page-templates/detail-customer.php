@@ -29,6 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 
   $nickname   = isset($_POST['nickname']) ? sanitize_text_field($_POST['nickname']):'';
   $fullname   = isset($_POST['fullname']) ? sanitize_text_field($_POST['fullname']):'';
+  $customer_name   = isset($_POST['customer_name']) ? sanitize_text_field($_POST['customer_name']):'';
   $phone      = isset($_POST['phone']) ? sanitize_text_field($_POST['phone']):'';
   $gender_post = isset($_POST['gender']) ? intval($_POST['gender']) : 0;
   $status_post = isset($_POST['status']) ? intval($_POST['status']) : 0;
@@ -44,6 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
     'id'            => $customer_id,
     'nickname'      => $nickname,
     'fullname'      => $fullname,
+    'customer_name' => $customer_name,
     'phone'         => $phone,
     'active'        => $active_post,
     'status'        => $status_post,
@@ -421,14 +423,20 @@ get_header('customer');
                       </div>
                     </div>
                     <div class="form-group row">
-                      <div class="col-sm-3"><label for="inputName">Tên khách hàng (*)</label></div>
+                      <div class="col-sm-3"><label for="inputName">Tên tài khoản (*)</label></div>
                       <div class="col-sm-9">
-                        <input type="text" name="nickname" class="form-control" value="<?php echo $response_customer['data']['nickname'] ?>" required>
+                        <input type="text" name="nickname" class="nickname form-control" value="<?php echo $response_customer['data']['nickname'] ?>" required>
                       </div>
                     </div>
                     <div class="form-group row">
-                      <div class="col-sm-3"><label for="fullname">Tên đầy đủ</label></div>
-                      <div class="col-sm-9"><input type="text" id="fullname" name="fullname" value="<?php echo $response_customer['data']['fullname'] ?>" class="form-control"></div>
+                      <div class="col-sm-3"><label for="fullname">Tên thật</label></div>
+                      <div class="col-sm-9"><input type="text" id="fullname" name="fullname" value="<?php echo $response_customer['data']['fullname'] ?>" class="fullname form-control"></div>
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-sm-3"><label for="customer_name">Tên khách hàng</label></div>
+                      <div class="col-sm-9">
+                        <input type="text" name="customer_name" class="customer_name form-control" value="<?php echo $response_customer['data']['customer_name'] ?>">
+                      </div>
                     </div>
                     <div class="form-group row">
                       <div class="col-sm-3"><label for="phone">Số điện thoại (*)</label></div>
@@ -686,6 +694,11 @@ get_footer('customer');
 <script src="/assets/js/location.js"></script>
 <script type="text/javascript">
   $(document).ready(function() {
+    $('.nickname').keyup(updatetxt);
+    $('.fullname').keyup(updatetxt);
+    function updatetxt() {
+      $('.customer_name').val($('.fullname').val() +' ('+ $('.nickname').val()+') ');
+    }
     $('.select2').select2();
     $('.js-list-note').each(function(){
       let p = $(this);

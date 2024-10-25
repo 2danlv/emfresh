@@ -148,12 +148,12 @@ get_header("customer");
               </div>
               <div class="form-group row">
                 <div class="col-sm-3"><label>Tên thật</label></div>
-                <div class="col-sm-9"><input type="text" name="fullname" value="<?php site__post_e('fullname') ?>" class="form-control"></div>
+                <div class="col-sm-9"><input type="text" name="fullname" value="<?php site__post_e('fullname') ?>" class="fullname form-control"></div>
               </div>
               <div class="form-group row">
                 <div class="col-sm-3"><label>Tên khách hàng</label></div>
                 <div class="col-sm-9">
-                  <input type="text" name="customer_name" class="customer_name form-control" value="<?php site__post_e('customer_name') ?>" required>
+                  <input type="text" name="customer_name" class="customer_name form-control" value="<?php site__post_e('customer_name') ?>">
                 </div>
               </div>
               <div class="form-group row">
@@ -364,13 +364,24 @@ get_footer('customer');
   }
 }
   $(document).ready(function() {
+    $('.nickname').keyup(updatetxt);
+    $('.fullname').keyup(updatetxt);
+    function updatetxt() {
+      $('.customer_name').val($('.fullname').val() +' ('+ $('.nickname').val()+') ');
+    }
+    
     $('.select2').select2();
     $('.btn-primary[name="add_post"]').on('click', function(e) {
       if ($('#phone_status').html() == "OK" ){
             e.stopPropagation();
             $('.btn-primary[name="add_post"]').css({
-                "pointer-events": "none"
+                "display": "none"
             });
+            setTimeout(() => {
+              $('.btn-primary[name="add_post"]').css({
+                "display": "block"
+            });
+            }, 2000);
         document.getElementById('customer-form').submit();
         } else {
           alert('Số điện thoại đã tồn tại!');
