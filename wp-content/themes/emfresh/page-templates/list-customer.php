@@ -8,8 +8,10 @@
  * @since Twenty Twelve 1.0
  */
 
-global $em_customer,$em_order;
+global $em_customer, $em_order, $em_customer_tag;
+
 $list_order_status = $em_order->get_statuses();
+$list_tags = $em_customer->get_tags();
 
 // cập nhật data cho customer
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
@@ -162,7 +164,13 @@ get_header('customer');
                     <td></td>
                     <td></td>
                     <td><?php echo $record['point']; ?>
-                    <td><span class="tag btn btn-sm tag_<?php echo $record['tag']; ?>"><?php echo $record['tag_name']; ?></span></td>
+                    <td>
+                      <?php 
+                        $customer_tags = $em_customer_tag->get_items(['customer_id' => $record['id']]);
+                        foreach($customer_tags as $item) : $tag = $item['tag_id']; ?>
+                      <span class="tag btn btn-sm tag_<?php echo $tag; ?>"><?php echo isset($list_tags[$tag]) ? $list_tags[$tag] : ''; ?></span>
+                      <?php endforeach;?>
+                    </td>
                     <td><?php echo $record['modified_author'] != '' ? $record['modified_author'] : $record['created_author']; ?></td>
                     <td><?php echo $record['modified']; ?></td>
                   </tr>

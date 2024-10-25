@@ -8,12 +8,13 @@
  * @since Twenty Twelve 1.0
  */
 
-global $em_customer, $em_order;
+global $em_customer, $em_order, $em_customer_tag;
 
 $response_add_customer = [];
 
 // Check if the form is submitted and handle the submission
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
+
   $nickname   = isset($_POST['nickname']) ? sanitize_text_field($_POST['nickname']):'';
   $fullname   = isset($_POST['fullname']) ? sanitize_text_field($_POST['fullname']):'';
   $customer_name   = isset($_POST['customer_name']) ? sanitize_text_field($_POST['customer_name']):'';
@@ -31,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
   $data = [
     'nickname'      => $nickname,
     'fullname'      => $fullname,
-    'customer_name'      => $customer_name,
+    'customer_name' => $customer_name,
     'phone'         => $phone,
     'status'        => $status_post,
     'gender'        => $gender_post,
@@ -49,30 +50,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
   $response_add_customer = em_api_request('customer/add', $data);
 
   if ($response_add_customer['code'] == 200) {
-    $response_locations = [];
+    $customer_id = (int) $response_add_customer['data']['insert_id'];
 
-    foreach ($_POST['locations'] as $location) {
-      $location_data = [
-        'customer_id'   => $response_add_customer['data']['insert_id'],
-        'active'        => isset($location['active']) ? intval($location['active']) : 0,
-        'address'       => isset($location['address']) ? sanitize_text_field($location['address']) : '',
-        'ward'          => isset($location['ward']) ? sanitize_text_field($location['ward']) : '',
-        'district'      => isset($location['district']) ? sanitize_text_field($location['district']) : '',
-        'city'          => isset($location['province']) ? sanitize_text_field($location['province']) : '',
-      ];
-      $response_location = em_api_request('location/add', $location_data);
+    if(isset($_POST['locations']) && is_array($_POST['locations'])) {
+      foreach ($_POST['locations'] as $location) {
+        $location_data = [
+          'customer_id'   => $customer_id,
+          'active'        => isset($location['active']) ? intval($location['active']) : 0,
+          'address'       => isset($location['address']) ? sanitize_text_field($location['address']) : '',
+          'ward'          => isset($location['ward']) ? sanitize_text_field($location['ward']) : '',
+          'district'      => isset($location['district']) ? sanitize_text_field($location['district']) : '',
+          'city'          => isset($location['province']) ? sanitize_text_field($location['province']) : '',
+        ];
+        
+        em_api_request('location/add', $location_data);
+      }
+    }
+    
+    if(isset($_POST['tag_ids']) && is_array($_POST['tag_ids'])) {
+      foreach($_POST['tag_ids'] as $i => $tag_id) {
+        $tag_id = (int) $tag_id;
+        if($tag_id == 0) continue;
 
-      if ($response_location['code'] != 200) {
-        $response_locations[] = $response_location;
+        $em_customer_tag->insert([
+          'tag_id' => $tag_id,
+          'customer_id' => $customer_id
+        ]);
       }
     }
 
-    if (count($response_locations) > 0) {
-      $response_add_customer['locations'] = $response_locations;
-    }
-
     wp_redirect(add_query_arg([
-      'customer_id' => $response_add_customer['data']['insert_id'],
+      'customer_id' => $customer_id,
       'code' => 200,
       'message' => 'Add Success',
     ], home_url('customer/detail-customer')));
@@ -82,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 
 $status = $em_customer->get_statuses();
 $gender = $em_customer->get_genders();
-$tag = $em_customer->get_tags();
+$list_tags = $em_customer->get_tags();
 $actives = $em_customer->get_actives();
 
 $list_cook = custom_get_list_cook();
@@ -260,10 +268,10 @@ get_header("customer");
               <div class="form-group row">
                 <div class="col-sm-3"><label for="inputTag">Tag phân loại</label></div>
                 <div class="col-sm-9 text-capitalize">
-                  <select class="form-control text-capitalize select2" multiple="multiple" name="tag" style="width: 100%;">
+                  <select class="form-control text-capitalize select2" multiple="multiple" name="tag_ids[]" style="width: 100%;">
                     <option value="0">Select one</option>
                     <?php
-                    foreach ($tag as $key => $value) { ?>
+                    foreach ($list_tags as $key => $value) { ?>
                       <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
                     <?php } ?>
                   </select>

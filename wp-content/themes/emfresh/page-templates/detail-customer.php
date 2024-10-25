@@ -8,7 +8,7 @@
  * @since Twenty Twelve 1.0
  */
 
-global $em_customer,$em_order;
+global $em_customer, $em_order, $em_customer_tag;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['remove'])) {
   $customer_id   = intval($_POST['customer_id']);
@@ -21,9 +21,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['remove'])) {
   ], '/customer/') ));
   exit;
 }
+
 // cập nhật data cho customer
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
+
   $customer_id = intval($_POST['customer_id']);
+
   $nickname   = isset($_POST['nickname']) ? sanitize_text_field($_POST['nickname']):'';
   $fullname   = isset($_POST['fullname']) ? sanitize_text_field($_POST['fullname']):'';
   $phone      = isset($_POST['phone']) ? sanitize_text_field($_POST['phone']):'';
@@ -55,7 +58,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
   $response_update = em_api_request('customer/update', $customer_data);
 
   if ($customer_id == 0) {
-    die('customer_id is null!');
+    wp_redirect(home_url('customer'));
+    exit();
   }
 
   foreach ($_POST['locations'] as $location) {
@@ -83,6 +87,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
     }
   }
 
+  if(isset($_POST['tag_ids'])) {
+    $customer_tags = $em_customer_tag->get_items(['customer_id' => $customer_id]);
+
+    $count = 0;
+
+    if(count($_POST['tag_ids']) > 0){
+      foreach($_POST['tag_ids'] as $i => $tag_id) {
+        $tag_id = (int) $tag_id;
+        if($tag_id == 0) continue;
+
+        if(isset($customer_tags[$i])) {
+          $em_customer_tag->update([
+            'tag_id' => $tag_id,
+            'id' => $customer_tags[$i]['id']
+          ]);
+        } else {
+          $em_customer_tag->insert([
+            'tag_id' => $tag_id,
+            'customer_id' => $customer_id
+          ]);
+        }
+
+        $count++;
+      }
+    }
+
+    for($i = $count; $i < count($customer_tags); $i++) {
+      $em_customer_tag->delete($customer_tags[$i]['id']);
+    }
+  }
+
   // xóa location
   if (!empty($_POST['location_delete_ids'])) {
     $delete_ids = explode(',', sanitize_text_field($_POST['location_delete_ids']));
@@ -106,7 +141,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 
 $status = $em_customer->get_statuses();
 $gender = $em_customer->get_genders();
-$tag    = $em_customer->get_tags();
+$list_tags    = $em_customer->get_tags();
 $actives = $em_customer->get_actives();
 // lấy 1 customer
 
@@ -118,7 +153,7 @@ $response_customer = em_api_request('customer/item', $customer_filter);
 
 if ($customer_id == 0 || count($response_customer['data']) == 0) {
   wp_redirect( esc_url('/customer/') );
-    exit;
+  exit;
 }
 
 // lấy danh sách location
@@ -131,6 +166,9 @@ $response_get_location = em_api_request('location/list', $location_filter);
 $list_cook = custom_get_list_cook();
 $list_notes = custom_get_list_notes();
 $list_payment_status = $em_order->get_statuses();
+
+$customer_tags = $em_customer_tag->get_items(['customer_id' => $customer_id]);
+$tag_ids = custom_get_list_by_key($customer_tags, 'tag_id');
 
 get_header('customer');
 // Start the Loop.
@@ -228,8 +266,11 @@ get_header('customer');
                 }
               ?>
               <hr>
-              <strong><i class="fas fa-pencil-alt mr-1"></i> Tag phân loại</strong>: <br><span class="text-capitalize"><?php echo $response_customer['data']['tag_name'] ?></span><br>
-              
+              <strong><i class="fas fa-pencil-alt mr-1"></i> Tag phân loại</strong>:
+              <?php foreach($tag_ids as $i) : if(empty($list_tags[$i])) continue;  ?>
+              <br><span class="text-capitalize"><?php echo $list_tags[$i] ?></span>
+              <?php endforeach?>
+              <br>
             </div>
             <!-- /.card-body -->
           </div>
@@ -516,11 +557,11 @@ get_header('customer');
                     <div class="form-group row">
                       <div class="col-sm-3"><label for="inputTag">Tag phân loại</label></div>
                       <div class="col-sm-9 text-capitalize">
-                        <select class="form-control text-capitalize select2" multiple="multiple" name="tag" style="width: 100%;">
+                        <select class="form-control text-capitalize select2" multiple="multiple" name="tag_ids[]" style="width: 100%;">
                           <option value="0">Select one</option>
                           <?php
-                          foreach ($tag as $value => $label) { ?>
-                            <option value="<?php echo $value; ?>" <?php selected($response_customer['data']['tag'], $value); ?>><?php echo $label; ?></option>
+                          foreach ($list_tags as $value => $label) { ?>
+                            <option value="<?php echo $value; ?>" <?php echo in_array($value, $tag_ids) ? 'selected' : ''; ?>><?php echo $label; ?></option>
                           <?php } ?>
                         </select>
                       </div>

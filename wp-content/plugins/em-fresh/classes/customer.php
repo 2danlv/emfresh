@@ -91,7 +91,7 @@ class EM_Customer extends EF_Default
         return $deleted;
     }
 
-    function get_items($args = [], $type = 'list')
+    function get_items($args = [], $filters = [])
     {
         global $wpdb;
 
@@ -117,10 +117,14 @@ class EM_Customer extends EF_Default
             . " ,location.district "
             . " ,location.city "
             . " FROM $table_customer AS customer "
-            . " LEFT JOIN $table_location AS location ON location.customer_id = customer.id ";
+            . " LEFT JOIN $table_location AS location ON location.customer_id = customer.id AND location.active = 1 ";
 
         if (count($location_wheres) > 0) {
             $wheres = array_merge($wheres, $location_wheres);
+        }
+
+        if (count($filters) > 0) {
+            $wheres = array_merge($wheres, $filters);
         }
 
         if (count($wheres) > 0) {
@@ -184,15 +188,14 @@ class EM_Customer extends EF_Default
 
         $wheres = $this->get_where($args, $tbl_prefix);
 
+        $query = sprintf("SELECT %s`%s`, count(*) AS total FROM %s AS customer", $tbl_prefix, $column, $this->get_tbl_name());
+
         // Location
         $location_wheres = $this->get_where($args, 'location.');
-
-        $query = sprintf(" SELECT %s`%s`, count(*) AS total FROM %s AS customer ", $tbl_prefix, $column, $this->get_tbl_name());
-
         if (count($location_wheres) > 0) {
             $wheres = array_merge($wheres, $location_wheres);
 
-            $query .= " JOIN $table_location AS location ON location.customer_id = customer.id AND location.active = 1 ";
+            $query .= " JOIN $table_location AS location ON location.customer_id = customer.id ";
         }
 
         if (count($wheres) > 0) {
@@ -431,7 +434,17 @@ class EM_Customer extends EF_Default
     {
         if ($id == 0) return [];
 
-        return $this->get_items(['parent' => $id, 'limit' => 30000]);
+        global $wpdb;
+
+        $query = $wpdb->prepare("SELECT * FROM %i WHERE parent = %d ORDER BY id ASC", $this->get_tbl_name(), $id);
+
+        $list = $wpdb->get_results($query, ARRAY_A);
+
+        foreach ($list as $i => $item) {
+            $list[$i] = $this->filter_item($item, 'list');
+        }
+
+        return $list;
     }
 
     function get_model($id = 0)
