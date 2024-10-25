@@ -8,93 +8,89 @@
  * @since Twenty Twelve 1.0
  */
 
-function site_testing_submit()
-{
-	// Check if the form is submitted and handle the submission
-	if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
+if(isset($_GET['abs'])) {
 
-		$nickname = sanitize_text_field($_POST['nickname']);
-		$fullname = sanitize_text_field($_POST['fullname']);
-		$phone = sanitize_text_field($_POST['phone']);
-		$address = sanitize_text_field($_POST['address']);
-		$gender_post = sanitize_text_field($_POST['gender']);
-		$status_post = sanitize_text_field($_POST['status']);
-		$tag_post = sanitize_text_field($_POST['tag']);
-		$point = sanitize_text_field($_POST['point']);
-		$note = sanitize_textarea_field($_POST['note']);
-		$id = intval($_POST['id']);
+    $data = [
+        'nickname'      => 'nick name',
+        'fullname'      => 'full name',
+        'phone'         => '0848555802',
+        'status'        => 1,
+        'gender'        => 3,
+        'note'          => 'note',
+        'tag'           => 1,
+        'point'         => 0
+    ];
 
-		$data = [
-			'nickname' => $nickname,
-			'fullname' => $fullname,
-			'phone' => $phone,
-			'status' => $status_post,
-			'gender' => $gender_post,
-			'note' => $note,
-			'tag' => $tag_post,
-			'point' => $point,
-			'address' => $address,
-		];
+    $em_data = array_intersect([
+        'id' => 1,
+        'status' => 3,
+        'date' => 3,
+        'esd' => 3,
+    ], $data);
 
-		if($id > 0) {
-			$data['id'] = $id;
+    // $response = em_api_request('customer/add', $data);
+    
+    var_export($em_data);
 
-			$response = em_api_request('customer/update', $data);
-		} else {
-			$response = em_api_request('customer/add', $data);
-		}
-
-		$url = get_permalink();
-		if($response['code'] != 200) {
-			$url = add_query_arg($response, $url);
-		}
-
-		wp_redirect($url);
-		exit();
-	}
-}
-add_action('wp', 'site_testing_submit');
-
-$current_user = wp_get_current_user();
-if (in_array('administrator', $current_user->roles) == false) {
-	// do something
-	wp_redirect(home_url());
-	exit();
+    // var_export($response);
+    
+    die();
+    exit();
 }
 
-get_header("customer");
-// Start the Loop.
+
+$genders = site_statistic_get_customer('gender', []);
+$tags = site_statistic_get_customer('tag', []);
+$statuses = site_statistic_get_customer('status', []);
 
 ?>
-<div class="content-wrapper">
-	<!-- Content Header (Page header) -->
-	<section class="content-header">
-		<div class="container-fluid">
-			<div class="row mb-2">
-				<div class="col-sm-6">
-					<h1><?php the_title(); ?></h1>
-				</div>
-				<div class="col-sm-6">
-					<ol class="breadcrumb float-sm-right">
-						<li class="breadcrumb-item"><a href="#">Home</a></li>
-						<li class="breadcrumb-item active"><?php the_title(); ?></li>
-					</ol>
-				</div>
-			</div>
-		</div><!-- /.container-fluid -->
-	</section>
-
-	<!-- Main content -->
-	<section class="content">
-		<?php
-			if(!empty($_GET['edit']) || isset($_GET['add'])) {
-				get_template_part( 'parts/test/cusomer', 'form' );
-			} else {
-				get_template_part( 'parts/test/cusomer', 'list' );
-			}
-		?>
-	</section>
-	<!-- /.content -->
-</div>
+<h3>Gioi tinh</h3>
+<ul>
+    <?php 
+        foreach($genders as $item) {
+            echo "<li>{$item['name']} : {$item['total']}</li>";
+        } 
+    ?>
+</ul>
+<h3>Phân loại</h3>
+<ul>
+    <?php 
+        foreach($tags as $item) {
+            echo "<li>{$item['name']} : {$item['total']}</li>";
+        } 
+    ?>
+</ul>
+<h3>Trạng thái</h3>
+<ul>
+    <?php 
+        foreach($statuses as $item) {
+            echo "<li>{$item['name']} : {$item['total']}</li>";
+        } 
+    ?>
+</ul>
 <?php
-get_footer('customer');
+
+
+$date_filters = [
+    'date'      => '2024-10-13',
+    'day'       => 13,
+    'month'     => 10,
+    'year'      => 2024,
+    'week'      => 32,
+];
+
+
+echo '<pre>';
+
+$genders = site_statistic_get_customer('gender', ['date'    => '2024-10-13']);
+var_export($genders);
+$genders = site_statistic_get_customer('gender', ['day'     => 13]);
+var_export($genders);
+$genders = site_statistic_get_customer('gender', ['month'   => 10]);
+var_export($genders);
+$genders = site_statistic_get_customer('gender', ['year'    => 2024]);
+var_export($genders);
+$genders = site_statistic_get_customer('gender', ['week'    => 32]);
+var_export($genders);
+
+echo '</pre>';

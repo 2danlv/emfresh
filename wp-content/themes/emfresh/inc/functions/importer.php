@@ -31,7 +31,7 @@ function site_importer_export_customer()
     ]);
 
     if ($response['code'] == 200 && count($response['data']) > 0) {
-        $customer_fields = [
+        $customer_labels = [
             'fullname'      => 'Tên khách hàng',
             'nickname'      => 'Họ và tên',
             'phone'         => 'Số điện thoại',
@@ -76,7 +76,7 @@ function site_importer_export_customer()
 
             $rows = [];
 
-            foreach ($customer_fields as $field => $label) {
+            foreach ($customer_labels as $field => $label) {
                 // $label = ucwords(str_replace('_', ' ', $field));
 
                 $rows[$label] = isset($customer[$field]) ? $customer[$field] : '';
@@ -124,11 +124,9 @@ function site_importer_import_customer()
         unset($post_data[0]);
 
         foreach ($post_data as $row => $columns) {
-            $errors = [];
-            $data = [];
-            
             $customer = [];
             $address = '';
+            $empty_count = 0;
 
             $i = 0;
             foreach ($customer_fields as $field => $get) {
@@ -148,6 +146,10 @@ function site_importer_import_customer()
                     $value = $columns[$i];
                 }
 
+                if($value == '') {
+                    $empty_count ++;
+                }
+
                 if ($field == 'address') {
                     $address = $value;
                 } else {
@@ -163,48 +165,41 @@ function site_importer_import_customer()
                 $i++;
             }
 
+            if($empty_count == count($customer_fields)) continue;
+
+            $customer['modified'] = current_time('mysql');
+
             $customer_res = em_api_request('customer/add', $customer);
             if ($customer_res['code'] == 200) {
-                $data[] = $customer_res['data'];
-
                 $customer_id = (int) $customer_res['data']['insert_id'];
                 if ($customer_id > 0 && $address != '') {
-                    $rows = explode("\n", $address);
-
-                    foreach ($rows as $row) {
-                        $list = explode(',', trim($row));
+                    $lines = explode("\n", $address);
+                    $active_id = 0;
+                    foreach ($lines as $line) {
+                        $list = explode(',', trim($line));
 
                         if (count($list) == count($location_fields)) {
                             $location = [
-                                'customer_id' => $customer_id
+                                'customer_id' => $customer_id,
+                                'active' => $active_id == 0 ? 1 : 0
                             ];
 
                             foreach ($location_fields as $i => $field) {
-                                $location[$field] = trim($list[$i]);
+                                $location[$field] = sanitize_text_field($list[$i]);
                             }
 
                             $location_res = em_api_request('location/add', $location);
                             if ($location_res['code'] == 200) {
-                                $data[] = $location_res['data'];
-                            } else {
-                                $errors[] = $location_res['data'];
+                                $active_id = 1;
                             }
-                        } else {
-                            $errors[] = 'location: ' . $row;
                         }
                     }
                 }
             } else {
-                $errors[] = $customer_res['data'];
+                $customer_res['data'] = implode(", ", $customer_res['data']);
             }
 
-            if (count($errors) > 0) {
-                $res_errors[$row] = $errors;
-            }
-
-            if (count($data) > 0) {
-                $res_data[$row] = $data;
-            }
+            $res_data[$row] = $customer_res;
         }
 
         if (count($res_errors) > 0) {
@@ -213,9 +208,7 @@ function site_importer_import_customer()
             $response['message'] = 'Import errors';
         }
 
-        if (count($res_data) > 0) {
-            $response['data'] = $res_data;
-        }
+        $response['data'] = $res_data;
     }
 
     return $response;

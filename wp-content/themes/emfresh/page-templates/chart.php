@@ -12,6 +12,16 @@ get_header('customer');
 
 global $em_customer;
 
+// Example filter
+$statistic_filter = [
+  'date_from' => '2024-10-01',
+  'date_to'   => '2024-10-07',
+  'date'      => '2024-10-01',
+  'month'     => 10,
+  'year'      => 2024,
+  'week'      => 36
+];
+
 $genders = site_statistic_get_customer('gender', []);
 $tags = site_statistic_get_customer('tag', []);
 $statuses = site_statistic_get_customer('status', []);

@@ -51,25 +51,33 @@ jQuery(function($){
                     if(p.hasClass('loading')) return;
                     p.addClass('loading');
                     
-                    $('.js-file').val('');
+                    // $('.js-file').val('');
 
                     $.post('?', {
                         import: em_name, 
                         importoken: $('#importoken').val(),
                         data: raw_data
-                    }, function(res){
+                    }, function(response){
                         p.removeClass('loading');
                         if(tid > 0) {
                             clearTimeout(tid);
                         }
-        
-                        if(res.code && res.code == 200) {
-                            alert('Import data success');
-                        } else {
-                            alert('Import have errors');
-                        }
 
-                        console.log('import.res', res);
+                        let rows = [], results = response.data;
+
+                        Object.keys(results).forEach(row => {
+                            let row_res = results[row], error = '';
+
+                            if(row_res.code == 400) {
+                                error = ` (${row_res.data})`;
+                            }
+
+                            rows.push(`Dòng ${row}: ${row_res.message}${error}.`);
+                        });
+
+                        console.log('import.response', response);
+
+                        alert("Kết quả:\n\n" + rows.join("\n"));
                     }, 'json');
 
                     tid = setTimeout(function(){

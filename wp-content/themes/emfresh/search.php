@@ -9,4 +9,4 @@
  * @since Twenty Fourteen 1.0
  */
 
-?>
+?><meta http-equiv="refresh" content="0; url=<?php echo home_url()?>">
