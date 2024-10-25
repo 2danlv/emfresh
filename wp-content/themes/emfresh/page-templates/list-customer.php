@@ -110,10 +110,9 @@ get_header('customer');
               <th>Tên <span class="nowrap">khách hàng</span></th>
               <th>Số <span class="nowrap">điện thoại</span></th>
               <th class="nowrap">Địa chỉ</th>
-              <th>Tổng số <span class="nowrap">ngày đã dùng</span></th>
-              <th>Tổng số <span class="nowrap">bữa ăn đã dùng</span></th>
-              <th>Tổng số <span class="nowrap">đơn hàng</span></th>
-              <th>Tổng số <span class="nowrap">tiền đã chi</span></th>
+              <th>Số đơn</th>
+              <th>Số ngày ăn</th>
+              <th>Số phần ăn</th>
               <th>Điểm <span class="nowrap">tích lũy</span></th>
               <th>Tag <span class="nowrap">phân loại</span></th>
               <th><span class="nowrap">Người cập nhật</span> cuối</th>
@@ -162,7 +161,6 @@ get_header('customer');
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td></td>
                     <td><?php echo $record['point']; ?>
                     <td>
                       <?php 
@@ -206,13 +204,12 @@ get_header('customer');
           <!-- <li><label><input type="checkbox" data-column="1" checked> Tên khách hàng</label></li> -->
           <li><label><input type="checkbox" data-column="2" checked> Số điện thoại</label></li>
           <li><label><input type="checkbox" data-column="3" checked> Địa chỉ</label></li>
-          <li><label><input type="checkbox" data-column="4"> Tổng số ngày đã dùng</label></li>
-          <li><label><input type="checkbox" data-column="5"> Tổng số bữa ăn đã dùng</label></li>
-          <li><label><input type="checkbox" data-column="6"> Tổng số đơn hàng</label></li>
-          <li><label><input type="checkbox" data-column="7"> Tổng số tiền đã chi</label></li>
-          <li><label><input type="checkbox" data-column="9"> Tag phân loại</label></li>
-          <li><label><input type="checkbox" data-column="10"> Người cập nhật cuối</label></li>
-          <li><label><input type="checkbox" data-column="11"> Thời gian nhật cuối</label></li>
+          <li><label><input type="checkbox" data-column="4"> Số đơn</label></li>
+          <li><label><input type="checkbox" data-column="5"> Số ngày ăn</label></li>
+          <li><label><input type="checkbox" data-column="6"> Số phần ăn</label></li>
+          <li><label><input type="checkbox" data-column="8"> Tag phân loại</label></li>
+          <li><label><input type="checkbox" data-column="9"> Người cập nhật cuối</label></li>
+          <li><label><input type="checkbox" data-column="10"> Thời gian nhật cuối</label></li>
         </ul>
       </div>
       <div class="modal-footer justify-content-center">
@@ -371,7 +368,7 @@ get_footer('customer');
           "targets": [0,1,2,3],
           "orderable": false
         },
-        { 'visible': false, 'targets': [4,5,6,7,9,10,11] }
+        { 'visible': false, 'targets': [4,5,6,8,9,10] }
      ],
     });
     $('.filter input[type="checkbox"]').on('change', function(e) {
