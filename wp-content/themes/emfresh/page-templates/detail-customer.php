@@ -69,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
     $address = isset($location['address']) ? sanitize_text_field($location['address']) : '';
     $ward = isset($location['ward']) ? sanitize_text_field($location['ward']) : '';
     $district = isset($location['district']) ? sanitize_text_field($location['district']) : '';
-    $city = isset($location['province']) ? sanitize_text_field($location['province']) : '';
+    $city = isset($location['province']) ? sanitize_text_field($location['province']) : '79';
     $active = isset($location['active']) ? intval($location['active']) : 0;
     
     $location_data = [
@@ -256,9 +256,8 @@ get_header('customer');
                   ?>
                 <p>
                   <?php echo $record['address'] ?>,
-                  <?php echo $record['ward'] ?>,
-                  <?php echo $record['district'] ?>,
-                  <?php echo $record['city'] ?> 
+                  <?php echo $record['ward'] ?>,<br>
+                  <?php echo $record['district'] ?>, Thành phố Hồ Chí Minh
                   <?php if($record['active'] == 1) {?>
                     <span class="badge badge-warning">Mặc định</span>
                   <?php } ?>
@@ -435,7 +434,7 @@ get_header('customer');
                     <div class="form-group row">
                       <div class="col-sm-3"><label for="customer_name">Tên khách hàng</label></div>
                       <div class="col-sm-9">
-                        <input type="text" name="customer_name" class="customer_name form-control" value="<?php echo $response_customer['data']['customer_name'] ?>">
+                        <input type="text" name="customer_name" readonly class="customer_name form-control" value="<?php echo $response_customer['data']['customer_name'] ?>">
                       </div>
                     </div>
                     <div class="form-group row">

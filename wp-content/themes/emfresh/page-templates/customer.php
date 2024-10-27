@@ -60,9 +60,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
           'address'       => isset($location['address']) ? sanitize_text_field($location['address']) : '',
           'ward'          => isset($location['ward']) ? sanitize_text_field($location['ward']) : '',
           'district'      => isset($location['district']) ? sanitize_text_field($location['district']) : '',
-          'city'          => isset($location['province']) ? sanitize_text_field($location['province']) : '',
+          'city'          => isset($location['province']) ? sanitize_text_field($location['province']) : '79',
         ];
-        
         em_api_request('location/add', $location_data);
       }
     }
@@ -153,7 +152,7 @@ get_header("customer");
               <div class="form-group row">
                 <div class="col-sm-3"><label>Tên khách hàng</label></div>
                 <div class="col-sm-9">
-                  <input type="text" name="customer_name" class="customer_name form-control" value="<?php site__post_e('customer_name') ?>">
+                  <input type="text" name="customer_name" readonly class="customer_name form-control" value="<?php site__post_e('customer_name') ?>">
                 </div>
               </div>
               <div class="form-group row">

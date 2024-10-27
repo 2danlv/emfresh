@@ -134,7 +134,7 @@ get_header('customer');
                   if ($record['active'] !='0') {?>
                   <tr>
                     <td><input type="checkbox" class="checkbox-element" value="<?php echo $record['id'] ?>"></td>
-                    <td><a href="detail-customer/?customer_id=<?php echo $record['id'] ?>"><?php echo $record['nickname']; ?></a></td>
+                    <td><a href="detail-customer/?customer_id=<?php echo $record['id'] ?>"><?php echo $record['customer_name']; ?></a></td>
                     <td><span class="copy" title="Copy: <?php echo $record['phone']; ?>"><?php echo $record['phone']; ?></span></td>
                     <td>
                     <?php
