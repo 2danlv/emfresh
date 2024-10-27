@@ -298,6 +298,7 @@ class EM_Customer extends EF_Default
         $fields = array(
             'fullname'      => '',
             'nickname'      => '',
+            'customer_name' => '',
             'phone'         => '',
             'active'        => 1,
             'status'        => 1,
