@@ -78,12 +78,6 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/search/" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Tìm kiếm</p>
-                </a>
-              </li>
-              <li class="nav-item">
                 <a href="/chart/" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Thống kê</p>
