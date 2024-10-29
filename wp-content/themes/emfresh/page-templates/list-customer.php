@@ -110,6 +110,7 @@ get_header('customer');
               <th>Tên <span class="nowrap">khách hàng</span></th>
               <th>Số <span class="nowrap">điện thoại</span></th>
               <th class="nowrap">Địa chỉ</th>
+              <th>Địa chỉ</th>
               <th>Số đơn</th>
               <th>Số ngày ăn</th>
               <th>Số phần ăn</th>
@@ -158,6 +159,14 @@ get_header('customer');
                     }
                   ?>
                     </td>
+                    <td>
+                      <?php 
+                      foreach ($response_get_location['data'] as $index => $location) { 
+                        if($location['active'] == 1) { 
+                           echo $location['district'];
+                          } 
+                      } ?>
+                    </td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -171,6 +180,7 @@ get_header('customer');
                     </td>
                     <td><?php echo $record['modified_author'] != '' ? $record['modified_author'] : $record['created_author']; ?></td>
                     <td><?php echo $record['modified']; ?></td>
+                    
                   </tr>
             <?php  }
             
@@ -194,7 +204,7 @@ get_header('customer');
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title"><i class="fas fa-filter"></i> Chọn cột hiển thị!</h4>
+        <h4 class="modal-title"><i class="fas fa-eye"></i> Chọn cột hiển thị!</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">×</span>
         </button>
@@ -204,12 +214,12 @@ get_header('customer');
           <!-- <li><label><input type="checkbox" data-column="1" checked> Tên khách hàng</label></li> -->
           <li><label><input type="checkbox" data-column="2" checked> Số điện thoại</label></li>
           <li><label><input type="checkbox" data-column="3" checked> Địa chỉ</label></li>
-          <li><label><input type="checkbox" data-column="4"> Số đơn</label></li>
-          <li><label><input type="checkbox" data-column="5"> Số ngày ăn</label></li>
-          <li><label><input type="checkbox" data-column="6"> Số phần ăn</label></li>
-          <li><label><input type="checkbox" data-column="8"> Tag phân loại</label></li>
-          <li><label><input type="checkbox" data-column="9"> Người cập nhật cuối</label></li>
-          <li><label><input type="checkbox" data-column="10"> Thời gian nhật cuối</label></li>
+          <li><label><input type="checkbox" data-column="5"> Số đơn</label></li>
+          <li><label><input type="checkbox" data-column="6"> Số ngày ăn</label></li>
+          <li><label><input type="checkbox" data-column="7"> Số phần ăn</label></li>
+          <li><label><input type="checkbox" data-column="9"> Tag phân loại</label></li>
+          <li><label><input type="checkbox" data-column="10"> Người cập nhật cuối</label></li>
+          <li><label><input type="checkbox" data-column="11"> Thời gian nhật cuối</label></li>
         </ul>
       </div>
       <div class="modal-footer justify-content-center">
@@ -354,6 +364,92 @@ get_footer('customer');
 <script>
   $(document).ready(function() {
     const table = new DataTable('#list-customer', {
+      language: {
+        searchBuilder: {
+              button: {
+                  0: '<i class="fas fa-filter"></i> Bộ lọc',
+                  _: '<i class="fas fa-filter"></i> Bộ lọc (%d)'
+              },
+              add: '<i class="fas fa-plus"></i> Thêm điều kiện',
+              condition: 'Chọn biểu thức',
+              clearAll: 'Xóa tất cả bộ lọc',
+              delete: '<i class="fas fa-trash"></i>',
+              deleteTitle: 'Xóa lọc',
+              data: 'Chọn cột',
+              //left: 'Left',
+              //leftTitle: 'Left Title',
+              logicAnd: 'Và',
+              logicOr: 'Hoặc',
+              //right: 'Right',
+              //rightTitle: 'Right Title',
+              title: {
+                  0: 'Điều kiện lọc',
+                  _: 'Điều kiện lọc (%d)'
+              },
+              value: 'Giá trị',
+              valueJoiner: '-',
+              conditions: {
+                date: {
+                  between: 'Trong khoản',
+                  empty: 'Rỗng',
+                  equals: 'Bằng',
+                  after: 'Trước ngày',
+                  before: 'Sau ngày',
+                  gt: 'Lớn hơn',
+                  gte: 'Lớn hơn bằng',
+                  lt: 'Nhỏ hơn',
+                  lte: 'Nhỏ hơn bằng',
+                  not: 'Khác',
+                  notBetween: 'Ngoài khoản',
+                  notEmpty: 'Không rỗng',
+                },
+                number: {
+                  between: 'Trong khoản',
+                  empty: 'Rỗng',
+                  equals: 'Bằng',
+                  gt: 'Lớn hơn',
+                  gte: 'Lớn hơn bằng',
+                  lt: 'Nhỏ hơn',
+                  lte: 'Nhỏ hơn bằng',
+                  not: 'Khác',
+                  notBetween: 'Ngoài khoản',
+                  notEmpty: 'Không rỗng',
+                },
+                string: {
+                  between: 'Trong khoản',
+                  empty: 'Rỗng',
+                  equals: 'Bằng',
+                  gt: 'Lớn hơn',
+                  gte: 'Lớn hơn bằng',
+                  lt: 'Nhỏ hơn',
+                  lte: 'Nhỏ hơn bằng',
+                  not: 'Khác',
+                  notBetween: 'Ngoài khoản',
+                  notEmpty: 'Không rỗng',
+                  contains: 'Chứa',
+                  endsWith: 'Kết thúc với',
+                  notContains: 'Không chứa',
+                  notEndsWith: 'Không kết thúc với',
+                  notStartsWith: 'Không bắt đầu với',
+                  startsWith: 'Bắt đầu với'
+                }
+              }
+      }
+	},
+    layout: {
+        //  top1: 'searchBuilder'
+        topStart: {
+            buttons: [
+                {
+                    extend: 'searchBuilder',
+                    config: {
+                        depthLimit: 0,
+                        columns: [1,2,4,5,6,7,8,9,10,11]
+                    }
+                }
+            ]
+        }
+    },
       "responsive": true, 
       "lengthChange": false, 
       "autoWidth": true,
@@ -368,7 +464,7 @@ get_footer('customer');
           "targets": [0,1,2,3],
           "orderable": false
         },
-        { 'visible': false, 'targets': [4,5,6,8,9,10] }
+        { 'visible': false, 'targets': [4,5,6,7,9,10,11] }
      ],
     });
     $('.filter input[type="checkbox"]').on('change', function(e) {

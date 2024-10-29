@@ -34,9 +34,11 @@
 <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/2.1.8/js/dataTables.responsive.min.js"></script>
 <script src="https://cdn.datatables.net/2.1.8/js/responsive.bootstrap4.min.js"></script>
-<script src="https://cdn.datatables.net/2.1.8/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/2.1.8/js/buttons.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.10.16/sorting/natural.js"></script>
+<script src="https://cdn.datatables.net/searchbuilder/1.8.1/js/dataTables.searchBuilder.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.1.2/js/dataTables.buttons.js"></script>
+<script src="https://cdn.datatables.net/datetime/1.5.4/js/dataTables.dateTime.min.js"></script>
 <script>
   $(function () {
     var url = location.href.replace(/\/+$/, ''), //rtrim `/`
