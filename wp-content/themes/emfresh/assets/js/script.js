@@ -1,402 +1,286 @@
-(function($) {
-  var lastScrollTop = 0;
-  $_scroll_menu_top = function() {
-    $scroll_menu = jQuery('#top-nav');
-    if ($scroll_menu.length < 1) {
-      return
+jQuery(document).ready(function() {
+
+  var table = $('#list-customer').DataTable({
+    language: {
+      'paginate': {
+        'previous': '<i class="fas fa-left"></i>',
+        'next': '<i class="fas fa-right"></i>'
+      },
+      searchBuilder: {
+            button: {
+                0: '<i class="fas fa-filter"></i> Bộ lọc',
+                _: '<i class="fas fa-filter"></i> Bộ lọc (%d)'
+            },
+            add: '<i class="fas fa-plus"></i> Thêm điều kiện',
+            condition: 'Chọn biểu thức',
+            clearAll: 'Xóa tất cả bộ lọc',
+            delete: '<i class="fas fa-trash"></i>',
+            deleteTitle: 'Xóa lọc',
+            data: 'Chọn cột',
+            //left: 'Left',
+            //leftTitle: 'Left Title',
+            logicAnd: 'Và',
+            logicOr: 'Hoặc',
+            //right: 'Right',
+            //rightTitle: 'Right Title',
+            title: {
+                0: 'Điều kiện lọc',
+                _: 'Điều kiện lọc (%d)'
+            },
+            value: 'Giá trị',
+            valueJoiner: '-',
+            conditions: {
+              date: {
+                between: 'Trong khoản',
+                empty: 'Rỗng',
+                equals: 'Bằng',
+                after: 'Trước ngày',
+                before: 'Sau ngày',
+                gt: 'Lớn hơn',
+                gte: 'Lớn hơn bằng',
+                lt: 'Nhỏ hơn',
+                lte: 'Nhỏ hơn bằng',
+                not: 'Khác',
+                notBetween: 'Ngoài khoản',
+                notEmpty: 'Không rỗng',
+              },
+              number: {
+                between: 'Trong khoản',
+                empty: 'Rỗng',
+                equals: 'Bằng',
+                gt: 'Lớn hơn',
+                gte: 'Lớn hơn bằng',
+                lt: 'Nhỏ hơn',
+                lte: 'Nhỏ hơn bằng',
+                not: 'Khác',
+                notBetween: 'Ngoài khoản',
+                notEmpty: 'Không rỗng',
+              },
+              string: {
+                between: 'Trong khoản',
+                empty: 'Rỗng',
+                equals: 'Bằng',
+                gt: 'Lớn hơn',
+                gte: 'Lớn hơn bằng',
+                lt: 'Nhỏ hơn',
+                lte: 'Nhỏ hơn bằng',
+                not: 'Khác',
+                notBetween: 'Ngoài khoản',
+                notEmpty: 'Không rỗng',
+                contains: 'Chứa',
+                endsWith: 'Kết thúc với',
+                notContains: 'Không chứa',
+                notEndsWith: 'Không kết thúc với',
+                notStartsWith: 'Không bắt đầu với',
+                startsWith: 'Bắt đầu với'
+              }
+            }
     }
-    $menu = $scroll_menu.find('.nav_top');
-    $menu_h = $menu.height();
-    // $scroll_menu.height($menu_h);
-    $scroll_top = jQuery(document).scrollTop();
-    if ($scroll_top > 0) {
-      $menu.addClass('fixed');
+},layout: {
+  //top1: 'searchBuilder',
+//  topStart: {
+//      buttons: [
+//          {
+//              extend: 'searchBuilder',
+//              config: {
+//                  depthLimit: 0,
+//                  columns: [1,2,4,5,6,7,8,9,10,11]
+//              }
+//          }
+//      ]
+//  }
+},
+    buttons: [
+      // {
+      //   text: "Date range",
+      //   attr: {
+      //       id: "reportrange",
+      //   },
+      // },
+      {
+          extend: 'searchBuilder',
+          attr: {
+            id: "searchBuilder",
+        },
+          config: {
+            depthLimit: 0,
+            columns: [1,2,4,5,6,7,8,9,10,11,12]
+          }
+    }],
+    dom: 'Bfrtip<"bottom"pl>',
+    "responsive": true,
+    "autoWidth": true,
+    //"buttons": ["csv", "excel", "pdf"],
+    'order': [[12, 'desc']],
+    "lengthChange": true,
+    'lengthMenu': [[50, 100, 200],['50 / trang', '100 / trang', '200 / trang']],
+    scrollX: false,
+    "columnDefs": [
+      {
+        type: 'natural',
+        "targets": [0,1,2,3],
+        "orderable": false
+      },
+      { 'visible': false, 'targets': [4,5,6,7,9,10,11] }
+   ],
+  });
+  $('.filter input[type="checkbox"]').on('change', function(e) {
+
+
+    // Get the column API object
+    var col = table.column($(this).attr('data-column'));
+
+    // Toggle the visibility
+    col.visible(!col.visible());
+  });
+
+  $('#checkall').change(function() {
+    $('.checkbox-element').prop('checked', this.checked);
+  });
+  $('.checkbox-element').change(function() {
+    if ($('.checkbox-element:checked').length == $('.checkbox-element').length) {
+      $('#checkall').prop('checked', true);
     } else {
-      $menu.removeClass('fixed');
+      $('#checkall').prop('checked', false);
     }
-  }
-  $.hover_menu = function() {
-    function closemenu() {
-      $('.overlay').stop().fadeOut();
-      $('.main_menu li').removeClass('submenu-show');
+  });
+  $('.box').hide();
+  $('.field').change(function() {
+    $('.box').hide();
+    $('.box select').prop('selectedIndex',0);
+    $('.' + $(this).val()).show();
+  }).change();
+  $(".checkbox-element").change(function() {
+    updateAllChecked();
+  });
+
+  $("#checkall").change(function() {
+    if (this.checked) {
+      $(".checkbox-element").prop('checked', true).change();
+    } else {
+      $(".checkbox-element").prop('checked', false).change();
     }
-    $('.main_menu > li').hover(function(e) {
-      var self = $(this),
-      p = self;
-      /* Act on the event */
-      if (p.hasClass('has-child') ) {
-        p.addClass('submenu-show');
-        $('.overlay').stop().fadeIn();
+  });
+
+    $('.quick-edit').click(function (e) {
+      e.preventDefault();
+      if($('.list_id').val() == '') {
+        alert('Hãy chọn ô khách hàng để chỉnh sửa nhanh!');
+        return false;
       }
-    }, function() {
-      closemenu();
+      open_modal(this);
     });
-  }
-  $_click_menu = function() {
-    $('.main_menu > li img').click(function(e) {
-      var current = $(this).next('.sub-menu');
-      $('.sub-menu').not(current).slideUp();
-      $('.sub-menu').not(current).parent().removeClass('active');
-      current.stop().slideToggle();
-      current.parent().toggleClass('active');
+    $("#modal-edit .add_post").click(function (e) {
+      //e.preventDefault();
+      var status_order = $('#modal-edit .status_order select').val();
+      var status_pay = $('#modal-edit .status_pay select').val();
+      var tag = $('#modal-edit .tag select').val();
+      if (tag == 0) {
+        alert('Hãy chọn value!');
+        return false;
+      }
     });
-  }
-  $_showmenu = function(top) {
-    let offset = $('.nav_menu').height();
-    jQuery('.show-menu img.open-menu').click(function() {
-      /* Act on the event */
-      jQuery(this).fadeOut(0);
-      $('body').addClass('overflow');
-      jQuery('.nav_top .nav_menu').animate({'right': 0}, 300);
-      jQuery('.overlay').fadeIn();
-      setTimeout(function() {
-        jQuery('.show-menu img.close-menu').show(0);
-      }, 300);
-    });
-    jQuery('.nav_top .nav_menu  ul.list_menu_item li a,.main, .logo a,.show-menu img.close-menu,.overlay').click(function() {
-      jQuery('.show-menu img.close-menu').fadeOut(0);
+
+    $(".modal-button").click(function(ev) {
+      ev.preventDefault();
+      open_modal(this);
+  });
+
+  $(".modal-close").click(function() {
+      $(".modal").removeClass("is-active");
       $('body').removeClass('overflow');
-      jQuery('.nav_top .nav_menu').animate({'right': '-100%'}, 300);
-      jQuery('.overlay').fadeOut();
-      setTimeout(function() {
-        jQuery('.show-menu img.open-menu').show(0);
-      }, 300);
-    });
+  });
+  $(".btn-fillter").click(function() {
+    $('button.dt-button').trigger('click');
+  });
+  
+  $('.input-search').keyup(function(){
+    table.search($(this).val()).draw() ;
+})
+  function open_modal(el) {
+    var modaltarget = $(el).data('target');
+    $(modaltarget).addClass("is-active");
+    $('body').addClass('overflow');
   }
-  $_scroll_top = function() {
-    var scrollTrigger = 50, // px
-    backToTop = function () {
-      var scrollTop = $(window).scrollTop();
-      if (scrollTop > scrollTrigger) {
-        $('.backtop').fadeIn();
-      } else {
-        $('.backtop').fadeOut();
+
+  function updateAllChecked() {
+    $('.list_id').val('');
+    $(".checkbox-element").each(function() {
+      if (this.checked) {
+        let old_text = $('.list_id').val() ? $('.list_id').val() + ',' : '';
+        $('.list_id').val(old_text + $(this).val());
       }
-    };
-
-    $(window).on('scroll', function () {
-      backToTop();
-    });
-
-    $('.backtop').on('click', function (e) {
-      e.preventDefault();
-      $('html,body').animate({
-        scrollTop: 0
-      }, 700);
-    });
-  };
-  //top slider
-  $_top_slider = function() {
-    $('.top-slider .owl-carousel').owlCarousel({
-      nav: true,
-      dots: false,
-      items: 1,
-      touchDrag: true,
-      margin: 0,
-      mouseDrag: true,
-      smartSpeed: 1000,
-      // animateIn: 'fadeIn',
-      // animateOut: 'fadeOut',
-      loop: true,
-      autoplay:true,
-      autoplayTimeout:6000,
-    });
-  }
-  // tab
-  $_tab = function() {
-    $('.list-item-tabs').children(":first").addClass('active');
-    $('.list-content-tab').children(":first").addClass('active-tab-content');
-    $('.list-item-tabs .tab-item').click(function () {
-      var tab_id = $(this).attr('data-tab');
-
-      $('.list-item-tabs .tab-item').removeClass('active');
-      $('.list-content-tab .tab-content').removeClass('active-tab-content');
-      $('.list-content-tab .tab-content').stop().fadeOut(0);
-      $(this).addClass('active');
-      $(tab_id).addClass('active-tab-content');
-      $(tab_id).stop().fadeIn(750);
-    })
-  };
-  // team_slider
-  $_team_slider = function() {
-    $team_slider = $('.team-slider');
-    $team_slider.owlCarousel({
-      nav: true,
-      dots: false,
-      smartSpeed: 1000,
-      margin: 30,
-      loop: true,
-      navText: [
-        '<i class="fas fa-chevron-left"></i>',
-        '<i class="fas fa-chevron-right"></i>',
-      ],
-      responsive : {
-        0 : {
-          items: 2
-        },
-        840 : {
-          items: 3
-        },
-        920 : {
-          items: 4
-        }
-      }
-    });
-    var current_slide;
-    $('.owlNextBtn').click(function() {
-      current_slide =  $('.active-tab-content').find('.owl-carousel');
-      current_slide.trigger('prev.owl.carousel');
-
-    })
-    $('.owlPrevBtn').click(function() {
-      current_slide =  $('.active-tab-content').find('.owl-carousel');
-      current_slide.trigger('next.owl.carousel');
     })
   }
-  //form popup
-  $_open_popup = function() {
-    $('.open-popup').on('click', function () {
-      if ($(this).hasClass('doctor-item')) {
-        $_doctorajax($(this));
-      } else {
-        var popup_id = $(this).attr('data-target');
-        $('body').addClass('body-fixed');
-        $("#" + popup_id).removeClass('hidden');
-      }
-    });
-    //close popup
-    $('.popup .popup-close,.overlay,.modal-background,.is-large.delete').on('click', function () {
-      $('.popup').addClass('hidden');
-      $('body').removeClass('body-fixed');
-    });
-    $('.popup').on('click', function(event){
-      if( $('body').hasClass('body-fixed') ) {
-        if( $(event.target).is(this) ) {
-          $(this).addClass('hidden');
-          $('body').removeClass('body-fixed');
-        }
-      }
-    });
-  }
-  $_doctorajax = function(e) {
-    let id = e.data('id');
-    let url = e.data('url');
-    let avatar = e.find('img').attr('src');
-    let popup_id = e.attr('data-target');
-    jQuery.post(url, {action: "doctor_detail", id: id}, function(response) {
-      data = JSON.parse(response);
-      $('.popup-doctor .item_info-title').each(function() {
-        $(this).text(data.title)
-      });
-      $('.popup-doctor .item_info-subtitle').each(function() {
-        $(this).text(data.subtitle)
-      });
-      $('.popup-doctor .item_image img').attr('src', avatar);
-      $('.popup-doctor .item_info .content').html(data.content.replace('<!--more-->', ''));
-      $('body').addClass('body-fixed');
-      $("#" + popup_id).removeClass('hidden');
-    })
-  }
-  //Show more in doctor
-  $_showmore = function() {
-    $('.showmore').on('click', function(){
-      $(this).parent().find('.content_more').stop().slideToggle();
-      if ($(this).hasClass('active')) {
-        $(this).text($(this).data('more'));
-      } else {
-        $(this).text($(this).data('less'));
-      }
-      $(this).toggleClass('active');
-    });
-  }
-  //accordion section in sp
-  $_accordion = function() {
-    $('.accordion h3').on('click', function() {
-      if ($(window).width() < 769) {
-        $this = $(this);
-        $('.accordion #' + $this.data('target')).stop().slideToggle();
-        $this.toggleClass('collapsed');
-      }
-    });
-  }
-  //Sidebar navigator show/hide
-  $_navigation = function() {
-    $('.widget-menu .has-child .nav-link, .widget-menu .has-child img').on('click', function(e){
-      e.preventDefault();
-      $this = $(this).parent();
-      $this.find('.submenu').slideToggle("slow", function(){
-        $this.toggleClass('submenu-show');
-      });
-    });
-  }
-  //Scroll to id
-  $_scroll_id = function() {
-		let $menu = $('.nav_top');
-    let $navigation = $('.navigation .current-item .submenu');
-		//let $menu_mb = $('.nav_top');
-		let $menu_h = $menu.height();
-		//let $menu_mb_h = $menu_mb.height();
-		$navigation.find('a[rel*="#"]').on('click', function (e) {
-			e.preventDefault();
-			let $id = $(this).attr('rel');
-			if ($id == '#' || $($id).length < 1) { return; }
+  $('.copy').on('click', function() {
+    const textToCopy = $(this).text();
 
-      //$_win_scroll_top( $($id).offset().top - $menu_h - $menu_mb_h + 1 );
-			$_win_scroll_top( $($id).offset().top - $menu_h - 10);
-		});
-	}
-  //Scroll function
-  $_win_scroll_top = function( top ) {
-		if( typeof top == 'string' )
-		{
-			if( $(top).length < 1 ) return;
+    const tempInput = $('<input>');
+    $('body').append(tempInput);
+    tempInput.val(textToCopy).select();
 
-			let offset = $('.nav_top').height();
-			if( $('.mobile-header').height()>0 ) {
-				offset += $('.mobile-header').height();
-			} else {
-				offset += $('header').height();
-			}
+    document.execCommand('copy');
 
-			top = $(top).offset().top - offset + 1;
-		}
+    tempInput.remove();
 
-		$('html, body').animate({
-			scrollTop: top,
-		}, 500, 'linear');
-	};
-  //Scroll to element in new page by anchor link in sidebar
-  $.anchor_link = function() {
-    let $navigation = $('.navigation .current-item .submenu');
-    let $path = window.location.pathname;
-    let $hash = window.location.hash;
-		$navigation.find('a').each(function() {
-			let currLink = $(this);
-			$menu_item = currLink.parent('.menu-item');
-			let href = currLink.attr("rel");
-      if (href == '#') { return }
-      if ($hash === href) {
-        currLink.click();
-        window.history.replaceState({}, document.title, $path);
-      }
-		});
-	}
-  //Scroll sidebar
-  $_scroll_sidebar = function() {
-    var sidebarSelector = $('.sidebar');
-    if (sidebarSelector.length && $(window).width() > 768) {
-      sidebarSelector.parent().css({'position': 'relative'});
-      sidebarSelector.css('width', sidebarSelector.parent().width());
-  		var viewportHeight = $(window).height();
-  		var documentHeight = $(document).height();
-  		var headerHeight = $('.nav_top.fixed').outerHeight();
-  		var sidebarHeight = sidebarSelector.outerHeight();
-  		var contentHeight = $('.main_content').outerHeight();
-  		var footerHeight = $('footer').outerHeight();
-  		var scroll_top = $(window).scrollTop();
-  		// calculate
-  		if ( contentHeight > sidebarHeight + headerHeight + 120) {
-        if (scroll_top > lastScrollTop) {
-          var breakingPoint1 = sidebarSelector.parent().offset().top - (headerHeight + 40);
-          var breakingPoint2 = contentHeight - sidebarHeight + sidebarSelector.parent().offset().top - headerHeight - 40;
-          if (scroll_top < breakingPoint1) {
-            sidebarSelector.removeClass('sticky').css({
-              'position': 'relative',
-              'bottom': 'auto',
-              'top': 'auto'
-            });
-          } else if ((scroll_top >= breakingPoint1) && (scroll_top < breakingPoint2)) {
-            sidebarSelector.addClass('sticky').css({
-              'position': 'fixed',
-              'top': headerHeight + 40 + 'px',
-              'bottom': 'auto'
-            });
-          } else {
-            sidebarSelector.removeClass('sticky').css({
-              'position': 'absolute',
-              'top': 'auto',
-              'bottom': '0px'
-            });
+    //alert('Đã copy số điện thoại: ' + textToCopy);
+  });
+
+  $(document).on('click','.daterangepicker .ranges ul li:first',function (e, picker) { 
+  e.preventDefault();
+  table.draw();
+        // daterangepicker.ranges({
+        //   start: null,
+        //   end: null
+        // });
+        return false;
+});
+  $('.btn-time').daterangepicker({
+    maxDate: moment().startOf('day'),
+    timePicker: false,
+    opens: 'center',
+    singleDatePicker: false,
+    showCustomRangeLabel: false,
+    ranges: {
+        'All time (Tối đa)': '',
+        '1 tuần qua': [moment().subtract(6, 'days').startOf('day'), moment().endOf('day')],
+        '2 tuần qua': [moment().subtract(13, 'days').startOf('day'), moment().endOf('day')],
+        '1 tháng qua': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+        '3 tháng qua': [moment().subtract(3, 'months').startOf('month'), moment().endOf('month')],
+        '6 tháng qua': [moment().subtract(6, 'months').startOf('month'), moment().endOf('month')],
+        '1 năm qua': [moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')]
+    },
+    locale: { cancelLabel: 'Hủy', applyLabel: 'Áp dụng'}  
+});
+
+$('.btn-time').on('apply.daterangepicker', function (ev, picker) {
+  var start = picker.startDate;
+  var end = picker.endDate;
+  $.fn.dataTable.ext.search.push(
+      function (settings, data, dataIndex) {
+          var min = start;
+          var max = end;
+          var startDate = new Date(data[12]);
+
+          if (min == null && max == null) {
+              return true;
           }
-        } else {
-          var breakingPoint1 = sidebarSelector.parent().offset().top - headerHeight - 40;
-          var breakingPoint2 = contentHeight - sidebarHeight + sidebarSelector.parent().offset().top - headerHeight - 40;
-          if (scroll_top < breakingPoint1) {
-            sidebarSelector.removeClass('sticky').css({
-              'position': 'relative',
-              'bottom': 'auto',
-              'top': 'auto'
-            });
-          } else if ((scroll_top >= breakingPoint1) && (scroll_top < breakingPoint2)) {
-            sidebarSelector.addClass('sticky').css({
-              'position': 'fixed',
-              'top': headerHeight + 40 + 'px',
-              'bottom': 'auto'
-            });
-          } else {
-            sidebarSelector.removeClass('sticky').css({
-              'position': 'absolute',
-              'bottom': '0px',
-              'top': 'auto'
-            });
+          if (min == null && startDate <= max) {
+              return true;
           }
-        }
-        lastScrollTop = scroll_top;
-      } else {
-        sidebarSelector.removeClass('sticky').css({
-          'position': 'relative',
-          'bottom': 'auto',
-          'top': 'auto'
-        });
+          if (max == null && startDate >= min) {
+              return true;
+          }
+          if (startDate <= max && startDate >= min) {
+              return true;
+          }
+          return false;
       }
-    }
-  }
-  //Doctor Filter
-  $_doctor_filter = function() {
-    $('.doctor-page .filter select').on('change', function() {
-      let id = $(this).val();
-      let url = window.location.href.split('?')[0] + '?id=' + id;
-      window.location.href = url;
-    })
-  }
-  $(document).ready(function() {
-    $_scroll_top();
-    $_win_scroll_top();
-    $_scroll_id();
-    $.anchor_link();
-    $_navigation();
-    $_click_menu();
-    $_accordion();
-    $_showmore();
-    $_showmenu();
-    $_top_slider();
-    $_team_slider();
-    $_open_popup();
-    $_tab();
-    $_doctor_filter();
+  ); //external search ends here
+
+  table.draw();
+  $.fn.dataTable.ext.search.pop();
+
+
+});
   });
-  $(window).scroll(function() {
-    $_scroll_menu_top();
-    $_scroll_sidebar();
-  });
-  $(window).on('load resize', function() {
-    if (window.innerWidth > 991) {
-      $.hover_menu();
-      $('.accordion-content').removeAttr("style");
-    } else {
-      jQuery('.nav_top .nav_menu').animate({'right': '-100%'}, 0);
-      jQuery('.show-menu img.open-menu').show(0);
-      jQuery('.overlay,.show-menu img.close-menu').hide(0);
-    }
-    $('.sidebar').removeClass('sticky').removeAttr("style");
-    $('.nav_item').removeClass('submenu-show');
-    $('body').removeClass('overflow');
-    $('body').removeClass('body-fixed');
-    $('.popup').addClass('hidden');
-    jQuery('.overlay,.popup,.show-menu img.close-menu').hide(0);
-    jQuery('.show-menu img.open-menu').show(0);
-    var height_ =  window.innerHeight ;
-    $('.menu-wrapper').height(height_ - 75);
-    jQuery('.nav_top .nav_menu').animate({'right': '-100%'}, 0);
-  });
-})(jQuery);

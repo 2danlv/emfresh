@@ -1,0 +1,67 @@
+.c-heading-1 {
+  @extend %heading;
+  font-size: 30px;
+}
+.c-heading-2 {
+  @extend %heading;
+  font-size: 22px;
+}
+.c-heading-3 {
+  @extend %heading;
+  font-size: 18px;
+}
+.c-heading-4 {
+  @extend %heading;
+  font-size: 15px;
+}
+
+%heading {
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin: 0;
+}
+.top-heading-area {
+  padding-top: 100px;
+  padding-bottom: 45px;
+  text-transform: uppercase;
+  .c-heading-2 {
+    @include two_dot;
+    font-size: 26px;
+    margin-bottom: 34px;
+  }
+}
+@include screen_sp {
+  .c-heading-1 {
+    @extend %heading-sp;
+    font-size: 20px;
+  }
+  .c-heading-2 {
+    @extend %heading-sp;
+    font-size: 18px;
+  }
+  .c-heading-3 {
+    @extend %heading-sp;
+    font-size: 16px;
+  }
+  .c-heading-4 {
+    @extend %heading-sp;
+    font-size: 16px;
+  }
+  %heading-sp {
+    font-weight: 700;
+    letter-spacing: 50;
+  }
+  
+  .top-heading-area {
+  padding-top: 32px;
+  padding-bottom: 27px;
+  text-transform: uppercase;
+  line-height: 30px;
+  .c-heading-2 {
+    @include two_dot;
+    font-size: 19px;
+    margin-bottom: 10px;
+  }
+}
+  
+}

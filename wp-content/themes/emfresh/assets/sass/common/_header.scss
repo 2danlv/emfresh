@@ -1,0 +1,23 @@
+.content-header {
+    margin-bottom: 16px;
+    .input-search {
+        width: 100%;
+        border-radius: 8px;
+        border: 1px solid #DEDFE0;
+        padding: 8px;
+        padding-left: 42px;
+        background: url(../img/icon/search.svg) left 8px center #F6F6F6 no-repeat;
+    }
+    .avatar {
+        border-radius: 50%;
+        overflow: hidden;
+        width: 40px;
+        height: 40px;
+    }
+    .info {
+        width: 70px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}

@@ -1,0 +1,247 @@
+html {
+	font-size: 16px;
+}
+body {
+	font-family: "Inter", sans-serif;
+	font-weight: 400;
+	color: #000;
+	line-height: 30px;
+	margin: 0 auto;
+	transition: opacity .4s;
+	opacity: 1;
+	&.body-fixed {
+		overflow-y: hidden;
+	}
+}
+body.overflow {
+	overflow-y: hidden;
+	.overlay {
+		display: block !important;
+		opacity: 1 !important;
+	}
+}
+
+a {
+	text-decoration: none;
+	color: inherit;
+	&:hover {
+		text-decoration: none;
+		color: #4BA66F;
+	}
+}
+a, button, input, textarea {
+	&:focus {
+		outline: none;
+	}
+}
+b {
+	font-weight: 700;
+}
+ul {
+	list-style: none;
+}
+img {
+	max-width: 100%;
+	vertical-align: middle;
+}
+img.img-responsive {
+	display: block;
+	height: auto;
+	width: 100%;
+}
+input[type="checkbox"] {
+	accent-color: #208046;
+}
+select {
+	padding: 8px;
+	border-radius: 8px;
+}
+option {
+	text-transform: capitalize;
+}
+hr {
+	border-top: 1px solid $cl-border
+}
+.nowrap {
+	display: block;
+	white-space: nowrap;
+}
+.container {
+	max-width: 1200px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 0 8px;
+}
+.container-fluid {
+	margin-left: auto;
+	margin-right: auto;
+	padding: 0 8px;
+	max-width: 1440px;
+}
+.clearfix {
+	&:after {
+		content: "";
+		display: block;
+		clear: both;
+	}
+}
+.row-revert {
+	flex-direction: row-reverse;
+}
+.row,.row0 {
+	display: flex;
+	flex-wrap: wrap;
+	margin-left: -4px;
+	margin-right: -4px;
+	&.ai-center {
+		align-items: center;
+	}
+	>[class*="col"] {
+		padding-left: 8px;
+		padding-right: 8px;
+		min-height: 1px;
+	}
+}
+.d-f {
+	display: flex;
+}
+.ai-center {
+	align-items: center;
+}
+.row,.row0 {
+	@for $i from 1 through 12 {
+		$size: (12 / $i);
+		.col-#{$i} {
+			width: (100 / $size) * 1%;
+		}
+	}
+}
+
+.col-item-right {
+	flex: 2;
+}
+.row0 {
+	margin: 0 auto;
+
+	>[class*="col"] {
+		padding-left: 0px;
+		padding-right: 0px;
+	}
+}
+.row-fluid {
+	margin: 0 -4px;
+}
+.text-center {
+	text-align: center;
+}
+.text-right {
+	text-align: right
+}
+.pb-16 {
+	padding-bottom: 16px;
+}
+.pt-16 {
+	padding-top: 16px;
+}
+.hidden, .hidden-pc {
+	display: none;
+}
+.full_width {
+	display: flex;
+	flex-wrap: wrap;
+
+	.content-column {
+		float: none;
+	}
+}
+
+
+
+input, textarea, select {
+	&:focus {
+		border: 1px solid $cl-blue
+	}
+	&.wpcf7-not-valid {
+		border: 1px solid $cl-ogrange
+	}
+}
+
+.btn_blue {
+	background-color: $cl-blue;
+	&:hover {
+		background-color: $cl-ogrange
+	}
+}
+
+.btn_ogrange {
+	background-color: $cl-ogrange;
+	&:hover {
+		background-color: $cl-blue
+	}
+}
+
+.bg-blue {
+	background-color: $cl-blue
+}
+
+.bg-ogrange {
+	background-color: $cl-ogrange
+}
+
+.bg-blur {
+	background-color: $cl-blur
+}
+
+.only-sp {
+	display: none;
+}
+
+@include screen_iphone6 {
+	.only-sp {
+		display: block;
+	}
+}
+
+@include screen_sp {
+	body {
+		line-height: 31px;
+		font-size: 14px;
+	}
+	.row-revert {
+		flex-direction: inherit;
+	}
+	.padding-5 {
+		padding: 0 10px;
+	}
+	.container {
+		padding: 0 20px;
+	}
+	.row {
+		margin: 0 -10px;
+	}
+	.row {
+		> [class*="col"] {
+			width: 100%;
+			padding-left: 10px;
+			padding-right: 10px;
+		}
+	}
+	.col-item-right {
+		flex: auto;
+	}
+	.row0 {
+		margin: 0 auto;
+
+		> [class*="col"] {
+			width: 100%;
+			padding-left: 0px;
+			padding-right: 0px;
+		}
+	}
+	.hidden-sp {
+		display: none;
+	}
+	.hidden-pc {
+		display: block;
+	}
+}

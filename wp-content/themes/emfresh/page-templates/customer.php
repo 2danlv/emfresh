@@ -9,7 +9,7 @@
  */
 
 global $em_customer, $em_order, $em_customer_tag;
-
+get_header();
 $response_add_customer = [];
 
 // Check if the form is submitted and handle the submission
@@ -96,7 +96,7 @@ $list_cook = custom_get_list_cook();
 $list_notes = custom_get_list_notes();
 $list_payment_status = $em_order->get_statuses();
 
-get_header("customer");
+
 // Start the Loop.
 
 ?>
@@ -301,35 +301,7 @@ get_header("customer");
 get_footer('customer');
 ?>
 <style>
-  .location_1 .delete-location-button{
-    display: none;
-  }
-  .select2-results {
-    text-transform: capitalize;
-  }
-  .select2-container--default .select2-selection--multiple .select2-selection__rendered li{
-    border: none;
-  }
-  .select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="thân thiết"] {
-    background-color: green;
-  }
 
-  .select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="ăn nhóm"] {
-    background-color: #0056b3;
-  }
-
-  .select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="khách có bệnh lý"] {
-    background-color: yellow;
-    color: #000;
-  }
-
-  .select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="khách hãm"] {
-    background-color: red;
-  }
-
-  .select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="bảo lưu"] {
-    background-color: orange;
-  }
 </style>
 <script src="/assets/plugins/select2/js/select2.full.min.js"></script>
 <script src="/assets/js/assistant.js"></script>

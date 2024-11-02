@@ -11,11 +11,8 @@
   <link rel="stylesheet" href="/assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
   <link rel="stylesheet" href="/assets/plugins/select2/css/select2.min.css">
   <link rel="stylesheet" href="/assets/plugins/fontawesome-free/css/all.min.css">
-  <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap4.min.css">
-  <link href="https://cdn.datatables.net/searchbuilder/1.8.1/css/searchBuilder.dataTables.css" rel="stylesheet" />
-  <link href="https://cdn.datatables.net/buttons/3.1.2/css/buttons.dataTables.css" rel="stylesheet" />
-  <link href="https://cdn.datatables.net/datetime/1.5.4/css/dataTables.dateTime.min.css" rel="stylesheet" />
-    
+  
+  <?php wp_head(); ?>
   <!-- Theme style -->
   <link rel="stylesheet" href="/assets/dist/css/adminlte.min.css">
   <?php //wp_head(); ?>

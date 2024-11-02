@@ -1,0 +1,85 @@
+@mixin screen_xl {
+  @media screen and (max-width:1600px) {
+    @content;
+  }
+}
+@mixin screen_lg {
+  @media screen and (max-width:1440px) {
+    @content;
+  }
+}
+@mixin screen_pc {
+  @media screen and (max-width:1180px) {
+    @content;
+  }
+}
+@mixin screen_tablet {
+  @media screen and (max-width:1060px) {
+    @content;
+  }
+}
+@mixin screen_sp {
+  @media screen and (max-width:768px) {
+    @content;
+  }
+}
+@mixin screen_iphone6 {
+  @media screen and (max-width:425px) {
+    @content;
+  }
+}
+@mixin screen_iphone5 {
+  @media screen and (max-width:360px) {
+    @content;
+  }
+}
+
+@mixin two_dot($color:$cl-blue , $size:8px, $left: 0px, $right: -0px) {
+  position: relative;
+  display: inline-block;
+  padding-left: 40px;
+  padding-right: 40px;
+  &:after {
+    background: $color;
+    content: "";
+    position: absolute;
+    left: $left;
+    width: $size;
+    border-radius: 50%;
+    z-index: 1;
+    top: 13px;
+    height: $size;
+  }
+  &:before {
+    background: $color;
+    content: "";
+    position: absolute;
+    right: $right;
+    width: $size;
+    border-radius: 50%;
+    z-index: 1;
+    top: 13px;
+    height: $size;
+  }
+
+  @media screen and (max-width:768px) {
+      &:before, &:after {
+          top: 50%;
+          transform: translateY(-50%);
+      }
+  }
+}
+@mixin dot_left($color:$cl-blue , $size:6px, $left: -25px, $top: 13px) {
+  position: relative;
+  &:after {
+    background: $color;
+    content: "";
+    position: absolute;
+    left: $left;
+    width: $size;
+    border-radius: 50%;
+    z-index: 1;
+    top: $top;
+    height: $size;
+  }
+}

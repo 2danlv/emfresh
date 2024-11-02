@@ -1,0 +1,92 @@
+.copy {
+    cursor: pointer;
+}
+.nowrap{
+    white-space: nowrap;
+}
+.tag {
+    padding: 4px 6px;
+    color: #fff;
+    white-space: nowrap;
+}
+
+.tag_1 {
+    background-color: green;
+}
+
+.tag_2 {
+    background-color: #0056b3;
+}
+
+.tag_3 {
+    background-color: yellow;
+    color: #000;
+}
+
+.tag_4 {
+    background-color: red;
+}
+
+.tag_5 {
+    background-color: orange;
+}
+
+.status_1 {
+    background-color: green;
+}
+
+.status_2 {
+    background-color: yellow;
+    color: #000;
+}
+
+.status_3 {
+    background-color: yellow;
+    opacity: 0.65;
+    color: #000;
+}
+
+.status_4 {
+    background-color: gray;
+}
+
+.status_5 {
+    background-color: orange;
+    color: #fff;
+}
+.order_1 {background-color: green;}
+.order_2 {background-color: red;}
+.order_3 {background-color: orange;}
+.order_4 {background-color: yellow;}
+.fas {
+    width: 24px;
+    height: 24px;
+    display: inline-block;
+}
+.fa-trash {
+    background: url(../img/icon/delete-svgrepo-com.svg) center center no-repeat ;
+}
+.fa-filter {
+    background: url(../img/icon/filter-svgrepo-com.svg) center center no-repeat ;
+}
+.fa-plus {
+    background: url(../img/icon/plus-svgrepo-com.svg) center center no-repeat ;
+}
+.fa-left {
+    background: url(../img/icon/CaretLeft.svg) center center no-repeat ;
+}
+.fa-right {
+    background: url(../img/icon/CaretRight.svg) center center no-repeat ;
+}
+.button {
+    padding: 11px 24px;
+    border-radius: var(--button-radiusCorner, 8px);
+    border: 1.5px solid var(--button-outline-border-default, #DEDFE0);
+    border: none;
+    cursor: pointer;
+    margin:0 4px;
+}
+.btn-primary {
+background: var(--button-solid-background-default, #208046);
+color: #fff;
+}

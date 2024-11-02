@@ -644,45 +644,7 @@ get_header('customer');
 </div>
 
 <style>
-  .copy {
-    cursor: pointer;
-  }
-  .success-message {
-    color: green;
-  }
-
-  .error-message {
-    color: red;
-  }
-  .location_1 .delete-location-button{
-    display: none;
-  }
-  .select2-results {
-    text-transform: capitalize;
-  }
-  .select2-container--default .select2-selection--multiple .select2-selection__rendered li{
-    border: none;
-  }
-  .select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="thân thiết"] {
-    background-color: green;
-  }
-
-  .select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="ăn nhóm"] {
-    background-color: #0056b3;
-  }
-
-  .select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="khách có bệnh lý"] {
-    background-color: yellow;
-    color: #000;
-  }
-
-  .select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="khách hãm"] {
-    background-color: red;
-  }
-
-  .select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="bảo lưu"] {
-    background-color: orange;
-  }
+  
 </style>
 <?php
 // endwhile;
