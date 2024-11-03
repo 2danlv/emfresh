@@ -172,7 +172,7 @@ $list_payment_status = $em_order->get_statuses();
 $customer_tags = $em_customer_tag->get_items(['customer_id' => $customer_id]);
 $tag_ids = custom_get_list_by_key($customer_tags, 'tag_id');
 
-get_header('customer');
+get_header();
 // Start the Loop.
 // while ( have_posts() ) : the_post();
 ?>

@@ -1,0 +1,16 @@
+.content-wrapper {
+    &.width-90 {
+        width: 90%;
+        transition: .5s;
+    }
+    .alert {
+        border-radius: 8px;
+        padding: 8px;
+        color: #fff;
+        background-color: #0099cc;
+        &.alert-warning {
+            background-color: orange;
+            
+        }
+    } 
+}

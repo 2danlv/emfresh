@@ -1,9 +1,28 @@
 .sidebar {
+    transition: .5s;
+    &.width-10{
+        width: 10%;
+        transition: .5s;
+        overflow: hidden;
+        text-overflow: ellipsis;
+       .resize .zoom {
+            display: inline-block;
+        }
+       .resize .mini {
+            display: none;
+        }
+    }
+    .resize .zoom {
+        display: none;
+    }
   ul.nav-menu {
     padding-top: 24px;
         li {
+            width: 100%;
+            overflow: hidden;
             margin-bottom: 8px;
             &.menu-item-has-children {
+                margin-bottom: 0;
                > a {
                     background-image: url(../img/icon/CaretDown.svg);
                     background-position: right 8px center;
@@ -25,6 +44,11 @@
                 align-items: center;
                 padding: 8px;
                 border-radius: 8px;
+                white-space: nowrap;
+                span {
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
                 img  {
                     filter: brightness(0) saturate(100%)
                 }
@@ -52,5 +76,13 @@
                 }
             }
         }
+  }
+  .resize {
+    cursor: pointer;
+    &.active {
+        img {
+            transform: rotate(180deg);
+        }
+    }
   }
 }

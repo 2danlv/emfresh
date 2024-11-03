@@ -93,12 +93,12 @@ get_header();
                   <li><button type="button" name="action" value="export" class="js-export">Xuất dữ liệu</button></li>
                 </ul>
               </li>
-              <li class="status"><span class="btn btn-status">7 đã chọn</span></li>
+              <li class="status"><span class="btn btn-status"><span class="count-checked"></span> đã chọn</span></li>
             </ul>
           </div>
           <div class="col-4">
-            <ul class="d-f ai-center">
-              <li  class="has-time">
+            <ul class="d-f ai-center jc-end">
+              <li class="has-time">
                 <span class="btn btn-time">Thời gian</span>
                 <ul>
                   <li><input type="text" id="datetimerange-input1"></li>
@@ -111,26 +111,29 @@ get_header();
         </div>
         <?php wp_nonce_field('importoken', 'importoken', false); ?>
       </form>
-      <table id="list-customer" class="table table-bordered table-striped text-capitalize" style="width:100%">
+      <table id="list-customer" class="table table-list-customer text-capitalize" style="width:100%">
         <thead>
           <tr>
             <th><input type="checkbox" name="checkall" id="checkall" /></th>
-            <th>Tên khách hàng</th>
+            <th><span class="nowrap">Tên khách hàng</span></th>
             <th>SĐT</th>
             <th>Địa chỉ</th>
             <th>Địa chỉ</th>
-            <th><span class="nowrap">Trạng thái</span> khách hàng</th>
+            <th><span class="nowrap">Trạng thái</span><span class="nowrap">khách hàng</span></th>
+            <th>Tag <span class="nowrap">phân loại</span></th>
+            <th>Giới tính</th>
+            <th>Note <span class="nowrap">dụng cụ ăn</span></th>
             <th><span class="nowrap">Số</span>đơn</th>
-            <th><span class="nowrap">Số</span>ngày ăn</th>
-            <th><span class="nowrap">Số</span>phần ăn</th>
+            <th>Số<span class="nowrap">ngày ăn</span></th>
+            <th>Số<span class="nowrap">phần ăn</span></th>
+            <th>Tổng tiền<span class="nowrap">đã chi</span></th>
             <th>Điểm <span class="nowrap">tích lũy</span></th>
-            <th>Tag phân loại</th>
-            <th><span class="nowrap">Nhân viên</span></th>
-            <th><span class="nowrap">Lần cập</span>nhật cuối</th>
+            <th>Lịch sử <span class="nowrap">đặt gần nhất</span></th>
+            <th><span class="nowrap">Nhân</span>viên</th>
+            <th class="text-center"><span class="nowrap">Lần cập</span><span class="nowrap">nhật cuối</span></th>
           </tr>
         </thead>
         <tbody>
-
           <?php
           $customer_filter = [
             'paged' => 1,
@@ -176,11 +179,6 @@ get_header();
                         }
                       } ?>
                     </td>
-                    <td><span class="tag btn btn-sm tag_<?php echo $record['status']; ?>"><?php echo $record['status_name']; ?></span></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td><?php echo $record['point']; ?>
                     <td>
                       <?php
                       $customer_tags = $em_customer_tag->get_items(['customer_id' => $record['id']]);
@@ -188,13 +186,21 @@ get_header();
                         <span class="tag btn btn-sm tag_<?php echo $tag; ?>"><?php echo isset($list_tags[$tag]) ? $list_tags[$tag] : ''; ?></span>
                       <?php endforeach; ?>
                     </td>
+                    <td><span class="tag btn btn-sm tag_<?php echo $record['status']; ?>"><?php echo $record['status_name']; ?></span></td>
+                    <td><?php echo $record['gender_name']; ?></td>
+                    <td><!-- note dụng cụ --> </td>
+                    <td><!-- note số đơn --></td>
+                    <td><!-- note số ngày ăn --></td>
+                    <td><!-- note số phần ăn --></td>
+                    <td><!-- note tổng tiền --></td>
+                    <td><?php echo $record['point']; ?>
+                    <td><!-- note lịch sử đặt gần nhất --></td>
                     <td><?php echo $record['modified_author'] != '' ? $record['modified_author'] : $record['created_author']; ?></td>
-                    <td><?php echo $record['modified']; ?></td>
-
+                    <td class="nowrap"><?php echo $record['modified']; ?></td>
                   </tr>
           <?php  }
               } else {
-                echo "Invalid record format.\n";
+                echo "Không tìm thấy dữ liệu!\n";
               }
             }
           }
@@ -210,26 +216,37 @@ get_header();
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title"><i class="fas fa-eye"></i> Chọn cột hiển thị!</h4>
-        <button type="button" class="close modal-close">
-          <span>×</span>
-        </button>
+        <h4 class="modal-title">Cột hiển thị!</h4>
       </div>
       <div class="modal-body">
-        <ul class="filter list-unstyled text-capitalize">
-          <!-- <li><label><input type="checkbox" data-column="1" checked> Tên khách hàng</label></li> -->
+        <div class="row">
+          <div class="col-6">
+          <ul class="filter list-unstyled text-capitalize">
+          <li><label><input type="checkbox" data-column="1" checked> Tên khách hàng</label></li>
           <li><label><input type="checkbox" data-column="2" checked> Số điện thoại</label></li>
-          <li><label><input type="checkbox" data-column="3" checked> Địa chỉ</label></li>
-          <li><label><input type="checkbox" data-column="5"> Số đơn</label></li>
-          <li><label><input type="checkbox" data-column="6"> Số ngày ăn</label></li>
-          <li><label><input type="checkbox" data-column="7"> Số phần ăn</label></li>
-          <li><label><input type="checkbox" data-column="9"> Tag phân loại</label></li>
-          <li><label><input type="checkbox" data-column="10"> Người cập nhật cuối</label></li>
-          <li><label><input type="checkbox" data-column="11"> Thời gian nhật cuối</label></li>
-        </ul>
+          <li><label><input type="checkbox" data-column="3" checked> Địa chỉ mặc định</label></li>
+          <li><label><input type="checkbox" data-column="5" checked> Trạng thái khách hàng</label></li>
+          <li><label><input type="checkbox" data-column="6"> Tag phân loại</label></li>
+          <li><label><input type="checkbox" data-column="7"> Giới tính</label></li>
+          <li><label><input type="checkbox" data-column="8"> Note dụng cụ ăn</label></li>
+          </ul>
+          </div>
+          <div class="col-6">
+            <ul class="filter list-unstyled text-capitalize">
+            <li><label><input type="checkbox" data-column="9" checked> Số đơn</label></li>
+            <li><label><input type="checkbox" data-column="10" checked> Số ngày ăn</label></li>
+            <li><label><input type="checkbox" data-column="11" checked> Số phần ăn</label></li>
+            <li><label><input type="checkbox" data-column="12"> Tổng tiền đã chi</label></li>
+            <li><label><input type="checkbox" data-column="13" checked> Điểm tích luỹ</label></li>
+            <li><label><input type="checkbox" data-column="14"> Lịch sử đặt gần nhất</label></li>
+            <li class="check_2"><label><input type="checkbox" data-column="15,16" checked> Nhân viên + Lần cập nhật cuối</label></li>
+            </ul>
+          </div>
+        </div>
       </div>
-      <div class="modal-footer justify-content-center">
-        <button type="button" class="btn btn-default modal-close">Close</button>
+      <div class="form-group pt-16 text-right">
+        <!-- <button type="button" class="button btn-default modal-close">Huỷ</button> -->
+        <button type="button" class="button btn-primary modal-close">Đóng</button>
       </div>
     </div>
   </div>
@@ -281,7 +298,6 @@ get_header();
         <h4 class="modal-title">Thời gian</h4>
       </div>
       <div class="modal-body">
-        
         <div class="form-group pt-16 text-right">
               <button type="button" class="button btn-default modal-close">Huỷ</button>
               <button type="submit" class="button btn-primary add_post" name="add_post">Áp dụng</button>

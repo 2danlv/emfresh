@@ -29,9 +29,10 @@ a {
 		color: #4BA66F;
 	}
 }
-a, button, input, textarea {
+a, button, input, textarea,select {
 	&:focus {
 		outline: none;
+		border: none;
 	}
 }
 b {
@@ -66,6 +67,9 @@ hr {
 	display: block;
 	white-space: nowrap;
 }
+.text-capitalize {
+	text-transform: capitalize;
+}
 .container {
 	max-width: 1200px;
 	margin-left: auto;
@@ -87,6 +91,9 @@ hr {
 }
 .row-revert {
 	flex-direction: row-reverse;
+}
+.jc-end {
+	justify-content: flex-end;
 }
 .row,.row0 {
 	display: flex;
@@ -132,10 +139,10 @@ hr {
 	margin: 0 -4px;
 }
 .text-center {
-	text-align: center;
+	text-align: center !important;
 }
 .text-right {
-	text-align: right
+	text-align: right !important;
 }
 .pb-16 {
 	padding-bottom: 16px;

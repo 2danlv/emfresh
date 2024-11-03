@@ -7,7 +7,7 @@
 .modal-content a {color: #f12837;}
 .modal-card { background-color: #fff; border-radius: 6px; display: flex; flex-direction: column; max-height: calc(100vh - 40px); overflow: hidden }
 .modal-card-foot,
-.modal-card-head { padding: 10px 20px 0  0; position: relative }
+.modal-header { padding: 5px 0 16px; position: relative ;border-bottom: var(--number-1px, 1px) solid var(--modal-divider, #DEDFE0);}
 .modal-card-head { align-items: center; display: flex; flex-shrink: 0; justify-content: flex-start; margin: unset;    border-top-left-radius: 5px; border-top-right-radius: 5px }
 .modal-card-title { color: #363636; flex-grow: 1; flex-shrink: 0; font-size: 1.5rem; line-height: 1 }
 .modal-card-foot { width: 100%; text-align: center; border-top: 1px solid #dbdbdb }
