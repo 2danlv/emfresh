@@ -322,7 +322,7 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
 
 .nowrap { white-space: nowrap; }
 
-.tag { padding: 4px 6px; color: #fff; white-space: nowrap; }
+.tag { padding: 4px 6px; color: #fff; white-space: nowrap; margin: 2px 0; display: inline-block; }
 
 .tag_1 { background-color: green; }
 
@@ -396,14 +396,18 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
 .list-customer #list-customer_wrapper div.dt-container { width: 800px; margin: 0 auto; }
 .list-customer #list-customer_wrapper table.table { border-radius: 16px 16px 0px 0px; overflow: hidden; border-collapse: collapse; }
 .list-customer #list-customer_wrapper table.table thead { background: var(--table-background-header, #DEDFE0); }
-.list-customer #list-customer_wrapper table.table th, .list-customer #list-customer_wrapper table.table td { padding: 8px 20px; border: none; }
+.list-customer #list-customer_wrapper table.table thead th { vertical-align: middle; }
+.list-customer #list-customer_wrapper table.table th, .list-customer #list-customer_wrapper table.table td { padding: 8px 8px; border: none; vertical-align: top; line-height: normal; }
 .list-customer #list-customer_wrapper table.table th:hover, .list-customer #list-customer_wrapper table.table td:hover { outline: none; }
+.list-customer #list-customer_wrapper table.table th:first-child, .list-customer #list-customer_wrapper table.table td:first-child { padding-left: 8px; padding-right: 0; }
+.list-customer #list-customer_wrapper table.table th.dt-orderable-asc, .list-customer #list-customer_wrapper table.table td.dt-orderable-asc { padding-right: 18px; }
 .list-customer #list-customer_wrapper table.table td:first-child { text-align: center; }
 .list-customer #list-customer_wrapper table.table td.dt-type-date { white-space: nowrap; }
 .list-customer #list-customer_wrapper .dt-scroll-body { border: none; background-color: #fff; }
 .list-customer #list-customer_wrapper thead > tr > th.dt-orderable-asc span.dt-column-order, .list-customer #list-customer_wrapper thead > tr > th.dt-ordering-asc span.dt-column-order, .list-customer #list-customer_wrapper thead > tr > td.dt-orderable-asc span.dt-column-order, .list-customer #list-customer_wrapper thead > tr > td.dt-ordering-asc span.dt-column-order { right: 0; }
-.list-customer #list-customer_wrapper thead > tr > th.dt-orderable-asc span.dt-column-order:before, .list-customer #list-customer_wrapper thead > tr > th.dt-ordering-asc span.dt-column-order:before, .list-customer #list-customer_wrapper thead > tr > td.dt-orderable-asc span.dt-column-order:before, .list-customer #list-customer_wrapper thead > tr > td.dt-ordering-asc span.dt-column-order:before { top: 35%; }
+.list-customer #list-customer_wrapper thead > tr > th.dt-orderable-asc span.dt-column-order:before, .list-customer #list-customer_wrapper thead > tr > th.dt-ordering-asc span.dt-column-order:before, .list-customer #list-customer_wrapper thead > tr > td.dt-orderable-asc span.dt-column-order:before, .list-customer #list-customer_wrapper thead > tr > td.dt-ordering-asc span.dt-column-order:before { top: 31%; }
 .list-customer #list-customer_wrapper div.dt-button-collection { border-radius: 8px; }
+.list-customer #list-customer_wrapper div.dt-button-collection div.dtb-popover-close { width: auto; height: auto; font-size: 50px; }
 .list-customer #list-customer_wrapper div.dtsb-searchBuilder div.dtsb-group div.dtsb-logicContainer { display: none; }
 .list-customer #list-customer_wrapper div.dtsb-searchBuilder div.dtsb-group { margin-left: 0 !important; }
 .list-customer #list-customer_wrapper div.dtsb-searchBuilder button.dtsb-button { display: flex; align-items: center; padding: 0; background: none; border: none; }

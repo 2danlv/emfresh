@@ -17,30 +17,30 @@ $list_tags = $em_customer->get_tags();
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
   $list_id = isset($_POST['list_id']) ? sanitize_textarea_field($_POST['list_id']) : '';
   $array_id = explode(',', $list_id);
-  $status_post = isset($_POST['status']) ? intval($_POST['status']) : 0;
+  //$status_post = isset($_POST['status']) ? intval($_POST['status']) : 0;
   $tag_post    = isset($_POST['tag']) ? intval($_POST['tag']) : 0;
-  $order_payment_status = isset($_POST['order_payment_status']) ? sanitize_textarea_field($_POST['order_payment_status']) : '';
+  //$order_payment_status = isset($_POST['order_payment_status']) ? sanitize_textarea_field($_POST['order_payment_status']) : '';
 
   $updated = [];
   foreach ($array_id as $key => $id) {
-    if ($status_post != 0) {
-      $customer_update_data = [
-        'id'            => intval($id),
-        'status'        => $status_post
-      ];
-    }
+    // if ($status_post != 0) {
+    //   $customer_update_data = [
+    //     'id'            => intval($id),
+    //     'status'        => $status_post
+    //   ];
+    // }
     if ($tag_post != 0) {
       $customer_update_data = [
         'id'            => intval($id),
         'tag'           => $tag_post
       ];
     }
-    if ($order_payment_status != '') {
-      $customer_update_data = [
-        'id'            => intval($id),
-        'order_payment_status' => $order_payment_status
-      ];
-    }
+    // if ($order_payment_status != '') {
+    //   $customer_update_data = [
+    //     'id'            => intval($id),
+    //     'order_payment_status' => $order_payment_status
+    //   ];
+    // }
     $response_update = $em_customer->update($customer_update_data);
     if ($response_update) {
       $updated[$id] = 'ok';
@@ -119,17 +119,17 @@ get_header();
             <th>SĐT</th>
             <th>Địa chỉ</th>
             <th>Địa chỉ</th>
-            <th><span class="nowrap">Trạng thái</span><span class="nowrap">khách hàng</span></th>
-            <th>Tag <span class="nowrap">phân loại</span></th>
-            <th>Giới tính</th>
-            <th>Note <span class="nowrap">dụng cụ ăn</span></th>
-            <th><span class="nowrap">Số</span>đơn</th>
-            <th>Số<span class="nowrap">ngày ăn</span></th>
-            <th>Số<span class="nowrap">phần ăn</span></th>
-            <th>Tổng tiền<span class="nowrap">đã chi</span></th>
-            <th>Điểm <span class="nowrap">tích lũy</span></th>
-            <th>Lịch sử <span class="nowrap">đặt gần nhất</span></th>
-            <th><span class="nowrap">Nhân</span>viên</th>
+            <th class="text-center"><span class="nowrap">Trạng thái</span><span class="nowrap">khách hàng</span></th>
+            <th class="text-center">Tag <span class="nowrap">phân loại</span></th>
+            <th class="text-center">Giới tính</th>
+            <th class="text-center">Note <span class="nowrap">dụng cụ ăn</span></th>
+            <th class="text-center"><span class="nowrap">Số</span>đơn</th>
+            <th class="text-center">Số<span class="nowrap">ngày ăn</span></th>
+            <th class="text-center">Số<span class="nowrap">phần ăn</span></th>
+            <th class="text-center"><span class="nowrap">Tổng tiền</span><span class="nowrap">đã chi</span></th>
+            <th class="text-center">Điểm <span class="nowrap">tích lũy</span></th>
+            <th class="text-center">Lịch sử <span class="nowrap">đặt gần nhất</span></th>
+            <th class="text-center"><span class="nowrap">Nhân</span>viên</th>
             <th class="text-center"><span class="nowrap">Lần cập</span><span class="nowrap">nhật cuối</span></th>
           </tr>
         </thead>
@@ -179,6 +179,7 @@ get_header();
                         }
                       } ?>
                     </td>
+                    <td><span class="tag btn btn-sm tag_<?php echo $record['status']; ?>"><?php echo $record['status_name']; ?></span></td>
                     <td>
                       <?php
                       $customer_tags = $em_customer_tag->get_items(['customer_id' => $record['id']]);
@@ -186,7 +187,6 @@ get_header();
                         <span class="tag btn btn-sm tag_<?php echo $tag; ?>"><?php echo isset($list_tags[$tag]) ? $list_tags[$tag] : ''; ?></span>
                       <?php endforeach; ?>
                     </td>
-                    <td><span class="tag btn btn-sm tag_<?php echo $record['status']; ?>"><?php echo $record['status_name']; ?></span></td>
                     <td><?php echo $record['gender_name']; ?></td>
                     <td><!-- note dụng cụ --> </td>
                     <td><!-- note số đơn --></td>
@@ -259,8 +259,8 @@ get_header();
       </div>
       <div class="modal-body">
         <?php
-        $status = $em_customer->get_statuses();
-        $list_payment_status = custom_get_list_payment_status();
+        //$status = $em_customer->get_statuses();
+        //$list_payment_status = custom_get_list_payment_status();
         $tag = $em_customer->get_tags();
         ?>
         <form method="POST" action="<?php the_permalink() ?>">

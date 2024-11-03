@@ -139,12 +139,24 @@
             border-collapse: collapse;
             thead {
                 background: var(--table-background-header, #DEDFE0);
+                th {
+                    vertical-align: middle;
+                }
             }
             th, td {
-                padding: 8px 20px;
+                padding: 8px 8px;
                 border: none;
+                vertical-align: top;
+                line-height: normal;
                 &:hover {
                     outline: none;
+                }
+                &:first-child {
+                    padding-left: 8px;
+                    padding-right: 0;
+                }
+                &.dt-orderable-asc {
+                    padding-right: 18px;
                 }
             }
             td:first-child {
@@ -166,11 +178,16 @@
         thead > tr > td.dt-ordering-asc span.dt-column-order {
             right: 0;
             &:before {
-                top: 35%;
+                top: 31%;
             }
         }
         div.dt-button-collection {
             border-radius: 8px;
+            div.dtb-popover-close {
+                width: auto;
+                height: auto;
+                font-size: 50px;
+            }
         }
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-logicContainer {
             display: none;
