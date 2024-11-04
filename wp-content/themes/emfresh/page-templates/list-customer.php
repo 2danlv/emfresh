@@ -18,10 +18,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
   $list_id = isset($_POST['list_id']) ? sanitize_textarea_field($_POST['list_id']) : '';
   $array_id = explode(',', $list_id);
   //$status_post = isset($_POST['status']) ? intval($_POST['status']) : 0;
-  $tag_post    = isset($_POST['tag']) ? intval($_POST['tag']) : 0;
+  //$tag_post    = isset($_POST['tag']) ? intval($_POST['tag']) : 0;
   //$order_payment_status = isset($_POST['order_payment_status']) ? sanitize_textarea_field($_POST['order_payment_status']) : '';
-
+  //vardump($tag_post);
   $updated = [];
+  $count = 0;
+  if(isset($_POST['tag_ids'])) {
   foreach ($array_id as $key => $id) {
     // if ($status_post != 0) {
     //   $customer_update_data = [
@@ -29,12 +31,41 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
     //     'status'        => $status_post
     //   ];
     // }
-    if ($tag_post != 0) {
-      $customer_update_data = [
-        'id'            => intval($id),
-        'tag'           => $tag_post
-      ];
-    }
+    // if ($tag_post != 0) {
+    //   $customer_update_data = [
+    //     'id'            => intval($id),
+    //     'tag'           => $tag_post
+    //   ];
+    // }
+   $customer_id = intval($id);
+   $customer_tags = $em_customer_tag->get_items(['customer_id' => $customer_id]);
+  
+  
+      if(count($_POST['tag_ids']) > 0){
+        foreach($_POST['tag_ids'] as $i => $tag_id) {
+          $tag_id = (int) $tag_id;
+          if($tag_id == 0) continue;
+  
+          if(isset($customer_tags[$i])) {
+            $em_customer_tag->update([
+              'tag_id' => $tag_id,
+              'id' => $customer_tags[$i]['id']
+            ]);
+          } else {
+            $em_customer_tag->insert([
+              'tag_id' => $tag_id,
+              'customer_id' => $customer_id
+            ]);
+          }
+  
+          $count++;
+        }
+      }
+  
+      for($i = $count; $i < count($customer_tags); $i++) {
+        $em_customer_tag->delete($customer_tags[$i]['id']);
+      }
+  }
     // if ($order_payment_status != '') {
     //   $customer_update_data = [
     //     'id'            => intval($id),
@@ -48,8 +79,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
   }
 
   wp_redirect(add_query_arg([
-    'code' => count($updated) > 0 ? 200 : 400,
-    'message' => 'Update Success',
+    'code' => 200,
+    //'message' => 'Update Success',
   ], get_permalink()));
   exit();
 }
@@ -272,13 +303,13 @@ get_header();
               </select>
             </div>
             <div class="col-6">
-                <select class="form-control  text-capitalize" name="tag">
-                  <option value="0">Select one</option>
-                  <?php
+            <select class="form-control text-capitalize select2" multiple="multiple" name="tag_ids[]" style="width: 100%;">
+            <option value="0">Select one</option>
+            <?php
                   foreach ($tag as $key => $value) { ?>
                     <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
                   <?php } ?>
-                </select>
+              </select>
             </div>
           </div>
           <div class="form-group pt-16 text-right">

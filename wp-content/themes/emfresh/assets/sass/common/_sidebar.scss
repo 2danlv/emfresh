@@ -45,6 +45,8 @@
                 padding: 8px;
                 border-radius: 8px;
                 white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
                 span {
                     overflow: hidden;
                     text-overflow: ellipsis;

@@ -21,7 +21,7 @@
 <!-- ./wrapper -->
 
 <!-- Bootstrap 4 -->
-<script src="/assets/plugins/select2/js/select2.full.min.js"></script>
+<script src="<?php echo site_get_template_directory_assets();?>/js/select2/js/select2.full.min.js"></script>
 
 <!-- DataTables  & Plugins -->
 <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>

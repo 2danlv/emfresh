@@ -4,12 +4,13 @@
 .nowrap{
     white-space: nowrap;
 }
-.tag {
-    padding: 4px 6px;
+.tag,.select2-selection__rendered {
+    padding: 2px 6px 4px;
     color: #fff;
     white-space: nowrap;
     margin: 2px 0;
     display: inline-block;
+    border-radius: 3px;
 }
 
 .tag_1 {

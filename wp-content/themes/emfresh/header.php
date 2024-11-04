@@ -17,7 +17,7 @@
 <head>
 	<meta charset="<?php bloginfo('charset'); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-	<title><?php echo strip_tags(get_the_title()); ?> | <?php echo get_bloginfo('description'); ?></title>
+	<title><?php echo strip_tags(get_the_title()); ?> | <?php echo get_bloginfo( 'name' ); ?></title>
 	<?php if (0 && is_singular() && pings_open(get_queried_object())) : ?>
 		<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>">
 	<?php endif; ?>

@@ -263,7 +263,7 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
 .sidebar ul.nav-menu li.menu-item-has-children > a { background-image: url(../img/icon/CaretDown.svg); background-position: right 8px center; background-repeat: no-repeat; }
 .sidebar ul.nav-menu li.current-menu-parent > a { color: #4BA66F; background-image: url(../img/icon/CaretUp.svg); background-color: #DDF6E7; }
 .sidebar ul.nav-menu li.current-menu-parent > a img { filter: brightness(0) saturate(100%) invert(56%) sepia(64%) saturate(316%) hue-rotate(91deg) brightness(89%) contrast(94%); }
-.sidebar ul.nav-menu li a { display: flex; align-items: center; padding: 8px; border-radius: 8px; white-space: nowrap; }
+.sidebar ul.nav-menu li a { display: flex; align-items: center; padding: 8px; border-radius: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .sidebar ul.nav-menu li a span { overflow: hidden; text-overflow: ellipsis; }
 .sidebar ul.nav-menu li a img { filter: brightness(0) saturate(100%); }
 .sidebar ul.nav-menu li a:hover { color: #4BA66F; background-color: #DDF6E7; }
@@ -322,7 +322,7 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
 
 .nowrap { white-space: nowrap; }
 
-.tag { padding: 4px 6px; color: #fff; white-space: nowrap; margin: 2px 0; display: inline-block; }
+.tag, .select2-selection__rendered { padding: 2px 6px 4px; color: #fff; white-space: nowrap; margin: 2px 0; display: inline-block; border-radius: 3px; }
 
 .tag_1 { background-color: green; }
 
