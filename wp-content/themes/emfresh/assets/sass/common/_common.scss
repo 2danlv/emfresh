@@ -115,6 +115,9 @@ hr {
 .ai-center {
 	align-items: center;
 }
+.jc-b{
+	justify-content: space-between;
+}
 .row,.row0 {
 	@for $i from 1 through 12 {
 		$size: (12 / $i);
@@ -144,6 +147,9 @@ hr {
 .text-right {
 	text-align: right !important;
 }
+.pb-4 {
+	padding-bottom: 4px;
+}
 .pb-8 {
 	padding-bottom: 8px;
 }
@@ -155,6 +161,9 @@ hr {
 }
 .pt-16 {
 	padding-top: 16px;
+}
+.mb-16 {
+	margin-bottom: 16px;
 }
 .hidden, .hidden-pc {
 	display: none;

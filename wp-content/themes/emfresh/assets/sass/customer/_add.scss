@@ -28,8 +28,12 @@
       border: 1px solid var(--input-border-default, #DEDFE0);
       text-transform: capitalize;
     }
-    #phone_status {
-      display: none;
+    #phone_status.status {
+      font-size: 14px;
+      color: red;
+      &.d-none {
+        display: none;
+      }
     }
   }
   .add-location-button,.icheck-primary label {

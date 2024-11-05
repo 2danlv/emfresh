@@ -99,7 +99,7 @@ $list_payment_status = $em_order->get_statuses();
 // Start the Loop.
 get_header();
 ?>
-<div class="content-wrapper customer">
+<div class="customer">
 	<!-- Content Header (Page header) -->
 
 

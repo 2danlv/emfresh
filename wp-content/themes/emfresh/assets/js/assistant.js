@@ -2,24 +2,6 @@
 	this js assistant for check data valid and auto resize meta tab
 	*/
 jQuery(document).ready(function($) {
-	$('.copy').on('click', function() {
-		// Get the text content from the clicked element
-		const textToCopy = $(this).text();
-
-		// Create a temporary input element to hold the text
-		const tempInput = $('<input>');
-		$('body').append(tempInput);
-		tempInput.val(textToCopy).select();
-
-		// Copy the text to clipboard
-		document.execCommand('copy');
-
-		// Remove the temporary input element
-		tempInput.remove();
-
-		// Optionally, show a message or indication that the text has been copied
-		alert('Copied to clipboard: ' + textToCopy);
-	});
   $('input[type="tel"]').attr('maxlength','10');
   $('input[type="tel"]').on('input', function() {
     this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');

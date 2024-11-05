@@ -307,9 +307,20 @@ jQuery(document).ready(function () {
   }
   $('.resize').click(function (e) { 
     e.preventDefault();
-    console.log('log');
     $(this).toggleClass('active');
     $('.sidebar').toggleClass('width-10');;
     $('.content-wrapper').toggleClass('width-90');;
   });
+  jQuery('ul.tabNavigation li').click(function() {
+    switch_tabs(jQuery(this));
 });
+switch_tabs(jQuery('.defaulttab'));
+});
+function switch_tabs(obj) {
+    jQuery('.tab-pane').stop().fadeOut(1);
+    jQuery('ul.tabNavigation li').removeClass("selected");
+    var id = obj.attr("rel");
+    jQuery('#' + id).stop().fadeIn(300);
+    //jQuery('#'+id).show();
+    obj.addClass("selected");
+}

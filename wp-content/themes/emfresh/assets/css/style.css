@@ -159,6 +159,8 @@ hr { border-top: 1px solid #E4ECF0; }
 
 .ai-center { align-items: center; }
 
+.jc-b { justify-content: space-between; }
+
 .row .col-1, .row0 .col-1 { width: 8.33333%; }
 .row .col-2, .row0 .col-2 { width: 16.66667%; }
 .row .col-3, .row0 .col-3 { width: 25%; }
@@ -183,6 +185,8 @@ hr { border-top: 1px solid #E4ECF0; }
 
 .text-right { text-align: right !important; }
 
+.pb-4 { padding-bottom: 4px; }
+
 .pb-8 { padding-bottom: 8px; }
 
 .pb-16 { padding-bottom: 16px; }
@@ -190,6 +194,8 @@ hr { border-top: 1px solid #E4ECF0; }
 .pt-8 { padding-top: 8px; }
 
 .pt-16 { padding-top: 16px; }
+
+.mb-16 { margin-bottom: 16px; }
 
 .hidden, .hidden-pc { display: none; }
 
@@ -378,6 +384,8 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
 
 .btn-secondary { border-radius: var(--button-radiusCorner, 8px); border: 1.5px solid var(--button-outline-border-default, #DEDFE0); }
 
+.badge { color: #4BA66F; padding: 0 8px; border-radius: var(--tag-radiusCorner-rounded, 8px); border: 1px solid var(--tag-border-selected, #4BA66F); background: var(--tag-background-active, #F0FAF4); }
+
 .list-customer { margin-top: 16px; padding: 16px 16px 10vh; border-radius: 16px 16px 0px 0px; background: var(--background-dim-green, #F6F6F6); }
 .list-customer #searchBuilder { display: none !important; }
 .list-customer .em-importer .col-8 ul li { padding-left: 4px; }
@@ -443,7 +451,8 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
 .customer .card-body { background-color: #fff; border-radius: var(--modal-radiusCorner, 16px); background: var(--modal-background, #FFF); padding: 8px 16px 0px; }
 .customer .card-body .card-header { border-bottom: var(--number-1px, 1px) solid var(--modal-divider, #DEDFE0); margin-bottom: 16px; padding-bottom: 8px; }
 .customer .card-body .select2 span.select2-selection { background: var(--input-background-default, #F6F6F6); border: 1px solid var(--input-border-default, #DEDFE0); text-transform: capitalize; }
-.customer .card-body #phone_status { display: none; }
+.customer .card-body #phone_status.status { font-size: 14px; color: red; }
+.customer .card-body #phone_status.status.d-none { display: none; }
 .customer .add-location-button, .customer .icheck-primary label { cursor: pointer; }
 .customer .delete-location-button { cursor: pointer; color: #F73131; }
 
@@ -468,3 +477,16 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
 .success-message { color: green; }
 
 .error-message { color: red; }
+
+.detail-customer h1 { margin-top: 0; }
+.detail-customer .ttl { font-size: 18px; font-weight: bold; padding-bottom: 10px; border-bottom: var(--number-1px, 1px) solid var(--modal-divider, #DEDFE0); }
+.detail-customer .tabNavigation { padding-bottom: 16px; }
+.detail-customer .tabNavigation li { display: inline-block; font-weight: bold; padding: 0 16px 4px; cursor: pointer; border-bottom: 2px solid transparent; margin-right: 16px; }
+.detail-customer .tabNavigation li:hover, .detail-customer .tabNavigation li.selected { color: var(--tab-text-active, #208046); border-bottom: 2px solid var(--border-brand, #4BA66F); }
+.detail-customer .card-primary { border-radius: 16px 16px 0px 0px; background: var(--background-dim-green, #F6F6F6); padding: 16px; }
+.detail-customer .card-primary .card { padding: 16px; border-radius: 16px; background-color: #fff; }
+.detail-customer .card-primary .card .tab-pane { display: none; }
+.detail-customer .card-primary .card table { width: 100%; }
+.detail-customer .card-primary .card .note-wraper .avatar img { overflow: hidden; margin-right: 8px; padding: 6px; border-radius: var(--avatar-radiusCorner-circle, 999px); background: var(--avatar-background-noAvatar, #DEDFE0); }
+.detail-customer .card-primary .card .note-wraper .note-content { padding-left: 40px; }
+.detail-customer .card-primary .card textarea { padding: 16px; resize: none; border-radius: var(--input-radiusCorner, 8px); border: 1px solid var(--input-border-default, #DEDFE0); background: var(--input-background-default, #F6F6F6); width: 100%; }

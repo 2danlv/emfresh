@@ -103,3 +103,10 @@ color: #fff;
     border-radius: var(--button-radiusCorner, 8px);
     border: 1.5px solid var(--button-outline-border-default, #DEDFE0);
 }
+.badge {
+    color: #4BA66F;
+    padding: 0 8px;
+    border-radius: var(--tag-radiusCorner-rounded, 8px);
+    border: 1px solid var(--tag-border-selected, #4BA66F);
+    background: var(--tag-background-active, #F0FAF4);
+}
