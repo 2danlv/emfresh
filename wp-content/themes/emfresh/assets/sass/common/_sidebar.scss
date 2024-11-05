@@ -1,5 +1,6 @@
-.sidebar {
+.row .sidebar {
     transition: .5s;
+    min-height: 100vh;
     &.width-10{
         width: 10%;
         transition: .5s;

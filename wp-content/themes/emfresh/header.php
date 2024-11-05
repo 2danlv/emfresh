@@ -51,7 +51,11 @@
 							<h1><?php the_title(); ?></h1>
 						</div>
 						<div class="col-5">
-							<input class="input-search" placeholder="Tên khách hàng / SĐT / Địa chỉ" type="text">
+							<?php 
+							if ( is_page_template( 'page-templates/list-customer.php' ) ) { ?>
+								<input class="input-search" placeholder="Tên khách hàng / SĐT / Địa chỉ" type="text">
+							<?php } 
+							?>
 						</div>
 						<div class="col-2">
 							<div class="row ai-center">

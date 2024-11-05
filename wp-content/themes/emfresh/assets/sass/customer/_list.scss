@@ -7,9 +7,13 @@
         display: none !important;
     }
     .em-importer {
+        .col-8 {
+            ul li {
+                padding-left: 4px;
+            }
+        }
         ul {
             li {
-                padding-left: 8px;
                 &.add {
                     padding-left: 0;
                     width: 40px;
@@ -18,6 +22,7 @@
                     line-height: 35px;
                     text-align: center;
                     border-radius: 8px;
+                    margin-right: 4px;
                     img {
                         filter: brightness(0) saturate(100%) invert(99%) sepia(1%) saturate(78%) hue-rotate(216deg) brightness(114%) contrast(100%);
                     }

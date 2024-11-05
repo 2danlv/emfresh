@@ -1,4 +1,46 @@
-.location_1 .delete-location-button{
+.customer {
+  border-radius: 16px 16px 0px 0px;
+  background: var(--background-dim-green, #F6F6F6);
+  padding: 16px;
+  height: 100%;
+  input[type="text"],input[type="tel"],select {
+    border-radius: var(--input-radiusCorner, 8px);
+    border: 1px solid var(--input-border-default, #DEDFE0);
+    background: var(--input-background-default, #F6F6F6);
+    padding: 10px;
+    width: 100%;
+  }
+  select {
+    padding: 8px 8px;
+  }
+  .card-body{
+    background-color: #fff;
+    border-radius: var(--modal-radiusCorner, 16px);
+    background: var(--modal-background, #FFF);
+    padding: 8px 16px 0px;
+    .card-header {
+      border-bottom: var(--number-1px, 1px) solid var(--modal-divider, #DEDFE0);
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+    }
+    .select2 span.select2-selection {
+      background: var(--input-background-default, #F6F6F6);
+      border: 1px solid var(--input-border-default, #DEDFE0);
+      text-transform: capitalize;
+    }
+    #phone_status {
+      display: none;
+    }
+  }
+  .add-location-button,.icheck-primary label {
+    cursor: pointer;
+  }
+  .delete-location-button {
+    cursor: pointer;
+    color: #F73131;
+  }
+}
+.address_active .delete-location-button{
     display: none;
   }
   .select2-results {

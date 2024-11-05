@@ -4,7 +4,7 @@
 .nowrap{
     white-space: nowrap;
 }
-.tag,.select2-selection__rendered {
+.tag.btn,.select2-selection__rendered {
     padding: 2px 6px 4px;
     color: #fff;
     white-space: nowrap;
@@ -13,47 +13,47 @@
     border-radius: 3px;
 }
 
-.tag_1 {
+.btn.tag_1 {
     background-color: green;
 }
 
-.tag_2 {
+.btn.tag_2 {
     background-color: #0056b3;
 }
 
-.tag_3 {
+.btn.tag_3 {
     background-color: yellow;
     color: #000;
 }
 
-.tag_4 {
+.btn.tag_4 {
     background-color: red;
 }
 
-.tag_5 {
+.btn.tag_5 {
     background-color: orange;
 }
 
-.status_1 {
+.btn.status_1 {
     background-color: green;
 }
 
-.status_2 {
+.btn.status_2 {
     background-color: yellow;
     color: #000;
 }
 
-.status_3 {
+.btn.status_3 {
     background-color: yellow;
     opacity: 0.65;
     color: #000;
 }
 
-.status_4 {
+.btn.status_4 {
     background-color: gray;
 }
 
-.status_5 {
+.btn.status_5 {
     background-color: orange;
     color: #fff;
 }
@@ -69,6 +69,12 @@
 .fa-trash {
     background: url(../img/icon/delete-svgrepo-com.svg) center center no-repeat ;
 }
+.fa-bin {
+    background: url(../img/icon/bin.svg) center center no-repeat ;
+}
+.fa-bin-red {
+    background: url(../img/icon/bin-red.svg) center center no-repeat ;
+}
 .fa-filter {
     background: url(../img/icon/filter-svgrepo-com.svg) center center no-repeat ;
 }
@@ -81,7 +87,7 @@
 .fa-right {
     background: url(../img/icon/CaretRight.svg) center center no-repeat ;
 }
-.button {
+.button,.btn {
     padding: 11px 24px;
     border-radius: var(--button-radiusCorner, 8px);
     border: 1.5px solid var(--button-outline-border-default, #DEDFE0);
@@ -92,4 +98,8 @@
 .btn-primary {
 background: var(--button-solid-background-default, #208046);
 color: #fff;
+}
+.btn-secondary {
+    border-radius: var(--button-radiusCorner, 8px);
+    border: 1.5px solid var(--button-outline-border-default, #DEDFE0);
 }

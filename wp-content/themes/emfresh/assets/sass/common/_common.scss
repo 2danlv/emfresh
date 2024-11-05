@@ -98,8 +98,8 @@ hr {
 .row,.row0 {
 	display: flex;
 	flex-wrap: wrap;
-	margin-left: -4px;
-	margin-right: -4px;
+	margin-left: -8px;
+	margin-right: -8px;
 	&.ai-center {
 		align-items: center;
 	}
@@ -144,8 +144,14 @@ hr {
 .text-right {
 	text-align: right !important;
 }
+.pb-8 {
+	padding-bottom: 8px;
+}
 .pb-16 {
 	padding-bottom: 16px;
+}
+.pt-8 {
+	padding-top: 8px;
 }
 .pt-16 {
 	padding-top: 16px;
