@@ -319,6 +319,10 @@ jQuery(document).ready(function () {
     jQuery('ul.tabNavigation li[rel="settings"],ul.tabNavigation li[rel="history"]').click(function() {
         $('.card-primary').addClass('width-100');
     });
+    $(document).on('click','.show-group-note', function name(params) {
+        $(this).hide();
+        $(this).prev('.group-note').find('.hidden').show();
+    })
 });
 function switch_tabs(obj) {
     jQuery('.tab-pane').stop().fadeOut(1);

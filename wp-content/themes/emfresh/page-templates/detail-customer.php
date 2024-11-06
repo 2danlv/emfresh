@@ -525,12 +525,34 @@ get_header();
 																		<input id="address_<?php echo $record['id'] ?>" type="text" class="form-control address" value="<?php echo $record['address']; ?>" placeholder="Địa chỉ cụ thể*" name="locations[<?php echo $index ?>][address]" required />
 																	</div>
 																</div>
-																<div class="note_shiper  pb-16">
+																<?php 
+																if ($record['note_shipper'] !='') {
+																	$class_note_shipper = '';
+																} else {
+																	$class_note_shipper = 'hidden';
+																}
+																if ($record['note_admin'] !='') {
+																	$class_note_admin = '';
+																} else {
+																	$class_note_admin = 'hidden';
+																}
+																 if ($record['note_shipper'] && $record['note_admin'] ) { 
+																	$class_hidden = 'hidden';
+																 }
+																?>
+																<div class="group-note">
+																<div class="note_shiper <?php echo $class_note_shipper ?> pb-16">
 																	<input type="text" name="locations[<?php echo $index ?>][note_shipper]" value="<?php echo $record['note_shipper'] ?>" placeholder="Note với shipper" />
 																</div>
-																<div class="note_admin  pb-16">
+																<div class="note_admin <?php echo $class_note_admin ?> pb-16">
 																	<input type="text" name="locations[<?php echo $index ?>][note_admin]" value="<?php echo $record['note_admin'] ?>" placeholder="Note với admin" />
 																</div>
+																</div>
+																
+																<div class="show-group-note d-f ai-center pb-16 <?php echo $class_hidden ?>">
+																	<span class="fas fa-plus mr-4"></span> Thêm ghi chú giao hàng
+																</div>
+																
 																<div class="col-12 pb-16">
 																	<hr>
 																	<div class="row pt-8">

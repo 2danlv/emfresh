@@ -249,11 +249,16 @@ get_header();
 										<input id="address_0" type="text" class="form-control address" placeholder="Địa chỉ cụ thể*" name="locations[0][address]" required />
 									</div>
 								</div>
-								<div class="note_shipper  pb-16">
-									<input type="text" name="locations[0][note_shipper]" placeholder="Note với shipper" />
+								<div class="group-note">
+									<div class="note_shipper hidden pb-16">
+										<input type="text" name="locations[0][note_shipper]" placeholder="Note với shipper" />
+									</div>
+									<div class="note_admin hidden pb-16">
+										<input type="text" name="locations[0][note_admin]" placeholder="Note với admin" />
+									</div>
 								</div>
-								<div class="note_admin  pb-16">
-									<input type="text" name="locations[0][note_admin]" placeholder="Note với admin" />
+								<div class="show-group-note d-f ai-center pb-16">
+									<span class="fas fa-plus mr-4"></span> Thêm ghi chú giao hàng
 								</div>
 								<div class="col-12 pb-16">
 									<hr>

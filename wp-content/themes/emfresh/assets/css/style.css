@@ -469,6 +469,8 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
 .customer .add-location-button, .customer .icheck-primary label { cursor: pointer; }
 .customer .delete-location-button { cursor: pointer; color: #F73131; }
 
+.show-group-note { cursor: pointer; }
+
 .address_active .delete-location-button { display: none; }
 
 .select2-results { text-transform: capitalize; }
