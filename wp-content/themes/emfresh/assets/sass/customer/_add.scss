@@ -60,6 +60,13 @@
   }
   .select2-container--default .select2-selection--multiple .select2-selection__rendered li{
     border: none;
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+  }
+  .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    margin-right: 0;
+    margin-left: 4px;
   }
   .select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="thân thiết"] {
     background-color: green;

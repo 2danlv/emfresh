@@ -103,7 +103,7 @@ function site_scripts()
 	$time 	= current_time( 'YmdHis' );
 	
 	// wp_enqueue_style( 	'carousel', 	$url . 'libs/owl-carousel/assets/owl.carousel.min.css', '', '' );
-	wp_enqueue_style( 	'style', 		$url.'/css/style.css', '', $time );
+	wp_enqueue_style( 	'style', 		$url.'css/style.css', '', $time );
 
 	$cores 	= array('jquery');
 

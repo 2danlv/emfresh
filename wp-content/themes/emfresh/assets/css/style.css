@@ -384,6 +384,8 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
 
 .btn-secondary { border-radius: var(--button-radiusCorner, 8px); border: 1.5px solid var(--button-outline-border-default, #DEDFE0); }
 
+.btn-danger { border-radius: var(--button-radiusCorner, 8px); border: 1px solid var(--input-border-error, #F73131); background: var(--inform-background-error, #FFE7E0); color: #F73131; }
+
 .badge { color: #4BA66F; padding: 0 8px; border-radius: var(--tag-radiusCorner-rounded, 8px); border: 1px solid var(--tag-border-selected, #4BA66F); background: var(--tag-background-active, #F0FAF4); }
 
 .list-customer { margin-top: 16px; padding: 16px 16px 10vh; border-radius: 16px 16px 0px 0px; background: var(--background-dim-green, #F6F6F6); }
@@ -461,7 +463,9 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
 
 .select2-results { text-transform: capitalize; }
 
-.select2-container--default .select2-selection--multiple .select2-selection__rendered li { border: none; }
+.select2-container--default .select2-selection--multiple .select2-selection__rendered li { border: none; display: flex; align-items: center; flex-direction: row-reverse; }
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove { margin-right: 0; margin-left: 4px; }
 
 .select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="thân thiết"] { background-color: green; }
 
@@ -485,6 +489,8 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
 .detail-customer .tabNavigation li { display: inline-block; font-weight: bold; padding: 0 16px 4px; cursor: pointer; border-bottom: 2px solid transparent; margin-right: 16px; }
 .detail-customer .tabNavigation li:hover, .detail-customer .tabNavigation li.selected { color: var(--tab-text-active, #208046); border-bottom: 2px solid var(--border-brand, #4BA66F); }
 .detail-customer .card-primary { border-radius: 16px 16px 0px 0px; background: var(--background-dim-green, #F6F6F6); padding: 16px; }
+.detail-customer .card-primary.width-100 .about-box { display: none; }
+.detail-customer .card-primary.width-100 .col-8 { width: 100%; }
 .detail-customer .card-primary .card { padding: 16px; border-radius: 16px; background-color: #fff; }
 .detail-customer .card-primary .card .tab-pane { display: none; }
 .detail-customer .card-primary .card table { width: 100%; }

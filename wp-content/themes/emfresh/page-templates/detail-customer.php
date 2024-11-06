@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Template Name: Detail-customer
  *
@@ -31,7 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 	$tag_post    = isset($_POST['tag']) ? intval($_POST['tag']) : 0;
 	$point = isset($_POST['point']) ? intval($_POST['point']) : 0;
 	$note = isset($_POST['note']) ? sanitize_textarea_field($_POST['note']) : '';
-	$note_shipping = isset($_POST['note_shipping']) ? sanitize_textarea_field($_POST['note_shipping']) : '';
 	$note_cook = isset($_POST['note_cook']) ? sanitize_textarea_field($_POST['note_cook']) : '';
 	$order_payment_status = isset($_POST['order_payment_status']) ? sanitize_textarea_field($_POST['order_payment_status']) : '';
 	$customer_data = [
@@ -44,7 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 		'status'        => $status_post,
 		'gender'        => $gender_post,
 		'note'          => $note,
-		'note_shipping' => $note_shipping,
 		'note_cook'     => $note_cook,
 		'order_payment_status'     => $order_payment_status,
 		'tag'           => $tag_post,
@@ -62,13 +61,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 		$district = isset($location['district']) ? sanitize_text_field($location['district']) : '';
 		$city = isset($location['province']) ? sanitize_text_field($location['province']) : '79';
 		$active = isset($location['active']) ? intval($location['active']) : 0;
+		$note_shipper = isset($location['note_shipper']) ? sanitize_text_field($location['note_shipper']) : '';
+		$note_admin = isset($location['note_admin']) ? sanitize_text_field($location['note_admin']) : '';
 		$location_data = [
 			'customer_id'   => $customer_id,
 			'active'        => $active,
 			'address'       => $address,
 			'ward'          => $ward,
 			'district'      => $district,
-			'city'          => $city
+			'city'          => $city,
+			'note_shipper'  => $note_shipper,
+			'note_admin'    => $note_admin,
 		];
 		if (isset($location['id']) && intval($location['id']) > 0) {
 			$location_data['id'] = $location['id'];
@@ -175,7 +178,7 @@ get_header();
 			</div>
 			<div class="card-primary">
 				<div class="row">
-					<div class="col-4">
+					<div class="col-4 about-box">
 						<!-- About Me Box -->
 						<div class="card ">
 							<!-- /.card-header -->
@@ -226,7 +229,7 @@ get_header();
 								<hr>
 								<div class="d-f jc-b pt-8">
 									<span>Ghi chú dụng cụ ăn:</span>
-									<span>chỉ DC</span>
+									<span><?php echo $response_customer['data']['note_cook'] ?></span>
 								</div>
 								<div class="d-f jc-b pt-8 ai-center">
 									<span>Tag phân loại:</span>
@@ -273,14 +276,14 @@ get_header();
 												<th class="nowrap">Mã đơn</th>
 												<th class="nowrap">Mã gói sản phẩm</th>
 												<th>Ngày <br>
-												bắt đầu</th>
+													bắt đầu</th>
 												<th>Ngày<br>
-												kết thúc</th>
+													kết thúc</th>
 												<th>Tổng tiền</th>
 												<th>Trạng thái<br>
-												thanh toán</th>
+													thanh toán</th>
 												<th>Trạng thái<br>
-												đơn hàng</th>
+													đơn hàng</th>
 											</tr>
 											<tr>
 												<td></td>
@@ -320,202 +323,204 @@ get_header();
 											</div>
 										</div>
 										<div class="note-form">
-											<textarea name="" id="" placeholder="Nhập emter để gửi"></textarea>
+											<textarea name="" id="" placeholder="Nhập enter để gửi"></textarea>
 										</div>
 									</div>
 								</div>
 								<!-- /.tab-pane -->
-								<div class="tab-pane" id="settings">
+								<div class="tab-pane customer" id="settings">
 									<form class="form-horizontal" method="POST" action="<?php the_permalink() ?>?customer_id=<?php echo $customer_id ?>">
 										<?php wp_nonce_field('save_locations', 'edit_locations_nonce'); ?>
-										<div class="form-group row">
-											<div class="col-sm-3"><label>Active</label></div>
-											<div class="col-sm-9 text-capitalize">
-												<?php
-												foreach ($actives as $value => $label) { ?>
-													<div class="icheck-primary d-inline mr-2 text-capitalize">
-														<input type="radio" id="radioActive<?php echo $value; ?>" value="<?php echo $value; ?>" <?php checked($response_customer['data']['active'], $value); ?> name="active" required>
-														<label for="radioActive<?php echo $value; ?>">
-															<?php echo $label; ?>
-														</label>
+										<div class="row pb-16">
+											<div class="col-6">
+												<div class="card-body">
+													<div class="card-header">
+														<h3 class="card-title">Thông tin cơ bản</h3>
 													</div>
-												<?php } ?>
-											</div>
-										</div>
-										<div class="form-group row">
-											<div class="col-sm-3"><label for="inputName">Tên tài khoản (*)</label></div>
-											<div class="col-sm-9">
-												<input type="text" name="nickname" class="nickname form-control" value="<?php echo $response_customer['data']['nickname'] ?>" required>
-											</div>
-										</div>
-										<div class="form-group row">
-											<div class="col-sm-3"><label for="fullname">Tên thật</label></div>
-											<div class="col-sm-9"><input type="text" id="fullname" name="fullname" value="<?php echo $response_customer['data']['fullname'] ?>" class="fullname form-control"></div>
-										</div>
-										<div class="form-group row">
-											<div class="col-sm-3"><label for="customer_name">Tên khách hàng</label></div>
-											<div class="col-sm-9">
-												<input type="text" name="customer_name" readonly class="customer_name form-control" value="<?php echo $response_customer['data']['customer_name'] ?>">
-											</div>
-										</div>
-										<div class="form-group row">
-											<div class="col-sm-3"><label for="phone">Số điện thoại (*)</label></div>
-											<div class="col-sm-9"><input type="tel" id="phone" name="phone" class="form-control" value="<?php echo $response_customer['data']['phone'] ?>" required></div>
-										</div>
-										<div class="form-group row">
-											<div class="col-sm-3"><label>Giới tính (*)</label></div>
-											<div class="col-sm-9 text-capitalize">
-												<?php
-												foreach ($gender as $value => $label) { ?>
-													<div class="icheck-primary d-inline mr-2 text-capitalize">
-														<input type="radio" id="radioPrimary<?php echo $value; ?>" value="<?php echo $value; ?>" <?php checked($response_customer['data']['gender'], $value); ?> name="gender" required>
-														<label for="radioPrimary<?php echo $value; ?>">
-															<?php echo $label; ?>
-														</label>
-													</div>
-												<?php } ?>
-											</div>
-										</div>
-										<div id="location-fields">
-											<?php foreach ($response_get_location['data'] as $index => $record) { ?>
-												<hr>
-												<div class="address-group location_<?php echo ($record['active']) ?>">
-													<input type="hidden" name="locations[<?php echo $index ?>][id]" value="<?php echo $record['id'] ?>" />
-													<div class="form-group row">
-														<div class="col-sm-3"></div>
-														<div class="col-sm-9">
-															<div class="icheck-primary d-inline mr-2">
-																<input type="radio" name="location_active" id="active_<?php echo $record['id'] ?>" value="<?php echo $record['id'] ?>" <?php checked($record['active'], 1) ?>>
-																<input type="hidden" class="location_active" name="locations[<?php echo $index ?>][active]" value="<?php echo $record['active'] ?>" />
-																<label for="active_<?php echo $record['id'] ?>">
-																	Mặc định
-																</label>
+													<div class="row">
+														<div class="col-6 pb-16">
+															<input type="text" name="nickname" class="nickname form-control" value="<?php echo $response_customer['data']['nickname'] ?>" required>
+														</div>
+														<div class="col-6 pb-16">
+															<input type="text" name="fullname" class="fullname form-control" value="<?php echo $response_customer['data']['fullname'] ?>" required>
+														</div>
+														<div class="col-6 pb-16">
+															<input type="tel" id="phone" name="phone" class="form-control" value="<?php echo $response_customer['data']['phone'] ?>" required>
+															<p id="phone_status" class="status text-danger"></p>
+														</div>
+														<div class="col-6 pb-16">
+															<select name="gender" class="gender" required>
+																<option value="0" selected>Giới tính*</option>
+																<?php
+																foreach ($gender as $value => $label) { ?>
+																	<option value="<?php echo $value; ?>" <?php selected($response_customer['data']['gender'], $value); ?> name="gender" required>
+																		<?php echo $label; ?>
+																	</option>
+																<?php } ?>
+															</select>
+														</div>
+														<div class="col-12 ">
+															<div class="review">
+																<p><span class="customer_name"></span></p>
+																<p><span class="customer_phone"></span></p>
+																<div class="info0">
+																	<span class="address"></span>
+																	<span class="street"></span>
+																	<span class="ward"></span>
+																	<span class="city"></span>
+																</div>
+																<div class="info1">
+																	<span class="address"></span>
+																	<span class="street"></span>
+																	<span class="ward"></span>
+																	<span class="city"></span>
+																</div>
+																<div class="info2">
+																	<span class="address"></span>
+																	<span class="street"></span>
+																	<span class="ward"></span>
+																	<span class="city"></span>
+																</div>
+																<div class="info3">
+																	<span class="address"></span>
+																	<span class="street"></span>
+																	<span class="ward"></span>
+																	<span class="city"></span>
+																</div>
+																<div class="info4">
+																	<span class="address"></span>
+																	<span class="street"></span>
+																	<span class="ward"></span>
+																	<span class="city"></span>
+																</div>
 															</div>
 														</div>
-													</div>
-													<div class="form-group row">
-														<div class="col-sm-3"><label for="province_<?php echo $record['id'] ?>">Tỉnh/Thành phố:</label></div>
-														<div class="col-sm-9">
-															<select id="province_<?php echo $record['id'] ?>" name="locations[<?php echo $index ?>][province]" class="province-select form-control" required>
-																<option value="<?php echo $record['city']; ?>" selected><?php echo $record['city']; ?></option>
+														<div class="col-12 pb-16">
+															<p class="pb-8">Ghi chú dụng cụ ăn</p>
+															<select name="note_cook">
+																<?php foreach ($list_cook as $value) { ?>
+																	<option value="<?php echo $value; ?>" <?php selected($response_customer['data']['note_cook'], $value); ?>><?php echo $value; ?></option>
+																<?php } ?>
 															</select>
 														</div>
-													</div>
-													<div class="form-group row">
-														<div class="col-sm-3"><label for="district_<?php echo $record['id'] ?>">Quận/Huyện:</label></div>
-														<div class="col-sm-9">
-															<select id="district_<?php echo $record['id'] ?>" name="locations[<?php echo $index ?>][district]" class="district-select form-control" required>
-																<option value="<?php echo esc_attr($record['district']); ?>" selected><?php echo $record['district']; ?></option>
+														<div class="col-12 pb-16">
+															<p class="pb-8">Tag phân loại</p>
+															<select class="form-control text-capitalize select2" multiple="multiple" name="tag_ids[]" style="width: 100%;">
+																<?php
+																foreach ($list_tags as $value => $label) { ?>
+																	<option value="<?php echo $value; ?>" <?php echo in_array($value, $tag_ids) ? 'selected' : ''; ?>><?php echo $label; ?></option>
+																<?php } ?>
 															</select>
+															<?php
+															$admin_role = wp_get_current_user()->roles;
+															if (!empty($admin_role)) {
+																if ($admin_role[0] == 'administrator') {
+															?>
+																	<div class="form-group row pt-16 hidden">
+																		<div class="col-sm-3"><label>Trạng thái khách hàng</label></div>
+																		<div class="col-sm-9 text-capitalize">
+																			<?php
+																			foreach ($actives as $value => $label) { ?>
+																				<div class="icheck-primary d-inline mr-2 text-capitalize">
+																					<input type="radio" id="radioActive<?php echo $value; ?>" value="<?php echo $value; ?>" <?php checked($response_customer['data']['active'], $value); ?> name="active" required>
+																					<label for="radioActive<?php echo $value; ?>">
+																						<?php echo $label; ?>
+																					</label>
+																				</div>
+																			<?php } ?>
+																		</div>
+																	</div>
+															<?php }
+															} ?>
 														</div>
 													</div>
-													<div class="form-group row">
-														<div class="col-sm-3"><label for="ward_<?php echo $record['id'] ?>">Phường/Xã:</label></div>
-														<div class="col-sm-9">
-															<select id="ward_<?php echo $record['id'] ?>" name="locations[<?php echo $index ?>][ward]" class="ward-select form-control" required>
-																<option value="<?php echo esc_attr($record['ward']); ?>" selected><?php echo $record['ward']; ?></option>
-															</select>
-														</div>
-													</div>
-													<div class="form-group row">
-														<div class="col-sm-3"><label for="address_<?php echo $record['id'] ?>">Địa chỉ (*):</label></div>
-														<div class="col-sm-9"><input id="address_<?php echo $record['id'] ?>" class="form-control" value="<?php echo $record['address']; ?>" name="locations[<?php echo $index ?>][address]" required /></div>
-													</div>
-													<p class="text-right"><span class="btn bg-gradient-danger delete-location-button" data-id="<?php echo $record['id'] ?>">Xóa địa chỉ <i class="fas fa-minus"></i></span></p>
 												</div>
-											<?php } ?>
-										</div>
-										<p><span class="btn bg-gradient-primary" id="add-location-button">Thêm địa chỉ <i class="fas fa-plus"></i></span></p>
-										<hr>
-										<div class="form-group row">
-											<div class="col-sm-3"><label>Ghi chú dụng cụ ăn</label></div>
-											<div class="col-sm-9">
-												<select class="form-control text-capitalize" name="note_cook" style="width: 100%;" required>
-													<?php foreach ($list_cook as $value) { ?>
-														<option value="<?php echo $value; ?>" <?php selected($response_customer['data']['note_cook'], $value); ?>><?php echo $value; ?></option>
-													<?php } ?>
-												</select>
 											</div>
-										</div>
-										<hr>
-										<div class="form-group row">
-											<div class="col-sm-3"><label>Ghi chú yêu cầu ăn đặc biệt</label></div>
-											<div class="col-sm-9 js-list-note">
-												<div class="mb-3">
-													<textarea name="note" class="form-control" rows="2"><?php echo $response_customer['data']['note']; ?></textarea>
+											<div class="col-6 ">
+												<div class="card-body">
+													<div class="card-header">
+														<h3 class="card-title">Địa chỉ</h3>
+													</div>
+													<div id="location-fields">
+														<?php
+														foreach ($response_get_location['data'] as $index => $record) { ?>
+															<div class="address-group location_0 address_<?php echo ($record['active']) ?>" data-index="0">
+																<input type="hidden" name="locations[<?php echo $index ?>][id]" value="<?php echo $record['id'] ?>" />
+																<div class="row">
+																	<div class="city col-12 pb-16">
+																		<select id="province_<?php echo $record['id'] ?>" name="locations[<?php echo $index ?>][province]" class="province-select form-control" required>
+																			<option value="<?php echo $record['city']; ?>" selected><?php echo $record['city']; ?></option>
+																		</select>
+																	</div>
+																	<div class="col-4 pb-16">
+																		<select id="district_<?php echo $record['id'] ?>" name="locations[<?php echo $index ?>][district]" class="district-select form-control" required>
+																			<option value="<?php echo esc_attr($record['district']); ?>" selected><?php echo $record['district']; ?></option>
+																		</select>
+																	</div>
+																	<div class="col-4 pb-16">
+																		<select id="ward_<?php echo $record['id'] ?>" disabled name="locations[<?php echo $index ?>][ward]" class="ward-select form-control" required>
+																			<option value="<?php echo esc_attr($record['ward']); ?>" selected><?php echo $record['ward']; ?></option>
+																		</select>
+																	</div>
+																	<div class="col-4 pb-16">
+																		<input id="address_<?php echo $record['id'] ?>" type="text" class="form-control address" value="<?php echo $record['address']; ?>" placeholder="Địa chỉ cụ thể*" name="locations[<?php echo $index ?>][address]" required />
+																	</div>
+																</div>
+																<div class="note_shiper  pb-16">
+																	<input type="text" name="locations[0][note_shipper]" value="<?php //echo $record['note_shipper'] ?>" placeholder="Note với shipper" />
+																</div>
+																<div class="note_admin  pb-16">
+																	<input type="text" name="locations[0][note_admin]" value="<?php //echo $record['note_admin'] ?>" placeholder="Note với admin" />
+																</div>
+																<div class="col-12 pb-16">
+																	<hr>
+																	<div class="row pt-8">
+																		<div class="col-6">
+																			<div class="icheck-primary">
+																				<input type="radio" name="location_active" id="active_<?php echo $record['id'] ?>" value="<?php echo $record['id'] ?>" <?php checked($record['active'], 1) ?>>
+																				<input type="hidden" class="location_active" name="locations[<?php echo $index ?>][active]" value="<?php echo $record['active'] ?>" />
+																				<label for="active_<?php echo $record['id'] ?>">
+																					Đặt làm địa chỉ mặc định
+																				</label>
+																			</div>
+																		</div>
+																		<div class="col-6 text-right delete-location-button" data-id="<?php echo $record['id'] ?>">
+																			<p class="d-f ai-center jc-end"><span>Xóa địa chỉ </span><i class="fas fa-bin-red"></i></p>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														<?php } ?>
+													</div>
+
 												</div>
-												<p>
-													<?php
-													$list_values = array_map('trim', explode(',', $response_customer['data']['note']));
-													foreach ($list_notes as $value) { ?>
-														<button type="button" class="btn btn-outline-primary<?php echo in_array($value, $list_values) ? ' active' : '' ?>"><?php echo $value; ?></button>
-													<?php } ?>
-												</p>
+												<p class="d-f ai-center pt-16 pb-16"><i class="fas fa-plus add-location-button"></i><span class="add-location-button">Thêm địa chỉ </span></p>
+												<!-- /.card-body -->
+												<!-- /.card -->
+
 											</div>
 										</div>
-										<hr>
-										<div class="form-group row">
-											<div class="col-sm-3"><label>Ghi chú giao hàng đặc biệt</label></div>
-											<div class="col-sm-9"><textarea name="note_shipping" class="form-control" rows="2"><?php echo $response_customer['data']['note_shipping']; ?></textarea></div>
-										</div>
-										<hr>
-										<div class="form-group row">
-											<div class="col-sm-3"><label for="inputPaymentStatus">Trạng thái thanh toán</label></div>
-											<div class="col-sm-9"><select id="inputPaymentStatus" name="order_payment_status" class="form-control custom-select text-capitalize">
-													<option value="">Select one</option>
-													<?php
-													foreach ($list_payment_status as $key => $value) { ?>
-														<option value="<?php echo $key; ?>" <?php selected($response_customer['data']['order_payment_status'], $key); ?>><?php echo $value; ?></option>
-													<?php } ?>
-												</select>
+
+
+
+
+
+										<div class="row pt-16">
+											<div class="col-6">
+												<?php
+												$admin_role = wp_get_current_user()->roles;
+												if (!empty($admin_role)) {
+													if ($admin_role[0] == 'administrator') {
+												?>
+														<button type="button" class="btn d-f ai-center btn-danger remove-customer modal-button" data-target="#modal-default">
+															<i class="fas fa-bin"></i> Xoá khách này
+														</button>
+												<?php }
+												} ?>
 											</div>
-										</div>
-										<div class="form-group row">
-											<div class="col-sm-3"><label for="inputStatus">Trạng thái khách hàng (*)</label></div>
-											<div class="col-sm-9">
-												<select id="inputStatus" name="status" class="form-control custom-select text-capitalize">
-													<option value="0">Select one</option>
-													<?php
-													foreach ($status as $value => $label) { ?>
-														<option value="<?php echo $value; ?>" <?php selected($response_customer['data']['status'], $value); ?>><?php echo $label; ?></option>
-													<?php } ?>
-												</select>
-											</div>
-										</div>
-										<div class="form-group row">
-											<div class="col-sm-3"><label for="inputTag">Tag phân loại</label></div>
-											<div class="col-sm-9 text-capitalize">
-												<select class="form-control text-capitalize select2" multiple="multiple" name="tag_ids[]" style="width: 100%;">
-													<option value="0">Select one</option>
-													<?php
-													foreach ($list_tags as $value => $label) { ?>
-														<option value="<?php echo $value; ?>" <?php echo in_array($value, $tag_ids) ? 'selected' : ''; ?>><?php echo $label; ?></option>
-													<?php } ?>
-												</select>
-											</div>
-										</div>
-										<div class="form-group row">
-											<div class="col-sm-3"><label for="inputPoint">Điểm tích lũy</label></div>
-											<div class="col-sm-9"><input type="number" id="inputPoint" name="point" value="<?php echo intval($response_customer['data']['point']); ?>" class="form-control"></div>
-										</div>
-										<div class="form-group row">
-											<div class="col-sm-9">
+											<div class="col-6 text-right">
 												<button type="submit" class="btn btn-primary" name="add_post">Cập nhật</button>
 											</div>
-											<?php
-											$admin_role = wp_get_current_user()->roles;
-											if (!empty($admin_role)) {
-												if ($admin_role[0] == 'administrator') {
-											?>
-													<div class="col-sm-3 text-right">
-														<button type="button" class="btn btn-danger remove-customer" data-toggle="modal" data-target="#modal-default">
-															<i class="fas fa-trash">
-															</i>
-															Xóa khách hàng
-														</button>
-													</div>
-											<?php }
-											} ?>
 										</div>
 										<input type="hidden" name="customer_id" value="<?php echo $customer_id ?>" />
 										<input type="hidden" name="location_delete_ids" value="" class="location_delete_ids" />
@@ -532,15 +537,13 @@ get_header();
 												<th>Date</th>
 											</tr>
 											<tr>
-											<td>Nhu Quynh</td>
-											<td>xoá</td>
-											<td class="nowrap">ghi chú 
-											T3 (21/4) giao về Toà nhà Riverbank, 3C Tôn Đức Thắng, Phường Bến Nghé, Quận 1</td>
-											<td>01:00</td>
-											<td>29/10/24</td>
+												<td>Nhu Quynh</td>
+												<td>xoá</td>
+												<td class="nowrap">ghi chú
+													T3 (21/4) giao về Toà nhà Riverbank, 3C Tôn Đức Thắng, Phường Bến Nghé, Quận 1</td>
+												<td>01:00</td>
+												<td>29/10/24</td>
 											</tr>
-											
-											
 										</table>
 									</div>
 								</div>
@@ -560,23 +563,20 @@ get_header();
 <!-- /.content -->
 </div>
 <!-- /.card-body -->
-<div class="modal fade" id="modal-default" aria-hidden="true">
+<div class="modal fade" id="modal-default">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title">Thông báo!</h4>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">×</span>
-				</button>
 			</div>
 			<form method="post" id="list-customer" action="<?php the_permalink() ?>">
-				<div class="modal-body">
+				<div class="modal-body pb-16">
 					<input type="hidden" class="customer_id" name="customer_id" value="<?php echo $response_customer['data']['id'] ?>">
 					<p>Bạn muốn xóa khách hàng: <b><?php echo $response_customer['data']['nickname'] ?></b>?</p>
 				</div>
-				<div class="modal-footer justify-content-between">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
-					<button type="submit" name="remove" class="btn btn-danger"><i class="fas fa-trash"></i> Xóa!</button>
+				<div class="modal-footer d-f jc-b pt-16">
+					<button type="button" class="btn btn-secondary modal-close" >Đóng</button>
+					<button type="submit" name="remove" class="btn btn-danger modal-close">Xóa!</button>
 				</div>
 			</form>
 		</div>
@@ -594,8 +594,43 @@ get_footer('customer');
 	$(document).ready(function() {
 		$('.nickname').keyup(updatetxt);
 		$('.fullname').keyup(updatetxt);
+		$('.phone_number').keyup(updatephone);
+		$(document).on('change', '.address-group select', function() {
+			$('.review').show();
+			var selectItem = $(this).closest('.address-group'); // Get the closest select-item div
+			var infoIndex = selectItem.data('index'); // Get the data-index attribute from select-item
+			var city = selectItem.find('.district-select').val(); // Get the city value from select
+			var ward = selectItem.find('.ward-select').val(); // Get the ward value from select
+			// Update the corresponding .info div based on index
+			var infoDiv = $('.review .info' + infoIndex);
+			infoDiv.children('.city').text(city);
+			if (ward) {
+				infoDiv.children('.ward').text(ward + ',');
+			}
+		});
+
+		$(document).on('keyup', '.address-group .address', function() {
+			$('.review').show();
+			var selectItem = $(this).closest('.address-group'); // Find the closest parent .address-group
+			var infoIndex = selectItem.data('index'); // Get the index from data attribute
+			var address = $(this).val(); // Get the current value of the address input field
+			var infoDiv = $('.review .info' + infoIndex);
+			if (address) {
+				infoDiv.children('.address').text(address + ','); // Update the address text
+			} else {
+				infoDiv.children('.address').text(''); // Clear the address if the input is empty
+			}
+		});
+
+
 		function updatetxt() {
-			$('.customer_name').val($('.fullname').val() + ' (' + $('.nickname').val() + ') ');
+			$('.review').show();
+			$('input.customer_name').val($('.fullname').val() + ' (' + $('.nickname').val() + ') ');
+			$('span.customer_name').text($('.fullname').val() + ' (' + $('.nickname').val() + ') ');
+		}
+
+		function updatephone() {
+			$('span.customer_phone').text($('.phone_number').val());
 		}
 		$('.js-list-note').each(function() {
 			let p = $(this);

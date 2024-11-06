@@ -313,8 +313,12 @@ jQuery(document).ready(function () {
   });
   jQuery('ul.tabNavigation li').click(function() {
     switch_tabs(jQuery(this));
-});
-switch_tabs(jQuery('.defaulttab'));
+    $('.card-primary').removeClass('width-100');
+    });
+    switch_tabs(jQuery('.defaulttab'));
+    jQuery('ul.tabNavigation li[rel="settings"],ul.tabNavigation li[rel="history"]').click(function() {
+        $('.card-primary').addClass('width-100');
+    });
 });
 function switch_tabs(obj) {
     jQuery('.tab-pane').stop().fadeOut(1);

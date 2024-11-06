@@ -42,6 +42,8 @@ class EM_Location extends EF_Default
             `ward` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
             `district` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
             `city` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+            `note_shipper` text COLLATE utf8mb4_general_ci DEFAULT NULL,
+            `note_admin` text COLLATE utf8mb4_general_ci DEFAULT NULL,
             PRIMARY KEY (`id`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;";
 
@@ -88,6 +90,8 @@ class EM_Location extends EF_Default
             'ward'          => '',
             'district'      => '',
             'city'          => '',
+            'note_shipper'  => '',
+            'note_admin'    => '',
         );
 
         return $fields;

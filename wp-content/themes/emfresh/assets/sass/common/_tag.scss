@@ -103,6 +103,12 @@ color: #fff;
     border-radius: var(--button-radiusCorner, 8px);
     border: 1.5px solid var(--button-outline-border-default, #DEDFE0);
 }
+.btn-danger {
+    border-radius: var(--button-radiusCorner, 8px);
+    border: 1px solid var(--input-border-error, #F73131);
+    background: var(--inform-background-error, #FFE7E0);
+    color: #F73131;
+}
 .badge {
     color: #4BA66F;
     padding: 0 8px;

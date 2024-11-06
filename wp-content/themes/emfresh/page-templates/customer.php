@@ -249,8 +249,8 @@ get_header();
 										<input id="address_0" type="text" class="form-control address" placeholder="Địa chỉ cụ thể*" name="locations[0][address]" required />
 									</div>
 								</div>
-								<div class="note_shiper  pb-16">
-									<input type="text" name="locations[0][note_shiper]" placeholder="Note với shipper" />
+								<div class="note_shipper  pb-16">
+									<input type="text" name="locations[0][note_shipper]" placeholder="Note với shipper" />
 								</div>
 								<div class="note_admin  pb-16">
 									<input type="text" name="locations[0][note_admin]" placeholder="Note với admin" />
@@ -372,23 +372,36 @@ get_footer('customer');
 		function updatephone() {
 			$('span.customer_phone').text($('.phone_number').val());
 		}
+		var ass = new Assistant();
 		$('.btn-primary[name="add_post"]').on('click', function(e) {
-			// if ($('#phone_status').html() == "OK") {
-			// 	e.stopPropagation();
-			// 	$('.btn-primary[name="add_post"]').css({
-			// 		"display": "none"
-			// 	});
-			// 	setTimeout(() => {
-			// 		$('.btn-primary[name="add_post"]').css({
-			// 			"display": "block"
-			// 		});
-			// 	}, 2000);
-			// 	document.getElementById('customer-form').submit();
-			// } else {
-			// 	alert('Số điện thoại đã tồn tại!');
-			// 	e.preventDefault();
-			// }
-		});
+				if (!ass.checkPhone($('input[type="tel"]').val())) {
+					// $('input[type="tel"]').addClass('error');
+					alert("Số điện thoại không đúng định dạng !");
+					return false;
+				} else {
+					$('input[type="tel"]').removeClass('error');
+				}
+				if ($('#phone_status').html() == "OK") {
+				e.stopPropagation();
+				$('.btn-primary[name="add_post"]').css({
+					"display": "none"
+				});
+				setTimeout(() => {
+					$('.btn-primary[name="add_post"]').css({
+					"display": "inline"
+					});
+				}, 2000);
+				//document.getElementById('customer-form').submit();
+				} else {
+				alert('Số điện thoại đã tồn tại!');
+				e.preventDefault();
+				return false;
+				}
+				if($('.gender').val() == 0) {
+				alert('Chưa chọn giới tính');
+				return false;
+				}
+			});
 		$('.js-list-note').each(function() {
 			let p = $(this);
 
