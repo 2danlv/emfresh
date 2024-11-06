@@ -13,6 +13,7 @@
             }
         }
         ul {
+            line-height: 30px;
             li {
                 &.add {
                     padding-left: 0;
@@ -261,7 +262,7 @@
                         &.current {
                             background-color: #2A8C51;
                             border: 1px solid var(--pagination-border-default, #2A8C51);
-                            color: #fff;
+                            color: #fff !important;
                         }
                         &.disabled {
                             cursor: auto;
