@@ -18,6 +18,7 @@ require get_theme_file_path( '/inc/functions/menu.php' );
 require get_theme_file_path( '/inc/functions/user.php' );
 require get_theme_file_path( '/inc/functions/importer.php' );
 require get_theme_file_path( '/inc/functions/statistic.php' );
+require get_theme_file_path( '/inc/functions/comment.php' );
 
 // Custom type
 // require get_theme_file_path( '/inc/post_types/customer.php' );

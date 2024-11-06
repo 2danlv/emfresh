@@ -383,6 +383,16 @@ function site_twitter_share_url($url = '', $args = array())
 	return 'https://twitter.com/intent/tweet?' . http_build_query($args, '', '&amp;');
 }
 
+function site_base64_encode($text)
+{
+    return rtrim(strtr(base64_encode($text), '+/', '-_'), '=');
+}
+
+function site_base64_decode($text)
+{
+    return sanitize_text_field(base64_decode(str_pad(strtr($text, '-_', '+/'), strlen($text) % 4, '=', STR_PAD_RIGHT))); //phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode -- Using base64 for verifying standard basic authentication method
+}
+
 // remove all emojis
 function disable_wp_head_core()
 {
@@ -666,35 +676,36 @@ function custom_get_list_by_key($list = [], $key = '')
 }
 
 // Allow SVG
-add_filter( 'wp_check_filetype_and_ext', function($data, $file, $filename, $mimes) {
+add_filter('wp_check_filetype_and_ext', function ($data, $file, $filename, $mimes) {
 
 	global $wp_version;
-	if ( $wp_version !== '4.7.1' ) {
-	   return $data;
+	if ($wp_version !== '4.7.1') {
+		return $data;
 	}
-  
-	$filetype = wp_check_filetype( $filename, $mimes );
-  
+
+	$filetype = wp_check_filetype($filename, $mimes);
+
 	return [
 		'ext'             => $filetype['ext'],
 		'type'            => $filetype['type'],
 		'proper_filename' => $data['proper_filename']
 	];
-  
-  }, 10, 4 );
-  
-  function cc_mime_types( $mimes ){
+}, 10, 4);
+
+function cc_mime_types($mimes)
+{
 	$mimes['svg'] = 'image/svg+xml';
 	return $mimes;
-  }
-  add_filter( 'upload_mimes', 'cc_mime_types' );
-  
-  function fix_svg() {
+}
+add_filter('upload_mimes', 'cc_mime_types');
+
+function fix_svg()
+{
 	echo '<style type="text/css">
-		  .attachment-266x266, .thumbnail img {
-			   width: 100% !important;
-			   height: auto !important;
-		  }
-		  </style>';
-  }
-  add_action( 'admin_head', 'fix_svg' );
+		.attachment-266x266, .thumbnail img {
+			width: 100% !important;
+			height: auto !important;
+		}
+	</style>';
+}
+add_action('admin_head', 'fix_svg');

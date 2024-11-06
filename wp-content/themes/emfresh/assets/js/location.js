@@ -25,10 +25,9 @@ $.getJSON('/assets/data/city.json', function(data) {
 
    // Function to populate the province (Thành phố Hồ Chí Minh) dropdown
    function populateProvinces($selectElement, selectedValue) {
-      $selectElement.html('<option value="">Select Tỉnh/Thành phố</option>');
-      var option = `<option value="${data[0].Name}" selected>${data[0].Name}</option>`;
-      $selectElement.append(option);
-      $selectElement.prop('disabled', true);
+    $selectElement.html('<option value="">Select Tỉnh/Thành phố</option>');
+    var option = `<option value="${data[0].Name}" selected>${data[0].Name}</option>`;
+    $selectElement.append(option).prop('disabled', true);
     }
 
     // Function to handle cascading changes in province, district, and ward

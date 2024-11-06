@@ -267,34 +267,63 @@ get_header();
 										}
 										?>
 									</div>
-									<div class="card">
+									<div class="card card-history">
 										<div class="ttl">
 											Lịch sử đặt đơn
 										</div>
-										<table>
-											<tr>
-												<th class="nowrap">Mã đơn</th>
-												<th class="nowrap">Mã gói sản phẩm</th>
-												<th>Ngày <br>
-													bắt đầu</th>
-												<th>Ngày<br>
-													kết thúc</th>
-												<th>Tổng tiền</th>
-												<th>Trạng thái<br>
-													thanh toán</th>
-												<th>Trạng thái<br>
-													đơn hàng</th>
-											</tr>
-											<tr>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-											</tr>
-										</table>
+										<div class="history-order">
+											<table class="nowrap">
+												<tr>
+													<th>Mã đơn</th>
+													<th>Mã gói sản phẩm</th>
+													<th>Ngày <br>
+														bắt đầu
+													</th>
+													<th>Ngày<br>
+														kết thúc
+													</th>
+													<th>Tổng tiền</th>
+													<th>Trạng thái<br>
+														thanh toán</th>
+													<th>Trạng thái<br>
+														đơn hàng</th>
+												</tr>
+												<tr>
+													<td>97</td>
+													<td>2SM+1ET+1EP+1TA</td>
+													<td>22/09/24</td>
+													<td align="center">-</td>
+													<td>400.000</td>
+													<td align="center"><span class="status_pay">Rồi</td>
+													<td align="center" class="status-order"><span class="status_order">Đang dùng</span></td>
+												</tr>
+												<tr>
+													<td>97</td>
+													<td>2SM+1ET+1EP+1TA</td>
+													<td>22/09/24</td>
+													<td>22/09/24</td>
+													<td>400.000</td>
+													<td align="center"><span class="status_pay">Rồi</td>
+													<td align="center" class="status-order"><span class="status_order">Đang dùng</< /td>
+												</tr>
+											</table>
+										</div>
+										<div class="d-f ai-center jc-b pt-16">
+											<div class="btn btn-export d-f ai-center">
+												<span class="fas fa-export"></span> Xuất Excel
+											</div>
+											<div class="dt-paging">
+												<nav aria-label="pagination">
+													<button class="dt-paging-button disabled previous" role="link" type="button" aria-controls="list-customer" aria-disabled="true" aria-label="Previous" data-dt-idx="previous" tabindex="-1"><i class="fas fa-left"></i></button>
+													<button class="dt-paging-button current" role="link" type="button" aria-controls="list-customer" aria-current="page" data-dt-idx="0">1</button>
+													<button class="dt-paging-button" role="link" type="button" aria-controls="list-customer" aria-current="page" data-dt-idx="0">2</button>
+													<button class="dt-paging-button" role="link" type="button" aria-controls="list-customer" aria-current="page" data-dt-idx="0">3</button>
+													<button class="dt-paging-button" role="link" type="button" aria-controls="list-customer" aria-current="page" data-dt-idx="0">4</button>
+													<button class="dt-paging-button" role="link" type="button" aria-controls="list-customer" aria-current="page" data-dt-idx="0">5</button>
+													<button class="dt-paging-button disabled next" role="link" type="button" aria-controls="list-customer" aria-disabled="true" aria-label="Next" data-dt-idx="next" tabindex="-1"><i class="fas fa-right"></i></button>
+												</nav>
+											</div>
+										</div>
 									</div>
 								</div>
 								<!-- /.tab-pane -->
@@ -304,26 +333,56 @@ get_header();
 											Ghi chú
 										</div>
 										<div class="note-wraper pt-16 pb-16">
-											<div class="row">
+										<?php
+											extract(shortcode_atts([
+												'comment' => false
+											], (array) $args));
+
+											if (is_object($comment)) :
+											?>
+											<div class="row row-comment<?php echo $comment->comment_approved == 0 ? 'status-trash' : '' ?>">
 												<div class="account-name d-f ai-center col-6">
 													<div class="avatar">
 														<img src="<?php echo site_get_template_directory_assets(); ?>/img/icon/User.svg" alt="">
 													</div>
-													<div>em.fresh account test</div>
+													<div><?php echo $comment->comment_author ?></div>
 												</div>
 												<div class="edit col-3 ">
-													<img src="<?php echo site_get_template_directory_assets(); ?>/img/icon/edit-2-svgrepo-com.svg" alt="">
-													<img src="<?php echo site_get_template_directory_assets(); ?>/img/icon/bin.svg" alt="">
+													<a href="#editcomment" data-id="<?php echo $comment->comment_ID ?>"><img src="<?php echo site_get_template_directory_assets(); ?>/img/icon/edit-2-svgrepo-com.svg" alt=""></a>
+													<a href="<?php echo site_comment_get_delete_link($comment->comment_ID) ?>"><img src="<?php echo site_get_template_directory_assets(); ?>/img/icon/bin.svg" alt=""></a>
 													<img src="<?php echo site_get_template_directory_assets(); ?>/img/icon/pin-svgrepo-com.svg" alt="">
 												</div>
-												<div class="time col-3">08:31 29/09/2024</div>
+												<div class="time col-3"><?php echo get_comment_date('d/m/Y', $comment->comment_ID) ?></div>
 											</div>
 											<div class="note-content">
-												Some contents
+											<?php echo $comment->comment_content ?> <?php echo $comment->comment_approved ?>
 											</div>
+											<?php
+
+											endif; ?>
 										</div>
 										<div class="note-form">
-											<textarea name="" id="" placeholder="Nhập enter để gửi"></textarea>
+											<?php
+											$data = wp_unslash($_GET);
+											if (!empty($data['message']) && !empty($data['expire']) && intval($data['expire']) > time()) {
+												echo '<p style="color: red">' . site_base64_decode($data['message']) . '</p>';
+											}
+											?>
+											<form action="<?php the_permalink() ?>?customer_id=<?php echo $customer_id ?>" method="post" enctype="multipart/form-data" class="js-comment-form" id="editcomment">
+												<div class="binhluan-moi">
+													<div class="box-right">
+														<div class="form-group">
+															<input type="text" name="comment" maxlength="65525" class="form-control comment-box" placeholder="Viết bình luận">
+														</div>
+														<button class="btn-common-fill hidden" type="submit" name="submit" value="submit">Send</button>
+													</div>
+													<input type="hidden" name="url" value="<?php the_permalink() ?>" />
+													<input type="hidden" name="comment_post_ID" value="<?php the_ID() ?>" />
+													<input type="hidden" name="comment_parent" value="0" />
+													<input type="hidden" name="comment_ID" value="0" />
+													<?php wp_nonce_field('comtoken', 'comtoken'); ?>
+												</div>
+											</form>
 										</div>
 									</div>
 								</div>
@@ -335,7 +394,7 @@ get_header();
 											<div class="col-6">
 												<div class="card-body">
 													<div class="card-header">
-														<h3 class="card-title">Thông tin cơ bản</h3>
+														<h3 class="card-title d-f ai-center"><span class="fas fa-info mr-4"></span> Thông tin cơ bản</h3>
 													</div>
 													<div class="row">
 														<div class="col-6 pb-16">
@@ -439,12 +498,12 @@ get_header();
 											<div class="col-6 ">
 												<div class="card-body">
 													<div class="card-header">
-														<h3 class="card-title">Địa chỉ</h3>
+														<h3 class="card-title d-f ai-center"><span class="fas fa-location mr-4"></span>Địa chỉ</h3>
 													</div>
 													<div id="location-fields">
 														<?php
 														foreach ($response_get_location['data'] as $index => $record) { ?>
-															<div class="address-group location_0 address_<?php echo ($record['active']) ?>" data-index="0">
+															<div class="address-group location_<?php echo ($record['active']) ?>" data-index="<?php echo $index ?>">
 																<input type="hidden" name="locations[<?php echo $index ?>][id]" value="<?php echo $record['id'] ?>" />
 																<div class="row">
 																	<div class="city col-12 pb-16">
@@ -467,10 +526,10 @@ get_header();
 																	</div>
 																</div>
 																<div class="note_shiper  pb-16">
-																	<input type="text" name="locations[0][note_shipper]" value="<?php echo $record['note_shipper'] ?>" placeholder="Note với shipper" />
+																	<input type="text" name="locations[<?php echo $index ?>][note_shipper]" value="<?php echo $record['note_shipper'] ?>" placeholder="Note với shipper" />
 																</div>
 																<div class="note_admin  pb-16">
-																	<input type="text" name="locations[0][note_admin]" value="<?php echo $record['note_admin'] ?>" placeholder="Note với admin" />
+																	<input type="text" name="locations[<?php echo $index ?>][note_admin]" value="<?php echo $record['note_admin'] ?>" placeholder="Note với admin" />
 																</div>
 																<div class="col-12 pb-16">
 																	<hr>
@@ -527,23 +586,75 @@ get_header();
 									</form>
 								</div>
 								<div class="tab-pane" id="history">
-									<div class="card">
+									<div class="card history-action">
 										<table>
-											<tr>
-												<th>User</th>
-												<th>Action</th>
-												<th>Description</th>
-												<th>Time</th>
-												<th>Date</th>
-											</tr>
-											<tr>
-												<td>Nhu Quynh</td>
-												<td>xoá</td>
-												<td class="nowrap">ghi chú
-													T3 (21/4) giao về Toà nhà Riverbank, 3C Tôn Đức Thắng, Phường Bến Nghé, Quận 1</td>
-												<td>01:00</td>
-												<td>29/10/24</td>
-											</tr>
+											<thead>
+												<tr>
+													<th>User</th>
+													<th>Action</th>
+													<th class="descript">Description</th>
+													<th>Time</th>
+													<th>Date</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td class="nowrap">Nhu Quynh</td>
+													<td>xoá</td>
+													<td class="nowrap">
+														<div class="descript-note">
+															<span class="memo">ghi chú</span><span class="note-detail">T3 (21/4) giao về Toà nhà Riverbank, 3C Tôn Đức Thắng, Phường Bến Nghé, Quận 1</span>
+														</div>
+													</td>
+													<td>01:00</td>
+													<td>29/10/24</td>
+												</tr>
+												<tr>
+													<td class="nowrap">Nhu Quynh</td>
+													<td>tạo</td>
+													<td class="nowrap">
+														<div class="descript-note">
+															<span class="memo">ghi chú</span><span class="note-detail">T3 (21/4) giao về Toà nhà Riverbank, 3C Tôn Đức Thắng, Phường Bến Nghé, Quận 1</span>
+														</div>
+													</td>
+													<td>01:00</td>
+													<td>29/10/24</td>
+												</tr>
+												<tr>
+													<td class="nowrap">Nhu Quynh</td>
+													<td>cập nhật</td>
+													<td class="nowrap">
+														<div class="descript-note">
+															<span class="memo">đơn hàng</span><span class="note-detail">#979134</span>
+														</div>
+													</td>
+													<td>01:00</td>
+													<td>29/10/24</td>
+												</tr>
+												<tr>
+													<td class="nowrap">Nhu Quynh</td>
+													<td>cập nhật</td>
+													<td class="nowrap">
+														<div class="descript-note">
+															<span class="memo">trạng thái khách hàng</span>
+															<span class="tag btn tag_1">Đang dùng</span>
+														</div>
+													</td>
+													<td>01:00</td>
+													<td>29/10/24</td>
+												</tr>
+												<tr>
+													<td class="nowrap">Nhu Quynh</td>
+													<td>tạo</td>
+													<td class="nowrap">
+														<div class="descript-note">
+															<span class="memo">khách hàng</span><span class="note-detail">Linh (Nu Kenny)</span>
+														</div>
+													</td>
+													<td>01:00</td>
+													<td>29/10/24</td>
+												</tr>
+											</tbody>
 										</table>
 									</div>
 								</div>
@@ -575,7 +686,7 @@ get_header();
 					<p>Bạn muốn xóa khách hàng: <b><?php echo $response_customer['data']['nickname'] ?></b>?</p>
 				</div>
 				<div class="modal-footer d-f jc-b pt-16">
-					<button type="button" class="btn btn-secondary modal-close" >Đóng</button>
+					<button type="button" class="btn btn-secondary modal-close">Đóng</button>
 					<button type="submit" name="remove" class="btn btn-danger modal-close">Xóa!</button>
 				</div>
 			</form>

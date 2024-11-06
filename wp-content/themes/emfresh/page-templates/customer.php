@@ -121,7 +121,7 @@ get_header();
 				<div class="col-6">
 					<div class="card-body">
 						<div class="card-header">
-							<h3 class="card-title">Thông tin cơ bản</h3>
+							<h3 class="card-title d-f ai-center"><span class="fas fa-info mr-4"></span> Thông tin cơ bản</h3>
 						</div>
 						<div class="row">
 							<div class="col-6 pb-16">
@@ -225,7 +225,7 @@ get_header();
 				<div class="col-6 ">
 					<div class="card-body">
 						<div class="card-header">
-							<h3 class="card-title">Địa chỉ</h3>
+						<h3 class="card-title d-f ai-center"><span class="fas fa-location mr-4"></span>Địa chỉ</h3>
 						</div>
 						<div id="location-fields">
 							<div class="address-group location_0 address_active" data-index="0">
