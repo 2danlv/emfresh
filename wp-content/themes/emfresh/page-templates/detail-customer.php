@@ -154,7 +154,7 @@ get_header();
 ?>
 <div class="detail-customer">
 	<!-- Content Header (Page header) -->
-	<h1><?php echo $response_customer['data']['nickname'] ?></h1>
+	<h1><?php echo $response_customer['data']['customer_name'] ?></h1>
 	<!-- Main content -->
 	<section class="content">
 		<?php
@@ -603,6 +603,7 @@ get_header();
 												<button type="submit" class="btn btn-primary" name="add_post">Cập nhật</button>
 											</div>
 										</div>
+										<input type="hidden" name="customer_name" readonly class="customer_name form-control" value="<?php echo $response_customer['data']['customer_name'] ?>">
 										<input type="hidden" name="customer_id" value="<?php echo $customer_id ?>" />
 										<input type="hidden" name="location_delete_ids" value="" class="location_delete_ids" />
 									</form>
