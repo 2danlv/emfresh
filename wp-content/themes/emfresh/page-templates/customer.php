@@ -145,6 +145,42 @@ get_header();
 									<?php } ?>
 								</select>
 							</div>
+							<div class="col-12 ">
+								<div class="review">
+									<p><span class="customer_name"></span></p>
+									<p><span class="customer_phone"></span></p>
+									<div class="info0">
+										<span class="address"></span>
+										<span class="street"></span>
+										<span class="ward"></span>
+										<span class="city"></span>
+									</div>
+									<div class="info1">
+										<span class="address"></span>
+										<span class="street"></span>
+										<span class="ward"></span>
+										<span class="city"></span>
+									</div>
+									<div class="info2">
+										<span class="address"></span>
+										<span class="street"></span>
+										<span class="ward"></span>
+										<span class="city"></span>
+									</div>
+									<div class="info3">
+										<span class="address"></span>
+										<span class="street"></span>
+										<span class="ward"></span>
+										<span class="city"></span>
+									</div>
+									<div class="info4">
+										<span class="address"></span>
+										<span class="street"></span>
+										<span class="ward"></span>
+										<span class="city"></span>
+									</div>
+								</div>
+							</div>
 							<div class="col-12 pb-16">
 								<p class="pb-8">Ghi chú dụng cụ ăn</p>
 								<select name="tool_eat">
@@ -161,26 +197,26 @@ get_header();
 									<?php } ?>
 								</select>
 								<?php
-									$admin_role = wp_get_current_user()->roles;
-									if(!empty($admin_role) ) {
-										if ($admin_role[0] == 'administrator') {
-										?>
-									<div class="form-group row pt-16">
-										<div class="col-sm-3"><label>Trạng thái khách hàng</label></div>
-										<div class="col-sm-9 text-capitalize">
-										<?php
-										foreach ($actives as $key => $value) { ?>
-											<span class="icheck-primary d-inline mr-2">
-											<input type="radio" id="radioActive<?php echo $key; ?>" value="<?php echo $key; ?>" name="active" required <?php checked('1', $key); ?>>
-											<label for="radioActive<?php echo $key; ?>">
-												<?php echo $value; ?>
-											</label>
-											</span>
-										<?php } ?>
+								$admin_role = wp_get_current_user()->roles;
+								if (!empty($admin_role)) {
+									if ($admin_role[0] == 'administrator') {
+								?>
+										<div class="form-group row pt-16 hidden">
+											<div class="col-sm-3"><label>Trạng thái khách hàng</label></div>
+											<div class="col-sm-9 text-capitalize">
+												<?php
+												foreach ($actives as $key => $value) { ?>
+													<span class="icheck-primary d-inline mr-2">
+														<input type="radio" id="radioActive<?php echo $key; ?>" value="<?php echo $key; ?>" name="active" required <?php checked('1', $key); ?>>
+														<label for="radioActive<?php echo $key; ?>">
+															<?php echo $value; ?>
+														</label>
+													</span>
+												<?php } ?>
+											</div>
 										</div>
-									</div>
-									<?php }
-									} ?>
+								<?php }
+								} ?>
 							</div>
 						</div>
 					</div>
@@ -191,39 +227,34 @@ get_header();
 							<h3 class="card-title">Địa chỉ</h3>
 						</div>
 						<div id="location-fields">
-							<div class="address-group location_0 address_active">
+							<div class="address-group location_0 address_active" data-index="0">
 								<div class="row">
-								<div class="city col-12 pb-16">
-									<select id="province_0" name="locations[0][province]" class="province-select form-control" required>
-										<option value="">Select Tỉnh/Thành phố</option>
-									</select>
-								</div>
-								<div class="col-4 pb-16">
-									<select id="district_0" name="locations[0][district]" class="district-select form-control" required disabled>
-										<option value="">Quận/Huyện*</option>
-									</select>
-								</div>
-								<div class="col-4 pb-16">
-									<select id="ward_0" name="locations[0][ward]" class="ward-select form-control" required disabled>
-										<option value="">Phường/Xã*</option>
-									</select>
-								</div>
-								<div class="col-4 pb-16">
-									<input id="address_0" type="text" class="form-control" placeholder="Địa chỉ cụ thể*" name="locations[0][address]" required />
-								</div>
-									</div>
-								<div class="note_ship row pb-8">
-									<div class="col-4">
-										<select name="" id="">
-											<option value="">Note với shipper</option>
+									<div class="city col-12 pb-16">
+										<select id="province_0" name="locations[0][province]" class="province-select form-control" required>
+											<option value="">Select Tỉnh/Thành phố</option>
 										</select>
 									</div>
-									<div class="col-8">
-										<input type="text">
+									<div class="col-4 pb-16">
+										<select id="district_0" name="locations[0][district]" class="district-select form-control" required disabled>
+											<option value="">Quận/Huyện*</option>
+										</select>
+									</div>
+									<div class="col-4 pb-16">
+										<select id="ward_0" name="locations[0][ward]" class="ward-select form-control" required disabled>
+											<option value="">Phường/Xã*</option>
+										</select>
+									</div>
+									<div class="col-4 pb-16">
+										<input id="address_0" type="text" class="form-control address" placeholder="Địa chỉ cụ thể*" name="locations[0][address]" required />
 									</div>
 								</div>
+								<div class="note_shiper  pb-16">
+									<input type="text" name="locations[0][note_shiper]" placeholder="Note với shipper" />
+								</div>
+								<div class="note_time  pb-16">
+									<input type="text" name="locations[0][note_time]" placeholder="Lưu ý thời gian" />
+								</div>
 								<div class="col-12 pb-16">
-									<p class="d-f ai-center pb-8"><i class="fas fa-plus"></i><span class="bg-gradient-primary" id="add-location-button">Thêm ghi chú giao hàng</span></p>
 									<hr>
 									<div class="row pt-8">
 										<div class="col-6">
@@ -270,15 +301,15 @@ get_footer('customer');
 <style>
 
 </style>
-<script src="<?php echo site_get_template_directory_assets();?>js/assistant.js"></script>
-<script src="<?php echo site_get_template_directory_assets();?>js/location.js"></script>
+<script src="<?php echo site_get_template_directory_assets(); ?>js/assistant.js"></script>
+<script src="<?php echo site_get_template_directory_assets(); ?>js/location.js"></script>
 <script type="text/javascript">
 	function checkphone() {
 		var phone = $(".phone_number").val();
 		if (phone) {
 			jQuery.ajax({
 				type: 'post',
-				url: '<?php echo site_get_template_directory_assets();?>js/checkdata.php',
+				url: '<?php echo site_get_template_directory_assets(); ?>js/checkdata.php',
 				data: {
 					user_phone: phone,
 				},
@@ -302,11 +333,44 @@ get_footer('customer');
 	$(document).ready(function() {
 		$('.nickname').keyup(updatetxt);
 		$('.fullname').keyup(updatetxt);
+		$('.phone_number').keyup(updatephone);
+		$(document).on('change','.address-group select', function() {
+			$('.review').show();
+			var selectItem = $(this).closest('.address-group'); // Get the closest select-item div
+			var infoIndex = selectItem.data('index'); // Get the data-index attribute from select-item
+			var city = selectItem.find('.district-select').val(); // Get the city value from select
+			var ward = selectItem.find('.ward-select').val(); // Get the ward value from select
+			// Update the corresponding .info div based on index
+			var infoDiv = $('.review .info' + infoIndex);
+			infoDiv.children('.city').text(city);
+			if (ward) {
+				infoDiv.children('.ward').text(ward + ',');
+			}
+		});
+
+		$(document).on('keyup', '.address-group .address', function() {
+				$('.review').show();
+				var selectItem = $(this).closest('.address-group');  // Find the closest parent .address-group
+				var infoIndex = selectItem.data('index');  // Get the index from data attribute
+				var address = $(this).val();  // Get the current value of the address input field
+				var infoDiv = $('.review .info' + infoIndex);
+				if (address) {
+					infoDiv.children('.address').text(address + ',');  // Update the address text
+				} else {
+					infoDiv.children('.address').text('');  // Clear the address if the input is empty
+				}
+			});
+
 
 		function updatetxt() {
-			$('.customer_name').val($('.fullname').val() + ' (' + $('.nickname').val() + ') ');
+			$('.review').show();
+			$('input.customer_name').val($('.fullname').val() + ' (' + $('.nickname').val() + ') ');
+			$('span.customer_name').text($('.fullname').val() + ' (' + $('.nickname').val() + ') ');
 		}
 
+		function updatephone() {
+			$('span.customer_phone').text($('.phone_number').val());
+		}
 		$('.btn-primary[name="add_post"]').on('click', function(e) {
 			// if ($('#phone_status').html() == "OK") {
 			// 	e.stopPropagation();

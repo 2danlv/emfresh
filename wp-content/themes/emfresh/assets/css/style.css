@@ -450,6 +450,7 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
 .customer select { padding: 8px 8px; }
 .customer .card-body { background-color: #fff; border-radius: var(--modal-radiusCorner, 16px); background: var(--modal-background, #FFF); padding: 8px 16px 0px; }
 .customer .card-body .card-header { border-bottom: var(--number-1px, 1px) solid var(--modal-divider, #DEDFE0); margin-bottom: 16px; padding-bottom: 8px; }
+.customer .card-body .review { display: none; padding: 16px; margin-bottom: 8px; border-radius: var(--sidebar-radiusCorner, 8px); border: 2px solid var(--color-primary-900, #208046); background: var(--modal-background, #FFF); }
 .customer .card-body .select2 span.select2-selection { background: var(--input-background-default, #F6F6F6); border: 1px solid var(--input-border-default, #DEDFE0); text-transform: capitalize; }
 .customer .card-body #phone_status.status { font-size: 14px; color: red; }
 .customer .card-body #phone_status.status.d-none { display: none; }

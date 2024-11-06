@@ -101,8 +101,8 @@ $.getJSON('/assets/data/city.json', function(data) {
     e.preventDefault();
     if (fieldCount < maxFields) {
       var newGroup = `
-        <div class="address-group location_${fieldCount}">
-        <div class="row">
+        <div class="address-group location_${fieldCount}"  data-index="${fieldCount}">
+          <div class="row">
 								<div class="city col-12 pb-16">
 									<select id="province_${fieldCount}" name="locations[${fieldCount}][province]" class="province-select form-control" required>
 										<option value="">Select Tỉnh/Thành phố</option>
@@ -119,21 +119,16 @@ $.getJSON('/assets/data/city.json', function(data) {
 									</select>
 								</div>
 								<div class="col-4 pb-16">
-									<input id="address_${fieldCount}" type="text" class="form-control" placeholder="Địa chỉ cụ thể*" name="locations[${fieldCount}][address]" required />
+									<input id="address_${fieldCount}" type="text" class="form-control address" placeholder="Địa chỉ cụ thể*" name="locations[${fieldCount}][address]" required />
 								</div>
 								</div>
-                <div class="note_ship row pb-8">
-									<div class="col-4">
-										<select id="note_ship_[${fieldCount}]" name="locations[${fieldCount}][note_ship]">
-											<option value="">Note với shipper</option>
-										</select>
-									</div>
-									<div class="col-8">
-										<input type="text" id="note_ship_[${fieldCount}]" name="locations[${fieldCount}][note_ship]">
-									</div>
+                <div class="note_shiper  pb-16">
+									<input type="text" name="locations[${fieldCount}][note_shiper]" placeholder="Note với shipper" />
+								</div>
+								<div class="note_time  pb-16">
+									<input type="text" name="locations[${fieldCount}][note_time]" placeholder="Lưu ý thời gian" />
 								</div>
 								<div class="col-12 pb-16">
-									<p class="d-f ai-center pb-8"><i class="fas fa-plus"></i><span class="bg-gradient-primary" id="add-location-button">Thêm ghi chú giao hàng</span></p>
 									<hr>
 									<div class="row pt-8">
 										<div class="col-6">
