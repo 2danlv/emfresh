@@ -24,7 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 	$tag_post    = isset($_POST['tag']) ? intval($_POST['tag']) : 0;
 	$point = isset($_POST['point']) ? intval($_POST['point']) : 0;
 	$note = isset($_POST['note']) ? sanitize_textarea_field($_POST['note']) : '';
-	$note_shipping = isset($_POST['note_shipping']) ? sanitize_textarea_field($_POST['note_shipping']) : '';
 	$note_cook = isset($_POST['note_cook']) ? sanitize_textarea_field($_POST['note_cook']) : '';
 	$order_payment_status = isset($_POST['order_payment_status']) ? sanitize_textarea_field($_POST['order_payment_status']) : '';
 
@@ -37,7 +36,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 		'gender'        => $gender_post,
 		'active'        => $active_post,
 		'note'          => $note,
-		'note_shipping' => $note_shipping,
 		'note_cook'     => $note_cook,
 		'order_payment_status' => $order_payment_status,
 		'tag'           => $tag_post,
@@ -183,9 +181,10 @@ get_header();
 							</div>
 							<div class="col-12 pb-16">
 								<p class="pb-8">Ghi chú dụng cụ ăn</p>
-								<select name="tool_eat">
-									<option value="0">chỉ DC</option>
-									<option value="1">Không DC</option>
+								<select name="note_cook">
+								<?php foreach ($list_cook as $value) { ?>
+									<option value="<?php echo $value; ?>"><?php echo $value; ?></option>
+									<?php } ?>
 								</select>
 							</div>
 							<div class="col-12 pb-16">
@@ -251,8 +250,8 @@ get_header();
 								<div class="note_shiper  pb-16">
 									<input type="text" name="locations[0][note_shiper]" placeholder="Note với shipper" />
 								</div>
-								<div class="note_time  pb-16">
-									<input type="text" name="locations[0][note_time]" placeholder="Lưu ý thời gian" />
+								<div class="note_admin  pb-16">
+									<input type="text" name="locations[0][note_admin]" placeholder="Note với admin" />
 								</div>
 								<div class="col-12 pb-16">
 									<hr>
