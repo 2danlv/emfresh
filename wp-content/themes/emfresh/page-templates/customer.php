@@ -58,6 +58,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 					'ward'          => isset($location['ward']) ? sanitize_text_field($location['ward']) : '',
 					'district'      => isset($location['district']) ? sanitize_text_field($location['district']) : '',
 					'city'          => isset($location['province']) ? sanitize_text_field($location['province']) : '79',
+					'note_shipper' => isset($location['note_shipper']) ? sanitize_text_field($location['note_shipper']) : '',
+					'note_admin' => isset($location['note_admin']) ? sanitize_text_field($location['note_admin']) : ''
 				];
 				em_api_request('location/add', $location_data);
 			}
