@@ -467,10 +467,10 @@ get_header();
 																	</div>
 																</div>
 																<div class="note_shiper  pb-16">
-																	<input type="text" name="locations[0][note_shipper]" value="<?php //echo $record['note_shipper'] ?>" placeholder="Note với shipper" />
+																	<input type="text" name="locations[0][note_shipper]" value="<?php echo $record['note_shipper'] ?>" placeholder="Note với shipper" />
 																</div>
 																<div class="note_admin  pb-16">
-																	<input type="text" name="locations[0][note_admin]" value="<?php //echo $record['note_admin'] ?>" placeholder="Note với admin" />
+																	<input type="text" name="locations[0][note_admin]" value="<?php echo $record['note_admin'] ?>" placeholder="Note với admin" />
 																</div>
 																<div class="col-12 pb-16">
 																	<hr>
