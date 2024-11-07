@@ -455,6 +455,8 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
 .list-customer #list-customer_wrapper table.table { border-radius: 16px 16px 0px 0px; overflow: hidden; border-collapse: collapse; }
 .list-customer #list-customer_wrapper table.table thead { background: var(--table-background-header, #DEDFE0); }
 .list-customer #list-customer_wrapper table.table thead th { vertical-align: middle; }
+.list-customer #list-customer_wrapper table.table thead th[data-dt-column="1"], .list-customer #list-customer_wrapper table.table thead th[data-dt-column="2"], .list-customer #list-customer_wrapper table.table thead th[data-dt-column="3"] { cursor: auto; pointer-events: none; }
+.list-customer #list-customer_wrapper table.table thead th[data-dt-column="1"] .dt-column-order, .list-customer #list-customer_wrapper table.table thead th[data-dt-column="2"] .dt-column-order, .list-customer #list-customer_wrapper table.table thead th[data-dt-column="3"] .dt-column-order { display: none; }
 .list-customer #list-customer_wrapper table.table th, .list-customer #list-customer_wrapper table.table td { padding: 8px 8px; border: none; vertical-align: top; line-height: normal; }
 .list-customer #list-customer_wrapper table.table th:hover, .list-customer #list-customer_wrapper table.table td:hover { outline: none; }
 .list-customer #list-customer_wrapper table.table th:first-child, .list-customer #list-customer_wrapper table.table td:first-child { padding-left: 8px; padding-right: 0; }

@@ -112,10 +112,10 @@ function site_scripts()
 	wp_deregister_script( 'wp-embed' );
 	wp_deregister_script( 'jquery' );
 	wp_deregister_script( 'jquery-core' );
-	wp_register_script( 'jquery', 		$url.'/js/jquery.min.js', '', '3.3.1' );
+	wp_enqueue_script( 'jquery', 		$url.'js/jquery.min.js', '', '3.3.1' );
 
 	// wp_enqueue_script( 	'carousel', 	$url . 'libs/owl-carousel/owl.carousel.min.js',  $cores, '', true );
-	wp_enqueue_script( 	'custom-script', 		$url.'/js/script.js', $cores, $time );
+	// wp_enqueue_script( 	'custom-script', 		$url.'js/script.js', $cores, $time );
 }
 add_action( 'wp_enqueue_scripts', 'site_scripts' );
 

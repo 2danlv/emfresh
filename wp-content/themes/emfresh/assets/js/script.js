@@ -1,6 +1,5 @@
 jQuery(document).ready(function () {
     $('.select2').select2();
-  if (!DataTable.isDataTable('.table-list-customer')) {
     var table = $('.table-list-customer').DataTable({
       scrollX: true,
         language: {
@@ -113,7 +112,7 @@ jQuery(document).ready(function () {
         columnDefs: [
             {
                 type: 'natural',
-                targets: [0, 1, 2, 3,5,6,7,8,15,16],
+                targets: [0, 5,6,7,8,15,16],
                 orderable: false,
             },
             { visible: false, targets: [4,6,7,8,12,14] },
@@ -282,7 +281,7 @@ jQuery(document).ready(function () {
           $('li.status').hide();
       }
   });
-  }
+  
     $('.copy').on('click', function () {
         const textToCopy = $(this).text();
 

@@ -146,6 +146,13 @@
                 background: var(--table-background-header, #DEDFE0);
                 th {
                     vertical-align: middle;
+                    &[data-dt-column="1"], &[data-dt-column="2"], &[data-dt-column="3"] {
+                        cursor: auto;
+                        pointer-events: none;
+                        .dt-column-order {
+                            display: none;
+                        }
+                    }
                 }
             }
             th, td {

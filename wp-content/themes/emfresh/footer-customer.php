@@ -31,7 +31,7 @@
 <script src="https://cdn.datatables.net/datetime/1.5.4/js/dataTables.dateTime.min.js"></script>
 <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js" type="text/javascript"></script>
 <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<script>
+<script src="<?php echo site_get_template_directory_assets();?>/js/script.js"></script>
   $(document).ready(function () {
     
      
