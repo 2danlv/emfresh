@@ -17,7 +17,7 @@ if (isset($_GET['change']) && trim($_GET['change']) == 'error') {
     $hide_errer = '';
 }
 
-get_header("customer");
+get_header();
 
 // Start the Loop.
 while (have_posts()) : the_post();

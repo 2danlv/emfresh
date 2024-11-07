@@ -33,7 +33,7 @@ jQuery(document).ready(function () {
                 valueJoiner: '-',
                 conditions: {
                     date: {
-                        between: 'Trong khoản',
+                        between: 'Trong khoảng',
                         empty: 'Rỗng',
                         equals: 'Bằng',
                         after: 'Trước ngày',
@@ -43,11 +43,11 @@ jQuery(document).ready(function () {
                         lt: 'Nhỏ hơn',
                         lte: 'Nhỏ hơn bằng',
                         not: 'Khác',
-                        notBetween: 'Ngoài khoản',
+                        notBetween: 'Ngoài khoảng',
                         notEmpty: 'Không rỗng',
                     },
                     number: {
-                        between: 'Trong khoản',
+                        between: 'Trong khoảng',
                         empty: 'Rỗng',
                         equals: 'Bằng',
                         gt: 'Lớn hơn',
@@ -55,11 +55,11 @@ jQuery(document).ready(function () {
                         lt: 'Nhỏ hơn',
                         lte: 'Nhỏ hơn bằng',
                         not: 'Khác',
-                        notBetween: 'Ngoài khoản',
+                        notBetween: 'Ngoài khoảng',
                         notEmpty: 'Không rỗng',
                     },
                     string: {
-                        between: 'Trong khoản',
+                        between: 'Trong khoảng',
                         empty: 'Rỗng',
                         equals: 'Bằng',
                         gt: 'Lớn hơn',
@@ -67,7 +67,7 @@ jQuery(document).ready(function () {
                         lt: 'Nhỏ hơn',
                         lte: 'Nhỏ hơn bằng',
                         not: 'Khác',
-                        notBetween: 'Ngoài khoản',
+                        notBetween: 'Ngoài khoảng',
                         notEmpty: 'Không rỗng',
                         contains: 'Chứa',
                         endsWith: 'Kết thúc với',
@@ -118,7 +118,7 @@ jQuery(document).ready(function () {
         order: [[16, 'desc']],
         lengthChange: true,
         lengthMenu: [
-            [50, 100, 200],
+            [5,50, 100, 200],
             ['50 / trang', '100 / trang', '200 / trang'],
         ],
         
@@ -142,10 +142,10 @@ jQuery(document).ready(function () {
         }
     });
 
-    $('#checkall').change(function () {
+    $('#checkall').on('click',function () {
         $('.checkbox-element').prop('checked', this.checked);
     });
-    $('.checkbox-element').change(function () {
+    $('.checkbox-element').on('click', function () {
         if ($('.checkbox-element:checked').length == $('.checkbox-element').length) {
             $('#checkall').prop('checked', true);
         } else {
@@ -161,11 +161,11 @@ jQuery(document).ready(function () {
     //         $('.' + $(this).val()).show();
     //     })
     //     .change();
-    $('.checkbox-element').change(function () {
+    $(document).on('click','.checkbox-element',function () {
         updateAllChecked();
     });
 
-    $('#checkall').change(function () {
+    $('#checkall').on('click',function () {
         if (this.checked) {
             $('.checkbox-element').prop('checked', true).change();
         } else {
@@ -173,6 +173,11 @@ jQuery(document).ready(function () {
         }
     });
 
+    $('.dt-paging nav,.dt-length').on('click',function (e) {
+        $('.checkbox-element').prop('checked', false).change();
+        $('li.status').hide();
+        $('.list_id').val('');
+    });
     $('.quick-edit').click(function (e) {
         e.preventDefault();
         if ($('.list_id').val() == '') {
@@ -273,8 +278,9 @@ jQuery(document).ready(function () {
       $.fn.dataTable.ext.search.pop();
   });
   var $checkboxes = $('.table-list-customer td input[type="checkbox"]');
-  $checkboxes.change(function () {
-      var countCheckedCheckboxes = $checkboxes.filter(':checked').length;
+  $(document).on('click',$checkboxes,function () {
+    
+      var countCheckedCheckboxes = $('.table-list-customer td input[type="checkbox"]:checked').length;
       if (countCheckedCheckboxes > 0) {
           $('li.status').show();
           $('.count-checked').text(countCheckedCheckboxes);

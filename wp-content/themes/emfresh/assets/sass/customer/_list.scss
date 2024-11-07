@@ -259,7 +259,7 @@
                         align-items: center;
                         justify-content: center;
                         cursor: pointer;
-                        &.current {
+                        &.current,&:hover {
                             background-color: #2A8C51;
                             border: 1px solid var(--pagination-border-default, #2A8C51);
                             color: #fff !important;

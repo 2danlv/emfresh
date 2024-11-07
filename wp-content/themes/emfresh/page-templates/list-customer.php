@@ -23,30 +23,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
   //vardump($tag_post);
   $updated = [];
   $count = 0;
-  if(isset($_POST['tag_ids'])) {
-  foreach ($array_id as $key => $id) {
-    // if ($status_post != 0) {
-    //   $customer_update_data = [
-    //     'id'            => intval($id),
-    //     'status'        => $status_post
-    //   ];
-    // }
-    // if ($tag_post != 0) {
-    //   $customer_update_data = [
-    //     'id'            => intval($id),
-    //     'tag'           => $tag_post
-    //   ];
-    // }
-   $customer_id = intval($id);
-   $customer_tags = $em_customer_tag->get_items(['customer_id' => $customer_id]);
-  
-  
-      if(count($_POST['tag_ids']) > 0){
-        foreach($_POST['tag_ids'] as $i => $tag_id) {
+  if (isset($_POST['tag_ids'])) {
+    foreach ($array_id as $key => $id) {
+      // if ($status_post != 0) {
+      //   $customer_update_data = [
+      //     'id'            => intval($id),
+      //     'status'        => $status_post
+      //   ];
+      // }
+      // if ($tag_post != 0) {
+      //   $customer_update_data = [
+      //     'id'            => intval($id),
+      //     'tag'           => $tag_post
+      //   ];
+      // }
+      $customer_id = intval($id);
+      $customer_tags = $em_customer_tag->get_items(['customer_id' => $customer_id]);
+
+
+      if (count($_POST['tag_ids']) > 0) {
+        foreach ($_POST['tag_ids'] as $i => $tag_id) {
           $tag_id = (int) $tag_id;
-          if($tag_id == 0) continue;
-  
-          if(isset($customer_tags[$i])) {
+          if ($tag_id == 0) continue;
+
+          if (isset($customer_tags[$i])) {
             $em_customer_tag->update([
               'tag_id' => $tag_id,
               'id' => $customer_tags[$i]['id']
@@ -57,15 +57,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
               'customer_id' => $customer_id
             ]);
           }
-  
+
           $count++;
         }
       }
-  
-      for($i = $count; $i < count($customer_tags); $i++) {
+
+      for ($i = $count; $i < count($customer_tags); $i++) {
         $em_customer_tag->delete($customer_tags[$i]['id']);
       }
-  }
+    }
     // if ($order_payment_status != '') {
     //   $customer_update_data = [
     //     'id'            => intval($id),
@@ -111,7 +111,7 @@ get_header();
           <div class="col-8">
 
             <ul class="d-f ai-center">
-              <li class="add"><a href="#"><img src="<?php echo site_get_template_directory_assets(); ?>/img/icon/plus-svgrepo-com.svg" alt=""></a></li>
+              <li class="add"><a href="/customer/add-customer/"><img src="<?php echo site_get_template_directory_assets(); ?>/img/icon/plus-svgrepo-com.svg" alt=""></a></li>
               <li><span class="btn btn-fillter">Bộ lọc</span></li>
               <li><span class="btn quick-edit" data-target="#modal-edit">Cập nhật nhanh</span></li>
 
@@ -150,18 +150,18 @@ get_header();
             <th>SĐT</th>
             <th>Địa chỉ</th>
             <th>Địa chỉ</th>
-            <th class="text-center"><span class="nowrap">Trạng thái</span><span class="nowrap">khách hàng</span></th>
+            <th class="text-center"><span class="nowrap">Trạng thái </span><span class="nowrap">khách hàng</span></th>
             <th class="text-center">Tag <span class="nowrap">phân loại</span></th>
             <th class="text-center">Giới tính</th>
             <th class="text-center">Note <span class="nowrap">dụng cụ ăn</span></th>
-            <th class="text-center"><span class="nowrap">Số</span>đơn</th>
+            <th class="text-center"><span class="nowrap">Số </span>đơn</th>
             <th class="text-center">Số<span class="nowrap">ngày ăn</span></th>
             <th class="text-center">Số<span class="nowrap">phần ăn</span></th>
-            <th class="text-center"><span class="nowrap">Tổng tiền</span><span class="nowrap">đã chi</span></th>
+            <th class="text-center"><span class="nowrap">Tổng tiền </span><span class="nowrap">đã chi</span></th>
             <th class="text-center">Điểm <span class="nowrap">tích lũy</span></th>
             <th class="text-center">Lịch sử <span class="nowrap">đặt gần nhất</span></th>
-            <th class="text-center"><span class="nowrap">Nhân</span>viên</th>
-            <th class="text-center"><span class="nowrap">Lần cập</span><span class="nowrap">nhật cuối</span></th>
+            <th class="text-center"><span class="nowrap">Nhân </span>viên</th>
+            <th class="text-center"><span class="nowrap">Lần cập </span><span class="nowrap">nhật cuối</span></th>
           </tr>
         </thead>
         <tbody>
@@ -252,25 +252,25 @@ get_header();
       <div class="modal-body">
         <div class="row">
           <div class="col-6">
-          <ul class="filter list-unstyled text-capitalize">
-          <li><label><input type="checkbox" data-column="1" checked> Tên khách hàng</label></li>
-          <li><label><input type="checkbox" data-column="2" checked> Số điện thoại</label></li>
-          <li><label><input type="checkbox" data-column="3" checked> Địa chỉ mặc định</label></li>
-          <li><label><input type="checkbox" data-column="5" checked> Trạng thái khách hàng</label></li>
-          <li><label><input type="checkbox" data-column="6"> Tag phân loại</label></li>
-          <li><label><input type="checkbox" data-column="7"> Giới tính</label></li>
-          <li><label><input type="checkbox" data-column="8"> Note dụng cụ ăn</label></li>
-          </ul>
+            <ul class="filter list-unstyled text-capitalize">
+              <li><label><input type="checkbox" data-column="1" checked> Tên khách hàng</label></li>
+              <li><label><input type="checkbox" data-column="2" checked> Số điện thoại</label></li>
+              <li><label><input type="checkbox" data-column="3" checked> Địa chỉ mặc định</label></li>
+              <li><label><input type="checkbox" data-column="5" checked> Trạng thái khách hàng</label></li>
+              <li><label><input type="checkbox" data-column="6"> Tag phân loại</label></li>
+              <li><label><input type="checkbox" data-column="7"> Giới tính</label></li>
+              <li><label><input type="checkbox" data-column="8"> Note dụng cụ ăn</label></li>
+            </ul>
           </div>
           <div class="col-6">
             <ul class="filter list-unstyled text-capitalize">
-            <li><label><input type="checkbox" data-column="9" checked> Số đơn</label></li>
-            <li><label><input type="checkbox" data-column="10" checked> Số ngày ăn</label></li>
-            <li><label><input type="checkbox" data-column="11" checked> Số phần ăn</label></li>
-            <li><label><input type="checkbox" data-column="12"> Tổng tiền đã chi</label></li>
-            <li><label><input type="checkbox" data-column="13" checked> Điểm tích luỹ</label></li>
-            <li><label><input type="checkbox" data-column="14"> Lịch sử đặt gần nhất</label></li>
-            <li class="check_2"><label><input type="checkbox" data-column="15,16" checked> Nhân viên + Lần cập nhật cuối</label></li>
+              <li><label><input type="checkbox" data-column="9" checked> Số đơn</label></li>
+              <li><label><input type="checkbox" data-column="10" checked> Số ngày ăn</label></li>
+              <li><label><input type="checkbox" data-column="11" checked> Số phần ăn</label></li>
+              <li><label><input type="checkbox" data-column="12"> Tổng tiền đã chi</label></li>
+              <li><label><input type="checkbox" data-column="13" checked> Điểm tích luỹ</label></li>
+              <li><label><input type="checkbox" data-column="14"> Lịch sử đặt gần nhất</label></li>
+              <li class="check_2"><label><input type="checkbox" data-column="15,16" checked> Nhân viên + Lần cập nhật cuối</label></li>
             </ul>
           </div>
         </div>
@@ -303,18 +303,18 @@ get_header();
               </select>
             </div>
             <div class="col-6">
-            <select class="form-control text-capitalize select2" multiple="multiple" name="tag_ids[]" style="width: 100%;">
-            <option value="0">Select one</option>
-            <?php
-                  foreach ($tag as $key => $value) { ?>
-                    <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
-                  <?php } ?>
+              <select class="form-control text-capitalize select2" multiple="multiple" name="tag_ids[]" style="width: 100%;">
+                <option value="0">Select one</option>
+                <?php
+                foreach ($tag as $key => $value) { ?>
+                  <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
+                <?php } ?>
               </select>
             </div>
           </div>
           <div class="form-group pt-16 text-right">
-              <button type="button" class="button btn-default modal-close">Huỷ</button>
-              <button type="submit" class="button btn-primary add_post" name="add_post">Áp dụng</button>
+            <button type="button" class="button btn-default modal-close">Huỷ</button>
+            <button type="submit" class="button btn-primary add_post" name="add_post">Áp dụng</button>
           </div>
         </form>
       </div>
@@ -330,9 +330,9 @@ get_header();
       </div>
       <div class="modal-body">
         <div class="form-group pt-16 text-right">
-              <button type="button" class="button btn-default modal-close">Huỷ</button>
-              <button type="submit" class="button btn-primary add_post" name="add_post">Áp dụng</button>
-          </div>
+          <button type="button" class="button btn-default modal-close">Huỷ</button>
+          <button type="submit" class="button btn-primary add_post" name="add_post">Áp dụng</button>
+        </div>
       </div>
 
     </div>

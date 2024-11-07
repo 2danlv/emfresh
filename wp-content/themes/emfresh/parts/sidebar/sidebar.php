@@ -16,7 +16,7 @@
       ?>
       <!-- /.sidebar-menu -->
        <div class="resize text-center">
-         <p><img src="<?php echo site_get_template_directory_assets();?>/img/icon/left-arrow-to-left-svgrepo-com.svg" alt=""> <span class="mini">Thu gọn</span><span class="zoom">Phóng to</span></p>
+         <p><img src="<?php echo site_get_template_directory_assets();?>/img/icon/left-arrow-to-left-svgrepo-com.svg" alt=""> <span class="mini">Thu gọn</span></p>
        </div>
     <!-- /.sidebar -->
   </aside>

@@ -1,7 +1,8 @@
 .content-wrapper {
     &.width-90 {
-        width: 90%;
+        width: auto;
         transition: .5s;
+        flex: 1;
     }
     .alert {
         border-radius: 8px;

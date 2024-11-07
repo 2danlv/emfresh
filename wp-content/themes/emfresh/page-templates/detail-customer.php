@@ -8,17 +8,24 @@
  * @since Twenty Twelve 1.0
  */
 global $em_customer, $em_order, $em_customer_tag;
+
+$customer_id = isset($_GET['customer_id']) ? intval($_GET['customer_id']) : 0;
+
+$list_customer_url 		= home_url('customer');
+$detail_customer_url 	= add_query_arg(['customer_id' => $customer_id], get_permalink());
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['remove'])) {
 	$customer_id   = intval($_POST['customer_id']);
 	$customer_data = [
 		'id' => $customer_id,
 	];
 	$response = em_api_request('customer/delete', $customer_data);
-	wp_redirect(esc_url(add_query_arg([
+	wp_redirect(add_query_arg([
 		'message' => 'Delete Success',
-	], '/customer/')));
+	], $list_customer_url));
 	exit;
 }
+
 // cập nhật data cho customer
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 	$customer_id = intval($_POST['customer_id']);
@@ -51,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 	];
 	$response_update = em_api_request('customer/update', $customer_data);
 	if ($customer_id == 0) {
-		wp_redirect(home_url('customer'));
+		wp_redirect($list_customer_url);
 		exit();
 	}
 	foreach ($_POST['locations'] as $location) {
@@ -117,24 +124,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 	}
 	// echo "<meta http-equiv='refresh' content='0'>";
 	wp_redirect(add_query_arg([
-		'customer_id' => $customer_id,
 		'code' => 200,
 		'message' => 'Update Success',
-	], get_permalink()));
+	], $detail_customer_url));
 	exit();
 }
+
 $status = $em_customer->get_statuses();
 $gender = $em_customer->get_genders();
 $list_tags    = $em_customer->get_tags();
 $actives = $em_customer->get_actives();
 // lấy 1 customer
-$customer_id = isset($_GET['customer_id']) ? intval($_GET['customer_id']) : 0;
 $customer_filter = [
 	'id' => $customer_id
 ];
 $response_customer = em_api_request('customer/item', $customer_filter);
 if ($customer_id == 0 || count($response_customer['data']) == 0) {
-	wp_redirect(esc_url('/customer/'));
+	wp_redirect($list_customer_url);
 	exit;
 }
 // lấy danh sách location
@@ -231,8 +237,8 @@ get_header();
 									<span>Ghi chú dụng cụ ăn:</span>
 									<span><?php echo $response_customer['data']['note_cook'] ?></span>
 								</div>
-								<div class="d-f jc-b pt-8 ai-center">
-									<span>Tag phân loại:</span>
+								<div class="pt-8 ai-center">
+									<span>Tag phân loại:</span><br>
 									<?php foreach ($customer_tags as $item) : $tag = $item['tag_id']; ?>
 										<span class="tag btn btn-sm tag_<?php echo $tag; ?>"><?php echo isset($list_tags[$tag]) ? $list_tags[$tag] : ''; ?></span>
 									<?php endforeach; ?>
@@ -334,32 +340,40 @@ get_header();
 										</div>
 										<div class="note-wraper pt-16 pb-16">
 										<?php
-											extract(shortcode_atts([
-												'comment' => false
-											], (array) $args));
+											$comments = get_comments(array(
+												'type' => 'customer',
+												'status' => 'any', // 'any', 'pending', 'approve'
+												'post_id' => $customer_id,  // Use post_id, not post_ID, fwHR58J87Xc503mt1S
+												'parent' => 0,
+												'order' => 'ASC',
+												// 'number' => 5,
+											));
 
-											if (is_object($comment)) :
+											foreach ($comments as $comment) :
 											?>
-											<div class="row row-comment<?php echo $comment->comment_approved == 0 ? 'status-trash' : '' ?>">
-												<div class="account-name d-f ai-center col-6">
-													<div class="avatar">
-														<img src="<?php echo site_get_template_directory_assets(); ?>/img/icon/User.svg" alt="">
+											<div class="js-comment-row">
+												<div class="row row-comment<?php echo $comment->comment_approved == 0 ? ' status-trash' : '' ?>">
+													<div class="account-name d-f ai-center col-6">
+														<div class="avatar">
+															<img src="<?php site_the_assets(); ?>/img/icon/User.svg" alt="">
+														</div>
+														<div><?php echo $comment->comment_author ?></div>
 													</div>
-													<div><?php echo $comment->comment_author ?></div>
+													<?php if(site_comment_can_edit($comment->comment_ID)) :?>
+													<div class="edit col-3">
+														<a href="#editcomment" data-id="<?php echo $comment->comment_ID ?>"><img src="<?php site_the_assets(); ?>/img/icon/edit-2-svgrepo-com.svg" alt=""></a>
+														<a href="<?php echo site_comment_get_delete_link($comment->comment_ID) ?>"><img src="<?php site_the_assets(); ?>/img/icon/bin.svg" alt=""></a>
+														<img src="<?php site_the_assets(); ?>/img/icon/pin-svgrepo-com.svg" alt="">
+													</div>
+													<?php endif ?>
+													<div class="time col-3"><?php echo get_comment_date('d/m/Y', $comment->comment_ID) ?></div>
 												</div>
-												<div class="edit col-3 ">
-													<a href="#editcomment" data-id="<?php echo $comment->comment_ID ?>"><img src="<?php echo site_get_template_directory_assets(); ?>/img/icon/edit-2-svgrepo-com.svg" alt=""></a>
-													<a href="<?php echo site_comment_get_delete_link($comment->comment_ID) ?>"><img src="<?php echo site_get_template_directory_assets(); ?>/img/icon/bin.svg" alt=""></a>
-													<img src="<?php echo site_get_template_directory_assets(); ?>/img/icon/pin-svgrepo-com.svg" alt="">
+												<div class="note-content">
+													<div class="comment_content"><?php echo $comment->comment_content ?></div>
+													<?php echo $comment->comment_approved == 0 ? '<b>Trash</b>' : '' ?>
 												</div>
-												<div class="time col-3"><?php echo get_comment_date('d/m/Y', $comment->comment_ID) ?></div>
 											</div>
-											<div class="note-content">
-											<?php echo $comment->comment_content ?> <?php echo $comment->comment_approved ?>
-											</div>
-											<?php
-
-											endif; ?>
+											<?php endforeach; ?>
 										</div>
 										<div class="note-form">
 											<?php
@@ -368,7 +382,7 @@ get_header();
 												echo '<p style="color: red">' . site_base64_decode($data['message']) . '</p>';
 											}
 											?>
-											<form action="<?php the_permalink() ?>?customer_id=<?php echo $customer_id ?>" method="post" enctype="multipart/form-data" class="js-comment-form" id="editcomment">
+											<form action="<?php echo $detail_customer_url ?>" method="post" enctype="multipart/form-data" class="js-comment-form" id="editcomment">
 												<div class="binhluan-moi">
 													<div class="box-right">
 														<div class="form-group">
@@ -376,8 +390,8 @@ get_header();
 														</div>
 														<button class="btn-common-fill hidden" type="submit" name="submit" value="submit">Send</button>
 													</div>
-													<input type="hidden" name="url" value="<?php the_permalink() ?>" />
-													<input type="hidden" name="comment_post_ID" value="<?php the_ID() ?>" />
+													<input type="hidden" name="url" value="<?php echo $detail_customer_url ?>" />
+													<input type="hidden" name="comment_post_ID" value="<?php echo $customer_id ?>" />
 													<input type="hidden" name="comment_parent" value="0" />
 													<input type="hidden" name="comment_ID" value="0" />
 													<?php wp_nonce_field('comtoken', 'comtoken'); ?>
@@ -581,11 +595,6 @@ get_header();
 
 											</div>
 										</div>
-
-
-
-
-
 										<div class="row pt-16">
 											<div class="col-6">
 												<?php
@@ -722,13 +731,30 @@ get_header();
 // endwhile;
 get_footer('customer');
 ?>
-<script src="<?php echo site_get_template_directory_assets(); ?>js/assistant.js"></script>
-<script src="<?php echo site_get_template_directory_assets(); ?>js/location.js"></script>
+<script src="<?php site_the_assets(); ?>js/assistant.js"></script>
+<script src="<?php site_the_assets(); ?>js/location.js"></script>
 <script type="text/javascript">
-	$(document).ready(function() {
+	jQuery(function($) {
+
+		/*
+		$('.js-comment-row').each(function() {
+			let row = $(this), f = $('.js-comment-form');
+
+			row.find('a[href="#editcomment"]').on('click', function(e){
+				let id = $(this).data('id') || 0;
+
+				if(id > 0) {
+					f.find('[name="comment"]').val(row.find('.comment_content').text());
+					f.find('[name="comment_ID"]').val(id);
+				}
+			});
+		});
+		*/
+
 		$('.nickname').keyup(updatetxt);
 		$('.fullname').keyup(updatetxt);
 		$('.phone_number').keyup(updatephone);
+
 		$(document).on('change', '.address-group select', function() {
 			$('.review').show();
 			var selectItem = $(this).closest('.address-group'); // Get the closest select-item div
@@ -756,7 +782,6 @@ get_footer('customer');
 			}
 		});
 
-
 		function updatetxt() {
 			$('.review').show();
 			$('input.customer_name').val($('.fullname').val() + ' (' + $('.nickname').val() + ') ');
@@ -766,6 +791,7 @@ get_footer('customer');
 		function updatephone() {
 			$('span.customer_phone').text($('.phone_number').val());
 		}
+
 		$('.js-list-note').each(function() {
 			let p = $(this);
 			$('.btn', p).on('click', function() {
@@ -790,6 +816,7 @@ get_footer('customer');
 				input.val(list.join(", "));
 			});
 		});
+
 		var fieldCount = <?php echo count($response_get_location['data']); ?>;
 		var maxFields = 5;
 		$(document).on('click', '.delete-location-button', function(e) {
