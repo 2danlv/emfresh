@@ -118,7 +118,7 @@ jQuery(document).ready(function () {
         order: [[16, 'desc']],
         lengthChange: true,
         lengthMenu: [
-            [5,50, 100, 200],
+            [50, 100, 200],
             ['50 / trang', '100 / trang', '200 / trang'],
         ],
         

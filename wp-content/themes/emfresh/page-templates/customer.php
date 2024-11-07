@@ -155,30 +155,7 @@ get_header();
 										<span class="ward"></span>
 										<span class="city"></span>
 									</div>
-									<div class="info1">
-										<span class="address"></span>
-										<span class="street"></span>
-										<span class="ward"></span>
-										<span class="city"></span>
-									</div>
-									<div class="info2">
-										<span class="address"></span>
-										<span class="street"></span>
-										<span class="ward"></span>
-										<span class="city"></span>
-									</div>
-									<div class="info3">
-										<span class="address"></span>
-										<span class="street"></span>
-										<span class="ward"></span>
-										<span class="city"></span>
-									</div>
-									<div class="info4">
-										<span class="address"></span>
-										<span class="street"></span>
-										<span class="ward"></span>
-										<span class="city"></span>
-									</div>
+									
 								</div>
 							</div>
 							<div class="col-12 pb-16">
@@ -340,10 +317,10 @@ get_footer('customer');
 		$('.nickname').keyup(updatetxt);
 		$('.fullname').keyup(updatetxt);
 		$('.phone_number').keyup(updatephone);
-		$(document).on('change','.address-group select', function() {
+		$(document).on('change','.address_active select', function() {
 			$('.review').show();
-			var selectItem = $(this).closest('.address-group'); // Get the closest select-item div
-			var infoIndex = selectItem.data('index'); // Get the data-index attribute from select-item
+			var selectItem = $(this).closest('.address_active'); // Get the closest select-item div
+			var infoIndex = 0; // Get the data-index attribute from select-item
 			var city = selectItem.find('.district-select').val(); // Get the city value from select
 			var ward = selectItem.find('.ward-select').val(); // Get the ward value from select
 			// Update the corresponding .info div based on index
@@ -354,10 +331,10 @@ get_footer('customer');
 			}
 		});
 
-		$(document).on('keyup', '.address-group .address', function() {
+		$(document).on('keyup', '.address_active .address', function() {
 				$('.review').show();
-				var selectItem = $(this).closest('.address-group');  // Find the closest parent .address-group
-				var infoIndex = selectItem.data('index');  // Get the index from data attribute
+				var selectItem = $(this).closest('.address_active');  // Find the closest parent .address_active
+				var infoIndex = 0;  // Get the index from data attribute
 				var address = $(this).val();  // Get the current value of the address input field
 				var infoDiv = $('.review .info' + infoIndex);
 				if (address) {
