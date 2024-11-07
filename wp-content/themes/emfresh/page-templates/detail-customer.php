@@ -471,6 +471,7 @@ get_header();
 														<div class="col-12 pb-16">
 															<p class="pb-8">Ghi chú dụng cụ ăn</p>
 															<select name="note_cook">
+																<option value=""></option>
 																<?php foreach ($list_cook as $value) { ?>
 																	<option value="<?php echo $value; ?>" <?php selected($response_customer['data']['note_cook'], $value); ?>><?php echo $value; ?></option>
 																<?php } ?>
