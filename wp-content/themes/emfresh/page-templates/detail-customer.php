@@ -752,6 +752,7 @@ get_footer('customer');
 
 		$(document).on('change', '.address_active select', function() {
 			$('.review').show();
+			$(this).parents('.address-group').find($('.form-control.address')).val('');
 			var selectItem = $(this).closest('.address_active'); // Get the closest select-item div
 			var infoIndex = 0; // Get the data-index attribute from select-item
 			var city = selectItem.find('.district-select').val(); // Get the city value from select
@@ -761,6 +762,9 @@ get_footer('customer');
 			infoDiv.children('.city').text(city);
 			if (ward) {
 				infoDiv.children('.ward').text(ward + ',');
+			} else {
+				infoDiv.children('.ward').text('');
+				infoDiv.children('.address').text('');
 			}
 		});
 
