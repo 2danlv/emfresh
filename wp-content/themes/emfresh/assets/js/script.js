@@ -311,11 +311,24 @@ jQuery(document).ready(function () {
       $(modaltarget).addClass('is-active');
       $('body').addClass('overflow');
   }
+  var status = localStorage.getItem('sidebar');
+  if (status =="active") {
+    $('.site').addClass('mini_sidebar');
+  }
   $('.resize').click(function (e) { 
+    // localStorage.getItem('sidebar');
     e.preventDefault();
     $(this).toggleClass('active');
-    $('.sidebar').toggleClass('width-10');;
-    $('.content-wrapper').toggleClass('width-90');;
+    $('.site').toggleClass('mini_sidebar');
+    $('.sidebar').toggleClass('width-10');
+    $('.content-wrapper').toggleClass('width-90');
+    var status = localStorage.getItem('sidebar');
+    if (status =="active") {
+        localStorage.setItem('sidebar', 'deactive');
+    } else {
+        localStorage.setItem('sidebar', 'active');
+    }
+    
   });
   jQuery('ul.tabNavigation li').click(function() {
     switch_tabs(jQuery(this));

@@ -1,4 +1,4 @@
-  <aside class="main-sidebar pt-16 sidebar col-3">
+  <aside class="main-sidebar pt-16 sidebar col-2">
     <!-- Brand Logo -->
     <div class="text-center pt-16">
       <a href="index.php" class="brand-link">

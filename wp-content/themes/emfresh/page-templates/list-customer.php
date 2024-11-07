@@ -142,7 +142,7 @@ get_header();
         </div>
         <?php wp_nonce_field('importoken', 'importoken', false); ?>
       </form>
-      <table id="list-customer" class="table table-list-customer text-capitalize" style="width:100%">
+      <table id="list-customer" class="table table-list-customer" style="width:100%">
         <thead>
           <tr>
             <th><input type="checkbox" name="checkall" id="checkall" /></th>
@@ -178,9 +178,9 @@ get_header();
                 if ($record['active'] != '0') { ?>
                   <tr>
                     <td><input type="checkbox" class="checkbox-element" value="<?php echo $record['id'] ?>"></td>
-                    <td><a href="detail-customer/?customer_id=<?php echo $record['id'] ?>"><?php echo $record['customer_name']; ?></a></td>
-                    <td><span class="copy" title="Copy: <?php echo $record['phone']; ?>"><?php echo $record['phone']; ?></span></td>
-                    <td>
+                    <td class="text-capitalize"><a href="detail-customer/?customer_id=<?php echo $record['id'] ?>"><?php echo $record['customer_name']; ?></a></td>
+                    <td class="text-capitalize"><span class="copy" title="Copy: <?php echo $record['phone']; ?>"><?php echo $record['phone']; ?></span></td>
+                    <td class="text-capitalize">
                       <?php
                       // lấy danh sách location
                       $location_filter = [
@@ -190,7 +190,7 @@ get_header();
                       $response_get_location = em_api_request('location/list', $location_filter);
                       foreach ($response_get_location['data'] as $index => $location) {
                       ?><?php if ($location['active'] == 1) { ?>
-                      <div class="nowrap">
+                      <div class="nowrap diachi">
                         <?php echo $location['address'] ?>,
                         <?php echo $location['ward'] ?>,<br>
                         <?php echo $location['district'] ?>
@@ -202,7 +202,7 @@ get_header();
                       }
                   ?>
                     </td>
-                    <td>
+                    <td class="text-capitalize">
                       <?php
                       foreach ($response_get_location['data'] as $index => $location) {
                         if ($location['active'] == 1) {
@@ -210,15 +210,15 @@ get_header();
                         }
                       } ?>
                     </td>
-                    <td><span class="tag btn btn-sm tag_<?php echo $record['status']; ?>"><?php echo $record['status_name']; ?></span></td>
-                    <td>
+                    <td class="text-capitalize"><span class="tag btn btn-sm tag_<?php echo $record['status']; ?>"><?php echo $record['status_name']; ?></span></td>
+                    <td class="text-capitalize">
                       <?php
                       $customer_tags = $em_customer_tag->get_items(['customer_id' => $record['id']]);
                       foreach ($customer_tags as $item) : $tag = $item['tag_id']; ?>
                         <span class="tag btn btn-sm tag_<?php echo $tag; ?>"><?php echo isset($list_tags[$tag]) ? $list_tags[$tag] : ''; ?></span>
                       <?php endforeach; ?>
                     </td>
-                    <td><?php echo $record['gender_name']; ?></td>
+                    <td class="text-capitalize"><?php echo $record['gender_name']; ?></td>
                     <td><!-- note dụng cụ --> </td>
                     <td><!-- note số đơn --></td>
                     <td><!-- note số ngày ăn --></td>

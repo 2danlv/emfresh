@@ -43,28 +43,28 @@
 			<?php
 			include get_theme_file_path('parts/sidebar/sidebar.php');
 			?>
-			<div class="col-9 content-wrapper">
+			<div class="col-10 content-wrapper">
 				<!-- Content Header (Page header) -->
 				<section class="content-header">
 					<div class="row ai-center">
 						<div class="col-5">
 							<h1><?php the_title(); ?></h1>
 						</div>
-						<div class="col-5">
+						<div class="col-4">
 							<?php 
 							if ( is_page_template( 'page-templates/list-customer.php' ) ) { ?>
 								<input class="input-search" placeholder="Tên khách hàng / SĐT / Địa chỉ" type="text">
 							<?php } 
 							?>
 						</div>
-						<div class="col-2">
-							<div class="row ai-center">
+						<div class="col-3">
+							<div class="row ai-center jc-end">
 								<?php global $current_user;
 								wp_get_current_user(); ?>
 								<?php if (is_user_logged_in()) : ?>
 									<div class="d-f ai-center">
 										<span><img src="<?php echo site_get_template_directory_assets();?>/img/icon/log-activites-svgrepo-com-1.svg" alt=""></span>
-										<span><img src="<?php echo site_get_template_directory_assets();?>/img/icon/notification.svg" alt=""></span>
+										<span class="noti"><img src="<?php echo site_get_template_directory_assets();?>/img/icon/notification.svg" alt=""></span>
 										<span class="avatar"><img src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="40" alt="<?php echo $current_user->display_name; ?>"></span>
 									</div>
 									<div class="info">

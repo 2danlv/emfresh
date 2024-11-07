@@ -22,54 +22,33 @@ get_header();
 // Start the Loop.
 while (have_posts()) : the_post();
 ?>
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                    </div>
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active"><?php the_title(); ?></li>
-                        </ol>
-                    </div>
-                </div>
-            </div><!-- /.container-fluid -->
-        </section>
-
+    <div class="content-import">
         <!-- Main content -->
-        <section class="content">
-            <div class="col-md-6 offset-md-3">
-                <div class="card card-primary">
-                    <div class="card-header">
-                        <h3 class="card-title"><?php the_title(); ?></h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="form-login">
+        <section class="card-import">
+                    
+        <div class="card-header">
+
                             <form class="em-importer" data-name="customer" action="<?php the_permalink() ?>" method="post">
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="custom-file">
                                             <input type="file" name="file" class="custom-file-input js-file" id="exampleInputFile" accept="xls, xlsx">
-                                            <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                            <label class="custom-file-label" for="exampleInputFile">Chọn file *.csv</label>
                                         </div>
                                         <div class="input-group-append">
-                                            <span class="input-group-text">Upload</span>
+                                        <button type="button" name="action" value="import" class="js-import input-group-text"><img src="<?php echo site_get_template_directory_assets();?>img/icon/upload.svg" alt=""> Import</button>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <button type="button" name="action" value="import" class="btn btn-primary js-import"><i class="fas fa-file-import"></i> Import</button>
+                                    
                                     <!-- <button type="button" name="action" value="export" class="btn btn-success js-export">Export</button> -->
                                 </div>
                                 <?php wp_nonce_field('importoken', 'importoken', false); ?>
                             </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                        
+                    
+             
         </section>
         <section class="content">
             <table class="table table-striped js-table-excel">

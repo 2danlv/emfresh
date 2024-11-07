@@ -1,5 +1,4 @@
 .list-customer {
-    margin-top: 16px;
     padding: 16px 16px 10vh;
     border-radius: 16px 16px 0px 0px;
     background: var(--background-dim-green, #F6F6F6);
@@ -169,6 +168,9 @@
                 text-align: center;
             }
             td {
+                .diachi {
+                    min-width: 300px;
+                }
                 &.dt-type-date {
                     white-space: nowrap;
                 }
@@ -283,3 +285,14 @@
         }
     }
 }
+div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria {
+    select.dtsb-data,
+    select.dtsb-condition,
+    select.dtsb-value, 
+    input.dtsb-value
+    {
+        border-radius: var(--dropdown-radiusCorner, 8px);
+        border: 1px solid var(--dropdown-border-default, #DEDFE0);
+        background: var(--Sample-frame-background-white, #FFF);
+    }
+} 
