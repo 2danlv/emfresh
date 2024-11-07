@@ -174,6 +174,24 @@ get_header();
 		}
 		?>
 		<div class="container-fluid">
+			<div class="row pb-16">
+				<div class="col-6 d-f ai-center backtolist">
+					<img src="<?php echo site_get_template_directory_assets(); ?>img/icon/caretup.svg" alt=""> <a href="/customer/">Quay lại danh sách khách hàng</a>
+				</div>
+				<div class="col-6 d-f ai-center jc-end group-button_top">
+					<?php
+					$admin_role = wp_get_current_user()->roles;
+					if (!empty($admin_role)) {
+						if ($admin_role[0] == 'administrator') {
+					?>
+							<span class="btn btn-danger remove-customer modal-button" data-target="#modal-default">
+								Xoá khách này
+							</span>
+					<?php }
+					} ?>
+					<a class="btn btn-primary" href="#"><span class="d-f ai-center"><i class="fas mr-4"><img src="<?php echo site_get_template_directory_assets(); ?>img/icon/plus-svgrepo-com.svg" alt=""></i>Tạo đơn mới</span></a>
+				</div>
+			</div>
 			<div class="card-header">
 				<ul class="nav tabNavigation">
 					<li class="nav-item defaulttab" rel="info">Thông tin khách hàng</li>
@@ -418,11 +436,11 @@ get_header();
 															<input type="text" name="fullname" class="fullname form-control" value="<?php echo $response_customer['data']['fullname'] ?>" required>
 														</div>
 														<div class="col-6 pb-16">
-															<input type="tel" id="phone" name="phone" class="form-control" value="<?php echo $response_customer['data']['phone'] ?>" required>
+															<input type="tel" id="phone" name="phone" class="phone_number form-control" value="<?php echo $response_customer['data']['phone'] ?>" required>
 															<p id="phone_status" class="status text-danger"></p>
 														</div>
 														<div class="col-6 pb-16">
-															<select name="gender" class="gender" required>
+															<select name="gender" class="gender text-capitalize" required>
 																<option value="0" selected>Giới tính*</option>
 																<?php
 																foreach ($gender as $value => $label) { ?>
@@ -433,14 +451,20 @@ get_header();
 															</select>
 														</div>
 														<div class="col-12 ">
-															<div class="review">
-																<p><span class="customer_name"></span></p>
-																<p><span class="customer_phone"></span></p>
+															<div class="review" style="display: block;">
+																<p><span class="customer_name"><?php echo $response_customer['data']['customer_name'] ?></span></p>
+																<p><span class="customer_phone"><?php echo $response_customer['data']['phone'] ?></span></p>
 																<div class="info0">
-																	<span class="address"></span>
-																	<span class="street"></span>
-																	<span class="ward"></span>
-																	<span class="city"></span>
+																<?php foreach ($response_get_location['data'] as $index => $location) {
+																	?><?php if ($location['active'] == 1) { ?>
+																		<span class="address"><?php echo $location['address'] ?>,</span>
+																		<span class="ward"><?php echo $location['ward'] ?>,</span>
+																		<span class="city"><?php echo $location['district'] ?></span>
+																		<?php } ?>
+																		<?php
+																	}
+																	?>
+																	
 																</div>
 															</div>
 														</div>
@@ -578,19 +602,7 @@ get_header();
 											</div>
 										</div>
 										<div class="row pt-16">
-											<div class="col-6">
-												<?php
-												$admin_role = wp_get_current_user()->roles;
-												if (!empty($admin_role)) {
-													if ($admin_role[0] == 'administrator') {
-												?>
-														<button type="button" class="btn d-f ai-center btn-danger remove-customer modal-button" data-target="#modal-default">
-															<i class="fas fa-bin"></i> Xoá khách này
-														</button>
-												<?php }
-												} ?>
-											</div>
-											<div class="col-6 text-right">
+											<div class="col-12 text-right">
 												<button type="submit" class="btn btn-primary" name="add_post">Cập nhật</button>
 											</div>
 										</div>

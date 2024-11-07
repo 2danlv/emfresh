@@ -20,6 +20,7 @@
 .modal-dialog {
   background-color: #fff;
   border-radius: 16px;
+  min-width: 600px;
   h4 {
     font-size: 20px;
   }
@@ -31,8 +32,10 @@
 }
 .modal-body {
   padding-top: 16px;
-}
-@media screen and (min-width:769px), print {
-  .modal-card,
-  .modal-content { max-height: calc(100vh - 40px); width: 600px }
+  .filter.list-unstyled {
+    padding-bottom: 16px;
+    li {
+      padding-bottom: 8px;
+    }
+  }
 }

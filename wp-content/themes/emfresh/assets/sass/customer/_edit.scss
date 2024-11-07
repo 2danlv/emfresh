@@ -9,6 +9,22 @@
     color: red;
   }
 .detail-customer {
+  .backtolist {
+    padding-bottom: 16px;
+    color: #208046;
+    img {
+      transform: rotate(-90deg);
+    }
+    a {
+      padding-left: 8px;
+      
+    }
+  }
+  .group-button_top {
+    .fas img {
+      filter: brightness(0) saturate(100%) invert(99%) sepia(1%) saturate(78%) hue-rotate(216deg) brightness(114%) contrast(100%);
+    }
+  }
   h1 {
     margin-top: 0;
   }

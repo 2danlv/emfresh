@@ -155,8 +155,8 @@ get_header();
             <th class="text-center">Giới tính</th>
             <th class="text-center">Note <span class="nowrap">dụng cụ ăn</span></th>
             <th class="text-center"><span class="nowrap">Số </span>đơn</th>
-            <th class="text-center">Số<span class="nowrap">ngày ăn</span></th>
-            <th class="text-center">Số<span class="nowrap">phần ăn</span></th>
+            <th class="text-center">Số <span class="nowrap">ngày ăn</span></th>
+            <th class="text-center">Số <span class="nowrap">phần ăn</span></th>
             <th class="text-center"><span class="nowrap">Tổng tiền </span><span class="nowrap">đã chi</span></th>
             <th class="text-center">Điểm <span class="nowrap">tích lũy</span></th>
             <th class="text-center">Lịch sử <span class="nowrap">đặt gần nhất</span></th>
@@ -190,11 +190,7 @@ get_header();
                       $response_get_location = em_api_request('location/list', $location_filter);
                       foreach ($response_get_location['data'] as $index => $location) {
                       ?><?php if ($location['active'] == 1) { ?>
-                      <div class="nowrap diachi">
-                        <?php echo $location['address'] ?>,
-                        <?php echo $location['ward'] ?>,<br>
-                        <?php echo $location['district'] ?>
-                      </div>
+                      <div class="nowrap diachi"><?php echo $location['address'] ?>, <?php echo $location['ward'] ?>, <?php echo $location['district'] ?></div>
                     <?php } ?>
 
                   <?php
@@ -210,7 +206,7 @@ get_header();
                         }
                       } ?>
                     </td>
-                    <td class="text-capitalize"><span class="tag btn btn-sm tag_<?php echo $record['status']; ?>"><?php echo $record['status_name']; ?></span></td>
+                    <td class="text-capitalize"><span class="tag btn btn-sm status_<?php echo $record['status']; ?>"><?php echo $record['status_name']; ?></span></td>
                     <td class="text-capitalize">
                       <?php
                       $customer_tags = $em_customer_tag->get_items(['customer_id' => $record['id']]);
@@ -247,12 +243,12 @@ get_header();
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Cột hiển thị!</h4>
+        <h4 class="modal-title">Cột hiển thị</h4>
       </div>
       <div class="modal-body">
         <div class="row">
           <div class="col-6">
-            <ul class="filter list-unstyled text-capitalize">
+            <ul class="filter list-unstyled">
               <li><label><input type="checkbox" data-column="1" checked> Tên khách hàng</label></li>
               <li><label><input type="checkbox" data-column="2" checked> Số điện thoại</label></li>
               <li><label><input type="checkbox" data-column="3" checked> Địa chỉ mặc định</label></li>
@@ -263,7 +259,7 @@ get_header();
             </ul>
           </div>
           <div class="col-6">
-            <ul class="filter list-unstyled text-capitalize">
+            <ul class="filter list-unstyled">
               <li><label><input type="checkbox" data-column="9" checked> Số đơn</label></li>
               <li><label><input type="checkbox" data-column="10" checked> Số ngày ăn</label></li>
               <li><label><input type="checkbox" data-column="11" checked> Số phần ăn</label></li>
@@ -286,7 +282,7 @@ get_header();
   <div class="modal-dialog text-capitalize">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Cập nhật nhanh!</h4>
+        <h4 class="modal-title">Cập nhật nhanh</h4>
       </div>
       <div class="modal-body">
         <?php

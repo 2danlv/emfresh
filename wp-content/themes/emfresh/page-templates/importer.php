@@ -33,7 +33,7 @@ while (have_posts()) : the_post();
                                     <div class="input-group">
                                         <div class="custom-file">
                                             <input type="file" name="file" class="custom-file-input js-file" id="exampleInputFile" accept="xls, xlsx">
-                                            <label class="custom-file-label" for="exampleInputFile">Chọn file *.csv</label>
+                                            <label class="custom-file-label" for="exampleInputFile">Chọn file .xlsx hoặc .csv</label>
                                         </div>
                                         <div class="input-group-append">
                                         <button type="button" name="action" value="import" class="js-import input-group-text"><img src="<?php echo site_get_template_directory_assets();?>img/icon/upload.svg" alt=""> Import</button>

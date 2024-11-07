@@ -4,6 +4,7 @@ $(document).ready(function () {
     $('.location_active').val(0);
     $('.address-group').removeClass('address_active');
     if(this.checked) {
+      $('.review .info0 span').text('');
       $(this).next('.location_active').val(1);
       $(this).parents('.address-group').addClass('address_active');
     }

@@ -135,7 +135,7 @@ get_header();
 								<p id="phone_status" class="status text-danger"></p>
 							</div>
 							<div class="col-6 pb-16">
-								<select name="gender" class="gender" required>
+								<select name="gender" class="gender text-capitalize" required>
 									<option value="0" selected>Giới tính*</option>
 									<?php
 									foreach ($gender as $key => $value) { ?>
@@ -151,7 +151,6 @@ get_header();
 									<p><span class="customer_phone"></span></p>
 									<div class="info0">
 										<span class="address"></span>
-										<span class="street"></span>
 										<span class="ward"></span>
 										<span class="city"></span>
 									</div>
@@ -268,7 +267,7 @@ get_header();
 				</div>
 				<div class="col-6 text-right">
 					<input type="hidden" name="customer_name" readonly class="customer_name form-control" value="<?php site__post_e('customer_name') ?>">
-					<input type="submit" value="Add new Customer" name="add_post" class="btn btn-primary">
+					<input type="submit" value="Tạo khách mới" name="add_post" class="btn btn-primary">
 				</div>
 			</div>
 </div>
@@ -420,6 +419,7 @@ get_footer('customer');
 		$('[name="location_active"]').on('change', function() {
 			$('.location_active').val(0);
 			if (this.checked) {
+				$('.review .info0 span').text('');
 				$(this).next('.location_active').val(1);
 			}
 		});

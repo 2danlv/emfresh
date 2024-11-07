@@ -12,24 +12,31 @@
     display: inline-block;
     border-radius: 3px;
 }
-.select2-container--default .select2-selection--multiple .select2-selection__rendered li {
-    line-height: 27px;
+
+.select2-container--default .select2-selection--multiple {
+    min-height: 40px;
+    .select2-selection__rendered li {
+        line-height: 27px;
+    }
 }
 .btn.tag_1 {
-    background-color: green;
+    background: var(--color-purple-300, #C6B1F6);
+    color: #0F0F0F;
 }
 
 .btn.tag_2 {
-    background-color: #0056b3;
+    background: var(--color-blue-600, #2759D4);
+    color: #fff;
 }
 
 .btn.tag_3 {
-    background-color: yellow;
-    color: #000;
+    background: var(--color-grey-200, #C0C0C2);
+    color: #BA2525;
 }
 
 .btn.tag_4 {
-    background-color: red;
+    background: var(--color-grey-800, #282829);
+    color: #FFC500;
 }
 
 .btn.tag_5 {
@@ -37,12 +44,15 @@
 }
 
 .btn.status_1 {
-    background-color: green;
+    color: #fff;
+    background: var(--color-primary-900, #208046);
+    border: var(--number-1px, 1px) solid var(--tag-border-hover, #208046);
 }
 
 .btn.status_2 {
-    background-color: yellow;
-    color: #000;
+    border: var(--number-1px, 1px) solid var(--tag-border-hover, #A7A7A8);
+    background: var(--tag-background-default, #F2F3F5);
+    color: #0F0F0F;
 }
 
 .btn.status_3 {
@@ -67,6 +77,9 @@
     width: 24px;
     height: 24px;
     display: inline-block;
+    img {
+        vertical-align: top;
+    }
 }
 .fa-trash {
     background: url(../img/icon/delete-svgrepo-com.svg) center center no-repeat ;
@@ -109,11 +122,13 @@
 }
 .btn-primary {
 background: var(--button-solid-background-default, #208046);
+border: 1px solid var(--input-border-error, #208046);
 color: #fff;
 }
 .btn-secondary {
     border-radius: var(--button-radiusCorner, 8px);
     border: 1.5px solid var(--button-outline-border-default, #DEDFE0);
+    border: 1px solid var(--input-border-error, #DEDFE0);
 }
 .btn-danger {
     border-radius: var(--button-radiusCorner, 8px);

@@ -80,18 +80,6 @@ jQuery(document).ready(function () {
             },
         },
         layout: {
-            //top1: 'searchBuilder',
-            //  topStart: {
-            //      buttons: [
-            //          {
-            //              extend: 'searchBuilder',
-            //              config: {
-            //                  depthLimit: 0,
-            //                  columns: [1,2,4,5,6,7,8,9,10,11]
-            //              }
-            //          }
-            //      ]
-            //  }
         },
         buttons: [
             // {
@@ -211,6 +199,7 @@ jQuery(document).ready(function () {
     });
 
     $('.input-search').keyup(function () {
+        
         table.search($(this).val()).draw();
     });
     
@@ -239,6 +228,7 @@ jQuery(document).ready(function () {
       opens: 'center',
       singleDatePicker: false,
       showCustomRangeLabel: false,
+      "alwaysShowCalendars": true,
       ranges: {
           'All time (Tối đa)': '',
           '1 tuần qua': [moment().subtract(6, 'days').startOf('day'), moment().endOf('day')],
@@ -304,7 +294,6 @@ jQuery(document).ready(function () {
 
         tempInput.remove();
 
-        //alert('Đã copy số điện thoại: ' + textToCopy);
     });
     function open_modal(el) {
       var modaltarget = $(el).data('target');

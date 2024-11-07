@@ -296,3 +296,7 @@ div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria {
         background: var(--Sample-frame-background-white, #FFF);
     }
 } 
+.daterangepicker .ranges li.active {
+    color: #4BA66F;
+    background: url(../img/icon/tick-svgrepo-com_green.svg) center right 16px no-repeat;
+}
