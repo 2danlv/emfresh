@@ -11,6 +11,9 @@
     } 
 }
 .content-import {
+    border-radius: 16px;
+    background: var(--background-dim-green, #F6F6F6);
+    height: 100%;
     .card-import {
         max-width: 600px;
         margin: 0 auto;

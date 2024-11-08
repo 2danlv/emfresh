@@ -57,9 +57,7 @@ select {
 	padding: 8px;
 	border-radius: 8px;
 }
-option {
-	text-transform: capitalize;
-}
+
 hr {
 	border-top: 1px solid $cl-border
 }
@@ -71,6 +69,9 @@ table { border-collapse: collapse;
 }
 .text-capitalize {
 	text-transform: capitalize;
+}
+.text-titlecase::first-letter {
+	text-transform: uppercase;
 }
 .container {
 	max-width: 1200px;

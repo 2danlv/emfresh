@@ -133,8 +133,6 @@ input[type="checkbox"] { accent-color: #208046; }
 
 select { padding: 8px; border-radius: 8px; }
 
-option { text-transform: capitalize; }
-
 hr { border-top: 1px solid #E4ECF0; }
 
 table { border-collapse: collapse; }
@@ -142,6 +140,8 @@ table { border-collapse: collapse; }
 .nowrap { display: block; white-space: nowrap; }
 
 .text-capitalize { text-transform: capitalize; }
+
+.text-titlecase::first-letter { text-transform: uppercase; }
 
 .container { max-width: 1200px; margin-left: auto; margin-right: auto; padding: 0 8px; }
 
@@ -287,7 +287,7 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
 .mini_sidebar .row .sidebar ul.nav-menu li .sub-menu { display: none; }
 .mini_sidebar .row .content-wrapper { width: 95%; transition: .5s; flex: 1; }
 
-.row .sidebar { transition: .5s; min-height: 100vh; position: relative; }
+.row .sidebar { transition: .5s; position: relative; }
 .row .sidebar ul.nav-menu { padding-top: 24px; }
 .row .sidebar ul.nav-menu li { width: 100%; overflow: hidden; margin-bottom: 8px; }
 .row .sidebar ul.nav-menu li.menu-item-has-children { margin-bottom: 0; }
@@ -310,6 +310,7 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
 .content-wrapper .alert { border-radius: 8px; padding: 8px; color: #fff; background-color: #0099cc; }
 .content-wrapper .alert.alert-warning { background-color: orange; }
 
+.content-import { border-radius: 16px; background: var(--background-dim-green, #F6F6F6); height: 100%; }
 .content-import .card-import { max-width: 600px; margin: 0 auto; padding-top: 20vh; }
 .content-import .card-import .input-group { position: relative; display: -ms-flexbox; display: flex; -ms-flex-wrap: wrap; flex-wrap: wrap; -ms-flex-align: stretch; align-items: stretch; width: 100%; }
 .content-import .card-import .custom-file { position: relative; display: inline-block; width: 100%; height: calc(2.25rem + 2px); margin-bottom: 0; }
@@ -523,6 +524,8 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
 div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria select.dtsb-data, div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria select.dtsb-condition, div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria select.dtsb-value, div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria input.dtsb-value { border-radius: var(--dropdown-radiusCorner, 8px); border: 1px solid var(--dropdown-border-default, #DEDFE0); background: var(--Sample-frame-background-white, #FFF); }
 
 .daterangepicker .ranges li.active { color: #4BA66F; background: url(../img/icon/tick-svgrepo-com_green.svg) center right 16px no-repeat; }
+
+.daterangepicker.openscenter:after, .daterangepicker.openscenter:before { content: none; }
 
 .customer { border-radius: 16px 16px 0px 0px; background: var(--background-dim-green, #F6F6F6); padding: 16px; height: 100%; }
 .customer input[type="text"], .customer input[type="tel"], .customer select { border-radius: var(--input-radiusCorner, 8px); border: 1px solid var(--input-border-default, #DEDFE0); background: var(--input-background-default, #F6F6F6); padding: 10px; width: 100%; }

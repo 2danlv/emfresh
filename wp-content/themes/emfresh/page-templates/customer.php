@@ -135,7 +135,7 @@ get_header();
 								<p id="phone_status" class="status text-danger"></p>
 							</div>
 							<div class="col-6 pb-16">
-								<select name="gender" class="gender text-capitalize" required>
+								<select name="gender" class="gender text-titlecase" required>
 									<option value="0" selected>Giới tính*</option>
 									<?php
 									foreach ($gender as $key => $value) { ?>

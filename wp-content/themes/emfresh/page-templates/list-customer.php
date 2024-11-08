@@ -180,15 +180,15 @@ get_header();
                         }
                       } ?>
                     </td>
-                    <td class="text-capitalize"><span class="tag btn btn-sm status_<?php echo $record['status']; ?>"><?php echo $record['status_name']; ?></span></td>
-                    <td class="text-capitalize">
+                    <td><span class="tag btn btn-sm text-titlecase status_<?php echo $record['status']; ?>"><?php echo $record['status_name']; ?></span></td>
+                    <td>
                       <?php
                       $customer_tags = $em_customer_tag->get_items(['customer_id' => $record['id']]);
                       foreach ($customer_tags as $item) : $tag = $item['tag_id']; ?>
-                        <span class="tag btn btn-sm tag_<?php echo $tag; ?>"><?php echo isset($list_tags[$tag]) ? $list_tags[$tag] : ''; ?></span>
+                        <span class="tag btn text-titlecase btn-sm tag_<?php echo $tag; ?>"><?php echo isset($list_tags[$tag]) ? $list_tags[$tag] : ''; ?></span>
                       <?php endforeach; ?>
                     </td>
-                    <td class="text-capitalize"><?php echo $record['gender_name']; ?></td>
+                    <td class="text-titlecase"><?php echo $record['gender_name']; ?></td>
                     <td><!-- note dụng cụ --> </td>
                     <td><!-- note số đơn --></td>
                     <td><!-- note số ngày ăn --></td>
@@ -223,23 +223,23 @@ get_header();
         <div class="row">
           <div class="col-6">
             <ul class="filter list-unstyled">
-              <li><label><input type="checkbox" data-column="1" checked> Tên khách hàng</label></li>
-              <li><label><input type="checkbox" data-column="2" checked> Số điện thoại</label></li>
-              <li><label><input type="checkbox" data-column="3" checked> Địa chỉ mặc định</label></li>
-              <li><label><input type="checkbox" data-column="5" checked> Trạng thái khách hàng</label></li>
-              <li><label><input type="checkbox" data-column="6"> Tag phân loại</label></li>
-              <li><label><input type="checkbox" data-column="7"> Giới tính</label></li>
-              <li><label><input type="checkbox" data-column="8"> Note dụng cụ ăn</label></li>
+              <li><label><input type="checkbox" data-column="1" value="1" checked> Tên khách hàng</label></li>
+              <li><label><input type="checkbox" data-column="2" value="2" checked> Số điện thoại</label></li>
+              <li><label><input type="checkbox" data-column="3" value="3" checked> Địa chỉ mặc định</label></li>
+              <li><label><input type="checkbox" data-column="5" value="5" checked> Trạng thái khách hàng</label></li>
+              <li><label><input type="checkbox" data-column="6" value="6"> Tag phân loại</label></li>
+              <li><label><input type="checkbox" data-column="7" value="7"> Giới tính</label></li>
+              <li><label><input type="checkbox" data-column="8" value="8"> Note dụng cụ ăn</label></li>
             </ul>
           </div>
           <div class="col-6">
             <ul class="filter list-unstyled">
-              <li><label><input type="checkbox" data-column="9" checked> Số đơn</label></li>
-              <li><label><input type="checkbox" data-column="10" checked> Số ngày ăn</label></li>
-              <li><label><input type="checkbox" data-column="11" checked> Số phần ăn</label></li>
-              <li><label><input type="checkbox" data-column="12"> Tổng tiền đã chi</label></li>
-              <li><label><input type="checkbox" data-column="13" checked> Điểm tích luỹ</label></li>
-              <li><label><input type="checkbox" data-column="14"> Lịch sử đặt gần nhất</label></li>
+              <li><label><input type="checkbox" data-column="9" value="9" checked> Số đơn</label></li>
+              <li><label><input type="checkbox" data-column="10" value="10" checked> Số ngày ăn</label></li>
+              <li><label><input type="checkbox" data-column="11" value="11" checked> Số phần ăn</label></li>
+              <li><label><input type="checkbox" data-column="12" value="12"> Tổng tiền đã chi</label></li>
+              <li><label><input type="checkbox" data-column="13" value="13" checked> Điểm tích luỹ</label></li>
+              <li><label><input type="checkbox" data-column="14" value="14"> Lịch sử đặt gần nhất</label></li>
               <li class="check_2"><label><input type="checkbox" data-column="15,16" checked> Nhân viên + Lần cập nhật cuối</label></li>
             </ul>
           </div>
@@ -269,11 +269,11 @@ get_header();
           <div class="form-group row">
             <div class="col-6">
               <select class="form-control field">
-                <option value="tag">Tag Phân Loại</option>
+                <option value="tag">Tag phân loại</option>
               </select>
             </div>
             <div class="col-6">
-              <select class="form-control text-capitalize select2" multiple="multiple" name="tag_ids[]" style="width: 100%;">
+              <select class="form-control text-titlecase select2" multiple="multiple" name="tag_ids[]" style="width: 100%;">
                 <?php
                 foreach ($tag as $key => $value) { ?>
                   <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
@@ -319,5 +319,38 @@ $site_scripts[] = get_template_directory_uri() . '/assets/js/importer.js';
 get_footer('customer');
 ?>
 <script>
+// Function to save checkbox states to localStorage
+function saveCheckboxState() {
+    $('.filter input[type="checkbox"]').each(function () {
+      // Save each checkbox's checked state in localStorage
+      localStorage.setItem($(this).val(), $(this).is(':checked'));
+    });
+  }
 
+  // Function to load checkbox states from localStorage
+  // Function to load checkbox states from localStorage
+  function loadCheckboxState() {
+    $('.filter input[type="checkbox"]').each(function () {
+      const checkbox = $(this);
+      const savedState = localStorage.getItem(checkbox.val());
+
+      // If there is no saved state, set defaults for values 1, 3, and 5
+      if (savedState === null) {
+        if (['1','2', '3', '5'].includes(checkbox.val())) {
+          checkbox.prop('checked', true);
+        }
+      } else {
+        // Otherwise, use the saved state from localStorage
+        checkbox.prop('checked', savedState === 'true');
+      }
+    });
+  }
+
+  $(document).ready(function () {
+    // Load checkbox states when the page loads
+    loadCheckboxState();
+
+    // Attach event listener to save state when checkboxes change
+    $('.filter input[type="checkbox"]').on('change', saveCheckboxState);
+  });
 </script>

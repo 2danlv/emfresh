@@ -315,3 +315,6 @@ div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria {
     color: #4BA66F;
     background: url(../img/icon/tick-svgrepo-com_green.svg) center right 16px no-repeat;
 }
+.daterangepicker.openscenter:after,.daterangepicker.openscenter:before {
+    content: none;
+}
