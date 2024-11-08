@@ -35,6 +35,15 @@
 <script src='https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js'></script>
 <script src='https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js'></script>
 <![endif]-->
+<script>
+$(document).ready(function() {
+    <?php 
+	if ( is_page_template( 'page-templates/list-customer.php' ) || is_page_template( 'page-templates/detail-customer.php' ) ) { ?>
+    <?php } else { ?>
+		localStorage.setItem('DataTables_list-customer_/customer/', '');
+	<?php }  ?>
+});
+</script>
 </head>
 
 <body <?php body_class(); ?>>

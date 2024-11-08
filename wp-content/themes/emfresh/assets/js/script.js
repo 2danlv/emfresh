@@ -108,7 +108,7 @@ jQuery(document).ready(function () {
             [50, 100, 200],
             ['50 / trang', '100 / trang', '200 / trang'],
         ],
-        
+        "stateSave": true,
         columnDefs: [
             {
                 type: 'natural',

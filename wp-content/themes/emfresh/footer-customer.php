@@ -32,12 +32,7 @@
 <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js" type="text/javascript"></script>
 <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script src="<?php echo site_get_template_directory_assets();?>/js/script.js"></script>
-<script>
-$(document).ready(function() {
 
-
-});
-</script>
 <?php
 global $site_scripts;
 
