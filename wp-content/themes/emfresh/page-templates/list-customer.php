@@ -153,7 +153,7 @@ get_header();
                   <tr>
                     <td><input type="checkbox" class="checkbox-element" value="<?php echo $record['id'] ?>"></td>
                     <td class="text-capitalize"><a href="detail-customer/?customer_id=<?php echo $record['id'] ?>"><?php echo $record['customer_name']; ?></a></td>
-                    <td class="text-capitalize"><span class="copy" title="Copy: <?php echo $record['phone']; ?>"><?php echo $record['phone']; ?></span></td>
+                    <td><span class="copy" title="Copy: <?php echo $record['phone']; ?>"><?php echo $record['phone']; ?></span></td>
                     <td class="text-capitalize">
                       <?php
                       // lấy danh sách location
@@ -253,7 +253,7 @@ get_header();
   </div>
 </div>
 <div class="modal fade" id="modal-edit">
-  <div class="modal-dialog text-capitalize">
+  <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">Cập nhật nhanh</h4>
@@ -292,7 +292,7 @@ get_header();
   </div>
 </div>
 <div class="modal fade" id="modal-time">
-  <div class="modal-dialog text-capitalize">
+  <div class="modal-dialog ">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">Thời gian</h4>

@@ -168,7 +168,7 @@ get_header();
 							</div>
 							<div class="col-12 pb-16">
 								<p class="pb-8">Tag phân loại</p>
-								<select class="form-control text-capitalize select2" multiple="multiple" name="tag_ids[]" style="width: 100%;">
+								<select class="form-control select2" multiple="multiple" name="tag_ids[]" style="width: 100%;">
 									<?php
 									foreach ($list_tags as $key => $value) { ?>
 										<option value="<?php echo $key; ?>"><?php echo $value; ?></option>
@@ -181,7 +181,7 @@ get_header();
 								?>
 										<div class="form-group row pt-16 hidden">
 											<div class="col-sm-3"><label>Trạng thái khách hàng</label></div>
-											<div class="col-sm-9 text-capitalize">
+											<div class="col-sm-9 text-titlecase">
 												<?php
 												foreach ($actives as $key => $value) { ?>
 													<span class="icheck-primary d-inline mr-2">

@@ -216,11 +216,11 @@ get_header();
 								</div>
 								<div class="d-f jc-b pt-8">
 									<span>Giới tính:</span>
-									<span class="text-capitalize"><?php echo $response_customer['data']['gender_name'] ?></span>
+									<span class="text-titlecase"><?php echo $response_customer['data']['gender_name'] ?></span>
 								</div>
 								<div class="d-f jc-b pt-8">
 									<span>Trạng thái khách hàng:</span>
-									<span class="text-capitalize"><?php echo $response_customer['data']['status_name'] ?></span>
+									<span class="text-titlecase"><?php echo $response_customer['data']['status_name'] ?></span>
 								</div>
 								<div class="d-f jc-b pt-8">
 									<span>Số đơn:</span>
@@ -441,7 +441,7 @@ get_header();
 															<p id="phone_status" class="status text-danger"></p>
 														</div>
 														<div class="col-6 pb-16">
-															<select name="gender" class="gender text-capitalize" required>
+															<select name="gender" class="gender text-titlecase" required>
 																<option value="0" selected>Giới tính*</option>
 																<?php
 																foreach ($gender as $value => $label) { ?>
@@ -480,7 +480,7 @@ get_header();
 														</div>
 														<div class="col-12 pb-16">
 															<p class="pb-8">Tag phân loại</p>
-															<select class="form-control text-capitalize select2" multiple="multiple" name="tag_ids[]" style="width: 100%;">
+															<select class="form-control select2" multiple="multiple" name="tag_ids[]" style="width: 100%;">
 																<?php
 																foreach ($list_tags as $value => $label) { ?>
 																	<option value="<?php echo $value; ?>" <?php echo in_array($value, $tag_ids) ? 'selected' : ''; ?>><?php echo $label; ?></option>
@@ -493,10 +493,10 @@ get_header();
 															?>
 																	<div class="form-group row pt-16 hidden">
 																		<div class="col-sm-3"><label>Trạng thái khách hàng</label></div>
-																		<div class="col-sm-9 text-capitalize">
+																		<div class="col-sm-9 text-titlecase">
 																			<?php
 																			foreach ($actives as $value => $label) { ?>
-																				<div class="icheck-primary d-inline mr-2 text-capitalize">
+																				<div class="icheck-primary d-inline mr-2 text-titlecase">
 																					<input type="radio" id="radioActive<?php echo $value; ?>" value="<?php echo $value; ?>" <?php checked($response_customer['data']['active'], $value); ?> name="active" required>
 																					<label for="radioActive<?php echo $value; ?>">
 																						<?php echo $label; ?>
