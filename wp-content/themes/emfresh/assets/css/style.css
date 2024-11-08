@@ -516,7 +516,8 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
 .list-customer #list-customer_wrapper .bottom .dt-paging nav { display: flex; }
 .list-customer #list-customer_wrapper .bottom .dt-paging nav button { border-radius: 4px; padding: 0; margin-left: 8px; width: 30px; height: 30px; line-height: 30px; text-align: center; border: 1px solid var(--pagination-border-default, #DEDFE0); background: var(--pagination-background-default, #FFF); display: flex; align-items: center; justify-content: center; cursor: pointer; }
 .list-customer #list-customer_wrapper .bottom .dt-paging nav button.current, .list-customer #list-customer_wrapper .bottom .dt-paging nav button:hover { background-color: #2A8C51; border: 1px solid var(--pagination-border-default, #2A8C51); color: #fff !important; }
-.list-customer #list-customer_wrapper .bottom .dt-paging nav button.disabled { cursor: auto; display: none; }
+.list-customer #list-customer_wrapper .bottom .dt-paging nav button.disabled { cursor: auto; background-color: #ccc; border: 1px solid var(--pagination-border-default, #2A8C51); }
+.list-customer #list-customer_wrapper .bottom .dt-paging nav button.disabled:hover { background-color: #ccc; border: 1px solid var(--pagination-border-default, #2A8C51); }
 .list-customer #list-customer_wrapper .bottom .dt-paging nav button.first, .list-customer #list-customer_wrapper .bottom .dt-paging nav button.last { display: none; }
 .list-customer #list-customer_wrapper .bottom .dt-length { padding-left: 16px; }
 .list-customer #list-customer_wrapper .bottom .dt-length label { display: none; }

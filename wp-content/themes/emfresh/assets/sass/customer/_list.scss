@@ -282,7 +282,12 @@
                         }
                         &.disabled {
                             cursor: auto;
-                            display: none;
+                            background-color: #ccc;
+                            border: 1px solid var(--pagination-border-default, #2A8C51);
+                            &:hover {
+                                background-color: #ccc;
+                                border: 1px solid var(--pagination-border-default, #2A8C51);
+                            }
                         }
                         &.first,
                         &.last {

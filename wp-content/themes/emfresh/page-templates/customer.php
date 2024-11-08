@@ -351,8 +351,14 @@ get_footer('customer');
 
 		function updatetxt() {
 			$('.review').show();
-			$('input.customer_name').val($('.fullname').val() + ' (' + $('.nickname').val() + ') ');
-			$('span.customer_name').text($('.fullname').val() + ' (' + $('.nickname').val() + ') ');
+			if ($('.nickname').val() != '' && $('.fullname').val() != '') {
+				$('input.customer_name').val($('.fullname').val() + ' (' + $('.nickname').val() + ') ');
+				$('span.customer_name').text($('.fullname').val() + ' (' + $('.nickname').val() + ') ');
+			}
+			if ($('.fullname').val() == '' ) {
+				$('input.customer_name').val($('.nickname').val());
+				$('span.customer_name').text($('.nickname').val());
+			}
 		}
 
 		function updatephone() {
