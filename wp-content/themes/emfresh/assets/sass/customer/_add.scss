@@ -58,37 +58,4 @@
 .address_active .delete-location-button{
     display: none;
   }
-  .select2-results {
-    text-transform: capitalize;
-  }
-  .select2-container--default .select2-selection--multiple .select2-selection__rendered li{
-    border: none;
-    display: flex;
-    align-items: center;
-    flex-direction: row-reverse;
-  }
-  .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
-    margin-right: 0;
-    margin-left: 4px;
-  }
-  .select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="thân thiết"] {
-    background-color: green;
-  }
-
-  .select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="ăn nhóm"] {
-    background-color: #0056b3;
-  }
-
-  .select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="khách có bệnh lý"] {
-    background-color: yellow;
-    color: #000;
-  }
-
-  .select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="khách hãm"] {
-    background-color: red;
-  }
-
-  .select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="bảo lưu"] {
-    background-color: orange;
-  }
   

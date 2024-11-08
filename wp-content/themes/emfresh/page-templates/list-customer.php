@@ -274,7 +274,6 @@ get_header();
             </div>
             <div class="col-6">
               <select class="form-control text-capitalize select2" multiple="multiple" name="tag_ids[]" style="width: 100%;">
-                <option value="0">Select one</option>
                 <?php
                 foreach ($tag as $key => $value) { ?>
                   <option value="<?php echo $key; ?>"><?php echo $value; ?></option>

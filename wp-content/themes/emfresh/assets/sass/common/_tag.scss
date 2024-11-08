@@ -13,12 +13,7 @@
     border-radius: 3px;
 }
 
-.select2-container--default .select2-selection--multiple {
-    min-height: 40px;
-    .select2-selection__rendered li {
-        line-height: 27px;
-    }
-}
+
 .btn.tag_1 {
     background: var(--color-purple-300, #C6B1F6);
     color: #0F0F0F;
@@ -42,7 +37,86 @@
 .btn.tag_5 {
     background-color: orange;
 }
-
+.select2-results {
+    text-transform: capitalize;
+  }
+  .select2-container--default .select2-selection--multiple {
+    min-height: 40px;
+    .select2-selection__choice__remove {
+        margin-right: 0;
+        margin-left: 4px;
+    }
+    .select2-selection__rendered li {
+        line-height: 27px;
+    }
+      .select2-selection__rendered li.select2-selection__choice{
+        border: none;
+        display: flex;
+        align-items: center;
+        flex-direction: row-reverse;
+        &[title="thân thiết"] {
+            background: var(--color-purple-300, #C6B1F6);
+            color: #0F0F0F;
+            .select2-selection__choice__remove {
+                color: #0F0F0F;
+                &:hover {
+                    color: #0F0F0F;
+                }
+            }
+        }
+        &[title="ăn nhóm"] {
+            background: var(--color-blue-600, #2759D4);
+            color: #fff;
+            .select2-selection__choice__remove {
+                color: #fff;
+                &:hover {
+                    color: #fff;
+                }
+            }
+        }
+        &[title="khách nước ngoài"] {
+            background: var(--color-grey-200, #C0C0C2);
+            color: #C0C0C2;
+            .select2-selection__choice__remove {
+                color: #C0C0C2;
+                &:hover {
+                    color: #C0C0C2;
+                }
+            }
+        }
+        &[title="bệnh lý"],
+        &[title="khách có bệnh lý"] {
+            background: var(--color-grey-800, #282829);
+            color: #FFC500;
+            .select2-selection__choice__remove {
+                color: #FFC500;
+                &:hover {
+                    color: #FFC500;
+                }
+            }
+        }
+        &[title="khách hãm"] {
+            background-color: red;
+            .select2-selection__choice__remove {
+                color: #fff;
+                &:hover {
+                    color: #fff;
+                }
+            }
+        }
+        &[title="bảo lưu"] {
+            background-color: orange;
+            .select2-selection__choice__remove {
+                color: #fff;
+                &:hover {
+                    color: #fff;
+                }
+            }
+        }
+    }
+  } 
+  
+  
 .btn.status_1 {
     color: #fff;
     background: var(--color-primary-900, #208046);

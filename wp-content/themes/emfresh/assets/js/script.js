@@ -109,6 +109,7 @@ jQuery(document).ready(function () {
             ['50 / trang', '100 / trang', '200 / trang'],
         ],
         "stateSave": true,
+        scrollY: '57vh',
         columnDefs: [
             {
                 type: 'natural',
@@ -302,11 +303,16 @@ jQuery(document).ready(function () {
   var status = localStorage.getItem('sidebar');
   if (status =="active") {
     $('.site').addClass('mini_sidebar');
+    $('.resize').addClass('active');
   }
   $('.resize').click(function (e) { 
     // localStorage.getItem('sidebar');
     e.preventDefault();
-    $(this).toggleClass('active');
+    if ($(this).hasClass('active')) {
+        $('.sidebar .resize').removeClass('active');
+    } else {
+        $('.sidebar .resize').addClass('active');
+    }
     $('.site').toggleClass('mini_sidebar');
     $('.sidebar').toggleClass('width-10');
     $('.content-wrapper').toggleClass('width-90');
