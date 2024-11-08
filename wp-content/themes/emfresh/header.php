@@ -41,6 +41,9 @@ $(document).ready(function() {
 	if ( is_page_template( 'page-templates/list-customer.php' ) || is_page_template( 'page-templates/detail-customer.php' ) ) { ?>
     <?php } else { ?>
 		localStorage.setItem('DataTables_list-customer_/customer/', '');
+		for (let i = 1; i <= 10; i++) {
+			localStorage.removeItem('column_' + i);
+		}
 	<?php }  ?>
 });
 </script>

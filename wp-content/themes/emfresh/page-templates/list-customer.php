@@ -322,26 +322,26 @@ get_footer('customer');
 // Function to save checkbox states to localStorage
 function saveCheckboxState() {
     $('.filter input[type="checkbox"]').each(function () {
-      // Save each checkbox's checked state in localStorage
-      localStorage.setItem($(this).val(), $(this).is(':checked'));
+      const columnKey = 'column_' + $(this).val(); // Create key like "column_1", "column_2"
+      localStorage.setItem(columnKey, $(this).is(':checked'));
     });
   }
+
 
   // Function to load checkbox states from localStorage
   // Function to load checkbox states from localStorage
   function loadCheckboxState() {
     $('.filter input[type="checkbox"]').each(function () {
-      const checkbox = $(this);
-      const savedState = localStorage.getItem(checkbox.val());
+      const columnKey = 'column_' + $(this).val();
+      const savedState = localStorage.getItem(columnKey);
 
-      // If there is no saved state, set defaults for values 1, 3, and 5
+      // If there is no saved state, set defaults for values 1, 3, and 4
       if (savedState === null) {
-        if (['1','2', '3', '5'].includes(checkbox.val())) {
-          checkbox.prop('checked', true);
+        if (['1', '3', '4'].includes($(this).val())) {
+          $(this).prop('checked', true);
         }
       } else {
-        // Otherwise, use the saved state from localStorage
-        checkbox.prop('checked', savedState === 'true');
+        $(this).prop('checked', savedState === 'true');
       }
     });
   }
