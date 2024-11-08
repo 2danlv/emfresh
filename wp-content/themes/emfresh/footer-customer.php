@@ -13,10 +13,10 @@
 </div>
 </div>
 </div>
-  <footer class="main-footer">
+<footer class="main-footer">
 
-  </footer>
-  <!-- /.control-sidebar -->
+</footer>
+<!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
 
@@ -32,10 +32,11 @@
 <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js" type="text/javascript"></script>
 <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script src="<?php echo site_get_template_directory_assets();?>/js/script.js"></script>
-  $(document).ready(function () {
-    
-     
-  });
+<script>
+$(document).ready(function() {
+
+
+});
 </script>
 <?php
 global $site_scripts;

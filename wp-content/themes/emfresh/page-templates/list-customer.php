@@ -22,61 +22,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
   //$order_payment_status = isset($_POST['order_payment_status']) ? sanitize_textarea_field($_POST['order_payment_status']) : '';
   //vardump($tag_post);
   $updated = [];
-  $count = 0;
-  if (isset($_POST['tag_ids'])) {
-    foreach ($array_id as $key => $id) {
-      // if ($status_post != 0) {
-      //   $customer_update_data = [
-      //     'id'            => intval($id),
-      //     'status'        => $status_post
-      //   ];
-      // }
-      // if ($tag_post != 0) {
-      //   $customer_update_data = [
-      //     'id'            => intval($id),
-      //     'tag'           => $tag_post
-      //   ];
-      // }
+  if (isset($_POST['tag_ids']) && count($_POST['tag_ids']) > 0) {
+    foreach ($array_id as $key => $id) {      
       $customer_id = intval($id);
       $customer_tags = $em_customer_tag->get_items(['customer_id' => $customer_id]);
+      $tag_ids = custom_get_list_by_key($customer_tags, 'tag_id');
 
-
-      if (count($_POST['tag_ids']) > 0) {
-        foreach ($_POST['tag_ids'] as $i => $tag_id) {
-          $tag_id = (int) $tag_id;
-          if ($tag_id == 0) continue;
-
-          if (isset($customer_tags[$i])) {
-            $em_customer_tag->update([
-              'tag_id' => $tag_id,
-              'id' => $customer_tags[$i]['id']
-            ]);
-          } else {
-            $em_customer_tag->insert([
-              'tag_id' => $tag_id,
-              'customer_id' => $customer_id
-            ]);
-          }
+      foreach ($_POST['tag_ids'] as $tag_id) {
+        if(count($tag_ids) == 0 || in_array($tag_id, $tag_ids) == false) {
+          $em_customer_tag->insert([
+            'tag_id' => $tag_id,
+            'customer_id' => $customer_id
+          ]);
 
           $count++;
         }
       }
-
-      for ($i = $count; $i < count($customer_tags); $i++) {
-        $em_customer_tag->delete($customer_tags[$i]['id']);
-      }
-    }
-    // if ($order_payment_status != '') {
-    //   $customer_update_data = [
-    //     'id'            => intval($id),
-    //     'order_payment_status' => $order_payment_status
-    //   ];
-    // }
-    $response_update = $em_customer->update($customer_update_data);
-    if ($response_update) {
-      $updated[$id] = 'ok';
     }
   }
+
+  // if ($order_payment_status != '') {
+  //   $customer_update_data = [
+  //     'id'            => intval($id),
+  //     'order_payment_status' => $order_payment_status
+  //   ];
+  // }
+  // $response_update = $em_customer->update($customer_update_data);
+  // if ($response_update) {
+  //   $updated[$id] = 'ok';
+  // }
 
   wp_redirect(add_query_arg([
     'code' => 200,

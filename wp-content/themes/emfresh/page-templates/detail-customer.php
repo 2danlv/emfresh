@@ -362,12 +362,13 @@ get_header();
 												'type' => 'customer',
 												'status' => 'any', // 'any', 'pending', 'approve'
 												'post_id' => $customer_id,  // Use post_id, not post_ID, fwHR58J87Xc503mt1S
-												'parent' => 0,
-												'order' => 'ASC',
+												'order' => 'DESC',
+												// 'parent' => 0,
 												// 'number' => 5,
 											));
 
-											foreach ($comments as $comment) :
+											foreach ($comments as $comment) : 
+												$comment_status = (string) get_comment_meta($comment->comment_ID, 'status', true);
 											?>
 											<div class="js-comment-row">
 												<div class="row row-comment<?php echo $comment->comment_approved == 0 ? ' status-trash' : '' ?>">
@@ -388,17 +389,17 @@ get_header();
 												</div>
 												<div class="note-content">
 													<div class="comment_content"><?php echo $comment->comment_content ?></div>
-													<?php echo $comment->comment_approved == 0 ? '<b>Trash</b>' : '' ?>
+													<?php echo $comment_status != '' ? $comment_status : 'Tạo' ?>
 												</div>
 											</div>
 											<?php endforeach; ?>
 										</div>
 										<div class="note-form">
 											<?php
-											$data = wp_unslash($_GET);
-											if (!empty($data['message']) && !empty($data['expire']) && intval($data['expire']) > time()) {
-												echo '<p style="color: red">' . site_base64_decode($data['message']) . '</p>';
-											}
+												/* $data = wp_unslash($_GET);
+												if (!empty($data['message']) && !empty($data['expire']) && intval($data['expire']) > time()) {
+													echo '<p style="color: red">' . site_base64_decode($data['message']) . '</p>';
+												} */
 											?>
 											<form action="<?php echo $detail_customer_url ?>" method="post" enctype="multipart/form-data" class="js-comment-form" id="editcomment">
 												<div class="binhluan-moi">
@@ -731,20 +732,21 @@ get_footer('customer');
 <script type="text/javascript">
 	jQuery(function($) {
 
-		/*
 		$('.js-comment-row').each(function() {
 			let row = $(this), f = $('.js-comment-form');
 
 			row.find('a[href="#editcomment"]').on('click', function(e){
-				let id = $(this).data('id') || 0;
+				let id = $(this).data('id') || 0,
+					value = row.find('.comment_content').text();
 
-				if(id > 0) {
-					f.find('[name="comment"]').val(row.find('.comment_content').text());
+				if(id > 0 && value != '') {
+					let title = 'Bạn đang chỉnh sửa ghi chú - ' + value;
+
+					f.find('[name="comment"]').val(value).attr('placeholder', title).attr('title', title).attr('data-value', value)
 					f.find('[name="comment_ID"]').val(id);
 				}
 			});
 		});
-		*/
 
 		$('.nickname').keyup(updatetxt);
 		$('.fullname').keyup(updatetxt);
