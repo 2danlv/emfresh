@@ -180,14 +180,14 @@ get_header();
                         }
                       } ?>
                     </td>
-                    <td><span class="tag btn btn-sm text-titlecase status_<?php echo $record['status']; ?>"><?php echo $record['status_name']; ?></span></td>
+                    <td><span class="tag btn btn-sm status_<?php echo $record['status']; ?>"><?php echo ucfirst(strtolower($record['status_name'])); ?></span></td>
                     <td>
                       <?php
                       $customer_tags = $em_customer_tag->get_items(['customer_id' => $record['id']]);
                       $i = 0;
                       $len = count($customer_tags);
                       foreach ($customer_tags as $item) : $tag = $item['tag_id']; ?>
-                        <span class="tag btn text-titlecase btn-sm tag_<?php echo $tag; ?>"><?php echo isset($list_tags[$tag]) ? $list_tags[$tag] : ''; ?></span>
+                        <span class="tag btn btn-sm tag_<?php echo $tag; ?>"><?php echo isset($list_tags[$tag]) ? ucfirst(strtolower($list_tags[$tag])) : ''; ?></span>
                         <?php if ($i == $len - 1) {
                           echo('');
                         } else {
@@ -197,7 +197,7 @@ get_header();
                          ?>
                       <?php endforeach; ?>
                     </td>
-                    <td class="text-titlecase"><?php echo $record['gender_name']; ?></td>
+                    <td class="text-titlecase"><?php echo ucfirst(strtolower($record['gender_name'])); ?></td>
                     <td><!-- note dụng cụ --> </td>
                     <td><!-- note số đơn --></td>
                     <td><!-- note số ngày ăn --></td>

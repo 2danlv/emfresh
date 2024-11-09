@@ -162,7 +162,7 @@ get_header();
 								<select name="note_cook">
 								<option value=""></option>
 								<?php foreach ($list_cook as $value) { ?>
-									<option value="<?php echo $value; ?>"><?php echo $value; ?></option>
+									<option value="<?php echo $value; ?>"><?php echo ucfirst(strtolower($value)); ?></option>
 									<?php } ?>
 								</select>
 							</div>
