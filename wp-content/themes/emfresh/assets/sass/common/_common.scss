@@ -70,9 +70,12 @@ table { border-collapse: collapse;
 .text-capitalize {
 	text-transform: capitalize;
 }
-.text-titlecase::first-letter {
-	text-transform: uppercase;
+.text-titlecase {
+	&::first-letter {
+		text-transform: uppercase;
+	}
 }
+
 .container {
 	max-width: 1200px;
 	margin-left: auto;

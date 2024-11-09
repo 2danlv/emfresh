@@ -114,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 		$new = isset($customer_data[$key]) ? $customer_data[$key] : null;
 
 		if($new != null && $old != null && $new != $old) {
-			$log_change[] = sprintf('<span class="memo field-%s">%s</span><span class="note-detail">%s</span>', $key, $label, $new);
+			$log_change[] = sprintf('<span class="memo text-titlecase field-%s">%s</span><span class="note-detail text-titlecase">%s</span>', $key, $label, $new);
 		}
 	}
 
@@ -202,7 +202,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 			}
 
 			foreach($result as $tag_id) {
-				$log_change[] = sprintf('<span class="memo field-location">Tag phân loại</span><span class="note-detail">%s</span>', custom_ucwords_utf8($em_customer->get_tags($tag_id)));
+				$log_change[] = sprintf('<span class="memo field-tag">Tag phân loại</span><span class="note-detail text-titlecase">%s</span>', custom_ucwords_utf8($em_customer->get_tags($tag_id)));
 			}
 		}
 	}
