@@ -7,7 +7,7 @@
  * @subpackage Twenty_Twelve
  * @since Twenty Twelve 1.0
  */
-global $em_customer, $em_order, $em_customer_tag, $em_log;
+global $em_customer, $em_location, $em_order, $em_customer_tag, $em_log;
 
 $_GET = wp_unslash($_GET);
 
@@ -15,6 +15,14 @@ $customer_id = isset($_GET['customer_id']) ? intval($_GET['customer_id']) : 0;
 
 $list_customer_url 		= home_url('customer');
 $detail_customer_url 	= add_query_arg(['customer_id' => $customer_id], get_permalink());
+
+
+$list_gender = $em_customer->get_genders();
+$list_tags = $em_customer->get_tags();
+$list_actives = $em_customer->get_actives();
+$list_cook = custom_get_list_cook();
+$list_notes = custom_get_list_notes();
+$list_payment_status = $em_order->get_statuses();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['remove'])) {
 	$customer_id   = intval($_POST['customer_id']);
@@ -83,18 +91,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 	}
 		
 	$log_labels = [
-		'customer_name'      => 'Tên khách hàng',
+		'customer_name'	=> 'Tên khách hàng',
 		'phone'         => 'Số điện thoại',
-		'gender'         => 'Giới tính',
+		'gender'        => 'Giới tính',
 		'note_cook'     => 'Ghi chú dụng cụ ăn',
-		'tag'           => 'Tag phân loại',
 		'point'         => 'Điểm tích lũy',
-		'active' => 'location active',
-		'address'       => 'Địa chỉ',
-		'ward'          => 'Phường',
-		'district'      => 'Quận',
-		'note_shipper'  => 'Note shipper',
-		'note_admin'    => 'Note_admin',
+	];
+
+	$log_location_labels = [
+		'address'		=> '',
+		'ward'			=> '',
+		'district'		=> '',
+		'note_shipper'	=> 'Note với shipper',
+		'note_admin'	=> 'Note với admin',
 	];
 
 	$log_change = [];
@@ -111,6 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 
 	foreach ($_POST['locations'] as $location) {
 		// thêm data cho location
+		$location_id = isset($location['id']) ? intval($location['id']) : 0;
 		$address = isset($location['address']) ? sanitize_text_field($location['address']) : '';
 		$ward = isset($location['ward']) ? sanitize_text_field($location['ward']) : '';
 		$district = isset($location['district']) ? sanitize_text_field($location['district']) : '';
@@ -130,10 +140,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 			'note_admin'    => $note_admin,
 		];
 
-		if (isset($location['id']) && intval($location['id']) > 0) {
-			$location_data['id'] = $location['id'];
+		if ($location_id > 0) {
+			$location_old = $em_location->get_item($location_id);
+			
+			$location_data['id'] = $location_id;
 
 			$response_location = em_api_request('location/update', $location_data);
+
+			$address_old = [];
+			$address_new = [];
+			foreach($log_location_labels as $key => $label)
+			{
+				if($label != '') {
+					$label .= ': ';
+				}
+
+				$address_old[] = isset($location_old[$key]) ? 	$label . $location_old[$key] : '';
+				$address_new[] = isset($location_data[$key]) ? 	$label . $location_data[$key] : '';
+			}
+			$address_old = implode(', ', $address_old);
+			$address_new = implode(', ', $address_new);
+
+			if($address_old != $address_new) {
+				$log_change[] = sprintf('<span class="memo field-location">Địa chỉ</span><span class="note-detail">%s</span>', $address_new);
+			}
 		} else {
 			$response_location = em_api_request('location/add', $location_data);
 		}
@@ -141,11 +171,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 
 	if (isset($_POST['tag_ids'])) {
 		$customer_tags = $em_customer_tag->get_items(['customer_id' => $customer_id]);
-		$count = 0;
-		if (count($_POST['tag_ids']) > 0) {
+		$tag_ids = custom_get_list_by_key($customer_tags, 'tag_id');
+
+		$result = array_merge(array_diff($_POST['tag_ids'], $tag_ids), array_diff($tag_ids, $_POST['tag_ids']));
+
+		if (count($result) > 0) {
+			$count = 0;
+
 			foreach ($_POST['tag_ids'] as $i => $tag_id) {
 				$tag_id = (int) $tag_id;
 				if ($tag_id == 0) continue;
+
 				if (isset($customer_tags[$i])) {
 					$em_customer_tag->update([
 						'tag_id' => $tag_id,
@@ -157,11 +193,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 						'customer_id' => $customer_id
 					]);
 				}
+
 				$count++;
 			}
-		}
-		for ($i = $count; $i < count($customer_tags); $i++) {
-			$em_customer_tag->delete($customer_tags[$i]['id']);
+
+			for ($i = $count; $i < count($customer_tags); $i++) {
+				$em_customer_tag->delete($customer_tags[$i]['id']);
+			}
+
+			foreach($result as $tag_id) {
+				$log_change[] = sprintf('<span class="memo field-location">Tag phân loại</span><span class="note-detail">%s</span>', custom_ucwords_utf8($em_customer->get_tags($tag_id)));
+			}
 		}
 	}
 
@@ -192,10 +234,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 	exit();
 }
 
-$status = $em_customer->get_statuses();
-$gender = $em_customer->get_genders();
-$list_tags    = $em_customer->get_tags();
-$actives = $em_customer->get_actives();
 // lấy 1 customer
 $customer_filter = [
 	'id' => $customer_id
@@ -211,9 +249,6 @@ $location_filter = [
 	'limit' => 5,
 ];
 $response_get_location = em_api_request('location/list', $location_filter);
-$list_cook = custom_get_list_cook();
-$list_notes = custom_get_list_notes();
-$list_payment_status = $em_order->get_statuses();
 $customer_tags = $em_customer_tag->get_items(['customer_id' => $customer_id]);
 $tag_ids = custom_get_list_by_key($customer_tags, 'tag_id');
 get_header();
@@ -283,7 +318,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 								</div>
 								<div class="d-f jc-b pt-8">
 									<span>Giới tính:</span>
-									<span class="text-titlecase"><?php echo $response_customer['data']['gender_name'] ?></span>
+									<span class="text-titlecase"><?php echo ucfirst(strtolower($response_customer['data']['gender_name'])); ?></span>
 								</div>
 								<div class="d-f jc-b pt-8">
 									<span>Trạng thái khách hàng:</span>
@@ -320,7 +355,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 								<hr>
 								<div class="d-f jc-b pt-8">
 									<span>Ghi chú dụng cụ ăn:</span>
-									<span><?php echo $response_customer['data']['note_cook'] ?></span>
+									<span><?php echo ucfirst(strtolower($response_customer['data']['note_cook'])); ?></span>
 								</div>
 								<div class="pt-8 ai-center">
 									<span>Tag phân loại:</span><br>
@@ -505,7 +540,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 															<select name="gender" class="gender text-titlecase" required>
 																<option value="0" selected>Giới tính*</option>
 																<?php
-																foreach ($gender as $value => $label) { ?>
+																foreach ($list_gender as $value => $label) { ?>
 																	<option value="<?php echo $value; ?>" <?php selected($response_customer['data']['gender'], $value); ?> name="gender" required>
 																		<?php echo ucfirst($label); ?>
 																	</option>
@@ -535,7 +570,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 															<select name="note_cook">
 																<option value=""></option>
 																<?php foreach ($list_cook as $value) { ?>
-																	<option value="<?php echo $value; ?>" <?php selected($response_customer['data']['note_cook'], $value); ?>><?php echo $value; ?></option>
+																	<option value="<?php echo $value; ?>" <?php selected($response_customer['data']['note_cook'], $value); ?>><?php echo ucfirst(strtolower($value)); ?></option>
 																<?php } ?>
 															</select>
 														</div>
@@ -556,7 +591,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 																		<div class="col-sm-3"><label>Trạng thái khách hàng</label></div>
 																		<div class="col-sm-9 text-titlecase">
 																			<?php
-																			foreach ($actives as $value => $label) { ?>
+																			foreach ($list_actives as $value => $label) { ?>
 																				<div class="icheck-primary d-inline mr-2 text-titlecase">
 																					<input type="radio" id="radioActive<?php echo $value; ?>" value="<?php echo $value; ?>" <?php checked($response_customer['data']['active'], $value); ?> name="active" required>
 																					<label for="radioActive<?php echo $value; ?>">
