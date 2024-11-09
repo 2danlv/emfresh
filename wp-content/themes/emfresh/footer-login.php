@@ -19,5 +19,13 @@
 <script src="/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <script src="/assets/js/adminlte.min.js?v=3.2.0"></script>
+<script>
+    $(document).ready(function () {
+        localStorage.setItem('DataTables_list-customer_/customer/', '');
+		for (let i = 1; i <= 16; i++) {
+			localStorage.removeItem('column_' + i);
+		}
+    });
+</script>
 </body>
 </html>

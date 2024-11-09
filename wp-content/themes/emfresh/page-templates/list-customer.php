@@ -23,13 +23,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
   //vardump($tag_post);
   $updated = [];
   if (isset($_POST['tag_ids']) && count($_POST['tag_ids']) > 0) {
-    foreach ($array_id as $key => $id) {      
+    foreach ($array_id as $key => $id) {
       $customer_id = intval($id);
       $customer_tags = $em_customer_tag->get_items(['customer_id' => $customer_id]);
       $tag_ids = custom_get_list_by_key($customer_tags, 'tag_id');
 
       foreach ($_POST['tag_ids'] as $tag_id) {
-        if(count($tag_ids) == 0 || in_array($tag_id, $tag_ids) == false) {
+        if (count($tag_ids) == 0 || in_array($tag_id, $tag_ids) == false) {
           $em_customer_tag->insert([
             'tag_id' => $tag_id,
             'customer_id' => $customer_id
@@ -184,8 +184,17 @@ get_header();
                     <td>
                       <?php
                       $customer_tags = $em_customer_tag->get_items(['customer_id' => $record['id']]);
+                      $i = 0;
+                      $len = count($customer_tags);
                       foreach ($customer_tags as $item) : $tag = $item['tag_id']; ?>
                         <span class="tag btn text-titlecase btn-sm tag_<?php echo $tag; ?>"><?php echo isset($list_tags[$tag]) ? $list_tags[$tag] : ''; ?></span>
+                        <?php if ($i == $len - 1) {
+                          echo('');
+                        } else {
+                          echo('<i class="hidden">,</i>');
+                        }
+                        $i++;
+                         ?>
                       <?php endforeach; ?>
                     </td>
                     <td class="text-titlecase"><?php echo $record['gender_name']; ?></td>
@@ -240,7 +249,7 @@ get_header();
               <li><label><input type="checkbox" data-column="12" value="12"> Tổng tiền đã chi</label></li>
               <li><label><input type="checkbox" data-column="13" value="13" checked> Điểm tích luỹ</label></li>
               <li><label><input type="checkbox" data-column="14" value="14"> Lịch sử đặt gần nhất</label></li>
-              <li class="check_2"><label><input type="checkbox" data-column="15,16" checked> Nhân viên + Lần cập nhật cuối</label></li>
+              <li class="check_2"><label><input type="checkbox" value="15" data-column="15,16" checked> Nhân viên + Lần cập nhật cuối</label></li>
             </ul>
           </div>
         </div>
@@ -319,9 +328,9 @@ $site_scripts[] = get_template_directory_uri() . '/assets/js/importer.js';
 get_footer('customer');
 ?>
 <script>
-// Function to save checkbox states to localStorage
-function saveCheckboxState() {
-    $('.filter input[type="checkbox"]').each(function () {
+  // Function to save checkbox states to localStorage
+  function saveCheckboxState() {
+    $('.filter input[type="checkbox"]').each(function() {
       const columnKey = 'column_' + $(this).val(); // Create key like "column_1", "column_2"
       localStorage.setItem(columnKey, $(this).is(':checked'));
     });
@@ -331,7 +340,7 @@ function saveCheckboxState() {
   // Function to load checkbox states from localStorage
   // Function to load checkbox states from localStorage
   function loadCheckboxState() {
-    $('.filter input[type="checkbox"]').each(function () {
+    $('.filter input[type="checkbox"]').each(function() {
       const columnKey = 'column_' + $(this).val();
       const savedState = localStorage.getItem(columnKey);
 
@@ -346,7 +355,7 @@ function saveCheckboxState() {
     });
   }
 
-  $(document).ready(function () {
+  $(document).ready(function() {
     // Load checkbox states when the page loads
     loadCheckboxState();
 

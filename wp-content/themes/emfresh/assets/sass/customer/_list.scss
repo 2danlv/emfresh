@@ -283,10 +283,10 @@
                         &.disabled {
                             cursor: auto;
                             background-color: #ccc;
-                            border: 1px solid var(--pagination-border-default, #2A8C51);
+                            border: 1px solid var(--pagination-border-default, #ccc);
                             &:hover {
                                 background-color: #ccc;
-                                border: 1px solid var(--pagination-border-default, #2A8C51);
+                                border: 1px solid var(--pagination-border-default, #ccc);
                             }
                         }
                         &.first,

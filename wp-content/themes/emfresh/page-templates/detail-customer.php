@@ -9,6 +9,8 @@
  */
 global $em_customer, $em_order, $em_customer_tag;
 
+$_GET = wp_unslash($_GET);
+
 $customer_id = isset($_GET['customer_id']) ? intval($_GET['customer_id']) : 0;
 
 $list_customer_url 		= home_url('customer');
@@ -80,12 +82,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 			'note_shipper'  => $note_shipper,
 			'note_admin'    => $note_admin,
 		];
+
+		// if(get_current_user_id() == 4) {
+		// 	var_dump($location);
+
+		// 	var_dump($location_data);
+		// 	exit();
+		// }
+
 		if (isset($location['id']) && intval($location['id']) > 0) {
 			$location_data['id'] = $location['id'];
+
 			$response_location = em_api_request('location/update', $location_data);
 		} else {
 			$response_location = em_api_request('location/add', $location_data);
 		}
+
+		// if(get_current_user_id() == 4) {
+		// 	var_dump($response_location);
+		// 	exit();
+		// }
 	}
 	if (isset($_POST['tag_ids'])) {
 		$customer_tags = $em_customer_tag->get_items(['customer_id' => $customer_id]);
@@ -157,6 +173,8 @@ $tag_ids = custom_get_list_by_key($customer_tags, 'tag_id');
 get_header();
 // Start the Loop.
 // while ( have_posts() ) : the_post();
+
+$tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 ?>
 <div class="detail-customer">
 	<!-- Content Header (Page header) -->
@@ -164,14 +182,17 @@ get_header();
 	<!-- Main content -->
 	<section class="content">
 		<?php
-		if (isset($_GET['code']) && $_GET['code'] == 200 && $_GET['message'] == 'Update Success') {
-			echo '<div class="alert alert-success mb-16" role="alert">Cập nhật thành công</div>';
-		} else if (isset($_GET['code']) && $_GET['code'] != 200) {
-			echo '<div class="alert alert-warning mb-16" role="alert">Cập nhật không thành công</div>';
-		}
-		if (isset($_GET['message']) && $_GET['code'] == 200 && $_GET['message'] == 'Add Success') {
-			echo '<div class="alert alert-success mb-16" role="alert">Thêm thành công</div>';
-		}
+			if (isset($_GET['code']) && $_GET['code'] == 200 && $_GET['message'] == 'Update Success') {
+				echo '<div class="alert alert-success mb-16" role="alert">Cập nhật thành công</div>';
+			} else if (isset($_GET['code']) && $_GET['code'] != 200) {
+				echo '<div class="alert alert-warning mb-16" role="alert">Cập nhật không thành công</div>';
+			}
+			if (isset($_GET['message']) && $_GET['code'] == 200 && $_GET['message'] == 'Add Success') {
+				echo '<div class="alert alert-success mb-16" role="alert">Thêm thành công</div>';
+			}
+			if (!empty($_GET['message']) && !empty($_GET['expire']) && intval($_GET['expire']) > time()) {
+				echo '<div class="alert alert-success mb-16 " role="alert">'. site_base64_decode($_GET['message']) .'</div>';
+			}
 		?>
 		<div class="container-fluid">
 			<div class="row pb-16">
@@ -194,9 +215,9 @@ get_header();
 			</div>
 			<div class="card-header">
 				<ul class="nav tabNavigation">
-					<li class="nav-item defaulttab" rel="info">Thông tin khách hàng</li>
-					<li class="nav-item" rel="note">Ghi chú</li>
-					<li class="nav-item" rel="settings">Chỉnh sửa thông tin</li>
+					<li class="nav-item<?php echo $tab_active == '' ? ' defaulttab' : '' ?>" rel="info">Thông tin khách hàng</li>
+					<li class="nav-item<?php echo $tab_active == 'note' ? ' defaulttab' : '' ?>" rel="note">Ghi chú</li>
+					<li class="nav-item<?php echo $tab_active == 'settings' ? ' defaulttab' : '' ?>" rel="settings">Chỉnh sửa thông tin</li>
 					<li class="nav-item" rel="history">Lịch sử thao tác</li>
 				</ul>
 			</div>
@@ -258,7 +279,7 @@ get_header();
 								<div class="pt-8 ai-center">
 									<span>Tag phân loại:</span><br>
 									<?php foreach ($customer_tags as $item) : $tag = $item['tag_id']; ?>
-										<span class="tag btn btn-sm tag_<?php echo $tag; ?>"><?php echo isset($list_tags[$tag]) ? $list_tags[$tag] : ''; ?></span>
+										<span class="tag btn btn-sm tag_<?php echo $tag; ?> text-titlecase"><?php echo isset($list_tags[$tag]) ? $list_tags[$tag] : ''; ?></span>
 									<?php endforeach; ?>
 								</div>
 								<!-- /.card-body -->
@@ -270,7 +291,7 @@ get_header();
 					<div class="col-8">
 						<div class="card-body">
 							<div class="tab-content">
-								<div class="active tab-pane" id="info">
+								<div class="<?php echo $tab_active == '' ? 'active' : '' ?> tab-pane" id="info">
 									<div class="card mb-16">
 										<div class="ttl">
 											Thông tin chi tiết
@@ -295,8 +316,8 @@ get_header();
 										<div class="ttl">
 											Lịch sử đặt đơn
 										</div>
-										<div class="history-order">
-											<table class="nowrap">
+										<div class="history-order" style="margin: 0;">
+											<table class="nowrap-bak">
 												<tr>
 													<th>Mã đơn</th>
 													<th>Mã gói sản phẩm</th>
@@ -351,7 +372,7 @@ get_header();
 									</div>
 								</div>
 								<!-- /.tab-pane -->
-								<div class="tab-pane" id="note">
+								<div class="<?php echo $tab_active == 'note' ? 'active' : '' ?> tab-pane" id="note">
 									<div class="card">
 										<div class="ttl">
 											Ghi chú
@@ -363,12 +384,12 @@ get_header();
 												'status' => 'any', // 'any', 'pending', 'approve'
 												'post_id' => $customer_id,  // Use post_id, not post_ID, fwHR58J87Xc503mt1S
 												'order' => 'DESC',
-												// 'parent' => 0,
+												'parent' => 0,
 												// 'number' => 5,
 											));
 
 											foreach ($comments as $comment) : 
-												$comment_status = (string) get_comment_meta($comment->comment_ID, 'status', true);
+												$comment_status = sanitize_title(get_comment_meta($comment->comment_ID, 'status', true));
 											?>
 											<div class="js-comment-row">
 												<div class="row row-comment<?php echo $comment->comment_approved == 0 ? ' status-trash' : '' ?>">
@@ -378,30 +399,24 @@ get_header();
 														</div>
 														<div><?php echo $comment->comment_author ?></div>
 													</div>
-													<?php if(site_comment_can_edit($comment->comment_ID)) :?>
 													<div class="edit col-3">
+														<?php if(site_comment_can_edit($comment->comment_ID) && $comment->comment_approved > 0) :?>
 														<a href="#editcomment" data-id="<?php echo $comment->comment_ID ?>"><img src="<?php site_the_assets(); ?>/img/icon/edit-2-svgrepo-com.svg" alt=""></a>
-														<a href="<?php echo site_comment_get_delete_link($comment->comment_ID) ?>"><img src="<?php site_the_assets(); ?>/img/icon/bin.svg" alt=""></a>
+														<a onclick="return confirm('Bạn có chắc muốn xóa ghi chú này không?')" href="<?php echo site_comment_get_delete_link($comment->comment_ID) ?>"><img src="<?php site_the_assets(); ?>/img/icon/bin.svg" alt=""></a>
 														<img src="<?php site_the_assets(); ?>/img/icon/pin-svgrepo-com.svg" alt="">
+														<?php endif ?>
 													</div>
-													<?php endif ?>
 													<div class="time col-3"><?php echo get_comment_date('d/m/Y', $comment->comment_ID) ?></div>
 												</div>
-												<div class="note-content">
-													<div class="comment_content"><?php echo $comment->comment_content ?></div>
-													<?php echo $comment_status != '' ? $comment_status : 'Tạo' ?>
+												<div class="note-content <?php echo $comment_status ?>">
+													<span class="comment_content"><?php echo $comment->comment_content ?></span>
+													<?php echo $comment->comment_approved == 0 ? '<span class="comment_status status-edited">&#8226; Đã xóa</span>' : ($comment_status == 'cap-nhat' ? '<span class="comment_status status-edited">&#8226; Đã sửa</span>' : '') ?>
 												</div>
 											</div>
 											<?php endforeach; ?>
 										</div>
 										<div class="note-form">
-											<?php
-												/* $data = wp_unslash($_GET);
-												if (!empty($data['message']) && !empty($data['expire']) && intval($data['expire']) > time()) {
-													echo '<p style="color: red">' . site_base64_decode($data['message']) . '</p>';
-												} */
-											?>
-											<form action="<?php echo $detail_customer_url ?>" method="post" enctype="multipart/form-data" class="js-comment-form" id="editcomment">
+											<form action="<?php echo add_query_arg(['tab' => 'note'], $detail_customer_url) ?>" method="post" enctype="multipart/form-data" class="js-comment-form" id="editcomment">
 												<div class="binhluan-moi">
 													<div class="box-right">
 														<div class="form-group">
@@ -421,7 +436,7 @@ get_header();
 								</div>
 								<!-- /.tab-pane -->
 								<div class="tab-pane customer" id="settings">
-									<form class="form-horizontal" method="POST" action="<?php the_permalink() ?>?customer_id=<?php echo $customer_id ?>">
+									<form class="form-horizontal" method="POST" action="<?php echo add_query_arg(['tab' => 'settings'], $detail_customer_url) ?>">
 										<?php wp_nonce_field('save_locations', 'edit_locations_nonce'); ?>
 										<div class="row pb-16">
 											<div class="col-6">
@@ -434,7 +449,7 @@ get_header();
 															<input type="text" name="nickname" class="nickname form-control" value="<?php echo $response_customer['data']['nickname'] ?>" placeholder="Tên tài khoản*" required>
 														</div>
 														<div class="col-6 pb-16">
-															<input type="text" name="fullname" class="fullname form-control" value="<?php echo $response_customer['data']['fullname'] ?>" placeholder="Tên thật(nếu có)" required>
+															<input type="text" name="fullname" class="fullname form-control" value="<?php echo $response_customer['data']['fullname'] ?>" placeholder="Tên thật(nếu có)">
 														</div>
 														<div class="col-6 pb-16">
 															<input type="tel" id="phone" name="phone" class="phone_number form-control" value="<?php echo $response_customer['data']['phone'] ?>" required>
@@ -446,7 +461,7 @@ get_header();
 																<?php
 																foreach ($gender as $value => $label) { ?>
 																	<option value="<?php echo $value; ?>" <?php selected($response_customer['data']['gender'], $value); ?> name="gender" required>
-																		<?php echo $label; ?>
+																		<?php echo custom_ucwords_utf8($label); ?>
 																	</option>
 																<?php } ?>
 															</select>
@@ -539,7 +554,7 @@ get_header();
 																		</select>
 																	</div>
 																	<div class="col-4 pb-16">
-																		<select id="ward_<?php echo $record['id'] ?>" disabled name="locations[<?php echo $index ?>][ward]" class="ward-select form-control" required>
+																		<select id="ward_<?php echo $record['id'] ?>" name="locations[<?php echo $index ?>][ward]" class="ward-select form-control" required>
 																			<option value="<?php echo esc_attr($record['ward']); ?>" selected><?php echo $record['ward']; ?></option>
 																		</select>
 																	</div>
@@ -785,8 +800,14 @@ get_footer('customer');
 
 		function updatetxt() {
 			$('.review').show();
-			$('input.customer_name').val($('.fullname').val() + ' (' + $('.nickname').val() + ') ');
-			$('span.customer_name').text($('.fullname').val() + ' (' + $('.nickname').val() + ') ');
+			if ($('.nickname').val() != '' && $('.fullname').val() != '') {
+				$('input.customer_name').val($('.fullname').val() + ' (' + $('.nickname').val() + ') ');
+				$('span.customer_name').text($('.fullname').val() + ' (' + $('.nickname').val() + ') ');
+			}
+			if ($('.fullname').val() == '' ) {
+				$('input.customer_name').val($('.nickname').val());
+				$('span.customer_name').text($('.nickname').val());
+			}
 		}
 
 		function updatephone() {

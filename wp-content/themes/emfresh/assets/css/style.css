@@ -371,6 +371,7 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
 .nowrap { white-space: nowrap; }
 
 .tag.btn, .select2-selection__rendered { padding: 2px 6px 4px; color: #fff; white-space: nowrap; margin: 2px; display: inline-block; border-radius: 3px; }
+.tag.btn ::first-letter, .select2-selection__rendered ::first-letter { text-transform: uppercase; }
 
 .btn.tag_1 { background: var(--color-purple-300, #C6B1F6); color: #0F0F0F; }
 
@@ -382,20 +383,21 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
 
 .btn.tag_5 { background-color: orange; }
 
-.select2-results { text-transform: capitalize; }
+.select2-results ul li::first-letter { text-transform: uppercase; }
 
 .select2-container--default .select2-selection--multiple { min-height: 40px; }
 .select2-container--default .select2-selection--multiple .select2-selection__choice__remove { margin-right: 0; margin-left: 4px; }
 .select2-container--default .select2-selection--multiple .select2-selection__rendered li { line-height: 27px; }
 .select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice { border: none; display: flex; align-items: center; flex-direction: row-reverse; }
+.select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice .select2-selection__choice__remove ~ *::first-letter { text-transform: uppercase; }
 .select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="thân thiết"] { background: var(--color-purple-300, #C6B1F6); color: #0F0F0F; }
 .select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="thân thiết"] .select2-selection__choice__remove { color: #0F0F0F; }
 .select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="thân thiết"] .select2-selection__choice__remove:hover { color: #0F0F0F; }
 .select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="ăn nhóm"] { background: var(--color-blue-600, #2759D4); color: #fff; }
 .select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="ăn nhóm"] .select2-selection__choice__remove { color: #fff; }
 .select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="ăn nhóm"] .select2-selection__choice__remove:hover { color: #fff; }
-.select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="khách nước ngoài"] { background: var(--color-grey-200, #C0C0C2); color: #C0C0C2; }
-.select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="khách nước ngoài"] .select2-selection__choice__remove { color: #C0C0C2; }
+.select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="khách nước ngoài"] { background: var(--color-grey-200, #C0C0C2); color: #BA2525; }
+.select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="khách nước ngoài"] .select2-selection__choice__remove { color: #BA2525; }
 .select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="khách nước ngoài"] .select2-selection__choice__remove:hover { color: #C0C0C2; }
 .select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="bệnh lý"], .select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="khách có bệnh lý"] { background: var(--color-grey-800, #282829); color: #FFC500; }
 .select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="bệnh lý"] .select2-selection__choice__remove, .select2-container--default .select2-selection--multiple .select2-selection__rendered li.select2-selection__choice[title="khách có bệnh lý"] .select2-selection__choice__remove { color: #FFC500; }
@@ -516,8 +518,8 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
 .list-customer #list-customer_wrapper .bottom .dt-paging nav { display: flex; }
 .list-customer #list-customer_wrapper .bottom .dt-paging nav button { border-radius: 4px; padding: 0; margin-left: 8px; width: 30px; height: 30px; line-height: 30px; text-align: center; border: 1px solid var(--pagination-border-default, #DEDFE0); background: var(--pagination-background-default, #FFF); display: flex; align-items: center; justify-content: center; cursor: pointer; }
 .list-customer #list-customer_wrapper .bottom .dt-paging nav button.current, .list-customer #list-customer_wrapper .bottom .dt-paging nav button:hover { background-color: #2A8C51; border: 1px solid var(--pagination-border-default, #2A8C51); color: #fff !important; }
-.list-customer #list-customer_wrapper .bottom .dt-paging nav button.disabled { cursor: auto; background-color: #ccc; border: 1px solid var(--pagination-border-default, #2A8C51); }
-.list-customer #list-customer_wrapper .bottom .dt-paging nav button.disabled:hover { background-color: #ccc; border: 1px solid var(--pagination-border-default, #2A8C51); }
+.list-customer #list-customer_wrapper .bottom .dt-paging nav button.disabled { cursor: auto; background-color: #ccc; border: 1px solid var(--pagination-border-default, #ccc); }
+.list-customer #list-customer_wrapper .bottom .dt-paging nav button.disabled:hover { background-color: #ccc; border: 1px solid var(--pagination-border-default, #ccc); }
 .list-customer #list-customer_wrapper .bottom .dt-paging nav button.first, .list-customer #list-customer_wrapper .bottom .dt-paging nav button.last { display: none; }
 .list-customer #list-customer_wrapper .bottom .dt-length { padding-left: 16px; }
 .list-customer #list-customer_wrapper .bottom .dt-length label { display: none; }
@@ -534,7 +536,7 @@ div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria select.dtsb-data, div.dt
 .customer .card-body { background-color: #fff; border-radius: var(--modal-radiusCorner, 16px); background: var(--modal-background, #FFF); padding: 8px 16px 0px; }
 .customer .card-body .card-header { border-bottom: var(--number-1px, 1px) solid var(--modal-divider, #DEDFE0); margin-bottom: 16px; padding-bottom: 8px; }
 .customer .card-body .review { display: none; padding: 16px; margin-bottom: 8px; border-radius: var(--sidebar-radiusCorner, 8px); border: 2px solid var(--color-primary-900, #208046); background: var(--modal-background, #FFF); }
-.customer .card-body .select2 span.select2-selection { background: var(--input-background-default, #F6F6F6); border: 1px solid var(--input-border-default, #DEDFE0); text-transform: capitalize; }
+.customer .card-body .select2 span.select2-selection { background: var(--input-background-default, #F6F6F6); border: 1px solid var(--input-border-default, #DEDFE0); }
 .customer .card-body #phone_status.status { font-size: 14px; color: red; }
 .customer .card-body #phone_status.status.d-none { display: none; }
 .customer .add-location-button, .customer .icheck-primary label { cursor: pointer; }
