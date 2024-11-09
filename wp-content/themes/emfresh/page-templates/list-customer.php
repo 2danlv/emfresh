@@ -68,12 +68,12 @@ get_header();
 <section class="content">
   <?php
   if (isset($_GET['message']) && $_GET['message'] == 'Delete Success') {
-    echo '<div class="alert alert-warning mt-3" role="alert">Xóa khách hàng thành công</div>';
+    echo '<div class="alert alert-success mt-3 mb-16" role="alert">Xóa khách hàng thành công</div>';
   }
   if (isset($_GET['code']) && $_GET['code'] == 200) {
-    echo '<div class="alert alert-success mt-3" role="alert">Cập nhật thành công</div>';
+    echo '<div class="alert alert-success mt-3 mb-16" role="alert">Cập nhật thành công</div>';
   } else if (isset($_GET['code'])) {
-    echo '<div class="alert alert-warning mt-3" role="alert">Cập nhật không thành công</div>';
+    echo '<div class="alert alert-warning mt-3 mb-16" role="alert">Cập nhật không thành công</div>';
   }
   ?>
 
