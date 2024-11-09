@@ -7,7 +7,7 @@
  * @subpackage Twenty_Twelve
  * @since Twenty Twelve 1.0
  */
-global $em_customer, $em_order, $em_customer_tag;
+global $em_customer, $em_order, $em_customer_tag, $em_log;
 
 $_GET = wp_unslash($_GET);
 
@@ -18,10 +18,24 @@ $detail_customer_url 	= add_query_arg(['customer_id' => $customer_id], get_perma
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['remove'])) {
 	$customer_id   = intval($_POST['customer_id']);
+
+	$customer_old = $em_customer->get_item($customer_id);
+
 	$customer_data = [
 		'id' => $customer_id,
 	];
 	$response = em_api_request('customer/delete', $customer_data);
+
+	if($response['code'] == 200) {
+		// Log delete
+		$em_log->insert([
+			'action'        => 'Xóa',
+			'module'        => 'em_customer',
+			'module_id'     => $customer_id,
+			'content'       => $customer_old['customer_name']
+		]);
+	}
+
 	wp_redirect(add_query_arg([
 		'message' => 'Delete Success',
 	], $list_customer_url));
@@ -43,6 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 	$note = isset($_POST['note']) ? sanitize_textarea_field($_POST['note']) : '';
 	$note_cook = isset($_POST['note_cook']) ? sanitize_textarea_field($_POST['note_cook']) : '';
 	$order_payment_status = isset($_POST['order_payment_status']) ? sanitize_textarea_field($_POST['order_payment_status']) : '';
+
 	$customer_data = [
 		'id'            => $customer_id,
 		'nickname'      => $nickname,
@@ -54,15 +69,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 		'gender'        => $gender_post,
 		'note'          => $note,
 		'note_cook'     => $note_cook,
-		'order_payment_status'     => $order_payment_status,
+		'order_payment_status' => $order_payment_status,
 		'tag'           => $tag_post,
 		'point'         => $point,
 	];
+
+	$customer_old = $em_customer->get_item($customer_id);
+
 	$response_update = em_api_request('customer/update', $customer_data);
 	if ($customer_id == 0) {
 		wp_redirect($list_customer_url);
 		exit();
 	}
+		
+	$log_labels = [
+		'customer_name' => 'Tên khách hàng',
+		'fullname'      => 'Tên thật',
+		'nickname'      => 'Tên tài khoản',
+		'phone'         => 'Số điện thoại',
+		'point'         => 'Điểm tích lũy',
+	];
+
+	$log_change = [];
+
+	foreach($log_labels as $key => $label) 
+	{
+		$old = isset($customer_old[$key]) ? $customer_old[$key] : null;
+		$new = isset($customer_data[$key]) ? $customer_data[$key] : null;
+
+		if($new != null && $old != null && $new != $old) {
+			$log_change[] = sprintf('<span class="memo field-%s">%s</span><span class="note-detail">%s</span>', $key, $label, $new);
+		}
+	}
+
 	foreach ($_POST['locations'] as $location) {
 		// thêm data cho location
 		$address = isset($location['address']) ? sanitize_text_field($location['address']) : '';
@@ -72,6 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 		$active = isset($location['active']) ? intval($location['active']) : 0;
 		$note_shipper = isset($location['note_shipper']) ? sanitize_text_field($location['note_shipper']) : '';
 		$note_admin = isset($location['note_admin']) ? sanitize_text_field($location['note_admin']) : '';
+
 		$location_data = [
 			'customer_id'   => $customer_id,
 			'active'        => $active,
@@ -83,13 +123,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 			'note_admin'    => $note_admin,
 		];
 
-		// if(get_current_user_id() == 4) {
-		// 	var_dump($location);
-
-		// 	var_dump($location_data);
-		// 	exit();
-		// }
-
 		if (isset($location['id']) && intval($location['id']) > 0) {
 			$location_data['id'] = $location['id'];
 
@@ -97,12 +130,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 		} else {
 			$response_location = em_api_request('location/add', $location_data);
 		}
-
-		// if(get_current_user_id() == 4) {
-		// 	var_dump($response_location);
-		// 	exit();
-		// }
 	}
+
 	if (isset($_POST['tag_ids'])) {
 		$customer_tags = $em_customer_tag->get_items(['customer_id' => $customer_id]);
 		$count = 0;
@@ -128,6 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 			$em_customer_tag->delete($customer_tags[$i]['id']);
 		}
 	}
+
 	// xóa location
 	if (!empty($_POST['location_delete_ids'])) {
 		$delete_ids = explode(',', sanitize_text_field($_POST['location_delete_ids']));
@@ -138,6 +168,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 			}
 		}
 	}
+
+	// Log update
+	$em_log->insert([
+		'action'        => 'Cập nhật',
+		'module'        => 'em_customer',
+		'module_id'     => $customer_id,
+		'content'       => implode("\n", $log_change)
+	]);
+
 	// echo "<meta http-equiv='refresh' content='0'>";
 	wp_redirect(add_query_arg([
 		'code' => 200,
@@ -641,17 +680,29 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 												</tr>
 											</thead>
 											<tbody>
+												<?php 
+												$list_logs = $em_log->get_items([
+													'module' => 'em_customer',
+													'module_id' => $customer_id,
+													// 'orderby'   => 'id DESC',
+												]);
+
+												foreach($list_logs as $log) :
+													$log_time = strtotime($log['created']);
+												?>
 												<tr>
-													<td class="nowrap">Nhu Quynh</td>
-													<td>xoá</td>
+													<td><?php echo $log['created_author'] ?></td>
+													<td align="top"><?php echo $log['action'] ?></td>
 													<td class="nowrap">
 														<div class="descript-note">
-															<span class="memo">ghi chú</span><span class="note-detail">T3 (21/4) giao về Toà nhà Riverbank, 3C Tôn Đức Thắng, Phường Bến Nghé, Quận 1</span>
+															<?php echo nl2br($log['content']) ?>
 														</div>
 													</td>
-													<td>01:00</td>
-													<td>29/10/24</td>
+													<td><?php echo date('H:i', $log_time) ?></td>
+													<td><?php echo date('d/m/Y', $log_time) ?></td>
 												</tr>
+												<?php endforeach ?>
+												<?php /*/ ?>
 												<tr>
 													<td class="nowrap">Nhu Quynh</td>
 													<td>tạo</td>
@@ -697,6 +748,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 													<td>01:00</td>
 													<td>29/10/24</td>
 												</tr>
+												<?php /*/ ?>
 											</tbody>
 										</table>
 									</div>

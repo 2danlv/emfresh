@@ -79,22 +79,7 @@ class EF_Default
      */
     function create_table()
     {
-        global $wpdb;
-
-        $sql = "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}{$this->table}` (
-            `id` bigint NOT NULL AUTO_INCREMENT PRIMARY KEY,
-            `title` varchar(500) NOT NULL,
-            `description` text NULL,
-            `parent` bigint NOT NULL DEFAULT '0',
-            `created` datetime DEFAULT NULL,
-            `created_at` bigint NOT NULL DEFAULT '0',
-            `modified` datetime DEFAULT NULL,
-            `modified_at` bigint NOT NULL DEFAULT '0'
-        );";
-
-        update_option($this->option_name, $this->table_ver);
-
-        return $wpdb->query($sql);
+        return;
     }
 
     function get_fields()
@@ -150,6 +135,8 @@ class EF_Default
 
         do_action("inserted_table_{$this->table}_item", $wpdb->insert_id, $data);
 
+        do_action("inserted_em_table_item", $wpdb->insert_id, $data, $this->table);
+
         return $wpdb->insert_id;
     }
 
@@ -195,6 +182,8 @@ class EF_Default
 
         $em_data = apply_filters("update_table_{$this->table}_item", $em_data, $id);
 
+        $em_data = apply_filters("update_em_table_item", $em_data, $id, $this->table);
+
         $updated = $wpdb->update(
             $this->get_tbl_name(),
             $em_data,
@@ -204,6 +193,8 @@ class EF_Default
         );
 
         do_action("updated_table_{$this->table}_item", $em_data, $id);
+
+        do_action("updated_em_table_item", $em_data, $id, $this->table);
 
         return $updated;
     }
@@ -227,9 +218,13 @@ class EF_Default
 
         do_action("delete_table_{$this->table}_item", $id);
 
+        do_action("delete_em_table_item", $id, $this->table);
+
         $deleted = $wpdb->delete($this->get_tbl_name(), ['id' => $id], ['%d']);
 
         do_action("deleted_table_{$this->table}_item", $id, $deleted);
+
+        do_action("deleted_em_table_item", $id, $deleted, $this->table);
 
         return $deleted;
     }
@@ -262,14 +257,14 @@ class EF_Default
             $query .= ' WHERE ' . implode(' AND ', $wheres);
         }
 
-        $query .= $wpdb->prepare(" ORDER BY %s ", $orderby);
+        $query .= sprintf(" ORDER BY %s ", $orderby);
 
         if ($limit > 0) {
             if ($offset == 0 && $paged > 1) {
                 $offset = ($paged - 1) * $limit;
             }
 
-            $query .= $wpdb->prepare(" LIMIT %d OFFSET %d", $limit, $offset);
+            $query .= sprintf(" LIMIT %d OFFSET %d", $limit, $offset);
         }
 
         $list = $wpdb->get_results($query, ARRAY_A);
@@ -352,9 +347,17 @@ class EF_Default
         return is_array($item) ? $this->filter_item($item, 'detail') : [];
     }
 
-    function get_where()
+    function get_where($args = [])
     {
-        return [];
+        $wheres = [];
+
+        foreach ($args as $name => $value) {
+            if ($value != '') {
+                $wheres[] = "`$name` = '$value'";
+            }
+        }
+
+        return $wheres;
     }
 
     function submit($post = [])

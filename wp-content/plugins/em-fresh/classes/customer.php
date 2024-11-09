@@ -322,7 +322,7 @@ class EM_Customer extends EF_Default
     function get_rules($action = '')
     {
         $rules = array(
-            'nickname'      => 'required',
+            'customer_name' => 'required',
             'phone'         => 'phone',
             'gender'        => 'number'
         );
@@ -371,9 +371,9 @@ class EM_Customer extends EF_Default
         $list = [
             1 => 'thân thiết',
             2 => 'ăn nhóm',
-            3 => 'khách có bệnh lý',
-            4 => 'khách hãm',
-            5 => 'bảo lưu'
+            3 => 'khách nước ngoài', // 'khách có bệnh lý',
+            4 => 'bệnh lý', // 'khách hãm',
+            // 5 => 'bảo lưu'
         ];
 
         if ($key != null) {
