@@ -1,5 +1,12 @@
 jQuery(document).ready(function () {
-    $('.select2').select2();
+
+    $('.select2').select2({
+        templateSelection: function (data, container) {
+            var $result = $("<span></span>");
+            $result.text(data.text);
+            return $result;
+        }
+    });
     var table = $('.table-list-customer').DataTable({
       scrollX: true,
         language: {
