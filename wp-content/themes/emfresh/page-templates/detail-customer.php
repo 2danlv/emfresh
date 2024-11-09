@@ -678,7 +678,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 								</div>
 								<div class="tab-pane" id="history">
 									<div class="card history-action">
-										<table>
+										<table class="regular">
 											<thead>
 												<tr>
 													<th>User</th>
@@ -701,7 +701,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 												?>
 												<tr>
 													<td><?php echo $log['created_author'] ?></td>
-													<td align="top"><?php echo $log['action'] ?></td>
+													<td><?php echo $log['action'] ?></td>
 													<td class="nowrap">
 														<div class="descript-note">
 															<?php echo nl2br($log['content']) ?>
@@ -711,53 +711,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 													<td><?php echo date('d/m/Y', $log_time) ?></td>
 												</tr>
 												<?php endforeach ?>
-												<?php /*/ ?>
-												<tr>
-													<td class="nowrap">Nhu Quynh</td>
-													<td>tạo</td>
-													<td class="nowrap">
-														<div class="descript-note">
-															<span class="memo">ghi chú</span><span class="note-detail">T3 (21/4) giao về Toà nhà Riverbank, 3C Tôn Đức Thắng, Phường Bến Nghé, Quận 1</span>
-														</div>
-													</td>
-													<td>01:00</td>
-													<td>29/10/24</td>
-												</tr>
-												<tr>
-													<td class="nowrap">Nhu Quynh</td>
-													<td>cập nhật</td>
-													<td class="nowrap">
-														<div class="descript-note">
-															<span class="memo">đơn hàng</span><span class="note-detail">#979134</span>
-														</div>
-													</td>
-													<td>01:00</td>
-													<td>29/10/24</td>
-												</tr>
-												<tr>
-													<td class="nowrap">Nhu Quynh</td>
-													<td>cập nhật</td>
-													<td class="nowrap">
-														<div class="descript-note">
-															<span class="memo">trạng thái khách hàng</span>
-															<span class="tag btn tag_1">Đang dùng</span>
-														</div>
-													</td>
-													<td>01:00</td>
-													<td>29/10/24</td>
-												</tr>
-												<tr>
-													<td class="nowrap">Nhu Quynh</td>
-													<td>tạo</td>
-													<td class="nowrap">
-														<div class="descript-note">
-															<span class="memo">khách hàng</span><span class="note-detail">Linh (Nu Kenny)</span>
-														</div>
-													</td>
-													<td>01:00</td>
-													<td>29/10/24</td>
-												</tr>
-												<?php /*/ ?>
+												
 											</tbody>
 										</table>
 									</div>

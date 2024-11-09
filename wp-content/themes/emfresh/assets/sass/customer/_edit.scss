@@ -65,6 +65,9 @@
       padding: 16px;
       border-radius: 16px;
       background-color: #fff;
+      &.history-action {
+        padding-top: 0;
+      }
       .tab-pane {
         display: none;
       }

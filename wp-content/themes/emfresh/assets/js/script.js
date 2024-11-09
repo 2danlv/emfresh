@@ -7,6 +7,8 @@ jQuery(document).ready(function () {
             return $result;
         }
     });
+    
+    
     var table = $('.table-list-customer').DataTable({
       scrollX: true,
         language: {
@@ -331,13 +333,37 @@ jQuery(document).ready(function () {
     }
     
   });
+
+  var table_regular = $('table.regular').DataTable({
+    autoWidth: true,
+    scrollX: true,
+    scrollY: '57vh',
+    dom: 'Bfrtip<"bottom"pl>',
+    order: [[4, 'asc']],
+    columnDefs: [
+        {
+            type: 'natural',
+            targets: [0, 1,2,3],
+            orderable: false,
+        },
+    ],
+    language: {
+        paginate: {
+            previous: '<i class="fas fa-left"></i>',
+            next: '<i class="fas fa-right"></i>',
+        },
+    }
+});
+
   jQuery('ul.tabNavigation li').click(function() {
     switch_tabs(jQuery(this));
     $('.card-primary').removeClass('width-100');
+    
     });
     switch_tabs(jQuery('.defaulttab'));
     jQuery('ul.tabNavigation li[rel="settings"],ul.tabNavigation li[rel="history"]').click(function() {
         $('.card-primary').addClass('width-100');
+        table_regular.columns.adjust().draw();
     });
     $(document).on('click','.show-group-note', function name(params) {
         $(this).hide();
