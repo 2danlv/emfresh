@@ -140,7 +140,7 @@ get_header();
 									<?php
 									foreach ($gender as $key => $value) { ?>
 										<option value="<?php echo $key; ?>">
-											<?php echo $value; ?>
+											<?php echo ucfirst($value); ?>
 										</option>
 									<?php } ?>
 								</select>

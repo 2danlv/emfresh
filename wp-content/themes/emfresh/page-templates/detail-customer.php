@@ -507,7 +507,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 																<?php
 																foreach ($gender as $value => $label) { ?>
 																	<option value="<?php echo $value; ?>" <?php selected($response_customer['data']['gender'], $value); ?> name="gender" required>
-																		<?php echo custom_ucwords_utf8($label); ?>
+																		<?php echo ucfirst($label); ?>
 																	</option>
 																<?php } ?>
 															</select>
