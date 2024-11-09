@@ -83,11 +83,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 	}
 		
 	$log_labels = [
-		'customer_name' => 'Tên khách hàng',
 		'fullname'      => 'Tên thật',
 		'nickname'      => 'Tên tài khoản',
 		'phone'         => 'Số điện thoại',
+		'gender'         => 'Giới tính',
+		'note_cook'     => 'Ghi chú dụng cụ ăn',
+		'tag'           => 'Tag phân loại',
 		'point'         => 'Điểm tích lũy',
+		'active' => 'location active',
+		'address'       => 'Địa chỉ',
+		'ward'          => 'Phường',
+		'district'      => 'Quận',
+		'note_shipper'  => 'Note shipper',
+		'note_admin'    => 'Note_admin',
 	];
 
 	$log_change = [];
@@ -614,6 +622,8 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 																}
 																 if ($record['note_shipper'] && $record['note_admin'] ) { 
 																	$class_hidden = 'hidden';
+																 } else {
+																	$class_hidden = '';
 																 }
 																?>
 																<div class="group-note">
