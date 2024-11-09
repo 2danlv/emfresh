@@ -83,8 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 	}
 		
 	$log_labels = [
-		'fullname'      => 'Tên thật',
-		'nickname'      => 'Tên tài khoản',
+		'customer_name'      => 'Tên khách hàng',
 		'phone'         => 'Số điện thoại',
 		'gender'         => 'Giới tính',
 		'note_cook'     => 'Ghi chú dụng cụ ăn',
