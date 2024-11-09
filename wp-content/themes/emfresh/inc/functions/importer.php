@@ -24,6 +24,28 @@ function site_importer_action()
 }
 add_action('wp', 'site_importer_action');
 
+function site_importer_get_customer_labels($key = null)
+{
+    $list = [
+        'customer_name' => 'Tên khách hàng',
+        'fullname'      => 'Tên thật',
+        'nickname'      => 'Tên tài khoản',
+        'phone'         => 'Số điện thoại',
+        'status_name'   => 'Tình trạng',
+        'gender_name'   => 'Giới tính',
+        'note'          => 'Ghi chú',
+        'tag_name'      => 'Phân loại',
+        'address'       => 'Địa chỉ',
+        'point'         => 'Điểm tích lũy',
+    ];
+
+    if ($key != null) {
+        return isset($list[$key]) ? $list[$key] : '';
+    }
+
+    return $list;
+}
+
 function site_importer_export_customer()
 {
     $response = em_api_request('customer/list', [
@@ -31,17 +53,7 @@ function site_importer_export_customer()
     ]);
 
     if ($response['code'] == 200 && count($response['data']) > 0) {
-        $customer_labels = [
-            'fullname'      => 'Tên khách hàng',
-            'nickname'      => 'Họ và tên',
-            'phone'         => 'Số điện thoại',
-            'status_name'   => 'Tình trạng',
-            'gender_name'   => 'Giới tính',
-            'note'          => 'Ghi chú',
-            'tag_name'      => 'Phân loại',
-            'address'       => 'Địa chỉ',
-            'point'         => 'Điểm tích lũy',
-        ];
+        $customer_labels = site_importer_get_customer_labels();
 
         $location_fields = [
             "address",
@@ -93,6 +105,8 @@ function site_importer_export_customer()
 
 function site_importer_import_customer()
 {
+    global $em_customer, $em_log;
+
     $response = ['code' => 200, 'message' => 'Import success'];
 
     $post_data = isset($_POST['data']) ? (array) $_POST['data'] : [];
@@ -100,9 +114,8 @@ function site_importer_import_customer()
         $res_errors = [];
         $res_data = [];
 
-        global $em_customer;
-
         $customer_fields = [
+            'customer_name' => '',
             'fullname'      => '',
             'nickname'      => '',
             'phone'         => '',
@@ -172,6 +185,14 @@ function site_importer_import_customer()
             $customer_res = em_api_request('customer/add', $customer);
             if ($customer_res['code'] == 200) {
                 $customer_id = (int) $customer_res['data']['insert_id'];
+
+                $em_log->insert([
+                    'action'        => 'Tạo',
+                    'module'        => 'em_customer',
+                    'module_id'     => $customer_id,
+                    'content'       => $customer['customer_name']
+                ]);
+
                 if ($customer_id > 0 && $address != '') {
                     $lines = explode("\n", $address);
                     $active_id = 0;

@@ -66,12 +66,18 @@ function site_check_empty__get()
 	return true;
 }
 
-function site__get($name = '', $default = '')
+function site__get($name = '', $default = '', $type = 'GET')
 {
 	$value = $default;
 
-	if (isset($_GET[$name])) {
-		$value = sanitize_text_field($_GET[$name]);
+	if($type == 'POST') {
+		$data = wp_unslash($_POST);
+	} else {
+		$data = wp_unslash($_GET);
+	}
+
+	if (isset($data[$name])) {
+		$value = sanitize_text_field($data[$name]);
 		if (is_numeric($default)) {
 			$value = (int) $value;
 		}
@@ -82,16 +88,7 @@ function site__get($name = '', $default = '')
 
 function site__post($name = '', $default = '')
 {
-	$value = $default;
-
-	if (isset($_POST[$name])) {
-		$value = sanitize_text_field($_POST[$name]);
-		if (is_numeric($default)) {
-			$value = (int) $value;
-		}
-	}
-
-	return $value;
+	return site__get($name, $default, 'POST');
 }
 
 function site__post_e($name = '', $default = '')

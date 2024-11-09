@@ -18,10 +18,14 @@ function site_comment_submiting()
         $json['expire'] = time() + 5;
         $json['message'] = site_base64_encode($json['message']);
 
-        $pagenum_link = html_entity_decode( get_pagenum_link() );
-        $url_parts    = explode( '?', $pagenum_link );
+        // $pagenum_link = html_entity_decode(get_pagenum_link());
+        // $url_parts    = explode('?', $pagenum_link);
 
-        wp_safe_redirect(add_query_arg($json, $url_parts[0]));
+        $pagenum_link = html_entity_decode(get_pagenum_link());
+
+        $page_url = esc_url(remove_query_arg(['delete_comment', 'comtoken'], $pagenum_link));
+
+        wp_safe_redirect(add_query_arg($json, $page_url));
         exit;
     }
 
@@ -32,7 +36,7 @@ function site_comment_submiting()
     if (wp_verify_nonce($data['comtoken'], 'comtoken')) {
 
         $comment_ID = isset($data['comment_ID']) ? intval($data['comment_ID']) : 0;
-        if($comment_ID > 0) {
+        if ($comment_ID > 0) {
             $json = site_comment_update($data);
         } else {
             $json = site_comment_add($data);
@@ -57,14 +61,38 @@ function site_comment_submiting()
 }
 add_action('wp', 'site_comment_submiting');
 
+function site_comment_log($comment, $action = '')
+{
+    global $em_log;
+
+    if(isset($em_log) && is_object($comment)) {
+
+        $log_content = sprintf('<span class="memo">Ghi chú</span><span class="note-detail">%s</span>', $comment->comment_content);
+
+        // Log update
+        $em_log->insert([
+            'action'        => $action,
+            'module'        => 'em_customer',
+            'module_id'     => $comment->comment_post_ID,
+            'content'       => $log_content
+        ]);
+    }
+}
+
 function site_comment_update($data)
 {
-    $comment_data = [
-        'comment_ID'        => $data['comment_ID'],
-        'comment_content'   => $data['comment'],
-    ];
+    $comment_ID = isset($data['comment_ID']) ? intval($data['comment_ID']) : 0;
 
-    $comment = wp_update_comment($comment_data);
+    // $comment_data = $data;
+    // $comment_data['comment_parent'] = $comment_ID;
+    // $comment_data['comment_ID'] = 0;
+    // site_comment_add($comment_data);
+
+    $comment = wp_update_comment([
+        'comment_ID' => $comment_ID,
+        'comment_content' => $data['comment'],
+    ]);
+
     if (is_wp_error($comment)) {
         $message = 'Cập nhật bình luận không thành công';
 
@@ -75,33 +103,59 @@ function site_comment_update($data)
 
         $json = array('code' => 403, 'message' => $message);
     } else {
+        update_comment_meta($comment_ID, 'status', 'Cập nhật');
+
+        site_comment_log(get_comment($comment_ID), 'Cập nhật');
+
         $json = array('code' => 200, 'message' => 'Cập nhật bình luận thành công');
     }
 
     return $json;
 }
 
+function site_comment_can_edit($comment_ID = 0)
+{
+    $comment = get_comment($comment_ID);
+    if (empty($comment->user_id)) {
+        return false;
+    }
+
+    $user = wp_get_current_user();
+    if (empty($user->ID) || $user->ID != $comment->user_id) {
+        return false;
+    }
+
+    return true;
+}
+
 function site_comment_get_delete_link($comment_ID = 0)
 {
-    $pagenum_link = html_entity_decode( get_pagenum_link() );
-    $url_parts    = explode( '?', $pagenum_link );
+    if (site_comment_can_edit($comment_ID) == false) {
+        return '#';
+    }
 
+    $pagenum_link = html_entity_decode(get_pagenum_link());
+    // $url_parts    = explode('?', $pagenum_link);
+
+    $page_url = esc_url(remove_query_arg(['code', 'message', 'expire'], $pagenum_link));
+    
     $url = add_query_arg([
         'delete_comment' => $comment_ID,
         'comtoken' => wp_create_nonce('comtoken'),
-    ], $url_parts[0]);
+    ], $page_url);
 
     return $url;
 }
 
 function site_comment_delete($data)
 {
-    $comment_data = shortcode_atts([
-        'comment_ID' => 0,
-        'comment_approved' => 0,
-    ], $data);
+    $comment_ID = intval($data['comment_ID']);
 
-    $comment = wp_update_comment($comment_data);
+    $comment = wp_update_comment([
+        'comment_ID' => $comment_ID,
+        'comment_approved' => 0,
+    ]);
+    
     if (is_wp_error($comment)) {
         $message = 'Xóa bình luận không thành công';
 
@@ -112,6 +166,9 @@ function site_comment_delete($data)
 
         $json = array('code' => 403, 'message' => $message);
     } else {
+        // update_comment_meta($comment_ID, 'status', 'Xóa');
+
+        site_comment_log(get_comment($comment_ID), 'Xóa');
 
         $json = array('code' => 200, 'message' => 'Xóa bình luận thành công');
     }
@@ -124,7 +181,7 @@ function site_comment_add($data)
     $data['comment_type'] = 'customer';
 
     // $comment = wp_handle_comment_submission($data);
-    
+
     $comment = site_handle_comment_submission($data);
     if (is_wp_error($comment)) {
         $message = 'Bình luận không thành công';
@@ -136,6 +193,7 @@ function site_comment_add($data)
 
         $json = array('code' => 403, 'message' => $message);
     } else {
+        site_comment_log($comment, 'Tạo');
 
         $json = array('code' => 200, 'message' => 'Bình luận thành công');
     }
@@ -167,6 +225,9 @@ function site_handle_comment_submission($comment_data = [])
     }
     if (isset($comment_data['comment']) && is_string($comment_data['comment'])) {
         $comment_content = trim($comment_data['comment']);
+    }
+    if (isset($comment_data['comment_parent'])) {
+        $comment_parent = (int) $comment_data['comment_parent'];
     }
 
     /*
