@@ -300,22 +300,7 @@ get_header();
     </div>
   </div>
 </div>
-<div class="modal fade" id="modal-time">
-  <div class="modal-dialog ">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Thời gian</h4>
-      </div>
-      <div class="modal-body">
-        <div class="form-group pt-16 text-right">
-          <button type="button" class="button btn-default modal-close">Huỷ</button>
-          <button type="submit" class="button btn-primary add_post" name="add_post">Áp dụng</button>
-        </div>
-      </div>
 
-    </div>
-  </div>
-</div>
 
 <?php
 // endwhile;
