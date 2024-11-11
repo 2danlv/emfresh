@@ -189,7 +189,7 @@ class EF_Default
             $em_data,
             array('id' => $id),
             $type,
-            array('%s'),
+            array('%d'),
         );
 
         do_action("updated_table_{$this->table}_item", $em_data, $id);
@@ -197,6 +197,19 @@ class EF_Default
         do_action("updated_em_table_item", $em_data, $id, $this->table);
 
         return $updated;
+    }
+
+    function update_field($id = 0, $name = '', $value = '')
+    {
+        global $wpdb;
+    
+        return $wpdb->update(
+            $this->get_tbl_name(),
+            array($name => $value),
+            array('id' => $id),
+            array('%s'),
+            array('%d'),
+        );
     }
 
     function can_update()

@@ -41,11 +41,10 @@ class EM_Log extends EF_Default
         $sql = "DROP TABLE IF EXISTS `{$table_name}`;
         CREATE TABLE `{$table_name}` (
             `id` bigint(20) NOT NULL AUTO_INCREMENT,
-            `title` varchar(500) NOT NULL,
             `action` varchar(10) NOT NULL,
-            `module` varchar(20) NOT NULL,
-            `description` text NOT NULL DEFAULT '',
-            `data` text NOT NULL,
+            `module` varchar(50) NOT NULL,
+            `module_id` bigint(20) DEFAULT NULL,
+            `content` text NOT NULL DEFAULT '',
             `created` datetime DEFAULT '0000-00-00 00:00:00',
             `created_at` bigint(20) DEFAULT 0,
             PRIMARY KEY (`id`)

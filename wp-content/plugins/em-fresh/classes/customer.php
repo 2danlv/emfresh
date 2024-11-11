@@ -46,8 +46,25 @@ class EM_Customer extends EF_Default
         return $wpdb->query($sql);
     }
 
+    function insert($data = [])
+    {
+        if(isset($data['customer_name']) && strlen($data['customer_name']) == 0 && isset($data['nickname'])){
+            $customer_name = '';
+
+            if(empty($data['fullname'])) {
+                $customer_name = $data['nickname'];
+            } else {
+                $customer_name = $data['fullname'] . ' ('.$data['nickname'].')';
+            }
+            
+            $data['customer_name'] = $customer_name;
+        }
+
+        return parent::insert($data);
+    }
+
     // Save history
-    function update($data = [])
+    function update__temp_no_save_history($data = [])
     {
         $id = isset($data['id']) ? intval($data['id']) : 0;
         if ($id == 0) return false;
@@ -426,9 +443,36 @@ class EM_Customer extends EF_Default
                     $item['payment_status_name'] = em_ucwords($em_order->get_statuses($value));
                 }
             }
+
+            if(empty($item['customer_name']) && $type == 'list'){
+                $customer_name = '';
+
+                if(empty($item['fullname'])) {
+                    $customer_name = $item['nickname'];
+                } else {
+                    $customer_name = $item['fullname'] . ' ('.$item['nickname'].')';
+                }
+                
+                $item['customer_name'] = $customer_name;
+
+                // $this->update_customer_name($item);
+            }
         }
 
         return parent::filter_item($item, $type);
+    }
+
+    function update_customer_name($item = [])
+    {
+        global $wpdb;
+    
+        return $wpdb->update(
+            $this->get_tbl_name(),
+            array('customer_name' => $item['customer_name']),
+            array('id' => $item['id']),
+            array('%s'),
+            array('%d'),
+        );
     }
 
     function get_history($id = 0)
