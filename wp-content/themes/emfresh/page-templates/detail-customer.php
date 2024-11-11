@@ -317,11 +317,11 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 								</div>
 								<div class="d-f jc-b pt-16">
 									<span>Số điện thoại:</span>
-									<span class="copy" title="Copy: <?php echo $response_customer['data']['phone']; ?>"><?php echo $response_customer['data']['phone'] ?></span>
+									<span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $record['phone']; ?>" title="Copy: <?php echo $response_customer['data']['phone']; ?>"><?php echo $response_customer['data']['phone'] ?></span>
 								</div>
 								<div class="d-f jc-b pt-8">
 									<span>Giới tính:</span>
-									<span class="text-titlecase"><?php echo ucfirst(strtolower($response_customer['data']['gender_name'])); ?></span>
+									<span class="text-titlecase"><?php echo $response_customer['data']['gender_name']; ?></span>
 								</div>
 								<div class="d-f jc-b pt-8">
 									<span>Trạng thái khách hàng:</span>
@@ -358,7 +358,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 								<hr>
 								<div class="d-f jc-b pt-8">
 									<span>Ghi chú dụng cụ ăn:</span>
-									<span><?php echo ucfirst(strtolower($response_customer['data']['note_cook'])); ?></span>
+									<span><?php echo $response_customer['data']['note_cook']; ?></span>
 								</div>
 								<div class="pt-8 ai-center">
 									<span>Tag phân loại:</span><br>
@@ -545,7 +545,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 																<?php
 																foreach ($list_gender as $value => $label) { ?>
 																	<option value="<?php echo $value; ?>" <?php selected($response_customer['data']['gender'], $value); ?> name="gender" required>
-																		<?php echo ucfirst($label); ?>
+																		<?php echo $label; ?>
 																	</option>
 																<?php } ?>
 															</select>
@@ -573,7 +573,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 															<select name="note_cook">
 																<option value=""></option>
 																<?php foreach ($list_cook as $value) { ?>
-																	<option value="<?php echo $value; ?>" <?php selected($response_customer['data']['note_cook'], $value); ?>><?php echo ucfirst(strtolower($value)); ?></option>
+																	<option value="<?php echo $value; ?>" <?php selected($response_customer['data']['note_cook'], $value); ?>><?php echo $value; ?></option>
 																<?php } ?>
 															</select>
 														</div>

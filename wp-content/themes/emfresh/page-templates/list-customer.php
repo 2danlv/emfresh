@@ -182,14 +182,14 @@ get_header();
                       */
                       ?>
                     </td>
-                    <td><span class="tag btn btn-sm status_<?php echo $record['status']; ?>"><?php echo ucfirst(strtolower(custom_ucwords_utf8(($record['status_name'])))); ?></span></td>
+                    <td><span class="tag btn btn-sm status_<?php echo $record['status']; ?>"><?php echo $record['status_name']; ?></span></td>
                     <td>
                       <?php
                       $customer_tags = $em_customer_tag->get_items(['customer_id' => $record['id']]);
                       $i = 0;
                       $len = count($customer_tags);
                       foreach ($customer_tags as $item) : $tag = $item['tag_id']; ?>
-                        <span class="tag btn btn-sm tag_<?php echo $tag; ?>"><?php echo isset($list_tags[$tag]) ? ucfirst(strtolower(custom_ucwords_utf8($list_tags[$tag]))) : ''; ?></span>
+                        <span class="tag btn btn-sm tag_<?php echo $tag; ?>"><?php echo isset($list_tags[$tag]) ? $list_tags[$tag] : ''; ?></span>
                         <?php if ($i == $len - 1) {
                           echo ('');
                         } else {
@@ -200,12 +200,12 @@ get_header();
                       <?php endforeach; ?>
                     </td>
                     <td class="text-titlecase"><?php echo $record['gender_name']; ?></td>
-                    <td><!-- note dụng cụ --> </td>
+                    <td><?php echo $record['note_cook']; ?><!-- note dụng cụ --> </td>
                     <td><!-- note số đơn --></td>
                     <td><!-- note số ngày ăn --></td>
                     <td><!-- note số phần ăn --></td>
                     <td><!-- note tổng tiền --></td>
-                    <td><?php echo $record['point']; ?>
+                    <td><?php echo $record['point']; ?></td>
                     <td><!-- note lịch sử đặt gần nhất --></td>
                     <td class="text-right"><span class="avatar"><img src="<?php echo get_avatar_url($record['modified_at']); ?>" width="24" alt="<?php echo get_the_author_meta('display_name', $record['modified_at']); ?>"></span></td>
                     <td class="nowrap"><?php echo date('H:i d/m/Y', strtotime($record['modified'])); ?></td>

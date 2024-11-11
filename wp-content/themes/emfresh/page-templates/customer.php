@@ -140,7 +140,7 @@ get_header();
 									<?php
 									foreach ($gender as $key => $value) { ?>
 										<option value="<?php echo $key; ?>">
-											<?php echo ucfirst($value); ?>
+											<?php echo $value; ?>
 										</option>
 									<?php } ?>
 								</select>
@@ -162,7 +162,7 @@ get_header();
 								<select name="note_cook">
 								<option value=""></option>
 								<?php foreach ($list_cook as $value) { ?>
-									<option value="<?php echo $value; ?>"><?php echo ucfirst(strtolower($value)); ?></option>
+									<option value="<?php echo $value; ?>"><?php echo $value; ?></option>
 									<?php } ?>
 								</select>
 							</div>
