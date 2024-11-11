@@ -182,17 +182,23 @@
             text-align: center;
         }
         td {
+            padding-bottom: 0;
             .diachi {
                 min-width: 300px;
             }
             &.dt-type-date {
                 white-space: nowrap;
             }
+            .avatar img {
+                border-radius: 50%;
+                
+            }
         }
     }
     .dt-scroll-body {
         border: none;
         background-color: #fff;
+        padding-bottom: 16px;
     }
     thead > tr > th.dt-orderable-asc span.dt-column-order,
     thead > tr > th.dt-ordering-asc span.dt-column-order,

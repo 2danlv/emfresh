@@ -121,7 +121,7 @@ get_header();
           <tr>
             <th><input type="checkbox" name="checkall" id="checkall" /></th>
             <th><span class="nowrap">Tên khách hàng</span></th>
-            <th>SĐT</th>
+            <th class="text-center">SĐT</th>
             <th>Địa chỉ</th>
             <th>Địa chỉ</th>
             <th class="text-center"><span class="nowrap">Trạng thái </span><span class="nowrap">khách hàng</span></th>
@@ -153,7 +153,7 @@ get_header();
                   <tr>
                     <td><input type="checkbox" class="checkbox-element" value="<?php echo $record['id'] ?>"></td>
                     <td class="text-capitalize"><a href="detail-customer/?customer_id=<?php echo $record['id'] ?>"><?php echo $record['customer_name']; ?></a></td>
-                    <td><span class="copy" title="Copy: <?php echo $record['phone']; ?>"><?php echo $record['phone']; ?></span></td>
+                    <td class="text-left"><span class="copy" title="Copy: <?php echo $record['phone']; ?>"><?php echo $record['phone']; ?></span></td>
                     <td class="text-capitalize">
                       <?php
                       // lấy danh sách location
@@ -205,7 +205,7 @@ get_header();
                     <td><!-- note tổng tiền --></td>
                     <td><?php echo $record['point']; ?>
                     <td><!-- note lịch sử đặt gần nhất --></td>
-                    <td><?php echo $record['modified_author'] != '' ? $record['modified_author'] : $record['created_author']; ?></td>
+                    <td class="text-right"><span class="avatar"><img src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"></span></td>
                     <td class="nowrap"><?php echo $record['modified']; ?></td>
                   </tr>
           <?php  }

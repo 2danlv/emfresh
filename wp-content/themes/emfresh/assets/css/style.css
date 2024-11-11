@@ -184,6 +184,8 @@ table { border-collapse: collapse; }
 
 .row-fluid { margin: 0 -4px; }
 
+.text-left { text-align: left !important; }
+
 .text-center { text-align: center !important; }
 
 .text-right { text-align: right !important; }
@@ -237,7 +239,7 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
   .hidden-sp { display: none; }
   .hidden-pc { display: block; } }
 .content-header { padding-top: 30px; padding-bottom: 16px; }
-.content-header h1 { margin-top: 0; margin-bottom: 0; }
+.content-header h1 { margin-top: 0; margin-bottom: 0; font-weight: 600; }
 .content-header .input-search { width: 100%; border-radius: 8px; border: 1px solid #DEDFE0; padding: 8px; padding-left: 42px; background: url(../img/icon/search.svg) left 8px center #F6F6F6 no-repeat; }
 .content-header .noti { border-right: 1px solid  #DEDFE0; padding: 0 16px; margin-right: 16px; }
 .content-header .noti span.active { position: relative; }
@@ -500,9 +502,11 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
 .dt-container table.table th:first-child, .dt-container table.table td:first-child { padding-left: 8px; padding-right: 0; }
 .dt-container table.table th.dt-orderable-asc, .dt-container table.table td.dt-orderable-asc { padding-right: 18px; }
 .dt-container table.table td:first-child { text-align: center; }
+.dt-container table.table td { padding-bottom: 0; }
 .dt-container table.table td .diachi { min-width: 300px; }
 .dt-container table.table td.dt-type-date { white-space: nowrap; }
-.dt-container .dt-scroll-body { border: none; background-color: #fff; }
+.dt-container table.table td .avatar img { border-radius: 50%; }
+.dt-container .dt-scroll-body { border: none; background-color: #fff; padding-bottom: 16px; }
 .dt-container thead > tr > th.dt-orderable-asc span.dt-column-order, .dt-container thead > tr > th.dt-ordering-asc span.dt-column-order, .dt-container thead > tr > td.dt-orderable-asc span.dt-column-order, .dt-container thead > tr > td.dt-ordering-asc span.dt-column-order { right: 0; }
 .dt-container thead > tr > th.dt-orderable-asc span.dt-column-order:before, .dt-container thead > tr > th.dt-ordering-asc span.dt-column-order:before, .dt-container thead > tr > td.dt-orderable-asc span.dt-column-order:before, .dt-container thead > tr > td.dt-ordering-asc span.dt-column-order:before { top: 31%; }
 .dt-container div.dt-button-collection { border-radius: 8px; }
