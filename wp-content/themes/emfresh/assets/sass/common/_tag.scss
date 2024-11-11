@@ -230,3 +230,15 @@ color: #fff;
     border: 1px solid var(--tag-border-selected, #4BA66F);
     background: var(--tag-background-active, #F0FAF4);
 }
+
+.daterangepicker td {
+    &.in-range {
+        background: var(--calendar-background-cell-range, #F0FAF4);
+    }
+    &.active,&.active:hover,&:hover,&.end-date,&.available:hover {
+        background: var(--calendar-background-cell-selected, #4BA66F);
+    }
+    
+} 
+    
+

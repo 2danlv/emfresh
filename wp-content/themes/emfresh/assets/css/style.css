@@ -474,6 +474,9 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
 
 .badge { color: #4BA66F; padding: 0 8px; border-radius: var(--tag-radiusCorner-rounded, 8px); border: 1px solid var(--tag-border-selected, #4BA66F); background: var(--tag-background-active, #F0FAF4); }
 
+.daterangepicker td.in-range { background: var(--calendar-background-cell-range, #F0FAF4); }
+.daterangepicker td.active, .daterangepicker td.active:hover, .daterangepicker td:hover, .daterangepicker td.end-date, .daterangepicker td.available:hover { background: var(--calendar-background-cell-selected, #4BA66F); }
+
 .list-customer { padding: 16px 16px 0px; border-radius: 16px 16px 0px 0px; background: var(--background-dim-green, #F6F6F6); }
 .list-customer #searchBuilder { display: none !important; }
 .list-customer .em-importer .col-8 ul li { padding-left: 4px; }

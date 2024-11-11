@@ -234,10 +234,23 @@ jQuery(document).ready(function () {
   $('.btn-time').daterangepicker({
       maxDate: moment().startOf('day'),
       timePicker: false,
+      locale: {
+          format: 'DD/MM/YYYY',
+          separator: ' - ',
+          applyLabel: 'Áp dụng',
+          cancelLabel: 'Huỷ',
+          fromLabel: 'Từ',
+          toLabel: 'tới',
+          customRangeLabel: 'Tùy chỉnh',
+          weekLabel: 'W',
+          daysOfWeek: ["CN", "T2", "T3", "T4", "T5", "T6", "T7", "CN"],
+          monthNames: ["Tháng 1,", "Tháng 2,", "Tháng 3,", "Tháng 4,", "Tháng 5,", "Tháng 6,", "Tháng 7,", "Tháng 8,", "Tháng 9,", "Tháng 10,", "Tháng 11,", "Tháng 12,"],
+          firstDay: 1,
+      },
       opens: 'center',
       singleDatePicker: false,
-      showCustomRangeLabel: false,
-      "alwaysShowCalendars": true,
+      showCustomRangeLabel: true,
+      alwaysShowCalendars: true,
       ranges: {
           'All time (Tối đa)': '',
           '1 tuần qua': [moment().subtract(6, 'days').startOf('day'), moment().endOf('day')],
@@ -247,7 +260,6 @@ jQuery(document).ready(function () {
           '6 tháng qua': [moment().subtract(6, 'months').startOf('month'), moment().endOf('month')],
           '1 năm qua': [moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')],
       },
-      locale: { cancelLabel: 'Hủy', applyLabel: 'Áp dụng' },
   });
 
   $('.btn-time').on('apply.daterangepicker', function (ev, picker) {
