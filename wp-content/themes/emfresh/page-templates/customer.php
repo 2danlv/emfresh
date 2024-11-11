@@ -128,7 +128,7 @@ get_header();
 								<input type="text" name="nickname" class="nickname form-control" placeholder="Tên tài khoản*" value="<?php site__post_e('nickname') ?>" required>
 							</div>
 							<div class="col-6 pb-16">
-								<input type="text" name="fullname" placeholder="Tên thật(nếu có)" value="<?php site__post_e('fullname') ?>" class="fullname form-control">
+								<input type="text" name="fullname" placeholder="Tên thật (nếu có)" value="<?php site__post_e('fullname') ?>" class="fullname form-control">
 							</div>
 							<div class="col-6 pb-16">
 								<input type="tel" name="phone" placeholder="Số điện thoại*" class="form-control phone_number" onkeyup="checkphone();" required />

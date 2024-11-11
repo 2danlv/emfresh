@@ -65,7 +65,7 @@
                 text-transform: uppercase;
             }
         }
-        &[title="thân thiết"] {
+        &[title="Thân thiết"] {
             background: var(--color-purple-300, #C6B1F6);
             color: #0F0F0F;
             .select2-selection__choice__remove {
@@ -75,7 +75,7 @@
                 }
             }
         }
-        &[title="ăn nhóm"] {
+        &[title="Ăn nhóm"] {
             background: var(--color-blue-600, #2759D4);
             color: #fff;
             .select2-selection__choice__remove {
@@ -85,7 +85,7 @@
                 }
             }
         }
-        &[title="khách nước ngoài"] {
+        &[title="Khách nước ngoài"] {
             background: var(--color-grey-200, #C0C0C2);
             color: #BA2525;
             .select2-selection__choice__remove {
@@ -95,8 +95,8 @@
                 }
             }
         }
-        &[title="bệnh lý"],
-        &[title="khách có bệnh lý"] {
+        &[title="Bệnh lý"],
+        &[title="Khách có bệnh lý"] {
             background: var(--color-grey-800, #282829);
             color: #FFC500;
             .select2-selection__choice__remove {
@@ -106,7 +106,7 @@
                 }
             }
         }
-        &[title="khách hãm"] {
+        &[title="Khách hãm"] {
             background-color: red;
             .select2-selection__choice__remove {
                 color: #fff;
@@ -115,7 +115,7 @@
                 }
             }
         }
-        &[title="bảo lưu"] {
+        &[title="Bảo lưu"] {
             background-color: orange;
             .select2-selection__choice__remove {
                 color: #fff;

@@ -533,7 +533,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 															<input type="text" name="nickname" class="nickname form-control" value="<?php echo $response_customer['data']['nickname'] ?>" placeholder="Tên tài khoản*" required>
 														</div>
 														<div class="col-6 pb-16">
-															<input type="text" name="fullname" class="fullname form-control" value="<?php echo $response_customer['data']['fullname'] ?>" placeholder="Tên thật(nếu có)">
+															<input type="text" name="fullname" class="fullname form-control" value="<?php echo $response_customer['data']['fullname'] ?>" placeholder="Tên thật (nếu có)">
 														</div>
 														<div class="col-6 pb-16">
 															<input type="tel" id="phone" name="phone" class="phone_number form-control" value="<?php echo $response_customer['data']['phone'] ?>" required>

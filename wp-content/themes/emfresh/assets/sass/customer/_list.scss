@@ -8,7 +8,7 @@
     .em-importer {
         .col-8 {
             ul li {
-                padding-left: 4px;
+                padding-left: 8px;
             }
         }
         ul {
@@ -26,7 +26,7 @@
                     line-height: 35px;
                     text-align: center;
                     border-radius: 8px;
-                    margin-right: 4px;
+                    margin-right: 0px;
                     img {
                         filter: brightness(0) saturate(100%) invert(99%) sepia(1%) saturate(78%) hue-rotate(216deg) brightness(114%) contrast(100%);
                     }
@@ -39,14 +39,14 @@
                         width: 100%;
                         bottom: -5px;
                         left: 0;
-                        z-index: 1;
+                        z-index: 10;
                         height: 8px;
                     }
                     &:hover {
                         ul {
                             opacity: 1;
                             visibility: visible;
-                            z-index: 1;
+                            z-index: 10;
                         }
                     }
                     ul {
@@ -84,6 +84,7 @@
                 }
                 &.has-time {
                     position: relative;
+                    padding-right: 8px;
                     ul {
                         background: var(--modal-background, #FFF);
                         box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
@@ -99,7 +100,7 @@
                         ul {
                             opacity: 1;
                         visibility: visible;
-                        z-index: 1;
+                        z-index: 10;
                         }
                     }
                 }
@@ -109,31 +110,32 @@
             border-radius: 8px;
             border: 1.5px solid #DEDFE0;
             padding: 4px 24px;
+            margin: 0;
             cursor: pointer;
             display: block;
             &.btn-fillter {
-                background: url(../img/icon/filter-svgrepo-com.svg) left 8px center no-repeat;
-                padding-left: 36px;
+                background: url(../img/icon/filter-svgrepo-com.svg) left 20px center no-repeat;
+                padding-left: 48px;
             }
             &.quick-edit {
-                background: url(../img/icon/layer-svgrepo-com.svg) left 8px center no-repeat;
-                padding-left: 36px;
+                background: url(../img/icon/layer-svgrepo-com.svg) left 20px center no-repeat;
+                padding-left: 48px;
             }
             &.btn-action {
-                background: url(../img/icon/CaretDown.svg) right 8px center no-repeat;
-                padding-right: 36px;
+                background: url(../img/icon/CaretDown.svg) right 24px center no-repeat;
+                padding-right: 48px;
             }
             &.btn-status {
-                background: url(../img/icon/delete-svgrepo-com.svg) right 8px center no-repeat;
-                padding-right: 36px;
+                background: url(../img/icon/delete-svgrepo-com.svg) right 24px center no-repeat;
+                padding-right: 48px;
             }
             &.btn-time {
-                background: url(../img/icon/calendar-alt-svgrepo-com.svg) left 8px center no-repeat;
-                padding-left: 36px;
+                background: url(../img/icon/calendar-alt-svgrepo-com.svg) left 20px center no-repeat;
+                padding-left: 48px;
             }
             &.btn-column {
-                background: url(../img/icon/table-add-svgrepo-com.svg) left 8px center no-repeat;
-                padding-left: 36px;
+                background: url(../img/icon/table-add-svgrepo-com.svg) left 20px center no-repeat;
+                padding-left: 48px;
             }
         }
     }
@@ -141,24 +143,32 @@
 }
 .dt-container {
     padding-top: 16px;
+    
     div.dt-container {
         width: 800px;
         margin: 0 auto;
     }
     table.table {
         border-radius: 16px 16px 0px 0px;
-        overflow: hidden;
+        
         border-collapse: collapse;
         thead {
-            background: var(--table-background-header, #DEDFE0);
             th {
                 vertical-align: middle;
+                background: #DEDFE0;
+                font-weight: 600;
                 &[data-dt-column="1"], &[data-dt-column="2"], &[data-dt-column="3"] {
                     cursor: auto;
                     pointer-events: none;
                     .dt-column-order {
                         display: none;
                     }
+                }
+                &:first-child {
+                    border-radius: 16px 0 0 0;
+                }
+                &:last-child {
+                    border-radius: 0 16px 0 0;
                 }
             }
         }

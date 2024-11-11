@@ -3,4 +3,5 @@
 <link href="https://cdn.datatables.net/searchbuilder/1.8.1/css/searchBuilder.dataTables.css" rel="stylesheet" />
 <link href="https://cdn.datatables.net/buttons/3.1.2/css/buttons.dataTables.css" rel="stylesheet" />
 <link href="https://cdn.datatables.net/datetime/1.5.4/css/dataTables.dateTime.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/fixedcolumns/5.0.3/css/fixedColumns.dataTables.css" rel="stylesheet" />
 <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/alumuko/vanilla-datetimerange-picker@latest/dist/vanilla-datetimerange-picker.css">

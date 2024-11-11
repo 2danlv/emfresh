@@ -68,17 +68,16 @@ $(document).ready(function() {
 							?>
 				<section class="content-header">
 					<div class="row ai-center">
-						<div class="col-3">
+						<div class="col-9 d-f ai-center">
 							<h1><?php the_title(); ?></h1>
-						</div>
-						<div class="col-4">
+						
 							<?php 
 							if ( is_page_template( 'page-templates/list-customer.php' ) ) { ?>
 								<input class="input-search" placeholder="Tên khách hàng / SĐT / Địa chỉ" type="text">
 							<?php } 
 							?>
 						</div>
-						<div class="col-5">
+						<div class="col-3">
 							<div class="row ai-center jc-end">
 								<?php global $current_user;
 								wp_get_current_user(); ?>

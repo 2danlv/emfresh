@@ -40,10 +40,12 @@
   }
 }
 .modal-copy-phone {
+  background: none;
   .modal-dialog {
     min-width: auto;
     background: var(--color-primary-100, #DDF6E7);
     border: 1px solid #98D9B2;
+    margin-bottom: 65vh;
     .modal-content {
       padding: 8px 16px 16px;
     }

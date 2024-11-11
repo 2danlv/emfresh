@@ -10,7 +10,6 @@ jQuery(document).ready(function () {
     
     
     var table = $('.table-list-customer').DataTable({
-      scrollX: true,
         language: {
             paginate: {
                 previous: '<i class="fas fa-left"></i>',
@@ -110,6 +109,11 @@ jQuery(document).ready(function () {
         dom: 'Bfrtip<"bottom"pl>',
         responsive: true,
         autoWidth: true,
+        fixedColumns: {
+            start: 3
+        },
+        scrollCollapse: true,
+        scrollX: true,
         //"buttons": ["csv", "excel", "pdf"],
         order: [[16, 'desc']],
         lengthChange: true,
