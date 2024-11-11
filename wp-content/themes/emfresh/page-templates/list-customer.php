@@ -232,8 +232,8 @@ get_header();
         <div class="row">
           <div class="col-6">
             <ul class="filter list-unstyled">
-              <li><label><input type="checkbox" data-column="1" value="1" checked> Tên khách hàng</label></li>
-              <li><label><input type="checkbox" data-column="2" value="2" checked> Số điện thoại</label></li>
+              <li><label><input type="checkbox" data-column="1" value="1" disabled checked> Tên khách hàng</label></li>
+              <li><label><input type="checkbox" data-column="2" value="2" disabled checked> Số điện thoại</label></li>
               <li><label><input type="checkbox" data-column="3" value="3" checked> Địa chỉ mặc định</label></li>
               <li><label><input type="checkbox" data-column="5" value="5" checked> Trạng thái khách hàng</label></li>
               <li><label><input type="checkbox" data-column="6" value="6"> Tag phân loại</label></li>

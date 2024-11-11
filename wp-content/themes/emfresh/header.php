@@ -57,9 +57,18 @@ $(document).ready(function() {
 			?>
 			<div class="col-10 content-wrapper">
 				<!-- Content Header (Page header) -->
+				<?php 
+							if ( is_page_template( 'page-templates/detail-customer.php' ) ) { ?>
+								<style>
+									.content-header  {
+										display: none;
+									}
+								</style>
+							<?php } 
+							?>
 				<section class="content-header">
 					<div class="row ai-center">
-						<div class="col-5">
+						<div class="col-3">
 							<h1><?php the_title(); ?></h1>
 						</div>
 						<div class="col-4">
@@ -69,7 +78,7 @@ $(document).ready(function() {
 							<?php } 
 							?>
 						</div>
-						<div class="col-3">
+						<div class="col-5">
 							<div class="row ai-center jc-end">
 								<?php global $current_user;
 								wp_get_current_user(); ?>

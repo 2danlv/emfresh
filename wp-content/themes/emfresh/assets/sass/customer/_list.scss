@@ -283,10 +283,11 @@
                     align-items: center;
                     justify-content: center;
                     cursor: pointer;
-                    &.current,&:hover {
-                        background-color: #2A8C51;
-                        border: 1px solid var(--pagination-border-default, #2A8C51);
-                        color: #fff !important;
+                    
+                    &.current,&:hover,&.current:hover {
+                        background: #DDF6E7;
+                        border: 1px solid var(--pagination-border-default, #DDF6E7);
+                        color: #4BA66F !important;
                     }
                     &.disabled {
                         cursor: auto;

@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['remove'])) {
 	];
 	$response = em_api_request('customer/delete', $customer_data);
 
-	if($response['code'] == 200) {
+	if ($response['code'] == 200) {
 		// Log delete
 		$em_log->insert([
 			'action'        => 'Xóa',
@@ -89,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 		wp_redirect($list_customer_url);
 		exit();
 	}
-		
+
 	$log_labels = [
 		'customer_name'	=> 'Tên khách hàng',
 		'phone'         => 'Số điện thoại',
@@ -108,12 +108,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 
 	$log_change = [];
 
-	foreach($log_labels as $key => $label) 
-	{
+	foreach ($log_labels as $key => $label) {
 		$old = isset($customer_old[$key]) ? $customer_old[$key] : null;
 		$new = isset($customer_data[$key]) ? $customer_data[$key] : null;
 
-		if($new != null && $old != null && $new != $old) {
+		if ($new != null && $old != null && $new != $old) {
 			$log_change[] = sprintf('<span class="memo text-titlecase field-%s">%s</span><span class="note-detail text-titlecase">%s</span>', $key, $label, $new);
 		}
 	}
@@ -142,16 +141,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 
 		if ($location_id > 0) {
 			$location_old = $em_location->get_item($location_id);
-			
+
 			$location_data['id'] = $location_id;
 
 			$response_location = em_api_request('location/update', $location_data);
 
 			$address_old = [];
 			$address_new = [];
-			foreach($log_location_labels as $key => $label)
-			{
-				if($label != '') {
+			foreach ($log_location_labels as $key => $label) {
+				if ($label != '') {
 					$label .= ': ';
 				}
 
@@ -161,7 +159,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 			$address_old = implode(', ', $address_old);
 			$address_new = implode(', ', $address_new);
 
-			if($address_old != $address_new) {
+			if ($address_old != $address_new) {
 				$log_change[] = sprintf('<span class="memo field-location">Địa chỉ</span><span class="note-detail">%s</span>', $address_new);
 			}
 		} else {
@@ -201,7 +199,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 				$em_customer_tag->delete($customer_tags[$i]['id']);
 			}
 
-			foreach($result as $tag_id) {
+			foreach ($result as $tag_id) {
 				$log_change[] = sprintf('<span class="memo field-tag">Tag phân loại</span><span class="note-detail text-titlecase">%s</span>', custom_ucwords_utf8($em_customer->get_tags($tag_id)));
 			}
 		}
@@ -257,23 +255,21 @@ get_header();
 
 $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 ?>
-<div class="detail-customer">
-	<!-- Content Header (Page header) -->
-	<h1><?php echo $response_customer['data']['customer_name'] ?></h1>
-	<!-- Main content -->
-	<section class="content">
+<div class="detail-customer pt-16">
+
+	<section class="content pt-16">
 		<?php
-			if (isset($_GET['code']) && $_GET['code'] == 200 && $_GET['message'] == 'Update Success') {
-				echo '<div class="alert alert-success mb-16" role="alert">Cập nhật thành công</div>';
-			} else if (isset($_GET['code']) && $_GET['code'] != 200) {
-				echo '<div class="alert alert-warning mb-16" role="alert">Cập nhật không thành công</div>';
-			}
-			if (isset($_GET['message']) && $_GET['code'] == 200 && $_GET['message'] == 'Add Success') {
-				echo '<div class="alert alert-success mb-16" role="alert">Thêm thành công</div>';
-			}
-			if (!empty($_GET['message']) && !empty($_GET['expire']) && intval($_GET['expire']) > time()) {
-				echo '<div class="alert alert-success mb-16 " role="alert">'. site_base64_decode($_GET['message']) .'</div>';
-			}
+		if (isset($_GET['code']) && $_GET['code'] == 200 && $_GET['message'] == 'Update Success') {
+			echo '<div class="alert alert-success mb-16" role="alert">Cập nhật thành công</div>';
+		} else if (isset($_GET['code']) && $_GET['code'] != 200) {
+			echo '<div class="alert alert-warning mb-16" role="alert">Cập nhật không thành công</div>';
+		}
+		if (isset($_GET['message']) && $_GET['code'] == 200 && $_GET['message'] == 'Add Success') {
+			echo '<div class="alert alert-success mb-16" role="alert">Thêm thành công</div>';
+		}
+		if (!empty($_GET['message']) && !empty($_GET['expire']) && intval($_GET['expire']) > time()) {
+			echo '<div class="alert alert-success mb-16 " role="alert">' . site_base64_decode($_GET['message']) . '</div>';
+		}
 		?>
 		<div class="container-fluid">
 			<div class="row pb-16">
@@ -303,6 +299,9 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 				</ul>
 			</div>
 			<div class="card-primary">
+				<!-- Content Header (Page header) -->
+				<h1 class="pt-16 pb-8"><?php echo $response_customer['data']['customer_name'] ?></h1>
+				<!-- Main content -->
 				<div class="row">
 					<div class="col-4 about-box">
 						<!-- About Me Box -->
@@ -375,7 +374,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 								<div class="<?php echo $tab_active == '' ? 'active' : '' ?> tab-pane" id="info">
 									<div class="card mb-16">
 										<div class="ttl">
-											Thông tin chi tiết
+											Địa chỉ
 										</div>
 										<?php
 										foreach ($response_get_location['data'] as $index => $record) {
@@ -383,7 +382,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 											<div class="d-f jc-b pt-16">
 												<span><?php echo $record['address'] ?>,
 													<?php echo $record['ward'] ?>,
-													<?php echo $record['district'] ?>, Thành phố Hồ Chí Minh
+													<?php echo $record['district'] ?>
 												</span>
 												<?php if ($record['active'] == 1) { ?>
 													<span class="badge badge-warning">Mặc định</span>
@@ -459,7 +458,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 											Ghi chú
 										</div>
 										<div class="note-wraper pt-16 pb-16">
-										<?php
+											<?php
 											$comments = get_comments(array(
 												'type' => 'customer',
 												'status' => 'any', // 'any', 'pending', 'approve'
@@ -469,31 +468,31 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 												// 'number' => 5,
 											));
 
-											foreach ($comments as $comment) : 
+											foreach ($comments as $comment) :
 												$comment_status = sanitize_title(get_comment_meta($comment->comment_ID, 'status', true));
 											?>
-											<div class="js-comment-row">
-												<div class="row row-comment<?php echo $comment->comment_approved == 0 ? ' status-trash' : '' ?>">
-													<div class="account-name d-f ai-center col-6">
-														<div class="avatar">
-															<img src="<?php site_the_assets(); ?>/img/icon/User.svg" alt="">
+												<div class="js-comment-row">
+													<div class="row row-comment<?php echo $comment->comment_approved == 0 ? ' status-trash' : '' ?>">
+														<div class="account-name d-f ai-center col-6">
+															<div class="avatar">
+																<img src="<?php site_the_assets(); ?>/img/icon/User.svg" alt="">
+															</div>
+															<div><?php echo $comment->comment_author ?></div>
 														</div>
-														<div><?php echo $comment->comment_author ?></div>
+														<div class="edit col-3">
+															<?php if (site_comment_can_edit($comment->comment_ID) && $comment->comment_approved > 0) : ?>
+																<a href="#editcomment" data-id="<?php echo $comment->comment_ID ?>"><img src="<?php site_the_assets(); ?>/img/icon/edit-2-svgrepo-com.svg" alt=""></a>
+																<a onclick="return confirm('Bạn có chắc muốn xóa ghi chú này không?')" href="<?php echo site_comment_get_delete_link($comment->comment_ID) ?>"><img src="<?php site_the_assets(); ?>/img/icon/bin.svg" alt=""></a>
+																<img src="<?php site_the_assets(); ?>/img/icon/pin-svgrepo-com.svg" alt="">
+															<?php endif ?>
+														</div>
+														<div class="time col-3"><?php echo get_comment_date('d/m/Y', $comment->comment_ID) ?></div>
 													</div>
-													<div class="edit col-3">
-														<?php if(site_comment_can_edit($comment->comment_ID) && $comment->comment_approved > 0) :?>
-														<a href="#editcomment" data-id="<?php echo $comment->comment_ID ?>"><img src="<?php site_the_assets(); ?>/img/icon/edit-2-svgrepo-com.svg" alt=""></a>
-														<a onclick="return confirm('Bạn có chắc muốn xóa ghi chú này không?')" href="<?php echo site_comment_get_delete_link($comment->comment_ID) ?>"><img src="<?php site_the_assets(); ?>/img/icon/bin.svg" alt=""></a>
-														<img src="<?php site_the_assets(); ?>/img/icon/pin-svgrepo-com.svg" alt="">
-														<?php endif ?>
+													<div class="note-content <?php echo $comment_status ?>">
+														<span class="comment_content"><?php echo $comment->comment_content ?></span>
+														<?php echo $comment->comment_approved == 0 ? '<span class="comment_status status-edited">&#8226; Đã xóa</span>' : ($comment_status == 'cap-nhat' ? '<span class="comment_status status-edited">&#8226; Đã sửa</span>' : '') ?>
 													</div>
-													<div class="time col-3"><?php echo get_comment_date('d/m/Y', $comment->comment_ID) ?></div>
 												</div>
-												<div class="note-content <?php echo $comment_status ?>">
-													<span class="comment_content"><?php echo $comment->comment_content ?></span>
-													<?php echo $comment->comment_approved == 0 ? '<span class="comment_status status-edited">&#8226; Đã xóa</span>' : ($comment_status == 'cap-nhat' ? '<span class="comment_status status-edited">&#8226; Đã sửa</span>' : '') ?>
-												</div>
-											</div>
 											<?php endforeach; ?>
 										</div>
 										<div class="note-form">
@@ -552,16 +551,16 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 																<p><span class="customer_name"><?php echo $response_customer['data']['customer_name'] ?></span></p>
 																<p><span class="customer_phone"><?php echo $response_customer['data']['phone'] ?></span></p>
 																<div class="info0">
-																<?php foreach ($response_get_location['data'] as $index => $location) {
+																	<?php foreach ($response_get_location['data'] as $index => $location) {
 																	?><?php if ($location['active'] == 1) { ?>
-																		<span class="address"><?php echo $location['address'] ?>,</span>
-																		<span class="ward"><?php echo $location['ward'] ?>,</span>
-																		<span class="city"><?php echo $location['district'] ?></span>
-																		<?php } ?>
-																		<?php
+																	<span class="address"><?php echo $location['address'] ?>,</span>
+																	<span class="ward"><?php echo $location['ward'] ?>,</span>
+																	<span class="city"><?php echo $location['district'] ?></span>
+																<?php } ?>
+															<?php
 																	}
-																	?>
-																	
+															?>
+
 																</div>
 															</div>
 														</div>
@@ -620,8 +619,9 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 															} else {
 																$address_active = "";
 															}
-															 ?>
-															<div class="address-group location_<?php echo ($record['active']); echo $address_active; ?> " data-index="<?php echo $index ?>">
+														?>
+															<div class="address-group location_<?php echo ($record['active']);
+																								echo $address_active; ?> " data-index="<?php echo $index ?>">
 																<input type="hidden" name="locations[<?php echo $index ?>][id]" value="<?php echo $record['id'] ?>" />
 																<div class="row">
 																	<div class="city col-12 pb-16">
@@ -643,36 +643,36 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 																		<input id="address_<?php echo $record['id'] ?>" type="text" class="form-control address" value="<?php echo $record['address']; ?>" placeholder="Địa chỉ cụ thể*" name="locations[<?php echo $index ?>][address]" required />
 																	</div>
 																</div>
-																<?php 
-																if ($record['note_shipper'] !='') {
+																<?php
+																if ($record['note_shipper'] != '') {
 																	$class_note_shipper = '';
 																} else {
 																	$class_note_shipper = 'hidden';
 																}
-																if ($record['note_admin'] !='') {
+																if ($record['note_admin'] != '') {
 																	$class_note_admin = '';
 																} else {
 																	$class_note_admin = 'hidden';
 																}
-																 if ($record['note_shipper'] && $record['note_admin'] ) { 
+																if ($record['note_shipper'] && $record['note_admin']) {
 																	$class_hidden = 'hidden';
-																 } else {
+																} else {
 																	$class_hidden = '';
-																 }
+																}
 																?>
 																<div class="group-note">
-																<div class="note_shiper <?php echo $class_note_shipper ?> pb-16">
-																	<input type="text" name="locations[<?php echo $index ?>][note_shipper]" value="<?php echo $record['note_shipper'] ?>" placeholder="Note với shipper" />
+																	<div class="note_shiper <?php echo $class_note_shipper ?> pb-16">
+																		<input type="text" name="locations[<?php echo $index ?>][note_shipper]" value="<?php echo $record['note_shipper'] ?>" placeholder="Note với shipper" />
+																	</div>
+																	<div class="note_admin <?php echo $class_note_admin ?> pb-16">
+																		<input type="text" name="locations[<?php echo $index ?>][note_admin]" value="<?php echo $record['note_admin'] ?>" placeholder="Note với admin" />
+																	</div>
 																</div>
-																<div class="note_admin <?php echo $class_note_admin ?> pb-16">
-																	<input type="text" name="locations[<?php echo $index ?>][note_admin]" value="<?php echo $record['note_admin'] ?>" placeholder="Note với admin" />
-																</div>
-																</div>
-																
+
 																<div class="show-group-note d-f ai-center pb-16 <?php echo $class_hidden ?>">
 																	<span class="fas fa-plus mr-4"></span> Thêm ghi chú giao hàng
 																</div>
-																
+
 																<div class="col-12 pb-16">
 																	<hr>
 																	<div class="row pt-8">
@@ -724,29 +724,29 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 												</tr>
 											</thead>
 											<tbody>
-												<?php 
+												<?php
 												$list_logs = $em_log->get_items([
 													'module' => 'em_customer',
 													'module_id' => $customer_id,
 													// 'orderby'   => 'id DESC',
 												]);
 
-												foreach($list_logs as $log) :
+												foreach ($list_logs as $log) :
 													$log_time = strtotime($log['created']);
 												?>
-												<tr>
-													<td><?php echo $log['created_author'] ?></td>
-													<td><?php echo $log['action'] ?></td>
-													<td class="nowrap">
-														<div class="descript-note">
-															<?php echo nl2br($log['content']) ?>
-														</div>
-													</td>
-													<td><?php echo date('H:i', $log_time) ?></td>
-													<td><?php echo date('d/m/Y', $log_time) ?></td>
-												</tr>
+													<tr>
+														<td><?php echo $log['created_author'] ?></td>
+														<td><?php echo $log['action'] ?></td>
+														<td class="nowrap">
+															<div class="descript-note">
+																<?php echo nl2br($log['content']) ?>
+															</div>
+														</td>
+														<td><?php echo date('H:i', $log_time) ?></td>
+														<td><?php echo date('d/m/Y', $log_time) ?></td>
+													</tr>
 												<?php endforeach ?>
-												
+
 											</tbody>
 										</table>
 									</div>
@@ -798,13 +798,14 @@ get_footer('customer');
 	jQuery(function($) {
 
 		$('.js-comment-row').each(function() {
-			let row = $(this), f = $('.js-comment-form');
+			let row = $(this),
+				f = $('.js-comment-form');
 
-			row.find('a[href="#editcomment"]').on('click', function(e){
+			row.find('a[href="#editcomment"]').on('click', function(e) {
 				let id = $(this).data('id') || 0,
 					value = row.find('.comment_content').text();
 
-				if(id > 0 && value != '') {
+				if (id > 0 && value != '') {
 					let title = 'Bạn đang chỉnh sửa ghi chú - ' + value;
 
 					f.find('[name="comment"]').val(value).attr('placeholder', title).attr('title', title).attr('data-value', value)
@@ -854,7 +855,7 @@ get_footer('customer');
 				$('input.customer_name').val($('.fullname').val() + ' (' + $('.nickname').val() + ') ');
 				$('span.customer_name').text($('.fullname').val() + ' (' + $('.nickname').val() + ') ');
 			}
-			if ($('.fullname').val() == '' ) {
+			if ($('.fullname').val() == '') {
 				$('input.customer_name').val($('.nickname').val());
 				$('span.customer_name').text($('.nickname').val());
 			}
