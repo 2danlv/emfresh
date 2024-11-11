@@ -113,6 +113,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 		$new = isset($customer_data[$key]) ? $customer_data[$key] : null;
 
 		if ($new != null && $old != null && $new != $old) {
+			if($key == 'gender') {
+				$new = $em_customer->get_genders($new);
+			}
+			
 			$log_change[] = sprintf('<span class="memo text-titlecase field-%s">%s</span><span class="note-detail text-titlecase">%s</span>', $key, $label, $new);
 		}
 	}
@@ -300,7 +304,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 			</div>
 			<div class="card-primary">
 				<!-- Content Header (Page header) -->
-				<h1 class="pt-16 pb-8"><?php echo $response_customer['data']['customer_name'] ?></h1>
+				<h1 class="pt-16"><?php echo $response_customer['data']['customer_name'] ?></h1>
 				<!-- Main content -->
 				<div class="row">
 					<div class="col-4 about-box">

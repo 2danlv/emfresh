@@ -372,7 +372,13 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
 .modal-body .filter.list-unstyled { padding-bottom: 16px; }
 .modal-body .filter.list-unstyled li { padding-bottom: 8px; }
 
-.copy { cursor: pointer; }
+.modal-copy-phone .modal-dialog { min-width: auto; background: var(--color-primary-100, #DDF6E7); border: 1px solid #98D9B2; }
+.modal-copy-phone .modal-dialog .modal-content { padding: 8px 16px 16px; }
+.modal-copy-phone .modal-dialog .form-group .phone-copy { color: #2451C2; padding: 0 8px; }
+.modal-copy-phone .modal-dialog .form-group .fa-tick { border-radius: 50%; margin-right: 4px; background-color: #fff; }
+.modal-copy-phone .modal-dialog .form-group .fa-trash { cursor: pointer; }
+
+.copy { cursor: pointer; color: #2451C2; }
 
 .nowrap { white-space: nowrap; }
 
@@ -455,6 +461,8 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
 .fa-info { background: url(../img/icon/contact-svgrepo-com.svg) center center no-repeat; }
 
 .fa-location { background: url(../img/icon/address-location-map-svgrepo-com.svg) center center no-repeat; }
+
+.fa-tick { background: url(../img/icon/tick-svgrepo-com_green.svg) center center no-repeat; }
 
 .button, .btn { padding: 11px 24px; border-radius: var(--button-radiusCorner, 8px); border: 1.5px solid var(--button-outline-border-default, #DEDFE0); border: none; cursor: pointer; margin: 0 4px; }
 
@@ -554,8 +562,6 @@ div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria select.dtsb-data, div.dt
 .show-group-note { cursor: pointer; }
 
 .address_active .delete-location-button { display: none; }
-
-.copy { cursor: pointer; }
 
 .success-message { color: green; }
 

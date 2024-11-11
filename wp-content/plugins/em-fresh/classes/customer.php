@@ -324,7 +324,7 @@ class EM_Customer extends EF_Default
             'note_shipping' => '',
             'note_cook'     => '',
             'order_payment_status' => 0,
-            'tag'           => 0,
+            // 'tag'           => 0,
             'point'         => 0,
             'parent'        => 0,
             'created'       => '',
@@ -354,9 +354,9 @@ class EM_Customer extends EF_Default
     function get_genders($key = null)
     {
         $list = [
-            1 => 'nam',
-            2 => 'nữ',
-            3 => 'không có thông tin'
+            1 => 'Nam',
+            2 => 'Nữ',
+            3 => '-'
         ];
 
         if ($key != null) {
@@ -369,11 +369,11 @@ class EM_Customer extends EF_Default
     function get_statuses($key = null)
     {
         $list = [
-            1 => 'đặt đơn',
-            2 => 'dí món',
-            3 => 'chưa rõ',
-            4 => 'ngừng',
-            5 => 'bảo lưu'
+            1 => 'Đặt Đơn',
+            2 => 'Dí Món',
+            3 => 'Chưa Rõ',
+            4 => 'Ngừng',
+            5 => 'Bảo Lưu'
         ];
 
         if ($key != null) {
@@ -386,11 +386,11 @@ class EM_Customer extends EF_Default
     function get_tags($key = null)
     {
         $list = [
-            1 => 'thân thiết',
-            2 => 'ăn nhóm',
-            3 => 'khách nước ngoài', // 'khách có bệnh lý',
-            4 => 'bệnh lý', // 'khách hãm',
-            // 5 => 'bảo lưu'
+            1 => 'Thân Thiết',
+            2 => 'Ăn Nhóm',
+            3 => 'Khách Nước Ngoài', // 'Khách Có Bệnh Lý',
+            4 => 'Bệnh Lý', // 'Khách Hãm',
+            // 5 => 'Bảo Lưu'
         ];
 
         if ($key != null) {
@@ -403,8 +403,8 @@ class EM_Customer extends EF_Default
     function get_actives($key = null)
     {
         $list = [
-            1 => 'active',
-            0 => 'inactive'
+            1 => 'Active',
+            0 => 'Inactive'
         ];
 
         if ($key != null) {
@@ -428,19 +428,22 @@ class EM_Customer extends EF_Default
         if (is_array($data)) {
             global $em_order;
 
+            unset($data['tag']);
+            unset($data['parent']);
+
             foreach ($data as $key => $value) {
                 $item[$key] = $value;
 
                 if ($key == 'gender') {
-                    $item['gender_name'] = em_ucwords($this->get_genders($value));
+                    $item['gender_name'] = $this->get_genders($value);
                 } else if ($key == 'status') {
-                    $item['status_name'] = em_ucwords($this->get_statuses($value));
+                    $item['status_name'] = $this->get_statuses($value);
                 } else if ($key == 'tag') {
-                    $item['tag_name'] = em_ucwords($this->get_tags($value));
+                    // $item['tag_name'] = $this->get_tags($value);
                 } else if ($key == 'active') {
-                    $item['active_name'] = em_ucwords($this->get_actives($value));
+                    $item['active_name'] = $this->get_actives($value);
                 } else if ($key == 'order_payment_status') {
-                    $item['payment_status_name'] = em_ucwords($em_order->get_statuses($value));
+                    $item['payment_status_name'] = $em_order->get_statuses($value);
                 }
             }
 
@@ -454,25 +457,10 @@ class EM_Customer extends EF_Default
                 }
                 
                 $item['customer_name'] = $customer_name;
-
-                // $this->update_customer_name($item);
             }
         }
 
         return parent::filter_item($item, $type);
-    }
-
-    function update_customer_name($item = [])
-    {
-        global $wpdb;
-    
-        return $wpdb->update(
-            $this->get_tbl_name(),
-            array('customer_name' => $item['customer_name']),
-            array('id' => $item['id']),
-            array('%s'),
-            array('%d'),
-        );
     }
 
     function get_history($id = 0)

@@ -140,11 +140,11 @@ get_header();
         </thead>
         <tbody>
           <?php
-          $customer_filter = [
-            'paged' => 1,
-            'limit' => -1,
-          ];
-          $response = em_api_request('customer/list', $customer_filter);
+            $response = em_api_request('customer/list', [
+              'active' => 1,
+              'paged' => 1,
+              'limit' => -1,
+            ]);
           if (isset($response['data']) && is_array($response['data'])) {
             // Loop through the data array and print each entry
             foreach ($response['data'] as $record) {
@@ -153,11 +153,11 @@ get_header();
                   <tr>
                     <td><input type="checkbox" class="checkbox-element" value="<?php echo $record['id'] ?>"></td>
                     <td class="text-capitalize"><a href="detail-customer/?customer_id=<?php echo $record['id'] ?>"><?php echo $record['customer_name']; ?></a></td>
-                    <td class="text-left"><span class="copy" title="Copy: <?php echo $record['phone']; ?>"><?php echo $record['phone']; ?></span></td>
+                    <td class="text-left"><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $record['phone']; ?>"><?php echo $record['phone']; ?></span></td>
                     <td class="text-capitalize">
                       <?php
                       // lấy danh sách location
-                      $location_filter = [
+                      /* $location_filter = [
                         'customer_id' => $record['id'],
                         'limit' => 1,
                       ];
@@ -165,20 +165,22 @@ get_header();
                       foreach ($response_get_location['data'] as $index => $location) {
                       ?><?php if ($location['active'] == 1) { ?>
                       <div class="nowrap diachi"><?php echo $location['address'] ?>, <?php echo $location['ward'] ?>, <?php echo $location['district'] ?></div>
-                    <?php } ?>
-
-                  <?php
-
+                    <?php } 
                       }
-                  ?>
+                      */
+                    ?>
+                      <div class="nowrap diachi"><?php echo $record['address'] ?>, <?php echo $record['ward'] ?>, <?php echo $record['district'] ?></div>
                     </td>
                     <td class="text-capitalize">
+                      <?php echo $record['district']; ?>
                       <?php
-                      foreach ($response_get_location['data'] as $index => $location) {
+                      /* foreach ($response_get_location['data'] as $index => $location) {
                         if ($location['active'] == 1) {
                           echo $location['district'];
                         }
-                      } ?>
+                      }
+                      */
+                      ?>
                     </td>
                     <td><span class="tag btn btn-sm status_<?php echo $record['status']; ?>"><?php echo ucfirst(strtolower(custom_ucwords_utf8(($record['status_name'])))); ?></span></td>
                     <td>
@@ -189,15 +191,15 @@ get_header();
                       foreach ($customer_tags as $item) : $tag = $item['tag_id']; ?>
                         <span class="tag btn btn-sm tag_<?php echo $tag; ?>"><?php echo isset($list_tags[$tag]) ? ucfirst(strtolower(custom_ucwords_utf8($list_tags[$tag]))) : ''; ?></span>
                         <?php if ($i == $len - 1) {
-                          echo('');
+                          echo ('');
                         } else {
-                          echo('<i class="hidden">,</i>');
+                          echo ('<i class="hidden">,</i>');
                         }
                         $i++;
-                         ?>
+                        ?>
                       <?php endforeach; ?>
                     </td>
-                    <td class="text-titlecase"><?php echo ucfirst(strtolower($record['gender_name'])); ?></td>
+                    <td class="text-titlecase"><?php echo $record['gender_name']; ?></td>
                     <td><!-- note dụng cụ --> </td>
                     <td><!-- note số đơn --></td>
                     <td><!-- note số ngày ăn --></td>
@@ -205,8 +207,8 @@ get_header();
                     <td><!-- note tổng tiền --></td>
                     <td><?php echo $record['point']; ?>
                     <td><!-- note lịch sử đặt gần nhất --></td>
-                    <td class="text-right"><span class="avatar"><img src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"></span></td>
-                    <td class="nowrap"><?php echo $record['modified']; ?></td>
+                    <td class="text-right"><span class="avatar"><img src="<?php echo get_avatar_url($record['modified_at']); ?>" width="24" alt="<?php echo get_the_author_meta('display_name', $record['modified_at']); ?>"></span></td>
+                    <td class="nowrap"><?php echo date('H:i d/m/Y', strtotime($record['modified'])); ?></td>
                   </tr>
           <?php  }
               } else {
@@ -221,6 +223,7 @@ get_header();
   </div>
   <!-- /.card-body -->
 </section>
+
 
 <div class="modal fade" id="modal-default">
   <div class="modal-dialog">

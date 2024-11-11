@@ -118,7 +118,7 @@ jQuery(document).ready(function () {
             ['50 / trang', '100 / trang', '200 / trang'],
         ],
         "stateSave": true,
-        scrollY: '57vh',
+        scrollY: '58vh',
         columnDefs: [
             {
                 type: 'natural',
@@ -298,9 +298,12 @@ jQuery(document).ready(function () {
         const tempInput = $('<input>');
         $('body').append(tempInput);
         tempInput.val(textToCopy).select();
-
+        $('.modal-content .phone-copy').text(textToCopy);
         document.execCommand('copy');
-
+        setTimeout(() => {
+            $('.modal.modal-copy-phone').removeClass('is-active');
+            $('body').removeClass('overflow');
+        }, 2000);
         tempInput.remove();
 
     });

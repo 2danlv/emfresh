@@ -1,5 +1,6 @@
 .copy {
     cursor: pointer;
+    color: #2451C2;
 }
 .nowrap{
     white-space: nowrap;
@@ -195,7 +196,9 @@
 .fa-location {
     background: url(../img/icon/address-location-map-svgrepo-com.svg) center center no-repeat ;
 }
-
+.fa-tick {
+    background: url(../img/icon/tick-svgrepo-com_green.svg) center center no-repeat ;
+}
 .button,.btn {
     padding: 11px 24px;
     border-radius: var(--button-radiusCorner, 8px);

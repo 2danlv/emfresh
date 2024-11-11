@@ -39,3 +39,27 @@
     }
   }
 }
+.modal-copy-phone {
+  .modal-dialog {
+    min-width: auto;
+    background: var(--color-primary-100, #DDF6E7);
+    border: 1px solid #98D9B2;
+    .modal-content {
+      padding: 8px 16px 16px;
+    }
+    .form-group {
+      .phone-copy {
+        color: #2451C2;
+        padding: 0 8px;
+      }
+      .fa-tick {
+        border-radius: 50%;
+        margin-right: 4px;
+        background-color: #fff;
+      }
+      .fa-trash {
+        cursor: pointer;
+      }
+    }
+  }
+}
