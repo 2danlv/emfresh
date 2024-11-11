@@ -145,7 +145,7 @@ table { border-collapse: collapse; }
 
 .container { max-width: 1200px; margin-left: auto; margin-right: auto; padding: 0 8px; }
 
-.container-fluid { margin-left: auto; margin-right: auto; padding: 0 8px; max-width: 1440px; }
+.container-fluid { margin-left: auto; margin-right: auto; padding: 0 8px; max-width: 100%; }
 
 .clearfix:after { content: ""; display: block; clear: both; }
 
@@ -156,6 +156,7 @@ table { border-collapse: collapse; }
 .row, .row0 { display: flex; flex-wrap: wrap; margin-left: -8px; margin-right: -8px; }
 .row.ai-center, .row0.ai-center { align-items: center; }
 .row > [class*="col"], .row0 > [class*="col"] { padding-left: 8px; padding-right: 8px; min-height: 1px; }
+.row.nowrap, .row0.nowrap { flex-wrap: nowrap; margin: 0 auto; }
 
 .d-f { display: flex; }
 
@@ -276,19 +277,19 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
   .top-heading-area .c-heading-2:before { background: #5EC4EA; content: ""; position: absolute; right: 0px; width: 8px; border-radius: 50%; z-index: 1; top: 13px; height: 8px; } }
 @media screen and (max-width: 768px) and (max-width: 768px) { .top-heading-area .c-heading-2:before, .top-heading-area .c-heading-2:after { top: 50%; transform: translateY(-50%); } }
 
-.mini_sidebar .row .sidebar { width: 5%; transition: .5s; overflow: hidden; text-overflow: ellipsis; }
+.mini_sidebar .row .sidebar { width: 60px; overflow: hidden; margin-left: 0; text-overflow: ellipsis; }
 .mini_sidebar .row .sidebar .resize .mini, .mini_sidebar .row .sidebar .resize.active .mini, .mini_sidebar .row .sidebar ul.nav-menu li a span { display: none; }
-.mini_sidebar .row .sidebar .resize.active { width: 5%; }
+.mini_sidebar .row .sidebar .resize.active { width: 60px; }
 .mini_sidebar .row .sidebar .resize.active img { transform: rotate(180deg); }
+.mini_sidebar .row .sidebar ul.nav-menu { width: auto; }
 .mini_sidebar .row .sidebar ul.nav-menu li a { justify-content: center; }
 .mini_sidebar .row .sidebar ul.nav-menu li a img { margin-right: 0; }
 .mini_sidebar .row .sidebar ul.nav-menu li.menu-item-has-children { margin-bottom: 8px; }
 .mini_sidebar .row .sidebar ul.nav-menu li.menu-item-has-children > a { background: none; }
 .mini_sidebar .row .sidebar ul.nav-menu li .sub-menu { display: none; }
-.mini_sidebar .row .content-wrapper { width: 95%; transition: .5s; flex: 1; }
 
-.row .sidebar { transition: .5s; position: relative; }
-.row .sidebar ul.nav-menu { padding-top: 24px; }
+.row .sidebar { position: relative; width: auto; }
+.row .sidebar ul.nav-menu { padding-top: 24px; width: 190px; }
 .row .sidebar ul.nav-menu li { width: 100%; overflow: hidden; margin-bottom: 8px; }
 .row .sidebar ul.nav-menu li.menu-item-has-children { margin-bottom: 0; }
 .row .sidebar ul.nav-menu li.menu-item-has-children > a { background-image: url(../img/icon/CaretDown.svg); background-position: right 8px center; background-repeat: no-repeat; }
@@ -302,11 +303,12 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
 .row .sidebar ul.nav-menu li .sub-menu { padding-top: 8px; padding-left: 16px; }
 .row .sidebar ul.nav-menu li .sub-menu li.current_page_item a { color: #4BA66F; background-color: #DDF6E7; }
 .row .sidebar ul.nav-menu li .sub-menu li.current_page_item a img { filter: brightness(0) saturate(100%) invert(56%) sepia(64%) saturate(316%) hue-rotate(91deg) brightness(89%) contrast(94%); }
-.row .sidebar .resize { cursor: pointer; position: fixed; bottom: 16px; left: 0; width: 16.66667%; text-align: center; padding: 0 16px; }
+.row .sidebar .resize { cursor: pointer; position: fixed; bottom: 16px; left: 8px; width: 206px; text-align: center; padding: 0 16px; }
 .row .sidebar .resize p { margin: 0 auto; padding-top: 16px; border-top: 1px solid #DEE1E8; }
 .row .sidebar .resize.active { width: 5%; }
 .row .sidebar .resize.active img { transform: rotate(180deg); }
 
+.content-wrapper { flex-grow: 1; }
 .content-wrapper .alert { border-radius: 8px; padding: 8px; color: #fff; background-color: #0099cc; }
 .content-wrapper .alert.alert-warning { background-color: orange; }
 

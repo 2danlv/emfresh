@@ -51,7 +51,7 @@ $(document).ready(function() {
 
 <body <?php body_class(); ?>>
 	<div class="site container-fluid">
-		<div class="row">
+		<div class="row nowrap">
 			<?php
 			include get_theme_file_path('parts/sidebar/sidebar.php');
 			?>

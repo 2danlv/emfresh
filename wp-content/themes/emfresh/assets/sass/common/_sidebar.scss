@@ -1,24 +1,28 @@
 .mini_sidebar .row {
     .sidebar {
-            width: 5%;
-            transition: .5s;
+            width: 60px;
             overflow: hidden;
+            margin-left: 0;
             text-overflow: ellipsis;
             .resize .mini,.resize.active .mini, ul.nav-menu li a span {
                 display: none;
             }
             .resize.active {
-                width: 5%;
+                width: 60px;
                 img {
                     transform: rotate(180deg);
                 }
             }
-            ul.nav-menu li a {
-                justify-content: center;
-                img {
-                    margin-right: 0;
-                }
-            }
+            ul.nav-menu {
+                width: auto;
+                li a {
+                        justify-content: center;
+                
+                        img {
+                            margin-right: 0;
+                        }
+                    }
+            } 
             ul.nav-menu li.menu-item-has-children{
                 margin-bottom: 8px;
                 > a {
@@ -30,18 +34,15 @@
             }
         }
         
-        .content-wrapper {
-            width: 95%;
-            transition: .5s;
-            flex: 1;
-        }
+        
 }
 
 .row .sidebar {
-    transition: .5s;
-    position: relative;   
+    position: relative;  
+    width: auto; 
   ul.nav-menu {
     padding-top: 24px;
+    width: 190px;
         li {
             width: 100%;
             overflow: hidden;
@@ -107,10 +108,9 @@
   .resize {
     cursor: pointer;
     position: fixed;
-    
     bottom: 16px;
-    left: 0;
-    width: 16.66667%;
+    left: 8px;
+    width: 206px;
     text-align: center;
     padding: 0 16px;
     p {
