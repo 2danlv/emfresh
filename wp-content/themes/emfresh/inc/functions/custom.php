@@ -639,7 +639,7 @@ function custom_ucwords_utf8($str)
 
 function custom_get_list_cook()
 {
-	return ['Không', 'Chỉ Khăn Lạnh', 'Chỉ Dụng Cụ'];
+	return ['KHÔNG', 'Chỉ khăn', 'Chỉ DC'];
 }
 
 function custom_get_list_notes()
