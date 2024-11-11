@@ -113,10 +113,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 		$new = isset($customer_data[$key]) ? $customer_data[$key] : null;
 
 		if ($new != null && $old != null && $new != $old) {
-			if($key == 'gender') {
+			if ($key == 'gender') {
 				$new = $em_customer->get_genders($new);
 			}
-			
+
 			$log_change[] = sprintf('<span class="memo text-titlecase field-%s">%s</span><span class="note-detail text-titlecase">%s</span>', $key, $label, $new);
 		}
 	}
@@ -519,7 +519,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 									</div>
 								</div>
 								<!-- /.tab-pane -->
-								<div class="tab-pane customer" id="settings">
+								<div class="tab-pane customer detail-customer" id="settings">
 									<form class="form-horizontal" method="POST" action="<?php echo add_query_arg(['tab' => 'settings'], $detail_customer_url) ?>">
 										<?php wp_nonce_field('save_locations', 'edit_locations_nonce'); ?>
 										<div class="row pb-16">
@@ -611,22 +611,23 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 												</div>
 											</div>
 											<div class="col-6 ">
-												<div class="card-body">
-													<div class="card-header">
-														<h3 class="card-title d-f ai-center"><span class="fas fa-location mr-4"></span>Địa chỉ</h3>
-													</div>
-													<div id="location-fields">
-														<?php
-														foreach ($response_get_location['data'] as $index => $record) {
-															if ($record['active'] == '1') {
-																$address_active = " address_active";
-															} else {
-																$address_active = "";
-															}
-														?>
-															<div class="address-group location_<?php echo ($record['active']);
-																								echo $address_active; ?> " data-index="<?php echo $index ?>">
-																<input type="hidden" name="locations[<?php echo $index ?>][id]" value="<?php echo $record['id'] ?>" />
+
+												<div id="location-fields">
+													<?php
+													foreach ($response_get_location['data'] as $index => $record) {
+														if ($record['active'] == '1') {
+															$address_active = " address_active";
+														} else {
+															$address_active = "";
+														}
+													?>
+														<div class="address-group location_<?php echo ($record['active']);
+																							echo $address_active; ?> " data-index="<?php echo $index ?>">
+															<input type="hidden" name="locations[<?php echo $index ?>][id]" value="<?php echo $record['id'] ?>" />
+															<div class="card-body">
+																<div class="card-header">
+																	<h3 class="card-title d-f ai-center"><span class="fas fa-location mr-4"></span>Địa chỉ</h3>
+																</div>
 																<div class="row">
 																	<div class="city col-12 pb-16">
 																		<select id="province_<?php echo $record['id'] ?>" name="locations[<?php echo $index ?>][province]" class="province-select form-control" required>
@@ -695,11 +696,12 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 																	</div>
 																</div>
 															</div>
-														<?php } ?>
-													</div>
-
+														</div>
+													<?php } ?>
 												</div>
-												<p class="d-f ai-center pt-16 pb-16"><i class="fas fa-plus add-location-button"></i><span class="add-location-button">Thêm địa chỉ </span></p>
+
+
+												<p class="d-f ai-center pt-16 pb-16"><i class="fas fa-plus add-location-button"></i><span class="add-location-button">Thêm địa chỉ mới</span></p>
 												<!-- /.card-body -->
 												<!-- /.card -->
 

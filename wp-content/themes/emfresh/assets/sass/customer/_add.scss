@@ -3,6 +3,12 @@
   background: var(--background-dim-green, #F6F6F6);
   padding: 16px;
   height: 100%;
+  &.detail-customer {
+    padding: 0;
+    .card-body {
+      padding-top: 16px;
+    }
+  }
   input[type="text"],input[type="tel"],select {
     border-radius: var(--input-radiusCorner, 8px);
     border: 1px solid var(--input-border-default, #DEDFE0);

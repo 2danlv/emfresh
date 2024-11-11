@@ -200,12 +200,13 @@ get_header();
 					</div>
 				</div>
 				<div class="col-6 ">
-					<div class="card-body">
+					
+						<div id="location-fields">
+							<div class="address-group location_0 address_active" data-index="0">
+							<div class="card-body">
 						<div class="card-header">
 						<h3 class="card-title d-f ai-center"><span class="fas fa-location mr-4"></span>Địa chỉ</h3>
 						</div>
-						<div id="location-fields">
-							<div class="address-group location_0 address_active" data-index="0">
 								<div class="row">
 									<div class="city col-12 pb-16">
 										<select id="province_0" name="locations[0][province]" class="province-select form-control" required>
@@ -256,8 +257,9 @@ get_header();
 								</div>
 							</div>
 						</div>
+						</div>
+						<p class="d-f ai-center pt-16 pb-16"><i class="fas fa-plus add-location-button"></i><span class="add-location-button">Thêm địa chỉ mới</span></p>
 					</div>
-					<p class="d-f ai-center pt-16 pb-16"><i class="fas fa-plus add-location-button"></i><span class="add-location-button">Thêm địa chỉ </span></p>
 					<!-- /.card-body -->
 					<!-- /.card -->
 				</div>

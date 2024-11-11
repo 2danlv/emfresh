@@ -553,6 +553,8 @@ div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria select.dtsb-data, div.dt
 .daterangepicker.openscenter:after, .daterangepicker.openscenter:before { content: none; }
 
 .customer { border-radius: 16px 16px 0px 0px; background: var(--background-dim-green, #F6F6F6); padding: 16px; height: 100%; }
+.customer.detail-customer { padding: 0; }
+.customer.detail-customer .card-body { padding-top: 16px; }
 .customer input[type="text"], .customer input[type="tel"], .customer select { border-radius: var(--input-radiusCorner, 8px); border: 1px solid var(--input-border-default, #DEDFE0); background: var(--input-background-default, #F6F6F6); padding: 10px; width: 100%; }
 .customer select { padding: 8px 8px; }
 .customer .card-body { background-color: #fff; border-radius: var(--modal-radiusCorner, 16px); background: var(--modal-background, #FFF); padding: 8px 16px 0px; }
@@ -611,6 +613,8 @@ div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria select.dtsb-data, div.dt
 .detail-customer .history-action tr td { padding: 8px; }
 .detail-customer .history-action tr td .descript-note { display: flex; align-items: center; }
 .detail-customer .history-action tr td .descript-note span.memo { margin-right: 8px; }
+.detail-customer .history-action tr td .descript-note span.memo.field-tag { font-size: 0; margin-right: 8px; }
+.detail-customer .history-action tr td .descript-note span.memo.field-tag:first-child { font-size: 14px; }
 .detail-customer .history-action tr td .descript-note span.note-detail { max-width: 454px; display: block; text-overflow: ellipsis; overflow: hidden; border-radius: var(--tag-radiusCorner-rounded, 8px); border: 1px solid var(--border-primary, #DEDFE0); background: var(--tag-background-default, #F2F3F5); padding: 4px 4px; font-size: 14px; line-height: 20px; }
 .detail-customer .history-action tr td .descript-note span.note-detail.text-titlecase { text-transform: lowercase; }
 .detail-customer .history-action tr td .descript-note span.note-detail.text-titlecase::first-letter { text-transform: uppercase; }
