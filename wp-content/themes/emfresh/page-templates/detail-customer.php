@@ -204,7 +204,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 			}
 
 			foreach ($result as $tag_id) {
-				$log_change[] = sprintf('<span class="memo field-tag">Tag phân loại</span><span class="note-detail text-titlecase">%s</span>', custom_ucwords_utf8($em_customer->get_tags($tag_id)));
+				$log_change[] = sprintf('<span class="memo field-tag">Tag phân loại</span><span class="note-detail text-titlecase">%s</span>', $em_customer->get_tags($tag_id));
 			}
 		}
 	}
@@ -277,8 +277,8 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 		?>
 		<div class="container-fluid">
 			<div class="row pb-16">
-				<div class="col-6 d-f ai-center backtolist">
-					<img src="<?php echo site_get_template_directory_assets(); ?>img/icon/caretup.svg" alt=""> <a href="/customer/">Quay lại danh sách khách hàng</a>
+				<div class="col-6 backtolist d-f ai-center">
+					<a href="/customer/" class="d-f ai-center"><span class="mr-4"><img src="<?php echo site_get_template_directory_assets(); ?>img/icon/caretup.svg" alt=""></span><span> Quay lại danh sách khách hàng</span></a>
 				</div>
 				<div class="col-6 d-f ai-center jc-end group-button_top">
 					<?php

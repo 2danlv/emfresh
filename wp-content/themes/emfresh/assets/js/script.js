@@ -122,7 +122,7 @@ jQuery(document).ready(function () {
             ['50 / trang', '100 / trang', '200 / trang'],
         ],
         "stateSave": true,
-        scrollY: '58vh',
+        scrollY: '71vh',
         columnDefs: [
             {
                 type: 'natural',
