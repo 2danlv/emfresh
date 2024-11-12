@@ -210,9 +210,9 @@ class EM_Customer extends EF_Default
         // Location
         $location_wheres = $this->get_where($args, 'location.');
         if (count($location_wheres) > 0) {
+            $query .= " JOIN $table_location AS location ON location.customer_id = customer.id AND location.active = 1 ";
+            
             $wheres = array_merge($wheres, $location_wheres);
-
-            $query .= " JOIN $table_location AS location ON location.customer_id = customer.id ";
         }
 
         if (count($wheres) > 0) {
@@ -268,6 +268,7 @@ class EM_Customer extends EF_Default
                 'phone'     => '=',
                 'point'     => '=',
                 'status'    => '=',
+                'active'    => '=',
             ];
 
             $date_filters = [
@@ -369,11 +370,11 @@ class EM_Customer extends EF_Default
     function get_statuses($key = null)
     {
         $list = [
-            1 => 'Đặt Đơn',
-            2 => 'Dí Món',
-            3 => 'Chưa Rõ',
+            1 => 'Đặt đơn',
+            2 => 'Dí món',
+            3 => 'Chưa rõ',
             4 => 'Ngừng',
-            5 => 'Bảo Lưu'
+            5 => 'Bảo lưu'
         ];
 
         if ($key != null) {
@@ -386,11 +387,11 @@ class EM_Customer extends EF_Default
     function get_tags($key = null)
     {
         $list = [
-            1 => 'Thân Thiết',
-            2 => 'Ăn Nhóm',
-            3 => 'Khách Nước Ngoài', // 'Khách Có Bệnh Lý',
-            4 => 'Bệnh Lý', // 'Khách Hãm',
-            // 5 => 'Bảo Lưu'
+            1 => 'Thân thiết',
+            2 => 'Ăn nhóm',
+            3 => 'Khách nước ngoài', // 'Khách có bệnh lý',
+            4 => 'Bệnh lý', // 'Khách hãm',
+            // 5 => 'Bảo lưu'
         ];
 
         if ($key != null) {
