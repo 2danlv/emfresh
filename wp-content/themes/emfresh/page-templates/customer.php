@@ -391,14 +391,19 @@ $(document).ready(function() {
     var ass = new Assistant();
     $('.btn-primary[name="add_post"]').on('click', function(e) {
 		if ($('.nickname').val() == '') {
-			$(".alert").text('Tên tài khoản bị trống');
-            return false;
-        }
-        if (!ass.checkPhone($('input[type="tel"]').val())) {
-            // $('input[type="tel"]').addClass('error');
-            $(".alert").text("Số điện thoại không đúng định dạng");
+			$(".alert").show();
+			$(".alert").text('Chưa nhập tên tài khoản');
             return false;
         } else {
+			$(".alert").hide();
+		}
+        if (!ass.checkPhone($('input[type="tel"]').val())) {
+            // $('input[type="tel"]').addClass('error');
+            $(".alert").show();
+			$(".alert").text("Số điện thoại không đúng định dạng");
+            return false;
+        } else {
+			$(".alert").hide();
             $('input[type="tel"]').removeClass('error');
         }
         if ($('#phone_status').html() == "OK") {
@@ -406,6 +411,7 @@ $(document).ready(function() {
             $('.btn-primary[name="add_post"]').css({
                 "display": "none"
             });
+			$(".alert").hide();
             setTimeout(() => {
                 $('.btn-primary[name="add_post"]').css({
                     "display": "inline"
@@ -413,21 +419,28 @@ $(document).ready(function() {
             }, 2000);
             //document.getElementById('customer-form').submit();
         } else {
+			$(".alert").show();
 			$(".alert").text('Số điện thoại đã tồn tại');
             e.preventDefault();
             return false;
         }
         if ($('.gender').val() == 0) {
+			$(".alert").show();
 			$(".alert").text('Chưa chọn giới tính');
 			e.preventDefault();
             return false;
-        }
+        } else {
+			$(".alert").hide();
+		}
 		$('.address-group select,.address-group .address').each(function() {
 			var selectedValues = $(this).val();
 			if (selectedValues == '') {
+				$(".alert").show();
 				$(".alert").text('Kiểm tra mục địa chỉ');
 				e.preventDefault();
 				return false;
+			} else {
+				$(".alert").hide();
 			}
 		});
 		
