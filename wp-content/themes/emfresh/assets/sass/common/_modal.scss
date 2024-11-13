@@ -36,6 +36,13 @@
     padding-bottom: 16px;
     li {
       padding-bottom: 8px;
+      label {
+        display: flex;
+        align-items: center;
+        input {
+          margin-right: 8px;
+        }
+      }
     }
   }
 }

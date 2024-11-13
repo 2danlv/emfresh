@@ -317,7 +317,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 								</div>
 								<div class="d-f jc-b pt-16">
 									<span>Số điện thoại:</span>
-									<span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $record['phone']; ?>" title="Copy: <?php echo $response_customer['data']['phone']; ?>"><?php echo $response_customer['data']['phone'] ?></span>
+									<span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $response_customer['data']['phone']; ?>"><?php echo $response_customer['data']['phone'] ?></span>
 								</div>
 								<div class="d-f jc-b pt-8">
 									<span>Giới tính:</span>
@@ -530,10 +530,10 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 													</div>
 													<div class="row">
 														<div class="col-6 pb-16">
-															<input type="text" name="nickname" class="nickname form-control" value="<?php echo $response_customer['data']['nickname'] ?>" placeholder="Tên tài khoản*" required>
+															<input type="text" name="nickname" class="nickname form-control" maxlength="50" value="<?php echo $response_customer['data']['nickname'] ?>" placeholder="Tên tài khoản*" required>
 														</div>
 														<div class="col-6 pb-16">
-															<input type="text" name="fullname" class="fullname form-control" value="<?php echo $response_customer['data']['fullname'] ?>" placeholder="Tên thật (nếu có)">
+															<input type="text" name="fullname" class="fullname form-control" maxlength="50" value="<?php echo $response_customer['data']['fullname'] ?>" placeholder="Tên thật (nếu có)">
 														</div>
 														<div class="col-6 pb-16">
 															<input type="tel" id="phone" name="phone" class="phone_number form-control" value="<?php echo $response_customer['data']['phone'] ?>" required>
@@ -621,7 +621,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 															$address_active = "";
 														}
 													?>
-														<div class="address-group location_<?php echo ($record['active']);
+														<div class="address-group pb-16 location_<?php echo ($record['active']);
 																							echo $address_active; ?> " data-index="<?php echo $index ?>">
 															<input type="hidden" name="locations[<?php echo $index ?>][id]" value="<?php echo $record['id'] ?>" />
 															<div class="card-body">
@@ -629,7 +629,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 																	<h3 class="card-title d-f ai-center"><span class="fas fa-location mr-4"></span>Địa chỉ</h3>
 																</div>
 																<div class="row">
-																	<div class="city col-12 pb-16">
+																	<div class="city col-4 pb-16">
 																		<select id="province_<?php echo $record['id'] ?>" name="locations[<?php echo $index ?>][province]" class="province-select form-control" required>
 																			<option value="<?php echo $record['city']; ?>" selected><?php echo $record['city']; ?></option>
 																		</select>
@@ -644,7 +644,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 																			<option value="<?php echo esc_attr($record['ward']); ?>" selected><?php echo $record['ward']; ?></option>
 																		</select>
 																	</div>
-																	<div class="col-4 pb-16">
+																	<div class="col-12 pb-16">
 																		<input id="address_<?php echo $record['id'] ?>" type="text" class="form-control address" value="<?php echo $record['address']; ?>" placeholder="Địa chỉ cụ thể*" name="locations[<?php echo $index ?>][address]" required />
 																	</div>
 																</div>
@@ -701,7 +701,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 												</div>
 
 
-												<p class="d-f ai-center pt-16 pb-16"><i class="fas fa-plus add-location-button"></i><span class="add-location-button">Thêm địa chỉ mới</span></p>
+												<p class="d-f ai-center pb-16"><i class="fas fa-plus add-location-button"></i><span class="add-location-button">Thêm địa chỉ mới</span></p>
 												<!-- /.card-body -->
 												<!-- /.card -->
 

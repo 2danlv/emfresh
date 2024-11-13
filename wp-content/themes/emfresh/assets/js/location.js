@@ -73,13 +73,13 @@ $.getJSON('/assets/data/city.json', function(data) {
     e.preventDefault();
     if (fieldCount < maxFields) {
       var newGroup = `
-        <div class="address-group pt-16 location_${fieldCount}"  data-index="${fieldCount}">
+        <div class="address-group pb-16 location_${fieldCount}"  data-index="${fieldCount}">
         <div class="card-body">
           <div class="card-header">
             <h3 class="card-title d-f ai-center"><span class="fas fa-location mr-4"></span>Địa chỉ</h3>
           </div>
           <div class="row">
-								<div class="city col-12 pb-16">
+								<div class="city col-4 pb-16">
 									<select id="province_${fieldCount}" name="locations[${fieldCount}][province]" class="province-select form-control" required>
 										<option value="">Select Tỉnh/Thành phố</option>
 									</select>
@@ -94,7 +94,7 @@ $.getJSON('/assets/data/city.json', function(data) {
 										<option value="">Phường/Xã*</option>
 									</select>
 								</div>
-								<div class="col-4 pb-16">
+								<div class="col-12 pb-16">
 									<input id="address_${fieldCount}" type="text" class="form-control address" placeholder="Địa chỉ cụ thể*" name="locations[${fieldCount}][address]" required />
 								</div>
 								</div>

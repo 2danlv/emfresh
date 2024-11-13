@@ -104,7 +104,7 @@ get_header();
 
 
 	<!-- Main content -->
-	<section class="content">
+	<section class="content pb-16 mb-16">
 		<?php
 		if (isset($response_add_customer['code']) && $response_add_customer['code'] == 200) {
 			echo '<div class="alert alert-success mt-3" role="alert">' . $response_add_customer['message'] . '</div>';
@@ -125,10 +125,10 @@ get_header();
 						</div>
 						<div class="row">
 							<div class="col-6 pb-16">
-								<input type="text" name="nickname" class="nickname form-control" placeholder="Tên tài khoản*" value="<?php site__post_e('nickname') ?>" required>
+								<input type="text" name="nickname" class="nickname form-control" maxlength="50" placeholder="Tên tài khoản*" value="<?php site__post_e('nickname') ?>" required>
 							</div>
 							<div class="col-6 pb-16">
-								<input type="text" name="fullname" placeholder="Tên thật (nếu có)" value="<?php site__post_e('fullname') ?>" class="fullname form-control">
+								<input type="text" name="fullname" placeholder="Tên thật (nếu có)" maxlength="50" value="<?php site__post_e('fullname') ?>" class="fullname form-control">
 							</div>
 							<div class="col-6 pb-16">
 								<input type="tel" name="phone" placeholder="Số điện thoại*" class="form-control phone_number" onkeyup="checkphone();" required />
@@ -202,13 +202,13 @@ get_header();
 				<div class="col-6 ">
 					
 						<div id="location-fields">
-							<div class="address-group location_0 address_active" data-index="0">
+							<div class="address-group location_0 address_active pb-16" data-index="0">
 							<div class="card-body">
 						<div class="card-header">
 						<h3 class="card-title d-f ai-center"><span class="fas fa-location mr-4"></span>Địa chỉ</h3>
 						</div>
 								<div class="row">
-									<div class="city col-12 pb-16">
+									<div class="city col-4 pb-16">
 										<select id="province_0" name="locations[0][province]" class="province-select form-control" required>
 											<option value="">Select Tỉnh/Thành phố</option>
 										</select>
@@ -223,7 +223,7 @@ get_header();
 											<option value="">Phường/Xã*</option>
 										</select>
 									</div>
-									<div class="col-4 pb-16">
+									<div class="col-12 pb-16">
 										<input id="address_0" type="text" class="form-control address" placeholder="Địa chỉ cụ thể*" name="locations[0][address]" required />
 									</div>
 								</div>
@@ -258,15 +258,15 @@ get_header();
 							</div>
 						</div>
 						</div>
-						<p class="d-f ai-center pt-16 pb-16"><i class="fas fa-plus add-location-button"></i><span class="add-location-button">Thêm địa chỉ mới</span></p>
+						<p class="d-f ai-center pb-16"><i class="fas fa-plus add-location-button"></i><span class="add-location-button">Thêm địa chỉ mới</span></p>
 					</div>
 					<!-- /.card-body -->
 					<!-- /.card -->
 				</div>
 			</div>
-			<div class="row pt-16">
+			<div class="row customer-button-group pt-8 pb-8">
 				<div class="col-6">
-					<a href="../" class="btn btn-secondary">Huỷ</a>
+					<a href="../" class="btn btn-secondary d-ib">Huỷ</a>
 				</div>
 				<div class="col-6 text-right">
 					<input type="hidden" name="customer_name" readonly class="customer_name form-control" value="<?php site__post_e('customer_name') ?>">
