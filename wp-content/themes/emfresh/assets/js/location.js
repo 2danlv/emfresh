@@ -85,17 +85,17 @@ $.getJSON('/assets/data/city.json', function(data) {
 									</select>
 								</div>
 								<div class="col-4 pb-16">
-									<select id="district_${fieldCount}" name="locations[${fieldCount}][district]" class="district-select form-control" required disabled>
+									<select id="district_${fieldCount}" name="locations[${fieldCount}][district]" class="district-select form-control" disabled>
 										<option value="">Quận/Huyện*</option>
 									</select>
 								</div>
 								<div class="col-4 pb-16">
-									<select id="ward_${fieldCount}" name="locations[${fieldCount}][ward]" class="ward-select form-control" required disabled>
+									<select id="ward_${fieldCount}" name="locations[${fieldCount}][ward]" class="ward-select form-control" disabled>
 										<option value="">Phường/Xã*</option>
 									</select>
 								</div>
 								<div class="col-12 pb-16">
-									<input id="address_${fieldCount}" type="text" class="form-control address" placeholder="Địa chỉ cụ thể*" name="locations[${fieldCount}][address]" required />
+									<input id="address_${fieldCount}" type="text" class="form-control address" placeholder="Địa chỉ cụ thể*" name="locations[${fieldCount}][address]" />
 								</div>
 								</div>
                 <div class="group-note">

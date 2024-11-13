@@ -116,6 +116,9 @@ get_header();
 			echo '</div>';
 		}
 		?>
+		<div class="alert alert-warning hidden error mb-16">
+			
+		</div>
         <form method="post" id="customer-form" action="<?php the_permalink() ?>">
             <div class="row pb-16">
                 <div class="col-6">
@@ -224,19 +227,19 @@ get_header();
                                     </div>
                                     <div class="col-4 pb-16">
                                         <select id="district_0" name="locations[0][district]"
-                                            class="district-select form-control" required disabled>
+                                            class="district-select form-control" disabled>
                                             <option value="">Quận/Huyện*</option>
                                         </select>
                                     </div>
                                     <div class="col-4 pb-16">
                                         <select id="ward_0" name="locations[0][ward]" class="ward-select form-control"
-                                            required disabled>
+                                         disabled>
                                             <option value="">Phường/Xã*</option>
                                         </select>
                                     </div>
                                     <div class="col-12 pb-16">
                                         <input id="address_0" type="text" class="form-control address"
-                                            placeholder="Địa chỉ cụ thể*" name="locations[0][address]" required />
+                                            placeholder="Địa chỉ cụ thể*" name="locations[0][address]" />
                                     </div>
                                 </div>
                                 <div class="group-note">
@@ -320,10 +323,10 @@ function checkphone() {
             success: function(response) {
                 jQuery('#phone_status').html(response);
                 if (response == "OK") {
-                    jQuery('#phone_status').addClass('d-none');
+                    // jQuery('#phone_status').addClass('d-none');
                     return true;
                 } else {
-                    jQuery('#phone_status').removeClass('d-none');
+                    $(".alert").text('Số điện thoại đã tồn tại');
                     return false;
                 }
             }
@@ -387,9 +390,13 @@ $(document).ready(function() {
     }
     var ass = new Assistant();
     $('.btn-primary[name="add_post"]').on('click', function(e) {
+		if ($('.nickname').val() == '') {
+			$(".alert").text('Tên tài khoản bị trống');
+            return false;
+        }
         if (!ass.checkPhone($('input[type="tel"]').val())) {
             // $('input[type="tel"]').addClass('error');
-            alert("Số điện thoại không đúng định dạng !");
+            $(".alert").text("Số điện thoại không đúng định dạng");
             return false;
         } else {
             $('input[type="tel"]').removeClass('error');
@@ -406,14 +413,24 @@ $(document).ready(function() {
             }, 2000);
             //document.getElementById('customer-form').submit();
         } else {
-            alert('Số điện thoại đã tồn tại!');
+			$(".alert").text('Số điện thoại đã tồn tại');
             e.preventDefault();
             return false;
         }
         if ($('.gender').val() == 0) {
-            alert('Chưa chọn giới tính');
+			$(".alert").text('Chưa chọn giới tính');
+			e.preventDefault();
             return false;
         }
+		$('.address-group select,.address-group .address').each(function() {
+			var selectedValues = $(this).val();
+			if (selectedValues == '') {
+				$(".alert").text('Kiểm tra mục địa chỉ');
+				e.preventDefault();
+				return false;
+			}
+		});
+		
     });
     $('.js-list-note').each(function() {
         let p = $(this);
