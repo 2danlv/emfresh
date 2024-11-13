@@ -12,7 +12,6 @@
             }
         }
         ul {
-            
             li {
                 span.btn {
                     padding-top: 7px;
@@ -33,6 +32,9 @@
                 }
                 &.has-child {
                     position: relative;
+                    &:hover > span {
+                        color: #4BA66F;
+                    }
                     &:after {
                         content: "";
                         position: absolute;
@@ -66,6 +68,9 @@
                             a {
                                 background: url(../img/icon/upload.svg) left center no-repeat;
                                 padding-left: 36px;
+                                &:hover {
+                                    background-image: url(../img/icon-hover/upload.svg);
+                                }
                             }
                             button {
                                 border: none;
@@ -74,6 +79,7 @@
                                 cursor: pointer;
                                 &:hover {
                                     color: #4BA66F;
+                                    background-image: url(../img/icon-hover/download-svgrepo-com.svg);
                                 }
                             }
                         }
@@ -113,13 +119,22 @@
             margin: 0;
             cursor: pointer;
             display: block;
+            &:hover {
+                color: #4BA66F;
+            }
             &.btn-fillter {
                 background: url(../img/icon/filter-svgrepo-com.svg) left 20px center no-repeat;
                 padding-left: 48px;
+                &:hover {
+                    background-image: url(../img/icon-hover/filter-svgrepo-com.svg);
+                }
             }
             &.quick-edit {
                 background: url(../img/icon/layer-svgrepo-com.svg) left 20px center no-repeat;
                 padding-left: 48px;
+                &:hover {
+                    background-image: url(../img/icon-hover/layer-svgrepo-com.svg);
+                }
             }
             &.btn-action {
                 background: url(../img/icon/CaretDown.svg) right 24px center no-repeat;
@@ -128,29 +143,35 @@
             &.btn-status {
                 background: url(../img/icon/delete-svgrepo-com.svg) right 24px center no-repeat;
                 padding-right: 48px;
+                &:hover {
+                    background-image: url(../img/icon-hover/delete-svgrepo-com.svg);
+                }
             }
             &.btn-time {
                 background: url(../img/icon/calendar-alt-svgrepo-com.svg) left 20px center no-repeat;
                 padding-left: 48px;
+                &:hover {
+                    background-image: url(../img/icon-hover/calendar-alt-svgrepo-com.svg);
+                }
             }
             &.btn-column {
                 background: url(../img/icon/table-add-svgrepo-com.svg) left 20px center no-repeat;
                 padding-left: 48px;
+                &:hover {
+                    background-image: url(../img/icon-hover/table-add-svgrepo-com.svg);
+                }
             }
         }
     }
-    
 }
 .dt-container {
     padding-top: 16px;
-    
     div.dt-container {
         width: 800px;
         margin: 0 auto;
     }
     table.table {
         border-radius: 16px 16px 0px 0px;
-        
         border-collapse: collapse;
         thead {
             th {
@@ -203,7 +224,6 @@
             }
             .avatar img {
                 border-radius: 50%;
-                
             }
         }
     }
@@ -247,9 +267,7 @@
         }
     }
     div.dt-button-collection {
-       
         width: 820px !important;
-        
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria div.dtsb-inputCont select,
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria select.dtsb-value,
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria div.dtsb-inputCont input {
@@ -295,7 +313,6 @@
                     align-items: center;
                     justify-content: center;
                     cursor: pointer;
-                    
                     &.current,&:hover,&.current:hover {
                         background: #DDF6E7;
                         border: 1px solid var(--pagination-border-default, #DDF6E7);

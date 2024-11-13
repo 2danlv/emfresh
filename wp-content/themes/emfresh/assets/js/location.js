@@ -113,10 +113,10 @@ $.getJSON('/assets/data/city.json', function(data) {
 									<hr>
 									<div class="row pt-8">
 										<div class="col-6">
-											<div class="icheck-primary">
+											<div class="icheck-primary d-f ai-center">
                         <input type="radio" name="location_active" id="active_${fieldCount}" value="0">
                         <input type="hidden" class="location_active" name="locations[${fieldCount}][active]" value="0" />
-                        <label for="active_${fieldCount}">
+                        <label class="pl-4" for="active_${fieldCount}">
                           Đặt làm địa chỉ mặc định
                         </label>
                       </div>

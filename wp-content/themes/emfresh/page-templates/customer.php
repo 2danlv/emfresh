@@ -242,10 +242,10 @@ get_header();
 									<hr>
 									<div class="row pt-8">
 										<div class="col-6">
-											<div class="icheck-primary">
+											<div class="icheck-primary d-f ai-center">
 												<input type="radio" name="location_active" id="active_0" value="1" checked>
 												<input type="hidden" class="location_active" name="locations[0][active]" value="1" />
-												<label for="active_0">
+												<label class="pl-4" for="active_0">
 													Đặt làm địa chỉ mặc định
 												</label>
 											</div>
@@ -258,7 +258,7 @@ get_header();
 							</div>
 						</div>
 						</div>
-						<p class="d-f ai-center pb-16"><i class="fas fa-plus add-location-button"></i><span class="add-location-button">Thêm địa chỉ mới</span></p>
+						<p class="d-f ai-center pb-16 add-location-button"><i class="fas fa-plus"></i><span>Thêm địa chỉ mới</span></p>
 					</div>
 					<!-- /.card-body -->
 					<!-- /.card -->

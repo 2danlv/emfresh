@@ -52,6 +52,14 @@
   .add-location-button,.icheck-primary label {
     cursor: pointer;
   }
+  .add-location-button {
+    &:hover {
+      color: #4BA66F;
+      .fa-plus {
+        background-image: url(../img/icon-hover/plus-svgrepo-com.svg);
+      }
+    }
+  }
   .delete-location-button {
     cursor: pointer;
     color: #F73131;
@@ -59,6 +67,12 @@
 }
 .show-group-note {
   cursor: pointer;
+  &:hover {
+    color: #4BA66F;
+    .fa-plus {
+      background-image: url(../img/icon-hover/plus-svgrepo-com.svg);
+    }
+  }
 }
 .address_active .delete-location-button{
     display: none;

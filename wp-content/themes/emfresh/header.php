@@ -58,19 +58,18 @@ $(document).ready(function() {
 			<div class="col-10 content-wrapper">
 				<!-- Content Header (Page header) -->
 				<?php 
-							if ( is_page_template( 'page-templates/detail-customer.php' ) ) { ?>
-								<style>
-									.content-header  {
-										display: none;
-									}
-								</style>
-							<?php } 
-							?>
+				if ( is_page_template( 'page-templates/detail-customer.php' ) ) { ?>
+					<style>
+					.content-header  {
+						display: none;
+					}
+					</style>
+					<?php } 
+					?>
 				<section class="content-header">
 					<div class="row ai-center">
-						<div class="col-9 d-f ai-center">
+						<div class="col-9 d-f ai-center nowrap">
 							<h1><?php the_title(); ?></h1>
-						
 							<?php 
 							if ( is_page_template( 'page-templates/list-customer.php' ) ) { ?>
 								<input class="input-search" placeholder="Tên khách hàng / SĐT / Địa chỉ" type="text">
@@ -82,10 +81,9 @@ $(document).ready(function() {
 								<?php global $current_user;
 								wp_get_current_user(); ?>
 								<?php if (is_user_logged_in()) : ?>
-									<div class="d-f ai-center">
-										<span><img src="<?php echo site_get_template_directory_assets();?>/img/icon/log-activites-svgrepo-com-1.svg" alt=""></span>
-										<span class="noti"><span class="active"><img src="<?php echo site_get_template_directory_assets();?>/img/icon/notification.svg" alt=""></span></span>
-										
+									<div class="d-f ai-center group-noti-top">
+										<div class="history"><img src="<?php echo site_get_template_directory_assets();?>/img/icon/log-activites-svgrepo-com-1.svg" alt=""></div>
+										<div class="noti"><span class="active"><img src="<?php echo site_get_template_directory_assets();?>/img/icon/notification.svg" alt=""></span></div>
 									</div>
 									<div class="info d-f ai-center">
 									<span class="avatar"><img src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="40" alt="<?php echo $current_user->display_name; ?>"></span>

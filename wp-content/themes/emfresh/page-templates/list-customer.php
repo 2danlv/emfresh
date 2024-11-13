@@ -168,8 +168,9 @@ get_header();
                     <?php } 
                       }
                       */
+                      
                     ?>
-                      <div class="nowrap diachi"><?php echo $record['address'] ?>, <?php echo $record['ward'] ?>, <?php echo $record['district'] ?></div>
+                      <div class="nowrap diachi"><?php echo $record['address']; echo $record['address'] ? ', ' : ''; ?> <?php echo $record['ward'];  echo $record['ward'] ? ', ' : ''; echo $record['district'] ?></div>
                     </td>
                     <td class="text-capitalize">
                       <?php echo $record['district']; ?>

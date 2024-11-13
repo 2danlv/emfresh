@@ -485,9 +485,9 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 														</div>
 														<div class="edit col-3">
 															<?php if (site_comment_can_edit($comment->comment_ID) && $comment->comment_approved > 0) : ?>
-																<a href="#editcomment" data-id="<?php echo $comment->comment_ID ?>"><img src="<?php site_the_assets(); ?>/img/icon/edit-2-svgrepo-com.svg" alt=""></a>
-																<a onclick="return confirm('Bạn có chắc muốn xóa ghi chú này không?')" href="<?php echo site_comment_get_delete_link($comment->comment_ID) ?>"><img src="<?php site_the_assets(); ?>/img/icon/bin.svg" alt=""></a>
-																<img src="<?php site_the_assets(); ?>/img/icon/pin-svgrepo-com.svg" alt="">
+																<span class="pen"><a href="#editcomment" data-id="<?php echo $comment->comment_ID ?>"><img src="<?php site_the_assets(); ?>/img/icon/edit-2-svgrepo-com.svg" alt=""></a></span>
+																<span class="pin"><img src="<?php site_the_assets(); ?>img/icon/pin-svgrepo-com.svg" alt=""></span>
+																<span class="remove"><a onclick="return confirm('Bạn có chắc muốn xóa ghi chú này không?')" href="<?php echo site_comment_get_delete_link($comment->comment_ID) ?>"><img src="<?php site_the_assets(); ?>/img/icon/bin.svg" alt=""></a></span>
 															<?php endif ?>
 														</div>
 														<div class="time col-3"><?php echo get_comment_date('d/m/Y', $comment->comment_ID) ?></div>
@@ -635,7 +635,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 																		</select>
 																	</div>
 																	<div class="col-4 pb-16">
-																		<select id="district_<?php echo $record['id'] ?>" name="locations[<?php echo $index ?>][district]" class="district-select form-control" required>
+																		<select id="district_<?php echo $record['id'] ?>" name="locations[<?php echo $index ?>][district]" class="district-select form-control text-capitalize" required>
 																			<option value="<?php echo esc_attr($record['district']); ?>" selected><?php echo $record['district']; ?></option>
 																		</select>
 																	</div>
@@ -682,10 +682,10 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 																	<hr>
 																	<div class="row pt-8">
 																		<div class="col-6">
-																			<div class="icheck-primary">
+																			<div class="icheck-primary d-f ai-center">
 																				<input type="radio" name="location_active" id="active_<?php echo $record['id'] ?>" value="<?php echo $record['id'] ?>" <?php checked($record['active'], 1) ?>>
 																				<input type="hidden" class="location_active" name="locations[<?php echo $index ?>][active]" value="<?php echo $record['active'] ?>" />
-																				<label for="active_<?php echo $record['id'] ?>">
+																				<label class="pl-4" for="active_<?php echo $record['id'] ?>">
 																					Đặt làm địa chỉ mặc định
 																				</label>
 																			</div>
@@ -701,7 +701,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 												</div>
 
 
-												<p class="d-f ai-center pb-16"><i class="fas fa-plus add-location-button"></i><span class="add-location-button">Thêm địa chỉ mới</span></p>
+												<p class="d-f ai-center pb-16 add-location-button"><i class="fas fa-plus"></i><span>Thêm địa chỉ mới</span></p>
 												<!-- /.card-body -->
 												<!-- /.card -->
 

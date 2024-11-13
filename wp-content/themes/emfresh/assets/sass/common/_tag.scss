@@ -237,6 +237,7 @@ color: #fff;
     }
     &.active,&.active:hover,&:hover,&.end-date,&.available:hover {
         background: var(--calendar-background-cell-selected, #4BA66F);
+        color: #fff;
     }
     
 } 

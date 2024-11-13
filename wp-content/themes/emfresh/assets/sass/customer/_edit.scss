@@ -1,10 +1,10 @@
-  .success-message {
-    color: green;
-  }
+.success-message {
+  color: green;
+}
 
-  .error-message {
-    color: red;
-  }
+.error-message {
+  color: red;
+}
 .detail-customer {
   .backtolist {
     color: #208046;
@@ -90,92 +90,92 @@
     }
   }
   
- 
-.card-history {
-  .ttl {
-    border-bottom: none;
-  }
-  .history-order {
-    overflow: auto;
-    margin: 0 -16px;
-    table {
-      margin-bottom: 16px;
+  
+  .card-history {
+    .ttl {
+      border-bottom: none;
     }
-    th, td {
-      padding: 8px;
-    }
-    th {
-      background: var(--table-background-header, #DEDFE0);
-    }
-    td {
-      &.status-order {
-        padding: 0 8px;
+    .history-order {
+      overflow: auto;
+      margin: 0 -16px;
+      table {
+        margin-bottom: 16px;
       }
-      .status_{
-        &pay {
-          border: 1px solid var(--tag-border-hover, #A7A7A8);
-          background: var(--tag-background-default, #F2F3F5);
-          width: 100%;
-          font-weight: 600;
-          font-size: 14px;
-          display: inline-block;
-        }
-        &order{
-          border: 1px solid var(--tag-border-hover, #208046);
-          background: var(--color-primary-900, #208046);
-          width: 100%;
-          text-align: center;
-          font-weight: 600;
-          font-size: 14px;
-          display: inline-block;
-          color: #fff;
+      th, td {
+        padding: 8px;
+      }
+      th {
+        background: var(--table-background-header, #DEDFE0);
+      }
+      td {
+        &.status-order {
           padding: 0 8px;
         }
+        .status_{
+          &pay {
+            border: 1px solid var(--tag-border-hover, #A7A7A8);
+            background: var(--tag-background-default, #F2F3F5);
+            width: 100%;
+            font-weight: 600;
+            font-size: 14px;
+            display: inline-block;
+          }
+          &order{
+            border: 1px solid var(--tag-border-hover, #208046);
+            background: var(--color-primary-900, #208046);
+            width: 100%;
+            text-align: center;
+            font-weight: 600;
+            font-size: 14px;
+            display: inline-block;
+            color: #fff;
+            padding: 0 8px;
+          }
+        }
+      }
+    }
+    .dt-paging {
+      display: inline-block;
+      nav {
+        display: flex;
+        button {
+          border-radius: 8px;
+          margin-left: 8px;
+          width: 40px;
+          height: 40px;
+          line-height: 40px;
+          text-align: center;
+          border: 1px solid var(--pagination-border-default, #DEDFE0);
+          background: var(--pagination-background-default, #FFF);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          &.current {
+            background-color: #2A8C51;
+            border: 1px solid var(--pagination-border-default, #2A8C51);
+            color: #fff;
+          }
+          &.disabled {
+            cursor: auto;
+          }
+          &.first,
+          &.last {
+            display: none;
+          }
+        }
+      }
+    }
+    .btn-export {
+      border-radius: var(--button-radiusCorner, 8px);
+      border: 1.5px solid var(--button-outline-border-default, #DEDFE0);
+      background: var(--color-grey-10, #FFF);
+      padding: 7px 28px 7px 20px;
+      span {
+        margin-right: 8px;
       }
     }
   }
-  .dt-paging {
-    display: inline-block;
-    nav {
-        display: flex;
-        button {
-            border-radius: 8px;
-            margin-left: 8px;
-            width: 40px;
-            height: 40px;
-            line-height: 40px;
-            text-align: center;
-            border: 1px solid var(--pagination-border-default, #DEDFE0);
-            background: var(--pagination-background-default, #FFF);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            &.current {
-                background-color: #2A8C51;
-                border: 1px solid var(--pagination-border-default, #2A8C51);
-                color: #fff;
-            }
-            &.disabled {
-                cursor: auto;
-            }
-            &.first,
-            &.last {
-                display: none;
-            }
-        }
-    }
-}
-  .btn-export {
-    border-radius: var(--button-radiusCorner, 8px);
-    border: 1.5px solid var(--button-outline-border-default, #DEDFE0);
-    background: var(--color-grey-10, #FFF);
-    padding: 7px 28px 7px 20px;
-    span {
-      margin-right: 8px;
-    }
-  }
-}
   .history-action {
     tr {
       th {
@@ -212,9 +212,9 @@
             line-height: 20px;
             &.text-titlecase{
               text-transform: lowercase;
-                &::first-letter {
-                  text-transform: uppercase;
-                }
+              &::first-letter {
+                text-transform: uppercase;
+              }
             }
             
           }
@@ -226,5 +226,45 @@
         } 
       }
     }
+  }
+  .note-wraper {
+    .js-comment-row {
+      &:hover,&.select-pin {
+        .edit span {
+          opacity: 1;
+          visibility: visible;
+          &.pin {
+            img {
+              filter: none;
+            }
+          }
+        }
+      }
+      .edit span {
+        opacity: 0;
+        visibility: hidden;
+        &.pen:hover {
+          img {
+            filter: brightness(0) saturate(100%) invert(56%) sepia(64%) saturate(316%) hue-rotate(91deg) brightness(89%) contrast(94%);
+          }
+        }
+        &.pin{
+          &:hover {
+            cursor: pointer;
+            img {
+              filter: brightness(0) saturate(100%) invert(56%) sepia(64%) saturate(316%) hue-rotate(91deg) brightness(89%) contrast(94%);
+            }
+          }
+          
+        } 
+        &.remove:hover {
+          cursor: pointer;
+          img {
+            filter: brightness(0) saturate(100%) invert(15%) sepia(91%) saturate(6169%) hue-rotate(359deg) brightness(101%) contrast(107%);
+          }
+        }
+      }
+    }
+    
   }
 }

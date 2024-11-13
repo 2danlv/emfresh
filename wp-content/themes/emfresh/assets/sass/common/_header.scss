@@ -14,27 +14,39 @@
         padding: 8px;
         padding-left: 42px;
         background: url(../img/icon/search.svg) left 8px center #F6F6F6 no-repeat;
-    }
-    .noti {
-        border-right: 1px solid  #DEDFE0;
-        padding: 0 16px;
-        margin-right: 16px;
-        span.active {
-            position: relative;
-            &:after {
-                content: '';
-                position: absolute;
-                width: 10px;
-                height: 10px;
-                top: -3px;
-                right: 0; 
-                border-radius: var(--radius-pill, 999px);
-                border: var(--number-1px, 2px) solid var(--badge-border, #FFF);
-                background: var(--badge-background-negative, #F73131);
-            }
+        &:focus {
+            background-image: url(../img/icon-hover/search.svg);
         }
-        
     }
+    .group-noti-top {
+        .history,.noti{
+            cursor: pointer;
+            &:hover img {
+                filter: brightness(0) saturate(100%) invert(56%) sepia(64%) saturate(316%) hue-rotate(91deg) brightness(89%) contrast(94%);
+            }
+        } 
+        .noti {
+            border-right: 1px solid  #DEDFE0;
+            padding: 0 16px;
+            margin-right: 16px;
+            span.active {
+                position: relative;
+                &:after {
+                    content: '';
+                    position: absolute;
+                    width: 10px;
+                    height: 10px;
+                    top: -3px;
+                    right: 0; 
+                    border-radius: var(--radius-pill, 999px);
+                    border: var(--number-1px, 2px) solid var(--badge-border, #FFF);
+                    background: var(--badge-background-negative, #F73131);
+                }
+            }
+            
+        }
+    }
+    
     
     .info {
         position: relative;
