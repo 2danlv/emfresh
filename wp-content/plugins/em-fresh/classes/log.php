@@ -142,6 +142,28 @@ class EM_Log extends EF_Default
         return $wpdb->insert_id;
     }
 
+    function update_active($id = 0)
+    {
+        $item = $this->get_item($id);
+
+        if(isset($item['id'])) {
+
+            $this->update([
+                'active' => 0,
+            ], [
+                'module'        => $item['module'],
+		        'module_id'     => $item['module_id'],
+            ]);
+
+            return $this->update([
+                'active'   => 1,
+                'id'    => $item['id'],
+            ]);
+        }
+        
+        return false;
+    }
+
     function inserted_em_table_item($insert_id = 0, $data = [], $table_name = '')
     {
         if ($this->table == $table_name) return $insert_id;

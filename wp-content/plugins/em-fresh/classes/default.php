@@ -149,10 +149,19 @@ class EF_Default
         return true;
     }
 
-    function update($data = [])
+    function update($data = [], $where = [])
     {
         $id = isset($data['id']) ? intval($data['id']) : 0;
-        if ($id == 0) return false;
+        if (count($where) > 0) {
+            $where_type = array_map(function () {
+                return '%s';
+            }, $where);
+        } else if ($id > 0) {
+            $where['id'] = $id;
+            $where_type = ['%d'];
+        } else {
+            return false;
+        }
 
         if ($this->can_update() == false) {
             return false;
@@ -187,9 +196,9 @@ class EF_Default
         $updated = $wpdb->update(
             $this->get_tbl_name(),
             $em_data,
-            array('id' => $id),
+            $where,
             $type,
-            array('%d'),
+            $where_type,
         );
 
         do_action("updated_table_{$this->table}_item", $em_data, $id);

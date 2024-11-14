@@ -644,8 +644,8 @@ div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria select.dtsb-data, div.dt
 .detail-customer .history-action tr td .descript-note span.note-detail.text-titlecase { text-transform: lowercase; }
 .detail-customer .history-action tr td .descript-note span.note-detail.text-titlecase::first-letter { text-transform: uppercase; }
 .detail-customer .history-action tr td .descript-note .tag.btn { font-size: 14px; line-height: 20px; padding: 4px 8px; }
-.detail-customer .note-wraper .js-comment-row:hover .edit span, .detail-customer .note-wraper .js-comment-row.select-pin .edit span { opacity: 1; visibility: visible; }
-.detail-customer .note-wraper .js-comment-row:hover .edit span.pin img, .detail-customer .note-wraper .js-comment-row.select-pin .edit span.pin img { filter: none; }
+.detail-customer .note-wraper .js-comment-row:hover .edit span, .detail-customer .note-wraper .js-comment-row.comment-pin .edit span { opacity: 1; visibility: visible; }
+.detail-customer .note-wraper .js-comment-row:hover .edit span.pin img, .detail-customer .note-wraper .js-comment-row.comment-pin .edit span.pin img { filter: none; }
 .detail-customer .note-wraper .js-comment-row .edit span { opacity: 0; visibility: hidden; }
 .detail-customer .note-wraper .js-comment-row .edit span.pen:hover img { filter: brightness(0) saturate(100%) invert(56%) sepia(64%) saturate(316%) hue-rotate(91deg) brightness(89%) contrast(94%); }
 .detail-customer .note-wraper .js-comment-row .edit span.pin:hover { cursor: pointer; }
