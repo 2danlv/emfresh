@@ -229,11 +229,17 @@
   }
   .note-wraper {
     .js-comment-row {
-      &:hover,&.comment-pin {
+      &:hover {
         .edit span {
           opacity: 1;
           visibility: visible;
+        }
+      }
+      &.comment-pin {
+        .edit span {
           &.pin {
+            opacity: 1;
+            visibility: visible;
             img {
               filter: none;
             }

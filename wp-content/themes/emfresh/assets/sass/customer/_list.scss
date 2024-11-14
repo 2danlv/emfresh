@@ -163,7 +163,27 @@
             }
         }
     }
+    .dt-container {
+        padding-bottom: 50px;
+        .bottom { 
+            position: fixed;
+            bottom: 0;
+            right: 0px;
+            width: calc(100% - 222px);
+            padding-left: 16px;
+            background: var(--background-dim-green, #fff);
+            border-top: 1px solid #DEE1E8;
+            z-index: 2;
+            padding: 13px 0px;
+            padding-right: 16px;
+        }
+    } 
 }
+.mini_sidebar .list-customer {
+    .dt-container .bottom { 
+      width: calc(100% - 76px);
+    }
+  }
 .dt-container {
     padding-top: 16px;
     div.dt-container {
@@ -228,7 +248,7 @@
         }
     }
     .dt-scroll-body {
-        border: none;
+        border: none !important;
         background-color: #fff;
         padding-bottom: 16px;
     }

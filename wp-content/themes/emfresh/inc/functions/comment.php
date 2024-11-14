@@ -2,6 +2,38 @@
 
 function site_comment_submiting()
 {
+    if(isset($_GET['pin-id']) && isset($_GET['pin-token'])) {
+        $data = wp_unslash($_GET);
+
+        if (!wp_verify_nonce($data['pin-token'], 'pintoken' )) {
+            return;
+        }
+
+        $comment_ID = (int) $data['pin-id'];
+        $comment_current = get_comment($comment_ID);
+
+        $comments = get_comments(array(
+            'type' => 'customer',
+            'status' => 'any',
+            'post_id' => $comment_current->comment_post_ID,
+            'order' => 'DESC',
+            'parent' => 0,
+        ));
+    
+        foreach ( $comments as $comment ) {
+            update_comment_meta($comment->comment_ID, 'pin', $comment->comment_ID == $comment_ID ? 1 : 0);
+        }
+    
+        $pagenum_link = html_entity_decode(get_pagenum_link());
+
+        $page_url = esc_url(remove_query_arg(['pin-id', 'pin-token'], $pagenum_link));
+
+        $json = array('code' => 200, 'message' => 'Pin success');
+
+        wp_safe_redirect(add_query_arg($json, $page_url));
+        exit;
+    }
+
     if (isset($_GET['comtoken']) && isset($_GET['delete_comment'])) {
         $data = wp_unslash($_GET);
 
@@ -17,9 +49,6 @@ function site_comment_submiting()
 
         $json['expire'] = time() + 5;
         $json['message'] = site_base64_encode($json['message']);
-
-        // $pagenum_link = html_entity_decode(get_pagenum_link());
-        // $url_parts    = explode('?', $pagenum_link);
 
         $pagenum_link = html_entity_decode(get_pagenum_link());
 
@@ -60,6 +89,22 @@ function site_comment_submiting()
     }
 }
 add_action('wp', 'site_comment_submiting');
+
+function site_comment_deleted_table_em_customer_item($comment_post_ID)
+{
+    $comments = get_comments(array(
+        'type' => 'customer',
+        'status' => 'any',
+        'post_id' => $comment_post_ID,
+        'order' => 'DESC',
+        'parent' => 0,
+    ));
+
+    foreach ($comments as $comment) {
+        wp_delete_comment($comment->comment_ID, true);
+    }
+}
+add_action("deleted_table_em_customer_item", 'site_comment_deleted_table_em_customer_item');
 
 function site_comment_log($comment, $action = '')
 {
@@ -142,6 +187,20 @@ function site_comment_get_delete_link($comment_ID = 0)
     $url = add_query_arg([
         'delete_comment' => $comment_ID,
         'comtoken' => wp_create_nonce('comtoken'),
+    ], $page_url);
+
+    return $url;
+}
+
+function site_comment_get_pin_link($comment_ID = 0)
+{
+    $pagenum_link = html_entity_decode(get_pagenum_link());
+
+    $page_url = esc_url(remove_query_arg(['code', 'message', 'expire'], $pagenum_link));
+    
+    $url = add_query_arg([
+        'pin-id' => $comment_ID,
+        'pin-token' => wp_create_nonce('pintoken'),
     ], $page_url);
 
     return $url;
