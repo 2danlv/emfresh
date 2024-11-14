@@ -16,7 +16,6 @@ $customer_id = isset($_GET['customer_id']) ? intval($_GET['customer_id']) : 0;
 $list_customer_url 		= home_url('customer');
 $detail_customer_url 	= add_query_arg(['customer_id' => $customer_id], get_permalink());
 
-
 $list_gender = $em_customer->get_genders();
 $list_tags = $em_customer->get_tags();
 $list_actives = $em_customer->get_actives();
@@ -475,8 +474,11 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 											foreach ($comments as $comment) :
 												$comment_status = sanitize_title(get_comment_meta($comment->comment_ID, 'status', true));
 											?>
-												<div class="js-comment-row">
-													<div class="row row-comment<?php echo $comment->comment_approved == 0 ? ' status-trash' : '' ?>">
+												<div class="js-comment-row<?php 
+														echo ($comment->comment_approved == 0 ? ' status-trash' : '')
+														. (get_comment_meta($comment->comment_ID, 'pin', true) == 1 ? ' comment-pin' : '');
+													?>">
+													<div class="row row-comment">
 														<div class="account-name d-f ai-center col-6">
 															<div class="avatar">
 																<img src="<?php site_the_assets(); ?>/img/icon/User.svg" alt="">
@@ -486,7 +488,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 														<div class="edit col-3">
 															<?php if (site_comment_can_edit($comment->comment_ID) && $comment->comment_approved > 0) : ?>
 																<span class="pen"><a href="#editcomment" data-id="<?php echo $comment->comment_ID ?>"><img src="<?php site_the_assets(); ?>/img/icon/edit-2-svgrepo-com.svg" alt=""></a></span>
-																<span class="pin"><img src="<?php site_the_assets(); ?>img/icon/pin-svgrepo-com.svg" alt=""></span>
+																<span class="pin"><a href="<?php echo site_comment_get_pin_link($comment->comment_ID) ?>"><img src="<?php site_the_assets(); ?>img/icon/pin-svgrepo-com.svg" alt=""></a></span>
 																<span class="remove"><a onclick="return confirm('Bạn có chắc muốn xóa ghi chú này không?')" href="<?php echo site_comment_get_delete_link($comment->comment_ID) ?>"><img src="<?php site_the_assets(); ?>/img/icon/bin.svg" alt=""></a></span>
 															<?php endif ?>
 														</div>
