@@ -126,7 +126,7 @@ jQuery(document).ready(function () {
         columnDefs: [
             {
                 type: 'natural',
-                targets: [0, 5,6,7,8,15,16],
+                targets: [0, 5,6,7,8,15],
                 orderable: false,
             },
             { visible: false, targets: [4,6,7,8,12,14] },
@@ -234,7 +234,7 @@ jQuery(document).ready(function () {
       //   end: null
       // });
       return false;
-  });
+    });
   $('.btn-time').daterangepicker({
       maxDate: moment().startOf('day'),
       timePicker: false,
@@ -333,9 +333,14 @@ jQuery(document).ready(function () {
     $('.site').addClass('mini_sidebar');
     $('.resize').addClass('active');
   }
+  table.columns.adjust();
   $('.resize').click(function (e) { 
     // localStorage.getItem('sidebar');
     e.preventDefault();
+    setTimeout(() => {
+        table.columns.adjust();
+    }, 50);
+    table.columns.adjust();
     if ($(this).hasClass('active')) {
         $('.sidebar .resize').removeClass('active');
     } else {

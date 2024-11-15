@@ -529,6 +529,8 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 								</div>
 								<!-- /.tab-pane -->
 								<div class="tab-pane customer detail-customer" id="settings">
+								<div class="alert valid-form alert-warning hidden error mb-16">
+								</div>
 									<form class="form-horizontal" method="POST" action="<?php echo add_query_arg(['tab' => 'settings'], $detail_customer_url) ?>">
 										<?php wp_nonce_field('save_locations', 'edit_locations_nonce'); ?>
 										<div class="row pb-16">
@@ -539,13 +541,13 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 													</div>
 													<div class="row">
 														<div class="col-6 pb-16">
-															<input type="text" name="nickname" class="nickname form-control" maxlength="50" value="<?php echo $response_customer['data']['nickname'] ?>" placeholder="Tên tài khoản*" required>
+															<input type="text" name="nickname" class="nickname form-control" maxlength="50" value="<?php echo $response_customer['data']['nickname'] ?>" placeholder="Tên tài khoản*">
 														</div>
 														<div class="col-6 pb-16">
 															<input type="text" name="fullname" class="fullname form-control" maxlength="50" value="<?php echo $response_customer['data']['fullname'] ?>" placeholder="Tên thật (nếu có)">
 														</div>
 														<div class="col-6 pb-16">
-															<input type="tel" id="phone" name="phone" class="phone_number form-control" value="<?php echo $response_customer['data']['phone'] ?>" required>
+															<input type="tel" id="phone" name="phone" class="phone_number form-control" value="<?php echo $response_customer['data']['phone'] ?>" >
 															<p id="phone_status" class="status text-danger"></p>
 														</div>
 														<div class="col-6 pb-16">
@@ -553,7 +555,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 																<option value="0" selected>Giới tính*</option>
 																<?php
 																foreach ($list_gender as $value => $label) { ?>
-																	<option value="<?php echo $value; ?>" <?php selected($response_customer['data']['gender'], $value); ?> name="gender" required>
+																	<option value="<?php echo $value; ?>" <?php selected($response_customer['data']['gender'], $value); ?> name="gender" >
 																		<?php echo $label; ?>
 																	</option>
 																<?php } ?>
@@ -639,22 +641,22 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 																</div>
 																<div class="row">
 																	<div class="city col-4 pb-16">
-																		<select id="province_<?php echo $record['id'] ?>" name="locations[<?php echo $index ?>][province]" class="province-select form-control" required>
+																		<select id="province_<?php echo $record['id'] ?>" name="locations[<?php echo $index ?>][province]" class="province-select form-control" >
 																			<option value="<?php echo $record['city']; ?>" selected><?php echo $record['city']; ?></option>
 																		</select>
 																	</div>
 																	<div class="col-4 pb-16">
-																		<select id="district_<?php echo $record['id'] ?>" name="locations[<?php echo $index ?>][district]" class="district-select form-control text-capitalize" required>
+																		<select id="district_<?php echo $record['id'] ?>" name="locations[<?php echo $index ?>][district]" class="district-select form-control text-capitalize" >
 																			<option value="<?php echo esc_attr($record['district']); ?>" selected><?php echo $record['district']; ?></option>
 																		</select>
 																	</div>
 																	<div class="col-4 pb-16">
-																		<select id="ward_<?php echo $record['id'] ?>" name="locations[<?php echo $index ?>][ward]" class="ward-select form-control" required>
+																		<select id="ward_<?php echo $record['id'] ?>" name="locations[<?php echo $index ?>][ward]" class="ward-select form-control" >
 																			<option value="<?php echo esc_attr($record['ward']); ?>" selected><?php echo $record['ward']; ?></option>
 																		</select>
 																	</div>
 																	<div class="col-12 pb-16">
-																		<input id="address_<?php echo $record['id'] ?>" type="text" class="form-control address" value="<?php echo $record['address']; ?>" placeholder="Địa chỉ cụ thể*" name="locations[<?php echo $index ?>][address]" required />
+																		<input id="address_<?php echo $record['id'] ?>" type="text" class="form-control address" value="<?php echo $record['address']; ?>" placeholder="Địa chỉ cụ thể*" name="locations[<?php echo $index ?>][address]"  />
 																	</div>
 																</div>
 																<?php
@@ -878,7 +880,48 @@ get_footer('customer');
 		function updatephone() {
 			$('span.customer_phone').text($('.phone_number').val());
 		}
-
+		var ass = new Assistant();
+		$('.btn-primary[name="add_post"]').on('click', function(e) {
+			if ($('.nickname').val() == '') {
+				$(".alert.valid-form").show();
+				$(".alert.valid-form").text('Chưa nhập tên tài khoản');
+				$("html, body").animate({ scrollTop: 0 }, 600);
+				return false;
+			} else {
+				$(".alert.valid-form").hide();
+			}
+			if (!ass.checkPhone($('input[type="tel"]').val())) {
+				// $('input[type="tel"]').addClass('error');
+				$(".alert.valid-form").show();
+				$(".alert.valid-form").text("Số điện thoại không đúng định dạng");
+				$("html, body").animate({ scrollTop: 0 }, 600);
+				return false;
+			} else {
+				$(".alert.valid-form").hide();
+				$('input[type="tel"]').removeClass('error');
+			}
+			if ($('.gender').val() == 0) {
+				$(".alert.valid-form").show();
+				$(".alert.valid-form").text('Chưa chọn giới tính');
+				$("html, body").animate({ scrollTop: 0 }, 600);
+				e.preventDefault();
+				return false;
+			} else {
+				$(".alert.valid-form").hide();
+			}
+			$('.address-group select,.address-group .address').each(function() {
+				var selectedValues = $(this).val();
+				if (selectedValues == '') {
+					$(".alert.valid-form").show();
+					$(".alert.valid-form").text('Kiểm tra mục địa chỉ');
+					$("html, body").animate({ scrollTop: 0 }, 600);
+					e.preventDefault();
+					return false;
+				} else {
+					$(".alert.valid-form").hide();
+				}
+			});
+		});
 		$('.js-list-note').each(function() {
 			let p = $(this);
 			$('.btn', p).on('click', function() {

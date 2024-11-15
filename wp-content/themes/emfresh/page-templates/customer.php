@@ -116,7 +116,7 @@ get_header();
 			echo '</div>';
 		}
 		?>
-		<div class="alert alert-warning hidden error mb-16">
+		<div class="alert valid-form alert-warning hidden error mb-16">
 			
 		</div>
         <form method="post" id="customer-form" action="<?php the_permalink() ?>">
@@ -326,7 +326,7 @@ function checkphone() {
                     // jQuery('#phone_status').addClass('d-none');
                     return true;
                 } else {
-                    $(".alert").text('Số điện thoại đã tồn tại');
+                    $(".alert.valid-form").text('Số điện thoại đã tồn tại');
                     return false;
                 }
             }
@@ -391,19 +391,21 @@ $(document).ready(function() {
     var ass = new Assistant();
     $('.btn-primary[name="add_post"]').on('click', function(e) {
 		if ($('.nickname').val() == '') {
-			$(".alert").show();
-			$(".alert").text('Chưa nhập tên tài khoản');
+			$(".alert.valid-form").show();
+			$(".alert.valid-form").text('Chưa nhập tên tài khoản');
+            $("html, body").animate({ scrollTop: 0 }, 600);
             return false;
         } else {
-			$(".alert").hide();
+			$(".alert.valid-form").hide();
 		}
         if (!ass.checkPhone($('input[type="tel"]').val())) {
             // $('input[type="tel"]').addClass('error');
-            $(".alert").show();
-			$(".alert").text("Số điện thoại không đúng định dạng");
+            $(".alert.valid-form").show();
+			$(".alert.valid-form").text("Số điện thoại không đúng định dạng");
+            $("html, body").animate({ scrollTop: 0 }, 600);
             return false;
         } else {
-			$(".alert").hide();
+			$(".alert.valid-form").hide();
             $('input[type="tel"]').removeClass('error');
         }
         if ($('#phone_status').html() == "OK") {
@@ -411,7 +413,7 @@ $(document).ready(function() {
             $('.btn-primary[name="add_post"]').css({
                 "display": "none"
             });
-			$(".alert").hide();
+			$(".alert.valid-form").hide();
             setTimeout(() => {
                 $('.btn-primary[name="add_post"]').css({
                     "display": "inline"
@@ -419,28 +421,31 @@ $(document).ready(function() {
             }, 2000);
             //document.getElementById('customer-form').submit();
         } else {
-			$(".alert").show();
-			$(".alert").text('Số điện thoại đã tồn tại');
+			$(".alert.valid-form").show();
+			$(".alert.valid-form").text('Số điện thoại đã tồn tại');
+            $("html, body").animate({ scrollTop: 0 }, 600);
             e.preventDefault();
             return false;
         }
         if ($('.gender').val() == 0) {
-			$(".alert").show();
-			$(".alert").text('Chưa chọn giới tính');
+			$(".alert.valid-form").show();
+			$(".alert.valid-form").text('Chưa chọn giới tính');
+            $("html, body").animate({ scrollTop: 0 }, 600);
 			e.preventDefault();
             return false;
         } else {
-			$(".alert").hide();
+			$(".alert.valid-form").hide();
 		}
 		$('.address-group select,.address-group .address').each(function() {
 			var selectedValues = $(this).val();
 			if (selectedValues == '') {
-				$(".alert").show();
-				$(".alert").text('Kiểm tra mục địa chỉ');
+				$(".alert.valid-form").show();
+				$(".alert.valid-form").text('Kiểm tra mục địa chỉ');
+                $("html, body").animate({ scrollTop: 0 }, 600);
 				e.preventDefault();
 				return false;
 			} else {
-				$(".alert").hide();
+				$(".alert.valid-form").hide();
 			}
 		});
 		
