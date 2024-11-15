@@ -339,6 +339,7 @@ jQuery(document).ready(function () {
     e.preventDefault();
     setTimeout(() => {
         table.columns.adjust();
+        table_regular.columns.adjust();
     }, 50);
     table.columns.adjust();
     if ($(this).hasClass('active')) {
@@ -388,6 +389,7 @@ jQuery(document).ready(function () {
     jQuery('ul.tabNavigation li[rel="settings"],ul.tabNavigation li[rel="history"]').click(function() {
         $('.card-primary').addClass('width-100');
         table_regular.columns.adjust().draw();
+        
     });
     $(document).on('click','.show-group-note', function name(params) {
         $(this).hide();

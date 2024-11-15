@@ -139,7 +139,9 @@ $.getJSON('/assets/data/city.json', function(data) {
       handleLocationChange($newProvinceSelect, $newDistrictSelect, $newWardSelect);
       fieldCount++;
     } else {
-      alert('Chỉ được thêm tối đa 5 địa chỉ.');
+      $(".alert.valid-form").show();
+      $(".alert.valid-form").text('Chỉ được thêm tối đa 5 địa chỉ.');
+      $("html, body").animate({ scrollTop: 0 }, 600);
     }
   });
   // Remove address group functionality
