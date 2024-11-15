@@ -142,6 +142,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 			'note_admin'    => $note_admin,
 		];
 
+		$address_new = [];
+		foreach ($log_location_labels as $key => $label) {
+			if ($label != '') {
+				$label .= ': ';
+			}
+			$address_new[] = isset($location_data[$key]) ? 	$label . $location_data[$key] : '';
+		}
+		$address_new = implode(', ', $address_new);
+
 		if ($location_id > 0) {
 			$location_old = $em_location->get_item($location_id);
 
@@ -150,23 +159,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 			$response_location = em_api_request('location/update', $location_data);
 
 			$address_old = [];
-			$address_new = [];
 			foreach ($log_location_labels as $key => $label) {
 				if ($label != '') {
 					$label .= ': ';
 				}
 
 				$address_old[] = isset($location_old[$key]) ? 	$label . $location_old[$key] : '';
-				$address_new[] = isset($location_data[$key]) ? 	$label . $location_data[$key] : '';
 			}
 			$address_old = implode(', ', $address_old);
-			$address_new = implode(', ', $address_new);
 
 			if ($address_old != $address_new) {
-				$log_change[] = sprintf('<span class="memo field-location">Địa chỉ</span><span class="note-detail">%s</span>', $address_new);
+				$log_change[] = sprintf('<span class="memo field-location">Cập nhật Địa chỉ</span><span class="note-detail">%s</span>', $address_new);
 			}
 		} else {
 			$response_location = em_api_request('location/add', $location_data);
+
+			$log_change[] = sprintf('<span class="memo field-location">Thêm Địa chỉ</span><span class="note-detail">%s</span>', $address_new);
 		}
 	}
 
@@ -174,36 +182,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 		$customer_tags = $em_customer_tag->get_items(['customer_id' => $customer_id]);
 		$tag_ids = custom_get_list_by_key($customer_tags, 'tag_id');
 
-		$result = array_merge(array_diff($_POST['tag_ids'], $tag_ids), array_diff($tag_ids, $_POST['tag_ids']));
+		$tag_inserts = array_diff($_POST['tag_ids'], $tag_ids);
+		$tag_removes = array_diff($tag_ids, $_POST['tag_ids']);
+		$result = array_merge($tag_inserts, $tag_removes);
 
 		if (count($result) > 0) {
-			$count = 0;
+			$em_customer_tag->update_list($customer_id, $_POST['tag_ids']);
 
-			foreach ($_POST['tag_ids'] as $i => $tag_id) {
-				$tag_id = (int) $tag_id;
-				if ($tag_id == 0) continue;
-
-				if (isset($customer_tags[$i])) {
-					$em_customer_tag->update([
-						'tag_id' => $tag_id,
-						'id' => $customer_tags[$i]['id']
-					]);
-				} else {
-					$em_customer_tag->insert([
-						'tag_id' => $tag_id,
-						'customer_id' => $customer_id
-					]);
-				}
-
-				$count++;
+			foreach ($tag_inserts as $tag_id) {
+				$log_change[] = sprintf('<span class="memo field-tag">Thêm Tag phân loại</span><span class="note-detail text-titlecase">%s</span>', $em_customer->get_tags($tag_id));
 			}
 
-			for ($i = $count; $i < count($customer_tags); $i++) {
-				$em_customer_tag->delete($customer_tags[$i]['id']);
-			}
-
-			foreach ($result as $tag_id) {
-				$log_change[] = sprintf('<span class="memo field-tag">Tag phân loại</span><span class="note-detail text-titlecase">%s</span>', $em_customer->get_tags($tag_id));
+			foreach ($tag_removes as $tag_id) {
+				$log_change[] = sprintf('<span class="memo field-tag">Xóa Tag phân loại</span><span class="note-detail text-titlecase">%s</span>', $em_customer->get_tags($tag_id));
 			}
 		}
 	}
@@ -214,6 +205,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 		foreach ($delete_ids as $delete_id) {
 			$delete_id = (int) $delete_id;
 			if ($delete_id > 0) {
+				$location_old = $em_location->get_item($delete_id);
+
+				$address_old = [];
+				foreach ($log_location_labels as $key => $label) {
+					if ($label != '') {
+						$label .= ': ';
+					}
+
+					$address_old[] = isset($location_old[$key]) ? 	$label . $location_old[$key] : '';
+				}
+				$address_old = implode(', ', $address_old);
+
+				$log_change[] = sprintf('<span class="memo field-location">Xóa Địa chỉ</span><span class="note-detail">%s</span>', $address_old);
+
 				$response = em_api_request('location/delete', ['id' => $delete_id]);
 			}
 		}
@@ -488,7 +493,9 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 														<div class="edit col-3">
 															<?php if (site_comment_can_edit($comment->comment_ID) && $comment->comment_approved > 0) : ?>
 																<span class="pen"><a href="#editcomment" data-id="<?php echo $comment->comment_ID ?>"><img src="<?php site_the_assets(); ?>/img/icon/edit-2-svgrepo-com.svg" alt=""></a></span>
-																<span class="pin"><a href="<?php echo site_comment_get_pin_link($comment->comment_ID) ?>"><img src="<?php site_the_assets(); ?>img/icon/pin-svgrepo-com.svg" alt=""></a></span>
+															<?php endif ?>
+															<span class="pin"><a href="<?php echo site_comment_get_pin_link($comment->comment_ID) ?>"><img src="<?php site_the_assets(); ?>img/icon/pin-svgrepo-com.svg" alt=""></a></span>
+															<?php if (site_comment_can_edit($comment->comment_ID) && $comment->comment_approved > 0) : ?>
 																<span class="remove"><a onclick="return confirm('Bạn có chắc muốn xóa ghi chú này không?')" href="<?php echo site_comment_get_delete_link($comment->comment_ID) ?>"><img src="<?php site_the_assets(); ?>/img/icon/bin.svg" alt=""></a></span>
 															<?php endif ?>
 														</div>
@@ -739,22 +746,21 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 													// 'orderby'   => 'id DESC',
 												]);
 
-												foreach ($list_logs as $log) :
-													$log_time = strtotime($log['created']);
+												foreach ($list_logs as $item) :
+													$item_time = strtotime($item['created']);
 												?>
-													<tr>
-														<td><?php echo $log['created_author'] ?></td>
-														<td><?php echo $log['action'] ?></td>
+													<tr data-id="<?php echo $item['id'] ?>">
+														<td><?php echo $item['created_author'] ?></td>
+														<td><?php echo $item['action'] ?></td>
 														<td class="nowrap">
 															<div class="descript-note">
-																<?php echo nl2br($log['content']) ?>
+																<?php echo nl2br($item['content']) ?>
 															</div>
 														</td>
-														<td><?php echo date('H:i', $log_time) ?></td>
-														<td><?php echo date('d/m/Y', $log_time) ?></td>
+														<td><?php echo date('H:i', $item_time) ?></td>
+														<td><?php echo date('d/m/Y', $item_time) ?></td>
 													</tr>
 												<?php endforeach ?>
-
 											</tbody>
 										</table>
 									</div>
