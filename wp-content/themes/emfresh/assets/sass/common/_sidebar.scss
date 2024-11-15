@@ -1,39 +1,41 @@
 .mini_sidebar .row {
     .sidebar {
+        width: 60px;
+        overflow: hidden;
+        margin-left: 0;
+        text-overflow: ellipsis;
+        .resize .mini,.resize.active .mini, ul.nav-menu li a span {
+            display: none;
+        }
+        .resize.active {
             width: 60px;
-            overflow: hidden;
-            margin-left: 0;
-            text-overflow: ellipsis;
-            .resize .mini,.resize.active .mini, ul.nav-menu li a span {
-                display: none;
-            }
-            .resize.active {
-                width: 60px;
-                img {
-                    transform: rotate(180deg);
-                }
-            }
-            ul.nav-menu {
-                width: auto;
-                li a {
-                        justify-content: center;
-                
-                        img {
-                            margin-right: 0;
-                        }
-                    }
-            } 
-            ul.nav-menu li.menu-item-has-children{
-                margin-bottom: 8px;
-                > a {
-                    background: none;
-                }
-            }
-            ul.nav-menu li .sub-menu  {
-                display: none;
+            img {
+                transform: rotate(180deg);
             }
         }
-        
+        ul.nav-menu {
+            width: auto;
+            li a {
+                justify-content: center;
+                
+                img {
+                    margin-right: 0;
+                }
+            }
+        } 
+        ul.nav-menu li.menu-item-has-children{
+            margin-bottom: 8px;
+            > a {
+                background: none;
+            }
+        }
+        ul.nav-menu li .sub-menu  {
+            display: none;
+        }
+    }
+    .content-wrapper {
+        width: calc(100% - 60px);
+    } 
         
 }
 

@@ -298,6 +298,7 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
 .mini_sidebar .row .sidebar ul.nav-menu li.menu-item-has-children { margin-bottom: 8px; }
 .mini_sidebar .row .sidebar ul.nav-menu li.menu-item-has-children > a { background: none; }
 .mini_sidebar .row .sidebar ul.nav-menu li .sub-menu { display: none; }
+.mini_sidebar .row .content-wrapper { width: calc(100% - 60px); }
 
 .row .sidebar { position: relative; width: auto; }
 .row .sidebar ul.nav-menu { padding-top: 24px; width: 190px; }

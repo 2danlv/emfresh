@@ -178,11 +178,15 @@
             padding-right: 16px;
         }
     } 
+    .dt-scroll-head,.dt-scroll-headInner,.table-list-customer{
+        
+    }
 }
 .mini_sidebar .list-customer {
     .dt-container .bottom { 
       width: calc(100% - 76px);
     }
+    
   }
 .dt-container {
     padding-top: 16px;

@@ -358,7 +358,7 @@ jQuery(document).ready(function () {
     scrollX: true,
     scrollY: '57vh',
     dom: 'Bfrtip<"bottom"pl>',
-    order: [[4, 'asc']],
+    // order: [[4, 'asc']],
     columnDefs: [
         {
             type: 'natural',

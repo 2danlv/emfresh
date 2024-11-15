@@ -121,7 +121,7 @@ get_header();
           <tr>
             <th><input type="checkbox" name="checkall" id="checkall" /></th>
             <th><span class="nowrap">Tên khách hàng</span></th>
-            <th class="text-center">SĐT</th>
+            <th class="text-left">SĐT</th>
             <th>Địa chỉ</th>
             <th>Địa chỉ</th>
             <th class="text-center"><span class="nowrap">Trạng thái </span><span class="nowrap">khách hàng</span></th>
@@ -135,7 +135,7 @@ get_header();
             <th class="text-center">Điểm <span class="nowrap">tích lũy</span></th>
             <th class="text-center">Lịch sử <span class="nowrap">đặt gần nhất</span></th>
             <th class="text-center"><span class="nowrap">Nhân </span>viên</th>
-            <th class="text-center"><span class="nowrap">Lần cập </span><span class="nowrap">nhật cuối</span></th>
+            <th class="text-right"><span class="nowrap">Lần cập </span><span class="nowrap">nhật cuối</span></th>
           </tr>
         </thead>
         <tbody>
@@ -292,6 +292,15 @@ get_header();
                   <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
                 <?php } ?>
               </select>
+            </div>
+            <div class="col-6"></div>
+            <div class="col-6">
+              <div class="pt-16">
+                <div class="d-f ai-center">
+                  <input type="radio" name="tag_radio" id="add" value="add"> <label for="add" class="pl-4 pr-8">Thêm</label>
+                  <input type="radio" name="tag_radio" id="remove" value="remove"> <label class="pl-4" for="remove">Xóa</label>
+                </div>
+            </div>
             </div>
           </div>
           <div class="form-group pt-16 text-right">
