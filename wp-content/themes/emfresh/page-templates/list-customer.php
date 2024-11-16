@@ -313,7 +313,7 @@ get_header();
             <div class="col-6">
               <div class="pt-16">
                 <div class="d-f ai-center">
-                  <input type="radio" name="tag_radio" id="add" value="add"> <label for="add" class="pl-4 pr-8">Thêm</label>
+                  <input type="radio" name="tag_radio" id="add" value="add" checked> <label for="add" class="pl-4 pr-8">Thêm</label>
                   <input type="radio" name="tag_radio" id="remove" value="remove"> <label class="pl-4" for="remove">Xóa</label>
                 </div>
             </div>

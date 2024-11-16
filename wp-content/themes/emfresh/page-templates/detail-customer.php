@@ -491,13 +491,17 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 															<div><?php echo $comment->comment_author ?></div>
 														</div>
 														<div class="edit col-3">
-															<?php if (site_comment_can_edit($comment->comment_ID) && $comment->comment_approved > 0) : ?>
-																<span class="pen"><a href="#editcomment" data-id="<?php echo $comment->comment_ID ?>"><img src="<?php site_the_assets(); ?>/img/icon/edit-2-svgrepo-com.svg" alt=""></a></span>
-															<?php endif ?>
+															<span class="pen">
+																<?php if (site_comment_can_edit($comment->comment_ID) && $comment->comment_approved > 0) : ?>
+																	<a href="#editcomment" data-id="<?php echo $comment->comment_ID ?>"><img src="<?php site_the_assets(); ?>/img/icon/edit-2-svgrepo-com.svg" alt=""></a>
+																<?php endif ?>
+															</span>
 															<span class="pin"><a href="<?php echo site_comment_get_pin_link($comment->comment_ID) ?>"><img src="<?php site_the_assets(); ?>img/icon/pin-svgrepo-com.svg" alt=""></a></span>
-															<?php if (site_comment_can_edit($comment->comment_ID) && $comment->comment_approved > 0) : ?>
-																<span class="remove"><a onclick="return confirm('Bạn có chắc muốn xóa ghi chú này không?')" href="<?php echo site_comment_get_delete_link($comment->comment_ID) ?>"><img src="<?php site_the_assets(); ?>/img/icon/bin.svg" alt=""></a></span>
-															<?php endif ?>
+															<span class="remove">
+																<?php if (site_comment_can_edit($comment->comment_ID) && $comment->comment_approved > 0) : ?>
+																	<a onclick="return confirm('Bạn có chắc muốn xóa ghi chú này không?')" href="<?php echo site_comment_get_delete_link($comment->comment_ID) ?>"><img src="<?php site_the_assets(); ?>/img/icon/bin.svg" alt=""></a>
+																<?php endif ?>
+															</span>
 														</div>
 														<div class="time col-3"><?php echo get_comment_date('d/m/Y', $comment->comment_ID) ?></div>
 													</div>

@@ -228,7 +228,11 @@
     }
   }
   .note-wraper {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
     .js-comment-row {
+      width: 100%;
       &:hover {
         .edit span {
           opacity: 1;
@@ -236,6 +240,7 @@
         }
       }
       &.comment-pin {
+        order: -1;
         .edit span {
           &.pin {
             opacity: 1;
@@ -247,6 +252,8 @@
         }
       }
       .edit span {
+        width: 25px;
+        display: inline-block;
         opacity: 0;
         visibility: hidden;
         &.pen:hover {
