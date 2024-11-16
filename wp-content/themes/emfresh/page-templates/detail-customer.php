@@ -178,6 +178,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 		}
 	}
 
+ $_POST['tag_ids'] = isset($_POST['tag_ids']) ? (array) $_POST['tag_ids'] : [];
 	if (isset($_POST['tag_ids'])) {
 		$customer_tags = $em_customer_tag->get_items(['customer_id' => $customer_id]);
 		$tag_ids = custom_get_list_by_key($customer_tags, 'tag_id');

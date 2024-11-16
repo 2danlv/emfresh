@@ -230,7 +230,7 @@ class EF_Default
         return true;
     }
 
-    function delete($id = 0)
+    function delete($where = [])
     {
         global $wpdb;
 
@@ -238,11 +238,25 @@ class EF_Default
             return false;
         }
 
+        $type = ['%d'];
+
+        $id = 0;
+
+        if(is_array($where)) {
+            $type = array_map(function () {
+                return '%s';
+            }, $where);
+        } else {
+            $id = (int) $where;
+
+            $where = ['id' => $id];
+        }
+
         do_action("delete_table_{$this->table}_item", $id);
 
         do_action("delete_em_table_item", $id, $this->table);
 
-        $deleted = $wpdb->delete($this->get_tbl_name(), ['id' => $id], ['%d']);
+        $deleted = $wpdb->delete($this->get_tbl_name(), $where, $type);
 
         do_action("deleted_table_{$this->table}_item", $id, $deleted);
 

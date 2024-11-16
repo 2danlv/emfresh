@@ -87,40 +87,36 @@ class EM_Customer_Tag extends EF_Default
     function update_list($customer_id = 0, $tag_ids = [])
     {
         global $em_customer;
+        
+        $count = 0;
 
-        if (count($tag_ids) > 0) {
-            $count = 0;
+        $customer_tags = $this->get_items(['customer_id' => $customer_id]);
+        $list_tags = array_keys($em_customer->get_tags());
 
-            $customer_tags = $this->get_items(['customer_id' => $customer_id]);
-            $list_tags = array_keys($em_customer->get_tags());
+        foreach ($tag_ids as $i => $tag_id) {
+            $tag_id = (int) $tag_id;
+            if ($tag_id == 0 || in_array($tag_id, $list_tags) == false) continue;
 
-            foreach ($tag_ids as $i => $tag_id) {
-                $tag_id = (int) $tag_id;
-                if ($tag_id == 0 || in_array($tag_id, $list_tags) == false) continue;
-
-                if (isset($customer_tags[$i])) {
-                    $this->update([
-                        'tag_id' => $tag_id,
-                        'id' => $customer_tags[$i]['id']
-                    ]);
-                } else {
-                    $this->insert([
-                        'tag_id' => $tag_id,
-                        'customer_id' => $customer_id
-                    ]);
-                }
-
-                $count++;
+            if (isset($customer_tags[$i])) {
+                $this->update([
+                    'tag_id' => $tag_id,
+                    'id' => $customer_tags[$i]['id']
+                ]);
+            } else {
+                $this->insert([
+                    'tag_id' => $tag_id,
+                    'customer_id' => $customer_id
+                ]);
             }
 
-            for ($i = $count; $i < count($customer_tags); $i++) {
-                $this->delete($customer_tags[$i]['id']);
-            }
-
-            return $count > 0;
+            $count++;
         }
 
-        return false;
+        for ($i = $count; $i < count($customer_tags); $i++) {
+            $this->delete($customer_tags[$i]['id']);
+        }
+
+        return $count > 0;
     }
 }
 
