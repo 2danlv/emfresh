@@ -23,19 +23,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
   //vardump($tag_post);
   $updated = [];
   if (isset($_POST['tag_ids']) && count($_POST['tag_ids']) > 0) {
+    $tag_radio = isset($_POST['tag_radio']) ? trim($_POST['tag_radio']) : 'add';
+
     foreach ($array_id as $key => $id) {
       $customer_id = intval($id);
       $customer_tags = $em_customer_tag->get_items(['customer_id' => $customer_id]);
       $tag_ids = custom_get_list_by_key($customer_tags, 'tag_id');
 
-      foreach ($_POST['tag_ids'] as $tag_id) {
-        if (count($tag_ids) == 0 || in_array($tag_id, $tag_ids) == false) {
-          $em_customer_tag->insert([
-            'tag_id' => $tag_id,
-            'customer_id' => $customer_id
-          ]);
+      if($tag_radio == 'remove') {
+        foreach ($_POST['tag_ids'] as $tag_id) {
+          $index = array_search($tag_id, $tag_ids);
+          if ($index != false) {
+            $em_customer_tag->delete([
+              'tag_id' => $tag_id,
+              'customer_id' => $customer_id
+            ]);
 
-          $count++;
+            unset($tag_ids[$index]);
+          }
+        }
+      } else {
+        foreach ($_POST['tag_ids'] as $tag_id) {
+          if (in_array($tag_id, $tag_ids) == false) {
+            $em_customer_tag->insert([
+              'tag_id' => $tag_id,
+              'customer_id' => $customer_id
+            ]);
+
+            $tag_ids[] = $tag_id;
+          }
         }
       }
     }
@@ -135,7 +151,7 @@ get_header();
             <th class="text-center">Điểm <span class="nowrap">tích lũy</span></th>
             <th class="text-center">Lịch sử <span class="nowrap">đặt gần nhất</span></th>
             <th class="text-center"><span class="nowrap">Nhân </span>viên</th>
-            <th class="text-right"><span class="nowrap">Lần cập </span><span class="nowrap">nhật cuối</span></th>
+            <th class="text-left"><span class="nowrap">Lần cập </span><span class="nowrap">nhật cuối</span></th>
           </tr>
         </thead>
         <tbody>
