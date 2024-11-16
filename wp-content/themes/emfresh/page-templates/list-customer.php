@@ -33,13 +33,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
       if($tag_radio == 'remove') {
         foreach ($_POST['tag_ids'] as $tag_id) {
           $index = array_search($tag_id, $tag_ids);
-          if ($index != false) {
+          if (1 || $index != false) {
             $em_customer_tag->delete([
               'tag_id' => $tag_id,
               'customer_id' => $customer_id
             ]);
 
-            unset($tag_ids[$index]);
+            // unset($tag_ids[$index]);
           }
         }
       } else {
