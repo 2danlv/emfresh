@@ -14,12 +14,11 @@ $(document).ready(function () {
 
 var $locationFields = $('#location-fields');
 var $addButton = $('.add-location-button');
-var fieldCount = 1;
+var fieldCount = $locationFields.find('> .address-group').length;
 var maxFields = 5;
 $(document).on('click', '.delete-location-button', function(e) {
   e.preventDefault();
   $(this).closest('.address-group').remove();
-  fieldCount--;
 });
 // Fetching data from the new API endpoint
 $.getJSON('/wp-content/themes/emfresh/assets/data/city.json', function(data) {
@@ -72,7 +71,7 @@ $.getJSON('/wp-content/themes/emfresh/assets/data/city.json', function(data) {
   // Add new address group functionality
   $addButton.on('click', function(e) {
     e.preventDefault();
-    if (fieldCount < maxFields) {
+    if ($locationFields.find('> .address-group').length < maxFields) {
       var newGroup = `
         <div class="address-group pb-16 location_${fieldCount}"  data-index="${fieldCount}">
         <div class="card-body">
