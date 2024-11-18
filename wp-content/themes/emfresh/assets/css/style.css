@@ -516,6 +516,8 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
 .list-customer .em-importer .btn:hover { color: #4BA66F; }
 .list-customer .em-importer .btn.btn-fillter { background: url(../img/icon/filter-svgrepo-com.svg) left 20px center no-repeat; padding-left: 48px; }
 .list-customer .em-importer .btn.btn-fillter:hover { background-image: url(../img/icon-hover/filter-svgrepo-com.svg); }
+.list-customer .em-importer .btn.btn-fillter small { width: 20px; height: 20px; border-radius: 4px; background-color: #fff; display: inline-block; color: #000; font-weight: 600; text-align: center; }
+.list-customer .em-importer .btn.btn-fillter.current-filter { background-color: #208046; background-image: url(../img/icon-hover/filter-svgrepo-com.svg); color: #fff; }
 .list-customer .em-importer .btn.quick-edit { background: url(../img/icon/layer-svgrepo-com.svg) left 20px center no-repeat; padding-left: 48px; }
 .list-customer .em-importer .btn.quick-edit:hover { background-image: url(../img/icon-hover/layer-svgrepo-com.svg); }
 .list-customer .em-importer .btn.btn-action { background: url(../img/icon/CaretDown.svg) right 24px center no-repeat; padding-right: 48px; }

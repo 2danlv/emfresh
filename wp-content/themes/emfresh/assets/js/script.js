@@ -103,9 +103,25 @@ jQuery(document).ready(function () {
                 config: {
                     depthLimit: 0,
                     columns: [4, 5, 6, 7, 8, 9, 10, 11, 12,13,14,15,16],
+                    filterChanged: function (count) {
+                        if (count == 0) {
+                            $('.btn-fillter').removeClass('current-filter');
+                            $('.btn-fillter').text(
+                                'Bộ lọc'
+                            );
+                        } else {
+                            $('.btn-fillter').addClass('current-filter');
+                            $('.btn-fillter').html(
+                                'Bộ lọc <small>' + count +'</small>'
+                            );
+                        }
+                   
+                }
                 },
+                
             },
         ],
+       
         dom: 'Bfrtip<"bottom"pl>',
         responsive: true,
         autoWidth: true,
