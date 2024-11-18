@@ -116,10 +116,11 @@ jQuery(document).ready(function () {
         scrollX: true,
         //"buttons": ["csv", "excel", "pdf"],
         order: [[16, 'desc']],
+        iDisplayLength: 50,
         lengthChange: true,
         lengthMenu: [
-            [50, 100, 200],
-            ['50 / trang', '100 / trang', '200 / trang'],
+            [15,50, 100, 200],
+            ['15 / trang','50 / trang', '100 / trang', '200 / trang'],
         ],
         "stateSave": true,
         // scrollY: '62vh',
