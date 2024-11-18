@@ -8,7 +8,7 @@
  * @since Twenty Twelve 1.0
  */
 
-global $em_customer, $em_order, $em_customer_tag;
+global $em_customer, $em_order, $em_customer_tag, $em_log;
 
 $list_order_status = $em_order->get_statuses();
 $list_tags = $em_customer->get_tags();
@@ -21,26 +21,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
   //$tag_post    = isset($_POST['tag']) ? intval($_POST['tag']) : 0;
   //$order_payment_status = isset($_POST['order_payment_status']) ? sanitize_textarea_field($_POST['order_payment_status']) : '';
   //vardump($tag_post);
+
   $updated = [];
   if (isset($_POST['tag_ids']) && count($_POST['tag_ids']) > 0) {
     $tag_radio = isset($_POST['tag_radio']) ? trim($_POST['tag_radio']) : 'add';
 
     foreach ($array_id as $key => $id) {
+      $log_change = [];
+
       $customer_id = intval($id);
       $customer_tags = $em_customer_tag->get_items(['customer_id' => $customer_id]);
       $tag_ids = custom_get_list_by_key($customer_tags, 'tag_id');
 
       if($tag_radio == 'remove') {
         foreach ($_POST['tag_ids'] as $tag_id) {
-          $index = array_search($tag_id, $tag_ids);
-          if (1 || $index != false) {
-            $em_customer_tag->delete([
-              'tag_id' => $tag_id,
-              'customer_id' => $customer_id
-            ]);
+          $em_customer_tag->delete([
+            'tag_id' => $tag_id,
+            'customer_id' => $customer_id
+          ]);
 
-            // unset($tag_ids[$index]);
-          }
+          $log_change[] = sprintf('<span class="memo field-tag">Xóa Tag phân loại</span><span class="note-detail text-titlecase">%s</span>', $em_customer->get_tags($tag_id));
         }
       } else {
         foreach ($_POST['tag_ids'] as $tag_id) {
@@ -51,8 +51,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
             ]);
 
             $tag_ids[] = $tag_id;
+
+            $log_change[] = sprintf('<span class="memo field-tag">Thêm Tag phân loại</span><span class="note-detail text-titlecase">%s</span>', $em_customer->get_tags($tag_id));
           }
         }
+      }
+      
+      // Log update
+      if(count($log_change) > 0) {
+        $em_log->insert([
+          'action'        => 'Cập nhật',
+          'module'        => 'em_customer',
+          'module_id'     => $customer_id,
+          'content'       => implode("\n", $log_change)
+        ]);
       }
     }
   }
@@ -63,6 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
   //     'order_payment_status' => $order_payment_status
   //   ];
   // }
+  
   // $response_update = $em_customer->update($customer_update_data);
   // if ($response_update) {
   //   $updated[$id] = 'ok';
@@ -141,15 +154,15 @@ get_header();
             <th>Địa chỉ</th>
             <th>Địa chỉ</th>
             <th class="text-center"><span class="nowrap">Trạng thái </span><span class="nowrap">khách hàng</span></th>
-            <th class="text-left">Tag <span class="nowrap">phân loại</span></th>
+            <th class="text-center">Tag <span class="nowrap">phân loại</span></th>
             <th class="text-center">Giới tính</th>
             <th class="text-center">Note <span class="nowrap">dụng cụ ăn</span></th>
-            <th class="text-left"><span class="nowrap">Số </span>đơn</th>
-            <th class="text-left">Số <span class="nowrap">ngày ăn</span></th>
-            <th class="text-left">Số <span class="nowrap">phần ăn</span></th>
-            <th class="text-left"><span class="nowrap">Tổng tiền </span><span class="nowrap">đã chi</span></th>
-            <th class="text-left">Điểm <span class="nowrap">tích lũy</span></th>
-            <th class="text-left">Lịch sử <span class="nowrap">đặt gần nhất</span></th>
+            <th class="text-center"><span class="nowrap">Số </span>đơn</th>
+            <th class="text-center">Số <span class="nowrap">ngày ăn</span></th>
+            <th class="text-center">Số <span class="nowrap">phần ăn</span></th>
+            <th class="text-center"><span class="nowrap">Tổng tiền </span><span class="nowrap">đã chi</span></th>
+            <th class="text-center">Điểm <span class="nowrap">tích lũy</span></th>
+            <th class="text-center">Lịch sử <span class="nowrap">đặt gần nhất</span></th>
             <th class="text-center"><span class="nowrap">Nhân </span>viên</th>
             <th class="text-left"><span class="nowrap">Lần cập </span><span class="nowrap">nhật cuối</span></th>
           </tr>
@@ -199,7 +212,7 @@ get_header();
                       */
                       ?>
                     </td>
-                    <td class="text-left"><span class="tag btn btn-sm status_<?php echo $record['status']; ?>"><?php echo $record['status_name']; ?></span></td>
+                    <td><span class="tag btn btn-sm status_<?php echo $record['status']; ?>"><?php echo $record['status_name']; ?></span></td>
                     <td>
                       <?php
                       $customer_tags = $em_customer_tag->get_items(['customer_id' => $record['id']]);
@@ -216,15 +229,15 @@ get_header();
                         ?>
                       <?php endforeach; ?>
                     </td>
-                    <td class="text-titlecase text-center"><?php echo $record['gender_name']; ?></td>
-                    <td  class="text-center"><?php echo $record['note_cook']; ?><!-- note dụng cụ --> </td>
-                    <td class="text-left"><!-- note số đơn --></td>
-                    <td class="text-left"><!-- note số ngày ăn --></td>
-                    <td class="text-left"><!-- note số phần ăn --></td>
-                    <td class="text-left"><!-- note tổng tiền --></td>
-                    <td class="text-left"><?php echo $record['point']; ?></td>
-                    <td class="text-left"><!-- note lịch sử đặt gần nhất --></td>
-                    <td class="text-center"><span class="avatar"><img src="<?php echo get_avatar_url($record['modified_at']); ?>" width="24" alt="<?php echo get_the_author_meta('display_name', $record['modified_at']); ?>"></span></td>
+                    <td class="text-titlecase"><?php echo $record['gender_name']; ?></td>
+                    <td><?php echo $record['note_cook']; ?><!-- note dụng cụ --> </td>
+                    <td><!-- note số đơn --></td>
+                    <td><!-- note số ngày ăn --></td>
+                    <td><!-- note số phần ăn --></td>
+                    <td><!-- note tổng tiền --></td>
+                    <td><?php echo $record['point']; ?></td>
+                    <td><!-- note lịch sử đặt gần nhất --></td>
+                    <td class="text-right"><span class="avatar"><img src="<?php echo get_avatar_url($record['modified_at']); ?>" width="24" alt="<?php echo get_the_author_meta('display_name', $record['modified_at']); ?>"></span></td>
                     <td class="nowrap"><?php echo date('H:i d/m/Y', strtotime($record['modified'])); ?></td>
                   </tr>
           <?php  }
