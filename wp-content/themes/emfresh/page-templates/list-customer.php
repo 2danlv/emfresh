@@ -141,15 +141,15 @@ get_header();
             <th>Địa chỉ</th>
             <th>Địa chỉ</th>
             <th class="text-center"><span class="nowrap">Trạng thái </span><span class="nowrap">khách hàng</span></th>
-            <th class="text-center">Tag <span class="nowrap">phân loại</span></th>
+            <th class="text-left">Tag <span class="nowrap">phân loại</span></th>
             <th class="text-center">Giới tính</th>
             <th class="text-center">Note <span class="nowrap">dụng cụ ăn</span></th>
-            <th class="text-center"><span class="nowrap">Số </span>đơn</th>
-            <th class="text-center">Số <span class="nowrap">ngày ăn</span></th>
-            <th class="text-center">Số <span class="nowrap">phần ăn</span></th>
-            <th class="text-center"><span class="nowrap">Tổng tiền </span><span class="nowrap">đã chi</span></th>
-            <th class="text-center">Điểm <span class="nowrap">tích lũy</span></th>
-            <th class="text-center">Lịch sử <span class="nowrap">đặt gần nhất</span></th>
+            <th class="text-left"><span class="nowrap">Số </span>đơn</th>
+            <th class="text-left">Số <span class="nowrap">ngày ăn</span></th>
+            <th class="text-left">Số <span class="nowrap">phần ăn</span></th>
+            <th class="text-left"><span class="nowrap">Tổng tiền </span><span class="nowrap">đã chi</span></th>
+            <th class="text-left">Điểm <span class="nowrap">tích lũy</span></th>
+            <th class="text-left">Lịch sử <span class="nowrap">đặt gần nhất</span></th>
             <th class="text-center"><span class="nowrap">Nhân </span>viên</th>
             <th class="text-left"><span class="nowrap">Lần cập </span><span class="nowrap">nhật cuối</span></th>
           </tr>
@@ -199,7 +199,7 @@ get_header();
                       */
                       ?>
                     </td>
-                    <td><span class="tag btn btn-sm status_<?php echo $record['status']; ?>"><?php echo $record['status_name']; ?></span></td>
+                    <td class="text-left"><span class="tag btn btn-sm status_<?php echo $record['status']; ?>"><?php echo $record['status_name']; ?></span></td>
                     <td>
                       <?php
                       $customer_tags = $em_customer_tag->get_items(['customer_id' => $record['id']]);
@@ -216,15 +216,15 @@ get_header();
                         ?>
                       <?php endforeach; ?>
                     </td>
-                    <td class="text-titlecase"><?php echo $record['gender_name']; ?></td>
-                    <td><?php echo $record['note_cook']; ?><!-- note dụng cụ --> </td>
-                    <td><!-- note số đơn --></td>
-                    <td><!-- note số ngày ăn --></td>
-                    <td><!-- note số phần ăn --></td>
-                    <td><!-- note tổng tiền --></td>
-                    <td><?php echo $record['point']; ?></td>
-                    <td><!-- note lịch sử đặt gần nhất --></td>
-                    <td class="text-right"><span class="avatar"><img src="<?php echo get_avatar_url($record['modified_at']); ?>" width="24" alt="<?php echo get_the_author_meta('display_name', $record['modified_at']); ?>"></span></td>
+                    <td class="text-titlecase text-center"><?php echo $record['gender_name']; ?></td>
+                    <td  class="text-center"><?php echo $record['note_cook']; ?><!-- note dụng cụ --> </td>
+                    <td class="text-left"><!-- note số đơn --></td>
+                    <td class="text-left"><!-- note số ngày ăn --></td>
+                    <td class="text-left"><!-- note số phần ăn --></td>
+                    <td class="text-left"><!-- note tổng tiền --></td>
+                    <td class="text-left"><?php echo $record['point']; ?></td>
+                    <td class="text-left"><!-- note lịch sử đặt gần nhất --></td>
+                    <td class="text-center"><span class="avatar"><img src="<?php echo get_avatar_url($record['modified_at']); ?>" width="24" alt="<?php echo get_the_author_meta('display_name', $record['modified_at']); ?>"></span></td>
                     <td class="nowrap"><?php echo date('H:i d/m/Y', strtotime($record['modified'])); ?></td>
                   </tr>
           <?php  }
