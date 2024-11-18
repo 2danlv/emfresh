@@ -135,7 +135,7 @@ get_header();
       <table id="list-customer" class="table table-list-customer" style="width:100%">
         <thead>
           <tr>
-            <th><input type="checkbox" name="checkall" id="checkall" /></th>
+            <th class="text-center"><input type="checkbox" name="checkall" id="checkall" /></th>
             <th><span class="nowrap">Tên khách hàng</span></th>
             <th class="text-left">SĐT</th>
             <th>Địa chỉ</th>
@@ -167,8 +167,8 @@ get_header();
               if (is_array($record)) { // Check if each record is an array
                 if ($record['active'] != '0') { ?>
                   <tr>
-                    <td><input type="checkbox" class="checkbox-element" value="<?php echo $record['id'] ?>"></td>
-                    <td class="text-capitalize"><a href="detail-customer/?customer_id=<?php echo $record['id'] ?>"><?php echo $record['customer_name']; ?></a></td>
+                    <td class="text-center"><input type="checkbox" class="checkbox-element" value="<?php echo $record['id'] ?>"></td>
+                    <td class="text-capitalize nowrap"><a href="detail-customer/?customer_id=<?php echo $record['id'] ?>"><?php echo $record['customer_name']; ?></a></td>
                     <td class="text-left"><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $record['phone']; ?>"><?php echo $record['phone']; ?></span></td>
                     <td class="text-capitalize">
                       <?php

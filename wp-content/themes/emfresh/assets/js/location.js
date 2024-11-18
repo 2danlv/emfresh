@@ -22,7 +22,7 @@ $(document).on('click', '.delete-location-button', function(e) {
   fieldCount--;
 });
 // Fetching data from the new API endpoint
-$.getJSON('/assets/data/city.json', function(data) {
+$.getJSON('/wp-content/themes/emfresh/assets/data/city.json', function(data) {
 
    // Function to populate the province (Thành phố Hồ Chí Minh) dropdown
    function populateProvinces($selectElement, selectedValue) {
@@ -48,13 +48,14 @@ $.getJSON('/assets/data/city.json', function(data) {
         var selectedDistrict = data[0].Districts.find(d => d.Name === $(this).val());
 
         if (selectedDistrict) {
-          $.each(selectedDistrict.Wards, function(index, ward) {
-            $wardSelect.append(`<option value="${ward.Name}">${ward.Name}</option>`);
+          var sortedWards = selectedDistrict.Wards.sort((a, b) => a.Name.localeCompare(b.Name));
+          $.each(sortedWards, function (index, ward) {
+              $wardSelect.append(`<option value="${ward.Name}">${ward.Name}</option>`);
           });
           $wardSelect.prop('disabled', false);
-        } else {
+      } else {
           $wardSelect.prop('disabled', true);
-        }
+      }
       });
     }
 

@@ -102,7 +102,7 @@ jQuery(document).ready(function () {
                 },
                 config: {
                     depthLimit: 0,
-                    columns: [1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12,13,14,15,16]
+                    columns: [4, 5, 6, 7, 8, 9, 10, 11, 12,13,14,15,16]
                 },
             },
         ],
