@@ -102,7 +102,7 @@ jQuery(document).ready(function () {
                 },
                 config: {
                     depthLimit: 0,
-                    columns: [4, 5, 6, 7, 8, 9, 10, 11, 12,13,14,15,16]
+                    columns: [4, 5, 6, 7, 8, 9, 10, 11, 12,13,14,15,16],
                 },
             },
         ],
@@ -123,7 +123,7 @@ jQuery(document).ready(function () {
             ['15 / trang','50 / trang', '100 / trang', '200 / trang'],
         ],
         "stateSave": true,
-        // scrollY: '62vh',
+        scrollY: $(window).height() - 263,
         columnDefs: [
             {
                 type: 'natural',
@@ -133,6 +133,16 @@ jQuery(document).ready(function () {
             { visible: false, targets: [4,6,7,8,12,14] },
         ],
     });
+    function getSearchState() {
+        var dataTableState = JSON.parse(localStorage.getItem('DataTables_list-customer_/customer/'));
+        if (dataTableState && dataTableState.search && dataTableState.search.search) {
+            var searchTerm = dataTableState.search.search; // Extract the search term
+            return searchTerm;
+        }
+    }
+
+    $('.input-search').val(getSearchState());
+    
     $('.filter input[type="checkbox"]').on('change', function (e) {
         var column = table.columns([$(this).attr('data-column')]);
 
@@ -260,10 +270,10 @@ jQuery(document).ready(function () {
           'All time (Tối đa)': '',
           '1 tuần qua': [moment().subtract(6, 'days').startOf('day'), moment().endOf('day')],
           '2 tuần qua': [moment().subtract(13, 'days').startOf('day'), moment().endOf('day')],
-          '1 tháng qua': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
-          '3 tháng qua': [moment().subtract(3, 'months').startOf('month'), moment().endOf('month')],
-          '6 tháng qua': [moment().subtract(6, 'months').startOf('month'), moment().endOf('month')],
-          '1 năm qua': [moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')],
+          '1 tháng qua': [moment().subtract(30, 'days').startOf('day'), moment().endOf('day')],
+          '3 tháng qua': [moment().subtract(90, 'days').startOf('day'), moment().endOf('day')],
+          '6 tháng qua': [moment().subtract(180, 'days').startOf('day'), moment().endOf('day')],
+          '1 năm qua': [moment().subtract(365, 'days').startOf('day'), moment().endOf('day')],
       },
   });
 
@@ -365,11 +375,11 @@ jQuery(document).ready(function () {
     scrollX: true,
     scrollY: '57vh',
     dom: 'Bfrtip<"bottom"pl>',
-    // order: [[4, 'asc']],
+    //order: [[3, 'asc']],
     columnDefs: [
         {
             type: 'natural',
-            targets: [0, 1,2,3],
+            targets: [0, 1,2,3,4],
             orderable: false,
         },
     ],

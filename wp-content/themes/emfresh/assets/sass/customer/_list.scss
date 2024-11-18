@@ -164,18 +164,14 @@
         }
     }
     .dt-container {
-        padding-bottom: 50px;
+        // padding-bottom: 50px;
         .bottom { 
-            position: fixed;
-            bottom: 0;
-            right: 0px;
-            width: calc(100% - 222px);
-            padding-left: 16px;
+            // position: fixed;
+
             background: var(--background-dim-green, #fff);
             border-top: 1px solid #DEE1E8;
             z-index: 2;
             padding: 13px 0px;
-            padding-right: 16px;
         }
     } 
     .dt-scroll-head,.dt-scroll-headInner,.table-list-customer{

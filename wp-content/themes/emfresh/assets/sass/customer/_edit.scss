@@ -239,6 +239,9 @@
           visibility: visible;
         }
       }
+      .account-name {
+        font-weight: 600;
+      }
       &.comment-pin {
         order: -1;
         .edit span {

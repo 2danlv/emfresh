@@ -12,7 +12,7 @@
 ?>
 </div>
 </div>
-<div class="modal fade modal-copy-phone" id="modal-copy">
+<div class="fade modal-copy-phone" id="modal-copy">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="form-group d-f ai-center pt-8">
