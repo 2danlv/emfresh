@@ -111,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 		$old = isset($customer_old[$key]) ? $customer_old[$key] : null;
 		$new = isset($customer_data[$key]) ? $customer_data[$key] : null;
 
-		if ($new != null && $old != null && $new != $old) {
+		if ($new != null && $new != $old) {
 			if ($key == 'gender') {
 				$new = $em_customer->get_genders($new);
 			}
@@ -168,17 +168,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 			}
 			$address_old = implode(', ', $address_old);
 
+			$check_active = ($active == 1 && $location_old['active'] == 0);
+
 			if ($address_old != $address_new) {
-				$log_change[] = sprintf('<span class="memo field-location">Cập nhật Địa chỉ</span><span class="note-detail">%s</span>', $address_new);
+				$log_change[] = sprintf('<span class="memo field-location">%s</span><span class="note-detail">%s</span>', 'Cập nhật địa chỉ' . ($check_active ? ' và đặt làm mặc định.' : ''), $address_new);
+			} else if($check_active){
+				$log_change[] = sprintf('<span class="memo field-location">Đặt địa chỉ mặc định</span><span class="note-detail">%s</span>', $address_new);
 			}
 		} else {
 			$response_location = em_api_request('location/add', $location_data);
 
-			$log_change[] = sprintf('<span class="memo field-location">Thêm Địa chỉ</span><span class="note-detail">%s</span>', $address_new);
+			$log_change[] = sprintf('<span class="memo field-location">%s</span><span class="note-detail">%s</span>', 'Thêm địa chỉ' . ($active == 1 ? ' và đặt làm mặc định.' : ''), $address_new);
 		}
 	}
 
- $_POST['tag_ids'] = isset($_POST['tag_ids']) ? (array) $_POST['tag_ids'] : [];
 	if (isset($_POST['tag_ids'])) {
 		$customer_tags = $em_customer_tag->get_items(['customer_id' => $customer_id]);
 		$tag_ids = custom_get_list_by_key($customer_tags, 'tag_id');
@@ -254,6 +257,7 @@ if ($customer_id == 0 || count($response_customer['data']) == 0) {
 $location_filter = [
 	'customer_id' => $customer_id,
 	'limit' => 5,
+	'orderby' => 'active DESC, id DESC',
 ];
 $response_get_location = em_api_request('location/list', $location_filter);
 $customer_tags = $em_customer_tag->get_items(['customer_id' => $customer_id]);
@@ -497,7 +501,9 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 																	<a href="#editcomment" data-id="<?php echo $comment->comment_ID ?>"><img src="<?php site_the_assets(); ?>/img/icon/edit-2-svgrepo-com.svg" alt=""></a>
 																<?php endif ?>
 															</span>
+															<?php if ($comment->comment_approved > 0) : ?>
 															<span class="pin"><a href="<?php echo site_comment_get_pin_link($comment->comment_ID) ?>"><img src="<?php site_the_assets(); ?>img/icon/pin-svgrepo-com.svg" alt=""></a></span>
+															<?php endif ?>
 															<span class="remove">
 																<?php if (site_comment_can_edit($comment->comment_ID) && $comment->comment_approved > 0) : ?>
 																	<a onclick="return confirm('Bạn có chắc muốn xóa ghi chú này không?')" href="<?php echo site_comment_get_delete_link($comment->comment_ID) ?>"><img src="<?php site_the_assets(); ?>/img/icon/bin.svg" alt=""></a>
@@ -534,8 +540,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 								</div>
 								<!-- /.tab-pane -->
 								<div class="tab-pane customer detail-customer" id="settings">
-								<div class="alert valid-form alert-warning hidden error mb-16">
-								</div>
+									<div class="alert valid-form alert-warning hidden error mb-16"></div>
 									<form class="form-horizontal" method="POST" action="<?php echo add_query_arg(['tab' => 'settings'], $detail_customer_url) ?>">
 										<?php wp_nonce_field('save_locations', 'edit_locations_nonce'); ?>
 										<div class="row pb-16">
