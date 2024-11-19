@@ -57,16 +57,18 @@
   overflow: hidden;
   position: fixed;
   background: none;
-  z-index: 0;
+  visibility: hidden;
+  &.is-active { display: flex }
   .modal-dialog {
     min-width: auto;
-    background: var(--color-primary-100, #DDF6E7);
+    background: var(--color-primary-100, #F0FAF4);
     border: 1px solid #98D9B2;
     margin-bottom: 65vh;
-    z-index: 40;
-    position: relative;
+    visibility: visible;
     .modal-content {
       padding: 8px 16px 16px;
+      z-index: 40;
+      position: relative;
     }
     .form-group {
       .phone-copy {
@@ -82,5 +84,10 @@
         cursor: pointer;
       }
     }
+  }
+}
+.modal-warning {
+  .modal-dialog {
+    min-width: 320px;
   }
 }

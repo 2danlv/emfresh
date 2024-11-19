@@ -254,9 +254,14 @@
           }
         }
       }
-      .note-content .status-edited {
-        color: #FF7A00;
-      }
+      .note-content {
+        .status-edited {
+          color: #FF7A00;
+        }
+        .status-deleted {
+          color: #747475;
+        }
+      } 
       .edit span {
         width: 25px;
         display: inline-block;

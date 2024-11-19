@@ -510,7 +510,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 															<?php endif ?>
 															<span class="remove">
 																<?php if (site_comment_can_edit($comment->comment_ID) && $comment->comment_approved > 0) : ?>
-																	<a onclick="return confirm('Bạn có chắc muốn xóa ghi chú này không?')" href="<?php echo site_comment_get_delete_link($comment->comment_ID) ?>"><img src="<?php site_the_assets(); ?>/img/icon/bin.svg" alt=""></a>
+																	<a class="modal-remove-note modal-button" data-target="#modal-note" href="<?php echo site_comment_get_delete_link($comment->comment_ID) ?>"><img src="<?php site_the_assets(); ?>/img/icon/bin.svg" alt=""></a>
 																<?php endif ?>
 															</span>
 														</div>
@@ -797,24 +797,43 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 <!-- /.content -->
 </div>
 <!-- /.card-body -->
-<div class="modal fade" id="modal-default">
+<div class="modal fade modal-warning" id="modal-default">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title">Thông báo!</h4>
-			</div>
 			<form method="post" id="list-customer" action="<?php the_permalink() ?>">
 				<div class="modal-body pb-16">
 					<input type="hidden" class="customer_id" name="customer_id" value="<?php echo $response_customer['data']['id'] ?>">
-					<p>Bạn muốn xóa khách hàng: <b><?php echo $response_customer['data']['nickname'] ?></b>?</p>
+					<div class="d-f ai-center">
+						<i class="fas fa-warning mr-4"></i>
+						<p>Bạn có chắc muốn xoá khách hàng này không?</p>
+					</div>
+					
 				</div>
 				<div class="modal-footer d-f jc-b pt-16">
 					<button type="button" class="btn btn-secondary modal-close">Đóng</button>
-					<button type="submit" name="remove" class="btn btn-danger modal-close">Xóa!</button>
+					<button type="submit" name="remove" class="btn btn-danger modal-close">Xóa</button>
 				</div>
 			</form>
 		</div>
 	</div>
+</div>
+<div class="modal fade modal-warning" id="modal-note">
+  <div class="modal-dialog">
+    <div class="modal-content">
+	<form method="post" class="form-remove-note" action="">
+		<div class="modal-body pb-16">
+			<div class="d-f ai-center">
+				<i class="fas fa-warning mr-4"></i>
+				<p>Bạn có chắc muốn xoá ghi chú này không?</p>
+			</div>
+		</div>
+		<div class="modal-footer d-f jc-b pt-16">
+			<button type="button" class="btn btn-secondary modal-close">Đóng</button>
+			<button type="submit" name="remove" class="btn btn-danger modal-close">Xóa</button>
+		</div>
+	</form>
+    </div>
+  </div>
 </div>
 <style>
 </style>
@@ -826,7 +845,15 @@ get_footer('customer');
 <script src="<?php site_the_assets(); ?>js/location.js"></script>
 <script type="text/javascript">
 	jQuery(function($) {
-
+		$('.modal-remove-note').click(function (e) { 
+			e.preventDefault();
+			var href = $(this).attr('href');
+			$('#modal-note form.form-remove-note').attr('action', href);
+		});
+		$('#modal-note form.form-remove-note .btn-secondary').click(function (e) { 
+			e.preventDefault();
+			$('#modal-note form.form-remove-note').attr('action', '');
+		});
 		$('.js-comment-row').each(function() {
 			let row = $(this),
 				f = $('.js-comment-form');
