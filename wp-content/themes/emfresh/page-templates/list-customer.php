@@ -165,6 +165,7 @@ get_header();
             <th>Nhân viên</th>
             <th class="text-left"><span class="nowrap">Lần cập </span><span class="nowrap">nhật cuối</span></th>
             <th class="text-left"><span class="nowrap">Lần cập nhật cuối</span></th>
+            <th class="text-left"><span class="nowrap">Lần cập nhật cuối</span></th>
           </tr>
         </thead>
         <tbody>
@@ -218,7 +219,7 @@ get_header();
                     <td><?php echo get_the_author_meta('display_name', $record['modified_at']); ?></td>
                     <td class="nowrap"><?php echo date('H:i d/m/Y', strtotime($record['modified'])); ?></td>
                     <td><?php echo date('d/m/Y', strtotime($record['modified'])); ?></td>
-
+                    <td><?php echo date('d/m/Y', strtotime($record['modified'])); ?></td>
                   </tr>
           <?php  }
               } else {

@@ -137,11 +137,17 @@ jQuery(document).ready(function () {
 				targets: [0, 5,6,7,8,15,16],
 				orderable: false,
 			},
-			{ visible: false, targets: [4,6,7,8,12,14,16,18] },
+			{ visible: false, targets: [4,6,7,8,12,14,16,18,19] },
             {
                 targets: 18, // Target the first column which contains dates
                 render: function(data, type, row) {
                   return moment(data, 'DD/MM/YYYY').format('YYYY-MM-DD');
+                }
+              },
+              {
+                targets: 19, // Target the first column which contains dates
+                render: function(data, type, row) {
+                  return moment(data, 'DD/MM/YYYY').format('DD/MM/YYYY');
                 }
               },
 			{
@@ -358,7 +364,7 @@ jQuery(document).ready(function () {
             var max = end;
     
             // Get the date value from the table (assuming the date is in the 19th column)
-            var startDate = moment(data[17], 'DD/MM/YYYY');  // Adjust the format to match your table data
+            var startDate = moment(data[19], 'DD/MM/YYYY');  // Adjust the format to match your table data
     
             // Check if the row should be included based on the selected date range
             if (
