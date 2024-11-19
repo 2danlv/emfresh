@@ -21,16 +21,12 @@ class EM_Log extends EF_Default
      * @since 1.0
      *
      */
-    // function __construct()
-    // {
-    //     parent::__construct();
+    function __construct()
+    {
+        parent::__construct();
 
-    //     add_action('inserted_em_table_item', array($this, 'inserted_em_table_item'), 10, 3);
-    //     add_filter('update_em_table_item', array($this, 'update_em_table_item'), 10, 3);
-    //     add_action('updated_em_table_item', array($this, 'updated_em_table_item'), 10, 3);
-    //     add_action('delete_em_table_item', array($this, 'delete_em_table_item'), 10, 3);
-    //     add_action('deleted_em_table_item', array($this, 'deleted_em_table_item'), 10, 3);
-    // }
+        add_action('deleted_em_table_item', array($this, 'deleted_em_table_item'), 10, 3);
+    }
 
     function create_table()
     {
@@ -163,56 +159,25 @@ class EM_Log extends EF_Default
         
         return false;
     }
-
-    function inserted_em_table_item($insert_id = 0, $data = [], $table_name = '')
-    {
-        if ($this->table == $table_name) return $insert_id;
-
-        $log_data = $this->get_data($table_name, $data);
-
-        $log_data['action'] = 'Tạo';
-
-        $this->insert($log_data);
-    }
-
-    function update_em_table_item($data = [], $id = 0, $table_name = '')
-    {
-        if ($this->table != $table_name) {
-            $this->get_table_item($table_name, $id);
-        }
-
-        return $data;
-    }
-
-    function updated_em_table_item($data = [], $id = 0, $table_name = '')
-    {
-        if ($this->table == $table_name) return $data;
-
-        $log_data = $this->get_data($table_name, $data);
-
-        $log_data['action'] = 'Cập nhật';
-
-        $this->insert($log_data);
-    }
-
-    function delete_em_table_item($id = 0, $table_name = '')
-    {
-        if ($this->table != $table_name) {
-            $this->get_table_item($table_name, $id);
-        }
-    }
-
+    
     function deleted_em_table_item($id = 0, $deleted = false, $table_name = '')
     {
         if ($this->table == $table_name || $deleted == false) return $deleted;
 
-        $old = $this->get_table_item($table_name, $id);
+        if($table_name == 'em_customer') {
+            $where = [
+                'module'        => 'em_customer',
+    			'module_id'     => $id,
+            ];
 
-        $log_data = $this->get_data($table_name, $old);
+            $type = array_map(function () {
+                return '%s';
+            }, $where);
 
-        $log_data['action'] = 'Xóa';
+            $deleted = $wpdb->delete($this->get_tbl_name(), $where, $type);
+        }
 
-        $this->insert($log_data);
+        return $deleted;
     }
 }
 
