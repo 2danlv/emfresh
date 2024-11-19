@@ -112,7 +112,6 @@ get_header();
       <form class="em-importer" data-name="customer" action="<?php the_permalink() ?>" method="post">
         <div class="row ai-center">
           <div class="col-8">
-
             <ul class="d-f ai-center">
               <li class="add"><a href="/customer/add-customer/"><img src="<?php echo site_get_template_directory_assets(); ?>/img/icon/plus-svgrepo-com.svg" alt=""></a></li>
               <li><span class="btn btn-fillter">Bộ lọc</span></li>
@@ -140,7 +139,6 @@ get_header();
               </li>
               <li><span class="btn modal-button btn-column" data-target="#modal-default">Cột hiển thị</span></li>
             </ul>
-
           </div>
         </div>
         <?php wp_nonce_field('importoken', 'importoken', false); ?>
@@ -184,50 +182,27 @@ get_header();
                     <td class="text-capitalize nowrap"><a href="detail-customer/?customer_id=<?php echo $record['id'] ?>"><?php echo $record['customer_name']; ?></a></td>
                     <td class="text-left"><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $record['phone']; ?>"><?php echo $record['phone']; ?></span></td>
                     <td class="text-capitalize">
-                      <?php
-                      // lấy danh sách location
-                      /* $location_filter = [
-                        'customer_id' => $record['id'],
-                        'limit' => 1,
-                      ];
-                      $response_get_location = em_api_request('location/list', $location_filter);
-                      foreach ($response_get_location['data'] as $index => $location) {
-                      ?><?php if ($location['active'] == 1) { ?>
-                      <div class="nowrap diachi"><?php echo $location['address'] ?>, <?php echo $location['ward'] ?>, <?php echo $location['district'] ?></div>
-                    <?php } 
-                      }
-                      */
-                      
-                    ?>
                       <div class="nowrap diachi"><?php echo $record['address']; echo $record['address'] ? ', ' : ''; ?> <?php echo $record['ward'];  echo $record['ward'] ? ', ' : ''; echo $record['district'] ?></div>
                     </td>
                     <td class="text-capitalize">
                       <?php echo $record['district']; ?>
-                      <?php
-                      /* foreach ($response_get_location['data'] as $index => $location) {
-                        if ($location['active'] == 1) {
-                          echo $location['district'];
-                        }
-                      }
-                      */
-                      ?>
                     </td>
                     <td><span class="tag btn btn-sm status_<?php echo $record['status']; ?>"><?php echo $record['status_name']; ?></span></td>
                     <td>
                       <?php
-                      $customer_tags = $em_customer_tag->get_items(['customer_id' => $record['id']]);
-                      $i = 0;
-                      $len = count($customer_tags);
-                      foreach ($customer_tags as $item) : $tag = $item['tag_id']; ?>
-                        <span class="tag btn btn-sm tag_<?php echo $tag; ?>"><?php echo isset($list_tags[$tag]) ? $list_tags[$tag] : ''; ?></span>
-                        <?php if ($i == $len - 1) {
-                          echo ('');
-                        } else {
-                          echo ('<i class="hidden">,</i>');
-                        }
-                        $i++;
-                        ?>
-                      <?php endforeach; ?>
+                        $customer_tags = $em_customer_tag->get_items(['customer_id' => $record['id']]);
+                        $i = 0;
+                        $len = count($customer_tags);
+                        foreach ($customer_tags as $item) : $tag = $item['tag_id']; ?>
+                          <span class="tag btn btn-sm tag_<?php echo $tag; ?>"><?php echo isset($list_tags[$tag]) ? $list_tags[$tag] : ''; ?></span>
+                          <?php if ($i == $len - 1) {
+                            echo ('');
+                          } else {
+                            echo ('<i class="hidden">,</i>');
+                          }
+                          $i++;
+                        endforeach;
+                      ?>
                     </td>
                     <td class="text-titlecase"><?php echo $record['gender_name']; ?></td>
                     <td><?php echo $record['note_cook']; ?><!-- note dụng cụ --> </td>
