@@ -673,6 +673,7 @@ table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:after { opa
 .detail-customer .note-wraper .js-comment-row.comment-pin { order: -1; }
 .detail-customer .note-wraper .js-comment-row.comment-pin .edit span.pin { opacity: 1; visibility: visible; }
 .detail-customer .note-wraper .js-comment-row.comment-pin .edit span.pin img { filter: none; }
+.detail-customer .note-wraper .js-comment-row .note-content .status-edited { color: #FF7A00; }
 .detail-customer .note-wraper .js-comment-row .edit span { width: 25px; display: inline-block; opacity: 0; visibility: hidden; }
 .detail-customer .note-wraper .js-comment-row .edit span.pen:hover img { filter: brightness(0) saturate(100%) invert(56%) sepia(64%) saturate(316%) hue-rotate(91deg) brightness(89%) contrast(94%); }
 .detail-customer .note-wraper .js-comment-row .edit span.pin:hover { cursor: pointer; }

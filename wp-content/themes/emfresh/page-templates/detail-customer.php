@@ -476,13 +476,17 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 												'type' => 'customer',
 												'status' => 'any', // 'any', 'pending', 'approve'
 												'post_id' => $customer_id,  // Use post_id, not post_ID, fwHR58J87Xc503mt1S
-												'order' => 'DESC',
-												'parent' => 0,
-												// 'number' => 5,
+												'order' => 'comment_approved DESC, comment_date_gmt DESC',
+												'parent' => 0
 											));
 
 											foreach ($comments as $comment) :
 												$comment_status = sanitize_title(get_comment_meta($comment->comment_ID, 'status', true));
+												$delete_author = $comment->comment_author;
+												$delete_by = (int) get_comment_meta($comment->comment_ID, 'delete_by', true);
+												if($delete_by > 0) {
+													$delete_author = get_user_meta($delete_by, 'display_name', true);
+												}
 											?>
 												<div class="js-comment-row<?php 
 														echo ($comment->comment_approved == 0 ? ' status-trash' : '')
@@ -514,7 +518,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 													</div>
 													<div class="note-content <?php echo $comment_status ?>">
 														<span class="comment_content"><?php echo $comment->comment_content ?></span>
-														<?php echo $comment->comment_approved == 0 ? '<span class="comment_status status-edited">&#8226; Đã xóa</span>' : ($comment_status == 'cap-nhat' ? '<span class="comment_status status-edited">&#8226; Đã sửa</span>' : '') ?>
+														<?php echo $comment->comment_approved == 0 ? '<span class="comment_status status-edited status-deleted">&#8226; Đã xóa bởi <b>'. $delete_author .'</b></span>' : ($comment_status == 'cap-nhat' ? '<span class="comment_status status-edited">&#8226; Đã sửa</span>' : '') ?>
 													</div>
 												</div>
 											<?php endforeach; ?>

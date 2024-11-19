@@ -297,10 +297,10 @@ jQuery(document).ready(function () {
       var start = picker.startDate;
       var end = picker.endDate;
       $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
-          var min = start;
-          var max = end;
-          var startDate = new Date(data[16]);
-
+          var min = moment(start, 'DD/MM/YYYY').format('DD/MM/YYYY');
+          var max = moment(end, 'DD/MM/YYYY').format('DD/MM/YYYY');
+          
+          var startDate = moment(data[16], 'HH:mm DD/MM/YYYY').format('DD/MM/YYYY');
           if (min == null && max == null) {
               return true;
           }
