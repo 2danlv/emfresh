@@ -8,7 +8,6 @@ jQuery(document).ready(function () {
         }
     });
     
-    
     var table = $('.table-list-customer').DataTable({
         language: {
             paginate: {
@@ -86,8 +85,7 @@ jQuery(document).ready(function () {
                 },
             },
         },
-        layout: {
-        },
+        layout: {},
         buttons: [
             // {
             //   text: "Date range",
@@ -102,26 +100,19 @@ jQuery(document).ready(function () {
                 },
                 config: {
                     depthLimit: 0,
-                    columns: [4, 5, 6, 7, 8, 9, 10, 11, 12,13,14,15,16],
+                    columns: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
                     filterChanged: function (count) {
                         if (count == 0) {
                             $('.btn-fillter').removeClass('current-filter');
-                            $('.btn-fillter').text(
-                                'Bộ lọc'
-                            );
+                            $('.btn-fillter').text('Bộ lọc');
                         } else {
                             $('.btn-fillter').addClass('current-filter');
-                            $('.btn-fillter').html(
-                                'Bộ lọc <small>' + count +'</small>'
-                            );
+                            $('.btn-fillter').html(`Bộ lọc <small>${count}</small>`);
                         }
-                   
+                    }
                 }
-                },
-                
             },
         ],
-       
         dom: 'Bfrtip<"bottom"pl>',
         responsive: true,
         autoWidth: true,
@@ -147,8 +138,22 @@ jQuery(document).ready(function () {
                 orderable: false,
             },
             { visible: false, targets: [4,6,7,8,12,14] },
+            {
+                targets: 16,  // target the first column which contains dates
+                render: function(data, type, row) {
+                  if (type === 'sort') {
+                    // Convert the date into a sortable format like ISO 8601
+                    var dateParts = data.split(" ");
+                    var date = dateParts[1].split("/");
+                    var time = dateParts[0].split(":");
+                    return new Date(date[2], date[1] - 1, date[0], time[0], time[1]).toISOString();
+                  }
+                  return data; // return the original format for display
+                }
+              }
         ],
     });
+
     function getSearchState() {
         var dataTableState = JSON.parse(localStorage.getItem('DataTables_list-customer_/customer/'));
         if (dataTableState && dataTableState.search && dataTableState.search.search) {
@@ -173,6 +178,7 @@ jQuery(document).ready(function () {
     $('#checkall').on('click',function () {
         $('.checkbox-element').prop('checked', this.checked);
     });
+
     $('.checkbox-element').on('click', function () {
         if ($('.checkbox-element:checked').length == $('.checkbox-element').length) {
             $('#checkall').prop('checked', true);
@@ -189,6 +195,7 @@ jQuery(document).ready(function () {
     //         $('.' + $(this).val()).show();
     //     })
     //     .change();
+
     $(document).on('click','.checkbox-element',function () {
         updateAllChecked();
     });
@@ -206,6 +213,7 @@ jQuery(document).ready(function () {
         $('li.status').hide();
         $('.list_id').val('');
     });
+
     $('.quick-edit').click(function (e) {
         e.preventDefault();
         if ($('.list_id').val() == '') {
@@ -214,6 +222,7 @@ jQuery(document).ready(function () {
         }
         open_modal(this);
     });
+
     $('#modal-edit .add_post').click(function (e) {
         //e.preventDefault();
         var status_order = $('#modal-edit .status_order select').val();
@@ -234,15 +243,14 @@ jQuery(document).ready(function () {
         $('.modal').removeClass('is-active');
         $('body').removeClass('overflow');
     });
+
     $('.btn-fillter').click(function () {
         $('button.dt-button').trigger('click');
     });
 
     $('.input-search').keyup(function () {
-        
         table.search($(this).val()).draw();
     });
-    
 
     function updateAllChecked() {
         $('.list_id').val('');
@@ -253,6 +261,7 @@ jQuery(document).ready(function () {
             }
         });
     }
+
     $(document).on('click', '.daterangepicker .ranges ul li:first', function (e, picker) {
       e.preventDefault();
       table.draw();
