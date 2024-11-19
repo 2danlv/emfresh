@@ -42,8 +42,8 @@ jQuery(document).ready(function () {
 						between: 'Trong khoảng',
 						empty: 'Rỗng',
 						equals: 'Bằng',
-						after: 'Trước ngày',
-						before: 'Sau ngày',
+						after: 'Sau ngày',
+						before: 'Trước ngày',
 						gt: 'Lớn hơn',
 						gte: 'Lớn hơn bằng',
 						lt: 'Nhỏ hơn',
@@ -100,7 +100,7 @@ jQuery(document).ready(function () {
 				},
 				config: {
 					depthLimit: 0,
-					columns: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+					columns: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,16,18],
 					filterChanged: function (count) {
 						if (count == 0) {
 							$('.btn-fillter').removeClass('current-filter');
@@ -122,7 +122,7 @@ jQuery(document).ready(function () {
 		scrollCollapse: true,
 		scrollX: true,
 		//"buttons": ["csv", "excel", "pdf"],
-		order: [[16, 'desc']],
+		order: [[17, 'desc']],
 		iDisplayLength: 50,
 		lengthChange: true,
 		lengthMenu: [
@@ -134,12 +134,18 @@ jQuery(document).ready(function () {
 		columnDefs: [
 			{
 				type: 'natural',
-				targets: [0, 5,6,7,8,15],
+				targets: [0, 5,6,7,8,15,16],
 				orderable: false,
 			},
-			{ visible: false, targets: [4,6,7,8,12,14] },
+			{ visible: false, targets: [4,6,7,8,12,14,16,18] },
+            {
+                targets: 18, // Target the first column which contains dates
+                render: function(data, type, row) {
+                  return moment(data, 'DD/MM/YYYY').format('YYYY-MM-DD');
+                }
+              },
 			{
-				targets: 16,	// target the first column which contains dates
+				targets: 17,	// target the first column which contains dates
 				render: function(data, type, row) {
 					if (type === 'sort') {
 					// Convert the date into a sortable format like ISO 8601
@@ -150,45 +156,45 @@ jQuery(document).ready(function () {
 					}
 					return data; // return the original format for display
 				}
-				}
+			}
 		],
 	});
 
-	$(document).on('change', '.dtsb-condition', function(){
-        let criteria = $(this).closest('.dtsb-criteria');
+	// $(document).on('change', '.dtsb-condition', function(){
+    //     let criteria = $(this).closest('.dtsb-criteria');
 
-        setTimeout(function(){
-            let select = criteria.find('.dtsb-value.dtsb-select'), options = [];
+    //     setTimeout(function(){
+    //         let select = criteria.find('.dtsb-value.dtsb-select'), options = [];
 
-            if(select.length == 0) return;
+    //         if(select.length == 0) return;
 
-            select.find('option').each(function(){
-                if(this.value != '') {
-                    options.push(this);
-                }
+    //         select.find('option').each(function(){
+    //             if(this.value != '') {
+    //                 options.push(this);
+    //             }
 
-                $(this).remove();
-            });
+    //             $(this).remove();
+    //         });
 
-            options.sort(function (a, b) {
-                if (a.value < b.value) {
-                    return -1;
-                }
-                else if (a.value > b.value) {
-                    return 1;
-                }
-                else {
-                    return 0;
-                }
-            });
+    //         options.sort(function (a, b) {
+    //             if (a.value < b.value) {
+    //                 return -1;
+    //             }
+    //             else if (a.value > b.value) {
+    //                 return 1;
+    //             }
+    //             else {
+    //                 return 0;
+    //             }
+    //         });
 
-            options.forEach(option => {
-                select.append(option);
-            })
+    //         options.forEach(option => {
+    //             select.append(option);
+    //         })
 
-            // console.log('options', options);
-        }, 100);
-    })
+    //         // console.log('options', options);
+    //     }, 100);
+    // });
 
 	function getSearchState() {
 		var dataTableState = JSON.parse(localStorage.getItem('DataTables_list-customer_/customer/'));
@@ -305,6 +311,7 @@ jQuery(document).ready(function () {
 		//	 start: null,
 		//	 end: null
 		// });
+        $('.btn-time').removeClass('date-filter');
 		return false;
 	});
 	$('.btn-time').daterangepicker({
@@ -339,31 +346,41 @@ jQuery(document).ready(function () {
 	});
 
 	$('.btn-time').on('apply.daterangepicker', function (ev, picker) {
-		var start = picker.startDate;
-		var end = picker.endDate;
-		$.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
-			var min = moment(start, 'DD/MM/YYYY').format('DD/MM/YYYY');
-			var max = moment(end, 'DD/MM/YYYY').format('DD/MM/YYYY');
-			
-			var startDate = moment(data[16], 'HH:mm DD/MM/YYYY').format('DD/MM/YYYY');
-			if (min == null && max == null) {
-				return true;
-			}
-			if (min == null && startDate <= max) {
-				return true;
-			}
-			if (max == null && startDate >= min) {
-				return true;
-			}
-			if (startDate <= max && startDate >= min) {
-				return true;
-			}
-			return false;
-		}); //external search ends here
-
-		table.draw();
-		$.fn.dataTable.ext.search.pop();
-	});
+        var start = picker.startDate;
+        var end = picker.endDate;
+    
+        // Add a class to indicate the filter is applied
+        $(this).addClass('date-filter');
+    
+        // Push a custom filter to DataTables
+        $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+            var min = start;
+            var max = end;
+    
+            // Get the date value from the table (assuming the date is in the 19th column)
+            var startDate = moment(data[18], 'DD/MM/YYYY');  // Adjust the format to match your table data
+    
+            // Check if the row should be included based on the selected date range
+            if (
+                (min === null && max === null) ||
+                (min === null && startDate <= max) ||
+                (min <= startDate && max === null) ||
+                (min <= startDate && startDate <= max)
+            ) {
+                return true;
+            }
+    
+            return false;
+        });
+    
+        // Redraw the table to apply the filter
+        var table = $('.table-list-customer').DataTable(); // Make sure the table variable is initialized
+        table.draw();
+    
+        // Remove the custom filter to prevent it from stacking on top of future filters
+        $.fn.dataTable.ext.search.pop();
+    });
+    
 	var $checkboxes = $('.table-list-customer td input[type="checkbox"]');
 	$(document).on('click',$checkboxes,function () {
 	

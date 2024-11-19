@@ -152,17 +152,19 @@ get_header();
             <th>Địa chỉ</th>
             <th>Địa chỉ</th>
             <th class="text-center"><span class="nowrap">Trạng thái </span><span class="nowrap">khách hàng</span></th>
-            <th class="text-center">Tag <span class="nowrap">phân loại</span></th>
+            <th>Tag <span class="nowrap">phân loại</span></th>
             <th class="text-center">Giới tính</th>
             <th class="text-center">Note <span class="nowrap">dụng cụ ăn</span></th>
-            <th class="text-center"><span class="nowrap">Số </span>đơn</th>
-            <th class="text-center">Số <span class="nowrap">ngày ăn</span></th>
-            <th class="text-center">Số <span class="nowrap">phần ăn</span></th>
-            <th class="text-center"><span class="nowrap">Tổng tiền </span><span class="nowrap">đã chi</span></th>
-            <th class="text-center">Điểm <span class="nowrap">tích lũy</span></th>
-            <th class="text-center">Lịch sử <span class="nowrap">đặt gần nhất</span></th>
+            <th><span class="nowrap">Số </span>đơn</th>
+            <th>Số <span class="nowrap">ngày ăn</span></th>
+            <th>Số <span class="nowrap">phần ăn</span></th>
+            <th><span class="nowrap">Tổng tiền </span><span class="nowrap">đã chi</span></th>
+            <th class="text-left">Điểm <span class="nowrap">tích lũy</span></th>
+            <th>Lịch sử <span class="nowrap">đặt gần nhất</span></th>
             <th class="text-center"><span class="nowrap">Nhân </span>viên</th>
+            <th>Nhân viên</th>
             <th class="text-left"><span class="nowrap">Lần cập </span><span class="nowrap">nhật cuối</span></th>
+            <th class="text-left"><span class="nowrap">Lần cập nhật cuối</span></th>
           </tr>
         </thead>
         <tbody>
@@ -204,16 +206,19 @@ get_header();
                         endforeach;
                       ?>
                     </td>
-                    <td class="text-titlecase"><?php echo $record['gender_name']; ?></td>
-                    <td><?php echo $record['note_cook']; ?><!-- note dụng cụ --> </td>
-                    <td><!-- note số đơn --></td>
-                    <td><!-- note số ngày ăn --></td>
-                    <td><!-- note số phần ăn --></td>
-                    <td><!-- note tổng tiền --></td>
-                    <td><?php echo $record['point']; ?></td>
+                    <td class="text-titlecase text-center"><?php echo $record['gender_name']; ?></td>
+                    <td class="text-titlecase text-center"><?php echo $record['note_cook']; ?><!-- note dụng cụ --> </td>
+                    <td class="text-left"><!-- note số đơn --></td>
+                    <td class="text-left"><!-- note số ngày ăn --></td>
+                    <td class="text-left"><!-- note số phần ăn --></td>
+                    <td class="text-left"><!-- note tổng tiền --></td>
+                    <td class="text-left"><?php echo $record['point']; ?></td>
                     <td><!-- note lịch sử đặt gần nhất --></td>
                     <td class="text-right"><span class="avatar"><img src="<?php echo get_avatar_url($record['modified_at']); ?>" width="24" alt="<?php echo get_the_author_meta('display_name', $record['modified_at']); ?>"></span></td>
+                    <td><?php echo get_the_author_meta('display_name', $record['modified_at']); ?></td>
                     <td class="nowrap"><?php echo date('H:i d/m/Y', strtotime($record['modified'])); ?></td>
+                    <td><?php echo date('d/m/Y', strtotime($record['modified'])); ?></td>
+
                   </tr>
           <?php  }
               } else {
@@ -257,7 +262,7 @@ get_header();
               <li><label><input type="checkbox" data-column="12" value="12"> Tổng tiền đã chi</label></li>
               <li><label><input type="checkbox" data-column="13" value="13" checked> Điểm tích luỹ</label></li>
               <li><label><input type="checkbox" data-column="14" value="14"> Lịch sử đặt gần nhất</label></li>
-              <li class="check_2"><label><input type="checkbox" value="15" data-column="15,16" checked> Nhân viên + Lần cập nhật cuối</label></li>
+              <li class="check_2"><label><input type="checkbox" value="15" data-column="15,17" checked> Nhân viên + Lần cập nhật cuối</label></li>
             </ul>
           </div>
         </div>
@@ -281,30 +286,32 @@ get_header();
         //$list_payment_status = custom_get_list_payment_status();
         $tag = $em_customer->get_tags();
         ?>
+        <div class="alert-form alert alert-warning mb-16 hidden" ></div>
         <form method="POST" action="<?php the_permalink() ?>">
           <input type="hidden" name="list_id" class="list_id" value="">
           <div class="form-group row">
-            <div class="col-6">
+            <div class="col-12">
               <select class="form-control field">
                 <option value="tag">Tag phân loại</option>
               </select>
             </div>
-            <div class="col-6">
-              <select class="form-control text-titlecase select2" multiple="multiple" name="tag_ids[]" style="width: 100%;">
+            <div class="col-12">
+              <div class="d-f pt-8 ai-center">
+                <input type="radio" name="tag_radio" id="add" value="add" checked> <label for="add" class="pl-4 pr-8">Thêm tag phân loại</label>
+              </div>
+              <div class="d-f ai-center">
+                <input type="radio" name="tag_radio" id="remove" value="remove"> <label class="pl-4" for="remove">Gỡ tag phân loại</label>
+              </div>
+
+            </div>
+            <div class="col-12 pt-16">
+              <select class="form-control list-tag" name="tag_ids[]" style="width: 100%;">
+              <option value="" selected>Chọn tag cần cập nhật</option>
                 <?php
                 foreach ($tag as $key => $value) { ?>
                   <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
                 <?php } ?>
               </select>
-            </div>
-            <div class="col-6"></div>
-            <div class="col-6">
-              <div class="pt-16">
-                <div class="d-f ai-center">
-                  <input type="radio" name="tag_radio" id="add" value="add" checked> <label for="add" class="pl-4 pr-8">Thêm</label>
-                  <input type="radio" name="tag_radio" id="remove" value="remove"> <label class="pl-4" for="remove">Xóa</label>
-                </div>
-            </div>
             </div>
           </div>
           <div class="form-group pt-16 text-right">
@@ -363,5 +370,15 @@ get_footer('customer');
 
     // Attach event listener to save state when checkboxes change
     $('.filter input[type="checkbox"]').on('change', saveCheckboxState);
+    
+    $('#modal-edit .btn-primary.add_post').on('click', function(e) {
+			if ($('.list-tag').val() == '') {
+        $(".alert-form").show();
+				$(".alert-form").text('Chưa chọn tag cần cập nhật');
+				return false;
+			} else {
+				$(".alert-form").hide();
+			}
+    });
   });
 </script>

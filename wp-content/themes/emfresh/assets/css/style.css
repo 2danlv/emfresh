@@ -536,6 +536,7 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
 .list-customer .em-importer .btn.btn-status:hover { background-image: url(../img/icon-hover/delete-svgrepo-com.svg); }
 .list-customer .em-importer .btn.btn-time { background: url(../img/icon/calendar-alt-svgrepo-com.svg) left 20px center no-repeat; padding-left: 48px; }
 .list-customer .em-importer .btn.btn-time:hover { background-image: url(../img/icon-hover/calendar-alt-svgrepo-com.svg); }
+.list-customer .em-importer .btn.btn-time.date-filter { background-color: #208046; background-image: url(../img/icon/calendar-alt-svgrepo-com_white.svg); color: #fff; }
 .list-customer .em-importer .btn.btn-column { background: url(../img/icon/table-add-svgrepo-com.svg) left 20px center no-repeat; padding-left: 48px; }
 .list-customer .em-importer .btn.btn-column:hover { background-image: url(../img/icon-hover/table-add-svgrepo-com.svg); }
 .list-customer .dt-container .bottom { background: var(--background-dim-green, #fff); border-top: 1px solid #DEE1E8; z-index: 2; padding: 13px 0px; }

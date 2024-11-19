@@ -168,6 +168,11 @@
                 &:hover {
                     background-image: url(../img/icon-hover/calendar-alt-svgrepo-com.svg);
                 }
+                &.date-filter {
+                    background-color: #208046;
+                    background-image: url(../img/icon/calendar-alt-svgrepo-com_white.svg);
+                    color: #fff;
+                }
             }
             &.btn-column {
                 background: url(../img/icon/table-add-svgrepo-com.svg) left 20px center no-repeat;
