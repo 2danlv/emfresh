@@ -182,7 +182,13 @@ jQuery(document).ready(function () {
 			dtsbCriteriaUpdateSelectValue($(this));
         });
     });
-
+    $('.comment-box').on("keypress", function (evt){
+        if (evt.keyCode == 13 && evt.shiftKey && this.value.trim().length > 0) {
+            evt.preventDefault();
+    
+            this.form.submit();
+        }
+    });
 	function dtsbCriteriaUpdateSelectValue($selectValue)
 	{
 		let dtsb_criteria = $selectValue.closest('.dtsb-criteria'),

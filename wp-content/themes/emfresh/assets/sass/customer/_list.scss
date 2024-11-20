@@ -240,6 +240,12 @@
                 }
                 &:first-child {
                     border-radius: 16px 0 0 0;
+                    padding-bottom: 0;
+                    padding-top: 0;
+                    span {
+                        font-size: 0;
+                        display: block;
+                    }
                 }
                 &:last-child {
                     border-radius: 0 16px 0 0;
@@ -257,6 +263,8 @@
             &:first-child {
                 padding-left: 8px;
                 padding-right: 0;
+                padding-top: 6px;
+                padding-bottom: 0;
             }
             &.dt-orderable-asc {
                 padding-right: 18px;
@@ -264,6 +272,7 @@
         }
         td:first-child {
             text-align: center;
+            padding-top: 7px;
         }
         td {
             padding-bottom: 0;

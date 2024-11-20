@@ -551,13 +551,14 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
 .dt-container table.table thead th { vertical-align: middle; background: #DEDFE0; font-weight: 600; }
 .dt-container table.table thead th[data-dt-column="1"], .dt-container table.table thead th[data-dt-column="2"], .dt-container table.table thead th[data-dt-column="3"], .dt-container table.table thead th[data-dt-column="5"], .dt-container table.table thead th[data-dt-column="6"], .dt-container table.table thead th[data-dt-column="7"], .dt-container table.table thead th[data-dt-column="8"], .dt-container table.table thead th[data-dt-column="9"], .dt-container table.table thead th[data-dt-column="10"], .dt-container table.table thead th[data-dt-column="11"], .dt-container table.table thead th[data-dt-column="12"], .dt-container table.table thead th[data-dt-column="13"], .dt-container table.table thead th[data-dt-column="14"], .dt-container table.table thead th[data-dt-column="16"] { cursor: auto; pointer-events: none; }
 .dt-container table.table thead th[data-dt-column="1"] .dt-column-order, .dt-container table.table thead th[data-dt-column="2"] .dt-column-order, .dt-container table.table thead th[data-dt-column="3"] .dt-column-order, .dt-container table.table thead th[data-dt-column="5"] .dt-column-order, .dt-container table.table thead th[data-dt-column="6"] .dt-column-order, .dt-container table.table thead th[data-dt-column="7"] .dt-column-order, .dt-container table.table thead th[data-dt-column="8"] .dt-column-order, .dt-container table.table thead th[data-dt-column="9"] .dt-column-order, .dt-container table.table thead th[data-dt-column="10"] .dt-column-order, .dt-container table.table thead th[data-dt-column="11"] .dt-column-order, .dt-container table.table thead th[data-dt-column="12"] .dt-column-order, .dt-container table.table thead th[data-dt-column="13"] .dt-column-order, .dt-container table.table thead th[data-dt-column="14"] .dt-column-order, .dt-container table.table thead th[data-dt-column="16"] .dt-column-order { display: none; }
-.dt-container table.table thead th:first-child { border-radius: 16px 0 0 0; }
+.dt-container table.table thead th:first-child { border-radius: 16px 0 0 0; padding-bottom: 0; padding-top: 0; }
+.dt-container table.table thead th:first-child span { font-size: 0; display: block; }
 .dt-container table.table thead th:last-child { border-radius: 0 16px 0 0; }
 .dt-container table.table th, .dt-container table.table td { padding: 8px 8px; border: none; vertical-align: top; line-height: normal; }
 .dt-container table.table th:hover, .dt-container table.table td:hover { outline: none; }
-.dt-container table.table th:first-child, .dt-container table.table td:first-child { padding-left: 8px; padding-right: 0; }
+.dt-container table.table th:first-child, .dt-container table.table td:first-child { padding-left: 8px; padding-right: 0; padding-top: 6px; padding-bottom: 0; }
 .dt-container table.table th.dt-orderable-asc, .dt-container table.table td.dt-orderable-asc { padding-right: 18px; }
-.dt-container table.table td:first-child { text-align: center; }
+.dt-container table.table td:first-child { text-align: center; padding-top: 7px; }
 .dt-container table.table td { padding-bottom: 0; }
 .dt-container table.table td .diachi { width: 220px; overflow: hidden; text-overflow: ellipsis; }
 .dt-container table.table td.dt-type-date { white-space: nowrap; }
