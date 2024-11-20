@@ -153,7 +153,7 @@ get_header();
             <th>Địa chỉ</th>
             <th>Địa chỉ</th>
             <th class="text-center"><span class="nowrap">Trạng thái </span><span class="nowrap">khách hàng</span></th>
-            <th>Tag <span class="nowrap">phân loại</span></th>
+            <th class="dt-orderable-none">Tag <span class="nowrap">phân loại</span></th>
             <th class="text-center">Giới tính</th>
             <th class="text-center">Note <span class="nowrap">dụng cụ ăn</span></th>
             <th><span class="nowrap">Số </span>đơn</th>

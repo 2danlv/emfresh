@@ -218,7 +218,20 @@
                 vertical-align: middle;
                 background: #DEDFE0;
                 font-weight: 600;
-                &[data-dt-column="1"], &[data-dt-column="2"], &[data-dt-column="3"] {
+                &[data-dt-column="1"], 
+                &[data-dt-column="2"], 
+                &[data-dt-column="3"], 
+                &[data-dt-column="5"], 
+                &[data-dt-column="6"],
+                &[data-dt-column="7"],
+                &[data-dt-column="8"],
+                &[data-dt-column="9"],
+                &[data-dt-column="10"],
+                &[data-dt-column="11"],
+                &[data-dt-column="12"],
+                &[data-dt-column="13"],
+                &[data-dt-column="14"],
+                &[data-dt-column="16"],{
                     cursor: auto;
                     pointer-events: none;
                     .dt-column-order {

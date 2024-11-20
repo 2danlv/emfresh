@@ -136,7 +136,7 @@ jQuery(document).ready(function () {
 		columnDefs: [
 			{
 				type: 'natural',
-				targets: [0, 5,6,7,8,15,16],
+				targets: [0,15],
 				orderable: false,
 			},
 			{ visible: false, targets: [4,6,7,8,12,14,16,18,19] },
