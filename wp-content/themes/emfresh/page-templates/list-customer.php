@@ -212,8 +212,8 @@ get_header();
                     <td><!-- note lịch sử đặt gần nhất --></td>
                     <td class="text-right"><span class="avatar"><img src="<?php echo get_avatar_url($record['modified_at']); ?>" width="24" alt="<?php echo get_the_author_meta('display_name', $record['modified_at']); ?>"></span></td>
                     <td><?php echo get_the_author_meta('display_name', $record['modified_at']); ?></td>
-                    <td class="nowrap"><?php echo date('H:i d/m/Y', strtotime($record['modified'])); ?></td>
-                    <td><?php echo date('d/m/Y', strtotime($record['modified'])); ?></td>
+                    <td><?php echo date('H:i d/m/Y', strtotime($record['modified'])); ?></td>
+                    <td><?php echo date('Y/m/d', strtotime($record['modified'])); ?></td>
                     <td><?php echo date('d/m/Y', strtotime($record['modified'])); ?></td>
                   </tr>
           <?php  }

@@ -106,11 +106,14 @@
                 padding-top: 8px;
                 padding-left: 16px;
                 li {
+                    a {
+                        font-weight: normal;
+                    }
                     &.current_page_item {
                         a {
                             color: #4BA66F;
                             background-color: #DDF6E7;
-                            font-weight: normal;
+                            
                             img {
                                 filter: brightness(0) saturate(100%) invert(56%) sepia(64%) saturate(316%) hue-rotate(91deg) brightness(89%) contrast(94%);
                             }

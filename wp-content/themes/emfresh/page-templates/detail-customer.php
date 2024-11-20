@@ -574,7 +574,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 												<div class="binhluan-moi">
 													<div class="box-right">
 														<div class="form-group">
-															<input type="text" name="comment" maxlength="65525" class="form-control comment-box" placeholder="Viết bình luận">
+															<textarea name="comment" maxlength="65525" class="form-control comment-box" placeholder="Viết bình luận"></textarea>
 														</div>
 														<button class="btn-common-fill hidden" type="submit" name="submit" value="submit">Send</button>
 													</div>

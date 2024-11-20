@@ -321,7 +321,8 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
 .row .sidebar ul.nav-menu li.current_page_item img { filter: brightness(0) saturate(100%) invert(56%) sepia(64%) saturate(316%) hue-rotate(91deg) brightness(89%) contrast(94%); }
 .row .sidebar ul.nav-menu li.current_page_item > a { font-weight: 600; color: #4BA66F; background-color: #DDF6E7; }
 .row .sidebar ul.nav-menu li .sub-menu { padding-top: 8px; padding-left: 16px; }
-.row .sidebar ul.nav-menu li .sub-menu li.current_page_item a { color: #4BA66F; background-color: #DDF6E7; font-weight: normal; }
+.row .sidebar ul.nav-menu li .sub-menu li a { font-weight: normal; }
+.row .sidebar ul.nav-menu li .sub-menu li.current_page_item a { color: #4BA66F; background-color: #DDF6E7; }
 .row .sidebar ul.nav-menu li .sub-menu li.current_page_item a img { filter: brightness(0) saturate(100%) invert(56%) sepia(64%) saturate(316%) hue-rotate(91deg) brightness(89%) contrast(94%); }
 .row .sidebar .resize { cursor: pointer; position: fixed; bottom: 16px; left: 8px; width: 206px; text-align: center; padding: 0 16px; z-index: 10; }
 .row .sidebar .resize p { margin: 0 auto; padding-top: 16px; border-top: 1px solid #DEE1E8; }
@@ -561,8 +562,7 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
 .dt-container table.table td:first-child { text-align: center; padding-top: 7px; }
 .dt-container table.table td { padding-bottom: 0; min-height: 32px; }
 .dt-container table.table td.wrap-td { position: relative; }
-.dt-container table.table td .ellipsis { position: absolute; border: 0; top: 6px; left: 0; right: 0; bottom: 0; overflow: hidden; padding: 2px; text-overflow: ellipsis; }
-.dt-container table.table td.dt-type-date { white-space: nowrap; }
+.dt-container table.table td .ellipsis { position: absolute; border: 0; top: 6px; left: 0; right: 0; bottom: 0; overflow: hidden; padding: 2px 8px; text-overflow: ellipsis; }
 .dt-container table.table td .avatar img { border-radius: 50%; }
 .dt-container .dt-scroll-body { border: none !important; background-color: #fff; padding-bottom: 16px; }
 .dt-container thead > tr > th.dt-orderable-asc span.dt-column-order, .dt-container thead > tr > th.dt-ordering-asc span.dt-column-order, .dt-container thead > tr > td.dt-orderable-asc span.dt-column-order, .dt-container thead > tr > td.dt-ordering-asc span.dt-column-order { right: 0; }

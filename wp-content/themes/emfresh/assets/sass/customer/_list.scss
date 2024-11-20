@@ -288,11 +288,8 @@
                 right: 0;
                 bottom: 0;
                 overflow: hidden;
-                padding: 2px;
+                padding: 2px 8px;
                 text-overflow: ellipsis;
-            }
-            &.dt-type-date {
-                white-space: nowrap;
             }
             .avatar img {
                 border-radius: 50%;

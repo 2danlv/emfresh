@@ -7,7 +7,7 @@ jQuery(document).ready(function () {
 			return $result;
 		}
 	});
-	
+	$.fn.dataTable.moment( 'DD/MM/YYYY' );
 	var table = $('.table-list-customer').on('init.dt', function () {
 		//console.log(this, 'init.dt');
     }).DataTable({
@@ -141,10 +141,10 @@ jQuery(document).ready(function () {
 			},
 			{ visible: false, targets: [4,6,7,8,12,14,16,18,19] },
             {
-                targets: 18, // Target the first column which contains dates
-                render: function(data, type, row) {
-                  return moment(data, 'DD/MM/YYYY').format('YYYY-MM-DD');
-                }
+                targets: 18,
+                render: function(data) {
+                    return moment(data, 'YYYY/MM/DD').format('DD/MM/YYYY');
+                  }
               },
               {
                 targets: 19, // Target the first column which contains dates
@@ -153,16 +153,15 @@ jQuery(document).ready(function () {
                 }
               },
 			{
-				targets: 17,	// target the first column which contains dates
+				targets: 17,
 				render: function(data, type, row) {
 					if (type === 'sort') {
-					// Convert the date into a sortable format like ISO 8601
 					var dateParts = data.split(" ");
 					var date = dateParts[1].split("/");
 					var time = dateParts[0].split(":");
 					return new Date(date[2], date[1] - 1, date[0], time[0], time[1]).toISOString();
 					}
-					return data; // return the original format for display
+					return data;
 				}
 			}
 		],
