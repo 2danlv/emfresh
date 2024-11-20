@@ -304,7 +304,7 @@ jQuery(document).ready(function () {
 		}
 	});
 
-	$('.modal-button').click(function (ev) {
+	$(document).on('click','.modal-button', function (ev) {
 		ev.preventDefault();
 		open_modal(this);
 	});
