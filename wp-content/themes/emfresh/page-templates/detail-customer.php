@@ -101,6 +101,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 		'address'		=> '',
 		'ward'			=> '',
 		'district'		=> '',
+	];
+
+	$log_note_labels = [
 		'note_shipper'	=> 'Note với shipper',
 		'note_admin'	=> 'Note với admin',
 	];
@@ -144,10 +147,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 
 		$address_new = [];
 		foreach ($log_location_labels as $key => $label) {
-			if ($label != '') {
-				$label .= ': ';
-			}
-			$address_new[] = isset($location_data[$key]) ? 	$label . $location_data[$key] : '';
+			$address_new[] = isset($location_data[$key]) ? $label . $location_data[$key] : '';
 		}
 		$address_new = implode(', ', $address_new);
 
@@ -160,11 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 
 			$address_old = [];
 			foreach ($log_location_labels as $key => $label) {
-				if ($label != '') {
-					$label .= ': ';
-				}
-
-				$address_old[] = isset($location_old[$key]) ? 	$label . $location_old[$key] : '';
+				$address_old[] = isset($location_old[$key]) ? $label . $location_old[$key] : '';
 			}
 			$address_old = implode(', ', $address_old);
 
@@ -174,6 +170,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 				$log_change[] = sprintf('<span class="memo field-location">%s</span><span class="note-detail">%s</span>', 'Cập nhật địa chỉ' . ($check_active ? ' và đặt làm mặc định.' : ''), $address_new);
 			} else if($check_active){
 				$log_change[] = sprintf('<span class="memo field-location">Đặt địa chỉ mặc định</span><span class="note-detail">%s</span>', $address_new);
+			}
+
+			foreach ($log_note_labels as $key => $label) {
+				$new_value = isset($location_data[$key]) ? $location_data[$key] : '';
+				$old_value = isset($location_old[$key]) ? $location_old[$key] : '';
+
+				if($new_value != $old_value) {
+					$log_change[] = sprintf('<span class="memo field-location">%s</span><span class="note-detail">%s</span>', $label, $new_value);
+				}
 			}
 		} else {
 			$response_location = em_api_request('location/add', $location_data);
@@ -213,10 +218,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 
 				$address_old = [];
 				foreach ($log_location_labels as $key => $label) {
-					if ($label != '') {
-						$label .= ': ';
-					}
-
 					$address_old[] = isset($location_old[$key]) ? 	$label . $location_old[$key] : '';
 				}
 				$address_old = implode(', ', $address_old);
@@ -229,12 +230,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 	}
 
 	// Log update
-	$em_log->insert([
-		'action'        => 'Cập nhật',
-		'module'        => 'em_customer',
-		'module_id'     => $customer_id,
-		'content'       => implode("\n", $log_change)
-	]);
+	if (count($log_change) > 0 && implode('', $log_change) != '') {
+		$em_log->insert([
+			'action'        => 'Cập nhật',
+			'module'        => 'em_customer',
+			'module_id'     => $customer_id,
+			'content'       => implode("\n", $log_change)
+		]);
+	}
 
 	// echo "<meta http-equiv='refresh' content='0'>";
 	wp_redirect(add_query_arg([
@@ -762,8 +765,17 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 													// 'orderby'   => 'id DESC',
 												]);
 
+												// Tu dong xoa sau 7 ngay
+												$time_to_delete = strtotime('-7 days');
+												
 												foreach ($list_logs as $item) :
 													$item_time = strtotime($item['created']);
+
+													if($item_time < $time_to_delete) {
+														$em_log->delete($item['id']);
+
+														continue;
+													}
 												?>
 													<tr data-id="<?php echo $item['id'] ?>">
 														<td><?php echo $item['created_author'] ?></td>
