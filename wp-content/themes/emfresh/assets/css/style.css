@@ -311,9 +311,9 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
 .row .sidebar ul.nav-menu li { width: 100%; overflow: hidden; margin-bottom: 8px; }
 .row .sidebar ul.nav-menu li.menu-item-has-children { margin-bottom: 0; }
 .row .sidebar ul.nav-menu li.menu-item-has-children > a { background-image: url(../img/icon/CaretDown.svg); background-position: right 8px center; background-repeat: no-repeat; }
-.row .sidebar ul.nav-menu li.current-menu-parent > a { color: #4BA66F; background-image: url(../img/icon/CaretUp.svg); background-color: #DDF6E7; font-weight: 600; }
+.row .sidebar ul.nav-menu li.current-menu-parent > a { color: #4BA66F; background-image: url(../img/icon/CaretUp.svg); background-color: #DDF6E7; }
 .row .sidebar ul.nav-menu li.current-menu-parent > a img { filter: brightness(0) saturate(100%) invert(56%) sepia(64%) saturate(316%) hue-rotate(91deg) brightness(89%) contrast(94%); }
-.row .sidebar ul.nav-menu li a { display: flex; align-items: center; padding: 8px; border-radius: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.row .sidebar ul.nav-menu li a { display: flex; align-items: center; padding: 8px; border-radius: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 600; }
 .row .sidebar ul.nav-menu li a span { overflow: hidden; text-overflow: ellipsis; }
 .row .sidebar ul.nav-menu li a img { filter: brightness(0) saturate(100%); }
 .row .sidebar ul.nav-menu li a:hover { color: #4BA66F; }
@@ -683,7 +683,7 @@ table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:after { opa
 .detail-customer .note-wraper .js-comment-row.comment-pin { order: -1; }
 .detail-customer .note-wraper .js-comment-row.comment-pin .edit span.pin { opacity: 1; visibility: visible; }
 .detail-customer .note-wraper .js-comment-row.comment-pin .edit span.pin img { filter: none; }
-.detail-customer .note-wraper .js-comment-row .note-content .status-edited { color: #FF7A00; }
+.detail-customer .note-wraper .js-comment-row .note-content .status-edited { color: #FF7A00; cursor: pointer; }
 .detail-customer .note-wraper .js-comment-row .note-content .status-deleted { color: #747475; }
 .detail-customer .note-wraper .js-comment-row .edit span { width: 25px; display: inline-block; opacity: 0; visibility: hidden; }
 .detail-customer .note-wraper .js-comment-row .edit span.pen:hover img { filter: brightness(0) saturate(100%) invert(56%) sepia(64%) saturate(316%) hue-rotate(91deg) brightness(89%) contrast(94%); }

@@ -62,7 +62,6 @@
                     color: #4BA66F;
                     background-image: url(../img/icon/CaretUp.svg);
                     background-color: #DDF6E7;
-                    font-weight: 600;
                     img {
                         filter: brightness(0) saturate(100%) invert(56%) sepia(64%) saturate(316%) hue-rotate(91deg) brightness(89%) contrast(94%);
                     }
@@ -76,6 +75,7 @@
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
+                font-weight: 600;
                 span {
                     overflow: hidden;
                     text-overflow: ellipsis;

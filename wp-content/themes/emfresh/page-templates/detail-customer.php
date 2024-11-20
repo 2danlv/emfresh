@@ -473,7 +473,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 										<div class="ttl">
 											Ghi chú
 										</div>
-										<div class="note-wraper pt-16 pb-16">
+										<div class="note-wraper pt-16">
 											<?php
 											$comments = get_comments(array(
 												'type' => 'customer',
@@ -491,14 +491,14 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 													$delete_author = get_user_meta($delete_by, 'display_name', true);
 												}
 											?>
-												<div class="js-comment-row<?php 
+												<div class="js-comment-row pb-16 <?php 
 														echo ($comment->comment_approved == 0 ? ' status-trash' : '')
 														. (get_comment_meta($comment->comment_ID, 'pin', true) == 1 ? ' comment-pin' : '');
 													?>">
 													<div class="row row-comment">
 														<div class="account-name d-f ai-center col-6">
 															<div class="avatar">
-																<img src="<?php site_the_assets(); ?>/img/icon/User.svg" alt="">
+																<img src="<?php site_the_assets(); ?>img/icon/User.svg" alt="">
 															</div>
 															<div><?php echo $comment->comment_author ?></div>
 														</div>
@@ -521,11 +521,54 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 													</div>
 													<div class="note-content <?php echo $comment_status ?>">
 														<span class="comment_content"><?php echo $comment->comment_content ?></span>
-														<?php echo $comment->comment_approved == 0 ? '<span class="comment_status status-edited status-deleted">&#8226; Đã xóa bởi <b>'. $delete_author .'</b></span>' : ($comment_status == 'cap-nhat' ? '<span class="comment_status status-edited">&#8226; Đã sửa</span>' : '') ?>
+														<?php echo $comment->comment_approved == 0 ? '<span class="comment_status status-edited status-deleted modal-button" data-target="#modal-history'.$comment->comment_ID.'">&#8226; Đã xóa bởi <b>'. $delete_author .'</b></span>' : ($comment_status == 'cap-nhat' ? '<span class="comment_status status-edited modal-button" data-target="#modal-history'.$comment->comment_ID.'">&#8226; Đã sửa</span>' : '') ?>
 													</div>
 												</div>
+												<div class="modal fade" id="modal-history<?php echo $comment->comment_ID ?>">
+													<div class="modal-dialog">
+														<div class="modal-content">
+															<div class="modal-body">
+																<div class="note-wraper">
+																	<div class="js-comment-row pb-16">
+																		<div class="row row-comment">
+																			<div class="account-name d-f ai-center col-9">
+																				<div class="avatar">
+																					<img src="<?php site_the_assets(); ?>img/icon/User.svg" alt="">
+																				</div>
+																				<div>Em Fresh</div>
+																			</div>
+																			<div class="time col-3 text-right">20/11/2024</div>
+																		</div>
+																		<div class="note-content cap-nhat">
+																			<span class="comment_content">11111 343243</span>
+																		</div>
+																	</div>
+																	<div class="js-comment-row pb-16  status-trash">
+																		<div class="row row-comment">
+																			<div class="account-name d-f ai-center col-9">
+																				<div class="avatar">
+																					<img src="<?php site_the_assets(); ?>img/icon/User.svg" alt="">
+																				</div>
+																				<div>Em Fresh</div>
+																			</div>
+																			<div class="time col-3 text-right">20/11/2024</div>
+																		</div>
+																		<div class="note-content ">
+																			<span class="comment_content">123</span>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<div class="modal-footer text-right pt-16">
+																<button type="button" class="btn btn-secondary modal-close">Đóng</button>
+															</div>
+
+														</div>
+													</div>
+													</div>
 											<?php endforeach; ?>
 										</div>
+										
 										<div class="note-form">
 											<form action="<?php echo add_query_arg(['tab' => 'note'], $detail_customer_url) ?>" method="post" enctype="multipart/form-data" class="js-comment-form" id="editcomment">
 												<div class="binhluan-moi">
@@ -804,6 +847,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 			</div>
 			<!-- /.row -->
 		</div>
+		
 </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
@@ -847,6 +891,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
     </div>
   </div>
 </div>
+
 <style>
 </style>
 <?php

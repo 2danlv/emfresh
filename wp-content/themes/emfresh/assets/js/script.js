@@ -266,7 +266,7 @@ jQuery(document).ready(function () {
 	//	 })
 	//	 .change();
 
-	$(document).on('click','.checkbox-element',function () {
+	$(document).on('click','#checkall,.checkbox-element',function () {
 		updateAllChecked();
 	});
 
@@ -364,8 +364,8 @@ jQuery(document).ready(function () {
 		alwaysShowCalendars: true,
 		ranges: {
 			'All time (Tối đa)': '',
-			'1 tuần qua': [moment().subtract(6, 'days').startOf('day'), moment().endOf('day')],
-			'2 tuần qua': [moment().subtract(13, 'days').startOf('day'), moment().endOf('day')],
+			'1 tuần qua': [moment().subtract(7, 'days').startOf('day'), moment().endOf('day')],
+			'2 tuần qua': [moment().subtract(14, 'days').startOf('day'), moment().endOf('day')],
 			'1 tháng qua': [moment().subtract(30, 'days').startOf('day'), moment().endOf('day')],
 			'3 tháng qua': [moment().subtract(90, 'days').startOf('day'), moment().endOf('day')],
 			'6 tháng qua': [moment().subtract(180, 'days').startOf('day'), moment().endOf('day')],
