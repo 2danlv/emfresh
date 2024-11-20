@@ -83,6 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 
   wp_redirect(add_query_arg([
     'code' => 200,
+    'expires' => time() + 3,
     //'message' => 'Update Success',
   ], get_permalink()));
   exit();
@@ -99,11 +100,11 @@ get_header();
   if (isset($_GET['message']) && $_GET['message'] == 'Delete Success') {
     echo '<div class="alert alert-success mt-3 mb-16" role="alert">Xóa khách hàng thành công</div>';
   }
-  if (isset($_GET['code']) && $_GET['code'] == 200) {
-    echo '<div class="alert alert-success mt-3 mb-16" role="alert">Cập nhật thành công</div>';
-  } else if (isset($_GET['code'])) {
-    echo '<div class="alert alert-warning mt-3 mb-16" role="alert">Cập nhật không thành công</div>';
-  }
+    if (!empty($_GET['code']) && !empty($_GET['expires']) && intval($_GET['expires']) > time()) {
+      echo '<div class="alert alert-success mt-3 mb-16" role="alert">'
+          . sprintf('Cập nhật%s thành công', $_GET['code'] != 200 ? ' không' : '')
+          .'</div>';
+    }
   ?>
 
   <!-- Default box -->
@@ -191,22 +192,16 @@ get_header();
                       <?php echo $record['district']; ?>
                     </td>
                     <td><span class="tag btn btn-sm status_<?php echo $record['status']; ?>"><?php echo $record['status_name']; ?></span></td>
-                    <td>
-                      <?php
-                        $customer_tags = $em_customer_tag->get_items(['customer_id' => $record['id']]);
-                        $i = 0;
-                        $len = count($customer_tags);
-                        foreach ($customer_tags as $item) : $tag = $item['tag_id']; ?>
-                          <span class="tag btn btn-sm tag_<?php echo $tag; ?>"><?php echo isset($list_tags[$tag]) ? $list_tags[$tag] : ''; ?></span>
-                          <?php if ($i == $len - 1) {
-                            echo ('');
-                          } else {
-                            echo ('<i class="hidden">,</i>');
-                          }
-                          $i++;
-                        endforeach;
-                      ?>
-                    </td>
+                    <?php
+                      $customer_tags = $em_customer_tag->get_items(['customer_id' => $record['id']]);
+                      $html = [];
+
+                      foreach ($customer_tags as $item) {
+                        $html[] = '<span class="tag btn btn-sm tag_'.$item['tag_id'].'">'. $em_customer->get_tags($item['tag_id']).'</span>';
+                      }
+
+                      echo '<td>'.implode('<i class="hidden">,</i> ', $html).'</td>';
+                    ?>
                     <td class="text-titlecase text-center"><?php echo $record['gender_name']; ?></td>
                     <td class="text-titlecase text-center"><?php echo $record['note_cook']; ?><!-- note dụng cụ --> </td>
                     <td class="text-left"><!-- note số đơn --></td>

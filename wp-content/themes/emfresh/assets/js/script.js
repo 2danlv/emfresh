@@ -9,7 +9,7 @@ jQuery(document).ready(function () {
 	});
 	
 	var table = $('.table-list-customer').on('init.dt', function () {
-		console.log(this, 'init.dt');
+		//console.log(this, 'init.dt');
     }).DataTable({
 		language: {
 			paginate: {
@@ -83,7 +83,7 @@ jQuery(document).ready(function () {
 						notEndsWith: 'Không kết thúc với',
 						notStartsWith: 'Không bắt đầu với',
 						startsWith: 'Bắt đầu với',
-					},
+					},	
 				},
 			},
 		},
@@ -170,39 +170,41 @@ jQuery(document).ready(function () {
 
 	// Custom searchbuilder filter get value
 	$(document).on('dtsb-inserted', function (e) {
-        let selectValue = $(e.target),
-			dtsb_criteria = selectValue.closest('.dtsb-criteria');
+        let $selectValue = $(e.target);
 		
-        if(selectValue.length == 0) return;
-
-		// If district
-		// if(dtsb_criteria.find('.dtsb-data').val() == 4) {}
+        if($selectValue.hasClass('dtsb-value') == false) return;
 		
-		dtsbCriteriaUpdateSelectValue(selectValue);
+		dtsbCriteriaUpdateSelectValue($selectValue);
     });
 
 	$(document).on('click', '.btn-fillter', function(){		
 		$('.dtsb-criteria .dtsb-value.dtsb-select').each(function(){
-			dtsbCriteriaUpdateSelectValue(this);
+			dtsbCriteriaUpdateSelectValue($(this));
         });
     });
 
-	function dtsbCriteriaUpdateSelectValue(selectValue)
+	function dtsbCriteriaUpdateSelectValue($selectValue)
 	{
-		let options = [];
-                    
-        $(selectValue).find('option').each(function(){
-            const o = $(this);
+		let dtsb_criteria = $selectValue.closest('.dtsb-criteria'),
+			dtsb_data_value = dtsb_criteria.find('.dtsb-data').val(),
+			options = [];
+        
+        $selectValue.find('option').each(function(){
+            let o = $(this), value = o.val();
             if(o.val() == '') {
                 o.hide();
             } else {
-                let value = o.val().split(' ').map(v => {
-                    if(!isNaN(v)) {
-                        v = (v > 9 ? v : '0') + v;
-                    }
 
-                    return v;
-                }).join(' ');
+				// Dia chi
+				if(dtsb_data_value == 4) {
+					value = value.split(' ').map(v => {
+						if(!isNaN(v)) {
+							v = (v > 9 ? v : '0') + v;
+						}
+
+						return v;
+					}).join(' ');
+				}
 
                 options.push({
                     value: value,
@@ -225,11 +227,15 @@ jQuery(document).ready(function () {
 	}
 	
 	function getSearchState() {
-		var dataTableState = JSON.parse(localStorage.getItem('DataTables_list-customer_/customer/'));
-		if (dataTableState && dataTableState.search && dataTableState.search.search) {
-			var searchTerm = dataTableState.search.search; // Extract the search term
-			return searchTerm;
-		}
+        var local_storge_table = localStorage.getItem('DataTables_list-customer_/customer/');
+        if (local_storge_table) {
+            var dataTableState = JSON.parse(local_storge_table);
+            if (dataTableState && dataTableState.search && dataTableState.search.search) {
+                var searchTerm = dataTableState.search.search; // Extract the search term
+                return searchTerm;
+            }
+        }
+		
 	}
 
 	$('.input-search').val(getSearchState());
