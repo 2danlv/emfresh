@@ -33,10 +33,10 @@ function site_importer_get_customer_labels($key = null)
         'phone'         => 'Số điện thoại',
         'status_name'   => 'Tình trạng',
         'gender_name'   => 'Giới tính',
-        'note'          => 'Ghi chú',
         'tag_name'      => 'Phân loại',
         'address'       => 'Địa chỉ',
         'point'         => 'Điểm tích lũy',
+        // 'note'          => 'Ghi chú',
     ];
 
     if ($key != null) {
@@ -48,6 +48,8 @@ function site_importer_get_customer_labels($key = null)
 
 function site_importer_export_customer()
 {
+    global $em_customer_tag;
+    
     $response = em_api_request('customer/list', [
         'limit' => -1
     ]);
@@ -65,8 +67,10 @@ function site_importer_export_customer()
         $items = $response['data'];
 
         foreach ($items as $i => $customer) {
+            $customer_id = (int) $customer['id'];
+
             $res = em_api_request('location/list', [
-                'customer_id' => $customer['id'],
+                'customer_id' => $customer_id,
                 'limit' => 5
             ]);
 
@@ -80,7 +84,7 @@ function site_importer_export_customer()
                         $columns[] = isset($location[$field]) ? $location[$field] : '';
                     }
 
-                    $addresses[] = implode(",", $columns);
+                    $addresses[] = implode(", ", $columns);
                 }
 
                 $customer['address'] = implode("\n", $addresses);
@@ -89,9 +93,18 @@ function site_importer_export_customer()
             $rows = [];
 
             foreach ($customer_labels as $field => $label) {
-                // $label = ucwords(str_replace('_', ' ', $field));
+                if($field == 'tag_name') {
+                    $customer_tags = $em_customer_tag->get_items(['customer_id' => $customer_id]);
+                    $tag_names = [];
 
-                $rows[$label] = isset($customer[$field]) ? $customer[$field] : '';
+                    foreach($customer_tags as $item) {
+                        $tag_names[] = $item['name'];
+                    }
+
+                    $rows[$label] = implode(", ", $tag_names);
+                } else {
+                    $rows[$label] = isset($customer[$field]) ? $customer[$field] : '';
+                }
             }
 
             $items[$i] = $rows;
@@ -105,7 +118,7 @@ function site_importer_export_customer()
 
 function site_importer_import_customer()
 {
-    global $em_customer, $em_log;
+    global $em_customer, $em_customer_tag, $em_log;
 
     $response = ['code' => 200, 'message' => 'Import success'];
 
@@ -121,17 +134,17 @@ function site_importer_import_customer()
             'phone'         => '',
             'status'        => 'get_statuses',
             'gender'        => 'get_genders',
-            'note'          => '',
-            'tag'           => 'get_tags',
+            'tag'           => '',
             'address'       => '',
             'point'         => '',
+            // 'note'          => '',
         ];
 
         $location_fields = [
-            "address",
-            "ward",
-            "district",
-            "city"
+            "address"   => '',
+            "ward"      => '',
+            "district"  => '',
+            "city"      => '79',
         ];
 
         unset($post_data[0]);
@@ -139,6 +152,7 @@ function site_importer_import_customer()
         foreach ($post_data as $row => $columns) {
             $customer = [];
             $address = '';
+            $tag = '';
             $empty_count = 0;
 
             $i = 0;
@@ -165,6 +179,8 @@ function site_importer_import_customer()
 
                 if ($field == 'address') {
                     $address = $value;
+                } else if ($field == 'tag') {
+                    $tag = $value;
                 } else {
                     if($field == 'phone') {
                         if(substr($value,0,1) != '0' && strlen($value) == 9) {
@@ -193,31 +209,65 @@ function site_importer_import_customer()
                     'content'       => $customer['customer_name']
                 ]);
 
-                if ($customer_id > 0 && $address != '') {
+                if ($address != '') {
                     $lines = explode("\n", $address);
                     $active_id = 0;
-                    foreach ($lines as $line) {
-                        $list = explode(',', trim($line));
-
-                        if (count($list) == count($location_fields)) {
-                            $location = [
-                                'customer_id' => $customer_id,
-                                'active' => $active_id == 0 ? 1 : 0
-                            ];
-
-                            foreach ($location_fields as $i => $field) {
-                                $location[$field] = sanitize_text_field($list[$i]);
-                            }
-
-                            $location_res = em_api_request('location/add', $location);
-                            if ($location_res['code'] == 200) {
-                                $active_id = 1;
-                            }
+                    foreach ($lines as $i => $line) {
+                        $list = array_map('trim', explode(',', trim($line)));
+                        $n = count($list);
+                        
+                        if($n < 3) continue;
+    
+                        $location = $location_fields;
+                        
+                        $location["customer_id"] = $customer_id;
+                        $location["active"]     = $active_id == 0 ? 1 : 0;
+                        $location["district"]   = $list[$n - 1];
+                        unset($list[$n - 1]);
+                        $location["ward"] = $list[$n - 2];
+                        unset($list[$n - 2]);
+                        $location["address"] = implode(', ', $list);
+                        
+                        $location_res = em_api_request('location/add', $location);
+                        if ($location_res['code'] == 200) {
+                            $active_id = 1;
+                        } else {
+                            unset($lines[$i]);
                         }
+                    }
+
+                    if(count($lines) > 0) {
+                        $customer_res['locations'] = implode("; ", $lines);
+                    }
+                }
+
+                if ($tag != '') {
+                    $tags = array_map('trim', explode(',', trim($tag)));
+                    $list_tags = array_map('sanitize_title', $em_customer->get_tags());
+                    $tag_ids = [];
+
+                    foreach($tags as $i => $tag_name) {
+                        $search = sanitize_title($tag_name);
+                        $tag_id = (int) array_search($search, $list_tags);
+
+                        if($tag_id > -1 && in_array($tag_id, $tag_ids) == false) {
+                            $tag_ids[] = $tag_id;
+                            
+                            $em_customer_tag->insert([
+                                'tag_id' => $tag_id,
+                                'customer_id' => $customer_id
+                            ]);
+                        } else {
+                            unset($tags[$i]);
+                        }
+                    }
+
+                    if(count($tags) > 0) {
+                        $customer_res['tags'] = implode("; ", $tags);
                     }
                 }
             } else {
-                $customer_res['data'] = implode(", ", $customer_res['data']);
+                $customer_res['data'] = implode("; ", $customer_res['data']);
             }
 
             $res_data[$row] = $customer_res;

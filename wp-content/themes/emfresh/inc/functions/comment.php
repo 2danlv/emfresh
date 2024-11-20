@@ -2,10 +2,10 @@
 
 function site_comment_submiting()
 {
-    if(isset($_GET['pin-id']) && isset($_GET['pin-token'])) {
+    if (isset($_GET['pin-id']) && isset($_GET['pin-token'])) {
         $data = wp_unslash($_GET);
 
-        if (!wp_verify_nonce($data['pin-token'], 'pintoken' )) {
+        if (!wp_verify_nonce($data['pin-token'], 'pintoken')) {
             return;
         }
 
@@ -19,16 +19,16 @@ function site_comment_submiting()
             'order' => 'DESC',
             'parent' => 0,
         ));
-    
-        foreach ( $comments as $comment ) {
+
+        foreach ($comments as $comment) {
             update_comment_meta($comment->comment_ID, 'pin', $comment->comment_ID == $comment_ID ? 1 : 0);
         }
-    
-        $pagenum_link = html_entity_decode(get_pagenum_link());
 
-        $page_url = esc_url(remove_query_arg(['pin-id', 'pin-token'], $pagenum_link));
+        site_comment_log($comment_current, 'Ghim');
 
-        $json = array('code' => 200, 'message' => 'Pin success');
+        $page_url = esc_url(remove_query_arg(['pin-id', 'pin-token']));
+
+        $json = array('code' => 200, 'message' => 'Pin success', 'tab' => 'note');
 
         wp_safe_redirect(add_query_arg($json, $page_url));
         exit;
@@ -43,16 +43,17 @@ function site_comment_submiting()
             $json = site_comment_delete([
                 'comment_ID' => $comment_ID
             ]);
+
+            update_comment_meta($comment_ID, 'pin', 0);
         } else {
             $json = array('code' => 403, 'message' => 'Lỗi phiên');
         }
 
         $json['expire'] = time() + 5;
         $json['message'] = site_base64_encode($json['message']);
+        $json['tab'] = 'note';
 
-        $pagenum_link = html_entity_decode(get_pagenum_link());
-
-        $page_url = esc_url(remove_query_arg(['delete_comment', 'comtoken'], $pagenum_link));
+        $page_url = esc_url(remove_query_arg(['delete_comment', 'comtoken']));
 
         wp_safe_redirect(add_query_arg($json, $page_url));
         exit;
@@ -63,7 +64,6 @@ function site_comment_submiting()
     $data = wp_unslash($_POST);
 
     if (wp_verify_nonce($data['comtoken'], 'comtoken')) {
-
         $comment_ID = isset($data['comment_ID']) ? intval($data['comment_ID']) : 0;
         if ($comment_ID > 0) {
             $json = site_comment_update($data);
@@ -76,15 +76,13 @@ function site_comment_submiting()
             exit;
         }
 
-        $comment_post_ID = isset($data['comment_post_ID']) ? intval($data['comment_post_ID']) : 0;
-
-        $redirect = apply_filters('comment_post_redirect', get_permalink($comment_post_ID), $comment);
+        $pagenum_link = html_entity_decode(get_pagenum_link());
 
         $json['expire'] = time() + 5;
         $json['message'] = site_base64_encode($json['message']);
-        $redirect = add_query_arg($json, $redirect);
-
-        wp_safe_redirect($redirect);
+        $json['tab'] = 'note';
+        
+        wp_safe_redirect(add_query_arg($json, $pagenum_link));
         exit;
     }
 }
@@ -110,7 +108,7 @@ function site_comment_log($comment, $action = '')
 {
     global $em_log;
 
-    if(isset($em_log) && is_object($comment)) {
+    if (isset($em_log) && is_object($comment)) {
 
         $log_content = sprintf('<span class="memo">Ghi chú</span><span class="note-detail">%s</span>', $comment->comment_content);
 
@@ -128,10 +126,10 @@ function site_comment_update($data)
 {
     $comment_ID = isset($data['comment_ID']) ? intval($data['comment_ID']) : 0;
 
-    // $comment_data = $data;
-    // $comment_data['comment_parent'] = $comment_ID;
-    // $comment_data['comment_ID'] = 0;
-    // site_comment_add($comment_data);
+    $comment_data = $data;
+    $comment_data['comment_parent'] = $comment_ID;
+    $comment_data['comment_ID'] = 0;
+    site_comment_add($comment_data);
 
     $comment = wp_update_comment([
         'comment_ID' => $comment_ID,
@@ -183,7 +181,7 @@ function site_comment_get_delete_link($comment_ID = 0)
     // $url_parts    = explode('?', $pagenum_link);
 
     $page_url = esc_url(remove_query_arg(['code', 'message', 'expire'], $pagenum_link));
-    
+
     $url = add_query_arg([
         'delete_comment' => $comment_ID,
         'comtoken' => wp_create_nonce('comtoken'),
@@ -197,7 +195,7 @@ function site_comment_get_pin_link($comment_ID = 0)
     $pagenum_link = html_entity_decode(get_pagenum_link());
 
     $page_url = esc_url(remove_query_arg(['code', 'message', 'expire'], $pagenum_link));
-    
+
     $url = add_query_arg([
         'pin-id' => $comment_ID,
         'pin-token' => wp_create_nonce('pintoken'),
@@ -214,7 +212,7 @@ function site_comment_delete($data)
         'comment_ID' => $comment_ID,
         'comment_approved' => 0,
     ]);
-    
+
     if (is_wp_error($comment)) {
         $message = 'Xóa bình luận không thành công';
 
@@ -226,6 +224,8 @@ function site_comment_delete($data)
         $json = array('code' => 403, 'message' => $message);
     } else {
         // update_comment_meta($comment_ID, 'status', 'Xóa');
+        update_comment_meta($comment_ID, 'delete_by', get_current_user_id());
+        update_comment_meta($comment_ID, 'delete_at', current_time('mysql'));
 
         site_comment_log(get_comment($comment_ID), 'Xóa');
 

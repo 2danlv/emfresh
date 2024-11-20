@@ -385,6 +385,8 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
 #modal-edit select { width: 100%; }
 
 .modal-body { padding-top: 16px; }
+.modal-body .js-comment-row { border-bottom: 1px solid var(--modal-divider, #DEDFE0); padding-bottom: 8px; margin-bottom: 8px; }
+.modal-body .js-comment-row:last-child { border: none; }
 .modal-body .filter.list-unstyled { padding-bottom: 16px; }
 .modal-body .filter.list-unstyled li { padding-bottom: 8px; }
 .modal-body .filter.list-unstyled li label { display: flex; align-items: center; }
