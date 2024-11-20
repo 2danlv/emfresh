@@ -276,9 +276,19 @@
         }
         td {
             padding-bottom: 0;
-            .diachi {
-                width: 220px;
+            min-height: 32px;
+            &.wrap-td {
+                position: relative;
+            }
+            .ellipsis {
+                position: absolute;
+                border: 0;
+                top: 6px;
+                left: 0;
+                right: 0;
+                bottom: 0;
                 overflow: hidden;
+                padding: 2px;
                 text-overflow: ellipsis;
             }
             &.dt-type-date {

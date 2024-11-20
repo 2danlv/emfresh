@@ -559,8 +559,9 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
 .dt-container table.table th:first-child, .dt-container table.table td:first-child { padding-left: 8px; padding-right: 0; padding-top: 6px; padding-bottom: 0; }
 .dt-container table.table th.dt-orderable-asc, .dt-container table.table td.dt-orderable-asc { padding-right: 18px; }
 .dt-container table.table td:first-child { text-align: center; padding-top: 7px; }
-.dt-container table.table td { padding-bottom: 0; }
-.dt-container table.table td .diachi { width: 220px; overflow: hidden; text-overflow: ellipsis; }
+.dt-container table.table td { padding-bottom: 0; min-height: 32px; }
+.dt-container table.table td.wrap-td { position: relative; }
+.dt-container table.table td .ellipsis { position: absolute; border: 0; top: 6px; left: 0; right: 0; bottom: 0; overflow: hidden; padding: 2px; text-overflow: ellipsis; }
 .dt-container table.table td.dt-type-date { white-space: nowrap; }
 .dt-container table.table td .avatar img { border-radius: 50%; }
 .dt-container .dt-scroll-body { border: none !important; background-color: #fff; padding-bottom: 16px; }

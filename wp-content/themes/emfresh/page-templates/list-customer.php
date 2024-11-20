@@ -183,10 +183,10 @@ get_header();
                 if ($record['active'] != '0') { ?>
                   <tr>
                     <td class="text-center"><input type="checkbox" class="checkbox-element" value="<?php echo $record['id'] ?>"></td>
-                    <td class="text-capitalize nowrap"><a href="detail-customer/?customer_id=<?php echo $record['id'] ?>"><?php echo $record['customer_name']; ?></a></td>
+                    <td class="text-capitalize nowrap wrap-td"><div class="ellipsis"><a href="detail-customer/?customer_id=<?php echo $record['id'] ?>"><?php echo $record['customer_name']; ?></a></div></td>
                     <td class="text-left"><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $record['phone']; ?>"><?php echo $record['phone']; ?></span></td>
-                    <td class="text-capitalize">
-                      <div class="nowrap diachi"><?php echo $record['address']; echo $record['address'] ? ', ' : ''; ?> <?php echo $record['ward'];  echo $record['ward'] ? ', ' : ''; echo $record['district'] ?></div>
+                    <td class="text-capitalize wrap-td" width="25%">
+                      <div class="nowrap ellipsis"><?php echo $record['address']; echo $record['address'] ? ', ' : ''; ?> <?php echo $record['ward'];  echo $record['ward'] ? ', ' : ''; echo $record['district'] ?></div>
                     </td>
                     <td class="text-capitalize">
                       <?php echo $record['district']; ?>
