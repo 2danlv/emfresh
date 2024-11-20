@@ -230,7 +230,21 @@ get_header();
   <!-- /.card-body -->
 </section>
 
-
+<div class="modal fade modal-warning" id="modal-warning-edit">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body pb-16">
+        <div class="d-f ai-center">
+          <i class="fas fa-warning mr-4"></i>
+          <p>Hãy chọn khách hàng để chỉnh sửa nhanh!</p>
+        </div>
+      </div>
+      <div class="modal-footer text-center pt-16">
+        <button type="button" class="btn btn-secondary modal-close">Đóng</button>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="modal fade" id="modal-default">
   <div class="modal-dialog">
     <div class="modal-content">

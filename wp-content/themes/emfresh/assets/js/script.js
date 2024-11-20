@@ -297,22 +297,13 @@ jQuery(document).ready(function () {
 
 	$('.quick-edit').click(function (e) {
 		e.preventDefault();
+        $(".alert-form").hide();
 		if ($('.list_id').val() == '') {
-			alert('Hãy chọn ô khách hàng để chỉnh sửa nhanh!');
+            $('#modal-warning-edit').addClass('is-active');
+            $('body').addClass('overflow');
 			return false;
 		}
 		open_modal(this);
-	});
-
-	$('#modal-edit .add_post').click(function (e) {
-		//e.preventDefault();
-		var status_order = $('#modal-edit .status_order select').val();
-		var status_pay = $('#modal-edit .status_pay select').val();
-		var tag = $('#modal-edit .tag select').val();
-		if (tag == 0) {
-			alert('Hãy chọn value!');
-			return false;
-		}
 	});
 
 	$(document).on('click','.modal-button', function (ev) {
@@ -430,6 +421,7 @@ jQuery(document).ready(function () {
 			$('li.status').on('click', function (e) {
 				$('.table-list-customer input[type="checkbox"]').prop('checked', false);
 				$(this).hide();
+                $('.list_id').val('');
 			});
 		} else {
 			$('li.status').hide();
