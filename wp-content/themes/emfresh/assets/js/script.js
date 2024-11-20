@@ -83,7 +83,7 @@ jQuery(document).ready(function () {
 						notEndsWith: 'Không kết thúc với',
 						notStartsWith: 'Không bắt đầu với',
 						startsWith: 'Bắt đầu với',
-					},	
+					},
 				},
 			},
 		},
@@ -140,18 +140,6 @@ jQuery(document).ready(function () {
 				orderable: false,
 			},
 			{ visible: false, targets: [4,6,7,8,12,14,16,18,19] },
-            {
-                targets: 18,
-                render: function(data) {
-                    return moment(data, 'YYYY/MM/DD').format('DD/MM/YYYY');
-                  }
-              },
-              {
-                targets: 19, // Target the first column which contains dates
-                render: function(data, type, row) {
-                  return moment(data, 'DD/MM/YYYY').format('DD/MM/YYYY');
-                }
-              },
 			{
 				targets: 17,
 				render: function(data, type, row) {
@@ -163,20 +151,32 @@ jQuery(document).ready(function () {
 					}
 					return data;
 				}
-			}
+			},
+            {
+                targets: [18],
+                render: function(data) {
+                    return moment(data, 'YYYY/MM/DD').format('DD/MM/YYYY');
+                  }
+              },
+              {
+                targets: 19, // Target the first column which contains dates
+                render: function(data, type, row) {
+                  return moment(data, 'DD/MM/YYYY').format('DD/MM/YYYY');
+                }
+              }
 		],
 	});
 
 	// Custom searchbuilder filter get value
 	$(document).on('dtsb-inserted', function (e) {
         let $selectValue = $(e.target);
-		
+
         if($selectValue.hasClass('dtsb-value') == false) return;
-		
+
 		dtsbCriteriaUpdateSelectValue($selectValue);
     });
 
-	$(document).on('click', '.btn-fillter', function(){		
+	$(document).on('click', '.btn-fillter', function(){
 		$('.dtsb-criteria .dtsb-value.dtsb-select').each(function(){
 			dtsbCriteriaUpdateSelectValue($(this));
         });
@@ -184,7 +184,7 @@ jQuery(document).ready(function () {
     $('.comment-box').on("keypress", function (evt){
         if (evt.keyCode == 13 && evt.shiftKey && this.value.trim().length > 0) {
             evt.preventDefault();
-    
+
             this.form.submit();
         }
     });
@@ -193,7 +193,7 @@ jQuery(document).ready(function () {
 		let dtsb_criteria = $selectValue.closest('.dtsb-criteria'),
 			dtsb_data_value = dtsb_criteria.find('.dtsb-data').val(),
 			options = [];
-        
+
         $selectValue.find('option').each(function(){
             let o = $(this), value = o.val();
             if(o.val() == '') {
@@ -230,7 +230,7 @@ jQuery(document).ready(function () {
             }
         }
 	}
-	
+
 	function getSearchState() {
         var local_storge_table = localStorage.getItem('DataTables_list-customer_/customer/');
         if (local_storge_table) {
@@ -240,11 +240,11 @@ jQuery(document).ready(function () {
                 return searchTerm;
             }
         }
-		
+
 	}
 
 	$('.input-search').val(getSearchState());
-	
+
 	$('.filter input[type="checkbox"]').on('change', function (e) {
 		var column = table.columns([$(this).attr('data-column')]);
 
@@ -387,18 +387,18 @@ jQuery(document).ready(function () {
 	$('.btn-time').on('apply.daterangepicker', function (ev, picker) {
         var start = picker.startDate;
         var end = picker.endDate;
-    
+
         // Add a class to indicate the filter is applied
         $(this).addClass('date-filter');
-    
+
         // Push a custom filter to DataTables
         $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
             var min = start;
             var max = end;
-    
+
             // Get the date value from the table (assuming the date is in the 19th column)
             var startDate = moment(data[19], 'DD/MM/YYYY');  // Adjust the format to match your table data
-    
+
             // Check if the row should be included based on the selected date range
             if (
                 (min === null && max === null) ||
@@ -408,21 +408,21 @@ jQuery(document).ready(function () {
             ) {
                 return true;
             }
-    
+
             return false;
         });
-    
+
         // Redraw the table to apply the filter
         var table = $('.table-list-customer').DataTable(); // Make sure the table variable is initialized
         table.draw();
-    
+
         // Remove the custom filter to prevent it from stacking on top of future filters
         $.fn.dataTable.ext.search.pop();
     });
-    
+
 	var $checkboxes = $('.table-list-customer td input[type="checkbox"]');
 	$(document).on('click',$checkboxes,function () {
-	
+
 		var countCheckedCheckboxes = $('.table-list-customer td input[type="checkbox"]:checked').length;
 		if (countCheckedCheckboxes > 0) {
 			$('li.status').show();
@@ -435,7 +435,7 @@ jQuery(document).ready(function () {
 			$('li.status').hide();
 		}
 	});
-	
+
 	$('.copy').on('click', function () {
 		const textToCopy = $(this).text();
 
@@ -459,17 +459,16 @@ jQuery(document).ready(function () {
 	var status = localStorage.getItem('sidebar');
 	if (status =="active") {
 		$('.site').addClass('mini_sidebar');
-		$('.resize').addClass('active');
+		$('.sidebar .resize').addClass('active');
 	}
 	table.columns.adjust();
-	$('.resize').click(function (e) { 
+	$('.sidebar .resize').click(function (e) {
 		// localStorage.getItem('sidebar');
 		e.preventDefault();
 		setTimeout(() => {
 			table.columns.adjust();
 			table_regular.columns.adjust();
 		}, 50);
-		table.columns.adjust();
 		if ($(this).hasClass('active')) {
 			$('.sidebar .resize').removeClass('active');
 		} else {
@@ -489,7 +488,7 @@ jQuery(document).ready(function () {
 	var table_regular = $('table.regular').DataTable({
 		autoWidth: true,
 		scrollX: true,
-		scrollY: '57vh',
+		scrollY: '50vh',
 		dom: 'Bfrtip<"bottom"pl>',
 		order: [[4, 'desc'], [3, 'desc']], // date, time
 		columnDefs: [
@@ -514,13 +513,24 @@ jQuery(document).ready(function () {
 	switch_tabs(jQuery('.defaulttab'));
 	jQuery('ul.tabNavigation li[rel="settings"],ul.tabNavigation li[rel="history"]').click(function() {
 		$('.card-primary').addClass('width-100');
-		table_regular.columns.adjust().draw();
-		
+		table_regular.columns.adjust();
+
 	});
 	$(document).on('click','.show-group-note', function name(params) {
 		$(this).hide();
 		$(this).prev('.group-note').find('.hidden').show();
-	})
+	});
+    if ($('.scroll-menu').length) {
+        var navbarOffset = $('.scroll-menu').offset().top;
+
+        $(window).scroll(function() {
+            if ($(window).scrollTop() > navbarOffset) {
+            $('.scroll-menu').addClass('fixed');
+            } else {
+            $('.scroll-menu').removeClass('fixed');
+            }
+        });
+    }
 });
 
 function switch_tabs(obj) {

@@ -288,7 +288,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 		}
 		?>
 		<div class="container-fluid">
-			<div class="row pb-16">
+			<div class="row">
 				<div class="col-6 backtolist d-f ai-center">
 					<a href="/customer/" class="d-f ai-center"><span class="mr-4"><img src="<?php echo site_get_template_directory_assets(); ?>img/icon/caretup.svg" alt=""></span><span> Quay lại danh sách khách hàng</span></a>
 				</div>
@@ -306,8 +306,8 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 					<a class="btn btn-primary" href="#"><span class="d-f ai-center"><i class="fas mr-4"><img src="<?php echo site_get_template_directory_assets(); ?>img/icon/plus-svgrepo-com.svg" alt=""></i>Tạo đơn mới</span></a>
 				</div>
 			</div>
-			<div class="card-header">
-				<ul class="nav tabNavigation">
+			<div class="card-header scroll-menu">
+				<ul class="nav tabNavigation pt-16">
 					<li class="nav-item<?php echo $tab_active == '' ? ' defaulttab' : '' ?>" rel="info">Thông tin khách hàng</li>
 					<li class="nav-item<?php echo $tab_active == 'note' ? ' defaulttab' : '' ?>" rel="note">Ghi chú</li>
 					<li class="nav-item<?php echo $tab_active == 'settings' ? ' defaulttab' : '' ?>" rel="settings">Chỉnh sửa thông tin</li>

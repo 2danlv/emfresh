@@ -35,13 +35,16 @@
     }
     .content-wrapper {
         width: calc(100% - 60px);
-    } 
-        
+    }
+    .scroll-menu.fixed {
+        padding-left: 76px;
+    }   
 }
 
 .row .sidebar {
     position: relative;  
     width: auto; 
+    z-index: 20;
   ul.nav-menu {
     padding-top: 24px;
     width: 190px;
