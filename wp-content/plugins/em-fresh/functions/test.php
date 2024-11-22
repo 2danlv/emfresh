@@ -70,7 +70,8 @@ function em_test_customer()
         ];
         $response = em_api_request('customer/delete', $data);
         }
-				
+				
+
         $response[$dev . '-id'] = $id;
         em_test_print_response($response);
     } else if ($dev == 'history') {
@@ -218,3 +219,13 @@ function em_test_print_response($response)
     var_export($response);
     echo '</pre>';
 }
+
+/*
+
+SELECT * FROM `wp_em_log` WHERE module_id IN (SELECT id FROM `wp_em_customer`);
+
+DELETE FROM `wp_em_log` WHERE module_id NOT IN (SELECT id FROM `wp_em_customer`);
+
+SELECT `module` FROM `wp_em_log` GROUP BY `module`;
+
+*/
