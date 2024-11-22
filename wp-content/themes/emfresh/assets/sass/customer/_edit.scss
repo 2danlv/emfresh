@@ -188,15 +188,22 @@
       
       td {
         padding: 8px;
+        vertical-align: top;
         .descript-note {
           display: flex;
           align-items: center;
+          flex-flow: wrap;
+          hr {
+            width: 100%;
+            border: none;
+            padding: 4px 0;
+          }
           span.memo {
             margin-right: 8px;
-            &.field-tag {
-              font-size: 0;
-              margin-right: 8px;
-            }
+            // &.field-tag {
+            //   font-size: 0;
+            //   margin-right: 8px;
+            // }
           }
           span.memo.field-tag:first-child {
             font-size: 14px;
@@ -209,7 +216,7 @@
             border-radius: var(--tag-radiusCorner-rounded, 8px);
             border: 1px solid var(--border-primary, #DEDFE0);
             background: var(--tag-background-default, #F2F3F5);
-            padding:4px 4px;
+            padding:1px 4px;
             font-size: 14px;
             line-height: 20px;
             

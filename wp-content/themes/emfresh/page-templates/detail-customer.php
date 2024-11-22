@@ -119,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 				$new = $em_customer->get_genders($new);
 			}
 
-			$log_change[] = sprintf('<span class="memo text-titlecase field-%s">%s</span><span class="note-detail text-titlecase">%s</span>', $key, $label, $new);
+			$log_change[] = sprintf('<span class="memo field-%s">%s</span><span class="note-detail">%s</span>', $key, $label, $new);
 		}
 	}
 
@@ -199,11 +199,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 			$em_customer_tag->update_list($customer_id, $_POST['tag_ids']);
 
 			foreach ($tag_inserts as $tag_id) {
-				$log_change[] = sprintf('<span class="memo field-tag">Thêm Tag phân loại</span><span class="note-detail text-titlecase">%s</span>', $em_customer->get_tags($tag_id));
+				$log_change[] = sprintf('<span class="memo field-tag">Thêm Tag phân loại</span><span class="note-detail">%s</span>', $em_customer->get_tags($tag_id));
 			}
 
 			foreach ($tag_removes as $tag_id) {
-				$log_change[] = sprintf('<span class="memo field-tag">Xóa Tag phân loại</span><span class="note-detail text-titlecase">%s</span>', $em_customer->get_tags($tag_id));
+				$log_change[] = sprintf('<span class="memo field-tag">Xóa Tag phân loại</span><span class="note-detail">%s</span>', $em_customer->get_tags($tag_id));
 			}
 		}
 	}
@@ -333,11 +333,11 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 								</div>
 								<div class="d-f jc-b pt-8">
 									<span>Giới tính:</span>
-									<span class="text-titlecase"><?php echo $response_customer['data']['gender_name']; ?></span>
+									<span><?php echo $response_customer['data']['gender_name']; ?></span>
 								</div>
 								<div class="d-f jc-b pt-8">
 									<span>Trạng thái khách hàng:</span>
-									<span class="text-titlecase"><?php echo $response_customer['data']['status_name'] ?></span>
+									<span><?php echo $response_customer['data']['status_name'] ?></span>
 								</div>
 								<div class="d-f jc-b pt-8">
 									<span>Số đơn:</span>
@@ -802,8 +802,8 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 										<table class="regular">
 											<thead>
 												<tr>
-													<th>User</th>
-													<th>Action</th>
+													<th width="120">User</th>
+													<th width="100">Action</th>
 													<th class="descript">Description</th>
 													<th>Time</th>
 													<th>Date</th>
@@ -834,7 +834,8 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 														<td><?php echo $item['action'] ?></td>
 														<td class="nowrap">
 															<div class="descript-note">
-																<?php echo nl2br($item['content']) ?>
+																<?php $brString = nl2br($item['content']); ?>
+																<?php echo str_replace('<br />', '<hr>', $brString) ?>
 															</div>
 														</td>
 														<td><?php echo date('H:i', $item_time) ?></td>
