@@ -9,7 +9,7 @@ $mysqli = new mysqli("localhost", 'root', '', 'emfresh');
 if (isset($_POST['user_phone'])) {
     $phone = $_POST['user_phone'];
 
-    $checkdata = " SELECT phone FROM wp_em_customer WHERE phone='$phone' ";
+    $checkdata = "SELECT phone FROM wp_em_customer WHERE phone='$phone' AND parent = 0 ";
 
     $query = mysqli_query($mysqli, $checkdata);
 

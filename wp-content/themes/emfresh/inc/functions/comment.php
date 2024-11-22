@@ -12,23 +12,34 @@ function site_comment_submiting()
         $comment_ID = (int) $data['pin-id'];
         $comment_current = get_comment($comment_ID);
 
-        $comments = get_comments(array(
-            'type' => 'customer',
-            'status' => 'any',
-            'post_id' => $comment_current->comment_post_ID,
-            'order' => 'DESC',
-            'parent' => 0,
-        ));
+        /*
+            // unpin all comments
+            $comments = get_comments(array(
+                'type' => 'customer',
+                'status' => 'any',
+                'post_id' => $comment_current->comment_post_ID,
+                'order' => 'DESC',
+                'parent' => 0,
+            ));
 
-        foreach ($comments as $comment) {
-            update_comment_meta($comment->comment_ID, 'pin', $comment->comment_ID == $comment_ID ? 1 : 0);
+            foreach ($comments as $comment) {
+                update_comment_meta($comment->comment_ID, 'pin', $comment->comment_ID == $comment_ID ? 1 : 0);
+            }
+        */
+
+        if(isset($comment_current->comment_ID)) {
+            $comment_pin = (int) get_comment_meta($comment_ID, 'pin', true);
+
+            update_comment_meta($comment_ID, 'pin', 1 - $comment_pin);
+    
+            site_comment_log($comment_current, ($comment_pin == 1 ? 'Bỏ ' : '') . 'Ghim');
+
+            $json = array('code' => 200, 'message' => ($comment_pin == 1 ? 'Un' : '' ) . 'Pin success', 'tab' => 'note');
+        } else {
+            $json = array('code' => 400, 'message' => 'Pin fail', 'tab' => 'note');
         }
 
-        site_comment_log($comment_current, 'Ghim');
-
         $page_url = esc_url(remove_query_arg(['pin-id', 'pin-token']));
-
-        $json = array('code' => 200, 'message' => 'Pin success', 'tab' => 'note');
 
         wp_safe_redirect(add_query_arg($json, $page_url));
         exit;
@@ -252,7 +263,11 @@ function site_comment_add($data)
 
         $json = array('code' => 403, 'message' => $message);
     } else {
+        // update_comment_meta($comment->comment_ID, 'pin', 0);
+
+if(empty($data["comment_parent"]) || $data["comment_parent"] == 0) {
         site_comment_log($comment, 'Tạo');
+}
 
         $json = array('code' => 200, 'message' => 'Bình luận thành công');
     }

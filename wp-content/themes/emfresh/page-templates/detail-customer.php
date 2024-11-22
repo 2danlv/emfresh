@@ -529,8 +529,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 														<div class="time col-3"><?php echo get_comment_date('d/m/Y', $comment->comment_ID) ?></div>
 													</div>
 													<div class="note-content <?php echo $comment_status ?>">
-														<textarea class="textarea-note hidden" readonly><?php echo $comment->comment_content ?></textarea>
-														<span class="comment_content"><?php echo $comment->comment_content ?></span>
+														<span class="comment_content"><?php echo nl2br($comment->comment_content) ?></span>
 														<?php
 															$modal = '';
 															
@@ -564,8 +563,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 																			<div class="time col-3 text-right"><?php echo get_comment_date('d/m/Y', $child->comment_ID) ?></div>
 																		</div>
 																		<div class="note-content cap-nhat">
-																		<textarea class="textarea-note hidden" readonly><?php echo $comment->comment_content ?></textarea>
-																			<span class="comment_content"><?php echo $child->comment_content ?></span>
+																			<span class="comment_content"><?php echo nl2br($child->comment_content) ?></span>
 																		</div>
 																	</div>
 																	<?php endforeach ?>
@@ -922,10 +920,7 @@ get_footer('customer');
 			e.preventDefault();
 			$('#modal-note form.form-remove-note').attr('action', '');
 		});
-		$('.textarea-note').each(function() {
-            var txt = $(this).val().replace(/\n/g, '<br>'); // Replace newlines with <br>
-            $(this).next('.comment_content').html(txt); // Insert transformed content into the next .text div
-        });
+
 		$('.js-comment-form').each(function() {
 			let $form = $(this);
 
@@ -934,7 +929,7 @@ get_footer('customer');
 
 				row.find('a[href="#editcomment"]').on('click', function(e) {
 					let id = $(this).data('id') || 0,
-						value = row.find('.textarea-note').val();
+						value = row.find('.comment_content').text();
 
 					if (id > 0 && value != '') {
 						let title = 'Bạn đang chỉnh sửa ghi chú - ' + value;
