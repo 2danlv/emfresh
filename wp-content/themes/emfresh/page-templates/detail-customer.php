@@ -490,6 +490,15 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 												if($delete_by > 0) {
 													$delete_author = get_the_author_meta('display_name', $delete_by);
 												}
+
+												$childs = get_comments(array(
+													'type' => 'customer',
+													'status' => 'any', // 'any', 'pending', 'approve'
+													'post_id' => $customer_id,  // Use post_id, not post_ID, fwHR58J87Xc503mt1S
+													'order' => 'comment_date_gmt DESC',
+													'parent' => $comment->comment_ID
+												));
+												$show_childs = count($childs) > 0;
 											?>
 												<div class="js-comment-row pb-16 <?php 
 														echo ($comment->comment_approved == 0 ? ' status-trash' : '')
@@ -520,43 +529,45 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 														<div class="time col-3"><?php echo get_comment_date('d/m/Y', $comment->comment_ID) ?></div>
 													</div>
 													<div class="note-content <?php echo $comment_status ?>">
-														<textarea class="comment_content" readonly><?php echo $comment->comment_content ?></textarea>
-														<?php echo $comment->comment_approved == 0 ? '<span class="comment_status status-edited status-deleted modal-button" data-target="#modal-history'.$comment->comment_ID.'">&#8226; Đã xóa bởi <b>'. $delete_author .'</b></span>' : ($comment_status == 'cap-nhat' ? '<span class="comment_status status-edited modal-button" data-target="#modal-history'.$comment->comment_ID.'">&#8226; Đã sửa</span>' : '') ?>
+														<textarea class="textarea-note hidden" readonly><?php echo $comment->comment_content ?></textarea>
+														<span class="comment_content"><?php echo $comment->comment_content ?></span>
+														<?php
+															$modal = '';
+															
+															if($show_childs) {
+																$modal = ' modal-button" data-target="#modal-history' . $comment->comment_ID;
+															}
+
+															if ($comment->comment_approved == 0) {
+																echo '<span class="comment_status status-edited status-deleted' . $modal . '">&#8226; Đã xóa bởi <b>'.$delete_author.'</b></span>';
+															} else if ($comment_status == 'cap-nhat') {
+																echo '<span class="comment_status status-edited' . $modal . '">&#8226; Đã sửa</span>';
+															}
+														?>
 													</div>
 												</div>
+												<?php if($show_childs) :?>
 												<div class="modal fade" id="modal-history<?php echo $comment->comment_ID ?>">
 													<div class="modal-dialog">
 														<div class="modal-content">
 															<div class="modal-body">
 																<div class="note-wraper">
+																	<?php foreach($childs as $child) :?>
 																	<div class="js-comment-row pb-16">
 																		<div class="row row-comment">
 																			<div class="account-name d-f ai-center col-9">
 																				<div class="avatar">
 																					<img src="<?php site_the_assets(); ?>img/icon/User.svg" alt="">
 																				</div>
-																				<div>Em Fresh</div>
+																				<div><?php echo $child->comment_author ?></div>
 																			</div>
-																			<div class="time col-3 text-right">20/11/2024</div>
+																			<div class="time col-3 text-right"><?php echo get_comment_date('d/m/Y', $child->comment_ID) ?></div>
 																		</div>
 																		<div class="note-content cap-nhat">
-																			<span class="comment_content">11111 343243</span>
+																			<span class="comment_content"><?php echo $child->comment_content ?></span>
 																		</div>
 																	</div>
-																	<div class="js-comment-row pb-16  status-trash">
-																		<div class="row row-comment">
-																			<div class="account-name d-f ai-center col-9">
-																				<div class="avatar">
-																					<img src="<?php site_the_assets(); ?>img/icon/User.svg" alt="">
-																				</div>
-																				<div>Em Fresh</div>
-																			</div>
-																			<div class="time col-3 text-right">20/11/2024</div>
-																		</div>
-																		<div class="note-content ">
-																			<span class="comment_content">123</span>
-																		</div>
-																	</div>
+																	<?php endforeach ?>
 																</div>
 															</div>
 															<div class="modal-footer text-right pt-16">
@@ -565,6 +576,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 														</div>
 													</div>
 												</div>
+												<?php endif; ?>
 											<?php endforeach; ?>
 										</div>										
 										<div class="note-form">
@@ -909,7 +921,10 @@ get_footer('customer');
 			e.preventDefault();
 			$('#modal-note form.form-remove-note').attr('action', '');
 		});
-
+		$('.textarea-note').each(function() {
+            var txt = $(this).val().replace(/\n/g, '<br>'); // Replace newlines with <br>
+            $(this).next('.comment_content').html(txt); // Insert transformed content into the next .text div
+        });
 		$('.js-comment-form').each(function() {
 			let $form = $(this);
 
@@ -939,6 +954,15 @@ get_footer('customer');
 						$form.find('[type="submit"]').trigger('click');
 					}
 				}
+			}).on('input', function(evt){
+				let box = $(evt.target),
+					rows = box.val().split("\n").length;
+				
+				if(rows < 1) {
+					rows = 1;
+				}
+				
+				box.attr('rows', rows + 1);
 			});
 		});
 
