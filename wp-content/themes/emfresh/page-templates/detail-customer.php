@@ -564,6 +564,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 																			<div class="time col-3 text-right"><?php echo get_comment_date('d/m/Y', $child->comment_ID) ?></div>
 																		</div>
 																		<div class="note-content cap-nhat">
+																		<textarea class="textarea-note hidden" readonly><?php echo $comment->comment_content ?></textarea>
 																			<span class="comment_content"><?php echo $child->comment_content ?></span>
 																		</div>
 																	</div>
@@ -933,7 +934,7 @@ get_footer('customer');
 
 				row.find('a[href="#editcomment"]').on('click', function(e) {
 					let id = $(this).data('id') || 0,
-						value = row.find('.comment_content').text();
+						value = row.find('.textarea-note').val();
 
 					if (id > 0 && value != '') {
 						let title = 'Bạn đang chỉnh sửa ghi chú - ' + value;
