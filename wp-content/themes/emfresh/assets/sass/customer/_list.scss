@@ -323,6 +323,12 @@
     }
     div.dtsb-searchBuilder div.dtsb-group {
         margin-left: 0 !important;
+        .dtsb-logicContainer + div.dtsb-criteria {
+            display: none !important;
+        }
+    }
+    div.dtsb-searchBuilder div.dtsb-titleRow button.dtsb-clearAll {
+        display: none !important;
     }
     div.dtsb-searchBuilder button.dtsb-button {
         display: flex;

@@ -1,5 +1,13 @@
 jQuery(document).ready(function () {
-
+	$('.main-menu .nav-menu li a').click(function (e) { 
+		//e.preventDefault();
+		localStorage.setItem('DataTables_list-customer_/customer/', '');
+		for (let i = 1; i <= 16; i++) {
+			localStorage.removeItem('column_' + i);
+		}
+	});
+	
+	
 	$('.select2').select2({
 		templateSelection: function (data, container) {
 			var $result = $("<span></span>");
@@ -35,7 +43,7 @@ jQuery(document).ready(function () {
 				//rightTitle: 'Right Title',
 				title: {
 					0: 'Điều kiện lọc',
-					_: 'Điều kiện lọc (%d)',
+					//_: 'Điều kiện lọc (%d)',
 				},
 				value: 'Giá trị',
 				valueJoiner: '-',
@@ -104,12 +112,17 @@ jQuery(document).ready(function () {
 					depthLimit: 0,
 					columns: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,16,18],
 					filterChanged: function (count) {
-						if (count == 0) {
+						if (count < 2) {
+							console.log('log',count);
 							$('.btn-fillter').removeClass('current-filter');
 							$('.btn-fillter').text('Bộ lọc');
-						} else {
+							$('.dtsb-title').html(`Điều kiện lọc`);
+						}
+						if (count > 1) {
+							console.log('log',count);
 							$('.btn-fillter').addClass('current-filter');
-							$('.btn-fillter').html(`Bộ lọc <small>${count}</small>`);
+							$('.btn-fillter').html(`Bộ lọc <small>${count - 1}</small>`);
+							$('.dtsb-title').html(`Điều kiện lọc (${count - 1})`);
 						}
 					}
 				}
@@ -121,6 +134,10 @@ jQuery(document).ready(function () {
 		fixedColumns: {
 			start: 3
 		},
+		searchBuilder: {
+            // Tắt bộ lọc tự động (disable the default behavior)
+            preDefined: [] // Không xác định bộ lọc mặc định nào
+        },
 		scrollCollapse: true,
 		scrollX: true,
 		//"buttons": ["csv", "excel", "pdf"],
@@ -176,6 +193,9 @@ jQuery(document).ready(function () {
 		dtsbCriteriaUpdateSelectValue($selectValue);
     });
 
+	$(document).on('click', '.dtsb-clearAll.dtsb-button', function(){
+		$('.dtb-popover-close').click();
+	});
 	$(document).on('click', '.btn-fillter', function(){
 		$('.dtsb-criteria .dtsb-value.dtsb-select').each(function(){
 			dtsbCriteriaUpdateSelectValue($(this));

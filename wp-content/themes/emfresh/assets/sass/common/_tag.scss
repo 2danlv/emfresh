@@ -247,5 +247,23 @@ color: #fff;
     }
     
 } 
-    
-
+div.dt-datetime table {
+    button span {
+        text-align: center;
+    }
+    td.selectable {
+        background: none;
+        button:hover ,
+        &.selected button,
+        &.now button
+        {
+            background: var(--calendar-background-cell-selected, #4BA66F);
+            color: #fff;
+            border-radius: 2px;
+        }
+        
+    }
+} 
+div.dt-container.dt-empty-footer tbody > tr:last-child > * {
+    border: none;
+}

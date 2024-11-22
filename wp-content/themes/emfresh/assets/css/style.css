@@ -507,6 +507,12 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
 .daterangepicker td.in-range { background: var(--calendar-background-cell-range, #F0FAF4); }
 .daterangepicker td.active, .daterangepicker td.active:hover, .daterangepicker td:hover, .daterangepicker td.end-date, .daterangepicker td.available:hover { background: var(--calendar-background-cell-selected, #4BA66F); color: #fff; }
 
+div.dt-datetime table button span { text-align: center; }
+div.dt-datetime table td.selectable { background: none; }
+div.dt-datetime table td.selectable button:hover, div.dt-datetime table td.selectable.selected button, div.dt-datetime table td.selectable.now button { background: var(--calendar-background-cell-selected, #4BA66F); color: #fff; border-radius: 2px; }
+
+div.dt-container.dt-empty-footer tbody > tr:last-child > * { border: none; }
+
 .list-customer { padding: 16px 16px 0px; border-radius: 16px 16px 0px 0px; background: var(--background-dim-green, #F6F6F6); }
 .list-customer #searchBuilder { display: none !important; }
 .list-customer .em-importer .col-8 ul li { padding-left: 8px; }
@@ -572,6 +578,8 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
 .dt-container div.dt-button-collection div.dtb-popover-close { width: auto; height: auto; font-size: 50px; }
 .dt-container div.dtsb-searchBuilder div.dtsb-group div.dtsb-logicContainer { display: none; }
 .dt-container div.dtsb-searchBuilder div.dtsb-group { margin-left: 0 !important; }
+.dt-container div.dtsb-searchBuilder div.dtsb-group .dtsb-logicContainer + div.dtsb-criteria { display: none !important; }
+.dt-container div.dtsb-searchBuilder div.dtsb-titleRow button.dtsb-clearAll { display: none !important; }
 .dt-container div.dtsb-searchBuilder button.dtsb-button { display: flex; align-items: center; padding: 0; background: none; border: none; }
 .dt-container div.dtsb-searchBuilder button.dtsb-button:hover { background: none; border: none; }
 .dt-container div.dt-button-collection { width: 820px !important; }
