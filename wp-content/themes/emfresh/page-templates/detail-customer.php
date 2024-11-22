@@ -930,11 +930,14 @@ get_footer('customer');
 			});
 
 			$('.comment-box').on("keypress", function (evt){
-				let box = $(evt.target);
-				if (evt.keyCode == 13 && evt.shiftKey && box.val().trim().length > 0) {
-					evt.preventDefault();
+				if (evt.keyCode == 13) {
+					let box = $(evt.target);
+					
+					if(evt.shiftKey == false && box.val().trim().length > 0) {
+						evt.preventDefault();
 
-					$form.find('[type="submit"]').trigger('click');
+						$form.find('[type="submit"]').trigger('click');
+					}
 				}
 			});
 		});

@@ -112,7 +112,7 @@ jQuery(document).ready(function () {
 					depthLimit: 0,
 					columns: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,16,18],
 					filterChanged: function (count) {
-						if (count < 2) {
+						if (count == 0 || count == 1) {
 							console.log('log',count);
 							$('.btn-fillter').removeClass('current-filter');
 							$('.btn-fillter').text('Bộ lọc');
@@ -193,9 +193,6 @@ jQuery(document).ready(function () {
 		dtsbCriteriaUpdateSelectValue($selectValue);
     });
 
-	$(document).on('click', '.dtsb-clearAll.dtsb-button', function(){
-		$('.dtb-popover-close').click();
-	});
 	$(document).on('click', '.btn-fillter', function(){
 		$('.dtsb-criteria .dtsb-value.dtsb-select').each(function(){
 			dtsbCriteriaUpdateSelectValue($(this));
