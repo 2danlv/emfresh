@@ -688,6 +688,7 @@ table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:after { opa
 .detail-customer .history-action tr td .descript-note span.memo { margin-right: 8px; }
 .detail-customer .history-action tr td .descript-note span.memo.field-tag:first-child { font-size: 14px; }
 .detail-customer .history-action tr td .descript-note span.note-detail { max-width: 454px; display: block; text-overflow: ellipsis; overflow: hidden; border-radius: var(--tag-radiusCorner-rounded, 8px); border: 1px solid var(--border-primary, #DEDFE0); background: var(--tag-background-default, #F2F3F5); padding: 1px 4px; font-size: 14px; line-height: 20px; }
+.detail-customer .history-action tr td .descript-note span.note-detail hr { padding: 0; }
 .detail-customer .history-action tr td .descript-note .tag.btn { font-size: 14px; line-height: 20px; padding: 4px 8px; }
 .detail-customer .note-wraper { display: flex; flex-direction: column; flex-wrap: wrap; }
 .detail-customer .note-wraper .js-comment-row { width: 100%; }
