@@ -488,7 +488,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 												$delete_author = $comment->comment_author;
 												$delete_by = (int) get_comment_meta($comment->comment_ID, 'delete_by', true);
 												if($delete_by > 0) {
-													$delete_author = get_user_meta($delete_by, 'display_name', true);
+													$delete_author = get_the_author_meta('display_name', $delete_by);
 												}
 											?>
 												<div class="js-comment-row pb-16 <?php 
@@ -562,13 +562,11 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 															<div class="modal-footer text-right pt-16">
 																<button type="button" class="btn btn-secondary modal-close">Đóng</button>
 															</div>
-
 														</div>
 													</div>
-													</div>
+												</div>
 											<?php endforeach; ?>
-										</div>
-										
+										</div>										
 										<div class="note-form">
 											<form action="<?php echo add_query_arg(['tab' => 'note'], $detail_customer_url) ?>" method="post" enctype="multipart/form-data" class="js-comment-form" id="editcomment">
 												<div class="binhluan-moi">
@@ -911,19 +909,32 @@ get_footer('customer');
 			e.preventDefault();
 			$('#modal-note form.form-remove-note').attr('action', '');
 		});
-		$('.js-comment-row').each(function() {
-			let row = $(this),
-				f = $('.js-comment-form');
 
-			row.find('a[href="#editcomment"]').on('click', function(e) {
-				let id = $(this).data('id') || 0,
-					value = row.find('.comment_content').text();
+		$('.js-comment-form').each(function() {
+			let $form = $(this);
 
-				if (id > 0 && value != '') {
-					let title = 'Bạn đang chỉnh sửa ghi chú - ' + value;
+			$('.js-comment-row').each(function() {
+				let row = $(this);
 
-					f.find('[name="comment"]').val(value).attr('placeholder', title).attr('title', title).attr('data-value', value)
-					f.find('[name="comment_ID"]').val(id);
+				row.find('a[href="#editcomment"]').on('click', function(e) {
+					let id = $(this).data('id') || 0,
+						value = row.find('.comment_content').text();
+
+					if (id > 0 && value != '') {
+						let title = 'Bạn đang chỉnh sửa ghi chú - ' + value;
+
+						$form.find('[name="comment"]').val(value).attr('placeholder', title).attr('title', title).attr('data-value', value)
+						$form.find('[name="comment_ID"]').val(id);
+					}
+				});
+			});
+
+			$('.comment-box').on("keypress", function (evt){
+				let box = $(evt.target);
+				if (evt.keyCode == 13 && evt.shiftKey && box.val().trim().length > 0) {
+					evt.preventDefault();
+
+					$form.find('[type="submit"]').trigger('click');
 				}
 			});
 		});
