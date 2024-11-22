@@ -525,12 +525,16 @@ jQuery(document).ready(function () {
 	});
     if ($('.scroll-menu').length) {
         var navbarOffset = $('.scroll-menu').offset().top;
-
+        var navbar_h = $('.scroll-menu').height();
+		
         $(window).scroll(function() {
             if ($(window).scrollTop() > navbarOffset) {
             $('.scroll-menu').addClass('fixed');
+            $('.detail-customer .content').css('padding-top', navbar_h);
+			
             } else {
             $('.scroll-menu').removeClass('fixed');
+			$('.detail-customer .content').css('padding-top', 0);
             }
         });
     }

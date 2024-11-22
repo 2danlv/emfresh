@@ -80,14 +80,14 @@
   }
   .mini_sidebar {
     .customer-button-group {
-      width: calc(100% - 76px);
+      width: calc(100% - 70px);
     }
   }
 .customer-button-group {
   position: fixed;
   bottom: 0;
   right: 16px;
-  width: calc(100% - 222px);
+  width: calc(100% - 206px);
   padding-left: 16px;
   background: var(--background-dim-green, #fff);
   border-top: 1px solid #DEE1E8;

@@ -273,7 +273,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 ?>
 <div class="detail-customer pt-16">
 
-	<section class="content pt-16">
+	<section class="content">
 		<?php
 		if (isset($_GET['code']) && $_GET['code'] == 200 && $_GET['message'] == 'Update Success') {
 			echo '<div class="alert alert-success mb-16" role="alert">Cập nhật thành công</div>';
@@ -288,31 +288,33 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 		}
 		?>
 		<div class="container-fluid">
-			<div class="row">
-				<div class="col-6 backtolist d-f ai-center">
-					<a href="/customer/" class="d-f ai-center"><span class="mr-4"><img src="<?php echo site_get_template_directory_assets(); ?>img/icon/caretup.svg" alt=""></span><span> Quay lại danh sách khách hàng</span></a>
+			<div class="scroll-menu  pt-16">
+				<div class="row">
+					<div class="col-6 backtolist d-f ai-center">
+						<a href="/customer/" class="d-f ai-center"><span class="mr-4"><img src="<?php echo site_get_template_directory_assets(); ?>img/icon/caretup.svg" alt=""></span><span> Quay lại danh sách khách hàng</span></a>
+					</div>
+					<div class="col-6 d-f ai-center jc-end group-button_top">
+						<?php
+						$admin_role = wp_get_current_user()->roles;
+						if (!empty($admin_role)) {
+							if ($admin_role[0] == 'administrator') {
+						?>
+								<span class="btn btn-danger remove-customer modal-button" data-target="#modal-default">
+									Xoá khách này
+								</span>
+						<?php }
+						} ?>
+						<a class="btn btn-primary" href="#"><span class="d-f ai-center"><i class="fas mr-4"><img src="<?php echo site_get_template_directory_assets(); ?>img/icon/plus-svgrepo-com.svg" alt=""></i>Tạo đơn mới</span></a>
+					</div>
 				</div>
-				<div class="col-6 d-f ai-center jc-end group-button_top">
-					<?php
-					$admin_role = wp_get_current_user()->roles;
-					if (!empty($admin_role)) {
-						if ($admin_role[0] == 'administrator') {
-					?>
-							<span class="btn btn-danger remove-customer modal-button" data-target="#modal-default">
-								Xoá khách này
-							</span>
-					<?php }
-					} ?>
-					<a class="btn btn-primary" href="#"><span class="d-f ai-center"><i class="fas mr-4"><img src="<?php echo site_get_template_directory_assets(); ?>img/icon/plus-svgrepo-com.svg" alt=""></i>Tạo đơn mới</span></a>
+				<div class="card-header">
+					<ul class="nav tabNavigation pt-16">
+						<li class="nav-item<?php echo $tab_active == '' ? ' defaulttab' : '' ?>" rel="info">Thông tin khách hàng</li>
+						<li class="nav-item<?php echo $tab_active == 'note' ? ' defaulttab' : '' ?>" rel="note">Ghi chú</li>
+						<li class="nav-item<?php echo $tab_active == 'settings' ? ' defaulttab' : '' ?>" rel="settings">Chỉnh sửa thông tin</li>
+						<li class="nav-item" rel="history">Lịch sử thao tác</li>
+					</ul>
 				</div>
-			</div>
-			<div class="card-header scroll-menu">
-				<ul class="nav tabNavigation pt-16">
-					<li class="nav-item<?php echo $tab_active == '' ? ' defaulttab' : '' ?>" rel="info">Thông tin khách hàng</li>
-					<li class="nav-item<?php echo $tab_active == 'note' ? ' defaulttab' : '' ?>" rel="note">Ghi chú</li>
-					<li class="nav-item<?php echo $tab_active == 'settings' ? ' defaulttab' : '' ?>" rel="settings">Chỉnh sửa thông tin</li>
-					<li class="nav-item" rel="history">Lịch sử thao tác</li>
-				</ul>
 			</div>
 			<div class="card-primary">
 				<!-- Content Header (Page header) -->
