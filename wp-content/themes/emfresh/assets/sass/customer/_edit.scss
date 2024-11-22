@@ -79,6 +79,11 @@
         }
         .note-content {
           padding-left: 40px;
+          .comment_content {
+            width: 100%;
+            resize: none;
+            border: none;
+          }
         }
       }
       .comment-box {

@@ -664,6 +664,7 @@ table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:after { opa
 .detail-customer .card-primary .card table { width: 100%; }
 .detail-customer .card-primary .card .note-wraper .avatar img { overflow: hidden; margin-right: 8px; padding: 6px; border-radius: var(--avatar-radiusCorner-circle, 999px); background: var(--avatar-background-noAvatar, #DEDFE0); }
 .detail-customer .card-primary .card .note-wraper .note-content { padding-left: 40px; }
+.detail-customer .card-primary .card .note-wraper .note-content .comment_content { width: 100%; resize: none; border: none; }
 .detail-customer .card-primary .card .comment-box { padding: 16px; resize: none; border-radius: var(--input-radiusCorner, 8px); border: 1px solid var(--input-border-default, #DEDFE0); background: var(--input-background-default, #F6F6F6); width: 100%; }
 .detail-customer .card-history .ttl { border-bottom: none; }
 .detail-customer .card-history .history-order { overflow: auto; margin: 0 -16px; }

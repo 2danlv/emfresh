@@ -520,7 +520,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 														<div class="time col-3"><?php echo get_comment_date('d/m/Y', $comment->comment_ID) ?></div>
 													</div>
 													<div class="note-content <?php echo $comment_status ?>">
-														<span class="comment_content"><?php echo $comment->comment_content ?></span>
+														<textarea class="comment_content" readonly><?php echo $comment->comment_content ?></textarea>
 														<?php echo $comment->comment_approved == 0 ? '<span class="comment_status status-edited status-deleted modal-button" data-target="#modal-history'.$comment->comment_ID.'">&#8226; Đã xóa bởi <b>'. $delete_author .'</b></span>' : ($comment_status == 'cap-nhat' ? '<span class="comment_status status-edited modal-button" data-target="#modal-history'.$comment->comment_ID.'">&#8226; Đã sửa</span>' : '') ?>
 													</div>
 												</div>
