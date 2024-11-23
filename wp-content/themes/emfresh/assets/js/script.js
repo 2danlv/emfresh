@@ -113,16 +113,16 @@ jQuery(document).ready(function () {
 					columns: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,16,18],
 					filterChanged: function (count) {
 						if (count == 0 || count == 1) {
-							console.log('log',count);
 							$('.btn-fillter').removeClass('current-filter');
 							$('.btn-fillter').text('Bộ lọc');
-							$('.dtsb-title').html(`Điều kiện lọc`);
+							$('.dtsb-title').html(`Bộ lọc`);
+							$('.custom-btn.revert').css('display','none');
 						}
 						if (count > 1) {
-							console.log('log',count);
 							$('.btn-fillter').addClass('current-filter');
 							$('.btn-fillter').html(`Bộ lọc <small>${count - 1}</small>`);
-							$('.dtsb-title').html(`Điều kiện lọc (${count - 1})`);
+							$('.dtsb-title').html(`Bộ lọc (${count - 1})`);
+							$('.custom-btn.revert').css('display','block');
 						}
 					}
 				}
@@ -327,10 +327,35 @@ jQuery(document).ready(function () {
 		$('body').removeClass('overflow');
 	});
 
-	$('.btn-fillter').click(function () {
+	$('.em-importer .btn.btn-fillter').click(function (e) {
+		e.preventDefault();
 		$('button.dt-button').trigger('click');
+		var popup = $('.dtsb-searchBuilder').last();  // Locate the last SearchBuilder popup
+		if (popup.find('.dtsb-criteria').length === 1) {
+			setTimeout( function() {
+				$('.dtsb-clearAll.dtsb-button,.custom-btn.revert').css('display','none');
+			},10);
+		}
+			// Ensure the popup is visible before appending the button
+			if (popup.is(':visible') && popup.find('.popover-close').length === 0) {
+				// Create a custom button element
+				var customButton1 = $('<div>')
+					.text('Xóa tất cả')
+					.addClass('custom-btn revert')  // Add class for styling
+					.click(function () {
+						$('.dtsb-clearAll.dtsb-button').trigger('click');
+					});
+					var customButton2 = $('<div>')
+					.text('Đóng')
+					.addClass('custom-btn popover-close')  // Add class for styling
+					.click(function () {
+						$('.dtb-popover-close').trigger('click');
+					});
+				// Append the custom button after the "Add condition" button in the popup
+				popup.find('.dtsb-group').after(customButton2);
+				popup.find('.dtsb-group').after(customButton1);
+			}
 	});
-
 	$('.input-search').keyup(function () {
 		table.search($(this).val()).draw();
 	});
@@ -440,7 +465,7 @@ jQuery(document).ready(function () {
         // Remove the custom filter to prevent it from stacking on top of future filters
         $.fn.dataTable.ext.search.pop();
     });
-
+	
 	var $checkboxes = $('.table-list-customer td input[type="checkbox"]');
 	$(document).on('click',$checkboxes,function () {
 
