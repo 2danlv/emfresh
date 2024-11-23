@@ -625,6 +625,7 @@ table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:after { opa
 .customer.detail-customer .card-body { padding-top: 16px; }
 .customer input[type="text"], .customer input[type="tel"], .customer select { border-radius: var(--input-radiusCorner, 8px); border: 1px solid var(--input-border-default, #DEDFE0); background: var(--input-background-default, #F6F6F6); padding: 10px; width: 100%; }
 .customer select { padding: 8px 8px; }
+.customer select.disabled { opacity: 0.6; cursor: auto; pointer-events: none; }
 .customer .card-body { background-color: #fff; border-radius: var(--modal-radiusCorner, 16px); background: var(--modal-background, #FFF); padding: 8px 16px 0px; }
 .customer .card-body .card-header { border-bottom: var(--number-1px, 1px) solid var(--modal-divider, #DEDFE0); margin-bottom: 16px; padding-bottom: 8px; }
 .customer .card-body .review { display: none; padding: 16px; margin-bottom: 8px; border-radius: var(--sidebar-radiusCorner, 8px); border: 2px solid var(--color-primary-900, #208046); background: var(--modal-background, #FFF); }

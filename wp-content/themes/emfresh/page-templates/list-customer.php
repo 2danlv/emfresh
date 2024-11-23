@@ -97,7 +97,7 @@ get_header();
 <!-- Main content -->
 <section class="content">
   <?php
-  if (isset($_GET['message']) && $_GET['message'] == 'Delete Success') {
+  if (isset($_GET['message']) && $_GET['message'] == 'Delete Success' && !empty($_GET['expires']) && intval($_GET['expires']) > time()) {
     echo '<div class="alert alert-success mt-3 mb-16" role="alert">Xóa khách hàng thành công</div>';
   }
     if (!empty($_GET['code']) && !empty($_GET['expires']) && intval($_GET['expires']) > time()) {

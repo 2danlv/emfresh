@@ -45,6 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['remove'])) {
 
 	wp_redirect(add_query_arg([
 		'message' => 'Delete Success',
+		'expires' => time() + 3,
 	], $list_customer_url));
 	exit;
 }
@@ -243,6 +244,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 	wp_redirect(add_query_arg([
 		'code' => 200,
 		'message' => 'Update Success',
+		'expires' => time() + 3,
 	], $detail_customer_url));
 	exit();
 }
@@ -275,12 +277,12 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 
 	<section class="content">
 		<?php
-		if (isset($_GET['code']) && $_GET['code'] == 200 && $_GET['message'] == 'Update Success') {
+		if (isset($_GET['code']) && $_GET['code'] == 200 && $_GET['message'] == 'Update Success' && !empty($_GET['expires']) && intval($_GET['expires']) > time()) {
 			echo '<div class="alert alert-success mb-16" role="alert">Cập nhật thành công</div>';
 		} else if (isset($_GET['code']) && $_GET['code'] != 200) {
 			echo '<div class="alert alert-warning mb-16" role="alert">Cập nhật không thành công</div>';
 		}
-		if (isset($_GET['message']) && $_GET['code'] == 200 && $_GET['message'] == 'Add Success') {
+		if (isset($_GET['message']) && $_GET['code'] == 200 && $_GET['message'] == 'Add Success' && !empty($_GET['expires']) && intval($_GET['expires']) > time()) {
 			echo '<div class="alert alert-success mb-16" role="alert">Thêm thành công</div>';
 		}
 		if (!empty($_GET['message']) && !empty($_GET['expire']) && intval($_GET['expire']) > time()) {
@@ -722,7 +724,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 																		</select>
 																	</div>
 																	<div class="col-4 pb-16">
-																		<select id="ward_<?php echo $record['id'] ?>" name="locations[<?php echo $index ?>][ward]" class="ward-select form-control" >
+																		<select id="ward_<?php echo $record['id'] ?>" name="locations[<?php echo $index ?>][ward]" class="ward-select form-control disabled" >
 																			<option value="<?php echo esc_attr($record['ward']); ?>" selected><?php echo $record['ward']; ?></option>
 																		</select>
 																	</div>
@@ -968,7 +970,11 @@ get_footer('customer');
 		$('.nickname').keyup(updatetxt);
 		$('.fullname').keyup(updatetxt);
 		$('.phone_number').keyup(updatephone);
-
+		$('.address-group select.district-select').each(function() {
+			$(this).on('change', function() {
+				$(this).closest('.address-group').find('.ward-select').removeClass('disabled');
+			});
+		});
 		$(document).on('change', '.address_active select', function() {
 			$('.review').show();
 			$(this).parents('.address-group').find($('.form-control.address')).val('');

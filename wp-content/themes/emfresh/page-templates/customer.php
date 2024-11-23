@@ -81,6 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 			'customer_id' => $customer_id,
 			'code' => 200,
 			'message' => 'Add Success',
+            'expires' => time() + 3,
 		], home_url('customer/detail-customer')));
 		exit();
 	}
