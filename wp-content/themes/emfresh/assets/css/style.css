@@ -269,7 +269,7 @@ table { border-collapse: collapse; }
 .content-header .group-noti-top .noti { border-right: 1px solid  #DEDFE0; padding: 0 16px; margin-right: 16px; }
 .content-header .group-noti-top .noti span.active { position: relative; }
 .content-header .group-noti-top .noti span.active:after { content: ''; position: absolute; width: 10px; height: 10px; top: -3px; right: 0; border-radius: var(--radius-pill, 999px); border: var(--number-1px, 2px) solid var(--badge-border, #FFF); background: var(--badge-background-negative, #F73131); }
-.content-header .info { position: relative; }
+.content-header .info { position: relative; padding-right: 16px; }
 .content-header .info:after { content: ''; position: absolute; width: 100%; height: 10px; bottom: -10px; left: 0; z-index: 0; }
 .content-header .info:hover .info-menu { visibility: visible; opacity: 1; z-index: 2; transition: .35s; }
 .content-header .info .avatar { border-radius: 50%; overflow: hidden; width: 32px; height: 32px; margin-right: 8px; cursor: pointer; }
@@ -325,7 +325,7 @@ table { border-collapse: collapse; }
 .row .sidebar ul.nav-menu li.menu-item-has-children > a { background-image: url(../img/icon/CaretDown.svg); background-position: right 8px center; background-repeat: no-repeat; }
 .row .sidebar ul.nav-menu li.current-menu-parent > a { color: #4BA66F; background-image: url(../img/icon/CaretUp.svg); background-color: #DDF6E7; }
 .row .sidebar ul.nav-menu li.current-menu-parent > a img { filter: brightness(0) saturate(100%) invert(56%) sepia(64%) saturate(316%) hue-rotate(91deg) brightness(89%) contrast(94%); }
-.row .sidebar ul.nav-menu li a { display: flex; align-items: center; padding: 8px 0; border-radius: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 600; }
+.row .sidebar ul.nav-menu li a { display: flex; align-items: center; padding: 8px; border-radius: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 600; }
 .row .sidebar ul.nav-menu li a span { overflow: hidden; text-overflow: ellipsis; }
 .row .sidebar ul.nav-menu li a img { filter: brightness(0) saturate(100%); }
 .row .sidebar ul.nav-menu li a:hover { color: #4BA66F; }
@@ -337,7 +337,7 @@ table { border-collapse: collapse; }
 .row .sidebar ul.nav-menu li .sub-menu li.current_page_item a { color: #4BA66F; background-color: #DDF6E7; }
 .row .sidebar ul.nav-menu li .sub-menu li.current_page_item a img { filter: brightness(0) saturate(100%) invert(56%) sepia(64%) saturate(316%) hue-rotate(91deg) brightness(89%) contrast(94%); }
 .row .sidebar .resize { cursor: pointer; text-align: center; width: 100%; }
-.row .sidebar .resize p { margin: 0 auto; padding: 16px 0; border-top: 1px solid #DEE1E8; }
+.row .sidebar .resize p { margin: 0 auto; padding: 13px 0; border-top: 1px solid #DEE1E8; }
 .row .sidebar .resize.active { padding: 0; }
 .row .sidebar .resize.active img { transform: rotate(180deg); }
 
@@ -566,14 +566,12 @@ div.dt-container.dt-empty-footer tbody > tr:last-child > * { border: none; }
 .list-customer .em-importer .btn.btn-column.active { border: 1.5px solid #208046; background-color: #208046; color: #fff; background-image: url(../img/icon-hover/table-add-svgrepo-com_white.svg); }
 .list-customer .dt-container .bottom { background: var(--background-dim-green, #fff); border-top: 1px solid #DEE1E8; z-index: 2; padding: 13px 0px; }
 
-.mini_sidebar .list-customer .dt-container .bottom { width: calc(100% - 76px); }
-
 .dt-container { padding-top: 16px; }
 .dt-container div.dt-container { width: 800px; margin: 0 auto; }
 .dt-container table.table { border-radius: 16px 16px 0px 0px; border-collapse: collapse; }
 .dt-container table.table thead th { vertical-align: middle; background: #DEDFE0; font-weight: 600; }
-.dt-container table.table thead th[data-dt-column="2"], .dt-container table.table thead th[data-dt-column="3"], .dt-container table.table thead th[data-dt-column="5"], .dt-container table.table thead th[data-dt-column="6"], .dt-container table.table thead th[data-dt-column="7"], .dt-container table.table thead th[data-dt-column="8"], .dt-container table.table thead th[data-dt-column="9"], .dt-container table.table thead th[data-dt-column="10"], .dt-container table.table thead th[data-dt-column="11"], .dt-container table.table thead th[data-dt-column="12"], .dt-container table.table thead th[data-dt-column="13"], .dt-container table.table thead th[data-dt-column="14"], .dt-container table.table thead th[data-dt-column="16"] { cursor: auto; pointer-events: none; }
-.dt-container table.table thead th[data-dt-column="2"] .dt-column-order, .dt-container table.table thead th[data-dt-column="3"] .dt-column-order, .dt-container table.table thead th[data-dt-column="5"] .dt-column-order, .dt-container table.table thead th[data-dt-column="6"] .dt-column-order, .dt-container table.table thead th[data-dt-column="7"] .dt-column-order, .dt-container table.table thead th[data-dt-column="8"] .dt-column-order, .dt-container table.table thead th[data-dt-column="9"] .dt-column-order, .dt-container table.table thead th[data-dt-column="10"] .dt-column-order, .dt-container table.table thead th[data-dt-column="11"] .dt-column-order, .dt-container table.table thead th[data-dt-column="12"] .dt-column-order, .dt-container table.table thead th[data-dt-column="13"] .dt-column-order, .dt-container table.table thead th[data-dt-column="14"] .dt-column-order, .dt-container table.table thead th[data-dt-column="16"] .dt-column-order { display: none; }
+.dt-container table.table thead th[data-dt-column="2"], .dt-container table.table thead th[data-dt-column="3"], .dt-container table.table thead th[data-dt-column="5"], .dt-container table.table thead th[data-dt-column="6"], .dt-container table.table thead th[data-dt-column="7"], .dt-container table.table thead th[data-dt-column="8"], .dt-container table.table thead th[data-dt-column="16"] { cursor: auto; pointer-events: none; }
+.dt-container table.table thead th[data-dt-column="2"] .dt-column-order, .dt-container table.table thead th[data-dt-column="3"] .dt-column-order, .dt-container table.table thead th[data-dt-column="5"] .dt-column-order, .dt-container table.table thead th[data-dt-column="6"] .dt-column-order, .dt-container table.table thead th[data-dt-column="7"] .dt-column-order, .dt-container table.table thead th[data-dt-column="8"] .dt-column-order, .dt-container table.table thead th[data-dt-column="16"] .dt-column-order { display: none; }
 .dt-container table.table thead th:first-child { border-radius: 16px 0 0 0; padding-bottom: 0; padding-top: 0; }
 .dt-container table.table thead th:first-child span { font-size: 0; display: block; }
 .dt-container table.table thead th:last-child { border-radius: 0 16px 0 0; }
@@ -653,6 +651,8 @@ table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:after { opa
 .customer .card-body #phone_status.status.d-none { display: none; }
 .customer .add-location-button, .customer .icheck-primary label { cursor: pointer; }
 .customer .icheck-primary label.pl-4 { padding-left: 12px; }
+.customer .add-location-button { padding-top: 16px; }
+.customer .add-location-button .fa-plus { margin-right: 4px; }
 .customer .add-location-button:hover { color: #4BA66F; }
 .customer .add-location-button:hover .fa-plus { background-image: url(../img/icon-hover/plus-svgrepo-com.svg); }
 .customer .delete-location-button { cursor: pointer; color: #F73131; }
@@ -731,7 +731,7 @@ table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:after { opa
 .detail-customer .note-wraper .js-comment-row .edit span.remove:hover { cursor: pointer; }
 .detail-customer .note-wraper .js-comment-row .edit span.remove:hover img { filter: brightness(0) saturate(100%) invert(15%) sepia(91%) saturate(6169%) hue-rotate(359deg) brightness(101%) contrast(107%); }
 
-.scroll-menu.fixed { background-color: #fff; position: fixed; top: 0; left: 0; width: 100%; z-index: 10; padding-left: 206px; }
+.scroll-menu.fixed { background-color: #fff; position: fixed; top: 0; left: 0; width: 100%; z-index: 10; padding-left: 214px; }
 .scroll-menu.fixed .group-button_top { padding-right: 24px; }
 .scroll-menu.fixed ul { border-bottom: 1px solid #F6F6F6; }
 

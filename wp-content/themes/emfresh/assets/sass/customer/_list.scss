@@ -209,12 +209,7 @@
         
     }
 }
-.mini_sidebar .list-customer {
-    .dt-container .bottom { 
-      width: calc(100% - 76px);
-    }
-    
-  }
+
 .dt-container {
     padding-top: 16px;
     div.dt-container {
@@ -236,12 +231,6 @@
                 &[data-dt-column="6"],
                 &[data-dt-column="7"],
                 &[data-dt-column="8"],
-                &[data-dt-column="9"],
-                &[data-dt-column="10"],
-                &[data-dt-column="11"],
-                &[data-dt-column="12"],
-                &[data-dt-column="13"],
-                &[data-dt-column="14"],
                 &[data-dt-column="16"],{
                     cursor: auto;
                     pointer-events: none;

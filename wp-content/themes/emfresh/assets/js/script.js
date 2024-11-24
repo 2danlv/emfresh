@@ -115,7 +115,7 @@ jQuery(document).ready(function () {
 						if (count == 0 || count == 1) {
 							$('.btn-fillter').removeClass('current-filter');
 							$('.btn-fillter').text('Bộ lọc');
-							$('.dtsb-title').html(`Bộ lọc`);
+							$('.dtsb-title').html(`Điều kiện lọc`);
 							$('.custom-btn.revert').css('display','none');
 						}
 						if (count > 1) {
@@ -568,8 +568,16 @@ jQuery(document).ready(function () {
 	jQuery('ul.tabNavigation li').click(function() {
 		switch_tabs(jQuery(this));
 		$('.card-primary').removeClass('width-100');
+		$('.btn-save_edit').hide();
 	});
 	switch_tabs(jQuery('.defaulttab'));
+	jQuery('ul.tabNavigation li[rel="settings"]').click(function() {
+		$('.btn-save_edit').show();
+	});
+	$('.scroll-menu .btn-save_edit').click(function (e) { 
+		e.preventDefault();
+		$('.detail-customer .form-horizontal .btn-primary').click();
+	});
 	jQuery('ul.tabNavigation li[rel="settings"],ul.tabNavigation li[rel="history"]').click(function() {
 		$('.card-primary').addClass('width-100');
 		table_regular.columns.adjust();

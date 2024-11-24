@@ -306,7 +306,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 								</span>
 						<?php }
 						} ?>
-						<a class="btn btn-primary" href="#"><span class="d-f ai-center"><i class="fas mr-4"><img src="<?php echo site_get_template_directory_assets(); ?>img/icon/plus-svgrepo-com.svg" alt=""></i>Tạo đơn mới</span></a>
+						<span class="btn btn-primary btn-save_edit hidden">Lưu thay đổi</span>
 					</div>
 				</div>
 				<div class="card-header">
@@ -793,7 +793,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 
 											</div>
 										</div>
-										<div class="row pt-16">
+										<div class="row pt-16 hidden">
 											<div class="col-12 text-right">
 												<button type="submit" class="btn btn-primary" name="add_post">Cập nhật</button>
 											</div>

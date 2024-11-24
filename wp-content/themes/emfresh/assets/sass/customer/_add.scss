@@ -62,6 +62,10 @@
     padding-left: 12px;
   }
   .add-location-button {
+    padding-top: 16px;
+    .fa-plus {
+      margin-right: 4px;
+    }
     &:hover {
       color: #4BA66F;
       .fa-plus {
