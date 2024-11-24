@@ -7,6 +7,23 @@ $(document).ready(function () {
       $('.review .info0 span').text('');
       $(this).next('.location_active').val(1);
       $(this).parents('.address-group').addClass('address_active');
+      var selectItem = $(this).closest('.address_active'); // Get the closest select-item div
+      var infoIndex = 0; // Get the data-index attribute from select-item
+      var city = selectItem.find('.district-select').val(); // Get the city value from select
+      var ward = selectItem.find('.ward-select').val();
+      var address = selectItem.find('.address').val();
+      var infoDiv = $('.review .info' + infoIndex);
+      infoDiv.children('.city').text(city);
+      if (ward) {
+          infoDiv.children('.ward').text(ward + ',');
+      } else {
+          infoDiv.children('.ward').text('');
+      }
+      if (address) {
+        infoDiv.children('.address').text(address + ','); // Update the address text
+      } else {
+          infoDiv.children('.address').text(''); // Clear the address if the input is empty
+      }
     }
   });
 });
