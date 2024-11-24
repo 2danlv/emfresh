@@ -545,7 +545,11 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 															}
 
 															if ($comment->comment_approved == 0) {
-																echo '<span class="comment_status status-edited status-deleted' . $modal . '">&#8226; Đã xóa bởi <b>'.$delete_author.'</b></span>';
+																$delete_at = get_comment_meta($comment->comment_ID, 'delete_at', true);
+
+																echo '<span class="comment_status status-edited status-deleted' . $modal . '">&#8226; Đã xóa bởi <b>'.$delete_author.'</b>';
+																echo ($delete_at != '' ? ' vào lúc ' . $delete_at : '');
+																echo '</span>';
 															} else if ($comment_status == 'cap-nhat') {
 																echo '<span class="comment_status status-edited' . $modal . '">&#8226; Đã sửa</span>';
 															}
