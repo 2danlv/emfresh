@@ -28,8 +28,11 @@ a {
 		text-decoration: none;
 		color: #4BA66F;
 	}
+	&:focus {
+		outline: none;
+	}
 }
-a, button, input, textarea,select {
+button, input, textarea,select {
 	&:focus {
 		outline: none;
 		border: none;

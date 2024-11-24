@@ -306,6 +306,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 								</span>
 						<?php }
 						} ?>
+						<a class="btn btn-primary btn-add_order" href="#"><span class="d-f ai-center"><i class="fas mr-4"><img src="<?php echo site_get_template_directory_assets(); ?>img/icon-hover/plus-svgrepo-com_white.svg" alt=""></i>Tạo đơn mới</span></a>
 						<span class="btn btn-primary btn-save_edit hidden">Lưu thay đổi</span>
 					</div>
 				</div>

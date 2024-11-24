@@ -209,7 +209,7 @@
             font-size: 14px;
           }
           span.note-detail {
-            max-width: 354px;
+            max-width: 80%;
             display: block;
             text-overflow: ellipsis;
             overflow: hidden;
@@ -300,6 +300,9 @@
   }
 }
 .scroll-menu{
+  .btn-add_order {
+    color: #fff;
+  }
   &.fixed {
     background-color: #fff;
     position: fixed;
@@ -318,11 +321,11 @@
 }
 @media (min-width:1280px) {
   .detail-customer .history-action tr td .descript-note span.note-detail {
-    max-width: 400px;
+    
   }
 }
 @media (min-width:1600px) {
   .detail-customer .history-action tr td .descript-note span.note-detail {
-    max-width: 100%;
+    
   }
 }

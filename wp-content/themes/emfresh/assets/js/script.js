@@ -1,4 +1,7 @@
 jQuery(document).ready(function () {
+	setTimeout( function() {
+		$('.alert.alert-success,.alert.alert-warning').fadeOut();
+	},4000);
 	$('.main-menu .nav-menu li a').click(function (e) { 
 		//e.preventDefault();
 		localStorage.setItem('DataTables_list-customer_/customer/', '');
@@ -149,7 +152,7 @@ jQuery(document).ready(function () {
 			['15 / trang','50 / trang', '100 / trang', '200 / trang'],
 		],
 		"stateSave": true,
-		scrollY: $(window).height() - 263,
+		scrollY: $(window).height() - 227,
 		columnDefs: [
 			{
 				type: 'natural',
@@ -338,8 +341,7 @@ jQuery(document).ready(function () {
 			},10);
 		}
 			// Ensure the popup is visible before appending the button
-			if (popup.is(':visible') && popup.find('.popover-close').length === 0) {
-				
+			if (popup.is(':visible') && popup.find('.dtsb-titleRow .title').length === 0) {
 				// Create a custom button element
 				var title = $('<h3>')
 					.text('Bộ lọc')
@@ -347,7 +349,11 @@ jQuery(document).ready(function () {
 					.click(function () {
 						$('.dtsb-clearAll.dtsb-button').trigger('click');
 					});
-				popup.find('.dtsb-title').before(title);
+					popup.find('.dtsb-title').before(title);
+			}
+			if (popup.is(':visible') && popup.find('.popover-close').length === 0) {
+				
+				
 				// Create a custom button element
 				var customButton1 = $('<div>')
 					.text('Xóa tất cả')
@@ -568,11 +574,13 @@ jQuery(document).ready(function () {
 	jQuery('ul.tabNavigation li').click(function() {
 		switch_tabs(jQuery(this));
 		$('.card-primary').removeClass('width-100');
-		$('.btn-save_edit').hide();
+		$('.scroll-menu .btn-save_edit').hide();
+		$('.scroll-menu .btn-add_order').show();
 	});
 	switch_tabs(jQuery('.defaulttab'));
 	jQuery('ul.tabNavigation li[rel="settings"]').click(function() {
-		$('.btn-save_edit').show();
+		$('.scroll-menu .btn-save_edit').show();
+		$('.scroll-menu .btn-add_order').hide();
 	});
 	$('.scroll-menu .btn-save_edit').click(function (e) { 
 		e.preventDefault();

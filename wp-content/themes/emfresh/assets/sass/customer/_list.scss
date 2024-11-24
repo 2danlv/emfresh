@@ -202,7 +202,7 @@
             background: var(--background-dim-green, #fff);
             border-top: 1px solid #DEE1E8;
             z-index: 2;
-            padding: 13px 0px;
+            padding: 13px 16px;
         }
     } 
     .dt-scroll-head,.dt-scroll-headInner,.table-list-customer{
@@ -224,10 +224,8 @@
                 vertical-align: middle;
                 background: #DEDFE0;
                 font-weight: 600;
-                 
                 &[data-dt-column="2"], 
                 &[data-dt-column="3"], 
-                &[data-dt-column="5"], 
                 &[data-dt-column="6"],
                 &[data-dt-column="7"],
                 &[data-dt-column="8"],
@@ -367,8 +365,6 @@ div.dtsb-searchBuilder button.dtsb-button {
         display: flex;
         align-items: center;
         justify-content: end;
-        padding-top: 16px;
-        padding-bottom: 16px;
         .dt-paging {
             display: inline-block;
             nav {
