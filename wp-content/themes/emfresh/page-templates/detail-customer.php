@@ -290,7 +290,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 		}
 		?>
 		<div class="container-fluid">
-			<div class="scroll-menu  pt-16">
+			<div class="scroll-menu  pt-8">
 				<div class="row">
 					<div class="col-6 backtolist d-f ai-center">
 						<a href="/customer/" class="d-f ai-center"><span class="mr-4"><img src="<?php echo site_get_template_directory_assets(); ?>img/icon/caretup.svg" alt=""></span><span> Quay lại danh sách khách hàng</span></a>
@@ -320,7 +320,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 			</div>
 			<div class="card-primary">
 				<!-- Content Header (Page header) -->
-				<h1 class="pt-16"><?php echo $response_customer['data']['customer_name'] ?></h1>
+				<h1 class="pt-8"><?php echo $response_customer['data']['customer_name'] ?></h1>
 				<!-- Main content -->
 				<div class="row">
 					<div class="col-4 about-box">
@@ -399,13 +399,15 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 										<?php
 										foreach ($response_get_location['data'] as $index => $record) {
 										?>
-											<div class="d-f jc-b pt-16">
-												<span><?php echo $record['address'] ?>,
+											<div class="row pt-16">
+												<div class="col-10"><?php echo $record['address'] ?>,
 													<?php echo $record['ward'] ?>,
 													<?php echo $record['district'] ?>
-												</span>
+												</div>
 												<?php if ($record['active'] == 1) { ?>
-													<span class="badge badge-warning">Mặc định</span>
+													<div class="col-2 text-right">
+														<span class="badge badge-warning">Mặc định</span>
+													</div>
 												<?php } ?>
 											</div>
 										<?php
@@ -806,11 +808,11 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 										<table class="regular">
 											<thead>
 												<tr>
-													<th width="120">User</th>
-													<th width="100">Action</th>
-													<th class="descript">Description</th>
-													<th>Time</th>
-													<th>Date</th>
+													<th width="150">Người thực hiện</th>
+													<th width="100">Hành động</th>
+													<th class="descript">Mô tả</th>
+													<th>Thời gian</th>
+													<th>Ngày</th>
 												</tr>
 											</thead>
 											<tbody>

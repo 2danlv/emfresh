@@ -45,6 +45,9 @@
                         height: 8px;
                     }
                     &:hover {
+                        .btn-action {
+                            background-image: url(../img/icon-hover/CaretDown.svg);
+                        }
                         ul {
                             opacity: 1;
                             visibility: visible;
@@ -139,6 +142,7 @@
                     text-align: center;
                 }
                 &.current-filter {
+                    border: 1.5px solid #208046;
                     background-color: #208046;
                     background-image: url(../img/icon/filter-svgrepo-com_white.svg);
                     color: #fff;
@@ -154,6 +158,7 @@
             &.btn-action {
                 background: url(../img/icon/CaretDown.svg) right 24px center no-repeat;
                 padding-right: 48px;
+                
             }
             &.btn-status {
                 background: url(../img/icon/delete-svgrepo-com.svg) right 24px center no-repeat;
@@ -179,6 +184,12 @@
                 padding-left: 48px;
                 &:hover {
                     background-image: url(../img/icon-hover/table-add-svgrepo-com.svg);
+                }
+                &.active {
+                    border: 1.5px solid #208046;
+                    background-color: #208046;
+                    color: #fff;
+                    background-image: url(../img/icon-hover/table-add-svgrepo-com_white.svg);
                 }
             }
         }
@@ -312,10 +323,9 @@
     }
     div.dt-button-collection {
         border-radius: 8px;
+        padding: 16px 0;
         div.dtb-popover-close {
-            width: auto;
-            height: auto;
-            font-size: 50px;
+            display: none;
         }
     }
     div.dtsb-searchBuilder div.dtsb-group div.dtsb-logicContainer {
@@ -323,6 +333,7 @@
     }
     div.dtsb-searchBuilder div.dtsb-group {
         margin-left: 0 !important;
+        margin-bottom: 0 !important;
         .dtsb-logicContainer + div.dtsb-criteria {
             display: none !important;
         }
@@ -330,33 +341,32 @@
     div.dtsb-searchBuilder div.dtsb-titleRow button.dtsb-clearAll {
         display: none !important;
     }
-    div.dtsb-searchBuilder button.dtsb-button {
-        display: flex;
-        align-items: center;
-        padding: 0;
+
+div.dtsb-searchBuilder button.dtsb-button {
+    padding: 0;
+    background: none;
+    border: none;
+    &:hover {
         background: none;
         border: none;
-        &:hover {
-            background: none;
-            border: none;
-        }
     }
+    &.dtsb-add {
+        display: flex;
+        align-items: center;
+        padding-top: 8px;
+        padding-bottom: 24px;
+        font-size: 14px;
+        
+    }
+}
+    
+    
     div.dt-button-collection {
         width: 820px !important;
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria div.dtsb-inputCont select,
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria select.dtsb-value,
         div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria div.dtsb-inputCont input {
             min-width: 150px;
-        }
-    }
-    .dtsb-titleRow {
-        border-bottom: var(--number-1px, 1px) solid var(--modal-divider, #DEDFE0);
-        padding-bottom: 16px;
-        margin-bottom: 16px;
-        .dtsb-title {
-            font-size: 20px;
-            padding-top: 0;
-            font-weight: bold;
         }
     }
     .dt-info,
@@ -388,13 +398,22 @@
                     align-items: center;
                     justify-content: center;
                     cursor: pointer;
-                    &.current,&:hover,&.current:hover {
+                    &:hover,&:focus-visible,&:active {
                         background: #DDF6E7;
                         border: 1px solid var(--pagination-border-default, #DDF6E7);
                         color: #4BA66F !important;
+                        outline: none;
+                        box-shadow: none;
+                    }
+                    &.current{
+                        background: var(--pagination-background-active, #2A8C51);
+                        border: 1px solid var(--pagination-border-default, #2A8C51);
+                        color: #fff !important;
+                        pointer-events: none;
                     }
                     &.disabled {
                         cursor: auto;
+                        pointer-events: none;
                         background-color: #fff;
                         border: 1px solid var(--pagination-border-default, #DEDFE0);
                         i {
@@ -420,15 +439,55 @@
         }
     }
 }
-div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria {
-    select.dtsb-data,
-    select.dtsb-condition,
-    select.dtsb-value, 
-    input.dtsb-value
-    {
-        border-radius: var(--dropdown-radiusCorner, 8px);
-        border: 1px solid var(--dropdown-border-default, #DEDFE0);
-        background: var(--Sample-frame-background-white, #FFF);
+div.dtsb-searchBuilder {
+    h3.title {
+        font-size: 20px;
+        font-weight: 600;
+    }
+    div.dtsb-titleRow {
+        margin-bottom: 0;
+        padding-bottom: 16px;
+        margin-top: 12px;
+        padding-top: 16px;
+        margin-top: 0;
+        padding-top: 0px;
+        border: none;
+        padding-right: 0 !important;
+        div.dtsb-title {
+            width: 100%;
+            border-top: var(--number-1px, 1px) solid var(--modal-divider, #DEDFE0);
+            font-size: 16px;
+            font-weight: normal;
+            margin-top: 12px;
+            padding-top: 16px;
+        }
+    } 
+    div.dtsb-group div.dtsb-criteria {
+        margin-bottom: 16px;
+        select.dtsb-data,
+        select.dtsb-condition,
+        select.dtsb-value, 
+        input.dtsb-value
+        {
+            padding: 8px;
+            border-radius: var(--dropdown-radiusCorner, 8px);
+            border: 1px solid var(--dropdown-border-default, #DEDFE0);
+            background: var(--Sample-frame-background-white, #FFF);
+        }
+    }
+    .custom-btn {
+        float: right;
+        &.popover-close {
+            border: 1.5px solid var(--text-error, #DEDFE0);
+            background: var(--button-outline-border-default, #DEDFE0);
+            margin-left: 12px;
+        }
+        &.revert {
+            color: #CC2929;
+            border-radius: var(--button-radiusCorner, 8px);
+            border: 1.5px solid var(--text-error, #CC2929);
+            background: var(--inform-background-error, #FFE7E0);
+        }
     }
 } 
 .daterangepicker .ranges li.active {

@@ -58,6 +58,9 @@
   .add-location-button,.icheck-primary label {
     cursor: pointer;
   }
+  .icheck-primary label.pl-4 {
+    padding-left: 12px;
+  }
   .add-location-button {
     &:hover {
       color: #4BA66F;
@@ -69,6 +72,9 @@
   .delete-location-button {
     cursor: pointer;
     color: #F73131;
+    span {
+      padding-right: 4px;
+    }
   }
 }
 .show-group-note {
@@ -81,7 +87,8 @@
   }
 }
 .address_active .delete-location-button{
-    display: none;
+    visibility: hidden;
+    
   }
   .mini_sidebar {
     .customer-button-group {

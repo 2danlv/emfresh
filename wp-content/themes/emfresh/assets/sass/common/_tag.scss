@@ -185,9 +185,15 @@
 }
 .fa-left {
     background: url(../img/icon/CaretLeft.svg) center center no-repeat ;
+    &:hover {
+        background-image: url(../img/icon-hover/Back.svg);
+    }
 }
 .fa-right {
     background: url(../img/icon/CaretRight.svg) center center no-repeat ;
+    &:hover {
+        background-image: url(../img/icon-hover/Forward.svg);
+    }
 }
 .fa-export {
     background: url(../img/icon/download-svgrepo-com.svg) center center no-repeat ;
@@ -208,7 +214,7 @@
     background: url(../img/icon/WarningCircle_yellow.svg) center center no-repeat ;
 }
 .button,.btn {
-    padding: 11px 24px;
+    padding: 8px 24px;
     border-radius: var(--button-radiusCorner, 8px);
     border: 1.5px solid var(--button-outline-border-default, #DEDFE0);
     border: none;
@@ -233,7 +239,7 @@ color: #fff;
 }
 .badge {
     color: #4BA66F;
-    padding: 0 8px;
+    padding: 4px 8px;
     border-radius: var(--tag-radiusCorner-rounded, 8px);
     border: 1px solid var(--tag-border-selected, #4BA66F);
     background: var(--tag-background-active, #F0FAF4);

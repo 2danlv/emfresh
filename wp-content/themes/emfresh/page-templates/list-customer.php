@@ -279,7 +279,7 @@ get_header();
       </div>
       <div class="form-group pt-16 text-right">
         <!-- <button type="button" class="button btn-default modal-close">Huỷ</button> -->
-        <button type="button" class="button btn-primary modal-close">Đóng</button>
+        <button type="button" class="button btn-default modal-close">Đóng</button>
       </div>
     </div>
   </div>
@@ -366,6 +366,7 @@ get_footer('customer');
         }
       } else {
         $(this).prop('checked', savedState === 'true');
+        //$('.btn-column').addClass('active');
       }
     });
   }

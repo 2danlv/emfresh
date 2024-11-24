@@ -29,7 +29,7 @@ jQuery(document).ready(function () {
 					0: '<i class="fas fa-filter"></i> Bộ lọc',
 					_: '<i class="fas fa-filter"></i> Bộ lọc (%d)',
 				},
-				add: '<i class="fas fa-plus"></i> Thêm điều kiện',
+				add: '<i class="fas fa-plus mr-8"></i> Thêm điều kiện',
 				condition: 'Chọn biểu thức',
 				clearAll: 'Xóa tất cả bộ lọc',
 				delete: '<i class="fas fa-trash"></i>',
@@ -121,7 +121,7 @@ jQuery(document).ready(function () {
 						if (count > 1) {
 							$('.btn-fillter').addClass('current-filter');
 							$('.btn-fillter').html(`Bộ lọc <small>${count - 1}</small>`);
-							$('.dtsb-title').html(`Bộ lọc (${count - 1})`);
+							$('.dtsb-title').html(`Điều kiện lọc (${count - 1})`);
 							$('.custom-btn.revert').css('display','block');
 						}
 					}
@@ -258,12 +258,13 @@ jQuery(document).ready(function () {
 
 	$('.filter input[type="checkbox"]').on('change', function (e) {
 		var column = table.columns([$(this).attr('data-column')]);
-
 		// if checked hide else show
 		if ($(this).is(":checked")) {
 			column.visible(true);
+			//$('.btn-column').addClass('active');
 		} else {
 			column.visible(false);
+			//$('.btn-column').removeClass('active');
 		}
 	});
 
@@ -338,22 +339,32 @@ jQuery(document).ready(function () {
 		}
 			// Ensure the popup is visible before appending the button
 			if (popup.is(':visible') && popup.find('.popover-close').length === 0) {
+				
 				// Create a custom button element
-				var customButton1 = $('<div>')
-					.text('Xóa tất cả')
-					.addClass('custom-btn revert')  // Add class for styling
+				var title = $('<h3>')
+					.text('Bộ lọc')
+					.addClass('title')  // Add class for styling
 					.click(function () {
 						$('.dtsb-clearAll.dtsb-button').trigger('click');
 					});
-					var customButton2 = $('<div>')
-					.text('Đóng')
-					.addClass('custom-btn popover-close')  // Add class for styling
+				popup.find('.dtsb-title').before(title);
+				// Create a custom button element
+				var customButton1 = $('<div>')
+					.text('Xóa tất cả')
+					.addClass('custom-btn button btn-default revert')  // Add class for styling
 					.click(function () {
-						$('.dtb-popover-close').trigger('click');
+						$('.dtsb-clearAll.dtsb-button').trigger('click');
 					});
+				var customButton2 = $('<div>')
+				.text('Đóng')
+				.addClass('custom-btn button btn-default popover-close')  // Add class for styling
+				.click(function () {
+					$('.dtb-popover-close').trigger('click');
+				});
 				// Append the custom button after the "Add condition" button in the popup
-				popup.find('.dtsb-group').after(customButton2);
+				
 				popup.find('.dtsb-group').after(customButton1);
+				popup.find('.dtsb-group').after(customButton2);
 			}
 	});
 	$('.input-search').keyup(function () {
