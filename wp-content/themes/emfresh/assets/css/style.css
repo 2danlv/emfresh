@@ -131,9 +131,18 @@ img.img-responsive { display: block; height: auto; width: 100%; }
 
 input[type="checkbox"] { accent-color: #208046; width: 20px; height: 20px; }
 
-select { padding: 8px; border-radius: 8px; }
+input[type=radio] { accent-color: #208046; }
+
+select { padding: 8px; border-radius: 8px; -webkit-appearance: none; -moz-appearance: none; appearance: none; background: url(../img/icon/CaretDown.svg) right 8px center no-repeat #fff !important; padding-right: 28px !important; }
+select:invalid { color: #747475; }
+select option[value=""][disabled] { display: none; }
+select option { color: black; }
 
 hr { border-top: 1px solid #E4ECF0; }
+
+h1 { font-weight: 600; }
+
+input:focus, textarea:focus, select:focus { border: 1px solid #208046; }
 
 table { border-collapse: collapse; }
 
@@ -192,6 +201,8 @@ table { border-collapse: collapse; }
 
 .text-right { text-align: right !important; }
 
+.pb-2 { padding-bottom: 2px; }
+
 .pb-4 { padding-bottom: 4px; }
 
 .pb-8 { padding-bottom: 8px; }
@@ -221,11 +232,6 @@ table { border-collapse: collapse; }
 .full_width { display: flex; flex-wrap: wrap; }
 .full_width .content-column { float: none; }
 
-h1 { font-weight: 600; }
-
-input:focus, textarea:focus, select:focus { border: 1px solid #5EC4EA; }
-input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border: 1px solid #EFAD4D; }
-
 .btn_blue { background-color: #5EC4EA; }
 .btn_blue:hover { background-color: #EFAD4D; }
 
@@ -239,6 +245,8 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
 .bg-blur { background-color: #ECF4F5; }
 
 .only-sp { display: none; }
+
+.deactive { color: #747475; }
 
 @media screen and (max-width: 425px) { .only-sp { display: block; } }
 @media screen and (max-width: 768px) { body { line-height: 31px; font-size: 14px; }
@@ -479,7 +487,7 @@ input.wpcf7-not-valid, textarea.wpcf7-not-valid, select.wpcf7-not-valid { border
 
 .fa-filter { background: url(../img/icon/filter-svgrepo-com.svg) center center no-repeat; }
 
-.fa-plus { background: url(../img/icon/plus-svgrepo-com.svg) center center no-repeat; }
+.fa-plus { background: url(../img/icon/plus-svgrepo-com.svg) center center no-repeat; width: 16px; height: 16px; }
 
 .fa-left { background: url(../img/icon/CaretLeft.svg) center center no-repeat; }
 

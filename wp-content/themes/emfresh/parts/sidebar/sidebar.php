@@ -4,7 +4,7 @@
      <div class="sidebar-top">
     <div class="text-center sidebar-logo col-12 pt-16">
       <a href="index.php" class="brand-link">
-      <img src="<?php echo site_get_template_directory_assets();?>/img/logo.svg" alt="em.fresh" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <img src="<?php echo site_get_template_directory_assets();?>img/logo.svg" alt="em.fresh" class="brand-image img-circle elevation-3">
       </a>
     </div>
       <!-- Sidebar Menu -->

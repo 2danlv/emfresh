@@ -36,7 +36,7 @@ while (have_posts()) : the_post();
                 <div class="card card-outline card-primary">
                     <div class="card-header text-center">
                     <div class="text-center">
-                    <p><img src="/assets/dist/img/emfresh_logo.jpg" width="100px" alt=""></p>
+                    <p><img src="<?php echo site_get_template_directory_assets();?>img/logo.svg" width="100px" alt=""></p>
                     </div>
                         <h1 class="h1">Login to <b class="text-success">em.fresh</b></h1>
                     </div>

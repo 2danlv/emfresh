@@ -55,13 +55,36 @@ input[type="checkbox"] {
 	width: 20px;
 	height: 20px;
 }
+input[type=radio]{
+	accent-color: #208046;
+  }
 select {
 	padding: 8px;
 	border-radius: 8px;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	background: url(../img/icon/CaretDown.svg) right 8px center no-repeat #fff !important;
+	padding-right: 28px !important;
+	&:invalid { color: #747475; }
+	option[value=""][disabled] {
+		display: none;
+	  }
+	  option {
+		color: black;
+	  }
 }
 
 hr {
 	border-top: 1px solid $cl-border
+}
+h1 {
+	font-weight: 600;
+}
+input, textarea, select {
+	&:focus {
+		border: 1px solid #208046;
+	}
 }
 table { border-collapse: collapse;
 }
@@ -165,6 +188,9 @@ table { border-collapse: collapse;
 .text-right {
 	text-align: right !important;
 }
+.pb-2 {
+	padding-bottom: 2px;
+}
 .pb-4 {
 	padding-bottom: 4px;
 }
@@ -212,19 +238,7 @@ table { border-collapse: collapse;
 		float: none;
 	}
 }
-h1 {
-	font-weight: 600;
-}
 
-
-input, textarea, select {
-	&:focus {
-		border: 1px solid $cl-blue
-	}
-	&.wpcf7-not-valid {
-		border: 1px solid $cl-ogrange
-	}
-}
 
 .btn_blue {
 	background-color: $cl-blue;
@@ -255,7 +269,9 @@ input, textarea, select {
 .only-sp {
 	display: none;
 }
-
+.deactive {
+	color: #747475;
+}
 @include screen_iphone6 {
 	.only-sp {
 		display: block;

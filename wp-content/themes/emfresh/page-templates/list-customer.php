@@ -305,18 +305,18 @@ get_header();
                 <option value="tag">Tag phân loại</option>
               </select>
             </div>
-            <div class="col-12">
-              <div class="d-f pt-8 ai-center">
+            <div class="col-12 pt-16">
+              <div class="d-f tag-radio  ai-center pb-2">
                 <input type="radio" name="tag_radio" id="add" value="add" checked> <label for="add" class="pl-4 pr-8">Thêm tag phân loại</label>
               </div>
-              <div class="d-f ai-center">
+              <div class="d-f tag-radio ai-center deactive">
                 <input type="radio" name="tag_radio" id="remove" value="remove"> <label class="pl-4" for="remove">Gỡ tag phân loại</label>
               </div>
 
             </div>
             <div class="col-12 pt-16">
-              <select class="form-control list-tag" name="tag_ids[]" style="width: 100%;">
-              <option value="" selected>Chọn tag cần cập nhật</option>
+              <select class="form-control list-tag" name="tag_ids[]" style="width: 100%;" required>
+              <option value="" selected disabled>Chọn tag cần cập nhật</option>
                 <?php
                 foreach ($tag as $key => $value) { ?>
                   <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
@@ -354,15 +354,11 @@ get_footer('customer');
       localStorage.setItem(columnKey, $(this).is(':checked'));
     });
   }
-
-
-  // Function to load checkbox states from localStorage
   // Function to load checkbox states from localStorage
   function loadCheckboxState() {
     $('.filter input[type="checkbox"]').each(function() {
       const columnKey = 'column_' + $(this).val();
       const savedState = localStorage.getItem(columnKey);
-
       // If there is no saved state, set defaults for values 1, 3, and 4
       if (savedState === null) {
         if (['1', '3', '4'].includes($(this).val())) {
@@ -380,7 +376,11 @@ get_footer('customer');
 
     // Attach event listener to save state when checkboxes change
     $('.filter input[type="checkbox"]').on('change', saveCheckboxState);
-    
+    $('.tag-radio').click(function (e) { 
+      //e.preventDefault();
+      $('.tag-radio').addClass('deactive');
+      $(this).removeClass('deactive');
+    });
     $('#modal-edit .btn-primary.add_post').on('click', function(e) {
 			if ($('.list-tag').val() == '') {
         $(".alert-form").show();
