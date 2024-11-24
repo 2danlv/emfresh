@@ -392,6 +392,7 @@ jQuery(document).ready(function () {
 		return false;
 	});
 	var today = moment().date();
+	var yestoday = moment().subtract(1, "days").format("DD");
 	function adjustDateForOverflow(date) {
 		if (!date.isValid()) {
 			date = date.endOf('month');
@@ -424,19 +425,19 @@ jQuery(document).ready(function () {
 			'2 tuần qua': [moment().subtract(14, 'days').startOf('day'), moment().endOf('day')],
 			'1 tháng qua': [
 				adjustDateForOverflow(moment().subtract(1, 'month').date(today).startOf('day')),  // Adjust to valid start of 1 month ago
-				moment().date(today).endOf('day')  // End of today's date
+				moment().date(yestoday).endOf('day')  // End of today's date
 			],
 			'3 tháng qua': [
 				adjustDateForOverflow(moment().subtract(3, 'month').date(today).startOf('day')),
-				moment().date(today).endOf('day')
+				moment().date(yestoday).endOf('day')
 			],
 			'6 tháng qua': [
 				adjustDateForOverflow(moment().subtract(6, 'month').date(today).startOf('day')),
-				moment().date(today).endOf('day')
+				moment().date(yestoday).endOf('day')
 			],
 			'1 năm qua': [
 				adjustDateForOverflow(moment().subtract(12, 'month').date(today).startOf('day')),
-				moment().date(today).endOf('day')
+				moment().date(yestoday).endOf('day')
 			]
 		},
 	});
