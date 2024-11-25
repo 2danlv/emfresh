@@ -18,6 +18,112 @@ jQuery(document).ready(function () {
 			return $result;
 		}
 	});
+	function stringToSlug(str) {
+		// remove accents
+		//str = str.toLowerCase();
+		str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+		str = str.replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ/g, "A");
+		str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+		str = str.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g, "E");
+		str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+		str = str.replace(/Ì|Í|Ị|Ỉ|Ĩ/g, "I");
+		str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+		str = str.replace(/Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ/g, "O");
+		str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+		str = str.replace(/Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ/g, "U");
+		str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+		str = str.replace(/Ỳ|Ý|Ỵ|Ỷ|Ỹ/g, "Y");
+		str = str.replace(/đ/g, "d");
+		str = str.replace(/Đ/g, "D");
+		return str;
+	  }
+	let tagCondition = {
+		"=": {
+			conditionName: 'Bằng',
+			init: function (that, fn, preDefined = null) {
+				var el = $('<select/>')
+					.addClass([that.classes.value, that.classes.input])
+					.on('input', function () {
+						fn(that, this);
+					});
+
+				// value is tag
+				// if ($('.' + that.classes.data).val() == 6 && typeof list_tags == 'object') {
+				if (typeof list_tags == 'object') {
+					el.append(`<option selected hidden>Giá trị</option>`);
+					
+					list_tags.forEach((text) => {
+						text = text.trim();
+						value = stringToSlug(text);
+						if (text != '') {
+							el.append(`<option value="${value}">${text}</option>`);
+						}
+					});
+				}
+
+				if (preDefined !== null) {
+					$(el).val(preDefined[0]);
+				}
+
+				return el;
+			},
+			inputValue: function (el) {
+				return $(el[0]).val();
+			},
+			isInputValid: function (el, that) {
+				return $(el[0]).val() && $(el[0]).val().length !== 0;
+			},
+			search: function (value, comparison) {
+				if (value != '' && typeof comparison == 'object' && comparison.length > 0) {
+					return comparison.filter(text => value.search(text) > -1).length > 0;
+				}
+
+				return value % comparison === 0;
+			},
+		},
+		'!=': {
+			conditionName: 'Khác',
+			init: function (that, fn, preDefined = null) {
+				var el = $('<select/>')
+					.addClass([that.classes.value, that.classes.input])
+					.on('input', function () {
+						fn(that, this);
+					});
+
+				// value is tag
+				if (typeof list_tags == 'object') {
+					el.append(`<option selected hidden>Giá trị</option>`);
+					
+					list_tags.forEach((text) => {
+						text = text.trim();
+						value = stringToSlug(text);
+						if (text != '') {
+							el.append(`<option value="${value}">${text}</option>`);
+						}
+					});
+				}
+
+				if (preDefined !== null) {
+					$(el).val(preDefined[0]);
+				}
+
+				return el;
+			},
+			inputValue: function (el) {
+				return $(el[0]).val();
+			},
+			isInputValid: function (el, that) {
+				return $(el[0]).val() && $(el[0]).val().length !== 0;
+			},
+			search: function (value, comparison) {
+				if (typeof comparison == 'object' && comparison.length > 0) {
+					return value == '' || comparison.filter(text => value.search(text) > -1).length === 0;
+				}
+
+				return value % comparison != 0;
+			},
+		},
+	};
 	$.fn.dataTable.moment( 'DD/MM/YYYY' );
 	var table = $('.table-list-customer').on('init.dt', function () {
 		//console.log(this, 'init.dt');
@@ -99,6 +205,41 @@ jQuery(document).ready(function () {
 			},
 		},
 		layout: {},
+		columnDefs: [
+			{
+				type: 'string',
+				targets: [0,15],
+				orderable: false,
+			},
+			{
+			 type: 'string', targets: [0,1,2,3,4,5,7,8,9,10,11] 
+			},
+			{ visible: false, targets: [4,6,7,8,12,14,16,18,19] },
+			{
+				targets: 17,
+				render: function(data, type, row) {
+					if (type === 'sort') {
+					var dateParts = data.split(" ");
+					var date = dateParts[1].split("/");
+					var time = dateParts[0].split(":");
+					return new Date(date[2], date[1] - 1, date[0], time[0], time[1]).toISOString();
+					}
+					return data;
+				}
+			},
+            {
+                targets: [18],
+                render: function(data) {
+                    return moment(data, 'YYYY/MM/DD').format('DD/MM/YYYY');
+                  }
+              },
+              {
+                targets: 19, // Target the first column which contains dates
+                render: function(data, type, row) {
+                  return moment(data, 'DD/MM/YYYY').format('DD/MM/YYYY');
+                }
+              }
+		],
 		buttons: [
 			// {
 			//	 text: "Date range",
@@ -112,6 +253,9 @@ jQuery(document).ready(function () {
 					id: 'searchBuilder',
 				},
 				config: {
+					conditions:{
+                        html: tagCondition,
+                    },
 					depthLimit: 0,
 					columns: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,16,18],
 					filterChanged: function (count) {
@@ -153,38 +297,7 @@ jQuery(document).ready(function () {
 		],
 		"stateSave": true,
 		scrollY: $(window).height() - 227,
-		columnDefs: [
-			{
-				type: 'natural',
-				targets: [0,15],
-				orderable: false,
-			},
-			{ visible: false, targets: [4,6,7,8,12,14,16,18,19] },
-			{
-				targets: 17,
-				render: function(data, type, row) {
-					if (type === 'sort') {
-					var dateParts = data.split(" ");
-					var date = dateParts[1].split("/");
-					var time = dateParts[0].split(":");
-					return new Date(date[2], date[1] - 1, date[0], time[0], time[1]).toISOString();
-					}
-					return data;
-				}
-			},
-            {
-                targets: [18],
-                render: function(data) {
-                    return moment(data, 'YYYY/MM/DD').format('DD/MM/YYYY');
-                  }
-              },
-              {
-                targets: 19, // Target the first column which contains dates
-                render: function(data, type, row) {
-                  return moment(data, 'DD/MM/YYYY').format('DD/MM/YYYY');
-                }
-              }
-		],
+		
 	});
 
 	// Custom searchbuilder filter get value
@@ -417,7 +530,7 @@ jQuery(document).ready(function () {
 			toLabel: 'tới',
 			customRangeLabel: 'Tùy chỉnh',
 			weekLabel: 'W',
-			daysOfWeek: ["CN", "T2", "T3", "T4", "T5", "T6", "T7", "CN"],
+			daysOfWeek: ["CN", "T2", "T3", "T4", "T5", "T6", "T7"],
 			monthNames: ["Tháng 1,", "Tháng 2,", "Tháng 3,", "Tháng 4,", "Tháng 5,", "Tháng 6,", "Tháng 7,", "Tháng 8,", "Tháng 9,", "Tháng 10,", "Tháng 11,", "Tháng 12,"],
 			firstDay: 1,
 		},

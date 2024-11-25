@@ -147,6 +147,9 @@ table { border-collapse: collapse;
 		margin: 0 auto;
 	}
 }
+.d-tc {
+	display: table-cell;
+}
 .d-ib {
 	display: inline-block;
 }
@@ -155,6 +158,7 @@ table { border-collapse: collapse;
 }
 .ai-center {
 	align-items: center;
+	vertical-align: middle;
 }
 .jc-b{
 	justify-content: space-between;

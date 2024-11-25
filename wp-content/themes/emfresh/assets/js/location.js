@@ -123,12 +123,12 @@ $.getJSON('/wp-content/themes/emfresh/assets/data/city.json', function(data) {
                     <input type="text" name="locations[${fieldCount}][note_admin]" placeholder="Note với admin" />
                   </div>
 								</div>
-                <div class="show-group-note d-f ai-center pb-16">
-									<span class="fas fa-plus mr-4"></span> Thêm ghi chú giao hàng
+                <div class="show-group-note d-f ai-center pt-8 pb-16">
+									<span class="fas fa-plus mr-8"></span> Thêm ghi chú giao hàng
 								</div>
 								<div class="col-12 pb-16">
 									<hr>
-									<div class="row pt-8">
+									<div class="row pt-16">
 										<div class="col-6">
 											<div class="icheck-primary d-f ai-center">
                         <input type="radio" name="location_active" id="active_${fieldCount}" value="0">

@@ -168,11 +168,13 @@ table { border-collapse: collapse; }
 .row > [class*="col"], .row0 > [class*="col"] { padding-left: 8px; padding-right: 8px; min-height: 1px; }
 .row.nowrap, .row0.nowrap { flex-wrap: nowrap; margin: 0 auto; }
 
+.d-tc { display: table-cell; }
+
 .d-ib { display: inline-block; }
 
 .d-f { display: flex; }
 
-.ai-center { align-items: center; }
+.ai-center { align-items: center; vertical-align: middle; }
 
 .jc-b { justify-content: space-between; }
 
@@ -550,19 +552,19 @@ div.dt-container.dt-empty-footer tbody > tr:last-child > * { border: none; }
 .list-customer .em-importer ul li.has-time.active ul { opacity: 1; visibility: visible; z-index: 10; }
 .list-customer .em-importer .btn { border-radius: 8px; border: 1.5px solid #DEDFE0; padding: 4px 24px; margin: 0; cursor: pointer; display: block; }
 .list-customer .em-importer .btn:hover { color: #4BA66F; }
-.list-customer .em-importer .btn.btn-fillter { background: url(../img/icon/filter-svgrepo-com.svg) left 20px center no-repeat; padding-left: 48px; }
+.list-customer .em-importer .btn.btn-fillter { background: url(../img/icon/filter-svgrepo-com.svg) left 20px center #fff no-repeat; padding-left: 48px; }
 .list-customer .em-importer .btn.btn-fillter:hover { background-image: url(../img/icon-hover/filter-svgrepo-com.svg); }
 .list-customer .em-importer .btn.btn-fillter small { width: 20px; height: 20px; border-radius: 4px; background-color: #fff; display: inline-block; color: #000; font-weight: 600; text-align: center; }
 .list-customer .em-importer .btn.btn-fillter.current-filter { border: 1.5px solid #208046; background-color: #208046; background-image: url(../img/icon/filter-svgrepo-com_white.svg); color: #fff; }
-.list-customer .em-importer .btn.quick-edit { background: url(../img/icon/layer-svgrepo-com.svg) left 20px center no-repeat; padding-left: 48px; }
+.list-customer .em-importer .btn.quick-edit { background: url(../img/icon/layer-svgrepo-com.svg) left 20px center #fff no-repeat; padding-left: 48px; }
 .list-customer .em-importer .btn.quick-edit:hover { background-image: url(../img/icon-hover/layer-svgrepo-com.svg); }
-.list-customer .em-importer .btn.btn-action { background: url(../img/icon/CaretDown.svg) right 24px center no-repeat; padding-right: 48px; }
-.list-customer .em-importer .btn.btn-status { background: url(../img/icon/delete-svgrepo-com.svg) right 24px center no-repeat; padding-right: 48px; }
+.list-customer .em-importer .btn.btn-action { background: url(../img/icon/CaretDown.svg) right 24px center #fff no-repeat; padding-right: 48px; }
+.list-customer .em-importer .btn.btn-status { background: url(../img/icon/delete-svgrepo-com.svg) right 24px center #fff no-repeat; padding-right: 48px; }
 .list-customer .em-importer .btn.btn-status:hover { background-image: url(../img/icon-hover/delete-svgrepo-com.svg); }
-.list-customer .em-importer .btn.btn-time { background: url(../img/icon/calendar-alt-svgrepo-com.svg) left 20px center no-repeat; padding-left: 48px; }
+.list-customer .em-importer .btn.btn-time { background: url(../img/icon/calendar-alt-svgrepo-com.svg) left 20px center #fff no-repeat; padding-left: 48px; }
 .list-customer .em-importer .btn.btn-time:hover { background-image: url(../img/icon-hover/calendar-alt-svgrepo-com.svg); }
 .list-customer .em-importer .btn.btn-time.date-filter { background-color: #208046; background-image: url(../img/icon/calendar-alt-svgrepo-com_white.svg); color: #fff; }
-.list-customer .em-importer .btn.btn-column { background: url(../img/icon/table-add-svgrepo-com.svg) left 20px center no-repeat; padding-left: 48px; }
+.list-customer .em-importer .btn.btn-column { background: url(../img/icon/table-add-svgrepo-com.svg) left 20px center #fff no-repeat; padding-left: 48px; }
 .list-customer .em-importer .btn.btn-column:hover { background-image: url(../img/icon-hover/table-add-svgrepo-com.svg); }
 .list-customer .em-importer .btn.btn-column.active { border: 1.5px solid #208046; background-color: #208046; color: #fff; background-image: url(../img/icon-hover/table-add-svgrepo-com_white.svg); }
 .list-customer .dt-container .bottom { background: var(--background-dim-green, #fff); border-top: 1px solid #DEE1E8; z-index: 2; padding: 13px 16px; }
@@ -577,7 +579,7 @@ div.dt-container.dt-empty-footer tbody > tr:last-child > * { border: none; }
 .dt-container table.table thead th:first-child span { font-size: 0; display: block; }
 .dt-container table.table thead th:last-child { border-radius: 0 16px 0 0; }
 .dt-container table.table th, .dt-container table.table td { padding: 8px 8px; border: none; vertical-align: top; line-height: normal; }
-.dt-container table.table th:hover, .dt-container table.table td:hover { outline: none; }
+.dt-container table.table th:hover, .dt-container table.table th:focus-visible, .dt-container table.table td:hover, .dt-container table.table td:focus-visible { outline: none !important; }
 .dt-container table.table th:first-child, .dt-container table.table td:first-child { padding-left: 8px; padding-right: 0; padding-top: 6px; padding-bottom: 0; }
 .dt-container table.table th.dt-orderable-asc, .dt-container table.table td.dt-orderable-asc { padding-right: 18px; }
 .dt-container table.table td:first-child { text-align: center; padding-top: 7px; }
@@ -615,7 +617,7 @@ div.dt-container.dt-empty-footer tbody > tr:last-child > * { border: none; }
 
 div.dtsb-searchBuilder h3.title { font-size: 20px; font-weight: 600; }
 div.dtsb-searchBuilder div.dtsb-titleRow { margin-bottom: 0; padding-bottom: 16px; margin-top: 12px; padding-top: 16px; margin-top: 0; padding-top: 0px; border: none; padding-right: 0 !important; }
-div.dtsb-searchBuilder div.dtsb-titleRow div.dtsb-title { width: 100%; border-top: var(--number-1px, 1px) solid var(--modal-divider, #DEDFE0); font-size: 16px; font-weight: normal; margin-top: 12px; padding-top: 16px; }
+div.dtsb-searchBuilder div.dtsb-titleRow div.dtsb-title { width: 100%; border-top: var(--number-1px, 1px) solid var(--modal-divider, #DEDFE0); font-size: 14px; font-weight: normal; margin-top: 12px; padding-top: 16px; }
 div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria { margin-bottom: 16px; }
 div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria select.dtsb-data, div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria select.dtsb-condition, div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria select.dtsb-value, div.dtsb-searchBuilder div.dtsb-group div.dtsb-criteria input.dtsb-value { padding: 8px; border-radius: var(--dropdown-radiusCorner, 8px); border: 1px solid var(--dropdown-border-default, #DEDFE0); background: var(--Sample-frame-background-white, #FFF); }
 div.dtsb-searchBuilder .custom-btn { float: right; }
@@ -642,7 +644,7 @@ table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:after { opa
 .customer.detail-customer { padding: 0; }
 .customer.detail-customer .card-body { padding-top: 16px; }
 .customer input[type="text"], .customer input[type="tel"], .customer select { border-radius: var(--input-radiusCorner, 8px); border: 1px solid var(--input-border-default, #DEDFE0); background: var(--input-background-default, #F6F6F6); padding: 10px; width: 100%; }
-.customer select { padding: 8px 8px; }
+.customer select { padding: 8px 8px; height: 38.1px; }
 .customer select.disabled { opacity: 0.6; cursor: auto; pointer-events: none; }
 .customer .card-body { background-color: #fff; border-radius: var(--modal-radiusCorner, 16px); background: var(--modal-background, #FFF); padding: 8px 16px 0px; }
 .customer .card-body .card-header { border-bottom: var(--number-1px, 1px) solid var(--modal-divider, #DEDFE0); margin-bottom: 16px; padding-bottom: 8px; }
@@ -653,7 +655,7 @@ table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:after { opa
 .customer .add-location-button, .customer .icheck-primary label { cursor: pointer; }
 .customer .icheck-primary label.pl-4 { padding-left: 12px; }
 .customer .add-location-button { padding-top: 16px; }
-.customer .add-location-button .fa-plus { margin-right: 4px; }
+.customer .add-location-button .fa-plus { margin-right: 8px; }
 .customer .add-location-button:hover { color: #4BA66F; }
 .customer .add-location-button:hover .fa-plus { background-image: url(../img/icon-hover/plus-svgrepo-com.svg); }
 .customer .delete-location-button { cursor: pointer; color: #F73131; }
@@ -732,7 +734,7 @@ table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:after { opa
 .detail-customer .note-wraper .js-comment-row .edit span.remove:hover { cursor: pointer; }
 .detail-customer .note-wraper .js-comment-row .edit span.remove:hover img { filter: brightness(0) saturate(100%) invert(15%) sepia(91%) saturate(6169%) hue-rotate(359deg) brightness(101%) contrast(107%); }
 
-.scroll-menu .btn-add_order { color: #fff; }
+.scroll-menu .btn-add_order { color: #fff; padding: 7px 20px; }
 .scroll-menu.fixed { background-color: #fff; position: fixed; top: 0; left: 0; width: 100%; z-index: 10; padding-left: 214px; }
 .scroll-menu.fixed .group-button_top { padding-right: 24px; }
 .scroll-menu.fixed ul { border-bottom: 1px solid #F6F6F6; }

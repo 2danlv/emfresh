@@ -185,7 +185,7 @@ get_header();
                     <td class="text-center"><input type="checkbox" class="checkbox-element" value="<?php echo $record['id'] ?>"></td>
                     <td class="text-capitalize nowrap wrap-td"><div class="ellipsis"><a href="detail-customer/?customer_id=<?php echo $record['id'] ?>"><?php echo $record['customer_name']; ?></a></div></td>
                     <td class="text-left"><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $record['phone']; ?>"><?php echo $record['phone']; ?></span></td>
-                    <td class="text-capitalize wrap-td" width="25%">
+                    <td class="text-capitalize wrap-td" width="25%" style="min-width: 250px;">
                       <div class="nowrap ellipsis"><?php echo $record['address']; echo $record['address'] ? ', ' : ''; ?> <?php echo $record['ward'];  echo $record['ward'] ? ', ' : ''; echo $record['district'] ?></div>
                     </td>
                     <td class="text-capitalize">
@@ -200,19 +200,19 @@ get_header();
                         $html[] = '<span class="tag btn btn-sm tag_'.$item['tag_id'].'">'. $em_customer->get_tags($item['tag_id']).'</span>';
                       }
 
-                      echo '<td>'.implode('<i class="hidden">,</i> ', $html).'</td>';
+                      echo '<td>'.implode($html).'</td>';
                     ?>
                     <td class="text-titlecase text-center"><?php echo $record['gender_name']; ?></td>
-                    <td class="text-titlecase text-center"><?php echo $record['note_cook']; ?><!-- note dụng cụ --> </td>
-                    <td class="text-left"><!-- note số đơn --></td>
-                    <td class="text-left"><!-- note số ngày ăn --></td>
-                    <td class="text-left"><!-- note số phần ăn --></td>
-                    <td class="text-left"><!-- note tổng tiền --></td>
+                    <td class="text-titlecase text-center"><?php echo $record['note_cook']; ?></td>
+                    <td class="text-left"></td>
+                    <td class="text-left"></td>
+                    <td class="text-left"></td>
+                    <td class="text-left"></td>
                     <td class="text-left"><?php echo $record['point']; ?></td>
-                    <td><!-- note lịch sử đặt gần nhất --></td>
+                    <td></td>
                     <td class="text-right"><span class="avatar"><img src="<?php echo get_avatar_url($record['modified_at']); ?>" width="24" alt="<?php echo get_the_author_meta('display_name', $record['modified_at']); ?>"></span></td>
                     <td><?php echo get_the_author_meta('display_name', $record['modified_at']); ?></td>
-                    <td><?php echo date('H:i d/m/Y', strtotime($record['modified'])); ?></td>
+                    <td style="min-width: 140px;"><?php echo date('H:i d/m/Y', strtotime($record['modified'])); ?></td>
                     <td><?php echo date('Y/m/d', strtotime($record['modified'])); ?></td>
                     <td><?php echo date('d/m/Y', strtotime($record['modified'])); ?></td>
                   </tr>
@@ -335,6 +335,14 @@ get_header();
   </div>
 </div>
 
+<?php
+$html = [];
+foreach ($list_tags as $key => $value) { 
+   $html[] = "'".$value."'"; 
+} ?>
+<script>
+  let list_tags = [<?php echo implode(',', $html); ?>];
+</script>
 
 <?php
 // endwhile;
@@ -344,9 +352,12 @@ global $site_scripts;
 if (empty($site_scripts)) $site_scripts = [];
 $site_scripts[] = "https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js";
 $site_scripts[] = get_template_directory_uri() . '/assets/js/importer.js';
+
 get_footer('customer');
 ?>
+
 <script>
+  
   // Function to save checkbox states to localStorage
   function saveCheckboxState() {
     $('.filter input[type="checkbox"]').each(function() {
@@ -372,6 +383,7 @@ get_footer('customer');
   }
 
   $(document).ready(function() {
+    
     // Load checkbox states when the page loads
     loadCheckboxState();
 

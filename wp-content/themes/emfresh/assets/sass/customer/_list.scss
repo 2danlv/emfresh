@@ -126,7 +126,7 @@
                 color: #4BA66F;
             }
             &.btn-fillter {
-                background: url(../img/icon/filter-svgrepo-com.svg) left 20px center no-repeat;
+                background: url(../img/icon/filter-svgrepo-com.svg) left 20px center #fff no-repeat;
                 padding-left: 48px;
                 &:hover {
                     background-image: url(../img/icon-hover/filter-svgrepo-com.svg);
@@ -149,26 +149,26 @@
                 }
             }
             &.quick-edit {
-                background: url(../img/icon/layer-svgrepo-com.svg) left 20px center no-repeat;
+                background: url(../img/icon/layer-svgrepo-com.svg) left 20px center #fff no-repeat;
                 padding-left: 48px;
                 &:hover {
                     background-image: url(../img/icon-hover/layer-svgrepo-com.svg);
                 }
             }
             &.btn-action {
-                background: url(../img/icon/CaretDown.svg) right 24px center no-repeat;
+                background: url(../img/icon/CaretDown.svg) right 24px center #fff no-repeat;
                 padding-right: 48px;
                 
             }
             &.btn-status {
-                background: url(../img/icon/delete-svgrepo-com.svg) right 24px center no-repeat;
+                background: url(../img/icon/delete-svgrepo-com.svg) right 24px center #fff no-repeat;
                 padding-right: 48px;
                 &:hover {
                     background-image: url(../img/icon-hover/delete-svgrepo-com.svg);
                 }
             }
             &.btn-time {
-                background: url(../img/icon/calendar-alt-svgrepo-com.svg) left 20px center no-repeat;
+                background: url(../img/icon/calendar-alt-svgrepo-com.svg) left 20px center #fff no-repeat;
                 padding-left: 48px;
                 &:hover {
                     background-image: url(../img/icon-hover/calendar-alt-svgrepo-com.svg);
@@ -180,7 +180,7 @@
                 }
             }
             &.btn-column {
-                background: url(../img/icon/table-add-svgrepo-com.svg) left 20px center no-repeat;
+                background: url(../img/icon/table-add-svgrepo-com.svg) left 20px center #fff no-repeat;
                 padding-left: 48px;
                 &:hover {
                     background-image: url(../img/icon-hover/table-add-svgrepo-com.svg);
@@ -255,8 +255,8 @@
             border: none;
             vertical-align: top;
             line-height: normal;
-            &:hover {
-                outline: none;
+            &:hover,&:focus-visible {
+                outline: none !important;
             }
             &:first-child {
                 padding-left: 8px;
@@ -441,7 +441,7 @@ div.dtsb-searchBuilder {
         div.dtsb-title {
             width: 100%;
             border-top: var(--number-1px, 1px) solid var(--modal-divider, #DEDFE0);
-            font-size: 16px;
+            font-size: 14px;
             font-weight: normal;
             margin-top: 12px;
             padding-top: 16px;

@@ -357,10 +357,6 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 									<span>60</span>
 								</div>
 								<div class="d-f jc-b pt-8">
-									<span>Số phần ăn:</span>
-									<span>60</span>
-								</div>
-								<div class="d-f jc-b pt-8">
 									<span>Tổng tiền đã chi:</span>
 									<span>4.000.000</span>
 								</div>
@@ -546,9 +542,10 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 
 															if ($comment->comment_approved == 0) {
 																$delete_at = get_comment_meta($comment->comment_ID, 'delete_at', true);
+																$ago = human_time_diff(strtotime($delete_at), current_time( 'U' ));
 
-																echo '<span class="comment_status status-edited status-deleted' . $modal . '">&#8226; Đã xóa bởi <b>'.$delete_author.'</b>';
-																echo ($delete_at != '' ? ' vào lúc ' . $delete_at : '');
+																echo '<span class="comment_status status-edited status-deleted' . $modal . '">&#8226; Đã xóa bởi <b>'.$delete_author.'</b> ';
+																echo ($ago > 0 ? $ago . ' trước' : '');
 																echo '</span>';
 															} else if ($comment_status == 'cap-nhat') {
 																echo '<span class="comment_status status-edited' . $modal . '">&#8226; Đã sửa</span>';
@@ -765,13 +762,13 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 																	</div>
 																</div>
 
-																<div class="show-group-note d-f ai-center pb-16 <?php echo $class_hidden ?>">
-																	<span class="fas fa-plus mr-4"></span> Thêm ghi chú giao hàng
+																<div class="show-group-note d-f ai-center pb-16 pt-8 <?php echo $class_hidden ?>">
+																	<span class="fas fa-plus mr-8"></span> Thêm ghi chú giao hàng
 																</div>
 
 																<div class="col-12 pb-16">
 																	<hr>
-																	<div class="row pt-8">
+																	<div class="row pt-16">
 																		<div class="col-6">
 																			<div class="icheck-primary d-f ai-center">
 																				<input type="radio" name="location_active" id="active_<?php echo $record['id'] ?>" value="<?php echo $record['id'] ?>" <?php checked($record['active'], 1) ?>>
