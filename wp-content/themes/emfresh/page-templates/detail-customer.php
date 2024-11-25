@@ -810,8 +810,8 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 										<table class="regular">
 											<thead>
 												<tr>
-													<th width="150">Người thực hiện</th>
-													<th width="100">Hành động</th>
+													<th>Người thực hiện</th>
+													<th>Hành động</th>
 													<th class="descript">Mô tả</th>
 													<th>Thời gian</th>
 													<th>Ngày</th>
@@ -840,8 +840,8 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 													<tr data-id="<?php echo $item['id'] ?>">
 														<td><?php echo $item['created_author'] ?></td>
 														<td><?php echo $item['action'] ?></td>
-														<td class="nowrap">
-															<div class="descript-note">
+														<td>
+															<div class="descript-note nowrap">
 																<?php $brString = nl2br($item['content']); ?>
 																<?php echo str_replace('<br />', '<hr>', $brString) ?>
 															</div>

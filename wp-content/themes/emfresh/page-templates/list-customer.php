@@ -185,7 +185,7 @@ get_header();
                     <td class="text-center"><input type="checkbox" class="checkbox-element" value="<?php echo $record['id'] ?>"></td>
                     <td class="text-capitalize nowrap wrap-td"><div class="ellipsis"><a href="detail-customer/?customer_id=<?php echo $record['id'] ?>"><?php echo $record['customer_name']; ?></a></div></td>
                     <td class="text-left"><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $record['phone']; ?>"><?php echo $record['phone']; ?></span></td>
-                    <td class="text-capitalize wrap-td" width="25%" style="min-width: 250px;">
+                    <td class="text-capitalize wrap-td" style="min-width: 300px;">
                       <div class="nowrap ellipsis"><?php echo $record['address']; echo $record['address'] ? ', ' : ''; ?> <?php echo $record['ward'];  echo $record['ward'] ? ', ' : ''; echo $record['district'] ?></div>
                     </td>
                     <td class="text-capitalize">
@@ -202,8 +202,8 @@ get_header();
 
                       echo '<td>'.implode($html).'</td>';
                     ?>
-                    <td class="text-titlecase text-center"><?php echo $record['gender_name']; ?></td>
-                    <td class="text-titlecase text-center"><?php echo $record['note_cook']; ?></td>
+                    <td class="text-center"><?php echo $record['gender_name']; ?></td>
+                    <td class="text-center"><?php echo $record['note_cook']; ?></td>
                     <td class="text-left"></td>
                     <td class="text-left"></td>
                     <td class="text-left"></td>

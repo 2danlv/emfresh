@@ -147,8 +147,6 @@ input:focus, textarea:focus, select:focus { border: 1px solid #208046; }
 
 table { border-collapse: collapse; }
 
-.nowrap { display: block; white-space: nowrap; }
-
 .text-capitalize { text-transform: capitalize; }
 
 .text-titlecase::first-letter { text-transform: uppercase; }
@@ -573,6 +571,7 @@ div.dt-container.dt-empty-footer tbody > tr:last-child > * { border: none; }
 .dt-container div.dt-container { width: 800px; margin: 0 auto; }
 .dt-container table.table { border-radius: 16px 16px 0px 0px; border-collapse: collapse; }
 .dt-container table.table thead th { vertical-align: middle; background: #DEDFE0; font-weight: 600; }
+.dt-container table.table thead th .nowrap { display: block; }
 .dt-container table.table thead th[data-dt-column="2"], .dt-container table.table thead th[data-dt-column="3"], .dt-container table.table thead th[data-dt-column="6"], .dt-container table.table thead th[data-dt-column="7"], .dt-container table.table thead th[data-dt-column="8"], .dt-container table.table thead th[data-dt-column="16"] { cursor: auto; pointer-events: none; }
 .dt-container table.table thead th[data-dt-column="2"] .dt-column-order, .dt-container table.table thead th[data-dt-column="3"] .dt-column-order, .dt-container table.table thead th[data-dt-column="6"] .dt-column-order, .dt-container table.table thead th[data-dt-column="7"] .dt-column-order, .dt-container table.table thead th[data-dt-column="8"] .dt-column-order, .dt-container table.table thead th[data-dt-column="16"] .dt-column-order { display: none; }
 .dt-container table.table thead th:first-child { border-radius: 16px 0 0 0; padding-bottom: 0; padding-top: 0; }
@@ -711,7 +710,11 @@ table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:after { opa
 .detail-customer .card-history .btn-export span { margin-right: 8px; }
 .detail-customer .history-action tr th { text-align: left; padding: 8px; border-bottom: 2px solid #DEDFE0; }
 .detail-customer .history-action tr td { padding: 8px; vertical-align: top; }
-.detail-customer .history-action tr td .descript-note { display: flex; align-items: center; flex-flow: wrap; }
+.detail-customer .history-action tr td:nth-child(1) { min-width: 150px; }
+.detail-customer .history-action tr td:nth-child(2) { min-width: 100px; }
+.detail-customer .history-action tr td:nth-child(3) { min-width: 450px; }
+.detail-customer .history-action tr td:nth-child(4) { min-width: 100px; }
+.detail-customer .history-action tr td .descript-note { display: flex; align-items: center; flex-flow: wrap; max-width: 550px; }
 .detail-customer .history-action tr td .descript-note hr { width: 100%; border: none; padding: 4px 0; }
 .detail-customer .history-action tr td .descript-note span.memo { margin-right: 8px; }
 .detail-customer .history-action tr td .descript-note span.memo.field-tag:first-child { font-size: 14px; }

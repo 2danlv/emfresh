@@ -224,6 +224,9 @@
                 vertical-align: middle;
                 background: #DEDFE0;
                 font-weight: 600;
+                .nowrap {
+                    display: block;
+                }
                 &[data-dt-column="2"], 
                 &[data-dt-column="3"], 
                 &[data-dt-column="6"],
