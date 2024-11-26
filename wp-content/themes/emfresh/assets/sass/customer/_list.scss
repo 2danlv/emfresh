@@ -197,12 +197,13 @@
     .dt-container {
         // padding-bottom: 50px;
         .bottom { 
-            // position: fixed;
-
+            position: fixed;
+            width: 100%;
+            left: 0;
+            bottom: 0;
             background: var(--background-dim-green, #fff);
-            border-top: 1px solid #DEE1E8;
             z-index: 2;
-            padding: 13px 16px;
+            padding: 13px 24px 13px 0px;
         }
     } 
     .dt-scroll-head,.dt-scroll-headInner,.table-list-customer{
@@ -300,7 +301,7 @@
     .dt-scroll-body {
         border: none !important;
         background-color: #fff;
-        padding-bottom: 16px;
+        padding-bottom: 8px;
     }
     thead > tr > th.dt-orderable-asc span.dt-column-order,
     thead > tr > th.dt-ordering-asc span.dt-column-order,

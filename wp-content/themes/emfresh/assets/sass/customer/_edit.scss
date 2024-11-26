@@ -193,6 +193,12 @@
         &:nth-child(2) { min-width: 100px; }
         &:nth-child(3) { min-width: 450px; }
         &:nth-child(4) { min-width: 100px; }
+        &.avatar {
+          img {
+            border-radius: 50%;
+            margin-right: 8px;
+          }
+        }
         .descript-note {
           display: flex;
           align-items: center;
@@ -214,7 +220,7 @@
             font-size: 14px;
           }
           span.note-detail {
-            max-width: 80%;
+            max-width: 70%;
             display: block;
             text-overflow: ellipsis;
             overflow: hidden;

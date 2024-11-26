@@ -56,8 +56,8 @@ jQuery(document).ready(function () {
 				return $(el[0]).val() && $(el[0]).val().length !== 0;
 			},
 			search: function (value, comparison) {
-				if (value != '' && typeof comparison == 'object' && comparison.length > 0) {
-					return comparison.filter(text => value.search(text) > -1).length > 0;
+				if (typeof comparison == 'object' && comparison.length > 0) {
+					return value != '' && comparison.filter(text => value.search(text) > -1).length > 0;
 				}
 
 				return value % comparison === 0;
@@ -66,30 +66,7 @@ jQuery(document).ready(function () {
 		'!=': {
 			conditionName: 'Khác',
 			init: function (that, fn, preDefined = null) {
-				var el = $('<select/>')
-					.addClass([that.classes.value, that.classes.input])
-					.on('input', function () {
-						fn(that, this);
-					});
-
-				// value is tag
-				if (typeof list_tags == 'object') {
-					el.append(`<option selected hidden>Giá trị</option>`);
-					
-					list_tags.forEach((text) => {
-						text = text.trim();
-						value = stringToSlug(text);
-						if (text != '') {
-							el.append(`<option value="${value}">${text}</option>`);
-						}
-					});
-				}
-
-				if (preDefined !== null) {
-					$(el).val(preDefined[0]);
-				}
-
-				return el;
+				return tagCondition['='].init(that, fn, preDefined);
 			},
 			inputValue: function (el) {
 				return $(el[0]).val();
@@ -98,11 +75,7 @@ jQuery(document).ready(function () {
 				return $(el[0]).val() && $(el[0]).val().length !== 0;
 			},
 			search: function (value, comparison) {
-				if (typeof comparison == 'object' && comparison.length > 0) {
-					return value == '' || comparison.filter(text => value.search(text) > -1).length === 0;
-				}
-
-				return value % comparison != 0;
+				return !tagCondition['='].search(value, comparison);
 			},
 		},
 	};
@@ -194,7 +167,7 @@ jQuery(document).ready(function () {
 				orderable: false,
 			},
 			{
-			// type: 'string', targets: [0,2,3,4,5,7,8,9,10,11] 
+			 type: 'string', targets: [0,2,3,4,5,7,8] 
 			},
 			{ visible: false, targets: [4,6,7,8,12,14,16,18,19] },
 			{
@@ -522,8 +495,8 @@ jQuery(document).ready(function () {
 		alwaysShowCalendars: true,
 		ranges: {
 			'All time (Tối đa)': '',
-			'1 tuần qua': [moment().subtract(7, 'days').startOf('day'), moment().endOf('day')],
-			'2 tuần qua': [moment().subtract(14, 'days').startOf('day'), moment().endOf('day')],
+			'1 tuần qua': [moment().subtract(7, 'days').startOf('day'),moment().date(yestoday).endOf('day')],
+			'2 tuần qua': [moment().subtract(14, 'days').startOf('day'),moment().date(yestoday).endOf('day')],
 			'1 tháng qua': [
 				adjustDateForOverflow(moment().subtract(1, 'month').date(today).startOf('day')),  // Adjust to valid start of 1 month ago
 				moment().date(yestoday).endOf('day')  // End of today's date

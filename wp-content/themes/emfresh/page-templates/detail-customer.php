@@ -838,7 +838,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : '';
 													}
 												?>
 													<tr data-id="<?php echo $item['id'] ?>">
-														<td><?php echo $item['created_author'] ?></td>
+														<td class="avatar"><img src="http://0.gravatar.com/avatar/0e599dcdc05cbecbcf564c8ad5062c97?s=96&d=mm&r=g" width="24" alt=""><?php echo $item['created_author'] ?></td>
 														<td><?php echo $item['action'] ?></td>
 														<td>
 															<div class="descript-note nowrap">
