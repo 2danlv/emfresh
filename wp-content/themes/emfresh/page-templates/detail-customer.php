@@ -297,7 +297,7 @@ get_header();
 		}
 		?>
 		<div class="container-fluid">
-			<div class="scroll-menu  pt-8">
+			<div class="scroll-menu pt-8">
 				<div class="row">
 					<div class="col-6 backtolist d-f ai-center">
 						<a href="/customer/" class="d-f ai-center"><span class="mr-4"><img src="<?php echo site_get_template_directory_assets(); ?>img/icon/caretup.svg" alt=""></span><span> Quay lại danh sách khách hàng</span></a>
@@ -314,7 +314,7 @@ get_header();
 						<?php }
 						} ?>
 						<a class="btn btn-primary btn-add_order" href="#"><span class="d-f ai-center"><i class="fas mr-4"><img src="<?php echo site_get_template_directory_assets(); ?>img/icon-hover/plus-svgrepo-com_white.svg" alt=""></i>Tạo đơn mới</span></a>
-						<span class="btn btn-primary btn-save_edit hidden">Lưu thay đổi</span>
+						<span class="btn btn-primary btn-disable btn-save_edit hidden">Lưu thay đổi</span>
 					</div>
 				</div>
 				<div class="card-header">
@@ -527,7 +527,7 @@ get_header();
 													<div class="row row-comment">
 														<div class="account-name d-f ai-center col-6">
 															<div class="avatar">
-																<img src="<?php echo get_avatar_url($comment->user_id) ?>" alt="" width="24">
+																<img src="<?php echo get_avatar_url($comment->user_id) ?>" alt="" width="40">
 															</div>
 															<div><?php echo $comment->comment_author ?></div>
 														</div>
@@ -571,17 +571,18 @@ get_header();
 													</div>
 												</div>
 												<?php if($show_childs) :?>
-												<div class="modal fade" id="modal-history<?php echo $comment->comment_ID ?>">
+												<div class="modal fade modal-history" id="modal-history<?php echo $comment->comment_ID ?>">
+												<div class="overlay"></div>
 													<div class="modal-dialog">
 														<div class="modal-content">
-															<div class="modal-body">
+															<div class="modal-body pt-16">
 																<div class="note-wraper">
 																	<?php foreach($childs as $child) :?>
 																	<div class="js-comment-row pb-16">
 																		<div class="row row-comment">
 																			<div class="account-name d-f ai-center col-9">
 																				<div class="avatar">
-																					<img src="<?php echo get_avatar_url($child->user_id); ?>img/icon/User.svg" alt="">
+																					<img src="<?php echo get_avatar_url($child->user_id); ?>" alt="" width="40">
 																				</div>
 																				<div><?php echo $child->comment_author ?></div>
 																			</div>
@@ -594,9 +595,10 @@ get_header();
 																	<?php endforeach ?>
 																</div>
 															</div>
-															<div class="modal-footer text-right pt-16">
-																<button type="button" class="btn btn-secondary modal-close">Đóng</button>
-															</div>
+															
+														</div>
+														<div class="modal-footer text-right pt-16 pr-16">
+															<button type="button" class="btn btn-secondary modal-close">Đóng</button>
 														</div>
 													</div>
 												</div>
@@ -892,10 +894,11 @@ get_header();
 </div>
 <!-- /.card-body -->
 <div class="modal fade modal-warning" id="modal-default">
+	<div class="overlay"></div>
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<form method="post" id="list-customer" action="<?php the_permalink() ?>">
-				<div class="modal-body pb-16">
+				<div class="modal-body pt-8 pb-16">
 					<input type="hidden" class="customer_id" name="customer_id" value="<?php echo $response_customer['data']['id'] ?>">
 					<div class="d-f ai-center">
 						<i class="fas fa-warning mr-4"></i>
@@ -903,7 +906,7 @@ get_header();
 					</div>
 					
 				</div>
-				<div class="modal-footer d-f jc-b pt-16">
+				<div class="modal-footer d-f jc-b pb-8 pt-16">
 					<button type="button" class="btn btn-secondary modal-close">Đóng</button>
 					<button type="submit" name="remove" class="btn btn-danger modal-close">Xóa</button>
 				</div>
@@ -912,16 +915,17 @@ get_header();
 	</div>
 </div>
 <div class="modal fade modal-warning" id="modal-note">
+	<div class="overlay"></div>
   <div class="modal-dialog">
     <div class="modal-content">
 	<form method="post" class="form-remove-note" action="">
-		<div class="modal-body pb-16">
+		<div class="modal-body pt-8 pb-16">
 			<div class="d-f ai-center">
 				<i class="fas fa-warning mr-4"></i>
 				<p>Bạn có chắc muốn xoá ghi chú này không?</p>
 			</div>
 		</div>
-		<div class="modal-footer d-f jc-b pt-16">
+		<div class="modal-footer d-f jc-b pb-8 pt-16">
 			<button type="button" class="btn btn-secondary modal-close">Đóng</button>
 			<button type="submit" name="remove" class="btn btn-danger modal-close">Xóa</button>
 		</div>
@@ -929,9 +933,25 @@ get_header();
     </div>
   </div>
 </div>
-
-<style>
-</style>
+<div class="modal fade modal-warning" id="modal-confirm">
+	<div class="overlay"></div>
+  <div class="modal-dialog">
+    <div class="modal-content">
+	<form method="post" class="form-remove-note" action="">
+		<div class="modal-body pt-8 pb-16">
+			<div class="d-f ai-center">
+				<i class="fas fa-warning mr-4"></i>
+				<p>Bạn có chắc muốn huỷ thay đổi này không?</p>
+			</div>
+		</div>
+		<div class="modal-footer d-f jc-b pb-8 pt-16">
+			<button type="button" class="btn btn-secondary modal-close">Đóng</button>
+			<button type="submit" onclick="hook = false;" class="btn btn-danger modal-close">Xóa</button>
+		</div>
+	</form>
+    </div>
+  </div>
+</div>
 <?php
 // endwhile;
 get_footer('customer');
@@ -940,7 +960,26 @@ get_footer('customer');
 <script src="<?php site_the_assets(); ?>js/location.js"></script>
 <script type="text/javascript">
 	jQuery(function($) {
-
+		
+		$('.form-horizontal').each(function(){
+			let p = $(this), data = p.serialize();
+			
+			p.on('input', function(){
+				var hook = true;
+				// $('[type="submit"]', p).prop('disabled', data == p.serialize())
+				$(".scroll-menu .btn-disable").removeClass('btn-disable');
+				// window.onbeforeunload = function() {
+				// 	if (hook) {
+				// 		$('.modal-confirm').addClass('is-active');
+				// 		$('body').addClass('overflow');
+				// 		return false;
+				// 	}
+				// }
+			})
+		});
+		function unhook() {
+			hook=false;
+		}
 		<?php
 			if($tab_active != '') {
 				echo '$(".tabNavigation [rel='.$tab_active.']").trigger("click");';

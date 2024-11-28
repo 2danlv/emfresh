@@ -73,9 +73,8 @@
         .avatar img {
           overflow: hidden;
           margin-right: 8px;
-          padding: 6px;
-          border-radius: var(--avatar-radiusCorner-circle, 999px);
-          background: var(--avatar-background-noAvatar, #DEDFE0);
+          border-radius: 50%;
+          width: 33px;
         }
         .note-content {
           padding-left: 40px;
@@ -314,6 +313,10 @@
   .btn-add_order {
     color: #fff;
     padding: 7px 20px;
+  }
+  .btn-disable {
+    opacity: 0.4;
+    pointer-events: none;
   }
   &.fixed {
     background-color: #fff;

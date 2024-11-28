@@ -122,7 +122,10 @@ get_header();
                 <span class="btn btn-action">Thao tác</span>
                 <ul>
                   <li>
-                    <a href="/import/">Nhập dữ liệu</a>
+                    <span class="copyAllphone" data-target="#modal-copy">Sao chép nhanh SĐT</span>
+                  </li>
+                  <li>
+                    <a href="/import/" class="upload">Nhập dữ liệu</a>
                   </li>
                   <li><button type="button" name="action" value="export" class="js-export">Xuất dữ liệu</button></li>
                 </ul>
@@ -182,7 +185,7 @@ get_header();
               if (is_array($record)) { // Check if each record is an array
                 if ($record['active'] != '0') { ?>
                   <tr>
-                    <td class="text-center"><input type="checkbox" class="checkbox-element" value="<?php echo $record['id'] ?>"></td>
+                    <td class="text-center"><input type="checkbox" class="checkbox-element" data-number="<?php echo $record['phone']; ?>" value="<?php echo $record['id'] ?>"></td>
                     <td class="text-capitalize nowrap wrap-td"><div class="ellipsis"><a href="detail-customer/?customer_id=<?php echo $record['id'] ?>"><?php echo $record['customer_name']; ?></a></div></td>
                     <td class="text-left"><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $record['phone']; ?>"><?php echo $record['phone']; ?></span></td>
                     <td class="text-capitalize wrap-td" style="min-width: 300px;">
@@ -231,27 +234,29 @@ get_header();
 </section>
 
 <div class="modal fade modal-warning" id="modal-warning-edit">
+<div class="overlay"></div>
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-body pb-16">
+      <div class="modal-body pt-8 pb-16">
         <div class="d-f ai-center">
           <i class="fas fa-warning mr-4"></i>
-          <p>Hãy chọn khách hàng để chỉnh sửa nhanh!</p>
+          <p>Hãy chọn khách hàng để <span class="txt_append">chỉnh sửa</span> nhanh!</p>
         </div>
       </div>
-      <div class="modal-footer text-center pt-16">
+      <div class="modal-footer text-center pt-16 pb-8">
         <button type="button" class="btn btn-secondary modal-close">Đóng</button>
       </div>
     </div>
   </div>
 </div>
 <div class="modal fade" id="modal-default">
+<div class="overlay"></div>
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">Cột hiển thị</h4>
       </div>
-      <div class="modal-body">
+      <div class="modal-body pt-16">
         <div class="row">
           <div class="col-6">
             <ul class="filter list-unstyled">
@@ -285,12 +290,13 @@ get_header();
   </div>
 </div>
 <div class="modal fade" id="modal-edit">
+<div class="overlay"></div>
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">Cập nhật nhanh</h4>
       </div>
-      <div class="modal-body">
+      <div class="modal-body pt-16">
         <?php
         //$status = $em_customer->get_statuses();
         //$list_payment_status = custom_get_list_payment_status();
@@ -332,6 +338,7 @@ get_header();
       </div>
 
     </div>
+    
   </div>
 </div>
 

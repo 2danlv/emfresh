@@ -15,10 +15,6 @@ body {
 }
 body.overflow {
 	overflow-y: hidden;
-	.overlay {
-		display: block !important;
-		opacity: 1 !important;
-	}
 }
 
 a {
@@ -35,7 +31,7 @@ a {
 button, input, textarea,select {
 	&:focus {
 		outline: none;
-		border: none;
+		border: 1px solid inherit;
 	}
 }
 b {
@@ -229,6 +225,9 @@ table { border-collapse: collapse;
 }
 .pr-8 {
 	padding-right: 8px;
+}
+.pr-16 {
+	padding-right: 16px;
 }
 .hidden, .hidden-pc,img[alt="1px.png"] {
 	display: none;

@@ -384,6 +384,7 @@ jQuery(document).ready(function () {
 		if ($('.list_id').val() == '') {
             $('#modal-warning-edit').addClass('is-active');
             $('body').addClass('overflow');
+			$('.modal-warning .modal-body p span.txt_append').text('cập nhật');
 			return false;
 		}
 		open_modal(this);
@@ -394,7 +395,7 @@ jQuery(document).ready(function () {
 		open_modal(this);
 	});
 
-	$('.modal-close').click(function () {
+	$('.modal-close,.overlay').click(function () {
 		$('.modal').removeClass('is-active');
 		$('body').removeClass('overflow');
 	});
@@ -441,7 +442,7 @@ jQuery(document).ready(function () {
 				popup.find('.dtsb-group').after(customButton2);
 			}
 	});
-	$('.input-search').keyup(function () {
+	$('.content-header .input-search').keyup(function () {
 		table.search($(this).val()).draw();
 	});
 
@@ -462,7 +463,7 @@ jQuery(document).ready(function () {
 		//	 start: null,
 		//	 end: null
 		// });
-        $('.btn-time').removeClass('date-filter');
+        $('.em-importer .btn-time').removeClass('date-filter');
 		return false;
 	});
 	var today = moment().date();
@@ -473,7 +474,7 @@ jQuery(document).ready(function () {
 		}
 		return date;
 	}
-	$('.btn-time').daterangepicker({
+	$('.em-importer .btn-time').daterangepicker({
 		maxDate: moment().startOf('day'),
 		timePicker: false,
 		locale: {
@@ -584,6 +585,36 @@ jQuery(document).ready(function () {
 		tempInput.remove();
 
 	});
+	
+	$('.copyAllphone').click(function() {
+		$('.modal-content .phone-copy').text('');
+		var numbers = '';
+		$('.table .checkbox-element[type="checkbox"]:checked').each(function() {
+			numbers += $(this).data('number') + '\n';  // Get the value from data-number
+		});
+
+		if (numbers.trim() === '') {
+			$('#modal-warning-edit').addClass('is-active');
+            $('body').addClass('overflow');
+			$('.modal-warning .modal-body p span.txt_append').text('sao chép số điện thoại');
+			return;
+		}
+
+		var $tempTextArea = $('<textarea>');
+		$('body').append($tempTextArea);
+
+		$tempTextArea.val(numbers.trim()).select();
+
+		document.execCommand('copy');
+
+		$tempTextArea.remove();
+		open_modal(this);
+		setTimeout(() => {
+			$('.modal.modal-copy-phone').removeClass('is-active');
+			$('body').removeClass('overflow');
+		}, 2000);
+	});
+	
 	function open_modal(el) {
 		var modaltarget = $(el).data('target');
 		$(modaltarget).addClass('is-active');

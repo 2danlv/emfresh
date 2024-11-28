@@ -1,9 +1,20 @@
-.modal { bottom: 0; left: 0; position: absolute; background: radial-gradient(ellipse farthest-corner at center, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%); right: 0; top: 0; align-items: center; display: none; justify-content: center; overflow: hidden; position: fixed; z-index: 40 }
+.modal { bottom: 0; left: 0; position: absolute;  right: 0; top: 0; align-items: center; display: none; justify-content: center; overflow: hidden;
+  .overlay {
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		z-index: 25;
+		background: radial-gradient(ellipse farthest-corner at center, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);
+			display: block;
+			position: fixed;
+		}
+  }
 .modal.is-active { display: flex }
 .modal-background { background-color: rgba(10, 10, 10, .86); bottom: 0; left: 0; position: absolute; right: 0; top: 0; }
 .modal-card,
-.modal-content {max-height: calc(100vh - 160px); overflow: auto; position: relative; width: 100% }
-.modal-content { padding:10px 16px 16px; margin: 0 }
+.modal-content {max-height: calc(100vh - 160px); overflow: auto; position: relative; width: 100% ;}
+.modal-content { padding:0px 16px 0px; margin: 0 }
 .modal-content a {color: #f12837;}
 .modal-card { background-color: #fff; border-radius: 6px; display: flex; flex-direction: column; max-height: calc(100vh - 40px); overflow: hidden }
 .modal-card-foot,
@@ -21,6 +32,10 @@
   background-color: #fff;
   border-radius: 16px;
   min-width: 600px;
+  max-width: 780px;
+  z-index: 30;
+  padding-top: 10px;
+  padding-bottom: 16px;
   h4 {
     font-size: 20px;
   }
@@ -30,8 +45,10 @@
     width: 100%;
   }
 }
+.modal-history {
+  
+}
 .modal-body {
-  padding-top: 16px;
   .js-comment-row {
     border-bottom: 1px solid var(--modal-divider, #DEDFE0);
     padding-bottom: 8px;
@@ -63,7 +80,6 @@
   display: none;
   justify-content: center;
   overflow: hidden;
-  position: fixed;
   background: none;
   visibility: hidden;
   &.is-active { display: flex }
@@ -73,11 +89,9 @@
     border: 1px solid #98D9B2;
     margin-bottom: 65vh;
     visibility: visible;
-    .modal-content {
-      padding: 8px 16px 16px;
-      z-index: 40;
-      position: relative;
-    }
+    z-index: 40;
+    position: relative;
+    padding-top: 16px;
     .form-group {
       .phone-copy {
         color: #2451C2;

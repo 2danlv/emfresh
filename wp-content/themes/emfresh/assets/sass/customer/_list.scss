@@ -60,22 +60,42 @@
                         position: absolute;
                         z-index: 0;
                         left: 8px;
-                        bottom: calc(-100% - 53px);
+                        top: calc(100% + 2px);
                         visibility: hidden;
                         opacity: 0;
                         padding: 8px 16px 8px 8px;
                         li {
                             display: block;
                             white-space: nowrap;
-                            padding: 7px 0;
+                            padding: 5px 0;
+                            &:hover {
+                                color: #4BA66F;
+                            }
                             a {
-                                background: url(../img/icon/upload.svg) left center no-repeat;
+                                padding-top: 2px;
+                                padding-bottom: 2px;
                                 padding-left: 36px;
+                                &.upload {
+                                    background: url(../img/icon/upload.svg) left center no-repeat;
+                                    &:hover {
+                                        background-image: url(../img/icon-hover/upload.svg);
+                                    }
+                                }
+                            }
+                            span.copyAllphone {
+                                padding-top: 2px;
+                                padding-bottom: 2px;
+                                padding-left: 36px;
+                                cursor: pointer;
+                                background: url(../img/icon/copy.svg) left 1px center no-repeat;
+                                background-size: 17px 20px;
                                 &:hover {
-                                    background-image: url(../img/icon-hover/upload.svg);
+                                    background: url(../img/icon-hover/copy.svg) left 1.2px center no-repeat;
                                 }
                             }
                             button {
+                                padding-top: 2px;
+                                padding-bottom: 2px;
                                 border: none;
                                 background: url(../img/icon/download-svgrepo-com.svg) left center no-repeat;
                                 padding-left: 36px;
