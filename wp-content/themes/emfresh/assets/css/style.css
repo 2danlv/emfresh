@@ -430,17 +430,17 @@ table { border-collapse: collapse; }
 .modal-result_update .modal-header .nav li.active.error { color: #CC2929; }
 .modal-result_update .modal-header .nav li.active.error::after { background-color: #CC2929; }
 .modal-result_update .modal-header .notice { margin-top: 16px; border-radius: var(--inform-radiusCorner, 8px); border: 1px solid var(--inform-border-success, #98D9B2); background: var(--inform-background-success, #F0FAF4); padding: 12px; }
-.modal-result_update .modal-content { max-height: calc(100vh - 340px); }
+.modal-result_update .modal-content { max-height: calc(100vh - 320px); }
 .modal-result_update .modal-body .row { padding: 8px 0; }
 .modal-result_update .modal-body .row.error { color: #CC2929; }
-.modal-result_update .modal-footer button { margin: 0 auto; padding-top: 11px; padding-bottom: 11px; }
+.modal-result_update .modal-footer button { margin: 0 auto; padding-top: 11px; padding-bottom: 11px; background-color: #fff; }
 .modal-result_update .modal-footer button.button-result-export { padding-left: 52px; background: url(../img/icon/download-svgrepo-com.svg) left 24px top 5px no-repeat; }
 
 .copy { cursor: pointer; color: #2451C2; }
 
 .nowrap { white-space: nowrap; }
 
-.tag.btn, .select2-selection__rendered { padding: 2px 6px 4px; color: #fff; white-space: nowrap; margin: 2px; display: inline-block; border-radius: 3px; }
+.tag.btn, .select2-selection__rendered { padding: 2px 6px 4px; color: #fff; white-space: nowrap; margin: 2px; display: inline-block; border-radius: 3px; cursor: auto; }
 .tag.btn ::first-letter, .select2-selection__rendered ::first-letter { text-transform: uppercase; }
 
 .btn.tag_1 { background: var(--color-purple-300, #C6B1F6); color: #0F0F0F; }
@@ -610,6 +610,8 @@ div.dt-container.dt-empty-footer tbody > tr:last-child > * { border: none; }
 .dt-container table.table td:first-child { text-align: center; padding-top: 7px; }
 .dt-container table.table td { padding-bottom: 0; min-height: 32px; }
 .dt-container table.table td.wrap-td { position: relative; }
+.dt-container table.table td .wrap-tags { overflow: hidden; position: relative; white-space: nowrap; }
+.dt-container table.table td .wrap-tags .badge { position: sticky; right: 0; top: 0; font-weight: bold; cursor: pointer; margin-left: 2px; font-size: 12px; }
 .dt-container table.table td .ellipsis { position: absolute; border: 0; top: 6px; left: 0; right: 0; bottom: 0; overflow: hidden; padding: 2px 8px; text-overflow: ellipsis; }
 .dt-container table.table td .avatar img { border-radius: 50%; }
 .dt-container .dt-scroll-body { border: none !important; background-color: #fff; padding-bottom: 8px; }

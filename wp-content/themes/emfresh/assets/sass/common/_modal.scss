@@ -167,7 +167,7 @@
     }
   }
   .modal-content {
-    max-height: calc(100vh - 340px);
+    max-height: calc(100vh - 320px);
   }
   .modal-body {
     .row {
@@ -182,6 +182,7 @@
       margin: 0 auto;
       padding-top: 11px;
       padding-bottom: 11px;
+      background-color: #fff;
       &.button-result-export {
         padding-left: 52px;
         background: url(../img/icon/download-svgrepo-com.svg) left 24px top 5px no-repeat;

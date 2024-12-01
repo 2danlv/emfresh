@@ -150,26 +150,27 @@ get_header();
       <table id="list-customer" class="table table-list-customer" style="width:100%">
         <thead>
           <tr>
-            <th class="text-center"><input type="checkbox" name="checkall" id="checkall" /></th>
-            <th><span class="nowrap">Tên khách hàng</span></th>
-            <th class="text-left">SĐT</th>
-            <th>Địa chỉ</th>
-            <th>Địa chỉ</th>
-            <th class="text-center"><span class="nowrap">Trạng thái </span><span class="nowrap">khách hàng</span></th>
-            <th class="dt-orderable-none">Tag <span class="nowrap">phân loại</span></th>
-            <th class="text-center">Giới tính</th>
-            <th class="text-center">Note <span class="nowrap">dụng cụ ăn</span></th>
-            <th><span class="nowrap">Số </span>đơn</th>
-            <th>Số <span class="nowrap">ngày ăn</span></th>
-            <th>Số <span class="nowrap">phần ăn</span></th>
-            <th><span class="nowrap">Tổng tiền </span><span class="nowrap">đã chi</span></th>
-            <th class="text-left">Điểm <span class="nowrap">tích lũy</span></th>
-            <th>Lịch sử <span class="nowrap">đặt gần nhất</span></th>
-            <th class="text-center"><span class="nowrap">Nhân </span>viên</th>
-            <th>Nhân viên</th>
-            <th class="text-left"><span class="nowrap">Lần cập </span><span class="nowrap">nhật cuối</span></th>
-            <th class="text-left"><span class="nowrap">Lần cập nhật cuối</span></th>
-            <th class="text-left"><span class="nowrap">Lần cập nhật cuối</span></th>
+            <th data-number="0" class="text-center"><input type="checkbox" name="checkall" id="checkall" /></th>
+            <th data-number="1"><span class="nowrap">Tên khách hàng</span></th>
+            <th data-number="2" class="text-left">SĐT</th>
+            <th data-number="3">Địa chỉ</th>
+            <th data-number="4">Địa chỉ</th>
+            <th data-number="5" class="text-center"><span class="nowrap">Trạng thái </span><span class="nowrap">khách hàng</span></th>
+            <th data-number="6" class="dt-orderable-none">Tag <span class="nowrap">phân loại</span></th>
+            <th data-number="7" class="dt-orderable-none">Tag phân loại</th>
+            <th data-number="8" class="text-center">Giới tính</th>
+            <th data-number="9" class="text-center">Note <span class="nowrap">dụng cụ ăn</span></th>
+            <th data-number="10"><span class="nowrap">Số </span>đơn</th>
+            <th data-number="11">Số <span class="nowrap">ngày ăn</span></th>
+            <th data-number="12">Số <span class="nowrap">phần ăn</span></th>
+            <th data-number="13"><span class="nowrap">Tổng tiền </span><span class="nowrap">đã chi</span></th>
+            <th data-number="14" class="text-left">Điểm <span class="nowrap">tích lũy</span></th>
+            <th data-number="15">Lịch sử <span class="nowrap">đặt gần nhất</span></th>
+            <th data-number="16" class="text-center"><span class="nowrap">Nhân </span>viên</th>
+            <th data-number="17">Nhân viên</th>
+            <th data-number="18" class="text-left"><span class="nowrap">Lần cập </span><span class="nowrap">nhật cuối</span></th>
+            <th data-number="19" class="text-left"><span class="nowrap">Lần cập nhật cuối</span></th>
+            <th data-number="20" class="text-left"><span class="nowrap">Lần cập nhật cuối</span></th>
           </tr>
         </thead>
         <tbody>
@@ -185,39 +186,65 @@ get_header();
               if (is_array($record)) { // Check if each record is an array
                 if ($record['active'] != '0') { ?>
                   <tr>
-                    <td class="text-center"><input type="checkbox" class="checkbox-element" data-number="<?php echo $record['phone']; ?>" value="<?php echo $record['id'] ?>"></td>
-                    <td class="text-capitalize nowrap wrap-td"><div class="ellipsis"><a href="detail-customer/?customer_id=<?php echo $record['id'] ?>"><?php echo $record['customer_name']; ?></a></div></td>
-                    <td class="text-left"><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $record['phone']; ?>"><?php echo $record['phone']; ?></span></td>
-                    <td class="text-capitalize wrap-td" style="min-width: 300px;">
+                    <td data-number="0" class="text-center"><input type="checkbox" class="checkbox-element" data-number="<?php echo $record['phone']; ?>" value="<?php echo $record['id'] ?>"></td>
+                    <td data-number="1" class="text-capitalize nowrap wrap-td"><div class="ellipsis"><a href="detail-customer/?customer_id=<?php echo $record['id'] ?>"><?php echo $record['customer_name']; ?></a></div></td>
+                    <td data-number="2" class="text-left"><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $record['phone']; ?>"><?php echo $record['phone']; ?></span></td>
+                    <td data-number="3" class="text-capitalize wrap-td" style="min-width: 300px;">
                       <div class="nowrap ellipsis"><?php echo $record['address']; echo $record['address'] ? ', ' : ''; ?> <?php echo $record['ward'];  echo $record['ward'] ? ', ' : ''; echo $record['district'] ?></div>
                     </td>
-                    <td class="text-capitalize">
+                    <td data-number="4" class="text-capitalize">
                       <?php echo $record['district']; ?>
                     </td>
-                    <td><span class="tag btn btn-sm status_<?php echo $record['status']; ?>"><?php echo $record['status_name']; ?></span></td>
+                    <td data-number="5"><span class="tag btn btn-sm status_<?php echo $record['status']; ?>"><?php echo $record['status_name']; ?></span></td>
                     <?php
                       $customer_tags = $em_customer_tag->get_items(['customer_id' => $record['id']]);
                       $html = [];
+                      $html_tag = [];
+                      $title = [];
+                      $count = 0;
+
+                      $remainingItems = array_slice($customer_tags, 2);
+                      $countRemainingItems = count($remainingItems);
 
                       foreach ($customer_tags as $item) {
-                        $html[] = '<span class="tag btn btn-sm tag_'.$item['tag_id'].'">'. $em_customer->get_tags($item['tag_id']).'</span>';
+                          $html[] = '<span class="tag btn btn-sm tag_' . $item['tag_id'] . '">' . $em_customer->get_tags($item['tag_id']) . '</span>';
                       }
 
-                      echo '<td>'.implode($html).'</td>';
-                    ?>
-                    <td class="text-center"><?php echo $record['gender_name']; ?></td>
-                    <td class="text-center"><?php echo $record['note_cook']; ?></td>
-                    <td class="text-left"></td>
-                    <td class="text-left"></td>
-                    <td class="text-left"></td>
-                    <td class="text-left"></td>
-                    <td class="text-left"><?php echo $record['point']; ?></td>
-                    <td></td>
-                    <td class="text-right"><span class="avatar"><img src="<?php echo get_avatar_url($record['modified_at']); ?>" width="24" alt="<?php echo get_the_author_meta('display_name', $record['modified_at']); ?>"></span></td>
-                    <td><?php echo get_the_author_meta('display_name', $record['modified_at']); ?></td>
-                    <td style="min-width: 140px;"><?php echo date('H:i d/m/Y', strtotime($record['modified'])); ?></td>
-                    <td><?php echo date('Y/m/d', strtotime($record['modified'])); ?></td>
-                    <td><?php echo date('d/m/Y', strtotime($record['modified'])); ?></td>
+                      echo '<td data-number="6">' . implode('', $html) . '</td>';
+
+                      echo '<td data-number="7"><div class="wrap-tags">';
+                      foreach ($customer_tags as $item_limit) {
+                          $html_tag[] = '<span class="tag btn btn-sm tag_' . $item_limit['tag_id'] . '">' . $em_customer->get_tags($item_limit['tag_id']) . '</span>';
+                          $count++;
+                          if ($count == 2) {
+                              break;
+                          }
+                      }
+
+                      echo implode('', $html_tag);
+                      if ($countRemainingItems > 0) {
+                          echo '<span class="badge" title="';
+                          foreach ($remainingItems as $items_) {
+                              $title[] = $em_customer->get_tags($items_['tag_id']) . ' ';
+                          }
+                          echo implode('', $title) . '">+' . $countRemainingItems . '</span>';
+                      }
+                      echo '</div></td>';
+                      ?>
+
+                    <td data-number="8" class="text-center"><?php echo $record['gender_name']; ?></td>
+                    <td data-number="9" class="text-center"><?php echo $record['note_cook']; ?></td>
+                    <td data-number="10" class="text-left"></td>
+                    <td data-number="11" class="text-left"></td>
+                    <td data-number="12" class="text-left"></td>
+                    <td data-number="13" class="text-left"></td>
+                    <td data-number="14" class="text-left"><?php echo $record['point']; ?></td>
+                    <td data-number="15"></td>
+                    <td data-number="16" class="text-right"><span class="avatar"><img src="<?php echo get_avatar_url($record['modified_at']); ?>" width="24" alt="<?php echo get_the_author_meta('display_name', $record['modified_at']); ?>"></span></td>
+                    <td data-number="17"><?php echo get_the_author_meta('display_name', $record['modified_at']); ?></td>
+                    <td data-number="18" style="min-width: 140px;"><?php echo date('H:i d/m/Y', strtotime($record['modified'])); ?></td>
+                    <td data-number="19"><?php echo date('Y/m/d', strtotime($record['modified'])); ?></td>
+                    <td data-number="20"><?php echo date('d/m/Y', strtotime($record['modified'])); ?></td>
                   </tr>
           <?php  }
               } else {
@@ -264,20 +291,20 @@ get_header();
               <li><label><input type="checkbox" data-column="2" value="2" disabled checked> Số điện thoại</label></li>
               <li><label><input type="checkbox" data-column="3" value="3" checked> Địa chỉ mặc định</label></li>
               <li><label><input type="checkbox" data-column="5" value="5" checked> Trạng thái khách hàng</label></li>
-              <li><label><input type="checkbox" data-column="6" value="6"> Tag phân loại</label></li>
-              <li><label><input type="checkbox" data-column="7" value="7"> Giới tính</label></li>
-              <li><label><input type="checkbox" data-column="8" value="8"> Note dụng cụ ăn</label></li>
+              <li><label><input type="checkbox" data-column="7" value="7"> Tag phân loại</label></li>
+              <li><label><input type="checkbox" data-column="8" value="8"> Giới tính</label></li>
+              <li><label><input type="checkbox" data-column="9" value="9"> Note dụng cụ ăn</label></li>
             </ul>
           </div>
           <div class="col-6">
             <ul class="filter list-unstyled">
-              <li><label><input type="checkbox" data-column="9" value="9" checked> Số đơn</label></li>
-              <li><label><input type="checkbox" data-column="10" value="10" checked> Số ngày ăn</label></li>
-              <li><label><input type="checkbox" data-column="11" value="11" checked> Số phần ăn</label></li>
-              <li><label><input type="checkbox" data-column="12" value="12"> Tổng tiền đã chi</label></li>
-              <li><label><input type="checkbox" data-column="13" value="13" checked> Điểm tích luỹ</label></li>
-              <li><label><input type="checkbox" data-column="14" value="14"> Lịch sử đặt gần nhất</label></li>
-              <li class="check_2"><label><input type="checkbox" value="15" data-column="15,17" checked> Nhân viên + Lần cập nhật cuối</label></li>
+              <li><label><input type="checkbox" data-column="10" value="10" checked> Số đơn</label></li>
+              <li><label><input type="checkbox" data-column="11" value="11" checked> Số ngày ăn</label></li>
+              <li><label><input type="checkbox" data-column="12" value="12" checked> Số phần ăn</label></li>
+              <li><label><input type="checkbox" data-column="13" value="13"> Tổng tiền đã chi</label></li>
+              <li><label><input type="checkbox" data-column="14" value="14" checked> Điểm tích luỹ</label></li>
+              <li><label><input type="checkbox" data-column="15" value="15"> Lịch sử đặt gần nhất</label></li>
+              <li class="check_2"><label><input type="checkbox" value="16" data-column="16,18" checked> Nhân viên + Lần cập nhật cuối</label></li>
             </ul>
           </div>
         </div>
@@ -339,7 +366,7 @@ get_header();
     </div>
   </div>
 </div>
-<div class="modal fade modal-result_update is-active">
+<div class="modal fade modal-result_update">
   <div class="overlay"></div>
   <div class="modal-dialog">
     <div class="modal-header pr-16">

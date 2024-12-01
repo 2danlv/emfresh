@@ -163,15 +163,15 @@ jQuery(document).ready(function () {
 		columnDefs: [
 			{
 				type: 'string',
-				targets: [0,15],
+				targets: [0,16],
 				orderable: false,
 			},
 			{
-			 type: 'string', targets: [0,2,3,4,5,7,8] 
+			 type: 'string', targets: [0,2,3,4,5,8,9] 
 			},
-			{ visible: false, targets: [4,6,7,8,12,14,16,18,19] },
+			{ visible: false, targets: [4,6,7,8,9,13,15,17,19,20] },
 			{
-				targets: 17,
+				targets: 18,
 				render: function(data, type, row) {
 					if (type === 'sort') {
 					var dateParts = data.split(" ");
@@ -183,13 +183,13 @@ jQuery(document).ready(function () {
 				}
 			},
             {
-                targets: [18],
+                targets: [19],
                 render: function(data) {
                     return moment(data, 'YYYY/MM/DD').format('DD/MM/YYYY');
                   }
               },
               {
-                targets: 19, // Target the first column which contains dates
+                targets: 20, // Target the first column which contains dates
                 render: function(data, type, row) {
                   return moment(data, 'DD/MM/YYYY').format('DD/MM/YYYY');
                 }
@@ -212,7 +212,7 @@ jQuery(document).ready(function () {
                         html: tagCondition,
                     },
 					depthLimit: 0,
-					columns: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,16,18],
+					columns: [4, 5, 6, 8, 9, 10, 11, 12, 13, 14,15,17,19],
 					filterChanged: function (count) {
 						if (count == 0 || count == 1) {
 							$('.btn-fillter').removeClass('current-filter');
@@ -243,7 +243,7 @@ jQuery(document).ready(function () {
 		scrollCollapse: true,
 		scrollX: true,
 		//"buttons": ["csv", "excel", "pdf"],
-		order: [[17, 'desc']],
+		order: [[18, 'desc']],
 		iDisplayLength: 50,
 		lengthChange: true,
 		lengthMenu: [
