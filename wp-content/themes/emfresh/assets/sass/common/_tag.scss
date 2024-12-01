@@ -243,6 +243,18 @@ color: #fff;
     border-radius: var(--tag-radiusCorner-rounded, 8px);
     border: 1px solid var(--tag-border-selected, #4BA66F);
     background: var(--tag-background-active, #F0FAF4);
+    &.badge-success {
+        color: #fff;
+        border-radius: var(--radius-rounded-4, 4px);
+        border: 1px solid var(--tag-border-selected, #36995D);
+        background: var(--button-solid-background-hover, #36995D);
+    }
+    &.badge-error {
+        color: #CC2929;
+        border-radius: var(--radius-rounded-4, 4px);
+        border: 1px solid var(--tag-border-selected, #FFE7E0);
+        background: var(--color-red-10, #FFE7E0);
+    }
 }
 
 .daterangepicker td {

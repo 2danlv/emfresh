@@ -221,11 +221,15 @@ table { border-collapse: collapse; }
 
 .mr-8 { margin-right: 8px; }
 
+.ml-8 { margin-left: 8px; }
+
 .pl-4 { padding-left: 4px; }
 
 .pl-8 { padding-left: 8px; }
 
 .pr-8 { padding-right: 8px; }
+
+.pl-16 { padding-left: 16px; }
 
 .pr-16 { padding-right: 16px; }
 
@@ -416,6 +420,22 @@ table { border-collapse: collapse; }
 
 .modal-warning .modal-dialog { min-width: 320px; }
 
+.modal-result_update .modal-header { padding-top: 0; padding-bottom: 0; padding-left: 16px; padding-right: 16px; border-bottom: none; }
+.modal-result_update .modal-header .modal-title { border-bottom: var(--number-1px, 1px) solid var(--modal-divider, #DEDFE0); padding: 6px 0 12px; }
+.modal-result_update .modal-header .nav { padding-top: 24px; font-weight: bold; border-bottom: var(--number-1px, 1px) solid var(--modal-divider, #DEDFE0); }
+.modal-result_update .modal-header .nav li { display: inline-block; color: #747475; padding: 8px 16px; margin-right: 8px; cursor: pointer; position: relative; }
+.modal-result_update .modal-header .nav li:last-child { margin-right: 0; }
+.modal-result_update .modal-header .nav li.active { color: #208046; }
+.modal-result_update .modal-header .nav li.active::after { content: ''; background-color: #208046; position: absolute; width: 100%; height: 2px; left: 0; bottom: -1px; }
+.modal-result_update .modal-header .nav li.active.error { color: #CC2929; }
+.modal-result_update .modal-header .nav li.active.error::after { background-color: #CC2929; }
+.modal-result_update .modal-header .notice { margin-top: 16px; border-radius: var(--inform-radiusCorner, 8px); border: 1px solid var(--inform-border-success, #98D9B2); background: var(--inform-background-success, #F0FAF4); padding: 12px; }
+.modal-result_update .modal-content { max-height: calc(100vh - 340px); }
+.modal-result_update .modal-body .row { padding: 8px 0; }
+.modal-result_update .modal-body .row.error { color: #CC2929; }
+.modal-result_update .modal-footer button { margin: 0 auto; padding-top: 11px; padding-bottom: 11px; }
+.modal-result_update .modal-footer button.button-result-export { padding-left: 52px; background: url(../img/icon/download-svgrepo-com.svg) left 24px top 5px no-repeat; }
+
 .copy { cursor: pointer; color: #2451C2; }
 
 .nowrap { white-space: nowrap; }
@@ -517,6 +537,8 @@ table { border-collapse: collapse; }
 .btn-danger { border-radius: var(--button-radiusCorner, 8px); border: 1px solid var(--input-border-error, #F73131); background: var(--inform-background-error, #FFE7E0); color: #F73131; }
 
 .badge { color: #4BA66F; padding: 4px 8px; border-radius: var(--tag-radiusCorner-rounded, 8px); border: 1px solid var(--tag-border-selected, #4BA66F); background: var(--tag-background-active, #F0FAF4); }
+.badge.badge-success { color: #fff; border-radius: var(--radius-rounded-4, 4px); border: 1px solid var(--tag-border-selected, #36995D); background: var(--button-solid-background-hover, #36995D); }
+.badge.badge-error { color: #CC2929; border-radius: var(--radius-rounded-4, 4px); border: 1px solid var(--tag-border-selected, #FFE7E0); background: var(--color-red-10, #FFE7E0); }
 
 .daterangepicker td.in-range { background: var(--calendar-background-cell-range, #F0FAF4); }
 .daterangepicker td.active, .daterangepicker td.active:hover, .daterangepicker td:hover, .daterangepicker td.end-date, .daterangepicker td.available:hover { background: var(--calendar-background-cell-selected, #4BA66F); color: #fff; }

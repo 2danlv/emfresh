@@ -239,7 +239,7 @@ get_header();
     <div class="modal-content">
       <div class="modal-body pt-8 pb-16">
         <div class="d-f ai-center">
-          <i class="fas fa-warning mr-4"></i>
+          <i class="fas fa-warning mr-8"></i>
           <p>Hãy chọn khách hàng để <span class="txt_append">chỉnh sửa</span> nhanh!</p>
         </div>
       </div>
@@ -336,12 +336,95 @@ get_header();
           </div>
         </form>
       </div>
-
     </div>
-    
   </div>
 </div>
-
+<div class="modal fade modal-result_update is-active">
+  <div class="overlay"></div>
+  <div class="modal-dialog">
+    <div class="modal-header pr-16">
+      <h4 class="modal-title">Cập nhật nhanh</h4>
+      <div class="d-f notice ai-center mb-16">
+        <i class="fas fa-check-circle mr-8"></i> Đã cập nhật xong, vui lòng kiểm tra kết quả
+      </div>
+      <ul class="nav">
+        <li class="nav-item active" rel="all">Tất cả</li>
+        <li class="nav-item" rel="success">Thành công <span class="badge badge-success ml-8">4</span></li>
+        <li class="nav-item error" rel="error">Lỗi <span class="badge badge-error ml-8">4</span></li>
+      </ul>
+    </div>
+    <div class="modal-content">
+      <div class="modal-body pt-16">
+       <div class="row success">
+        <div class="col-4">Linh (Nu Kenny)</div>
+        <div class="col-4"><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0888170802">0888170802</span></div>
+        <div class="col-4">cập nhật thành công</div>
+       </div>
+       <div class="row success">
+        <div class="col-4">Linh (Nu Kenny)</div>
+        <div class="col-4"><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0888170802">0888170802</span></div>
+        <div class="col-4">cập nhật thành công</div>
+       </div>
+       <div class="row error">
+        <div class="col-4">Linh (Nu Kenny)</div>
+        <div class="col-4"><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0888170802">0888170802</span></div>
+        <div class="col-4">cập nhật thành công</div>
+       </div>
+       <div class="row success">
+        <div class="col-4">Linh (Nu Kenny)</div>
+        <div class="col-4"><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0888170802">0888170802</span></div>
+        <div class="col-4">cập nhật thành công</div>
+       </div>
+       <div class="row success">
+        <div class="col-4">Linh (Nu Kenny)</div>
+        <div class="col-4"><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0888170802">0888170802</span></div>
+        <div class="col-4">cập nhật thành công</div>
+       </div>
+       <div class="row error">
+        <div class="col-4">Linh (Nu Kenny)</div>
+        <div class="col-4"><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0888170802">0888170802</span></div>
+        <div class="col-4">cập nhật thành công</div>
+       </div>
+       <div class="row success">
+        <div class="col-4">Linh (Nu Kenny)</div>
+        <div class="col-4"><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0888170802">0888170802</span></div>
+        <div class="col-4">cập nhật thành công</div>
+       </div>
+       <div class="row success">
+        <div class="col-4">Linh (Nu Kenny)</div>
+        <div class="col-4"><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0888170802">0888170802</span></div>
+        <div class="col-4">cập nhật thành công</div>
+       </div>
+       <div class="row error">
+        <div class="col-4">Linh (Nu Kenny)</div>
+        <div class="col-4"><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0888170802">0888170802</span></div>
+        <div class="col-4">cập nhật thành công</div>
+       </div>
+       <div class="row success">
+        <div class="col-4">Linh (Nu Kenny)</div>
+        <div class="col-4"><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0888170802">0888170802</span></div>
+        <div class="col-4">cập nhật thành công</div>
+       </div>
+       <div class="row success">
+        <div class="col-4">Linh (Nu Kenny)</div>
+        <div class="col-4"><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0888170802">0888170802</span></div>
+        <div class="col-4">cập nhật thành công</div>
+       </div>
+       <div class="row error">
+        <div class="col-4">Linh (Nu Kenny)</div>
+        <div class="col-4"><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0888170802">0888170802</span></div>
+        <div class="col-4">cập nhật thành công</div>
+       </div>
+      </div>
+    </div>
+    <div class="modal-footer pt-16 pl-16 pr-16">
+      <div class="row">
+        <div class="col-6"><button type="button" class="btn btn-secondary button-result-export modal-close">Xuất Excel kết quả</button></div>
+        <div class="col-6 text-right"><button type="button" class="btn btn-secondary modal-close">Đóng</button></div>
+      </div>
+    </div>
+  </div>
+</div>
 <?php
 $html = [];
 foreach ($list_tags as $key => $value) { 
@@ -409,6 +492,19 @@ get_footer('customer');
 			} else {
 				$(".alert-form").hide();
 			}
+    });
+    
+    var $modalBody = $('.modal-result_update .modal-body');
+    $('.modal-result_update .nav li.nav-item').click(function() {
+      var rel = $(this).attr('rel');
+      $('.modal-result_update .nav li.nav-item').removeClass('active');
+      $(this).addClass('active');
+      $modalBody.find('.row').hide();
+      if (rel === 'all') {
+        $modalBody.find('.row').show();
+      } else {
+        $modalBody.find('.row.' + rel).show();
+      }
     });
   });
 </script>
