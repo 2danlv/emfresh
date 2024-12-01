@@ -380,11 +380,13 @@ get_header();
 									<span>Ghi chú dụng cụ ăn:</span>
 									<span><?php echo $response_customer['data']['note_cook']; ?></span>
 								</div>
-								<div class="pt-8 ai-center">
-									<span>Tag phân loại:</span><br>
-									<?php foreach ($customer_tags as $item) : $tag = $item['tag_id']; ?>
-										<span class="tag btn btn-sm tag_<?php echo $tag; ?> text-titlecase"><?php echo isset($list_tags[$tag]) ? $list_tags[$tag] : ''; ?></span>
-									<?php endforeach; ?>
+								<div class="pt-8 d-f">
+									<span class="nowrap pt-4">Tag phân loại:</span>
+									<div class="text-right jc-end col-item-right ">
+										<?php foreach ($customer_tags as $item) : $tag = $item['tag_id']; ?>
+											<span class="tag btn btn-sm tag_<?php echo $tag; ?> text-titlecase"><?php echo isset($list_tags[$tag]) ? $list_tags[$tag] : ''; ?></span>
+										<?php endforeach; ?>
+									</div>
 								</div>
 								<!-- /.card-body -->
 							</div>
