@@ -27,6 +27,11 @@
     padding-bottom: 10px;
     border-bottom: var(--number-1px, 1px) solid var(--modal-divider, #DEDFE0);
   }
+  .list-tag {
+    .tag.btn {
+      margin-bottom: 4px;
+    }
+  }
   .tabNavigation {
     padding-bottom: 8px;
     background-color: #fff;

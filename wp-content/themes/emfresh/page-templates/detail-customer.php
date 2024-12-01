@@ -382,9 +382,9 @@ get_header();
 								</div>
 								<div class="pt-8 d-f">
 									<span class="nowrap pt-4">Tag phân loại:</span>
-									<div class="text-right jc-end col-item-right ">
+									<div class="list-tag text-right jc-end col-item-right">
 										<?php foreach ($customer_tags as $item) : $tag = $item['tag_id']; ?>
-											<span class="tag btn btn-sm tag_<?php echo $tag; ?> text-titlecase"><?php echo isset($list_tags[$tag]) ? $list_tags[$tag] : ''; ?></span>
+											<span class="tag btn btn-sm tag_<?php echo $tag; ?> mb-4"><?php echo isset($list_tags[$tag]) ? $list_tags[$tag] : ''; ?></span>
 										<?php endforeach; ?>
 									</div>
 								</div>
