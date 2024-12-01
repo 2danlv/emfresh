@@ -203,9 +203,9 @@ get_header();
                       $title = [];
                       $count = 0;
 
-                      $remainingItems = array_slice($customer_tags, 2);
-                      $countRemainingItems = count($remainingItems);
-
+                      $remainingTag = array_slice($customer_tags, 2);
+                      $countRemainingTag = count($remainingTag);
+                      $firstItemTag = true;
                       foreach ($customer_tags as $item) {
                           $html[] = '<span class="tag btn btn-sm tag_' . $item['tag_id'] . '">' . $em_customer->get_tags($item['tag_id']) . '</span>';
                       }
@@ -222,12 +222,17 @@ get_header();
                       }
 
                       echo implode('', $html_tag);
-                      if ($countRemainingItems > 0) {
+                      if ($countRemainingTag > 0) {
                           echo '<span class="badge" title="';
-                          foreach ($remainingItems as $items_) {
-                              $title[] = $em_customer->get_tags($items_['tag_id']) . ' ';
+                          foreach ($remainingTag as $items_) {
+                              if ($firstItemTag) {
+                                  $title[] .= $em_customer->get_tags($items_['tag_id']);
+                                  $firstItemTag = false;
+                              } else {
+                                  $title[] .= ', ' . $em_customer->get_tags($items_['tag_id']);
+                              }
                           }
-                          echo implode('', $title) . '">+' . $countRemainingItems . '</span>';
+                          echo implode('', $title) . '">+' . $countRemainingTag . '</span>';
                       }
                       echo '</div></td>';
                       ?>
