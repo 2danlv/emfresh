@@ -658,7 +658,7 @@ jQuery(document).ready(function () {
 		columnDefs: [
 			{
 				type: 'natural',
-				targets: [0, 1, 2, 3, 4],
+				targets: [0, 1, 2],
 				orderable: false,
 			},
 		],

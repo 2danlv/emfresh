@@ -188,6 +188,13 @@
         text-align: left;
         padding: 8px;
         border-bottom: 2px solid #DEDFE0;
+        &.dt-orderable-asc.dt-orderable-desc.dt-ordering-desc {
+          cursor: auto;
+          pointer-events: none;
+          .dt-column-order {
+            display: none;
+          }
+        }
       }
       
       td {

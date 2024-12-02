@@ -742,6 +742,8 @@ table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:after { opa
 .detail-customer .card-history .btn-export { border-radius: var(--button-radiusCorner, 8px); border: 1.5px solid var(--button-outline-border-default, #DEDFE0); background: var(--color-grey-10, #FFF); padding: 7px 28px 7px 20px; }
 .detail-customer .card-history .btn-export span { margin-right: 8px; }
 .detail-customer .history-action tr th { text-align: left; padding: 8px; border-bottom: 2px solid #DEDFE0; }
+.detail-customer .history-action tr th.dt-orderable-asc.dt-orderable-desc.dt-ordering-desc { cursor: auto; pointer-events: none; }
+.detail-customer .history-action tr th.dt-orderable-asc.dt-orderable-desc.dt-ordering-desc .dt-column-order { display: none; }
 .detail-customer .history-action tr td { padding: 8px; vertical-align: top; }
 .detail-customer .history-action tr td:nth-child(1) { min-width: 150px; }
 .detail-customer .history-action tr td:nth-child(2) { min-width: 100px; }
