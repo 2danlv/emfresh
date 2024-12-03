@@ -513,14 +513,14 @@ get_header();
 													}
 												}
 
-												$childs = get_comments(array(
+												$comment->childs = get_comments(array(
 													'type' => 'customer',
 													'status' => 'any', // 'any', 'pending', 'approve'
 													'post_id' => $customer_id,  // Use post_id, not post_ID, fwHR58J87Xc503mt1S
 													'order' => 'comment_date_gmt DESC',
 													'parent' => $comment->comment_ID
 												));
-												$show_childs = count($childs) > 0;
+												$show_childs = count($comment->childs) > 0;
 											?>
 												<div class="js-comment-row pb-16 <?php 
 														echo ($comment->comment_approved == 0 ? ' status-trash' : '')
@@ -572,39 +572,6 @@ get_header();
 														?>
 													</div>
 												</div>
-												<?php if($show_childs) :?>
-												<div class="modal fade modal-history" id="modal-history<?php echo $comment->comment_ID ?>">
-												<div class="overlay"></div>
-													<div class="modal-dialog">
-														<div class="modal-content">
-															<div class="modal-body pt-16">
-																<div class="note-wraper">
-																	<?php foreach($childs as $child) :?>
-																	<div class="js-comment-row pb-16">
-																		<div class="row row-comment">
-																			<div class="account-name d-f ai-center col-9">
-																				<div class="avatar">
-																					<img src="<?php echo get_avatar_url($child->user_id); ?>" alt="" width="40">
-																				</div>
-																				<div><?php echo $child->comment_author ?></div>
-																			</div>
-																			<div class="time col-3 text-right"><?php echo get_comment_date('d/m/Y', $child->comment_ID) ?></div>
-																		</div>
-																		<div class="note-content cap-nhat">
-																			<span class="comment_content"><?php echo nl2br($child->comment_content) ?></span>
-																		</div>
-																	</div>
-																	<?php endforeach ?>
-																</div>
-															</div>
-															
-														</div>
-														<div class="modal-footer text-right pt-16 pr-16">
-															<button type="button" class="btn btn-secondary modal-close">Đóng</button>
-														</div>
-													</div>
-												</div>
-												<?php endif; ?>
 											<?php endforeach; ?>
 										</div>										
 										<div class="note-form">
@@ -955,6 +922,9 @@ get_header();
   </div>
 </div>
 <?php
+
+get_template_part('parts/comment/comment', 'childs', ['comments' => $comments]);
+
 // endwhile;
 get_footer('customer');
 ?>
