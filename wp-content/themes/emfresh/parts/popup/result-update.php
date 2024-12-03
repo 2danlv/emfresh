@@ -26,10 +26,10 @@ foreach ($list_noti as $i => $result) {
 
     if ($result['success'] == 0) {
         $list_fail[] = $result;
-        $result['message'] = 'cập nhật không thành công';
+        $result['message'] = 'Cập nhật không thành công';
     } else {
         $list_success[] = $result;
-        $result['message'] = 'cập nhật thành công';
+        $result['message'] = 'Cập nhật thành công';
     }
 
     $list_csv[] = $result['customer_name'] . ',' . $result['phone'] .',' . $result['message'];
@@ -57,8 +57,8 @@ foreach ($list_noti as $i => $result) {
                 <?php foreach($list_noti as $result) : ?>
                 <div class="row <?php echo $result['success'] ? 'success' : 'error' ?>">
                     <div class="col-4"><?php echo $result['customer_name'] ?></div>
-                    <div class="col-4"><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $result['phone'] ?>"><?php echo $result['phone'] ?></span></div>
-                    <div class="col-4"><?php echo $result['message'] ?> </div>
+                    <div class="col-3"><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $result['phone'] ?>"><?php echo $result['phone'] ?></span></div>
+                    <div class="col-5"><?php echo $result['message'] ?> </div>
                 </div>
                 <?php endforeach ?>
                 <!-- <div class="row error">
