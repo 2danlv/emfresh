@@ -130,6 +130,21 @@ function site_comment_log($comment, $action = '')
             'module_id'     => $comment->comment_post_ID,
             'content'       => $log_content
         ]);
+        
+        site_comment_customer_last_update($comment);        
+    }
+}
+
+function site_comment_customer_last_update($comment)
+{
+    global $em_customer;
+
+    if (isset($em_customer) && is_object($comment)) {
+        $em_customer->update([
+            'id' => $comment->comment_post_ID,
+            'modified' => current_time('mysql'),
+            'modified_at' => get_current_user_id(),
+        ]);
     }
 }
 
@@ -174,8 +189,8 @@ function site_comment_can_edit($comment_ID = 0)
         return false;
     }
 
-    $user = wp_get_current_user();
-    if (empty($user->ID) || $user->ID != $comment->user_id) {
+    $user_id = (int) get_current_user_id();
+    if ($user_id == 0 || $user_id != $comment->user_id) {
         return false;
     }
 
@@ -265,9 +280,9 @@ function site_comment_add($data)
     } else {
         // update_comment_meta($comment->comment_ID, 'pin', 0);
 
-if(empty($data["comment_parent"]) || $data["comment_parent"] == 0) {
-        site_comment_log($comment, 'Tạo');
-}
+        if(empty($data["comment_parent"]) || $data["comment_parent"] == 0) {
+            site_comment_log($comment, 'Tạo');
+        }
 
         $json = array('code' => 200, 'message' => 'Bình luận thành công');
     }

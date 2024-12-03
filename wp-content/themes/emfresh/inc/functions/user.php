@@ -151,7 +151,7 @@ function site_user_user_session($session = false)
 
 function site_user_session_get($key = '', $clean = false)
 {
-    $key = 'site_user_' . $key;
+    $key = 'site_user_' . md5($key);
 
     $session = site_user_user_session();
 
@@ -167,7 +167,7 @@ function site_user_session_get($key = '', $clean = false)
 
 function site_user_session_update($key = '', $value = '')
 {
-    $key = 'site_user_' . $key;
+    $key = 'site_user_' . md5($key);
 
     $session = site_user_user_session();
 
