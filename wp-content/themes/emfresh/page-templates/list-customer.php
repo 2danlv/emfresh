@@ -112,9 +112,9 @@ get_header();
     echo '<div class="alert alert-success mt-3 mb-16" role="alert">Xóa khách hàng thành công</div>';
   }
     if (!empty($_GET['code']) && !empty($_GET['expires']) && intval($_GET['expires']) > time()) {
-      echo '<div class="alert alert-success mt-3 mb-16" role="alert">'
-          . sprintf('Cập nhật%s thành công', $_GET['code'] != 200 ? ' không' : '')
-          .'</div>';
+      // echo '<div class="alert alert-success mt-3 mb-16" role="alert">'
+      //     . sprintf('Cập nhật%s thành công', $_GET['code'] != 200 ? ' không' : '')
+      //     .'</div>';
     }
   ?>
 
