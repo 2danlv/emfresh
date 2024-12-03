@@ -25,6 +25,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
   $updated = [];
   if (isset($_POST['tag_ids']) && count($_POST['tag_ids']) > 0) {
     $tag_radio = isset($_POST['tag_radio']) ? trim($_POST['tag_radio']) : 'add';
+    
+    $list_noti = [];
 
     foreach ($array_id as $key => $id) {
       $log_change = [];
@@ -35,17 +37,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
 
       if($tag_radio == 'remove') {
         foreach ($_POST['tag_ids'] as $tag_id) {
-          $em_customer_tag->delete([
+          $deleted = $em_customer_tag->delete([
             'tag_id' => $tag_id,
             'customer_id' => $customer_id
           ]);
 
           $log_change[] = sprintf('<span class="memo field-tag">Xóa Tag phân loại</span><span class="note-detail text-titlecase">%s</span>', $em_customer->get_tags($tag_id));
+
+          $list_noti[] = ['id' => $customer_id, 'success' => (int) $deleted];
         }
       } else {
         foreach ($_POST['tag_ids'] as $tag_id) {
           if (in_array($tag_id, $tag_ids) == false) {
-            $em_customer_tag->insert([
+            $inserted = $em_customer_tag->insert([
               'tag_id' => $tag_id,
               'customer_id' => $customer_id
             ]);
@@ -53,6 +57,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
             $tag_ids[] = $tag_id;
 
             $log_change[] = sprintf('<span class="memo field-tag">Thêm Tag phân loại</span><span class="note-detail text-titlecase">%s</span>', $em_customer->get_tags($tag_id));
+
+            $list_noti[] = ['id' => $customer_id, 'success' => (int) $inserted];
+          } else {
+            $list_noti[] = ['id' => $customer_id, 'success' => 0];
           }
         }
       }
@@ -65,8 +73,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
           'module_id'     => $customer_id,
           'content'       => implode("\n", $log_change)
         ]);
+
       }
     }
+    
+    site_user_session_update('list_noti', $list_noti);
   }
 
   // if ($order_payment_status != '') {
@@ -266,7 +277,7 @@ get_header();
 </section>
 
 <div class="modal fade modal-warning" id="modal-warning-edit">
-<div class="overlay"></div>
+  <div class="overlay"></div>
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-body pt-8 pb-16">
@@ -282,7 +293,7 @@ get_header();
   </div>
 </div>
 <div class="modal fade" id="modal-default">
-<div class="overlay"></div>
+  <div class="overlay"></div>
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -322,7 +333,7 @@ get_header();
   </div>
 </div>
 <div class="modal fade" id="modal-edit">
-<div class="overlay"></div>
+  <div class="overlay"></div>
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -371,93 +382,10 @@ get_header();
     </div>
   </div>
 </div>
-<div class="modal fade modal-result_update">
-  <div class="overlay"></div>
-  <div class="modal-dialog">
-    <div class="modal-header pr-16">
-      <h4 class="modal-title">Cập nhật nhanh</h4>
-      <div class="d-f notice ai-center mb-16">
-        <i class="fas fa-check-circle mr-8"></i> Đã cập nhật xong, vui lòng kiểm tra kết quả
-      </div>
-      <ul class="nav">
-        <li class="nav-item active" rel="all">Tất cả</li>
-        <li class="nav-item" rel="success">Thành công <span class="badge badge-success ml-8">4</span></li>
-        <li class="nav-item error" rel="error">Lỗi <span class="badge badge-error ml-8">4</span></li>
-      </ul>
-    </div>
-    <div class="modal-content">
-      <div class="modal-body pt-16">
-       <div class="row success">
-        <div class="col-4">Linh (Nu Kenny)</div>
-        <div class="col-4"><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0888170802">0888170802</span></div>
-        <div class="col-4">cập nhật thành công</div>
-       </div>
-       <div class="row success">
-        <div class="col-4">Linh (Nu Kenny)</div>
-        <div class="col-4"><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0888170802">0888170802</span></div>
-        <div class="col-4">cập nhật thành công</div>
-       </div>
-       <div class="row error">
-        <div class="col-4">Linh (Nu Kenny)</div>
-        <div class="col-4"><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0888170802">0888170802</span></div>
-        <div class="col-4">cập nhật thành công</div>
-       </div>
-       <div class="row success">
-        <div class="col-4">Linh (Nu Kenny)</div>
-        <div class="col-4"><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0888170802">0888170802</span></div>
-        <div class="col-4">cập nhật thành công</div>
-       </div>
-       <div class="row success">
-        <div class="col-4">Linh (Nu Kenny)</div>
-        <div class="col-4"><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0888170802">0888170802</span></div>
-        <div class="col-4">cập nhật thành công</div>
-       </div>
-       <div class="row error">
-        <div class="col-4">Linh (Nu Kenny)</div>
-        <div class="col-4"><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0888170802">0888170802</span></div>
-        <div class="col-4">cập nhật thành công</div>
-       </div>
-       <div class="row success">
-        <div class="col-4">Linh (Nu Kenny)</div>
-        <div class="col-4"><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0888170802">0888170802</span></div>
-        <div class="col-4">cập nhật thành công</div>
-       </div>
-       <div class="row success">
-        <div class="col-4">Linh (Nu Kenny)</div>
-        <div class="col-4"><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0888170802">0888170802</span></div>
-        <div class="col-4">cập nhật thành công</div>
-       </div>
-       <div class="row error">
-        <div class="col-4">Linh (Nu Kenny)</div>
-        <div class="col-4"><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0888170802">0888170802</span></div>
-        <div class="col-4">cập nhật thành công</div>
-       </div>
-       <div class="row success">
-        <div class="col-4">Linh (Nu Kenny)</div>
-        <div class="col-4"><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0888170802">0888170802</span></div>
-        <div class="col-4">cập nhật thành công</div>
-       </div>
-       <div class="row success">
-        <div class="col-4">Linh (Nu Kenny)</div>
-        <div class="col-4"><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0888170802">0888170802</span></div>
-        <div class="col-4">cập nhật thành công</div>
-       </div>
-       <div class="row error">
-        <div class="col-4">Linh (Nu Kenny)</div>
-        <div class="col-4"><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0888170802">0888170802</span></div>
-        <div class="col-4">cập nhật thành công</div>
-       </div>
-      </div>
-    </div>
-    <div class="modal-footer pt-16 pl-16 pr-16">
-      <div class="row">
-        <div class="col-6"><button type="button" class="btn btn-secondary button-result-export modal-close">Xuất Excel kết quả</button></div>
-        <div class="col-6 text-right"><button type="button" class="btn btn-secondary modal-close">Đóng</button></div>
-      </div>
-    </div>
-  </div>
-</div>
 <?php
+
+get_template_part('parts/popup/result', 'update');
+
 $html = [];
 foreach ($list_tags as $key => $value) { 
    $html[] = "'".$value."'"; 
