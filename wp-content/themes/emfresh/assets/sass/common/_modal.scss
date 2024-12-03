@@ -82,6 +82,7 @@
   overflow: hidden;
   background: none;
   visibility: hidden;
+  z-index: 20;
   &.is-active { display: flex }
   .modal-dialog {
     min-width: auto;

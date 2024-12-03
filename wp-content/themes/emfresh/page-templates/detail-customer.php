@@ -697,7 +697,7 @@ get_header();
 															$address_active = "";
 														}
 													?>
-														<div class="address-group pb-16 location_<?php echo ($record['active']);
+														<div class="address-group current-address pb-16 location_<?php echo ($record['active']);
 																							echo $address_active; ?> " data-index="<?php echo $index ?>">
 															<input type="hidden" name="locations[<?php echo $index ?>][id]" value="<?php echo $record['id'] ?>" />
 															<div class="card-body">
@@ -932,6 +932,11 @@ get_footer('customer');
 <script src="<?php site_the_assets(); ?>js/location.js"></script>
 <script type="text/javascript">
 	jQuery(function($) {
+		
+		$('.current-address .delete-location-button').click(function (e) { 
+			e.preventDefault();
+			$(".scroll-menu .btn-disable").removeClass('btn-disable');
+		});
 		
 		$('.form-horizontal').each(function(){
 			let p = $(this), data = p.serialize();
