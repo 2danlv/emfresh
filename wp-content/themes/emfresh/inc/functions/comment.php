@@ -152,9 +152,12 @@ function site_comment_update($data)
 {
     $comment_ID = isset($data['comment_ID']) ? intval($data['comment_ID']) : 0;
 
+    $comment = get_comment($comment_ID);
+
     $comment_data = $data;
     $comment_data['comment_parent'] = $comment_ID;
-    $comment_data['comment_ID'] = 0;
+    $comment_data['comment'] = $comment->comment_content;
+    unset($comment_data['comment_ID']);
     site_comment_add($comment_data);
 
     $comment = wp_update_comment([
