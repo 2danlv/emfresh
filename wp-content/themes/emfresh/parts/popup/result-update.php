@@ -9,6 +9,7 @@ if (empty($list_noti) || count($list_noti) == 0) return;
 $list_success = [];
 $list_fail = [];
 $list_csv = ['Họ tên,Số điện thoại,Kết quả'];
+$list_xlxs = [];
 $customers = [];
 foreach ($list_noti as $i => $result) {
     $id = $result['id'];
@@ -33,6 +34,12 @@ foreach ($list_noti as $i => $result) {
     }
 
     $list_csv[] = $result['customer_name'] . ',' . $result['phone'] .',' . $result['message'];
+
+    $list_xlxs[] = [
+        'Họ tên' => $result['customer_name'],
+        'Số điện thoại' => $result['phone'],
+        'Kết quả' => $result['message']
+    ];
 
     $list_noti[$i] = $result;
 }
@@ -80,8 +87,20 @@ foreach ($list_noti as $i => $result) {
     <textarea class="result_update_csv" style="display: none;"><?php echo implode("\n", $list_csv) ?></textarea>
 </div>
 <script>
+    var data_xlxs = <?php echo json_encode($list_xlxs, JSON_UNESCAPED_UNICODE) ?>;
+
     document.querySelector('.button-result-export').addEventListener('click', function(){
-        createDownloadLink(document.querySelector('.result_update_csv').value, 'result-update');
+        if(typeof XLSX == 'object') {
+            const worksheet = XLSX.utils.json_to_sheet(data_xlxs);
+
+            const workbook = XLSX.utils.book_new();
+
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Dates");
+
+            XLSX.writeFile(workbook, "result-update"  + '-' + (new Date()).getTime() + ".xlsx", { compression: true });
+        } else {
+            createDownloadLink(document.querySelector('.result_update_csv').value, 'result-update');
+        }
     })
 
     function createDownloadLink(data, name) {
