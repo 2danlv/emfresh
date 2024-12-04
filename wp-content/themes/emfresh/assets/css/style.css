@@ -616,7 +616,7 @@ div.dt-container.dt-empty-footer tbody > tr:last-child > * { border: none; }
 .dt-container table.table td { padding-bottom: 0; min-height: 32px; }
 .dt-container table.table td.wrap-td { position: relative; }
 .dt-container table.table td .wrap-tags { overflow: hidden; position: relative; white-space: nowrap; }
-.dt-container table.table td .wrap-tags .badge { position: sticky; right: 0; top: 0; font-weight: bold; cursor: pointer; margin-left: 2px; font-size: 12px; }
+.dt-container table.table td .wrap-tags .badge { position: sticky; right: 0; top: 0; font-weight: bold; cursor: pointer; margin-left: 2px; font-size: 12px; border: 1px solid var(--color-blue-700, #2451C2); background: var(--color-blue-10, #E5ECFF); color: var(--color-blue-700, #2451C2); }
 .dt-container table.table td .ellipsis { position: absolute; border: 0; top: 6px; left: 0; right: 0; bottom: 0; overflow: hidden; padding: 2px 8px; text-overflow: ellipsis; }
 .dt-container table.table td .avatar img { border-radius: 50%; }
 .dt-container .dt-scroll-body { border: none !important; background-color: #fff; padding-bottom: 8px; }
