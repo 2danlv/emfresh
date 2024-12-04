@@ -39,14 +39,20 @@
   h4 {
     font-size: 20px;
   }
+  .wrap-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 #modal-edit {
   select {
     width: 100%;
   }
 }
-.modal-history {
+.modal-result_update {
+  .modal-dialog {
   
+  }
 }
 .modal-body {
   .js-comment-row {

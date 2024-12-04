@@ -517,7 +517,7 @@ jQuery(document).ready(function () {
 		},
 	});
 
-	$('.btn-time').on('apply.daterangepicker', function (ev, picker) {
+	$('.em-importer .btn-time').on('apply.daterangepicker', function (ev, picker) {
         var start = picker.startDate;
         var end = picker.endDate;
 
@@ -558,9 +558,9 @@ jQuery(document).ready(function () {
 
 		var countCheckedCheckboxes = $('.table-list-customer td input[type="checkbox"]:checked').length;
 		if (countCheckedCheckboxes > 0) {
-			$('li.status').show();
-			$('.count-checked').text(countCheckedCheckboxes);
-			$('li.status').on('click', function (e) {
+			$('.em-importer li.status').show();
+			$('.em-importer .count-checked, .modal-copy-phone .form-group .total').text(countCheckedCheckboxes);
+			$('.em-importer li.status').on('click', function (e) {
 				$('.table-list-customer input[type="checkbox"]').prop('checked', false);
 				$(this).hide();
                 $('.list_id').val('');
@@ -572,11 +572,11 @@ jQuery(document).ready(function () {
 
 	$('.copy').on('click', function () {
 		const textToCopy = $(this).text();
-
 		const tempInput = $('<input>');
 		$('body').append(tempInput);
 		tempInput.val(textToCopy).select();
-		$('.modal-content .phone-copy').text(textToCopy);
+		$('.modal-copy-phone .form-group .phone-copy').text(textToCopy);
+		$('.modal-copy-phone .form-group .total').hide();
 		document.execCommand('copy');
 		setTimeout(() => {
 			$('.modal.modal-copy-phone').removeClass('is-active');
@@ -587,7 +587,8 @@ jQuery(document).ready(function () {
 	});
 	
 	$('.copyAllphone').click(function() {
-		$('.modal-content .phone-copy').text('');
+		$('.modal-copy-phone .form-group .phone-copy').text('');
+		$('.modal-copy-phone .form-group .total').show();
 		var numbers = '';
 		$('.table .checkbox-element[type="checkbox"]:checked').each(function() {
 			numbers += $(this).data('number') + '\n';  // Get the value from data-number

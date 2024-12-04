@@ -17,7 +17,7 @@
     <div class="modal-content pt-6">
       <div class="form-group d-f ai-center">
         <i class="fas fa-check-circle mr-8"></i>
-        <span>Đã sao chép SĐT</span> <span class="phone-copy"></span>
+        <span>Đã sao chép <span class="total"></span> SĐT</span> <span class="phone-copy"></span>
         <i class="fas fa-trash modal-close"></i>
       </div>
     </div>

@@ -56,8 +56,10 @@ foreach ($list_noti as $i => $result) {
             <div class="modal-body pt-16">
                 <?php foreach($list_noti as $result) : ?>
                 <div class="row <?php echo $result['success'] ? 'success' : 'error' ?>">
-                    <div class="col-4"><?php echo $result['customer_name'] ?></div>
-                    <div class="col-3"><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $result['phone'] ?>"><?php echo $result['phone'] ?></span></div>
+                    <div class="col-5">
+                        <div class="wrap-name nowrap" title="<?php echo $result['customer_name'] ?>"><?php echo $result['customer_name'] ?></div>
+                    </div>
+                    <div class="col-2"><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $result['phone'] ?>"><?php echo $result['phone'] ?></span></div>
                     <div class="col-5"><?php echo $result['message'] ?> </div>
                 </div>
                 <?php endforeach ?>
