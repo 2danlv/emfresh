@@ -234,7 +234,7 @@ get_header();
 
                       echo implode('', $html_tag);
                       if ($countRemainingTag > 0) {
-                          echo '<span class="badge" title="';
+                          echo '<span class="badge tooltip" title="';
                           foreach ($remainingTag as $items_) {
                               if ($firstItemTag) {
                                   $title[] .= $em_customer->get_tags($items_['tag_id']);

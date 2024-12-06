@@ -710,6 +710,13 @@ jQuery(document).ready(function () {
             }
         });
     }
+	
+	$( ".tooltip" ).tooltip({
+		position: {
+		 my: "left+5 center", at: "right center"
+	  },
+	  show: { effect: "fade", duration: 200 }
+	});
 });
 function stringToSlug(str) {
 	// remove accents
