@@ -717,6 +717,12 @@ jQuery(document).ready(function () {
 	  },
 	  show: { effect: "fade", duration: 200 }
 	});
+	$('input').on('keydown', function (e) {
+        // Check if both Shift and Enter are pressed
+        if (e.key === "Enter" && e.shiftKey) {
+            e.preventDefault();
+        }
+    });
 });
 function stringToSlug(str) {
 	// remove accents
