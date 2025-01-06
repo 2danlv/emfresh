@@ -71,7 +71,7 @@ $(document).ready(function() {
 						<div class="col-9 d-f ai-center nowrap">
 							<h1><?php the_title(); ?></h1>
 							<?php 
-							if ( is_page_template( 'page-templates/list-customer.php' ) ) { ?>
+							if ( is_page_template( 'page-templates/list-customer.php' ) || is_page_template( 'page-templates/list-order.php' ) ) { ?>
 								<input class="input-search" placeholder="Tên khách hàng / SĐT / Địa chỉ" type="text">
 							<?php } 
 							?>

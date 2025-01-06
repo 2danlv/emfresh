@@ -389,7 +389,17 @@ jQuery(document).ready(function () {
 		}
 		open_modal(this);
 	});
-
+	$('.quick-print').click(function (e) {
+		e.preventDefault();
+        $(".alert-form").hide();
+		if ($('.list_id').val() == '') {
+            $('#modal-warning-edit').addClass('is-active');
+            $('body').addClass('overflow');
+			$('.modal-warning .modal-body p span.txt_append').text('in');
+			return false;
+		}
+		open_modal(this);
+	});
 	$(document).on('click','.modal-button', function (ev) {
 		ev.preventDefault();
 		open_modal(this);
@@ -444,6 +454,7 @@ jQuery(document).ready(function () {
 	});
 	$('.content-header .input-search').keyup(function () {
 		table.search($(this).val()).draw();
+		table_list_order.search($(this).val()).draw();
 	});
 
 	function updateAllChecked() {
@@ -459,6 +470,7 @@ jQuery(document).ready(function () {
 	$(document).on('click', '.daterangepicker .ranges ul li:first', function (e, picker) {
 		e.preventDefault();
 		table.draw();
+		table_list_order.draw();
 		// daterangepicker.ranges({
 		//	 start: null,
 		//	 end: null
@@ -552,16 +564,50 @@ jQuery(document).ready(function () {
         // Remove the custom filter to prevent it from stacking on top of future filters
         $.fn.dataTable.ext.search.pop();
     });
-	
-	var $checkboxes = $('.table-list-customer td input[type="checkbox"]');
+	$('.em-importer .btn-time').on('apply.daterangepicker', function (ev, picker) {
+        var start = picker.startDate;
+        var end = picker.endDate;
+
+        // Add a class to indicate the filter is applied
+        $(this).addClass('date-filter');
+
+        // Push a custom filter to DataTables
+        $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+            var min = start;
+            var max = end;
+
+            // Get the date value from the table (assuming the date is in the 19th column)
+            var startDate = moment(data[23], 'DD/MM/YYYY');  // Adjust the format to match your table data
+
+            // Check if the row should be included based on the selected date range
+            if (
+                (min === null && max === null) ||
+                (min === null && startDate <= max) ||
+                (min <= startDate && max === null) ||
+                (min <= startDate && startDate <= max)
+            ) {
+                return true;
+            }
+
+            return false;
+        });
+
+        // Redraw the table to apply the filter
+        var table_order = $('.table-list-order').DataTable(); // Make sure the table variable is initialized
+        table_order.draw();
+
+        // Remove the custom filter to prevent it from stacking on top of future filters
+        $.fn.dataTable.ext.search.pop();
+    });
+	var $checkboxes = $('table.dataTable td input[type="checkbox"]');
 	$(document).on('click',$checkboxes,function () {
 
-		var countCheckedCheckboxes = $('.table-list-customer td input[type="checkbox"]:checked').length;
+		var countCheckedCheckboxes = $('table.dataTable td input[type="checkbox"]:checked').length;
 		if (countCheckedCheckboxes > 0) {
 			$('.em-importer li.status').show();
-			$('.em-importer .count-checked, .modal-copy-phone .form-group .total').text(countCheckedCheckboxes);
+			$('.em-importer .count-checked, .modal-copy-phone .form-group .total,.modal-print .list-print').text(countCheckedCheckboxes);
 			$('.em-importer li.status').on('click', function (e) {
-				$('.table-list-customer input[type="checkbox"]').prop('checked', false);
+				$('table.dataTable input[type="checkbox"]').prop('checked', false);
 				$(this).hide();
                 $('.list_id').val('');
 			});
@@ -620,6 +666,9 @@ jQuery(document).ready(function () {
 		var modaltarget = $(el).data('target');
 		$(modaltarget).addClass('is-active');
 		$('body').addClass('overflow');
+		setTimeout(() => {
+			table_print.columns.adjust();
+		}, 50);
 	}
 	var status = localStorage.getItem('sidebar');
 	if (status =="active") {
@@ -723,6 +772,190 @@ jQuery(document).ready(function () {
             e.preventDefault();
         }
     });
+	var table_list_order = $('.table-list-order').on('init.dt', function () {
+		//console.log(this, 'init.dt');
+    }).DataTable({
+		autoWidth: true,
+		scrollX: true,
+		scrollY:  $(window).height() - 227,
+		dom: 'Bfrtip<"bottom"pl>',
+		order: [[21, 'desc']],
+		iDisplayLength: 15,
+		lengthChange: true,
+		lengthMenu: [
+			[15,50, 100, 200],
+			['15 / trang','50 / trang', '100 / trang', '200 / trang'],
+		],
+		columnDefs: [
+			{   type: 'string',
+				targets: [0,1,19],
+				// targets: [0,1,4,5,9,10,11,12,13,14,15,16,17,18,19,20,21,22],
+				orderable: false,
+			},
+			{
+			 type: 'string', targets: [0,4,5,6,8,9] 
+			},
+			{ visible: false, targets: [5,6,8,9,10,11,13,14,15,16,17,18,20,22,23] },
+			{
+				targets: 21,
+				render: function(data, type, row) {
+					if (type === 'sort') {
+					var dateParts = data.split(" ");
+					var date = dateParts[1].split("/");
+					var time = dateParts[0].split(":");
+					return new Date(date[2], date[1] - 1, date[0], time[0], time[1]).toISOString();
+					}
+					return data;
+				}
+			},
+            {
+                targets: [22],
+                render: function(data) {
+                    return moment(data, 'YYYY/MM/DD').format('DD/MM/YYYY');
+                  }
+              },
+              {
+                targets: 23, // Target the first column which contains dates
+                render: function(data, type, row) {
+                  return moment(data, 'DD/MM/YYYY').format('DD/MM/YYYY');
+                }
+              }
+		],
+		buttons: [
+			// {
+			//	 text: "Date range",
+			//	 attr: {
+			//		 id: "reportrange",
+			//	 },
+			// },
+			{
+				extend: 'searchBuilder',
+				attr: {
+					id: 'searchBuilder',
+				},
+				config: {
+					conditions:{
+                        html: tagCondition,
+                    },
+					depthLimit: 0,
+					columns: [ 5, 6, 8, 9, 10, 11, 12, 13, 14,15,17,19,23],
+					filterChanged: function (count) {
+						if (count == 0 || count == 1) {
+							$('.btn-fillter').removeClass('current-filter');
+							$('.btn-fillter').text('Bộ lọc');
+							$('.dtsb-title').html(`Điều kiện lọc`);
+							$('.custom-btn.revert').css('display','none');
+						}
+						if (count > 1) {
+							$('.btn-fillter').addClass('current-filter');
+							$('.btn-fillter').html(`Bộ lọc <small>${count - 1}</small>`);
+							$('.dtsb-title').html(`Điều kiện lọc (${count - 1})`);
+							$('.custom-btn.revert').css('display','block');
+						}
+					}
+				}
+			},
+		],
+		dom: 'Bfrtip<"bottom"pl>',
+		responsive: true,
+		autoWidth: true,
+		fixedColumns: {
+			start: 3
+		},
+		searchBuilder: {
+            // Tắt bộ lọc tự động (disable the default behavior)
+            preDefined: [] // Không xác định bộ lọc mặc định nào
+        },
+		language: {
+			paginate: {
+				previous: '<i class="fas fa-left"></i>',
+				next: '<i class="fas fa-right"></i>',
+			},
+			searchBuilder: {
+				button: {
+					0: '<i class="fas fa-filter"></i> Bộ lọc',
+					_: '<i class="fas fa-filter"></i> Bộ lọc (%d)',
+				},
+				add: '<i class="fas fa-plus mr-8"></i> Thêm điều kiện',
+				condition: 'Chọn biểu thức',
+				clearAll: 'Xóa tất cả bộ lọc',
+				delete: '<i class="fas fa-trash"></i>',
+				deleteTitle: 'Xóa lọc',
+				data: 'Chọn cột',
+				//left: 'Left',
+				//leftTitle: 'Left Title',
+				logicAnd: 'Và',
+				logicOr: 'Hoặc',
+				//right: 'Right',
+				//rightTitle: 'Right Title',
+				title: {
+					0: 'Điều kiện lọc',
+					//_: 'Điều kiện lọc (%d)',
+				},
+				value: 'Giá trị',
+				valueJoiner: '-',
+				conditions: {
+					date: {
+						between: 'Trong khoảng',
+						empty: 'Rỗng',
+						equals: 'Bằng',
+						after: 'Sau ngày',
+						before: 'Trước ngày',
+						gt: 'Lớn hơn',
+						gte: 'Lớn hơn bằng',
+						lt: 'Nhỏ hơn',
+						lte: 'Nhỏ hơn bằng',
+						not: 'Khác',
+						notBetween: 'Ngoài khoảng',
+						notEmpty: 'Không rỗng',
+					},
+					number: {
+						between: 'Trong khoảng',
+						empty: 'Rỗng',
+						equals: 'Bằng',
+						gt: 'Lớn hơn',
+						gte: 'Lớn hơn bằng',
+						lt: 'Nhỏ hơn',
+						lte: 'Nhỏ hơn bằng',
+						not: 'Khác',
+						notBetween: 'Ngoài khoảng',
+						notEmpty: 'Không rỗng',
+					},
+					string: {
+						between: 'Trong khoảng',
+						empty: 'Rỗng',
+						equals: 'Bằng',
+						gt: 'Lớn hơn',
+						gte: 'Lớn hơn bằng',
+						lt: 'Nhỏ hơn',
+						lte: 'Nhỏ hơn bằng',
+						not: 'Khác',
+						notBetween: 'Ngoài khoảng',
+						notEmpty: 'Không rỗng',
+						contains: 'Chứa',
+						endsWith: 'Kết thúc với',
+						notContains: 'Không chứa',
+						notEndsWith: 'Không kết thúc với',
+						notStartsWith: 'Không bắt đầu với',
+						startsWith: 'Bắt đầu với',
+					},
+				},
+			},
+		},
+	});
+	var table_print = $('table.table-print').DataTable({
+		scrollX: true,
+		scrollY: '20vh',
+		dom: 'Bfrtip<"bottom"pl>',
+		order: [[0, 'desc']], 
+		paging: false,
+		columnDefs: [
+			{
+				targets: [1, 2,3,4],
+				orderable: false,
+			},
+		]
+	});
 });
 function stringToSlug(str) {
 	// remove accents

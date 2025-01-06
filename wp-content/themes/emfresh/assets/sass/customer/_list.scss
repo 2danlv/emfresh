@@ -175,6 +175,14 @@
                     background-image: url(../img/icon-hover/layer-svgrepo-com.svg);
                 }
             }
+            &.quick-print {
+                background: url(../img/icon/print-svgrepo-com.svg) left 20px center #fff no-repeat;
+                padding-left: 48px;
+                &:hover {
+                    background-image: url(../img/icon-hover/print-svgrepo-com.svg);
+                    background-position: left 19px center;
+                }
+            }
             &.btn-action {
                 background: url(../img/icon/CaretDown.svg) right 24px center #fff no-repeat;
                 padding-right: 48px;
@@ -230,113 +238,139 @@
         
     }
 }
-
+table.dataTable thead tr > .dtfc-fixed-start {
+    background: #DEDFE0;
+}
+table.table {
+    border-radius: 16px 16px 0px 0px;
+    border-collapse: collapse;
+    &.no-border {
+        border-radius: 0;
+        thead th {
+            &:first-child, &:last-child {
+                border-radius: 0;
+            }
+        }
+        tr td:last-child  {
+            padding-top: 4px;
+        }
+        input {
+            padding: 4px 5px;
+            background-color: #fff;
+            text-align: center;
+            width: 50px;
+        }
+    }
+    thead {
+        th {
+            vertical-align: middle;
+            background: #DEDFE0;
+            font-weight: 600;
+            .nowrap {
+                display: block;
+            }
+            &[data-dt-column="2"], 
+            &[data-dt-column="3"], 
+            &[data-dt-column="6"],
+            &[data-dt-column="7"],
+            &[data-dt-column="8"],
+            &[data-dt-column="16"],{
+                cursor: auto;
+                pointer-events: none;
+                .dt-column-order {
+                    display: none;
+                }
+            }
+            &:first-child {
+                border-radius: 16px 0 0 0;
+                padding-bottom: 0;
+                padding-top: 0;
+                span {
+                    font-size: 0;
+                    display: block;
+                    &[role="button"] {
+                        font-size: 14px;
+                    }
+                }
+            }
+            &:last-child {
+                border-radius: 0 16px 0 0;
+            }
+        }
+    }
+    th, td {
+        padding: 8px 8px;
+        border: none;
+        vertical-align: top;
+        line-height: normal;
+        &:hover,&:focus-visible {
+            outline: none !important;
+        }
+        &:first-child {
+            padding-left: 8px;
+            padding-right: 0;
+            padding-top: 6px;
+            padding-bottom: 0;
+        }
+        &.dt-orderable-asc {
+            padding-right: 18px;
+        }
+    }
+    td:first-child {
+        text-align: center;
+        padding-top: 7px;
+    }
+    td {
+        padding-bottom: 0;
+        min-height: 32px;
+        &.wrap-td {
+            position: relative;
+        }
+        .wrap-tags {
+            overflow: hidden;
+            position: relative;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            .badge {
+                position: sticky;
+                right: 0;
+                top: 0;
+                font-weight: bold;
+                cursor: pointer;
+                margin-left: 2px;
+                font-size: 12px;
+                border: 1px solid var(--color-grey-700, #424242);
+                background: var(--color-grey-50, #F2F3F5);
+                color: var(--color-blue-700, #424242);
+            }
+        }
+        .ellipsis {
+            position: absolute;
+            border: 0;
+            top: 6px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+            padding: 2px 8px;
+            text-overflow: ellipsis;
+        }
+        .avatar img {
+            border-radius: 50%;
+        }
+    }
+}
+div.dt-container select.dt-input {
+    height: 30px;
+}
 .dt-container {
     padding-top: 16px;
     div.dt-container {
         width: 800px;
         margin: 0 auto;
     }
-    table.table {
-        border-radius: 16px 16px 0px 0px;
-        border-collapse: collapse;
-        thead {
-            th {
-                vertical-align: middle;
-                background: #DEDFE0;
-                font-weight: 600;
-                .nowrap {
-                    display: block;
-                }
-                &[data-dt-column="2"], 
-                &[data-dt-column="3"], 
-                &[data-dt-column="6"],
-                &[data-dt-column="7"],
-                &[data-dt-column="8"],
-                &[data-dt-column="16"],{
-                    cursor: auto;
-                    pointer-events: none;
-                    .dt-column-order {
-                        display: none;
-                    }
-                }
-                &:first-child {
-                    border-radius: 16px 0 0 0;
-                    padding-bottom: 0;
-                    padding-top: 0;
-                    span {
-                        font-size: 0;
-                        display: block;
-                    }
-                }
-                &:last-child {
-                    border-radius: 0 16px 0 0;
-                }
-            }
-        }
-        th, td {
-            padding: 8px 8px;
-            border: none;
-            vertical-align: top;
-            line-height: normal;
-            &:hover,&:focus-visible {
-                outline: none !important;
-            }
-            &:first-child {
-                padding-left: 8px;
-                padding-right: 0;
-                padding-top: 6px;
-                padding-bottom: 0;
-            }
-            &.dt-orderable-asc {
-                padding-right: 18px;
-            }
-        }
-        td:first-child {
-            text-align: center;
-            padding-top: 7px;
-        }
-        td {
-            padding-bottom: 0;
-            min-height: 32px;
-            &.wrap-td {
-                position: relative;
-            }
-            .wrap-tags {
-                overflow: hidden;
-                position: relative;
-                white-space: nowrap;
-                display: flex;
-                align-items: center;
-                .badge {
-                    position: sticky;
-                    right: 0;
-                    top: 0;
-                    font-weight: bold;
-                    cursor: pointer;
-                    margin-left: 2px;
-                    font-size: 12px;
-                    border: 1px solid var(--color-grey-700, #424242);
-                    background: var(--color-grey-50, #F2F3F5);
-                    color: var(--color-blue-700, #424242);
-                }
-            }
-            .ellipsis {
-                position: absolute;
-                border: 0;
-                top: 6px;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                overflow: hidden;
-                padding: 2px 8px;
-                text-overflow: ellipsis;
-            }
-            .avatar img {
-                border-radius: 50%;
-            }
-        }
-    }
+    
     .dt-scroll-body {
         border: none !important;
         background-color: #fff;

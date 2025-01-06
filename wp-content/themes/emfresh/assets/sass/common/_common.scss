@@ -85,6 +85,22 @@ input, textarea, select {
 		border: 1px solid #208046;
 	}
 }
+input[type="text"],input[type="tel"],input[type="number"] {
+    border-radius: var(--input-radiusCorner, 8px);
+    border: 1px solid var(--input-border-default, #DEDFE0);
+    background: var(--input-background-default, #F6F6F6);
+    padding: 10px;
+    width: 100%;
+  }
+  select {
+    padding: 8px 8px;
+    height: 38.1px;
+    &.disabled {
+      opacity: 0.6;
+      cursor: auto;
+      pointer-events: none;
+    }
+  }
 table { border-collapse: collapse;
 }
 .text-capitalize {
