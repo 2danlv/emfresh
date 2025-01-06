@@ -7,7 +7,7 @@ body {
 	color: #000;
 	line-height: 22px;
 	margin: 0 auto;
-	transition: opacity .4s;
+	transition: opacity 0.4s;
 	opacity: 1;
 	&.body-fixed {
 		overflow-y: hidden;
@@ -22,13 +22,16 @@ a {
 	color: inherit;
 	&:hover {
 		text-decoration: none;
-		color: #4BA66F;
+		color: #4ba66f;
 	}
 	&:focus {
 		outline: none;
 	}
 }
-button, input, textarea,select {
+button,
+input,
+textarea,
+select {
 	&:focus {
 		outline: none;
 		border: 1px solid inherit;
@@ -54,9 +57,9 @@ input[type="checkbox"] {
 	width: 20px;
 	height: 20px;
 }
-input[type=radio]{
+input[type="radio"] {
 	accent-color: #208046;
-  }
+}
 select {
 	padding: 8px;
 	border-radius: 8px;
@@ -65,27 +68,32 @@ select {
 	appearance: none;
 	background: url(../img/icon/CaretDown.svg) right 8px center no-repeat #fff !important;
 	padding-right: 28px !important;
-	&:invalid { color: #747475; }
+	&:invalid {
+		color: #747475;
+	}
 	option[value=""][disabled] {
 		display: none;
-	  }
-	  option {
+	}
+	option {
 		color: black;
-	  }
+	}
 }
 
 hr {
-	border-top: 1px solid $cl-border
+	border-top: 1px solid $cl-border;
 }
 h1 {
 	font-weight: 600;
 }
-input, textarea, select {
+input,
+textarea,
+select {
 	&:focus {
 		border: 1px solid #208046;
 	}
 }
-table { border-collapse: collapse;
+table {
+	border-collapse: collapse;
 }
 .text-capitalize {
 	text-transform: capitalize;
@@ -121,7 +129,9 @@ table { border-collapse: collapse;
 .jc-end {
 	justify-content: flex-end;
 }
-.row,.row0 {
+.row,
+.row0,
+.row32 {
 	display: flex;
 	flex-wrap: wrap;
 	margin-left: -8px;
@@ -129,7 +139,7 @@ table { border-collapse: collapse;
 	&.ai-center {
 		align-items: center;
 	}
-	>[class*="col"] {
+	> [class*="col"] {
 		padding-left: 8px;
 		padding-right: 8px;
 		min-height: 1px;
@@ -152,10 +162,12 @@ table { border-collapse: collapse;
 	align-items: center;
 	vertical-align: middle;
 }
-.jc-b{
+.jc-b {
 	justify-content: space-between;
 }
-.row,.row0 {
+.row,
+.row0,
+.row32 {
 	@for $i from 1 through 12 {
 		$size: (12 / $i);
 		.col-#{$i} {
@@ -170,9 +182,17 @@ table { border-collapse: collapse;
 .row0 {
 	margin: 0 auto;
 
-	>[class*="col"] {
+	> [class*="col"] {
 		padding-left: 0px;
 		padding-right: 0px;
+	}
+}
+.row32 {
+	margin: 0 -16px;
+
+	> [class*="col"] {
+		padding-left: 16px;
+		padding-right: 16px;
 	}
 }
 .row-fluid {
@@ -199,6 +219,9 @@ table { border-collapse: collapse;
 .pb-16 {
 	padding-bottom: 16px;
 }
+.pb-32 {
+	padding-bottom: 32px;
+}
 .pb-54 {
 	padding-bottom: 54px;
 }
@@ -210,6 +233,15 @@ table { border-collapse: collapse;
 }
 .pt-16 {
 	padding-top: 16px;
+}
+.pt-18 {
+	padding-top: 18px;
+}
+.pt-20{
+	padding-top: 20px;
+}
+.pb-20{
+	padding-bottom: 20px;
 }
 .mb-4 {
 	margin-bottom: 4px;
@@ -241,7 +273,9 @@ table { border-collapse: collapse;
 .pr-16 {
 	padding-right: 16px;
 }
-.hidden, .hidden-pc,img[alt="1px.png"] {
+.hidden,
+.hidden-pc,
+img[alt="1px.png"] {
 	display: none;
 }
 .full_width {
@@ -253,31 +287,30 @@ table { border-collapse: collapse;
 	}
 }
 
-
 .btn_blue {
 	background-color: $cl-blue;
 	&:hover {
-		background-color: $cl-ogrange
+		background-color: $cl-ogrange;
 	}
 }
 
 .btn_ogrange {
 	background-color: $cl-ogrange;
 	&:hover {
-		background-color: $cl-blue
+		background-color: $cl-blue;
 	}
 }
 
 .bg-blue {
-	background-color: $cl-blue
+	background-color: $cl-blue;
 }
 
 .bg-ogrange {
-	background-color: $cl-ogrange
+	background-color: $cl-ogrange;
 }
 
 .bg-blur {
-	background-color: $cl-blur
+	background-color: $cl-blur;
 }
 
 .only-sp {
