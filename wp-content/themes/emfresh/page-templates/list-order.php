@@ -23,62 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
   //vardump($tag_post);
 
   $updated = [];
-  if (isset($_POST['tag_ids']) && count($_POST['tag_ids']) > 0) {
-    $tag_radio = isset($_POST['tag_radio']) ? trim($_POST['tag_radio']) : 'add';
-    
-    $list_noti = [];
-
-    foreach ($array_id as $key => $id) {
-      $log_change = [];
-
-      $customer_id = intval($id);
-      $customer_tags = $em_customer_tag->get_items(['customer_id' => $customer_id]);
-      $tag_ids = custom_get_list_by_key($customer_tags, 'tag_id');
-
-      if($tag_radio == 'remove') {
-        foreach ($_POST['tag_ids'] as $tag_id) {
-          $deleted = $em_customer_tag->delete([
-            'tag_id' => $tag_id,
-            'customer_id' => $customer_id
-          ]);
-
-          $log_change[] = sprintf('<span class="memo field-tag">Xóa Tag phân loại</span><span class="note-detail text-titlecase">%s</span>', $em_customer->get_tags($tag_id));
-
-          $list_noti[] = ['id' => $customer_id, 'success' => (int) $deleted];
-        }
-      } else {
-        foreach ($_POST['tag_ids'] as $tag_id) {
-          if (in_array($tag_id, $tag_ids) == false) {
-            $inserted = $em_customer_tag->insert([
-              'tag_id' => $tag_id,
-              'customer_id' => $customer_id
-            ]);
-
-            $tag_ids[] = $tag_id;
-
-            $log_change[] = sprintf('<span class="memo field-tag">Thêm Tag phân loại</span><span class="note-detail text-titlecase">%s</span>', $em_customer->get_tags($tag_id));
-
-            $list_noti[] = ['id' => $customer_id, 'success' => (int) $inserted];
-          } else {
-            $list_noti[] = ['id' => $customer_id, 'success' => 0];
-          }
-        }
-      }
-      
-      // Log update
-      if(count($log_change) > 0) {
-        $em_log->insert([
-          'action'        => 'Cập nhật',
-          'module'        => 'em_customer',
-          'module_id'     => $customer_id,
-          'content'       => implode("\n", $log_change)
-        ]);
-
-      }
-    }
-    
-    site_user_session_update('list_noti', $list_noti);
-  }
+ 
 
   // if ($order_payment_status != '') {
   //   $customer_update_data = [
@@ -269,8 +214,8 @@ get_header();
         <div class="row">
           <div class="col-6">
             <ul class="filter list-unstyled">
-              <li><label><input type="checkbox" data-column="1" value="1" disabled checked> Tên khách hàng</label></li>
-              <li><label><input type="checkbox" data-column="2" value="2" disabled checked> Số điện thoại</label></li>
+              <li><label><input type="checkbox" data-column="1" value="" disabled checked> Tên khách hàng</label></li>
+              <li><label><input type="checkbox" data-column="2" value="" disabled checked> Số điện thoại</label></li>
               <li><label><input type="checkbox" data-column="3" value="3" checked> Địa chỉ mặc định</label></li>
               <li><label><input type="checkbox" data-column="5" value="5" checked> Trạng thái khách hàng</label></li>
               <li><label><input type="checkbox" data-column="7" value="7"> Tag phân loại</label></li>
@@ -286,7 +231,7 @@ get_header();
               <li><label><input type="checkbox" data-column="13" value="13"> Tổng tiền đã chi</label></li>
               <li><label><input type="checkbox" data-column="14" value="14" checked> Điểm tích luỹ</label></li>
               <li><label><input type="checkbox" data-column="15" value="15"> Lịch sử đặt gần nhất</label></li>
-              <li class="check_2"><label><input type="checkbox" value="16" data-column="16,18" checked> Nhân viên + Lần cập nhật cuối</label></li>
+              <li class="check_2"><label><input type="checkbox" value="16" data-column="19,21" checked> Nhân viên + Lần cập nhật cuối</label></li>
             </ul>
           </div>
         </div>
@@ -435,37 +380,12 @@ get_footer('customer');
 
 <script>
   
-  // Function to save checkbox states to localStorage
-  function saveCheckboxState() {
-    $('.filter input[type="checkbox"]').each(function() {
-      const columnKey = 'column_' + $(this).val(); // Create key like "column_1", "column_2"
-      localStorage.setItem(columnKey, $(this).is(':checked'));
-    });
-  }
-  // Function to load checkbox states from localStorage
-  function loadCheckboxState() {
-    $('.filter input[type="checkbox"]').each(function() {
-      const columnKey = 'column_' + $(this).val();
-      const savedState = localStorage.getItem(columnKey);
-      // If there is no saved state, set defaults for values 1, 3, and 4
-      if (savedState === null) {
-        if (['1', '3', '4'].includes($(this).val())) {
-          $(this).prop('checked', true);
-        }
-      } else {
-        $(this).prop('checked', savedState === 'true');
-        //$('.btn-column').addClass('active');
-      }
-    });
-  }
+  
 
   $(document).ready(function() {
-    
-    // Load checkbox states when the page loads
-    loadCheckboxState();
-
-    // Attach event listener to save state when checkboxes change
-    $('.filter input[type="checkbox"]').on('change', saveCheckboxState);
-      
+    localStorage.setItem('DataTables_list-customer_/customer/', '');
+		for (let i = 1; i <= 16; i++) {
+			localStorage.removeItem('column_' + i);
+		}    
   });
 </script>

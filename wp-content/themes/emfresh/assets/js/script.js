@@ -2,15 +2,13 @@ jQuery(document).ready(function () {
 	setTimeout( function() {
 		$('.alert.alert-success,.alert.alert-warning').fadeOut();
 	},4000);
-	$('.main-menu .nav-menu li a').click(function (e) { 
+	$('.main-menu .nav-menu li a').click(function (e) {
 		//e.preventDefault();
 		localStorage.setItem('DataTables_list-customer_/customer/', '');
 		for (let i = 1; i <= 16; i++) {
 			localStorage.removeItem('column_' + i);
 		}
 	});
-	
-	
 	$('.select2').select2({
 		templateSelection: function (data, container) {
 			var $result = $("<span></span>");
@@ -18,7 +16,6 @@ jQuery(document).ready(function () {
 			return $result;
 		}
 	});
-	
 	let tagCondition = {
 		"=": {
 			conditionName: 'Bằng',
@@ -28,12 +25,10 @@ jQuery(document).ready(function () {
 					.on('input', function () {
 						fn(that, this);
 					});
-
 				// value is tag
 				// if ($('.' + that.classes.data).val() == 6 && typeof list_tags == 'object') {
 				if (typeof list_tags == 'object') {
 					el.append(`<option selected hidden>Giá trị</option>`);
-					
 					list_tags.forEach((text) => {
 						text = text.trim();
 						value = stringToSlug(text);
@@ -42,11 +37,9 @@ jQuery(document).ready(function () {
 						}
 					});
 				}
-
 				if (preDefined !== null) {
 					$(el).val(preDefined[0]);
 				}
-
 				return el;
 			},
 			inputValue: function (el) {
@@ -59,7 +52,6 @@ jQuery(document).ready(function () {
 				if (typeof comparison == 'object' && comparison.length > 0) {
 					return value != '' && comparison.filter(text => value.search(text) > -1).length > 0;
 				}
-
 				return value % comparison === 0;
 			},
 		},
@@ -167,7 +159,7 @@ jQuery(document).ready(function () {
 				orderable: false,
 			},
 			{
-			 type: 'string', targets: [0,2,3,4,5,8,9] 
+			 type: 'string', targets: [0,2,3,4,5,8,9]
 			},
 			{ visible: false, targets: [4,6,7,8,9,13,15,17,19,20] },
 			{
@@ -252,59 +244,47 @@ jQuery(document).ready(function () {
 		],
 		"stateSave": true,
 		scrollY: $(window).height() - 227,
-		
 	});
-
 	// Custom searchbuilder filter get value
 	$(document).on('dtsb-inserted', function (e) {
         let $selectValue = $(e.target);
-
         if($selectValue.hasClass('dtsb-value') == false) return;
-
 		dtsbCriteriaUpdateSelectValue($selectValue);
     });
-
 	$(document).on('click', '.btn-fillter', function(){
 		$('.dtsb-criteria .dtsb-value.dtsb-select').each(function(){
 			dtsbCriteriaUpdateSelectValue($(this));
         });
     });
-	
 	function dtsbCriteriaUpdateSelectValue($selectValue)
 	{
 		let dtsb_criteria = $selectValue.closest('.dtsb-criteria'),
 			dtsb_data_value = dtsb_criteria.find('.dtsb-data').val(),
 			options = [];
-
         $selectValue.find('option').each(function(){
             let o = $(this), value = o.val();
             if(o.val() == '') {
                 o.hide();
             } else {
-
 				// Dia chi
-				if(dtsb_data_value == 4) {
+				if(dtsb_data_value == 4 || dtsb_data_value == 5) {
 					value = value.split(' ').map(v => {
 						if(!isNaN(v)) {
 							v = (v > 9 ? v : '0') + v;
 						}
-
 						return v;
 					}).join(' ');
 				}
-
                 options.push({
                     value: value,
                     element: o
                 });
             }
         });
-
         for (let i = 0; i < options.length - 1; i++) {
             for (let j = i + 1; j < options.length; j++) {
                 if(options[j].value < options[i].value){
                     options[j].element.after(options[i].element);
-
                     let tmp = options[j];
                     options[j] = options[i];
                     options[i] = tmp;
@@ -312,7 +292,6 @@ jQuery(document).ready(function () {
             }
         }
 	}
-
 	function getSearchState() {
         var local_storge_table = localStorage.getItem('DataTables_list-customer_/customer/');
         if (local_storge_table) {
@@ -322,27 +301,25 @@ jQuery(document).ready(function () {
                 return searchTerm;
             }
         }
-
 	}
-
 	$('.input-search').val(getSearchState());
-
 	$('.filter input[type="checkbox"]').on('change', function (e) {
 		var column = table.columns([$(this).attr('data-column')]);
+		var column_order = table_list_order.columns([$(this).attr('data-column')]);
 		// if checked hide else show
 		if ($(this).is(":checked")) {
 			column.visible(true);
+			column_order.visible(true);
 			//$('.btn-column').addClass('active');
 		} else {
 			column.visible(false);
+			column_order.visible(false);
 			//$('.btn-column').removeClass('active');
 		}
 	});
-
 	$('#checkall').on('click',function () {
 		$('.checkbox-element').prop('checked', this.checked);
 	});
-
 	$('.checkbox-element').on('click', function () {
 		if ($('.checkbox-element:checked').length == $('.checkbox-element').length) {
 			$('#checkall').prop('checked', true);
@@ -350,7 +327,6 @@ jQuery(document).ready(function () {
 			$('#checkall').prop('checked', false);
 		}
 	});
-
 	// $('.box').hide();
 	// $('.field')
 	//	 .change(function () {
@@ -359,11 +335,9 @@ jQuery(document).ready(function () {
 	//		 $('.' + $(this).val()).show();
 	//	 })
 	//	 .change();
-
 	$(document).on('click','#checkall,.checkbox-element',function () {
 		updateAllChecked();
 	});
-
 	$('#checkall').on('click',function () {
 		if (this.checked) {
 			$('.checkbox-element').prop('checked', true).change();
@@ -371,13 +345,11 @@ jQuery(document).ready(function () {
 			$('.checkbox-element').prop('checked', false).change();
 		}
 	});
-
 	$('.dt-paging nav,.dt-length').on('click',function (e) {
 		$('.checkbox-element').prop('checked', false).change();
 		$('li.status').hide();
 		$('.list_id').val('');
 	});
-
 	$('.quick-edit').click(function (e) {
 		e.preventDefault();
         $(".alert-form").hide();
@@ -404,12 +376,10 @@ jQuery(document).ready(function () {
 		ev.preventDefault();
 		open_modal(this);
 	});
-
 	$('.modal-close,.overlay').click(function () {
 		$('.modal').removeClass('is-active');
 		$('body').removeClass('overflow');
 	});
-
 	$('.em-importer .btn.btn-fillter').click(function (e) {
 		e.preventDefault();
 		$('button.dt-button').trigger('click');
@@ -431,8 +401,6 @@ jQuery(document).ready(function () {
 					popup.find('.dtsb-title').before(title);
 			}
 			if (popup.is(':visible') && popup.find('.popover-close').length === 0) {
-				
-				
 				// Create a custom button element
 				var customButton1 = $('<div>')
 					.text('Xóa tất cả')
@@ -447,16 +415,53 @@ jQuery(document).ready(function () {
 					$('.dtb-popover-close').trigger('click');
 				});
 				// Append the custom button after the "Add condition" button in the popup
-				
 				popup.find('.dtsb-group').after(customButton1);
 				popup.find('.dtsb-group').after(customButton2);
 			}
 	});
 	$('.content-header .input-search').keyup(function () {
-		table.search($(this).val()).draw();
-		table_list_order.search($(this).val()).draw();
+		var searchValue = stringToSlug(this.value.trim().toLowerCase());
+		if ($('body').hasClass('page-template-list-order')) {
+			table_list_order.search('').draw();
+			$.fn.dataTable.ext.search.push(
+				function(settings, data, dataIndex) {
+					var col2_order = data[2].toLowerCase();
+					var col3_order = data[3].toLowerCase();
+					var col4_order = data[4].toLowerCase();
+					if (
+						col2_order.indexOf(searchValue) !== -1 ||
+						col3_order.indexOf(searchValue) !== -1 ||
+						col4_order.indexOf(searchValue) !== -1
+					) {
+						return true;
+					}
+					return false;
+				}
+			);
+			table_list_order.draw();
+			$.fn.dataTable.ext.search.pop();
+		} else {
+			table.search('').draw();
+			table_list_order.search('').draw();
+			$.fn.dataTable.ext.search.push(
+				function(settings, data, dataIndex) {
+					var col1 = data[1].toLowerCase();
+					var col2 = data[2].toLowerCase();
+					var col3 = data[3].toLowerCase();
+					if (
+						col1.indexOf(searchValue) !== -1 ||
+						col2.indexOf(searchValue) !== -1 ||
+						col3.indexOf(searchValue) !== -1
+					) {
+						return true;
+					}
+					return false;
+				}
+			);
+			table.draw();
+			$.fn.dataTable.ext.search.pop();
+		}
 	});
-
 	function updateAllChecked() {
 		$('.list_id').val('');
 		$('.checkbox-element').each(function () {
@@ -466,7 +471,6 @@ jQuery(document).ready(function () {
 			}
 		});
 	}
-
 	$(document).on('click', '.daterangepicker .ranges ul li:first', function (e, picker) {
 		e.preventDefault();
 		table.draw();
@@ -528,22 +532,17 @@ jQuery(document).ready(function () {
 			]
 		},
 	});
-
 	$('.em-importer .btn-time').on('apply.daterangepicker', function (ev, picker) {
         var start = picker.startDate;
         var end = picker.endDate;
-
         // Add a class to indicate the filter is applied
         $(this).addClass('date-filter');
-
         // Push a custom filter to DataTables
         $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
             var min = start;
             var max = end;
-
             // Get the date value from the table (assuming the date is in the 19th column)
             var startDate = moment(data[20], 'DD/MM/YYYY');  // Adjust the format to match your table data
-
             // Check if the row should be included based on the selected date range
             if (
                 (min === null && max === null) ||
@@ -553,32 +552,25 @@ jQuery(document).ready(function () {
             ) {
                 return true;
             }
-
             return false;
         });
-
         // Redraw the table to apply the filter
         var table = $('.table-list-customer').DataTable(); // Make sure the table variable is initialized
         table.draw();
-
         // Remove the custom filter to prevent it from stacking on top of future filters
         $.fn.dataTable.ext.search.pop();
     });
 	$('.em-importer .btn-time').on('apply.daterangepicker', function (ev, picker) {
         var start = picker.startDate;
         var end = picker.endDate;
-
         // Add a class to indicate the filter is applied
         $(this).addClass('date-filter');
-
         // Push a custom filter to DataTables
         $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
             var min = start;
             var max = end;
-
             // Get the date value from the table (assuming the date is in the 19th column)
             var startDate = moment(data[23], 'DD/MM/YYYY');  // Adjust the format to match your table data
-
             // Check if the row should be included based on the selected date range
             if (
                 (min === null && max === null) ||
@@ -588,20 +580,16 @@ jQuery(document).ready(function () {
             ) {
                 return true;
             }
-
             return false;
         });
-
         // Redraw the table to apply the filter
         var table_order = $('.table-list-order').DataTable(); // Make sure the table variable is initialized
         table_order.draw();
-
         // Remove the custom filter to prevent it from stacking on top of future filters
         $.fn.dataTable.ext.search.pop();
     });
 	var $checkboxes = $('table.dataTable td input[type="checkbox"]');
 	$(document).on('click',$checkboxes,function () {
-
 		var countCheckedCheckboxes = $('table.dataTable td input[type="checkbox"]:checked').length;
 		if (countCheckedCheckboxes > 0) {
 			$('.em-importer li.status').show();
@@ -615,7 +603,6 @@ jQuery(document).ready(function () {
 			$('li.status').hide();
 		}
 	});
-
 	$('.copy').on('click', function () {
 		const textToCopy = $(this).text();
 		const tempInput = $('<input>');
@@ -629,9 +616,7 @@ jQuery(document).ready(function () {
 			$('body').removeClass('overflow');
 		}, 2000);
 		tempInput.remove();
-
 	});
-	
 	$('.copyAllphone').click(function() {
 		$('.modal-copy-phone .form-group .phone-copy').text('');
 		$('.modal-copy-phone .form-group .total').show();
@@ -639,21 +624,16 @@ jQuery(document).ready(function () {
 		$('.table .checkbox-element[type="checkbox"]:checked').each(function() {
 			numbers += $(this).data('number') + '\n';  // Get the value from data-number
 		});
-
 		if (numbers.trim() === '') {
 			$('#modal-warning-edit').addClass('is-active');
             $('body').addClass('overflow');
 			$('.modal-warning .modal-body p span.txt_append').text('sao chép số điện thoại');
 			return;
 		}
-
 		var $tempTextArea = $('<textarea>');
 		$('body').append($tempTextArea);
-
 		$tempTextArea.val(numbers.trim()).select();
-
 		document.execCommand('copy');
-
 		$tempTextArea.remove();
 		open_modal(this);
 		setTimeout(() => {
@@ -661,7 +641,6 @@ jQuery(document).ready(function () {
 			$('body').removeClass('overflow');
 		}, 2000);
 	});
-	
 	function open_modal(el) {
 		var modaltarget = $(el).data('target');
 		$(modaltarget).addClass('is-active');
@@ -681,6 +660,7 @@ jQuery(document).ready(function () {
 		e.preventDefault();
 		setTimeout(() => {
 			table.columns.adjust();
+			table_list_order.columns.adjust();
 			table_regular.columns.adjust();
 		}, 50);
 		if ($(this).hasClass('active')) {
@@ -698,7 +678,6 @@ jQuery(document).ready(function () {
 			localStorage.setItem('sidebar', 'active');
 		}
 	});
-
 	var table_regular = $('table.regular').DataTable({
 		autoWidth: true,
 		scrollX: true,
@@ -719,7 +698,6 @@ jQuery(document).ready(function () {
 			},
 		}
 	});
-
 	jQuery('ul.tabNavigation li').click(function() {
 		switch_tabs(jQuery(this));
 		$('.card-primary').removeClass('width-100');
@@ -731,14 +709,13 @@ jQuery(document).ready(function () {
 		$('.scroll-menu .btn-save_edit').show();
 		$('.scroll-menu .btn-add_order').hide();
 	});
-	$('.scroll-menu .btn-save_edit').click(function (e) { 
+	$('.scroll-menu .btn-save_edit').click(function (e) {
 		e.preventDefault();
 		$('.detail-customer .form-horizontal .btn-primary').click();
 	});
 	jQuery('ul.tabNavigation li[rel="settings"],ul.tabNavigation li[rel="history"]').click(function() {
 		$('.card-primary').addClass('width-100');
 		table_regular.columns.adjust();
-
 	});
 	$(document).on('click','.show-group-note', function name(params) {
 		$(this).hide();
@@ -747,19 +724,16 @@ jQuery(document).ready(function () {
     if ($('.scroll-menu').length) {
         var navbarOffset = $('.scroll-menu').offset().top;
         var navbar_h = $('.scroll-menu').height();
-		
         $(window).scroll(function() {
             if ($(window).scrollTop() > navbarOffset) {
             $('.scroll-menu').addClass('fixed');
             $('.detail-customer .content').css('padding-top', navbar_h);
-			
             } else {
             $('.scroll-menu').removeClass('fixed');
 			$('.detail-customer .content').css('padding-top', 0);
             }
         });
     }
-	
 	$( ".tooltip" ).tooltip({
 		position: {
 		 my: "left+5 center", at: "right center"
@@ -780,20 +754,19 @@ jQuery(document).ready(function () {
 		scrollY:  $(window).height() - 227,
 		dom: 'Bfrtip<"bottom"pl>',
 		order: [[21, 'desc']],
-		iDisplayLength: 15,
+		iDisplayLength: 50,
 		lengthChange: true,
 		lengthMenu: [
 			[15,50, 100, 200],
 			['15 / trang','50 / trang', '100 / trang', '200 / trang'],
 		],
 		columnDefs: [
-			{   type: 'string',
-				targets: [0,1,19],
-				// targets: [0,1,4,5,9,10,11,12,13,14,15,16,17,18,19,20,21,22],
+			{  
+				targets: [0,1,2,3,4,7,8,9,10,11,12,13,14,15,16,17,18,19],
 				orderable: false,
 			},
 			{
-			 type: 'string', targets: [0,4,5,6,8,9] 
+			 type: 'string', targets: [0,4,5,6,7,10,11,12]
 			},
 			{ visible: false, targets: [5,6,8,9,10,11,13,14,15,16,17,18,20,22,23] },
 			{
@@ -815,7 +788,7 @@ jQuery(document).ready(function () {
                   }
               },
               {
-                targets: 23, // Target the first column which contains dates
+                targets: [8,9,23], // Target the first column which contains dates
                 render: function(data, type, row) {
                   return moment(data, 'DD/MM/YYYY').format('DD/MM/YYYY');
                 }
@@ -838,7 +811,7 @@ jQuery(document).ready(function () {
                         html: tagCondition,
                     },
 					depthLimit: 0,
-					columns: [ 5, 6, 8, 9, 10, 11, 12, 13, 14,15,17,19,23],
+					columns: [ 5, 6,7, 8, 9, 10, 11, 12, 13, 14,15,17,19,23],
 					filterChanged: function (count) {
 						if (count == 0 || count == 1) {
 							$('.btn-fillter').removeClass('current-filter');
@@ -947,7 +920,7 @@ jQuery(document).ready(function () {
 		scrollX: true,
 		scrollY: '20vh',
 		dom: 'Bfrtip<"bottom"pl>',
-		order: [[0, 'desc']], 
+		order: [[0, 'desc']],
 		paging: false,
 		columnDefs: [
 			{
