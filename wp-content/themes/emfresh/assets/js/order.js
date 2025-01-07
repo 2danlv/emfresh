@@ -1,7 +1,8 @@
-$( document ).ready( function () {
-  $(".order-search").on("change", function () {
+  $(".order-search").on("input", function () {
       var value = $( this ).val();
-    if (value == "0123456789") {
+    if ( value == "0123456789" )
+    {
+      console.log("object")
       $(".results").addClass("active");
       $(".no-results").removeClass("active");
     } else {
@@ -15,4 +16,3 @@ $( document ).ready( function () {
       $(".search-result, .results, .no-results").removeClass("active");
     }
   });
-});

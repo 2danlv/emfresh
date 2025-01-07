@@ -165,6 +165,9 @@ table {
 .jc-b {
 	justify-content: space-between;
 }
+.jc-e {
+	justify-content: end;
+}
 .row,
 .row0,
 .row32 {
@@ -267,8 +270,14 @@ table {
 .pr-8 {
 	padding-right: 8px;
 }
+.pl-12{
+	padding-left: 12px;
+}
 .pl-16 {
 	padding-left: 16px;
+}
+.pl-26 {
+	padding-left: 26px;
 }
 .pr-16 {
 	padding-right: 16px;
