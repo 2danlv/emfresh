@@ -145,7 +145,7 @@ get_header();
                                                                 <span class="fas fa-info-gray"></span>
                                                             </div>
                                                             <a class="management-link" href="#">Đi đến Quản lý nhóm</a>
-                                                        </div> 
+                                                        </div>
                                                     </div>
                                                     <a href="#modal-add-address" class="btn-add-address d-f ai-center pb-16 pt-8 pl-8">
                                                         <span class="fas fa-plus mr-8"></span>Thêm địa chỉ mới
@@ -270,100 +270,86 @@ get_header();
                                 </div>
                                 <!-- /.tab-pane -->
                                 <div class="tab-pane" id="product">
-                                    <div class="card border-radius-0">
-                                        <div class="ttl">
-                                            Ghi chú
-                                        </div>
-                                        <div class="note-wraper pt-16">
-                                            <div class="js-comment-row pb-16 ">
-                                                <div class="row row-comment">
-                                                    <div class="account-name d-f ai-center col-6">
-                                                        <div class="avatar">
-                                                            <img src="https://secure.gravatar.com/avatar/?s=96&amp;d=mm&amp;r=g" alt="" width="40">
+                                    <div class="card">
+                                        <div class="tab-products">
+                                            <div class="tab-nav" id="tabNav">
+                                                <button class="btn btn-primary btn-add_order tab-button active" data-tab="tab-1">Sản phẩm 1</button>
+                                                <button class="add-tab" id="addTabButton"></button>
+                                            </div>
+
+                                            <!-- Tab Content Areas -->
+                                            <div id="tabContents">
+                                                <div class="tab-content-wraper" id="tab-1">
+                                                    <div class="tab-content active">
+                                                        <div class="row24">
+                                                            <div class="col-5">
+                                                                <div class="label mb-4">Phân loại:</div>
+                                                                <select id="classify" name="classify" class="classify-select form-control text-capitalize">
+                                                                    <option value="" selected="">D/W/M</option>
+                                                                    <option value="D">D</option>
+                                                                    <option value="W">W</option>
+                                                                    <option value="M">M</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-3">
+                                                                <div class="label mb-4">Số ngày dùng:</div>
+                                                                <input type="text" name="number" placeholder="-" class="form-control number">
+                                                            </div>
+                                                            <div class="col-4">
+                                                                <div class="label mb-4">Số ngày dùng:</div>
+                                                                <input type="date" name="date" placeholder="DD/MM/YYYY" class="form-control date">
+                                                            </div>
                                                         </div>
-                                                        <div>Nghiem Nguyen</div>
+                                                        <div class="list-product">
+                                                            <div class="product-item">
+                                                                <div class="d-f gap-24 item-head">
+                                                                    <div class="col-5 label">Tên sản phẩm</div>
+                                                                    <div class="col-3 label text-right">Số lượng</div>
+                                                                    <div class="col-4 label text-right">Thành tiền</div>
+                                                                </div>
+                                                                <div class="pt-16 item-body">
+                                                                    <div class="d-f gap-24">
+                                                                        <div class="col-5"><input type="text" name="name" placeholder="Nhập tên/mã sản phẩm" class="form-control name"></div>
+                                                                        <div class="col-3"><input type="text" name="number" placeholder="-" class="form-control text-right number"></div>
+                                                                        <div class="col-4 text-right">
+                                                                            <p class="fs-16 fw-bold price pt-8 pb-8">325.000</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="d-f gap-12 ai-center">
+                                                                        <label class="auto-fill-checkbox">
+                                                                            <input type="checkbox">
+                                                                            <span class="slider"></span>
+                                                                        </label>
+                                                                        <span class="fs-16 color-gray">Tự chọn món</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="special-request pt-16">
+                                                            <div class="special-item row">
+                                                                <div class="col-4">
+                                                                    <select id="district_0" name="locations[0][district]" class="district-select form-control">
+                                                                        <option value="Note rau củ">Note rau củ</option>
+                                                                        <option value="Note tinh bột">Note tinh bột</option>
+                                                                        <option value="Note nước sốt">Note nước sốt</option>
+                                                                        <option value="Note khác">Note khác</option>
+                                                                        <option value="Note đính kèm">Note đính kèm</option>
+                                                                        <option value="Phân loại yêu cầu">Note tinh bột</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-8">
+                                                                    <div class="tag-container" id="tagContainer">
+                                                                        <input type="text" class="form-control tag-input" id="tagInput">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="d-f ai-center pt-20 clone-note">
+                                                            <span class="fas fa-plus mr-8"></span>Thêm yêu cầu phần ăn đặc biệt
+                                                        </div>
                                                     </div>
-                                                    <div class="edit col-3">
-                                                        <span class="pen">
-                                                        </span>
-                                                        <span class="pin"><a href="http://emfresh.web/customer/detail-customer/?customer_id=139&amp;pin-id=125&amp;pin-token=0623970564"><img
-                                                                    src="<?php site_the_assets(); ?>/img/icon/pin-svgrepo-com.svg" alt=""></a></span>
-                                                        <span class="remove">
-                                                        </span>
-                                                    </div>
-                                                    <div class="time col-3">25/11/2024</div>
-                                                </div>
-                                                <div class="note-content cap-nhat">
-                                                    <span class="comment_content">1 ngày chủ nhật quá là buồn, mệt mỏi
-                                                        trong người không muốn đi đâu cả</span>
-                                                    <span class="comment_status status-edited">• Đã sửa</span>
                                                 </div>
                                             </div>
-                                            <div class="js-comment-row pb-16 ">
-                                                <div class="row row-comment">
-                                                    <div class="account-name d-f ai-center col-6">
-                                                        <div class="avatar">
-                                                            <img src="https://secure.gravatar.com/avatar/?s=96&amp;d=mm&amp;r=g" alt="" width="40">
-                                                        </div>
-                                                        <div>Nghiem Nguyen</div>
-                                                    </div>
-                                                    <div class="edit col-3">
-                                                        <span class="pen">
-                                                        </span>
-                                                        <span class="pin"><a href="http://emfresh.web/customer/detail-customer/?customer_id=139&amp;pin-id=85&amp;pin-token=0623970564"><img
-                                                                    src="<?php site_the_assets(); ?>/img/icon/pin-svgrepo-com.svg" alt=""></a></span>
-                                                        <span class="remove">
-                                                        </span>
-                                                    </div>
-                                                    <div class="time col-3">18/11/2024</div>
-                                                </div>
-                                                <div class="note-content ">
-                                                    <span class="comment_content">1 ngày tuyệt vời nhé</span>
-                                                </div>
-                                            </div>
-                                            <div class="js-comment-row pb-16 ">
-                                                <div class="row row-comment">
-                                                    <div class="account-name d-f ai-center col-6">
-                                                        <div class="avatar">
-                                                            <img src="https://secure.gravatar.com/avatar/?s=96&amp;d=mm&amp;r=g" alt="" width="40">
-                                                        </div>
-                                                        <div>em.fresh test account</div>
-                                                    </div>
-                                                    <div class="edit col-3">
-                                                        <span class="pen">
-                                                        </span>
-                                                        <span class="pin"><a href="http://emfresh.web/customer/detail-customer/?customer_id=139&amp;pin-id=76&amp;pin-token=0623970564"><img
-                                                                    src="<?php site_the_assets(); ?>/img/icon/pin-svgrepo-com.svg" alt=""></a></span>
-                                                        <span class="remove">
-                                                        </span>
-                                                    </div>
-                                                    <div class="time col-3">16/11/2024</div>
-                                                </div>
-                                                <div class="note-content cap-nhat">
-                                                    <span class="comment_content">Khách thường thanh toán bằng
-                                                        TCB</span>
-                                                    <span class="comment_status status-edited">• Đã sửa</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="note-form">
-                                            <form action="http://emfresh.web/customer/detail-customer/?customer_id=139&amp;tab=note" method="post" enctype="multipart/form-data" class="js-comment-form"
-                                                id="editcomment">
-                                                <div class="binhluan-moi">
-                                                    <div class="box-right">
-                                                        <div class="form-group">
-                                                            <textarea name="comment" maxlength="65525" class="form-control comment-box" placeholder="Viết bình luận"></textarea>
-                                                        </div>
-                                                        <button class="btn-common-fill hidden" type="submit" name="submit" value="submit">Send</button>
-                                                    </div>
-                                                    <input type="hidden" name="url" value="http://emfresh.web/customer/detail-customer/?customer_id=139">
-                                                    <input type="hidden" name="comment_post_ID" value="139">
-                                                    <input type="hidden" name="comment_parent" value="0">
-                                                    <input type="hidden" name="comment_ID" value="0">
-                                                    <input type="hidden" id="comtoken" name="comtoken" value="d276716541"><input type="hidden" name="_wp_http_referer"
-                                                        value="/customer/detail-customer/?customer_id=139">
-                                                </div>
-                                            </form>
                                         </div>
                                     </div>
                                 </div>

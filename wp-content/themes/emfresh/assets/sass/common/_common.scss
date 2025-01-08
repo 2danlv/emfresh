@@ -131,7 +131,8 @@ table {
 }
 .row,
 .row0,
-.row32 {
+.row32,
+.row24 {
 	display: flex;
 	flex-wrap: wrap;
 	margin-left: -8px;
@@ -170,7 +171,8 @@ table {
 }
 .row,
 .row0,
-.row32 {
+.row32,
+.row24 {
 	@for $i from 1 through 12 {
 		$size: (12 / $i);
 		.col-#{$i} {
@@ -196,6 +198,14 @@ table {
 	> [class*="col"] {
 		padding-left: 16px;
 		padding-right: 16px;
+	}
+}
+.row24 {
+	margin: 0 -12px;
+
+	> [class*="col"] {
+		padding-left: 12px;
+		padding-right: 12px;
 	}
 }
 .row-fluid {

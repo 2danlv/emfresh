@@ -454,7 +454,8 @@ table {
 
 .row,
 .row0,
-.row32 {
+.row32,
+.row24 {
   display: flex;
   flex-wrap: wrap;
   margin-left: -8px;
@@ -462,19 +463,22 @@ table {
 }
 .row.ai-center,
 .row0.ai-center,
-.row32.ai-center {
+.row32.ai-center,
+.row24.ai-center {
   align-items: center;
 }
 .row > [class*=col],
 .row0 > [class*=col],
-.row32 > [class*=col] {
+.row32 > [class*=col],
+.row24 > [class*=col] {
   padding-left: 8px;
   padding-right: 8px;
   min-height: 1px;
 }
 .row.nowrap,
 .row0.nowrap,
-.row32.nowrap {
+.row32.nowrap,
+.row24.nowrap {
   flex-wrap: nowrap;
   margin: 0 auto;
 }
@@ -506,62 +510,74 @@ table {
 
 .row .col-1,
 .row0 .col-1,
-.row32 .col-1 {
+.row32 .col-1,
+.row24 .col-1 {
   width: 8.3333333333%;
 }
 .row .col-2,
 .row0 .col-2,
-.row32 .col-2 {
+.row32 .col-2,
+.row24 .col-2 {
   width: 16.6666666667%;
 }
 .row .col-3,
 .row0 .col-3,
-.row32 .col-3 {
+.row32 .col-3,
+.row24 .col-3 {
   width: 25%;
 }
 .row .col-4,
 .row0 .col-4,
-.row32 .col-4 {
+.row32 .col-4,
+.row24 .col-4 {
   width: 33.3333333333%;
 }
 .row .col-5,
 .row0 .col-5,
-.row32 .col-5 {
+.row32 .col-5,
+.row24 .col-5 {
   width: 41.6666666667%;
 }
 .row .col-6,
 .row0 .col-6,
-.row32 .col-6 {
+.row32 .col-6,
+.row24 .col-6 {
   width: 50%;
 }
 .row .col-7,
 .row0 .col-7,
-.row32 .col-7 {
+.row32 .col-7,
+.row24 .col-7 {
   width: 58.3333333333%;
 }
 .row .col-8,
 .row0 .col-8,
-.row32 .col-8 {
+.row32 .col-8,
+.row24 .col-8 {
   width: 66.6666666667%;
 }
 .row .col-9,
 .row0 .col-9,
-.row32 .col-9 {
+.row32 .col-9,
+.row24 .col-9 {
   width: 75%;
 }
 .row .col-10,
 .row0 .col-10,
-.row32 .col-10 {
+.row32 .col-10,
+.row24 .col-10 {
   width: 83.3333333333%;
 }
 .row .col-11,
 .row0 .col-11,
-.row32 .col-11 {
+.row32 .col-11,
+.row24 .col-11 {
   width: 91.6666666667%;
 }
 .row .col-12,
 .row0 .col-12,
-.row32 .col-12 {
+.row32 .col-12,
+.row24 .col-12 {
   width: 100%;
 }
 
@@ -583,6 +599,14 @@ table {
 .row32 > [class*=col] {
   padding-left: 16px;
   padding-right: 16px;
+}
+
+.row24 {
+  margin: 0 -12px;
+}
+.row24 > [class*=col] {
+  padding-left: 12px;
+  padding-right: 12px;
 }
 
 .row-fluid {
@@ -2926,6 +2950,10 @@ table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:after {
   color: #0F0F0F;
 }
 
+.gap-4 {
+  gap: 0 4px;
+}
+
 .gap-8 {
   gap: 0 8px;
 }
@@ -2934,8 +2962,16 @@ table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:after {
   gap: 0 10px;
 }
 
+.gap-12 {
+  gap: 0 12px;
+}
+
 .gap-16 {
   gap: 0 16px;
+}
+
+.gap-24 {
+  gap: 0 24px;
 }
 
 .rounded-16 {
@@ -3009,14 +3045,12 @@ table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:after {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.order .card-primary .card {
+.order .card-primary .tab-content .card {
   padding-top: 16px;
   padding-bottom: 24px;
   font-size: 16px;
   font-weight: 400;
   line-height: 1.5;
-}
-.order .card-primary .card.rounded-b-r {
   border-radius: 0 0 16px 16px !important;
 }
 .order .box-search {
@@ -3059,6 +3093,7 @@ table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:after {
 }
 .order .card-primary input[type=text],
 .order .card-primary input[type=tel],
+.order .card-primary input[type=date],
 .order .card-primary select {
   border-radius: var(--input-radiusCorner, 8px);
   border: 1px solid var(--input-border-default, #dedfe0);
@@ -3068,6 +3103,7 @@ table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:after {
 }
 .order .card-primary input[type=text].search-cus,
 .order .card-primary input[type=tel].search-cus,
+.order .card-primary input[type=date].search-cus,
 .order .card-primary select.search-cus {
   width: 100%;
   border-radius: 8px;
@@ -3078,14 +3114,28 @@ table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:after {
 }
 .order .card-primary input[type=text].search-cus:focus,
 .order .card-primary input[type=tel].search-cus:focus,
+.order .card-primary input[type=date].search-cus:focus,
 .order .card-primary select.search-cus:focus {
   border: 1px solid var(--input-border-focus, #4ba66f);
   background: url(../img/icon/search.svg) left 8px center #fff no-repeat;
 }
 .order .card-primary input[type=text].is-disabled,
 .order .card-primary input[type=tel].is-disabled,
+.order .card-primary input[type=date].is-disabled,
 .order .card-primary select.is-disabled {
   pointer-events: none;
+}
+.order .card-primary input[type=text].tag-input,
+.order .card-primary input[type=tel].tag-input,
+.order .card-primary input[type=date].tag-input,
+.order .card-primary select.tag-input {
+  width: auto;
+  border: none;
+  background: none;
+  padding: 3px 5px;
+}
+.order .card-primary input[type=date] {
+  text-transform: uppercase;
 }
 .order .address-select {
   color: var(--input-text-unfill, #747475);
@@ -3186,6 +3236,140 @@ table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:after {
   position: absolute;
   right: 4px;
   top: 4px;
+}
+.order .tab-products {
+  padding: 12px 16px;
+}
+.order .tab-products .btn {
+  margin: 0;
+}
+.order .tab-products .tab-nav {
+  display: flex;
+  align-items: center;
+  gap: 0 8px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--modal-divider, #DEDFE0);
+}
+.order .tab-products .tab-content {
+  padding-top: 16px;
+}
+.order .tab-products .tab-content .list-product {
+  padding-top: 26px;
+}
+.order .tab-products .tab-content .list-product .item-head {
+  padding-inline: 8px;
+  background: var(--table-background-header, #DEDFE0);
+}
+.order .tab-products .tab-content .list-product .item-body {
+  padding-inline: 8px;
+  border: 1px solid var(--table-border, #DEDFE0);
+}
+.order .tab-products .tab-content .list-product .auto-fill-checkbox {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 25px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+.order .tab-products .tab-content .list-product .auto-fill-checkbox input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.order .tab-products .tab-content .list-product .auto-fill-checkbox .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  border-radius: 25px;
+  transition: 0.4s;
+}
+.order .tab-products .tab-content .list-product .auto-fill-checkbox .slider::before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 2px;
+  bottom: 50%;
+  transform: translate(0, 50%);
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.4s;
+}
+.order .tab-products .tab-content .list-product .auto-fill-checkbox input:checked + .slider {
+  background-color: #4caf50;
+}
+.order .tab-products .tab-content .list-product .auto-fill-checkbox input:checked + .slider::before {
+  transform: translate(25px, 50%);
+}
+.order .label {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  color: var(--table-text, #0F0F0F);
+  font-size: var(--font-size-web-body-lg, 16px);
+  font-weight: var(--font-weight-bold, 700);
+  line-height: var(--font-line-height-s16, 24px);
+}
+.order .tag-container {
+  display: flex;
+  flex-wrap: wrap;
+  border-radius: 5px;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border-radius: var(--dropdown-radiusCorner, 8px);
+  border: 1px solid var(--dropdown-border-default, #DEDFE0);
+  background: var(--Sample-frame-background-white, #FFF);
+}
+.order .special-item + .special-item {
+  margin-top: 8px;
+}
+.order .tag {
+  border: 1px solid var(--border-primary, #DEDFE0);
+  background: var(--tag-background-default, #F2F3F5);
+  font-size: 16px;
+  padding: 0 4px;
+  max-height: 24px;
+}
+.order .tag .remove-tag {
+  border: none;
+  color: white;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  background: url(../img/icon/delete-svgrepo-com.svg) center center no-repeat;
+}
+.order .tag-input {
+  border: none;
+  outline: none;
+  flex-grow: 1;
+  font-size: 14px;
+  padding: 3px 5px;
+}
+.order .tag-input::placeholder {
+  color: #aaa;
+}
+.order .clone-note {
+  cursor: pointer;
+  width: fit-content;
+}
+.order .clone-note:hover {
+  color: #4BA66F;
+}
+.order .clone-note:hover .fa-plus {
+  background-image: url(../img/icon-hover/plus-svgrepo-com.svg);
+}
+.order .add-tab {
+  border: none;
+  padding: 10px;
+  width: 36px;
+  height: 36px;
+  background: url(../img/icon/plus-white.svg) center 12px no-repeat #208046;
+  border-radius: var(--number-8px, 8px);
 }
 
 .history-order {
