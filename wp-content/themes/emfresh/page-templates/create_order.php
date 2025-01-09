@@ -77,7 +77,7 @@ get_header();
                     <!-- /.col -->
                     <div class="col-8">
                         <div class="card-body">
-                            <ul class="nav tabNavigation pt-20">
+                            <ul class="nav tab-order tabNavigation pt-20">
                                 <li class="nav-item selected" rel="customer">Khách hàng</li>
                                 <li class="nav-item" rel="product">Sản phẩm</li>
                                 <li class="nav-item" rel="pay">Thanh toán</li>
@@ -102,6 +102,7 @@ get_header();
                                                     <p class="name">Linh (Nu Kenny)</p>
                                                     <p class="color-black fs-14 fw-regular phone pt-8 pb-8">0123456789</p>
                                                     <p class="color-black fs-14 fw-regular address">44L đường số 11, KDC Miếu Nổi, Phường 3, Quận Bình Thạnh</p>
+                                                    <p class="note_shiper hidden">gửi lễ tân/bảo vệ rồi nhắn tin khách</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -116,13 +117,14 @@ get_header();
                                                 <div class="dropdown active">
                                                     <input type="text" name="nickname" class="address_delivery is-disabled form-control" maxlength="50" placeholder="Địa chỉ giao hàng">
                                                 </div>
-                                                <p class="fs-14 fw-regular color-gray pt-4 pl-8">Note với shipper: gửi lễ tân/bảo vệ rồi nhắn tin khách</p>
+                                                <p class="fs-14 fw-regular color-gray pt-4 pl-8">Note với shipper: <span class="note_shiper"></span></p>
                                                 <div class="dropdown-menu">
                                                     <div class="item active">
-                                                        <p class="fs-16 color-black">44L đường số 11, KDC Miếu Nổi, Phường 3, Quận Bình Thạnh</p>
+                                                        <p class="fs-16 color-black other-address">44L đường số 11, KDC Miếu Nổi, Phường 3, Quận Bình Thạnh</p>
                                                         <div class="group-management-link d-f jc-b ai-center pt-8">
                                                             <div class="tooltip d-f ai-center">
                                                                 <p class="fs-14 fw-regular color-gray">(Đã đăng ký chung nhóm ship: Thien Phuong Bui)</p>
+                                                                <p class="note_shiper hidden">gửi lễ tân/bảo vệ rồi nhắn tin khách</p>
                                                                 <span class="fas tooltip-icon fa-info-gray"></span>
                                                                 <div class="tooltip-content">
                                                                     <div class="close fas fa-trash"></div>
@@ -133,16 +135,6 @@ get_header();
                                                                         <li>Dinh Thi Hien Ly</li>
                                                                     </ul>
                                                                 </div>
-                                                            </div>
-                                                            <a class="management-link" href="#">Đi đến Quản lý nhóm</a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="item">
-                                                        <p class="fs-16 color-black">45 Hoa Lan, Phường 3, Quận Phú Nhuận</p>
-                                                        <div class="group-management-link d-f jc-b ai-center pt-8">
-                                                            <div class="tooltip d-f ai-center">
-                                                                <p class="fs-14 fw-regular color-gray">(Đã đăng ký chung nhóm ship: Thien Phuong Bui)</p>
-                                                                <span class="fas fa-info-gray"></span>
                                                             </div>
                                                             <a class="management-link" href="#">Đi đến Quản lý nhóm</a>
                                                         </div>
@@ -158,7 +150,7 @@ get_header();
                                             Đơn hàng gần đây
                                         </h3>
                                         <div class="history-order">
-                                            <div class="no-history">
+                                            <div class="no-history show">
                                                 <img src="<?php site_the_assets(); ?>/img/icon/cart.svg" alt="">
                                                 <div class="pt-8 color-gray fs-12 fw-regular">Chưa có lịch sử mua hàng</div>
                                             </div>
@@ -273,14 +265,14 @@ get_header();
                                     <div class="card">
                                         <div class="tab-products">
                                             <div class="tab-nav" id="tabNav">
-                                                <button class="btn btn-primary btn-add_order tab-button active" data-tab="tab-1">Sản phẩm 1</button>
+                                                <button class="d-f jc-b ai-center gap-8 btn btn-add_order tab-button active" data-tab="tab-1">Sản phẩm 1 <span class="remove-tab"></span></button>
                                                 <button class="add-tab" id="addTabButton"></button>
                                             </div>
 
                                             <!-- Tab Content Areas -->
                                             <div id="tabContents">
-                                                <div class="tab-content-wraper" id="tab-1">
-                                                    <div class="tab-content active">
+                                                <div class="tab-content-wrapper active" id="tab-1">
+                                                    <div class="tab-content">
                                                         <div class="row24">
                                                             <div class="col-5">
                                                                 <div class="label mb-4">Phân loại:</div>
@@ -329,7 +321,7 @@ get_header();
                                                             <div class="special-item row">
                                                                 <div class="col-4">
                                                                     <select id="district_0" name="locations[0][district]" class="district-select form-control">
-                                                                        <option value="Note rau củ">Note rau củ</option>
+                                                                        <option value="Note rau củ" selected>Note rau củ</option>
                                                                         <option value="Note tinh bột">Note tinh bột</option>
                                                                         <option value="Note nước sốt">Note nước sốt</option>
                                                                         <option value="Note khác">Note khác</option>
@@ -355,198 +347,118 @@ get_header();
                                 </div>
                                 <div class="tab-pane" id="pay">
                                     <div class="card">
-                                        <div class="ttl">
-                                            Ghi chú
+                                        <div class="total-pay d-f jc-b ai-center">
+                                            <p>Tổng tiền sản phẩm:</p>
+                                            <p class="price-product fw-bold">650.000</p>
                                         </div>
-                                        <div class="note-wraper pt-16">
-                                            <div class="js-comment-row pb-16 ">
-                                                <div class="row row-comment">
-                                                    <div class="account-name d-f ai-center col-6">
-                                                        <div class="avatar">
-                                                            <img src="https://secure.gravatar.com/avatar/?s=96&amp;d=mm&amp;r=g" alt="" width="40">
-                                                        </div>
-                                                        <div>Nghiem Nguyen</div>
-                                                    </div>
-                                                    <div class="edit col-3">
-                                                        <span class="pen">
-                                                        </span>
-                                                        <span class="pin"><a href="http://emfresh.web/customer/detail-customer/?customer_id=139&amp;pin-id=125&amp;pin-token=0623970564"><img
-                                                                    src="<?php site_the_assets(); ?>/img/icon/pin-svgrepo-com.svg" alt=""></a></span>
-                                                        <span class="remove">
-                                                        </span>
-                                                    </div>
-                                                    <div class="time col-3">25/11/2024</div>
-                                                </div>
-                                                <div class="note-content cap-nhat">
-                                                    <span class="comment_content">1 ngày chủ nhật quá là buồn, mệt mỏi
-                                                        trong người không muốn đi đâu cả</span>
-                                                    <span class="comment_status status-edited">• Đã sửa</span>
-                                                </div>
+                                        <div class="shipping-fee">
+                                            <div class="fee-item d-f jc-b ai-center">
+                                                <p>Số ngày phát sinh phí ship:</p>
+                                                <input type="number" name="number" placeholder="-" class="form-control text-right ship_fee_days">
                                             </div>
-                                            <div class="js-comment-row pb-16 ">
-                                                <div class="row row-comment">
-                                                    <div class="account-name d-f ai-center col-6">
-                                                        <div class="avatar">
-                                                            <img src="https://secure.gravatar.com/avatar/?s=96&amp;d=mm&amp;r=g" alt="" width="40">
-                                                        </div>
-                                                        <div>Nghiem Nguyen</div>
-                                                    </div>
-                                                    <div class="edit col-3">
-                                                        <span class="pen">
-                                                        </span>
-                                                        <span class="pin"><a href="http://emfresh.web/customer/detail-customer/?customer_id=139&amp;pin-id=85&amp;pin-token=0623970564"><img
-                                                                    src="<?php site_the_assets(); ?>/img/icon/pin-svgrepo-com.svg" alt=""></a></span>
-                                                        <span class="remove">
-                                                        </span>
-                                                    </div>
-                                                    <div class="time col-3">18/11/2024</div>
-                                                </div>
-                                                <div class="note-content ">
-                                                    <span class="comment_content">1 ngày tuyệt vời nhé</span>
-                                                </div>
+                                            <div class="fee-item d-f jc-b ai-center">
+                                                <p>Tổng tiền phí ship:</p>
+                                                <input type="number" name="number" placeholder="-" class="form-control text-right total_ship">
                                             </div>
-                                            <div class="js-comment-row pb-16 ">
-                                                <div class="row row-comment">
-                                                    <div class="account-name d-f ai-center col-6">
-                                                        <div class="avatar">
-                                                            <img src="https://secure.gravatar.com/avatar/?s=96&amp;d=mm&amp;r=g" alt="" width="40">
-                                                        </div>
-                                                        <div>em.fresh test account</div>
-                                                    </div>
-                                                    <div class="edit col-3">
-                                                        <span class="pen">
-                                                        </span>
-                                                        <span class="pin"><a href="http://emfresh.web/customer/detail-customer/?customer_id=139&amp;pin-id=76&amp;pin-token=0623970564"><img
-                                                                    src="<?php site_the_assets(); ?>/img/icon/pin-svgrepo-com.svg" alt=""></a></span>
-                                                        <span class="remove">
-                                                        </span>
-                                                    </div>
-                                                    <div class="time col-3">16/11/2024</div>
-                                                </div>
-                                                <div class="note-content cap-nhat">
-                                                    <span class="comment_content">Khách thường thanh toán bằng
-                                                        TCB</span>
-                                                    <span class="comment_status status-edited">• Đã sửa</span>
-                                                </div>
+                                            <div class="fee-item d-f jc-b ai-center">
+                                                <p>Giảm giá:</p>
+                                                <input type="number" name="number" placeholder="-" class="form-control text-right discount">
                                             </div>
                                         </div>
-                                        <div class="note-form">
-                                            <form action="http://emfresh.web/customer/detail-customer/?customer_id=139&amp;tab=note" method="post" enctype="multipart/form-data" class="js-comment-form"
-                                                id="editcomment">
-                                                <div class="binhluan-moi">
-                                                    <div class="box-right">
-                                                        <div class="form-group">
-                                                            <textarea name="comment" maxlength="65525" class="form-control comment-box" placeholder="Viết bình luận"></textarea>
-                                                        </div>
-                                                        <button class="btn-common-fill hidden" type="submit" name="submit" value="submit">Send</button>
-                                                    </div>
-                                                    <input type="hidden" name="url" value="http://emfresh.web/customer/detail-customer/?customer_id=139">
-                                                    <input type="hidden" name="comment_post_ID" value="139">
-                                                    <input type="hidden" name="comment_parent" value="0">
-                                                    <input type="hidden" name="comment_ID" value="0">
-                                                    <input type="hidden" id="comtoken" name="comtoken" value="d276716541"><input type="hidden" name="_wp_http_referer"
-                                                        value="/customer/detail-customer/?customer_id=139">
+                                        <div class="total-pay d-f jc-b ai-center">
+                                            <p>Tổng tiền đơn hàng:</p>
+                                            <p class="price-order fw-bold">650.000</p>
+                                        </div>
+                                        <div class="order-payment">
+                                            <div class="payment-item d-f jc-b ai-center">
+                                                <p>Phương thức thanh toán:</p>
+                                                <div class="d-f jc-b ai-center gap-16">
+                                                    <label class="d-f ai-center gap-12">
+                                                        <input type="radio" name="payment-method" class="form-control cod" checked="checked">COD
+                                                    </label>
+                                                    <label class="d-f ai-center gap-12">
+                                                        <input type="radio" name="payment-method" class="form-control transfer">Chuyển khoản
+                                                    </label>
                                                 </div>
-                                            </form>
+                                            </div>
+                                            <div class="payment-item d-f jc-b ai-center">
+                                                <p>Trạng thái thanh toán:</p>
+                                                <div class="status-payment">
+                                                    <div class="status-pay"><span class="red">Chưa</span></div>
+                                                    <ul class="status-pay-menu">
+                                                        <li class="status-pay-item" data-status='no'><span class="red">Chưa</span></>
+                                                        <li class="status-pay-item" data-status='pending'><span class="purple">1 phần</span></>
+                                                        <li class="status-pay-item" data-status='yes'><span class="white">Rồi</span></>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="paymented d-f jc-b ai-center pt-8">
+                                                <p>Đã thanh toán:</p>
+                                                <input type="number" name="number" placeholder="-" class="form-control text-right">
+                                            </div>
+                                            <div class="payment-item d-f jc-b ai-center pt-8">
+                                                <p>Cần thanh toán:</p>
+                                                <div class="payment-required fw-bold"> 650.000</div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="tab-pane" id="delivery">
                                     <div class="card">
-                                        <div class="ttl">
-                                            Ghi chú
-                                        </div>
-                                        <div class="note-wraper pt-16">
-                                            <div class="js-comment-row pb-16 ">
-                                                <div class="row row-comment">
-                                                    <div class="account-name d-f ai-center col-6">
-                                                        <div class="avatar">
-                                                            <img src="https://secure.gravatar.com/avatar/?s=96&amp;d=mm&amp;r=g" alt="" width="40">
-                                                        </div>
-                                                        <div>Nghiem Nguyen</div>
-                                                    </div>
-                                                    <div class="edit col-3">
-                                                        <span class="pen">
-                                                        </span>
-                                                        <span class="pin"><a href="http://emfresh.web/customer/detail-customer/?customer_id=139&amp;pin-id=125&amp;pin-token=0623970564"><img
-                                                                    src="<?php site_the_assets(); ?>/img/icon/pin-svgrepo-com.svg" alt=""></a></span>
-                                                        <span class="remove">
-                                                        </span>
-                                                    </div>
-                                                    <div class="time col-3">25/11/2024</div>
-                                                </div>
-                                                <div class="note-content cap-nhat">
-                                                    <span class="comment_content">1 ngày chủ nhật quá là buồn, mệt mỏi
-                                                        trong người không muốn đi đâu cả</span>
-                                                    <span class="comment_status status-edited">• Đã sửa</span>
-                                                </div>
-                                            </div>
-                                            <div class="js-comment-row pb-16 ">
-                                                <div class="row row-comment">
-                                                    <div class="account-name d-f ai-center col-6">
-                                                        <div class="avatar">
-                                                            <img src="https://secure.gravatar.com/avatar/?s=96&amp;d=mm&amp;r=g" alt="" width="40">
-                                                        </div>
-                                                        <div>Nghiem Nguyen</div>
-                                                    </div>
-                                                    <div class="edit col-3">
-                                                        <span class="pen">
-                                                        </span>
-                                                        <span class="pin"><a href="http://emfresh.web/customer/detail-customer/?customer_id=139&amp;pin-id=85&amp;pin-token=0623970564"><img
-                                                                    src="<?php site_the_assets(); ?>/img/icon/pin-svgrepo-com.svg" alt=""></a></span>
-                                                        <span class="remove">
-                                                        </span>
-                                                    </div>
-                                                    <div class="time col-3">18/11/2024</div>
-                                                </div>
-                                                <div class="note-content ">
-                                                    <span class="comment_content">1 ngày tuyệt vời nhé</span>
-                                                </div>
-                                            </div>
-                                            <div class="js-comment-row pb-16 ">
-                                                <div class="row row-comment">
-                                                    <div class="account-name d-f ai-center col-6">
-                                                        <div class="avatar">
-                                                            <img src="https://secure.gravatar.com/avatar/?s=96&amp;d=mm&amp;r=g" alt="" width="40">
-                                                        </div>
-                                                        <div>em.fresh test account</div>
-                                                    </div>
-                                                    <div class="edit col-3">
-                                                        <span class="pen">
-                                                        </span>
-                                                        <span class="pin"><a href="http://emfresh.web/customer/detail-customer/?customer_id=139&amp;pin-id=76&amp;pin-token=0623970564"><img
-                                                                    src="<?php site_the_assets(); ?>/img/icon/pin-svgrepo-com.svg" alt=""></a></span>
-                                                        <span class="remove">
-                                                        </span>
-                                                    </div>
-                                                    <div class="time col-3">16/11/2024</div>
-                                                </div>
-                                                <div class="note-content cap-nhat">
-                                                    <span class="comment_content">Khách thường thanh toán bằng
-                                                        TCB</span>
-                                                    <span class="comment_status status-edited">• Đã sửa</span>
+                                        <div class="row delivery-item">
+                                            <div class="col-4">Đặt lịch:</div>
+                                            <div class="col-8">
+                                                <label for="loop" class="d-f ai-center gap-12 pb-8 loop">
+                                                    <input type="checkbox" name="" id="loop">
+                                                    Lặp lại hàng tuần
+                                                </label>
+                                                <input type="date" name="date" placeholder="DD/MM/YYYY" class="form-control date">
+                                                <div class="repeat-weekly">
+                                                    <input type="checkbox" id="monday" hidden name="days" value="monday">
+                                                    <label for="monday">Thứ Hai</label>
+                                                    <input type="checkbox" id="tuesday" hidden name="days" value="tuesday">
+                                                    <label for="tuesday"> Thứ Ba</label>
+                                                    <input type="checkbox" id="wednesday" hidden name="days" value="wednesday">
+                                                    <label for="wednesday"> Thứ Tư</label>
+                                                    <input type="checkbox" id="thursday" hidden name="days" value="thursday">
+                                                    <label for="thursday"> Thứ Năm</label>
+                                                    <input type="checkbox" id="friday" hidden name="days" value="friday">
+                                                    <label for="friday"> Thứ Sáu</label>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="note-form">
-                                            <form action="http://emfresh.web/customer/detail-customer/?customer_id=139&amp;tab=note" method="post" enctype="multipart/form-data" class="js-comment-form"
-                                                id="editcomment">
-                                                <div class="binhluan-moi">
-                                                    <div class="box-right">
-                                                        <div class="form-group">
-                                                            <textarea name="comment" maxlength="65525" class="form-control comment-box" placeholder="Viết bình luận"></textarea>
-                                                        </div>
-                                                        <button class="btn-common-fill hidden" type="submit" name="submit" value="submit">Send</button>
-                                                    </div>
-                                                    <input type="hidden" name="url" value="http://emfresh.web/customer/detail-customer/?customer_id=139">
-                                                    <input type="hidden" name="comment_post_ID" value="139">
-                                                    <input type="hidden" name="comment_parent" value="0">
-                                                    <input type="hidden" name="comment_ID" value="0">
-                                                    <input type="hidden" id="comtoken" name="comtoken" value="d276716541"><input type="hidden" name="_wp_http_referer"
-                                                        value="/customer/detail-customer/?customer_id=139">
+                                        <div class="row delivery-item pt-24 ai-center">
+                                            <div class="col-4">Địa chỉ giao:</div>
+                                            <div class="col-8 address">
+                                                <div class="dropdown">
+                                                    <input type="text" name="nickname" class="address_delivery is-disabled form-control" maxlength="50" placeholder="Vui lòng chọn">
                                                 </div>
-                                            </form>
+                                                <div class="dropdown-menu">
+                                                    <div class="item">
+                                                        <p class="fs-16 color-black other-address">44L đường số 11, KDC Miếu Nổi, Phường 3, Quận Bình Thạnh</p>
+                                                    </div>
+                                                    <a href="#modal-add-address" class="btn-add-address d-f ai-center pb-16 pt-8 pl-8">
+                                                        <span class="fas fa-plus mr-8"></span>Thêm địa chỉ mới
+                                                    </a>
+                                                </div>
+                                            </div>
                                         </div>
+                                        <div class="row delivery-item note pt-16 ai-center">
+                                            <div class="col-4">Note shipper theo ngày:</div>
+                                            <div class="col-8">
+                                                <input type="text" name="note_shipper_by_day" class="form-control note_shipper_by_day">
+                                            </div>
+                                        </div>
+                                        <div class="row delivery-item note pt-16 ai-center">
+                                            <div class="col-4">Note admin theo ngày:</div>
+                                            <div class="col-8">
+                                                <input type="text" name="note_admin_by_day" class="form-control note_admin_by_day">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-f ai-center pb-16 pt-24">
+                                        <span class="fas fa-plus mr-8"></span> Thêm note giao hàng mới
                                     </div>
                                 </div>
                                 <!-- /.tab-pane -->
@@ -1195,77 +1107,79 @@ get_header();
             <span class="fas fa-location"></span>
             <span>Địa chỉ</span>
         </div>
-        <div class="row pt-16">
-            <div class="city col-4 pb-16">
-                <select id="province_126" name="locations[0][province]" class="province-select form-control" disabled="">
-                    <option value="">Select Tỉnh/Thành phố</option>
-                    <option value="Thành phố Hồ Chí Minh" selected="">Thành phố Hồ Chí Minh</option>
-                </select>
-            </div>
-            <div class="col-4 pb-16">
-                <select id="district_126" name="locations[0][district]" class="district-select form-control text-capitalize">
-                    <option value="Quận Bình Thạnh" selected="">Quận Bình Thạnh</option>
-                    <option value="Quận 1">Quận 1</option>
-                    <option value="Quận 3">Quận 3</option>
-                    <option value="Quận 4">Quận 4</option>
-                    <option value="Quận 5">Quận 5</option>
-                    <option value="Quận 6">Quận 6</option>
-                    <option value="Quận 7">Quận 7</option>
-                    <option value="Quận 8">Quận 8</option>
-                    <option value="Quận 10">Quận 10</option>
-                    <option value="Quận 11">Quận 11</option>
-                    <option value="Quận 12">Quận 12</option>
-                    <option value="Quận Bình Tân">Quận Bình Tân</option>
-                    <option value="Quận Bình Thạnh">Quận Bình Thạnh</option>
-                    <option value="Quận Gò Vấp">Quận Gò Vấp</option>
-                    <option value="Quận Phú Nhuận">Quận Phú Nhuận</option>
-                    <option value="Quận Tân Bình">Quận Tân Bình</option>
-                    <option value="Quận Tân Phú">Quận Tân Phú</option>
-                    <option value="Thành phố Thủ Đức">Thành phố Thủ Đức</option>
-                    <option value="Huyện Bình Chánh">Huyện Bình Chánh</option>
-                    <option value="Huyện Cần Giờ">Huyện Cần Giờ</option>
-                    <option value="Huyện Củ Chi">Huyện Củ Chi</option>
-                    <option value="Huyện Hóc Môn">Huyện Hóc Môn</option>
-                    <option value="Huyện Nhà Bè">Huyện Nhà Bè</option>
-                </select>
-            </div>
-            <div class="col-4 pb-16">
-                <select id="ward_126" name="locations[0][ward]" class="ward-select form-control disabled">
-                    <option selected="">Phường/Xã*</option>
-                </select>1
-            </div>
-            <div class="col-12 pb-16">
-                <input id="address_126" type="text" class="form-control address" placeholder="Địa chỉ cụ thể*" name="locations[0][address]">
-            </div>
-            <div class="group-note col-12">
-                <div class="note_shiper hidden pb-16">
-                    <input type="text" name="locations[0][note_shipper]" value="" placeholder="Note với shipper">
+        <form method="post" id="customer-form" action="">
+            <div class="row address-group location_0 address_active pt-16">
+                <div class="city col-4 pb-16">
+                    <select id="province_126" name="locations[0][province]" class="province-select form-control" disabled="">
+                        <option value="">Select Tỉnh/Thành phố</option>
+                        <option value="Thành phố Hồ Chí Minh" selected="">Thành phố Hồ Chí Minh</option>
+                    </select>
                 </div>
-                <div class="note_admin hidden pb-16">
-                    <input type="text" name="locations[0][note_admin]" value="" placeholder="Note với admin">
+                <div class="col-4 pb-16">
+                    <select id="district_126" name="" class="district-select form-control text-capitalize">
+                        <option value="Quận Bình Thạnh" selected="">Quận Bình Thạnh</option>
+                        <option value="Quận 1">Quận 1</option>
+                        <option value="Quận 3">Quận 3</option>
+                        <option value="Quận 4">Quận 4</option>
+                        <option value="Quận 5">Quận 5</option>
+                        <option value="Quận 6">Quận 6</option>
+                        <option value="Quận 7">Quận 7</option>
+                        <option value="Quận 8">Quận 8</option>
+                        <option value="Quận 10">Quận 10</option>
+                        <option value="Quận 11">Quận 11</option>
+                        <option value="Quận 12">Quận 12</option>
+                        <option value="Quận Bình Tân">Quận Bình Tân</option>
+                        <option value="Quận Bình Thạnh">Quận Bình Thạnh</option>
+                        <option value="Quận Gò Vấp">Quận Gò Vấp</option>
+                        <option value="Quận Phú Nhuận">Quận Phú Nhuận</option>
+                        <option value="Quận Tân Bình">Quận Tân Bình</option>
+                        <option value="Quận Tân Phú">Quận Tân Phú</option>
+                        <option value="Thành phố Thủ Đức">Thành phố Thủ Đức</option>
+                        <option value="Huyện Bình Chánh">Huyện Bình Chánh</option>
+                        <option value="Huyện Cần Giờ">Huyện Cần Giờ</option>
+                        <option value="Huyện Củ Chi">Huyện Củ Chi</option>
+                        <option value="Huyện Hóc Môn">Huyện Hóc Môn</option>
+                        <option value="Huyện Nhà Bè">Huyện Nhà Bè</option>
+                    </select>
                 </div>
-            </div>
-            <div class="show-group-note d-f ai-center pb-16 pt-8 pl-8">
-                <span class="fas fa-plus mr-8"></span> Thêm ghi chú giao hàng
-            </div>
-            <div class="col-12 pb-16">
-                <hr>
-                <div class="row pt-16">
-                    <div class="col-6">
-                        <div class="icheck-primary d-f ai-center">
-                            <input type="radio" name="location_active" id="active_126" value="126" checked="checked">
-                            <input type="hidden" class="location_active" name="locations[0][active]" value="1">
-                            <label class="pl-4" for="active_126">
-                                Đặt làm địa chỉ mặc định
-                            </label>
+                <div class="col-4 pb-16">
+                    <select id="ward_126" name="locations[0][ward]" class="ward-select form-control" disabled>
+                        <option selected="">Phường/Xã*</option>
+                    </select>
+                </div>
+                <div class="col-12 pb-16">
+                    <input id="address_126" type="text" class="form-control address" placeholder="Địa chỉ cụ thể*" name="locations[0][address]">
+                </div>
+                <div class="group-note col-12">
+                    <div class="note_shiper hidden pb-16">
+                        <input type="text" name="locations[0][note_shipper]" value="" placeholder="Note với shipper">
+                    </div>
+                    <div class="note_admin hidden pb-16">
+                        <input type="text" name="locations[0][note_admin]" value="" placeholder="Note với admin">
+                    </div>
+                </div>
+                <div class="show-group-note d-f ai-center pb-16 pt-8 pl-8">
+                    <span class="fas fa-plus mr-8"></span> Thêm ghi chú giao hàng
+                </div>
+                <div class="col-12 pb-16">
+                    <hr>
+                    <div class="row pt-16">
+                        <div class="col-6">
+                            <div class="icheck-primary d-f ai-center">
+                                <input type="radio" name="location_active" id="active_126" value="126" checked="checked">
+                                <input type="hidden" class="location_active" name="locations[0][active]" value="1">
+                                <label class="pl-4" for="active_126">
+                                    Đặt làm địa chỉ mặc định
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
         <div class="modal-footer d-f jc-e pb-8 pt-16">
             <button type="button" class="btn btn-secondary modal-close">Huỷ</button>
-            <button type="submit" name="remove" class="btn btn-primary modal-close">Áp dụng</button>
+            <button type="submit" class="btn btn-primary add-address">Áp dụng</button>
         </div>
     </div>
 </div>
