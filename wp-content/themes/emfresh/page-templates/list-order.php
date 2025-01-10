@@ -133,26 +133,24 @@ get_header();
         </thead>
         <tbody>
           <?php
-            $response = em_api_request('customer/list', [
-              'active' => 1,
+            $response = em_api_request('order/list', [
               'paged' => 1,
               'limit' => -1,
             ]);
           if (isset($response['data']) && is_array($response['data'])) {
             // Loop through the data array and print each entry
             foreach ($response['data'] as $record) {
-              if (is_array($record)) { // Check if each record is an array
-                if ($record['active'] != '0') { ?>
+              if (is_array($record)) {?>
                   <tr class="nowrap">
                     <td data-number="0" class="text-center"><input type="checkbox" class="checkbox-element" data-number="<?php echo $record['phone']; ?>" value="<?php echo $record['id'] ?>"></td>
                     <td data-number="1" class="text-left">12345</td>
                     <td data-number="2" class="text-capitalize nowrap wrap-td"><div class="ellipsis"><a href="detail-customer/?customer_id=<?php echo $record['id'] ?>"><?php echo $record['customer_name']; ?></a></div></td>
                     <td data-number="3" class="text-left"><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $record['phone']; ?>"><?php echo $record['phone']; ?></span></td>
                     <td data-number="4" class="text-capitalize wrap-td" style="min-width: 300px;">
-                      <div class="nowrap ellipsis"><?php echo $record['address']; echo $record['address'] ? ', ' : ''; ?> <?php echo $record['ward'];  echo $record['ward'] ? ', ' : ''; echo $record['district'] ?></div>
+                      <div class="nowrap ellipsis"><?php echo $record['location_name'] ?></div>
                     </td>
                     <td data-number="5" class="text-capitalize">
-                      <?php echo $record['district']; ?>
+                      <?php // echo $record['district']; ?>
                     </td>
                     <td data-number="6" class="text-center">M</td>
                     <td data-number="7">2SM+1ET+1EP+1TA</td>
@@ -173,7 +171,7 @@ get_header();
                     <td data-number="22"><?php echo date('Y/m/d', strtotime($record['modified'])); ?></td>
                     <td data-number="23"><?php echo date('d/m/Y', strtotime($record['modified'])); ?></td>
                   </tr>
-          <?php  }
+          <?php
               } else {
                 echo "Không tìm thấy dữ liệu!\n";
               }
