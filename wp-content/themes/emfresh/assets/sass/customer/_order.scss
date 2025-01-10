@@ -753,6 +753,9 @@
 
             &.note {
                 display: none;
+                &.show{
+                    display: flex;
+                }
             }
 
             .loop {
@@ -765,15 +768,17 @@
                 background: var(--calendar-background-base, #FFF);
                 padding: 16px 8px;
                 display: flex;
-                justify-content: space-between;
                 width: 100%;
                 margin-top: 8px;
                 display: none;
+                gap: 0 37px;
+                align-items: center;
 
                 label {
-                    padding: 6px 11px;
+                    flex: 1;
+                    padding: 6px 0;
                     text-align: center;
-                    min-width: 70px;
+                    width: 70px;
                     cursor: pointer;
 
                     &:hover {
@@ -786,10 +791,9 @@
                     border-radius: var(--globalComponentRadius, 8px);
                     background: var(--calendar-background-cell-selected, #4BA66F);
                     color: var(--calendar-text-reverse, #FCFCFC);
-
                 }
                 &.show{
-                    display: block;
+                    display: flex;
                 }
             }
 

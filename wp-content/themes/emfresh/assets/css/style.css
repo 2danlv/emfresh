@@ -3532,6 +3532,9 @@ table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:after {
 .order #delivery .delivery-item.note {
   display: none;
 }
+.order #delivery .delivery-item.note.show {
+  display: flex;
+}
 .order #delivery .delivery-item .loop {
   color: var(--text-tertiary, #747475);
 }
@@ -3541,15 +3544,17 @@ table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:after {
   background: var(--calendar-background-base, #FFF);
   padding: 16px 8px;
   display: flex;
-  justify-content: space-between;
   width: 100%;
   margin-top: 8px;
   display: none;
+  gap: 0 37px;
+  align-items: center;
 }
 .order #delivery .delivery-item .repeat-weekly label {
-  padding: 6px 11px;
+  flex: 1;
+  padding: 6px 0;
   text-align: center;
-  min-width: 70px;
+  width: 70px;
   cursor: pointer;
 }
 .order #delivery .delivery-item .repeat-weekly label:hover {
@@ -3562,7 +3567,7 @@ table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:after {
   color: var(--calendar-text-reverse, #FCFCFC);
 }
 .order #delivery .delivery-item .repeat-weekly.show {
-  display: block;
+  display: flex;
 }
 .order #delivery .delivery-item .address {
   position: relative;

@@ -1,959 +1,871 @@
 <?php
 
 /**
- * Template Name: Order details
+ * Template Name: Detail-customer
  *
  * @package WordPress
  * @subpackage Twenty_Twelve
  * @since Twenty Twelve 1.0
  */
 get_header();
+// Start the Loop.
+// while ( have_posts() ) : the_post();
 ?>
-<div class="customer">
-    <div class="detail-customer pt-16">
+<div class="detail-customer pt-16">
 
-        <section class="content">
-            <div class="container-fluid">
-                <div class="scroll-menu pt-8">
-                    <div class="row">
-                        <div class="col-6 backtolist d-f ai-center">
-                            <a href="/customer/" class="d-f ai-center"><span class="mr-4"><img
-                                        src="http://emfresh.web/wp-content/themes/emfresh/assets/img/icon/caretup.svg"
-                                        alt=""></span><span> Quay lại danh sách khách hàng</span></a>
-                        </div>
-                        <div class="col-6 d-f ai-center jc-end group-button_top">
-                            <span class="btn btn-danger remove-customer modal-button" data-target="#modal-default">
-                                Xoá khách này
-                            </span>
-                            <a class="btn btn-primary btn-add_order" href="#" style=""><span class="d-f ai-center"><i
-                                        class="fas mr-4"><img
-                                            src="http://emfresh.web/wp-content/themes/emfresh/assets/img/icon-hover/plus-svgrepo-com_white.svg"
-                                            alt=""></i>Tạo đơn mới</span></a>
-                            <span class="btn btn-primary btn-disable btn-save_edit hidden" style="display: none;">Lưu
-                                thay
-                                đổi</span>
-                        </div>
-                    </div>
-                    <div class="card-header">
-                        <ul class="nav tabNavigation pt-16">
-                            <li class="nav-item selected" rel="info">Thông tin khách hàng</li>
-                            <li class="nav-item" rel="note">Ghi chú</li>
-                            <li class="nav-item" rel="settings">Chỉnh sửa thông tin</li>
-                            <li class="nav-item" rel="history">Lịch sử thao tác</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="card-primary">
-                    <!-- Content Header (Page header) -->
-                    <h1 class="pt-8">Hồng Nhung 1</h1>
-                    <!-- Main content -->
-                    <div class="row">
-                        <div class="col-4 about-box">
-                            <!-- About Me Box -->
-                            <div class="card ">
-                                <!-- /.card-header -->
-                                <div class="card-body">
-                                    <div class="ttl">
-                                        Thông tin chi tiết
-                                    </div>
-                                    <div class="d-f jc-b pt-16">
-                                        <span>Số điện thoại:</span>
-                                        <span class="copy modal-button" data-target="#modal-copy"
-                                            title="Copy: 0909739506">0909739506</span>
-                                    </div>
-                                    <div class="d-f jc-b pt-8">
-                                        <span>Giới tính:</span>
-                                        <span>Nữ</span>
-                                    </div>
-                                    <div class="d-f jc-b pt-8">
-                                        <span>Trạng thái khách hàng:</span>
-                                        <span></span>
-                                    </div>
-                                    <div class="d-f jc-b pt-8">
-                                        <span>Số đơn:</span>
-                                        <span>12</span>
-                                    </div>
-                                    <div class="d-f jc-b pt-8">
-                                        <span>Số ngày ăn:</span>
-                                        <span>60</span>
-                                    </div>
-                                    <div class="d-f jc-b pt-8">
-                                        <span>Số phần ăn:</span>
-                                        <span>60</span>
-                                    </div>
-                                    <div class="d-f jc-b pt-8">
-                                        <span>Tổng tiền đã chi:</span>
-                                        <span>4.000.000</span>
-                                    </div>
-                                    <div class="d-f jc-b pt-8">
-                                        <span>Điểm tích luỹ:</span>
-                                        <span>0</span>
-                                    </div>
-                                    <div class="d-f jc-b pt-8 pb-4">
-                                        <span>Lịch sử đặt gần nhất:</span>
-                                        <span>08:31 29/09/2024</span>
-                                    </div>
-                                    <hr>
-                                    <div class="d-f jc-b pt-8">
-                                        <span>Ghi chú dụng cụ ăn:</span>
-                                        <span>Chỉ khăn</span>
-                                    </div>
-                                    <div class="pt-8 d-f">
-                                        <span class="nowrap pt-4">Tag phân loại:</span>
-                                        <div class="list-tag text-right jc-end col-item-right">
-                                            <span class="tag btn btn-sm tag_2 mb-4">Ăn nhóm</span>
-                                            <span class="tag btn btn-sm tag_3 mb-4">Khách nước ngoài</span>
-                                            <span class="tag btn btn-sm tag_1 mb-4">Thân thiết</span>
-                                            <span class="tag btn btn-sm tag_4 mb-4">Bệnh lý</span>
-                                        </div>
-                                    </div>
-                                    <!-- /.card-body -->
-                                </div>
-                                <!-- /.card -->
-                            </div>
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-8">
-                            <div class="card-body">
-                                <div class="tab-content">
-                                    <div class="tab-pane" id="info" style="">
-                                        <div class="card mb-16">
-                                            <div class="ttl">
-                                                Địa chỉ
-                                            </div>
-                                            <div class="row pt-16">
-                                                <div class="col-10">91 Trần Nguyên Đán,
-                                                    Phường 3,
-                                                    Quận Bình Thạnh </div>
-                                                <div class="col-2 text-right">
-                                                    <span class="badge badge-warning">Mặc định</span>
-                                                </div>
-                                            </div>
-                                            <div class="row pt-16">
-                                                <div class="col-10">Toà nhà ABC 26 Nguyễn Huy Lượng,
-                                                    Phường 05,
-                                                    Quận Gò Vấp </div>
-                                            </div>
-                                        </div>
-                                        <div class="card card-history">
-                                            <div class="ttl">
-                                                Lịch sử đặt đơn
-                                            </div>
-                                            <div class="history-order" style="margin: 0;">
-                                                <table class="nowrap-bak">
-                                                    <tbody>
-                                                        <tr>
-                                                            <th>Mã đơn</th>
-                                                            <th>Mã gói sản phẩm</th>
-                                                            <th>Ngày <br>
-                                                                bắt đầu
-                                                            </th>
-                                                            <th>Ngày<br>
-                                                                kết thúc
-                                                            </th>
-                                                            <th>Tổng tiền</th>
-                                                            <th>Trạng thái<br>
-                                                                thanh toán</th>
-                                                            <th>Trạng thái<br>
-                                                                đơn hàng</th>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>97</td>
-                                                            <td>2SM+1ET+1EP+1TA</td>
-                                                            <td>22/09/24</td>
-                                                            <td align="center">-</td>
-                                                            <td>400.000</td>
-                                                            <td align="center"><span class="status_pay">Rồi</span></td>
-                                                            <td align="center" class="status-order"><span
-                                                                    class="status_order">Đang dùng</span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>97</td>
-                                                            <td>2SM+1ET+1EP+1TA</td>
-                                                            <td>22/09/24</td>
-                                                            <td>22/09/24</td>
-                                                            <td>400.000</td>
-                                                            <td align="center"><span class="status_pay">Rồi</span></td>
-                                                            <td align="center" class="status-order"><span
-                                                                    class="status_order">Đang dùng
-                                                                    <!--< /td-->
-                                                                </span></td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                            <div class="d-f ai-center jc-b pt-16">
-                                                <div class="btn btn-export d-f ai-center">
-                                                    <span class="fas fa-export"></span> Xuất Excel
-                                                </div>
-                                                <div class="dt-paging">
-                                                    <nav aria-label="pagination">
-                                                        <button class="dt-paging-button disabled previous" role="link"
-                                                            type="button" aria-controls="list-customer"
-                                                            aria-disabled="true" aria-label="Previous"
-                                                            data-dt-idx="previous" tabindex="-1"><i
-                                                                class="fas fa-left"></i></button>
-                                                        <button class="dt-paging-button current" role="link"
-                                                            type="button" aria-controls="list-customer"
-                                                            aria-current="page" data-dt-idx="0">1</button>
-                                                        <button class="dt-paging-button" role="link" type="button"
-                                                            aria-controls="list-customer" aria-current="page"
-                                                            data-dt-idx="0">2</button>
-                                                        <button class="dt-paging-button" role="link" type="button"
-                                                            aria-controls="list-customer" aria-current="page"
-                                                            data-dt-idx="0">3</button>
-                                                        <button class="dt-paging-button" role="link" type="button"
-                                                            aria-controls="list-customer" aria-current="page"
-                                                            data-dt-idx="0">4</button>
-                                                        <button class="dt-paging-button" role="link" type="button"
-                                                            aria-controls="list-customer" aria-current="page"
-                                                            data-dt-idx="0">5</button>
-                                                        <button class="dt-paging-button disabled next" role="link"
-                                                            type="button" aria-controls="list-customer"
-                                                            aria-disabled="true" aria-label="Next" data-dt-idx="next"
-                                                            tabindex="-1"><i class="fas fa-right"></i></button>
-                                                    </nav>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- /.tab-pane -->
-                                    <div class="tab-pane" id="note" style="opacity: 1; display: none;">
-                                        <div class="card">
-                                            <div class="ttl">
-                                                Ghi chú
-                                            </div>
-                                            <div class="note-wraper pt-16">
-                                                <div class="js-comment-row pb-16 ">
-                                                    <div class="row row-comment">
-                                                        <div class="account-name d-f ai-center col-6">
-                                                            <div class="avatar">
-                                                                <img src="https://secure.gravatar.com/avatar/64e1b8d34f425d19e1ee2ea7236d3028?s=96&amp;d=mm&amp;r=g"
-                                                                    alt="" width="40">
-                                                            </div>
-                                                            <div>admin</div>
-                                                        </div>
-                                                        <div class="edit col-3">
-                                                            <span class="pen">
-                                                                <a href="#editcomment" data-id="171"><img
-                                                                        src="http://emfresh.web/wp-content/themes/emfresh/assets//img/icon/edit-2-svgrepo-com.svg"
-                                                                        alt=""></a>
-                                                            </span>
-                                                            <span class="pin"><a
-                                                                    href="http://emfresh.web/customer/detail-customer/?customer_id=41&amp;pin-id=171&amp;pin-token=95270defd9"><img
-                                                                        src="http://emfresh.web/wp-content/themes/emfresh/assets/img/icon/pin-svgrepo-com.svg"
-                                                                        alt=""></a></span>
-                                                            <span class="remove">
-                                                                <a class="modal-remove-note modal-button"
-                                                                    data-target="#modal-note"
-                                                                    href="http://emfresh.web/customer/detail-customer/?customer_id=41&amp;delete_comment=171&amp;comtoken=b86b62f3d8"><img
-                                                                        src="http://emfresh.web/wp-content/themes/emfresh/assets//img/icon/bin.svg"
-                                                                        alt=""></a>
-                                                            </span>
-                                                        </div>
-                                                        <div class="time col-3">03/12/2024</div>
-                                                    </div>
-                                                    <div class="note-content cap-nhat">
-                                                        <span class="comment_content">3</span>
-                                                        <span class="comment_status status-edited modal-button"
-                                                            data-target="#modal-history171">• Đã sửa</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="note-form">
-                                                <form
-                                                    action="http://emfresh.web/customer/detail-customer/?customer_id=41&amp;tab=note"
-                                                    method="post" enctype="multipart/form-data" class="js-comment-form"
-                                                    id="editcomment">
-                                                    <div class="binhluan-moi">
-                                                        <div class="box-right">
-                                                            <div class="form-group">
-                                                                <textarea name="comment" maxlength="65525"
-                                                                    class="form-control comment-box"
-                                                                    placeholder="Viết bình luận"></textarea>
-                                                            </div>
-                                                            <button class="btn-common-fill hidden" type="submit"
-                                                                name="submit" value="submit">Send</button>
-                                                        </div>
-                                                        <input type="hidden" name="url"
-                                                            value="http://emfresh.web/customer/detail-customer/?customer_id=41">
-                                                        <input type="hidden" name="comment_post_ID" value="41">
-                                                        <input type="hidden" name="comment_parent" value="0">
-                                                        <input type="hidden" name="comment_ID" value="0">
-                                                        <input type="hidden" id="comtoken" name="comtoken"
-                                                            value="b86b62f3d8"><input type="hidden"
-                                                            name="_wp_http_referer"
-                                                            value="/customer/detail-customer/?customer_id=41">
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- /.tab-pane -->
-                                    <div class="tab-pane customer detail-customer" id="settings"
-                                        style="opacity: 1; display: none;">
-                                        <div class="alert valid-form alert-warning hidden error mb-16"></div>
-                                        <form class="form-horizontal" method="POST"
-                                            action="http://emfresh.web/customer/detail-customer/?customer_id=41&amp;tab=settings">
-                                            <input type="hidden" id="edit_locations_nonce" name="edit_locations_nonce"
-                                                value="ce96a1e079"><input type="hidden" name="_wp_http_referer"
-                                                value="/customer/detail-customer/?customer_id=41">
-                                            <div class="row pb-16">
-                                                <div class="col-6">
-                                                    <div class="card-body">
-                                                        <div class="card-header">
-                                                            <h3 class="card-title d-f ai-center"><span
-                                                                    class="fas fa-info mr-4"></span> Thông tin cơ bản
-                                                            </h3>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-6 pb-16">
-                                                                <input type="text" name="nickname"
-                                                                    class="nickname form-control" maxlength="50"
-                                                                    value="Hồng Nhung 1" placeholder="Tên tài khoản*">
-                                                            </div>
-                                                            <div class="col-6 pb-16">
-                                                                <input type="text" name="fullname"
-                                                                    class="fullname form-control" maxlength="50"
-                                                                    value="" placeholder="Tên thật (nếu có)">
-                                                            </div>
-                                                            <div class="col-6 pb-16">
-                                                                <input type="tel" id="phone" name="phone"
-                                                                    class="phone_number form-control" value="0909739506"
-                                                                    maxlength="10">
-                                                                <p id="phone_status" class="status text-danger"></p>
-                                                            </div>
-                                                            <div class="col-6 pb-16">
-                                                                <select name="gender" class="gender text-titlecase"
-                                                                    required="">
-                                                                    <option value="0" selected="">Giới tính*</option>
-                                                                    <option value="1" name="gender">
-                                                                        Nam </option>
-                                                                    <option value="2" selected="selected" name="gender">
-                                                                        Nữ </option>
-                                                                    <option value="3" name="gender">
-                                                                        - </option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="col-12 ">
-                                                                <div class="review" style="display: block;">
-                                                                    <p><span class="customer_name">Hồng Nhung 1</span>
-                                                                    </p>
-                                                                    <p><span class="customer_phone">0909739506</span>
-                                                                    </p>
-                                                                    <div class="info0">
-                                                                        <span class="address">91 Trần Nguyên Đán,</span>
-                                                                        <span class="ward">Phường 3,</span>
-                                                                        <span class="city">Quận Bình Thạnh</span>
+	<section class="content">
+		<div class="container-fluid">
+			<div class="scroll-menu pt-8">
+				<div class="row">
+					<div class="col-6 backtolist d-f ai-center">
+						<a href="/customer/" class="d-f ai-center"><span class="mr-4"><img src="<?php echo site_get_template_directory_assets(); ?>img/icon/caretup.svg" alt=""></span><span> Quay lại danh sách khách hàng</span></a>
+					</div>
+					<div class="col-6 d-f ai-center jc-end group-button_top">
+						<?php
+						$admin_role = wp_get_current_user()->roles;
+						if (!empty($admin_role)) {
+							if ($admin_role[0] == 'administrator') {
+						?>
+								<span class="btn btn-danger remove-customer modal-button" data-target="#modal-default">
+									Xoá khách này
+								</span>
+						<?php }
+						} ?>
+						<a class="btn btn-primary btn-add_order" href="#"><span class="d-f ai-center"><i class="fas mr-4"><img src="<?php echo site_get_template_directory_assets(); ?>img/icon-hover/plus-svgrepo-com_white.svg" alt=""></i>Tạo đơn mới</span></a>
+						<span class="btn btn-primary btn-disable btn-save_edit hidden">Lưu thay đổi</span>
+					</div>
+				</div>
+				<div class="card-header">
+					<ul class="nav tabNavigation pt-16">
+						<li class="nav-item" rel="info">Thông tin khách hàng</li>
+						<li class="nav-item" rel="note">Ghi chú</li>
+						<li class="nav-item" rel="settings">Chỉnh sửa thông tin</li>
+						<li class="nav-item" rel="history">Lịch sử thao tác</li>
+					</ul>
+				</div>
+			</div>
+			<div class="card-primary">
+				<!-- Content Header (Page header) -->
+				<h1 class="pt-8"><?php echo $response_customer['data']['customer_name'] ?></h1>
+				<!-- Main content -->
+				<div class="row">
+					<div class="col-4 about-box">
+						<!-- About Me Box -->
+						<div class="card ">
+							<!-- /.card-header -->
+							<div class="card-body">
+								<div class="ttl">
+									Thông tin chi tiết
+								</div>
+								<div class="d-f jc-b pt-16">
+									<span>Số điện thoại:</span>
+									<span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $response_customer['data']['phone']; ?>"><?php echo $response_customer['data']['phone'] ?></span>
+								</div>
+								<div class="d-f jc-b pt-8">
+									<span>Giới tính:</span>
+									<span><?php echo $response_customer['data']['gender_name']; ?></span>
+								</div>
+								<div class="d-f jc-b pt-8">
+									<span>Trạng thái khách hàng:</span>
+									<span><?php echo $response_customer['data']['status_name'] ?></span>
+								</div>
+								<div class="d-f jc-b pt-8">
+									<span>Số đơn:</span>
+									<span>12</span>
+								</div>
+								<div class="d-f jc-b pt-8">
+									<span>Số ngày ăn:</span>
+									<span>60</span>
+								</div>
+								<div class="d-f jc-b pt-8">
+									<span>Số phần ăn:</span>
+									<span>60</span>
+								</div>
+								<div class="d-f jc-b pt-8">
+									<span>Tổng tiền đã chi:</span>
+									<span>4.000.000</span>
+								</div>
+								<div class="d-f jc-b pt-8">
+									<span>Điểm tích luỹ:</span>
+									<span><?php echo $response_customer['data']['point'] ?></span>
+								</div>
+								<div class="d-f jc-b pt-8 pb-4">
+									<span>Lịch sử đặt gần nhất:</span>
+									<span>08:31 29/09/2024</span>
+								</div>
+								<hr>
+								<div class="d-f jc-b pt-8">
+									<span>Ghi chú dụng cụ ăn:</span>
+									<span><?php echo $response_customer['data']['note_cook']; ?></span>
+								</div>
+								<div class="pt-8 d-f">
+									<span class="nowrap pt-4">Tag phân loại:</span>
+									<div class="list-tag text-right jc-end col-item-right">
+										<?php foreach ($customer_tags as $item) : $tag = $item['tag_id']; ?>
+											<span class="tag btn btn-sm tag_<?php echo $tag; ?> mb-4"><?php echo isset($list_tags[$tag]) ? $list_tags[$tag] : ''; ?></span>
+										<?php endforeach; ?>
+									</div>
+								</div>
+								<!-- /.card-body -->
+							</div>
+							<!-- /.card -->
+						</div>
+					</div>
+					<!-- /.col -->
+					<div class="col-8">
+						<div class="card-body">
+							<div class="tab-content">
+								<div class="tab-pane" id="info">
+									<div class="card mb-16">
+										<div class="ttl">
+											Địa chỉ
+										</div>
+										<?php
+										foreach ($response_get_location['data'] as $index => $record) {
+										?>
+											<div class="row pt-16">
+												<div class="col-10"><?php echo $record['address'] ?>,
+													<?php echo $record['ward'] ?>,
+													<?php echo $record['district'] ?>
+												</div>
+												<?php if ($record['active'] == 1) { ?>
+													<div class="col-2 text-right">
+														<span class="badge badge-warning">Mặc định</span>
+													</div>
+												<?php } ?>
+											</div>
+										<?php
+										}
+										?>
+									</div>
+									<div class="card card-history">
+										<div class="ttl">
+											Lịch sử đặt đơn
+										</div>
+										<div class="history-order" style="margin: 0;">
+											<table class="nowrap-bak">
+												<tr>
+													<th>Mã đơn</th>
+													<th>Mã gói sản phẩm</th>
+													<th>Ngày <br>
+														bắt đầu
+													</th>
+													<th>Ngày<br>
+														kết thúc
+													</th>
+													<th>Tổng tiền</th>
+													<th>Trạng thái<br>
+														thanh toán</th>
+													<th>Trạng thái<br>
+														đơn hàng</th>
+												</tr>
+												<tr>
+													<td>97</td>
+													<td>2SM+1ET+1EP+1TA</td>
+													<td>22/09/24</td>
+													<td align="center">-</td>
+													<td>400.000</td>
+													<td align="center"><span class="status_pay">Rồi</td>
+													<td align="center" class="status-order"><span class="status_order">Đang dùng</span></td>
+												</tr>
+												<tr>
+													<td>97</td>
+													<td>2SM+1ET+1EP+1TA</td>
+													<td>22/09/24</td>
+													<td>22/09/24</td>
+													<td>400.000</td>
+													<td align="center"><span class="status_pay">Rồi</td>
+													<td align="center" class="status-order"><span class="status_order">Đang dùng</< /td>
+												</tr>
+											</table>
+										</div>
+										<div class="d-f ai-center jc-b pt-16">
+											<div class="btn btn-export d-f ai-center">
+												<span class="fas fa-export"></span> Xuất Excel
+											</div>
+											<div class="dt-paging">
+												<nav aria-label="pagination">
+													<button class="dt-paging-button disabled previous" role="link" type="button" aria-controls="list-customer" aria-disabled="true" aria-label="Previous" data-dt-idx="previous" tabindex="-1"><i class="fas fa-left"></i></button>
+													<button class="dt-paging-button current" role="link" type="button" aria-controls="list-customer" aria-current="page" data-dt-idx="0">1</button>
+													<button class="dt-paging-button" role="link" type="button" aria-controls="list-customer" aria-current="page" data-dt-idx="0">2</button>
+													<button class="dt-paging-button" role="link" type="button" aria-controls="list-customer" aria-current="page" data-dt-idx="0">3</button>
+													<button class="dt-paging-button" role="link" type="button" aria-controls="list-customer" aria-current="page" data-dt-idx="0">4</button>
+													<button class="dt-paging-button" role="link" type="button" aria-controls="list-customer" aria-current="page" data-dt-idx="0">5</button>
+													<button class="dt-paging-button disabled next" role="link" type="button" aria-controls="list-customer" aria-disabled="true" aria-label="Next" data-dt-idx="next" tabindex="-1"><i class="fas fa-right"></i></button>
+												</nav>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- /.tab-pane -->
+								<div class="tab-pane" id="note">
+									<div class="card">
+										<div class="ttl">
+											Ghi chú
+										</div>
+										<div class="note-wraper pt-16">
+											<?php
+											$comments = get_comments(array(
+												'type' => 'customer',
+												'status' => 'any', // 'any', 'pending', 'approve'
+												'post_id' => $customer_id,  // Use post_id, not post_ID, fwHR58J87Xc503mt1S
+												'order' => 'comment_approved DESC, comment_date_gmt DESC',
+												'parent' => 0
+											));
 
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-12 pb-16">
-                                                                <p class="pb-8">Ghi chú dụng cụ ăn</p>
-                                                                <select name="note_cook">
-                                                                    <option value=""></option>
-                                                                    <option value="KHÔNG">KHÔNG</option>
-                                                                    <option value="Chỉ khăn" selected="selected">Chỉ
-                                                                        khăn
-                                                                    </option>
-                                                                    <option value="Chỉ DC">Chỉ DC</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="col-12 pb-16">
-                                                                <p class="pb-8">Tag phân loại</p>
-                                                                <select
-                                                                    class="form-control select2 select2-hidden-accessible"
-                                                                    multiple="" name="tag_ids[]" style="width: 100%;"
-                                                                    data-select2-id="1" tabindex="-1"
-                                                                    aria-hidden="true">
-                                                                    <option value="1" selected="" data-select2-id="3">
-                                                                        Thân
-                                                                        thiết</option>
-                                                                    <option value="2" selected="" data-select2-id="4">Ăn
-                                                                        nhóm</option>
-                                                                    <option value="3" selected="" data-select2-id="5">
-                                                                        Khách
-                                                                        nước ngoài</option>
-                                                                    <option value="4" selected="" data-select2-id="6">
-                                                                        Bệnh
-                                                                        lý</option>
-                                                                </select><span
-                                                                    class="select2 select2-container select2-container--default"
-                                                                    dir="ltr" data-select2-id="2"
-                                                                    style="width: 100%;"><span class="selection"><span
-                                                                            class="select2-selection select2-selection--multiple"
-                                                                            role="combobox" aria-haspopup="true"
-                                                                            aria-expanded="false" tabindex="-1"
-                                                                            aria-disabled="false">
-                                                                            <ul class="select2-selection__rendered">
-                                                                                <li class="select2-selection__choice"
-                                                                                    title="Thân thiết"
-                                                                                    data-select2-id="7">
-                                                                                    <span
-                                                                                        class="select2-selection__choice__remove"
-                                                                                        role="presentation">×</span><span>Thân
-                                                                                        thiết</span>
-                                                                                </li>
-                                                                                <li class="select2-selection__choice"
-                                                                                    title="Ăn nhóm" data-select2-id="8">
-                                                                                    <span
-                                                                                        class="select2-selection__choice__remove"
-                                                                                        role="presentation">×</span><span>Ăn
-                                                                                        nhóm</span>
-                                                                                </li>
-                                                                                <li class="select2-selection__choice"
-                                                                                    title="Khách nước ngoài"
-                                                                                    data-select2-id="9"><span
-                                                                                        class="select2-selection__choice__remove"
-                                                                                        role="presentation">×</span><span>Khách
-                                                                                        nước ngoài</span></li>
-                                                                                <li class="select2-selection__choice"
-                                                                                    title="Bệnh lý"
-                                                                                    data-select2-id="10">
-                                                                                    <span
-                                                                                        class="select2-selection__choice__remove"
-                                                                                        role="presentation">×</span><span>Bệnh
-                                                                                        lý</span>
-                                                                                </li>
-                                                                                <li
-                                                                                    class="select2-search select2-search--inline">
-                                                                                    <input class="select2-search__field"
-                                                                                        type="search" tabindex="0"
-                                                                                        autocomplete="off"
-                                                                                        autocorrect="off"
-                                                                                        autocapitalize="none"
-                                                                                        spellcheck="false"
-                                                                                        role="searchbox"
-                                                                                        aria-autocomplete="list"
-                                                                                        placeholder=""
-                                                                                        style="width: 0.75em;">
-                                                                                </li>
-                                                                            </ul>
-                                                                        </span></span><span class="dropdown-wrapper"
-                                                                        aria-hidden="true"></span></span>
-                                                                <div class="form-group row pt-16 hidden">
-                                                                    <div class="col-sm-3"><label>Trạng thái khách
-                                                                            hàng</label></div>
-                                                                    <div class="col-sm-9 text-titlecase">
-                                                                        <div
-                                                                            class="icheck-primary d-inline mr-2 text-titlecase">
-                                                                            <input type="radio" id="radioActive1"
-                                                                                value="1" checked="checked"
-                                                                                name="active" required="">
-                                                                            <label for="radioActive1">
-                                                                                Active </label>
-                                                                        </div>
-                                                                        <div
-                                                                            class="icheck-primary d-inline mr-2 text-titlecase">
-                                                                            <input type="radio" id="radioActive0"
-                                                                                value="0" name="active" required="">
-                                                                            <label for="radioActive0">
-                                                                                Inactive </label>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-6 ">
+											// Tu dong xoa sau 30 ngay
+											$time_to_delete = strtotime('-30 days');
 
-                                                    <div id="location-fields">
-                                                        <div class="address-group current-address pb-16 location_1 address_active "
-                                                            data-index="0">
-                                                            <input type="hidden" name="locations[0][id]" value="15">
-                                                            <div class="card-body">
-                                                                <div class="card-header">
-                                                                    <h3 class="card-title d-f ai-center"><span
-                                                                            class="fas fa-location mr-4"></span>Địa chỉ
-                                                                    </h3>
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="city col-4 pb-16">
-                                                                        <select id="province_15"
-                                                                            name="locations[0][province]"
-                                                                            class="province-select form-control"
-                                                                            disabled="">
-                                                                            <option value="">Select Tỉnh/Thành phố
-                                                                            </option>
-                                                                            <option value="Thành phố Hồ Chí Minh"
-                                                                                selected="">Thành phố Hồ Chí Minh
-                                                                            </option>
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="col-4 pb-16">
-                                                                        <select id="district_15"
-                                                                            name="locations[0][district]"
-                                                                            class="district-select form-control text-capitalize">
-                                                                            <option value="Quận Bình Thạnh" selected="">
-                                                                                Quận
-                                                                                Bình Thạnh</option>
-                                                                            <option value="Quận 1">Quận 1</option>
-                                                                            <option value="Quận 3">Quận 3</option>
-                                                                            <option value="Quận 4">Quận 4</option>
-                                                                            <option value="Quận 5">Quận 5</option>
-                                                                            <option value="Quận 6">Quận 6</option>
-                                                                            <option value="Quận 7">Quận 7</option>
-                                                                            <option value="Quận 8">Quận 8</option>
-                                                                            <option value="Quận 10">Quận 10</option>
-                                                                            <option value="Quận 11">Quận 11</option>
-                                                                            <option value="Quận 12">Quận 12</option>
-                                                                            <option value="Quận Bình Tân">Quận Bình Tân
-                                                                            </option>
-                                                                            <option value="Quận Bình Thạnh">Quận Bình
-                                                                                Thạnh
-                                                                            </option>
-                                                                            <option value="Quận Gò Vấp">Quận Gò Vấp
-                                                                            </option>
-                                                                            <option value="Quận Phú Nhuận">Quận Phú
-                                                                                Nhuận
-                                                                            </option>
-                                                                            <option value="Quận Tân Bình">Quận Tân Bình
-                                                                            </option>
-                                                                            <option value="Quận Tân Phú">Quận Tân Phú
-                                                                            </option>
-                                                                            <option value="Thành phố Thủ Đức">Thành phố
-                                                                                Thủ
-                                                                                Đức</option>
-                                                                            <option value="Huyện Bình Chánh">Huyện Bình
-                                                                                Chánh</option>
-                                                                            <option value="Huyện Cần Giờ">Huyện Cần Giờ
-                                                                            </option>
-                                                                            <option value="Huyện Củ Chi">Huyện Củ Chi
-                                                                            </option>
-                                                                            <option value="Huyện Hóc Môn">Huyện Hóc Môn
-                                                                            </option>
-                                                                            <option value="Huyện Nhà Bè">Huyện Nhà Bè
-                                                                            </option>
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="col-4 pb-16">
-                                                                        <select id="ward_15" name="locations[0][ward]"
-                                                                            class="ward-select form-control disabled">
-                                                                            <option value="Phường 3" selected="">Phường
-                                                                                3
-                                                                            </option>
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="col-12 pb-16">
-                                                                        <input id="address_15" type="text"
-                                                                            class="form-control address"
-                                                                            value="91 Trần Nguyên Đán"
-                                                                            placeholder="Địa chỉ cụ thể*"
-                                                                            name="locations[0][address]">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="group-note">
-                                                                    <div class="note_shiper hidden pb-16">
-                                                                        <input type="text"
-                                                                            name="locations[0][note_shipper]" value=""
-                                                                            placeholder="Note với shipper">
-                                                                    </div>
-                                                                    <div class="note_admin hidden pb-16">
-                                                                        <input type="text"
-                                                                            name="locations[0][note_admin]" value=""
-                                                                            placeholder="Note với admin">
-                                                                    </div>
-                                                                </div>
+											foreach ($comments as $comment) :
+												$comment_status = sanitize_title(get_comment_meta($comment->comment_ID, 'status', true));
+												$delete_author = $comment->comment_author;
+												$delete_by = (int) get_comment_meta($comment->comment_ID, 'delete_by', true);
+												if($delete_by > 0) {
+													$delete_author = get_the_author_meta('display_name', $delete_by);
 
-                                                                <div class="show-group-note d-f ai-center pb-16 pt-8 ">
-                                                                    <span class="fas fa-plus mr-8"></span> Thêm ghi chú
-                                                                    giao
-                                                                    hàng
-                                                                </div>
+													$delete_time = strtotime($comment->comment_date_gmt);
+													if($delete_time < $time_to_delete) {
+														wp_delete_comment($comment->comment_ID, true);
 
-                                                                <div class="col-12 pb-16">
-                                                                    <hr>
-                                                                    <div class="row pt-16">
-                                                                        <div class="col-6">
-                                                                            <div class="icheck-primary d-f ai-center">
-                                                                                <input type="radio"
-                                                                                    name="location_active"
-                                                                                    id="active_15" value="15"
-                                                                                    checked="checked">
-                                                                                <input type="hidden"
-                                                                                    class="location_active"
-                                                                                    name="locations[0][active]"
-                                                                                    value="1">
-                                                                                <label class="pl-4" for="active_15">
-                                                                                    Đặt làm địa chỉ mặc định
-                                                                                </label>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-6 text-right delete-location-button"
-                                                                            data-id="15">
-                                                                            <p class="d-f ai-center jc-end"><span>Xóa
-                                                                                    địa
-                                                                                    chỉ </span><i
-                                                                                    class="fas fa-bin-red"></i></p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="address-group current-address pb-16 location_0 "
-                                                            data-index="1">
-                                                            <input type="hidden" name="locations[1][id]" value="127">
-                                                            <div class="card-body">
-                                                                <div class="card-header">
-                                                                    <h3 class="card-title d-f ai-center"><span
-                                                                            class="fas fa-location mr-4"></span>Địa chỉ
-                                                                    </h3>
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="city col-4 pb-16">
-                                                                        <select id="province_127"
-                                                                            name="locations[1][province]"
-                                                                            class="province-select form-control"
-                                                                            disabled="">
-                                                                            <option value="">Select Tỉnh/Thành phố
-                                                                            </option>
-                                                                            <option value="Thành phố Hồ Chí Minh"
-                                                                                selected="">Thành phố Hồ Chí Minh
-                                                                            </option>
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="col-4 pb-16">
-                                                                        <select id="district_127"
-                                                                            name="locations[1][district]"
-                                                                            class="district-select form-control text-capitalize">
-                                                                            <option value="Quận Gò Vấp" selected="">Quận
-                                                                                Gò
-                                                                                Vấp</option>
-                                                                            <option value="Quận 1">Quận 1</option>
-                                                                            <option value="Quận 3">Quận 3</option>
-                                                                            <option value="Quận 4">Quận 4</option>
-                                                                            <option value="Quận 5">Quận 5</option>
-                                                                            <option value="Quận 6">Quận 6</option>
-                                                                            <option value="Quận 7">Quận 7</option>
-                                                                            <option value="Quận 8">Quận 8</option>
-                                                                            <option value="Quận 10">Quận 10</option>
-                                                                            <option value="Quận 11">Quận 11</option>
-                                                                            <option value="Quận 12">Quận 12</option>
-                                                                            <option value="Quận Bình Tân">Quận Bình Tân
-                                                                            </option>
-                                                                            <option value="Quận Bình Thạnh">Quận Bình
-                                                                                Thạnh
-                                                                            </option>
-                                                                            <option value="Quận Gò Vấp">Quận Gò Vấp
-                                                                            </option>
-                                                                            <option value="Quận Phú Nhuận">Quận Phú
-                                                                                Nhuận
-                                                                            </option>
-                                                                            <option value="Quận Tân Bình">Quận Tân Bình
-                                                                            </option>
-                                                                            <option value="Quận Tân Phú">Quận Tân Phú
-                                                                            </option>
-                                                                            <option value="Thành phố Thủ Đức">Thành phố
-                                                                                Thủ
-                                                                                Đức</option>
-                                                                            <option value="Huyện Bình Chánh">Huyện Bình
-                                                                                Chánh</option>
-                                                                            <option value="Huyện Cần Giờ">Huyện Cần Giờ
-                                                                            </option>
-                                                                            <option value="Huyện Củ Chi">Huyện Củ Chi
-                                                                            </option>
-                                                                            <option value="Huyện Hóc Môn">Huyện Hóc Môn
-                                                                            </option>
-                                                                            <option value="Huyện Nhà Bè">Huyện Nhà Bè
-                                                                            </option>
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="col-4 pb-16">
-                                                                        <select id="ward_127" name="locations[1][ward]"
-                                                                            class="ward-select form-control disabled">
-                                                                            <option value="Phường 05" selected="">Phường
-                                                                                05
-                                                                            </option>
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="col-12 pb-16">
-                                                                        <input id="address_127" type="text"
-                                                                            class="form-control address"
-                                                                            value="Toà nhà ABC 26 Nguyễn Huy Lượng"
-                                                                            placeholder="Địa chỉ cụ thể*"
-                                                                            name="locations[1][address]">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="group-note">
-                                                                    <div class="note_shiper  pb-16">
-                                                                        <input type="text"
-                                                                            name="locations[1][note_shipper]"
-                                                                            value="Khi giao hàng tới gửi chú Long bảo vệ"
-                                                                            placeholder="Note với shipper">
-                                                                    </div>
-                                                                    <div class="note_admin hidden pb-16">
-                                                                        <input type="text"
-                                                                            name="locations[1][note_admin]" value=""
-                                                                            placeholder="Note với admin">
-                                                                    </div>
-                                                                </div>
+														continue;
+													}
+												}
 
-                                                                <div class="show-group-note d-f ai-center pb-16 pt-8 ">
-                                                                    <span class="fas fa-plus mr-8"></span> Thêm ghi chú
-                                                                    giao
-                                                                    hàng
-                                                                </div>
+												$comment->childs = get_comments(array(
+													'type' => 'customer',
+													'status' => 'any', // 'any', 'pending', 'approve'
+													'post_id' => $customer_id,  // Use post_id, not post_ID, fwHR58J87Xc503mt1S
+													'order' => 'comment_date_gmt DESC',
+													'parent' => $comment->comment_ID
+												));
+												$show_childs = count($comment->childs) > 0;
+											?>
+												<div class="js-comment-row pb-16 <?php 
+														echo ($comment->comment_approved == 0 ? ' status-trash' : '')
+														. (get_comment_meta($comment->comment_ID, 'pin', true) == 1 ? ' comment-pin' : '');
+													?>">
+													<div class="row row-comment">
+														<div class="account-name d-f ai-center col-6">
+															<div class="avatar">
+																<img src="<?php echo get_avatar_url($comment->user_id) ?>" alt="" width="40">
+															</div>
+															<div><?php echo $comment->comment_author ?></div>
+														</div>
+														<div class="edit col-3">
+															<span class="pen">
+																<?php if (site_comment_can_edit($comment->comment_ID) && $comment->comment_approved > 0) : ?>
+																	<a href="#editcomment" data-id="<?php echo $comment->comment_ID ?>"><img src="<?php site_the_assets(); ?>/img/icon/edit-2-svgrepo-com.svg" alt=""></a>
+																<?php endif ?>
+															</span>
+															<?php if ($comment->comment_approved > 0) : ?>
+															<span class="pin"><a href="<?php echo site_comment_get_pin_link($comment->comment_ID) ?>"><img src="<?php site_the_assets(); ?>img/icon/pin-svgrepo-com.svg" alt=""></a></span>
+															<?php endif ?>
+															<span class="remove">
+																<?php if (site_comment_can_edit($comment->comment_ID) && $comment->comment_approved > 0) : ?>
+																	<a class="modal-remove-note modal-button" data-target="#modal-note" href="<?php echo site_comment_get_delete_link($comment->comment_ID) ?>"><img src="<?php site_the_assets(); ?>/img/icon/bin.svg" alt=""></a>
+																<?php endif ?>
+															</span>
+														</div>
+														<div class="time col-3"><?php echo get_comment_date('d/m/Y', $comment->comment_ID) ?></div>
+													</div>
+													<div class="note-content <?php echo $comment_status ?>">
+														<span class="comment_content"><?php echo nl2br($comment->comment_content) ?></span>
+														<?php
+															$modal = '';
+															
+															if($show_childs) {
+																$modal = ' modal-button" data-target="#modal-history' . $comment->comment_ID;
+															}
 
-                                                                <div class="col-12 pb-16">
-                                                                    <hr>
-                                                                    <div class="row pt-16">
-                                                                        <div class="col-6">
-                                                                            <div class="icheck-primary d-f ai-center">
-                                                                                <input type="radio"
-                                                                                    name="location_active"
-                                                                                    id="active_127" value="127">
-                                                                                <input type="hidden"
-                                                                                    class="location_active"
-                                                                                    name="locations[1][active]"
-                                                                                    value="0">
-                                                                                <label class="pl-4" for="active_127">
-                                                                                    Đặt làm địa chỉ mặc định
-                                                                                </label>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-6 text-right delete-location-button"
-                                                                            data-id="127">
-                                                                            <p class="d-f ai-center jc-end"><span>Xóa
-                                                                                    địa
-                                                                                    chỉ </span><i
-                                                                                    class="fas fa-bin-red"></i></p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+															if ($comment->comment_approved == 0) {
+																$delete_at = get_comment_meta($comment->comment_ID, 'delete_at', true);
+																$ago = human_time_diff(strtotime($delete_at), current_time( 'U' ));
+
+																echo '<span class="comment_status status-edited status-deleted' . $modal . '">&#8226; Đã xóa bởi <b>'.$delete_author.'</b> ';
+																echo ($ago > 0 ? $ago . ' trước' : '');
+																echo '</span>';
+															} else if ($comment_status == 'cap-nhat') {
+																echo '<span class="comment_status status-edited' . $modal . '">&#8226; Đã sửa</span>';
+															}
+														?>
+													</div>
+												</div>
+											<?php endforeach; ?>
+										</div>										
+										<div class="note-form">
+											<form action="<?php echo add_query_arg(['tab' => 'note'], $detail_customer_url) ?>" method="post" enctype="multipart/form-data" class="js-comment-form" id="editcomment">
+												<div class="binhluan-moi">
+													<div class="box-right">
+														<div class="form-group">
+															<textarea name="comment" maxlength="65525" class="form-control comment-box" placeholder="Viết bình luận"></textarea>
+														</div>
+														<button class="btn-common-fill hidden" type="submit" name="submit" value="submit">Send</button>
+													</div>
+													<input type="hidden" name="url" value="<?php echo $detail_customer_url ?>" />
+													<input type="hidden" name="comment_post_ID" value="<?php echo $customer_id ?>" />
+													<input type="hidden" name="comment_parent" value="0" />
+													<input type="hidden" name="comment_ID" value="0" />
+													<?php wp_nonce_field('comtoken', 'comtoken'); ?>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+								<!-- /.tab-pane -->
+								<div class="tab-pane customer detail-customer" id="settings">
+									<div class="alert valid-form alert-warning hidden error mb-16"></div>
+									<form class="form-horizontal" method="POST" action="<?php echo add_query_arg(['tab' => 'settings'], $detail_customer_url) ?>">
+										<?php wp_nonce_field('save_locations', 'edit_locations_nonce'); ?>
+										<div class="row pb-16">
+											<div class="col-6">
+												<div class="card-body">
+													<div class="card-header">
+														<h3 class="card-title d-f ai-center"><span class="fas fa-info mr-4"></span> Thông tin cơ bản</h3>
+													</div>
+													<div class="row">
+														<div class="col-6 pb-16">
+															<input type="text" name="nickname" class="nickname form-control" maxlength="50" value="<?php echo $response_customer['data']['nickname'] ?>" placeholder="Tên tài khoản*">
+														</div>
+														<div class="col-6 pb-16">
+															<input type="text" name="fullname" class="fullname form-control" maxlength="50" value="<?php echo $response_customer['data']['fullname'] ?>" placeholder="Tên thật (nếu có)">
+														</div>
+														<div class="col-6 pb-16">
+															<input type="tel" id="phone" name="phone" class="phone_number form-control" value="<?php echo $response_customer['data']['phone'] ?>" >
+															<p id="phone_status" class="status text-danger"></p>
+														</div>
+														<div class="col-6 pb-16">
+															<select name="gender" class="gender text-titlecase" required>
+																<option value="0" selected>Giới tính*</option>
+																<?php
+																foreach ($list_gender as $value => $label) { ?>
+																	<option value="<?php echo $value; ?>" <?php selected($response_customer['data']['gender'], $value); ?> name="gender" >
+																		<?php echo $label; ?>
+																	</option>
+																<?php } ?>
+															</select>
+														</div>
+														<div class="col-12 ">
+															<div class="review" style="display: block;">
+																<p><span class="customer_name"><?php echo $response_customer['data']['customer_name'] ?></span></p>
+																<p><span class="customer_phone"><?php echo $response_customer['data']['phone'] ?></span></p>
+																<div class="info0">
+																	<?php foreach ($response_get_location['data'] as $index => $location) {
+																	?><?php if ($location['active'] == 1) { ?>
+																	<span class="address"><?php echo $location['address'] ?>,</span>
+																	<span class="ward"><?php echo $location['ward'] ?>,</span>
+																	<span class="city"><?php echo $location['district'] ?></span>
+																<?php } ?>
+															<?php
+																	}
+															?>
+
+																</div>
+															</div>
+														</div>
+														<div class="col-12 pb-16">
+															<p class="pb-8">Ghi chú dụng cụ ăn</p>
+															<select name="note_cook">
+																<option value=""></option>
+																<?php foreach ($list_cook as $value) { ?>
+																	<option value="<?php echo $value; ?>" <?php selected($response_customer['data']['note_cook'], $value); ?>><?php echo $value; ?></option>
+																<?php } ?>
+															</select>
+														</div>
+														<div class="col-12 pb-16">
+															<p class="pb-8">Tag phân loại</p>
+															<select class="form-control select2" multiple="multiple" name="tag_ids[]" style="width: 100%;">
+																<?php
+																foreach ($list_tags as $value => $label) { ?>
+																	<option value="<?php echo $value; ?>" <?php echo in_array($value, $tag_ids) ? 'selected' : ''; ?>><?php echo $label; ?></option>
+																<?php } ?>
+															</select>
+															<?php
+															$admin_role = wp_get_current_user()->roles;
+															if (!empty($admin_role)) {
+																if ($admin_role[0] == 'administrator') {
+															?>
+																	<div class="form-group row pt-16 hidden">
+																		<div class="col-sm-3"><label>Trạng thái khách hàng</label></div>
+																		<div class="col-sm-9 text-titlecase">
+																			<?php
+																			foreach ($list_actives as $value => $label) { ?>
+																				<div class="icheck-primary d-inline mr-2 text-titlecase">
+																					<input type="radio" id="radioActive<?php echo $value; ?>" value="<?php echo $value; ?>" <?php checked($response_customer['data']['active'], $value); ?> name="active" required>
+																					<label for="radioActive<?php echo $value; ?>">
+																						<?php echo $label; ?>
+																					</label>
+																				</div>
+																			<?php } ?>
+																		</div>
+																	</div>
+															<?php }
+															} ?>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-6 ">
+
+												<div id="location-fields">
+													<?php
+													foreach ($response_get_location['data'] as $index => $record) {
+														if ($record['active'] == '1') {
+															$address_active = " address_active";
+														} else {
+															$address_active = "";
+														}
+													?>
+														<div class="address-group current-address pb-16 location_<?php echo ($record['active']);
+																							echo $address_active; ?> " data-index="<?php echo $index ?>">
+															<input type="hidden" name="locations[<?php echo $index ?>][id]" value="<?php echo $record['id'] ?>" />
+															<div class="card-body">
+																<div class="card-header">
+																	<h3 class="card-title d-f ai-center"><span class="fas fa-location mr-4"></span>Địa chỉ</h3>
+																</div>
+																<div class="row">
+																	<div class="city col-4 pb-16">
+																		<select id="province_<?php echo $record['id'] ?>" name="locations[<?php echo $index ?>][province]" class="province-select form-control" >
+																			<option value="<?php echo $record['city']; ?>" selected><?php echo $record['city']; ?></option>
+																		</select>
+																	</div>
+																	<div class="col-4 pb-16">
+																		<select id="district_<?php echo $record['id'] ?>" name="locations[<?php echo $index ?>][district]" class="district-select form-control text-capitalize" >
+																			<option value="<?php echo esc_attr($record['district']); ?>" selected><?php echo $record['district']; ?></option>
+																		</select>
+																	</div>
+																	<div class="col-4 pb-16">
+																		<select id="ward_<?php echo $record['id'] ?>" name="locations[<?php echo $index ?>][ward]" class="ward-select form-control disabled" >
+																			<option value="<?php echo esc_attr($record['ward']); ?>" selected><?php echo $record['ward']; ?></option>
+																		</select>
+																	</div>
+																	<div class="col-12 pb-16">
+																		<input id="address_<?php echo $record['id'] ?>" type="text" class="form-control address" value="<?php echo $record['address']; ?>" placeholder="Địa chỉ cụ thể*" name="locations[<?php echo $index ?>][address]"  />
+																	</div>
+																</div>
+																<?php
+																if ($record['note_shipper'] != '') {
+																	$class_note_shipper = '';
+																} else {
+																	$class_note_shipper = 'hidden';
+																}
+																if ($record['note_admin'] != '') {
+																	$class_note_admin = '';
+																} else {
+																	$class_note_admin = 'hidden';
+																}
+																if ($record['note_shipper'] && $record['note_admin']) {
+																	$class_hidden = 'hidden';
+																} else {
+																	$class_hidden = '';
+																}
+																?>
+																<div class="group-note">
+																	<div class="note_shiper <?php echo $class_note_shipper ?> pb-16">
+																		<input type="text" name="locations[<?php echo $index ?>][note_shipper]" value="<?php echo $record['note_shipper'] ?>" placeholder="Note với shipper" />
+																	</div>
+																	<div class="note_admin <?php echo $class_note_admin ?> pb-16">
+																		<input type="text" name="locations[<?php echo $index ?>][note_admin]" value="<?php echo $record['note_admin'] ?>" placeholder="Note với admin" />
+																	</div>
+																</div>
+
+																<div class="show-group-note d-f ai-center pb-16 pt-8 <?php echo $class_hidden ?>">
+																	<span class="fas fa-plus mr-8"></span> Thêm ghi chú giao hàng
+																</div>
+
+																<div class="col-12 pb-16">
+																	<hr>
+																	<div class="row pt-16">
+																		<div class="col-6">
+																			<div class="icheck-primary d-f ai-center">
+																				<input type="radio" name="location_active" id="active_<?php echo $record['id'] ?>" value="<?php echo $record['id'] ?>" <?php checked($record['active'], 1) ?>>
+																				<input type="hidden" class="location_active" name="locations[<?php echo $index ?>][active]" value="<?php echo $record['active'] ?>" />
+																				<label class="pl-4" for="active_<?php echo $record['id'] ?>">
+																					Đặt làm địa chỉ mặc định
+																				</label>
+																			</div>
+																		</div>
+																		<div class="col-6 text-right delete-location-button" data-id="<?php echo $record['id'] ?>">
+																			<p class="d-f ai-center jc-end"><span>Xóa địa chỉ </span><i class="fas fa-bin-red"></i></p>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													<?php } ?>
+												</div>
 
 
-                                                    <p class="d-f ai-center pb-16 add-location-button"><i
-                                                            class="fas fa-plus"></i><span>Thêm địa chỉ mới</span></p>
-                                                    <!-- /.card-body -->
-                                                    <!-- /.card -->
+												<p class="d-f ai-center pb-16 add-location-button"><i class="fas fa-plus"></i><span>Thêm địa chỉ mới</span></p>
+												<!-- /.card-body -->
+												<!-- /.card -->
 
-                                                </div>
-                                            </div>
-                                            <div class="row pt-16 hidden">
-                                                <div class="col-12 text-right">
-                                                    <button type="submit" class="btn btn-primary" name="add_post">Cập
-                                                        nhật</button>
-                                                </div>
-                                            </div>
-                                            <input type="hidden" name="customer_name" readonly=""
-                                                class="customer_name form-control" value="Hồng Nhung 1">
-                                            <input type="hidden" name="customer_id" value="41">
-                                            <input type="hidden" name="location_delete_ids" value=""
-                                                class="location_delete_ids">
-                                        </form>
-                                    </div>
-                                    <div class="tab-pane" id="history" style="opacity: 1; display: none;">
-                                        <div class="card history-action">
-                                            <div id="DataTables_Table_0_wrapper" class="dt-container dt-empty-footer">
-                                                <div class="dt-buttons"> </div>
-                                                <div class="dt-search"><label for="dt-search-0">Search:</label><input
-                                                        type="search" class="dt-input" id="dt-search-0" placeholder=""
-                                                        aria-controls="DataTables_Table_0"></div>
-                                                <div class="dt-scroll">
-                                                    <div class="dt-scroll-head"
-                                                        style="overflow: hidden; position: relative; border: 0px; width: 100%;">
-                                                        <div class="dt-scroll-headInner"
-                                                            style="box-sizing: content-box; width: 1570px; padding-right: 0px;">
-                                                            <table class="regular dataTable"
-                                                                style="margin-left: 0px; width: 1570px;">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th data-dt-column="0" rowspan="1" colspan="1"
-                                                                            class="dt-orderable-none"
-                                                                            aria-label="Người thực hiện"><span
-                                                                                class="dt-column-title">Người thực
-                                                                                hiện</span><span
-                                                                                class="dt-column-order"></span></th>
-                                                                        <th data-dt-column="1" rowspan="1" colspan="1"
-                                                                            class="dt-orderable-none"
-                                                                            aria-label="Hành động"><span
-                                                                                class="dt-column-title">Hành
-                                                                                động</span><span
-                                                                                class="dt-column-order"></span></th>
-                                                                        <th class="descript dt-orderable-none"
-                                                                            data-dt-column="2" rowspan="1" colspan="1"
-                                                                            aria-label="Mô tả"><span
-                                                                                class="dt-column-title">Mô
-                                                                                tả</span><span
-                                                                                class="dt-column-order"></span></th>
-                                                                        <th data-dt-column="3" rowspan="1" colspan="1"
-                                                                            class="dt-orderable-asc dt-orderable-desc dt-ordering-desc"
-                                                                            aria-label="Thời gian: Activate to sort"
-                                                                            tabindex="0"><span class="dt-column-title"
-                                                                                role="button">Thời gian</span><span
-                                                                                class="dt-column-order"></span></th>
-                                                                        <th data-dt-column="4" rowspan="1" colspan="1"
-                                                                            class="dt-orderable-asc dt-orderable-desc dt-ordering-desc"
-                                                                            aria-sort="descending"
-                                                                            aria-label="Ngày: Activate to remove sorting"
-                                                                            tabindex="0"><span class="dt-column-title"
-                                                                                role="button">Ngày</span><span
-                                                                                class="dt-column-order"></span></th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <colgroup>
-                                                                    <col data-dt-column="0" style="width: 270px;">
-                                                                    <col data-dt-column="1" style="width: 180px;">
-                                                                    <col data-dt-column="2" style="width: 810.031px;">
-                                                                    <col data-dt-column="3" style="width: 180px;">
-                                                                    <col data-dt-column="4" style="width: 129.969px;">
-                                                                </colgroup>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                    <div class="dt-scroll-body"
-                                                        style="position: relative; overflow: auto; width: 100%; max-height: 50vh; height: 50vh;">
-                                                        <table class="regular dataTable" id="DataTables_Table_0"
-                                                            aria-describedby="DataTables_Table_0_info"
-                                                            style="width: 100%;">
-                                                            <colgroup>
-                                                                <col data-dt-column="0" style="width: 270px;">
-                                                                <col data-dt-column="1" style="width: 180px;">
-                                                                <col data-dt-column="2" style="width: 810.031px;">
-                                                                <col data-dt-column="3" style="width: 180px;">
-                                                                <col data-dt-column="4" style="width: 129.969px;">
-                                                            </colgroup>
-                                                            <thead>
-                                                                <tr>
-                                                                    <th data-dt-column="0" rowspan="1" colspan="1"
-                                                                        class="dt-orderable-none"
-                                                                        aria-label="Người thực hiện">
-                                                                        <div class="dt-scroll-sizing"><span
-                                                                                class="dt-column-title">Người thực
-                                                                                hiện</span><span
-                                                                                class="dt-column-order"></span></div>
-                                                                    </th>
-                                                                    <th data-dt-column="1" rowspan="1" colspan="1"
-                                                                        class="dt-orderable-none"
-                                                                        aria-label="Hành động">
-                                                                        <div class="dt-scroll-sizing"><span
-                                                                                class="dt-column-title">Hành
-                                                                                động</span><span
-                                                                                class="dt-column-order"></span></div>
-                                                                    </th>
-                                                                    <th class="descript dt-orderable-none"
-                                                                        data-dt-column="2" rowspan="1" colspan="1"
-                                                                        aria-label="Mô tả">
-                                                                        <div class="dt-scroll-sizing"><span
-                                                                                class="dt-column-title">Mô
-                                                                                tả</span><span
-                                                                                class="dt-column-order"></span></div>
-                                                                    </th>
-                                                                    <th data-dt-column="3" rowspan="1" colspan="1"
-                                                                        class="dt-orderable-asc dt-orderable-desc dt-ordering-desc"
-                                                                        aria-label="Thời gian: Activate to sort">
-                                                                        <div class="dt-scroll-sizing"><span
-                                                                                class="dt-column-title"
-                                                                                role="button">Thời
-                                                                                gian</span><span
-                                                                                class="dt-column-order"></span></div>
-                                                                    </th>
-                                                                    <th data-dt-column="4" rowspan="1" colspan="1"
-                                                                        class="dt-orderable-asc dt-orderable-desc dt-ordering-desc"
-                                                                        aria-sort="descending"
-                                                                        aria-label="Ngày: Activate to remove sorting">
-                                                                        <div class="dt-scroll-sizing"><span
-                                                                                class="dt-column-title"
-                                                                                role="button">Ngày</span><span
-                                                                                class="dt-column-order"></span></div>
-                                                                    </th>
-                                                                </tr>
-                                                            </thead>
+											</div>
+										</div>
+										<div class="row pt-16 hidden">
+											<div class="col-12 text-right">
+												<button type="submit" class="btn btn-primary" name="add_post">Cập nhật</button>
+											</div>
+										</div>
+										<input type="hidden" name="customer_name" readonly class="customer_name form-control" value="<?php echo $response_customer['data']['customer_name'] ?>">
+										<input type="hidden" name="customer_id" value="<?php echo $customer_id ?>" />
+										<input type="hidden" name="location_delete_ids" value="" class="location_delete_ids" />
+									</form>
+								</div>
+								<div class="tab-pane" id="history">
+									<div class="card history-action">
+										<table class="regular">
+											<thead>
+												<tr>
+													<th>Người thực hiện</th>
+													<th>Hành động</th>
+													<th class="descript">Mô tả</th>
+													<th>Thời gian</th>
+													<th>Ngày</th>
+												</tr>
+											</thead>
+											<tbody>
+												<?php
+												$list_logs = $em_log->get_items([
+													'module' => 'em_customer',
+													'module_id' => $customer_id,
+													// 'orderby'   => 'id DESC',
+												]);
 
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td colspan="5" class="dt-empty">No data available
-                                                                        in
-                                                                        table</td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                    <div class="dt-scroll-foot"
-                                                        style="overflow: hidden; border: 0px; width: 100%;">
-                                                        <div class="dt-scroll-footInner">
-                                                            <table class="regular dataTable" style="margin-left: 0px;">
-                                                                <tfoot></tfoot>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="dt-info" aria-live="polite" id="DataTables_Table_0_info"
-                                                    role="status">Showing 0 to 0 of 0 entries</div>
-                                                <div class="dt-paging">
-                                                    <nav aria-label="pagination"><button
-                                                            class="dt-paging-button disabled first" role="link"
-                                                            type="button" aria-controls="DataTables_Table_0"
-                                                            aria-disabled="true" aria-label="First" data-dt-idx="first"
-                                                            tabindex="-1">«</button><button
-                                                            class="dt-paging-button disabled previous" role="link"
-                                                            type="button" aria-controls="DataTables_Table_0"
-                                                            aria-disabled="true" aria-label="Previous"
-                                                            data-dt-idx="previous" tabindex="-1"><i
-                                                                class="fas fa-left"></i></button><button
-                                                            class="dt-paging-button disabled next" role="link"
-                                                            type="button" aria-controls="DataTables_Table_0"
-                                                            aria-disabled="true" aria-label="Next" data-dt-idx="next"
-                                                            tabindex="-1"><i class="fas fa-right"></i></button><button
-                                                            class="dt-paging-button disabled last" role="link"
-                                                            type="button" aria-controls="DataTables_Table_0"
-                                                            aria-disabled="true" aria-label="Last" data-dt-idx="last"
-                                                            tabindex="-1">»</button>
-                                                    </nav>
-                                                </div>
-                                                <div id="" class="bottom">
-                                                    <div class="dt-paging">
-                                                        <nav aria-label="pagination"><button
-                                                                class="dt-paging-button disabled first" role="link"
-                                                                type="button" aria-controls="DataTables_Table_0"
-                                                                aria-disabled="true" aria-label="First"
-                                                                data-dt-idx="first" tabindex="-1"
-                                                                style="">«</button><button
-                                                                class="dt-paging-button disabled previous" role="link"
-                                                                type="button" aria-controls="DataTables_Table_0"
-                                                                aria-disabled="true" aria-label="Previous"
-                                                                data-dt-idx="previous" tabindex="-1"><i
-                                                                    class="fas fa-left"></i></button><button
-                                                                class="dt-paging-button disabled next" role="link"
-                                                                type="button" aria-controls="DataTables_Table_0"
-                                                                aria-disabled="true" aria-label="Next"
-                                                                data-dt-idx="next" tabindex="-1"><i
-                                                                    class="fas fa-right"></i></button><button
-                                                                class="dt-paging-button disabled last" role="link"
-                                                                type="button" aria-controls="DataTables_Table_0"
-                                                                aria-disabled="true" aria-label="Last"
-                                                                data-dt-idx="last" tabindex="-1">»</button></nav>
-                                                    </div>
-                                                    <div class="dt-length"><select name="DataTables_Table_0_length"
-                                                            aria-controls="DataTables_Table_0" class="dt-input"
-                                                            id="dt-length-0">
-                                                            <option value="10">10</option>
-                                                            <option value="25">25</option>
-                                                            <option value="50">50</option>
-                                                            <option value="100">100</option>
-                                                        </select><label for="dt-length-0"> entries per page</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- /.tab-pane -->
-                                </div>
-                                <!-- /.tab-content -->
-                            </div><!-- /.card-body -->
-                        </div>
-                        <!-- /.card -->
-                    </div>
-                    <!-- /.col -->
-                </div>
-                <!-- /.row -->
-            </div>
+												// Tu dong xoa sau 7 ngay
+												$time_to_delete = strtotime('-7 days');
+												
+												foreach ($list_logs as $item) :
+													$item_time = strtotime($item['created']);
 
-        </section>
-    </div>
+													if($item_time < $time_to_delete) {
+														$em_log->delete($item['id']);
+
+														continue;
+													}
+												?>
+													<tr data-id="<?php echo $item['id'] ?>">
+														<td class="avatar">
+															<img src="<?php echo get_avatar_url($item['created_at']) ?>" width="24" alt="">
+															<?php echo $item['created_author'] ?>
+														</td>
+														<td><?php echo $item['action'] ?></td>
+														<td>
+															<div class="descript-note nowrap">
+																<?php $brString = nl2br($item['content']); ?>
+																<?php echo str_replace('<br />', '<hr>', $brString) ?>
+															</div>
+														</td>
+														<td><?php echo date('H:i', $item_time) ?></td>
+														<td><?php echo date('d/m/Y', $item_time) ?></td>
+													</tr>
+												<?php endforeach ?>
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<!-- /.tab-pane -->
+							</div>
+							<!-- /.tab-content -->
+						</div><!-- /.card-body -->
+					</div>
+					<!-- /.card -->
+				</div>
+				<!-- /.col -->
+			</div>
+			<!-- /.row -->
+		</div>
+		
+</div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
 </div>
+<!-- /.card-body -->
+<div class="modal fade modal-warning" id="modal-default">
+	<div class="overlay"></div>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form method="post" id="list-customer" action="<?php the_permalink() ?>">
+				<div class="modal-body pt-8 pb-16">
+					<input type="hidden" class="customer_id" name="customer_id" value="<?php echo $response_customer['data']['id'] ?>">
+					<div class="d-f ai-center">
+						<i class="fas fa-warning mr-4"></i>
+						<p>Bạn có chắc muốn xoá khách hàng này không?</p>
+					</div>
+					
+				</div>
+				<div class="modal-footer d-f jc-b pb-8 pt-16">
+					<button type="button" class="btn btn-secondary modal-close">Đóng</button>
+					<button type="submit" name="remove" class="btn btn-danger modal-close">Xóa</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<div class="modal fade modal-warning" id="modal-note">
+	<div class="overlay"></div>
+  <div class="modal-dialog">
+    <div class="modal-content">
+	<form method="post" class="form-remove-note" action="">
+		<div class="modal-body pt-8 pb-16">
+			<div class="d-f ai-center">
+				<i class="fas fa-warning mr-4"></i>
+				<p>Bạn có chắc muốn xoá ghi chú này không?</p>
+			</div>
+		</div>
+		<div class="modal-footer d-f jc-b pb-8 pt-16">
+			<button type="button" class="btn btn-secondary modal-close">Đóng</button>
+			<button type="submit" name="remove" class="btn btn-danger modal-close">Xóa</button>
+		</div>
+	</form>
+    </div>
+  </div>
+</div>
+<div class="modal fade modal-warning" id="modal-confirm">
+	<div class="overlay"></div>
+  <div class="modal-dialog">
+    <div class="modal-content">
+	<form method="post" class="form-remove-note" action="">
+		<div class="modal-body pt-8 pb-16">
+			<div class="d-f ai-center">
+				<i class="fas fa-warning mr-4"></i>
+				<p>Bạn có chắc muốn huỷ thay đổi này không?</p>
+			</div>
+		</div>
+		<div class="modal-footer d-f jc-b pb-8 pt-16">
+			<button type="button" class="btn btn-secondary modal-close">Đóng</button>
+			<button type="submit" onclick="hook = false;" class="btn btn-danger modal-close">Xóa</button>
+		</div>
+	</form>
+    </div>
+  </div>
+</div>
+<?php
+
+get_template_part('parts/comment/comment', 'childs', ['comments' => $comments]);
+
+// endwhile;
+get_footer('customer');
+?>
+<script src="<?php site_the_assets(); ?>js/assistant.js"></script>
+<script src="<?php site_the_assets(); ?>js/location.js"></script>
+<script type="text/javascript">
+	jQuery(function($) {
+		
+		$('.current-address .delete-location-button').click(function (e) { 
+			e.preventDefault();
+			$(".scroll-menu .btn-disable").removeClass('btn-disable');
+		});
+		
+		$('.form-horizontal').each(function(){
+			let p = $(this), data = p.serialize();
+			
+			p.on('input', function(){
+				var hook = true;
+				// $('[type="submit"]', p).prop('disabled', data == p.serialize())
+				$(".scroll-menu .btn-disable").removeClass('btn-disable');
+				// window.onbeforeunload = function() {
+				// 	if (hook) {
+				// 		$('.modal-confirm').addClass('is-active');
+				// 		$('body').addClass('overflow');
+				// 		return false;
+				// 	}
+				// }
+			})
+		});
+		function unhook() {
+			hook=false;
+		}
+		<?php
+			if($tab_active != '') {
+				echo '$(".tabNavigation [rel='.$tab_active.']").trigger("click");';
+			}
+		?>
+
+		$('.modal-remove-note').click(function (e) { 
+			e.preventDefault();
+			var href = $(this).attr('href');
+			$('#modal-note form.form-remove-note').attr('action', href);
+		});
+		$('#modal-note form.form-remove-note .btn-secondary').click(function (e) { 
+			e.preventDefault();
+			$('#modal-note form.form-remove-note').attr('action', '');
+		});
+
+		$('.js-comment-form').each(function() {
+			let $form = $(this);
+
+			$('.js-comment-row').each(function() {
+				let row = $(this);
+
+				row.find('a[href="#editcomment"]').on('click', function(e) {
+					let id = $(this).data('id') || 0,
+						value = row.find('.comment_content').text();
+
+					if (id > 0 && value != '') {
+						let title = 'Bạn đang chỉnh sửa ghi chú - ' + value;
+
+						$form.find('[name="comment"]').val(value).attr('placeholder', title).attr('title', title).attr('data-value', value)
+						$form.find('[name="comment_ID"]').val(id);
+					}
+				});
+			});
+
+			$('.comment-box').on("keypress", function (evt){
+				if (evt.keyCode == 13) {
+					let box = $(evt.target);
+					
+					if(evt.shiftKey == false && box.val().trim().length > 0) {
+						evt.preventDefault();
+
+						$form.find('[type="submit"]').trigger('click');
+					}
+				}
+			}).on('input', function(evt){
+				let box = $(evt.target),
+					rows = box.val().split("\n").length;
+				
+				if(rows < 1) {
+					rows = 1;
+				}
+				
+				box.attr('rows', rows + 1);
+			});
+		});
+
+		$('.nickname').keyup(updatetxt);
+		$('.fullname').keyup(updatetxt);
+		$('.phone_number').keyup(updatephone);
+		$('.address-group select.district-select').each(function() {
+			$(this).on('change', function() {
+				$(this).closest('.address-group').find('.ward-select').removeClass('disabled');
+			});
+		});
+		$(document).on('change', '.address_active select', function() {
+			$('.review').show();
+			//$(this).parents('.address-group').find($('.form-control.address')).val('');
+			var selectItem = $(this).closest('.address_active'); // Get the closest select-item div
+			var infoIndex = 0; // Get the data-index attribute from select-item
+			var city = selectItem.find('.district-select').val(); // Get the city value from select
+			var ward = selectItem.find('.ward-select').val(); // Get the ward value from select
+			// Update the corresponding .info div based on index
+			var infoDiv = $('.review .info' + infoIndex);
+			infoDiv.children('.city').text(city);
+			if (ward) {
+				infoDiv.children('.ward').text(ward + ',');
+			} else {
+				infoDiv.children('.ward').text('');
+			}
+		});
+
+		$(document).on('keyup', '.address_active .address', function() {
+			$('.review').show();
+			var selectItem = $(this).closest('.address_active'); // Find the closest parent .address-group
+			var infoIndex = 0; // Get the index from data attribute
+			var address = $(this).val(); // Get the current value of the address input field
+			var infoDiv = $('.review .info' + infoIndex);
+			if (address) {
+				infoDiv.children('.address').text(address + ','); // Update the address text
+			} else {
+				infoDiv.children('.address').text(''); // Clear the address if the input is empty
+			}
+		});
+
+		function updatetxt() {
+			$('.review').show();
+			if ($('.nickname').val() != '' && $('.fullname').val() != '') {
+				$('input.customer_name').val($('.fullname').val() + ' (' + $('.nickname').val() + ') ');
+				$('span.customer_name').text($('.fullname').val() + ' (' + $('.nickname').val() + ') ');
+			}
+			if ($('.fullname').val() == '') {
+				$('input.customer_name').val($('.nickname').val());
+				$('span.customer_name').text($('.nickname').val());
+			}
+		}
+
+		function updatephone() {
+			$('span.customer_phone').text($('.phone_number').val());
+		}
+		var ass = new Assistant();
+		$('.btn-primary[name="add_post"]').on('click', function(e) {
+			if ($('.nickname').val() == '') {
+				$(".alert.valid-form").show();
+				$(".alert.valid-form").text('Chưa nhập tên tài khoản');
+				$("html, body").animate({ scrollTop: 0 }, 600);
+				return false;
+			} else {
+				$(".alert.valid-form").hide();
+			}
+			if (!ass.checkPhone($('input[type="tel"]').val())) {
+				// $('input[type="tel"]').addClass('error');
+				$(".alert.valid-form").show();
+				$(".alert.valid-form").text("Số điện thoại không đúng định dạng");
+				$("html, body").animate({ scrollTop: 0 }, 600);
+				return false;
+			} else {
+				$(".alert.valid-form").hide();
+				$('input[type="tel"]').removeClass('error');
+			}
+			if ($('.gender').val() == 0) {
+				$(".alert.valid-form").show();
+				$(".alert.valid-form").text('Chưa chọn giới tính');
+				$("html, body").animate({ scrollTop: 0 }, 600);
+				e.preventDefault();
+				return false;
+			} else {
+				$(".alert.valid-form").hide();
+			}
+			$('.address-group select,.address-group .address').each(function() {
+				var selectedValues = $(this).val();
+				if (selectedValues == '') {
+					$(".alert.valid-form").show();
+					$(".alert.valid-form").text('Kiểm tra mục địa chỉ');
+					$("html, body").animate({ scrollTop: 0 }, 600);
+					e.preventDefault();
+					return false;
+				} else {
+					$(".alert.valid-form").hide();
+				}
+			});
+		});
+		$('.js-list-note').each(function() {
+			let p = $(this);
+			$('.btn', p).on('click', function() {
+				let input = $('textarea', p),
+					list = input.val() || '',
+					btn = $(this),
+					text = btn.text();
+				list = (list != '' ? list.split(',') : []).map(v => v.trim());
+				if (btn.hasClass('active')) {
+					let tmp = [];
+					list.forEach(function(v, i) {
+						if (v != text) {
+							tmp.push(v);
+						}
+					})
+					list = tmp;
+					btn.removeClass('active');
+				} else {
+					list.push(text);
+					btn.addClass('active');
+				}
+				input.val(list.join(", "));
+			});
+		});
+
+		var fieldCount = <?php echo count($response_get_location['data']); ?>;
+		var maxFields = 5;
+		$(document).on('click', '.delete-location-button', function(e) {
+			e.preventDefault();
+			let btn = $(this),
+				id = parseInt(btn.data('id') || 0);
+			btn.closest('.address-group').remove(); // Remove only the closest address group
+			// fieldCount = fieldCount + 1;
+			// console.log('log',fieldCount);
+			if (id > 0) {
+				let l_d = $('.location_delete_ids');
+				l_d.val(id + (l_d.val() != '' ? ',' + l_d.val() : ''));
+			}
+		});
+		// Fetching data from the new API endpoint
+	});
+</script>

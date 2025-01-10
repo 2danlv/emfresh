@@ -1,3 +1,4 @@
+var SHIP = 10000;
 $(".search-cus").on("input", function () {
   var value = $(this).val();
   console.log(value);
@@ -202,6 +203,7 @@ $(document).ready(function () {
     $(".input-order input.fullname").val(name);
     $(".input-order input.phone").val(phone);
     $(".input-order input.address_delivery").val(address);
+    $(".input-order .note-shipper").show();
   }
 
   // Helper function to update dropdown fields
@@ -262,7 +264,37 @@ $(".delivery-item .dropdown").on("click", function () {
 $("#loop").change(function () {
   if ($(this).is(":checked")) {
     $(".repeat-weekly").addClass("show");
+    $('.note').removeClass("show");
   } else {
     $(".repeat-weekly").removeClass("show");
+    $('.note').addClass("show");
   }
+});
+var price_order = parseFloat($(".price-order").text().replace(/\./g, ""));
+$(".ship_fee_days, .discount").on("change", function () {
+  var ship_fee_days = parseInt($(".ship_fee_days").val(), 10) || 0;
+  var calculated_ship_fee = ship_fee_days * SHIP;
+  var discount = parseInt($('.discount').val(), 10) || 0;
+
+  $(".total_ship").val(calculated_ship_fee);
+  var total_cost = price_order - calculated_ship_fee - discount;
+  var formattedCurrency = new Intl.NumberFormat("vi-VN").format(total_cost);
+  $(".price-order").text(formattedCurrency);
+});
+function toggleOrderDetails() {
+  var tab_id = $('ul.tabNavigation li.selected').attr('rel');
+  console.log(tab_id)
+  if (tab_id !== 'customer') {
+    $('.order-details').show();
+  } else {
+    $('.order-details').hide();
+  }
+}
+
+$(document).ready(function () {
+  toggleOrderDetails();
+
+  $('ul.tabNavigation li').on('click', function () {
+    toggleOrderDetails();
+  });
 });
