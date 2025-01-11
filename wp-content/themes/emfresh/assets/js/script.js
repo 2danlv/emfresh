@@ -808,12 +808,12 @@ function stringToSlug(str) {
   return str;
 }
 function switch_tabs(obj) {
-  jQuery(".tab-pane").stop().fadeOut(1);
   jQuery("ul.tabNavigation li").removeClass("selected");
+  jQuery(".tab-pane").stop().fadeOut(1);
   var id = obj.attr("rel");
   jQuery("#" + id)
-    .stop()
-    .fadeIn(300);
-  //jQuery('#'+id).show();
+  .stop()
+  .fadeIn(300);
+  // jQuery('#'+id).show();
   obj.addClass("selected");
 }

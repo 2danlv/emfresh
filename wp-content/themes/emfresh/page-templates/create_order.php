@@ -7,7 +7,6 @@
  * @subpackage Twenty_Twelve
  * @since Twenty Twelve 1.0
  */
-$tab_active = isset($_GET['tab']) ? $_GET['tab'] : 'customer';
 get_header();
 // Start the Loop.
 // while ( have_posts() ) : the_post(); 
@@ -409,10 +408,10 @@ get_header();
                                             <div class="col-4">Đặt lịch:</div>
                                             <div class="col-8">
                                                 <label for="loop" class="d-f ai-center gap-12 pb-8 loop">
-                                                    <input type="checkbox" name="" id="loop">
+                                                    <input type="checkbox" name="loop" id="loop">
                                                     Lặp lại hàng tuần
                                                 </label>
-                                                <input type="date" name="date" placeholder="DD/MM/YYYY" class="form-control date">
+                                                <input type="text" name="calendar-delivery" placeholder="DD/MM/YYYY" class="form-control date">
                                                 <div class="repeat-weekly">
                                                     <input type="checkbox" id="monday" hidden name="days" value="monday">
                                                     <label for="monday">Thứ Hai</label>
@@ -566,6 +565,27 @@ get_header();
             <button type="submit" class="btn btn-primary add-address">Áp dụng</button>
         </div>
     </div>
+</div>
+<div class="modal fade modal-warning" id="modal-remove-tab">
+	<div class="overlay"></div>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form method="post" id="list-customer" action="">
+				<div class="modal-body pt-8 pb-16">
+					<input type="hidden" class="customer_id" name="customer_id" value="">
+					<div class="d-f ai-center">
+						<i class="fas fa-warning mr-4"></i>
+						<p>Bạn có chắc muốn xoá đơn hàng này không?</p>
+					</div>
+					
+				</div>
+				<div class="modal-footer d-f jc-b pb-8 pt-16">
+					<button type="button" class="btn btn-secondary modal-close">Đóng</button>
+					<button type="submit" name="remove" class="btn btn-danger modal-close">Xóa</button>
+				</div>
+			</form>
+		</div>
+	</div>
 </div>
 <?php
 

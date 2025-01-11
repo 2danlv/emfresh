@@ -3714,3 +3714,26 @@ table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:after {
   line-height: var(--font-line-height-s16, 24px);
   border-bottom: 1px solid var(--modal-divider, #DEDFE0);
 }
+
+.page-template-create_order .daterangepicker {
+  width: 474px;
+}
+.page-template-create_order .daterangepicker .drp-calendar {
+  width: 100%;
+  max-width: 100%;
+}
+
+.custom-today-button {
+  text-align: center;
+}
+.custom-today-button .today-button {
+  color: var(--button-ghost-text-default, #4BA66F);
+  font-size: var(--font-size-web-body-md, 14px);
+  font-weight: var(--font-weight-medium, 500);
+  line-height: var(--font-line-height-s16, 24px);
+  margin-bottom: 16px;
+  border: none;
+  padding-left: 28px;
+  background: url(../img/icon-hover/UserCircle.svg) left center no-repeat;
+  background-size: 20px 20px;
+}

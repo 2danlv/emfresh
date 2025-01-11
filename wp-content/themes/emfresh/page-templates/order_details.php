@@ -405,7 +405,6 @@ get_header();
 												</div>
 											</div>
 											<div class="col-6 ">
-
 												<div id="location-fields">
 													<?php
 													foreach ($response_get_location['data'] as $index => $record) {
@@ -867,5 +866,6 @@ get_footer('customer');
 			}
 		});
 		// Fetching data from the new API endpoint
+		
 	});
 </script>

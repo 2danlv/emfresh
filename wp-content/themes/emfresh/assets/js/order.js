@@ -109,6 +109,7 @@ $(document).ready(function () {
       activateTab(firstTab.data("tab"));
     }
   });
+  $(".tabNavigation [rel='customer']").trigger("click");
 });
 
 $(document).ready(function () {
@@ -157,6 +158,47 @@ $(document).ready(function () {
     clone.find("input").val("");
     $(".special-request").append(clone);
   });
+  $(function () {
+    $('input[name="calendar-delivery"]').daterangepicker(
+      {
+        singleDatePicker: true,
+        autoApply: true,
+        locale: {
+          format: 'DD/MM/YYYY',
+          daysOfWeek: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
+          monthNames: [
+            'Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6',
+            'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'
+          ],
+          firstDay: 1
+        },
+        isInvalidDate: function (date) {
+          const day = date.day();
+          return day === 0 || day === 6; // Disable weekends
+        },
+      },
+      function (start, end, label, date) {
+        var years = moment().diff(start, "years");
+        console.log(moment());
+      }
+    );
+  });
+  $(document).on('show.daterangepicker', function (e, picker) {
+    const calendar = picker.container;
+    if (!calendar.find('.custom-today-button').length) {
+      calendar.append(`
+        <div class="custom-today-button">
+          <button class="today-button">Hôm nay</button>
+        </div>
+      `);
+    }
+    calendar.on('click', '.today-button', function () {
+      const today = moment();
+      picker.setStartDate(today);
+      $('#daterange').val(today.format('DD/MM/YYYY')); // Set the input field value to today's date
+      picker.hide(); // Hide calendar after selecting "Today"
+    });
+});
 });
 
 $(document).ready(function () {
@@ -258,23 +300,22 @@ $(".paymented").on("input", function () {
   $(".payment-required").text(formattedCurrency);
 });
 $(".delivery-item .dropdown").on("click", function () {
-  console.log("object");
   $(".delivery-item").find(".dropdown-menu").slideToggle();
 });
 $("#loop").change(function () {
   if ($(this).is(":checked")) {
     $(".repeat-weekly").addClass("show");
-    $('.note').removeClass("show");
+    $(".note").removeClass("show");
   } else {
     $(".repeat-weekly").removeClass("show");
-    $('.note').addClass("show");
+    $(".note").addClass("show");
   }
 });
 var price_order = parseFloat($(".price-order").text().replace(/\./g, ""));
 $(".ship_fee_days, .discount").on("change", function () {
   var ship_fee_days = parseInt($(".ship_fee_days").val(), 10) || 0;
   var calculated_ship_fee = ship_fee_days * SHIP;
-  var discount = parseInt($('.discount').val(), 10) || 0;
+  var discount = parseInt($(".discount").val(), 10) || 0;
 
   $(".total_ship").val(calculated_ship_fee);
   var total_cost = price_order - calculated_ship_fee - discount;
@@ -282,19 +323,22 @@ $(".ship_fee_days, .discount").on("change", function () {
   $(".price-order").text(formattedCurrency);
 });
 function toggleOrderDetails() {
-  var tab_id = $('ul.tabNavigation li.selected').attr('rel');
-  console.log(tab_id)
-  if (tab_id !== 'customer') {
-    $('.order-details').show();
+  var tab_id = $("ul.tabNavigation li.selected").attr("rel");
+  console.log(tab_id);
+  if (tab_id !== "customer") {
+    $(".order-details").show();
   } else {
-    $('.order-details').hide();
+    $(".order-details").hide();
   }
 }
 
 $(document).ready(function () {
   toggleOrderDetails();
 
-  $('ul.tabNavigation li').on('click', function () {
+  $("ul.tabNavigation li").on("click", function () {
     toggleOrderDetails();
   });
+});
+$(".remove-tab").on("click", function () {
+  $(".modal-remove-tab").addClass("is-active");
 });
