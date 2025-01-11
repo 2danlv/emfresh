@@ -3234,11 +3234,23 @@ table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:after {
 .order .dropdown-menu .item + .item {
   margin-top: 8px;
 }
-.order .dropdown-menu .btn-add-address {
+.order .btn-add-address,
+.order .add-new-note {
   cursor: pointer;
 }
-.order .dropdown-menu .btn-add-address:hover .fa-plus {
+.order .btn-add-address:hover,
+.order .add-new-note:hover {
+  color: #4BA66F;
+}
+.order .btn-add-address:hover .fa-plus,
+.order .add-new-note:hover .fa-plus {
   background-image: url(../img/icon-hover/plus-svgrepo-com.svg);
+}
+.order .calendar {
+  position: relative;
+}
+.order .calendar input[name=calendar] {
+  background: url(../img/icon/CalendarBlank.svg) right 8px center no-repeat;
 }
 .order .tooltip {
   position: relative;
@@ -3431,6 +3443,9 @@ table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:after {
   color: var(--button-outline-text-default, #424242);
   font-size: 14px;
   line-height: 24px;
+  display: flex;
+  gap: 0 8px;
+  align-items: center;
 }
 .order .tab-button.active {
   background: var(--button-solid-background-default, #208046);
@@ -3442,9 +3457,14 @@ table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:after {
 }
 .order .tab-button .remove-tab {
   display: none;
+  position: relative;
+  z-index: 9;
   width: 24px;
   height: 24px;
   background: url(../img/icon/delete-svgrepo-com.svg) center center no-repeat;
+}
+.order .tab-button .remove-tab.show {
+  display: block;
 }
 .order #pay {
   color: #000;
@@ -3628,8 +3648,34 @@ table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:after {
   display: block;
 }
 
+.toast {
+  position: absolute;
+  padding: 12px;
+  color: var(--inform-text, #0F0F0F);
+  font-size: var(--font-size-web-body-md, 14px);
+  font-weight: var(--font-weight-regular, 400);
+  line-height: var(--font-line-height-s14, 20px);
+  gap: 0 8px;
+  align-items: center;
+  bottom: 15px;
+  right: 13px;
+  z-index: 99;
+  display: none;
+}
+.toast.warning {
+  border-radius: var(--inform-radiusCorner, 8px);
+  border: 1px solid var(--inform-border-warning, #FFC500);
+  background: var(--inform-background-warning, #FFF8D6);
+}
+.toast.show {
+  display: flex;
+}
+.toast .close-toast {
+  cursor: pointer;
+}
+
 .history-order {
-  max-height: 280px;
+  max-height: calc(62vh - 136px);
   overflow: hidden;
   overflow-y: auto;
 }
@@ -3732,6 +3778,7 @@ table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:after {
   right: 0;
   bottom: 0;
   width: calc(100% - 200px);
+  background: #fff;
 }
 
 #modal-add-address {
@@ -3756,18 +3803,20 @@ table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:after {
   border-bottom: 1px solid var(--modal-divider, #DEDFE0);
 }
 
-.page-template-create_order .daterangepicker {
-  width: 474px;
-}
 .page-template-create_order .daterangepicker .drp-calendar {
   width: 100%;
   max-width: 100%;
+}
+.page-template-create_order .daterangepicker .drp-calendar .table-condensed {
+  border-collapse: separate;
+  border-spacing: 0 8px;
 }
 
 .custom-today-button {
   text-align: center;
 }
 .custom-today-button .today-button {
+  cursor: pointer;
   color: var(--tab-text-active, #208046);
   font-size: var(--font-size-web-body-lg, 16px);
   font-weight: var(--font-weight-semibold, 600);
@@ -3777,4 +3826,11 @@ table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:after {
   padding-left: 28px;
   background: url(../img/icon-hover/UserCircle.svg) left center no-repeat;
   background-size: 20px 20px;
+}
+
+#modal-remove-tab .modal-dialog {
+  position: absolute;
+  width: 348px;
+  height: 120px;
+  transform: translate(130%, 40%);
 }

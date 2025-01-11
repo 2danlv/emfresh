@@ -369,17 +369,30 @@
 
             }
 
-            .btn-add-address {
-                cursor: pointer;
 
-                &:hover {
-                    .fa-plus {
-                        background-image: url(../img/icon-hover/plus-svgrepo-com.svg);
-                    }
-                }
-            }
         }
 
+    }
+
+    .btn-add-address,
+    .add-new-note {
+        cursor: pointer;
+
+        &:hover {
+            color: #4BA66F;
+
+            .fa-plus {
+                background-image: url(../img/icon-hover/plus-svgrepo-com.svg);
+            }
+        }
+    }
+
+    .calendar {
+        position: relative;
+
+        input[name='calendar'] {
+            background: url(../img/icon/CalendarBlank.svg) right 8px center no-repeat;
+        }
     }
 
     .tooltip {
@@ -607,6 +620,9 @@
         color: var(--button-outline-text-default, #424242);
         font-size: 14px;
         line-height: 24px;
+        display: flex;
+        gap: 0 8px;
+        align-items: center;
 
         &.active {
             background: var(--button-solid-background-default, #208046);
@@ -620,9 +636,14 @@
 
         .remove-tab {
             display: none;
+            position: relative;
+            z-index: 9;
             width: 24px;
             height: 24px;
-            background: url(../img/icon/delete-svgrepo-com.svg) center center no-repeat
+            background: url(../img/icon/delete-svgrepo-com.svg) center center no-repeat;
+            &.show{
+                display: block;
+            }
         }
     }
 
@@ -859,10 +880,36 @@
     }
 }
 
+.toast {
+    position: absolute;
+    padding: 12px;
+    color: var(--inform-text, #0F0F0F);
+    font-size: var(--font-size-web-body-md, 14px);
+    font-weight: var(--font-weight-regular, 400);
+    line-height: var(--font-line-height-s14, 20px);
+    gap: 0 8px;
+    align-items: center;
+    bottom: 15px;
+    right: 13px;
+    z-index: 99;
+    display: none;
+
+    &.warning {
+        border-radius: var(--inform-radiusCorner, 8px);
+        border: 1px solid var(--inform-border-warning, #FFC500);
+        background: var(--inform-background-warning, #FFF8D6);
+    }
+    &.show{
+        display: flex;
+    }
+    .close-toast{
+        cursor: pointer;
+    }
+}
 
 .history-order {
 
-    max-height: 280px;
+    max-height: calc(62vh - 136px);
     overflow: hidden;
     overflow-y: auto;
 
@@ -991,13 +1038,13 @@
     }
 }
 
-
 .navigation-bottom {
     padding: 16px;
     position: fixed;
     right: 0;
     bottom: 0;
     width: calc(100% - 200px);
+    background: #fff;
 }
 
 #modal-add-address {
@@ -1027,11 +1074,14 @@
 .page-template-create_order {
 
     .daterangepicker {
-        width: 474px;
-
         .drp-calendar {
             width: 100%;
             max-width: 100%;
+
+            .table-condensed {
+                border-collapse: separate;
+                border-spacing: 0 8px;
+            }
         }
     }
 
@@ -1039,8 +1089,9 @@
 
 .custom-today-button {
     text-align: center;
-
+    
     .today-button {
+        cursor: pointer;
         color: var(--tab-text-active, #208046);
         font-size: var(--font-size-web-body-lg, 16px);
         font-weight: var(--font-weight-semibold, 600);
@@ -1050,5 +1101,13 @@
         padding-left: 28px;
         background: url(../img/icon-hover/UserCircle.svg) left center no-repeat;
         background-size: 20px 20px;
+    }
+}
+#modal-remove-tab{
+    .modal-dialog{
+        position: absolute;
+        width: 348px;
+        height: 120px;
+        transform: translate(130%, 40%);
     }
 }

@@ -207,7 +207,7 @@ get_header();
                                                             <span class="number">123456</span>
                                                         </div>
                                                         <div class="d-f history-status gap-16">
-                                                            <span class="status_order">Đang dùng</span>
+                                                            <span class="status_order">Hoàn tất</span>
                                                             <span class="copy"></span>
                                                         </div>
                                                     </div>
@@ -235,7 +235,7 @@ get_header();
                                                             <span class="number">123456</span>
                                                         </div>
                                                         <div class="d-f history-status gap-16">
-                                                            <span class="status_order">Đang dùng</span>
+                                                            <span class="status_order">Hoàn tất</span>
                                                             <span class="copy"></span>
                                                         </div>
                                                     </div>
@@ -264,7 +264,7 @@ get_header();
                                     <div class="card">
                                         <div class="tab-products">
                                             <div class="tab-add-product" id="tabNav">
-                                                <button class="d-f jc-b ai-center gap-8 btn btn-add_order tab-button active" data-tab="tab-1">Sản phẩm 1 <span class="remove-tab"></span></button>
+                                                <a href="#tab-1" class="btn btn-add_order tab-button active" data-tab="tab-1">Sản phẩm 1 <span class="remove-tab"></span></a>
                                                 <button class="add-tab" id="addTabButton"></button>
                                             </div>
 
@@ -283,12 +283,14 @@ get_header();
                                                                 </select>
                                                             </div>
                                                             <div class="col-3">
-                                                                <div class="label mb-4">Số ngày dùng:</div>
+                                                                <div class="label mb-4">Số ngày ăn:</div>
                                                                 <input type="text" name="number" placeholder="-" class="form-control number">
                                                             </div>
                                                             <div class="col-4">
-                                                                <div class="label mb-4">Số ngày dùng:</div>
-                                                                <input type="date" name="date" placeholder="DD/MM/YYYY" class="form-control date">
+                                                                <div class="label mb-4">Ngày bắt đầu:</div>
+                                                                <div class="calendar">
+                                                                    <input type="text" value="" name="calendar" placeholder="DD/MM/YYYY" class="form-control start-day js-calendar">
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div class="list-product">
@@ -319,7 +321,7 @@ get_header();
                                                         <div class="special-request pt-16">
                                                             <div class="special-item row">
                                                                 <div class="col-4">
-                                                                    <select id="district_0" name="locations[0][district]" class="district-select form-control">
+                                                                    <select id="district_0" name="special-note" class="district-select form-control">
                                                                         <option value="Note rau củ" selected>Note rau củ</option>
                                                                         <option value="Note tinh bột">Note tinh bột</option>
                                                                         <option value="Note nước sốt">Note nước sốt</option>
@@ -411,7 +413,9 @@ get_header();
                                                     <input type="checkbox" name="loop" id="loop">
                                                     Lặp lại hàng tuần
                                                 </label>
-                                                <input type="text" name="calendar-delivery" placeholder="DD/MM/YYYY" class="form-control date">
+                                                <div class="calendar">
+                                                    <input type="text" name="calendar" placeholder="DD/MM/YYYY" class="form-control js-calendar date">
+                                                </div>
                                                 <div class="repeat-weekly">
                                                     <input type="checkbox" id="monday" hidden name="days" value="monday">
                                                     <label for="monday">Thứ Hai</label>
@@ -444,13 +448,13 @@ get_header();
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row delivery-item note show pt-16 ai-center">
+                                        <div class="row delivery-item js-note show pt-16 ai-center">
                                             <div class="col-4">Note shipper theo ngày:</div>
                                             <div class="col-8">
                                                 <input type="text" name="note_shipper_by_day" class="form-control note_shipper_by_day">
                                             </div>
                                         </div>
-                                        <div class="row delivery-item note show pt-16 ai-center">
+                                        <div class="row delivery-item js-note show pt-16 ai-center">
                                             <div class="col-4">Note admin theo ngày:</div>
                                             <div class="col-8">
                                                 <input type="text" name="note_admin_by_day" class="form-control note_admin_by_day">
@@ -458,7 +462,7 @@ get_header();
                                         </div>
                                     </div>
 
-                                    <div class="d-f ai-center pb-16 pt-24">
+                                    <div class="d-f ai-center pb-16 pt-24 add-new-note">
                                         <span class="fas fa-plus mr-8"></span> Thêm note giao hàng mới
                                     </div>
                                 </div>
@@ -474,6 +478,11 @@ get_header();
         </div>
         <!-- /.row -->
     </section>
+    <div class="toast warning">
+        <i class="fas fa-warning"></i>
+        Khách hàng vẫn còn đơn đang dùng tại thời điểm<span>04/11/2024</span>
+        <i class="fas fa-trash close-toast"></i>
+    </div>
 </div><!-- /.container-fluid -->
 <div class="navigation-bottom d-f jc-b ai-center">
     <span class="btn btn-secondary btn-prev btn-disable">Quay lại</span>
@@ -567,25 +576,25 @@ get_header();
     </div>
 </div>
 <div class="modal fade modal-warning" id="modal-remove-tab">
-	<div class="overlay"></div>
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<form method="post" id="list-customer" action="">
-				<div class="modal-body pt-8 pb-16">
-					<input type="hidden" class="customer_id" name="customer_id" value="">
-					<div class="d-f ai-center">
-						<i class="fas fa-warning mr-4"></i>
-						<p>Bạn có chắc muốn xoá đơn hàng này không?</p>
-					</div>
-					
-				</div>
-				<div class="modal-footer d-f jc-b pb-8 pt-16">
-					<button type="button" class="btn btn-secondary modal-close">Đóng</button>
-					<button type="submit" name="remove" class="btn btn-danger modal-close">Xóa</button>
-				</div>
-			</form>
-		</div>
-	</div>
+    <div class="overlay"></div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" id="list-customer" action="">
+                <div class="modal-body pt-8 pb-16">
+                    <input type="hidden" class="customer_id" name="customer_id" value="">
+                    <div class="d-f ai-center">
+                        <i class="fas fa-warning mr-4"></i>
+                        <p>Bạn có chắc muốn xoá sản phẩm đang thực hiện trên đơn hàng này không?</p>
+                    </div>
+
+                </div>
+                <div class="modal-footer d-f jc-end pb-8">
+                    <button type="button" class="btn btn-secondary modal-close">Đóng</button>
+                    <button type="button" name="remove" class="btn btn-danger modal-close">Xóa</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 <?php
 

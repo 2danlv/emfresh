@@ -35,42 +35,33 @@ $(document).click(function (event) {
 $(".tooltip-content .close").on("click", function () {
   $(this).closest(".tooltip-content").slideUp();
 });
-let tabCount = 1; // Initialize tab count for dynamic tabs
+let tabCount = 1;
 
 $(document).ready(function () {
-  // Function to activate a tab and its content
   function activateTab(tabId) {
-    // Remove active class from all tab buttons and contents
     $(".tab-button").removeClass("active");
     $(".tab-content-wrapper").removeClass("active");
 
-    // Add active class to the selected tab and its content
     $(`[data-tab="${tabId}"]`).addClass("active");
     $(`#${tabId}`).addClass("active");
   }
 
-  // Handle tab-button clicks
   $(document).on("click", ".tab-button", function () {
     const tabId = $(this).data("tab");
     activateTab(tabId);
   });
 
-  // Add a new tab and its content
   $(".add-tab").click(function () {
     tabCount++;
 
-    // Create new tab button
     const newTabButton = $(
-      `<button class="btn btn-add_order tab-button" data-tab="tab-${tabCount}">Sản phẩm ${tabCount}<span class="remove-tab"></button>`
+      `<a href="#tab-${tabCount}" class="btn btn-add_order tab-button" data-tab="tab-${tabCount}">Sản phẩm ${tabCount}<span class="remove-tab"></a>`
     );
     $("#tabNav .add-tab").before(newTabButton);
 
-    // Clone the first tab content and reset necessary fields
     const content = $("#tabContents .tab-content-wrapper:first")
-      .clone(true) // Clone with event bindings
-      .prop("id", `tab-${tabCount}`); // Assign a unique ID
-
-    // Clear input and select values in the cloned content
+      .clone(true)
+      .prop("id", `tab-${tabCount}`);
     content.find("input").each(function () {
       const type = $(this).attr("type");
       if (type === "checkbox" || type === "radio") {
@@ -84,40 +75,67 @@ $(document).ready(function () {
       $(this).val(""); // Reset select fields
     });
 
-    content.find(".price").text("0"); // Reset price fields
-
-    // Append the new content
+    content.find(".price").text("0");
     $("#tabContents").append(content);
 
-    // Activate the newly added tab
     activateTab(`tab-${tabCount}`);
+    $(".tab-button").find(".remove-tab").addClass('show');
   });
 
-  // Remove a tab and its content
-  $(document).on("click", ".remove-tab-button", function () {
-    const tabContent = $(this).closest(".tab-content");
-    const tabId = tabContent.attr("id");
-    const tabButton = $(`[data-tab="${tabId}"]`);
+  $(document).on("click", ".remove-tab", function (e) {
+    e.stopPropagation();
 
-    // Remove the tab and its content
-    tabContent.remove();
-    tabButton.remove();
+    var posX = e.pageX;
+    var posY = e.pageY;
 
-    // Activate the first available tab, if any
-    const firstTab = $(".tab-button").first();
-    if (firstTab.length > 0) {
-      activateTab(firstTab.data("tab"));
+    $("#modal-remove-tab .modal-dialog").css("top", posY);
+    $("#modal-remove-tab .modal-dialog").css("right", posX);
+    $("#modal-remove-tab").show();
+
+    var tabToRemove = $(this).closest("[data-tab]");
+    $("#modal-remove-tab").data("tabToRemove", tabToRemove);
+  });
+
+  $('#modal-remove-tab button[name="remove"]').on("click", function () {
+    var modal = $("#modal-remove-tab");
+    var tabToRemove = modal.data("tabToRemove");
+    tabCount = $(".tab-button").length - 1;
+    if (tabToRemove) {
+      const dataId = tabToRemove.data("tab");
+
+      $(`#${dataId}`).remove();
+      tabToRemove.remove();
+
+      const firstTab = $(".tab-button").first();
+      if (firstTab.length > 0) {
+        activateTab(firstTab.data("tab"));
+      }
+
+      if ($(".tab-button").length == 1) {
+        $(".remove-tab").removeClass('show');
+      }
+      $(".tab-button").each(function (index) {
+        $(this).html(`Sản phẩm ${(index + 1)}<span class="remove-tab ${$(".tab-button").length == 1 ? '': 'show'}">`);
+      });
+      modal.hide();
     }
   });
+  $('.modal-close').on('click', function(){
+    $("#modal-remove-tab").hide();
+  })
+
   $(".tabNavigation [rel='customer']").trigger("click");
   $("ul.tabNavigation li").click(function () {
+    var rel = $(this).attr("rel");
     if ($(".tabNavigation li.selected [rel='settings-product']")) {
       $(".edit-product [rel='detail-product']").trigger("click");
     }
-  })
-});
-
-$(document).ready(function () {
+    if (rel == "product") {
+      $(".toast").addClass("show");
+    } else {
+      $(".toast").removeClass("show");
+    }
+  });
   $(".tag-container").each(function () {
     const $tagContainer = $(this);
     const $tagInput = $tagContainer.find(".tag-input");
@@ -160,54 +178,75 @@ $(document).ready(function () {
 
   $(".clone-note").click(function () {
     var clone = $(".special-item:first").clone();
-    clone.find("input").val("");
+    clone.find(".tag").remove();
     $(".special-request").append(clone);
   });
   $(function () {
-    $('input[name="calendar-delivery"]').daterangepicker(
+    $(".js-calendar").on("click", function () {
+      var w_calendar = $(this).width();
+      $(".page-template-create_order .daterangepicker").css(
+        "width",
+        w_calendar
+      );
+    });
+    $(".js-calendar").daterangepicker(
       {
         singleDatePicker: true,
         autoApply: true,
         locale: {
-          format: 'DD/MM/YYYY',
-          daysOfWeek: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
+          format: "DD/MM/YYYY",
+          daysOfWeek: ["CN", "T2", "T3", "T4", "T5", "T6", "T7"],
           monthNames: [
-            'Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6',
-            'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'
+            "Tháng 1",
+            "Tháng 2",
+            "Tháng 3",
+            "Tháng 4",
+            "Tháng 5",
+            "Tháng 6",
+            "Tháng 7",
+            "Tháng 8",
+            "Tháng 9",
+            "Tháng 10",
+            "Tháng 11",
+            "Tháng 12",
           ],
-          firstDay: 1
+          firstDay: 1,
         },
         isInvalidDate: function (date) {
           const day = date.day();
-          return day === 0 || day === 6; // Disable weekends
+          return day === 0 || day === 6;
         },
       },
       function (start, end, label, date) {
-        var years = moment().diff(start, "years");
-        console.log(moment());
+        var today = moment().format("DD/MM/YYYY");
+        var updatedDate = moment(end).format("DD/MM/YYYY");
+        $(".start-day").val(updatedDate);
+        $(".toast span").text(updatedDate);
+        $(".today-button")
+          .off("click")
+          .on("click", function () {
+            $(".toast span").text(today);
+            $(".start-day").val(today);
+          });
       }
     );
   });
-  $(document).on('show.daterangepicker', function (e, picker) {
+  $(document).on("show.daterangepicker", function (e, picker) {
     const calendar = picker.container;
-    if (!calendar.find('.custom-today-button').length) {
+    if (!calendar.find(".custom-today-button").length) {
       calendar.append(`
         <div class="custom-today-button">
           <button class="today-button">Hôm nay</button>
         </div>
       `);
     }
-    calendar.on('click', '.today-button', function () {
+    calendar.on("click", ".today-button", function () {
       const today = moment();
       picker.setStartDate(today);
-      $('#daterange').val(today.format('DD/MM/YYYY')); // Set the input field value to today's date
+      $("#daterange").val(today.format("DD/MM/YYYY")); // Set the input field value to today's date
       picker.hide(); // Hide calendar after selecting "Today"
     });
-});
-});
-
-$(document).ready(function () {
-  // Event delegation for search results click
+  });
   $(".search-result").on("click", ".results", function () {
     const $this = $(this);
     const name = $this.find(".name").text();
@@ -219,9 +258,10 @@ $(document).ready(function () {
     $(".results").hide();
     $(".dropdown-address").find(".note_shiper").text(note_shiper);
     $(".dropdown").css("pointer-events", "all");
+    $(".history-order").find(".show").removeClass("show");
+    $(".history-order").find(".history").addClass("show");
   });
 
-  // Event delegation for dropdown menu items
   $(".dropdown-menu").on("click", ".item", function () {
     const $this = $(this);
     const other_address = $this.find(".other-address").text();
@@ -231,7 +271,6 @@ $(document).ready(function () {
     $(".dropdown-menu").hide();
   });
 
-  // Add new address
   $(".add-address").on("click", function () {
     const addressData = {
       district: $("#modal-add-address .district-select").val(),
@@ -245,7 +284,6 @@ $(document).ready(function () {
     $(".modal").removeClass("is-active");
   });
 
-  // Helper function to update order input fields
   function setOrderInputFields({ name, phone, address }) {
     $(".input-order input.fullname").val(name);
     $(".input-order input.phone").val(phone);
@@ -253,13 +291,11 @@ $(document).ready(function () {
     $(".input-order .note-shipper").show();
   }
 
-  // Helper function to update dropdown fields
   function setDropdownFields({ other_address, note_shiper }) {
     $(".dropdown input").val(other_address);
     $(".dropdown-address").find(".note_shiper").text(note_shiper);
   }
 
-  // Generate address HTML
   function addAddressHtml({
     district,
     ward,
@@ -280,7 +316,13 @@ $(document).ready(function () {
         </div>
       </div>`;
   }
+  toggleOrderDetails();
+
+  $("ul.tabNavigation li").on("click", function () {
+    toggleOrderDetails();
+  });
 });
+
 $(".status-payment").on("click", function () {
   $(this).find(".status-pay-menu").slideToggle();
 });
@@ -310,10 +352,10 @@ $(".delivery-item .dropdown").on("click", function () {
 $("#loop").change(function () {
   if ($(this).is(":checked")) {
     $(".repeat-weekly").addClass("show");
-    $(".note").removeClass("show");
+    $(".js-note").removeClass("show");
   } else {
     $(".repeat-weekly").removeClass("show");
-    $(".note").addClass("show");
+    $(".js-note").addClass("show");
   }
 });
 var price_order = parseFloat($(".price-order").text().replace(/\./g, ""));
@@ -337,13 +379,6 @@ function toggleOrderDetails() {
   }
 }
 
-$(document).ready(function () {
-  toggleOrderDetails();
-
-  $("ul.tabNavigation li").on("click", function () {
-    toggleOrderDetails();
-  });
-});
 $(".remove-tab").on("click", function () {
   $(".modal-remove-tab").addClass("is-active");
 });
@@ -352,8 +387,11 @@ $("ul.edit-product li").click(function () {
   $(".tab-pane-2").stop().fadeOut(1);
   var id = $(this).attr("rel");
   $("#" + id)
-  .stop()
-  .fadeIn(300);
+    .stop()
+    .fadeIn(300);
   // $('#'+id).show();
- $(this).addClass("selected");
+  $(this).addClass("selected");
+});
+$(".close-toast").on("click", function () {
+  $(".toast").removeClass("show");
 });
