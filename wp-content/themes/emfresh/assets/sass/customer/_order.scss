@@ -112,9 +112,32 @@
 }
 
 .order {
-    .tabNavigation {
-        padding-left: 16px;
+    .tab-add-product {
+        border-bottom: 1px solid var(--modal-divider, #DEDFE0);
+        padding-bottom: 12px;
+    }
+
+    .tab-order {
         border-radius: 16px 16px 0 0;
+        padding-bottom: 8px;
+        background-color: #fff;
+        padding-inline: 16px;
+
+        li {
+            display: inline-block;
+            font-weight: 600;
+            padding: 0 16px 4px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-right: 16px;
+            font-size: 16px;
+
+            &:hover,
+            &.selected {
+                color: var(--tab-text-active, #208046);
+                border-bottom: 2px solid var(--border-brand, #4BA66F);
+            }
+        }
 
         &:not(.selected) {
             color: #747475;
@@ -422,7 +445,7 @@
             margin: 0;
         }
 
-        .tab-nav {
+        .tab-add-product {
             display: flex;
             align-items: center;
             gap: 0 8px;
@@ -816,6 +839,14 @@
     }
 }
 
+.note {
+    color: var(--input-text-unfill, #747475);
+    text-overflow: ellipsis;
+    font-size: var(--font-size-web-body-md, 14px);
+    font-weight: var(--font-weight-medium, 500);
+    line-height: var(--font-line-height-s14, 20px);
+}
+
 .group {
     &-management-link {}
 }
@@ -1010,9 +1041,9 @@
     text-align: center;
 
     .today-button {
-        color: var(--button-ghost-text-default, #4BA66F);
-        font-size: var(--font-size-web-body-md, 14px);
-        font-weight: var(--font-weight-medium, 500);
+        color: var(--tab-text-active, #208046);
+        font-size: var(--font-size-web-body-lg, 16px);
+        font-weight: var(--font-weight-semibold, 600);
         line-height: var(--font-line-height-s16, 24px);
         margin-bottom: 16px;
         border: none;

@@ -110,6 +110,11 @@ $(document).ready(function () {
     }
   });
   $(".tabNavigation [rel='customer']").trigger("click");
+  $("ul.tabNavigation li").click(function () {
+    if ($(".tabNavigation li.selected [rel='settings-product']")) {
+      $(".edit-product [rel='detail-product']").trigger("click");
+    }
+  })
 });
 
 $(document).ready(function () {
@@ -341,4 +346,14 @@ $(document).ready(function () {
 });
 $(".remove-tab").on("click", function () {
   $(".modal-remove-tab").addClass("is-active");
+});
+$("ul.edit-product li").click(function () {
+  jQuery("ul.edit-product li").removeClass("selected");
+  $(".tab-pane-2").stop().fadeOut(1);
+  var id = $(this).attr("rel");
+  $("#" + id)
+  .stop()
+  .fadeIn(300);
+  // $('#'+id).show();
+ $(this).addClass("selected");
 });

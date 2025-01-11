@@ -155,6 +155,11 @@
     background-color: orange;
     color: #fff;
 }
+.btn.status_6 {
+    color: var(--button-ghost-text-default, #4BA66F);
+    border-radius: var(--button-radiusCorner, 8px);
+    background: var(--button-filledTonal-background-default, #F0FAF4);
+}
 .order_1 {background-color: green;}
 .order_2 {background-color: red;}
 .order_3 {background-color: orange;}
@@ -183,6 +188,9 @@
     background: url(../img/icon/plus-svgrepo-com.svg) center center no-repeat ;
     width: 16px;
     height: 16px;
+}
+.fa-plus-green {
+    background: url(../img/icon-hover/plus-svgrepo-com.svg) center center no-repeat ;
 }
 .fa-left {
     background: url(../img/icon/CaretLeft.svg) center center no-repeat ;

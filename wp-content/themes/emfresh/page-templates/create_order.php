@@ -77,7 +77,7 @@ get_header();
                     <!-- /.col -->
                     <div class="col-8">
                         <div class="card-body">
-                            <ul class="nav tab-order tabNavigation pt-20">
+                            <ul class="nav tab-order tab-nav tabNavigation pt-20">
                                 <li class="nav-item selected" rel="customer">Khách hàng</li>
                                 <li class="nav-item" rel="product">Sản phẩm</li>
                                 <li class="nav-item" rel="pay">Thanh toán</li>
@@ -263,7 +263,7 @@ get_header();
                                 <div class="tab-pane" id="product">
                                     <div class="card">
                                         <div class="tab-products">
-                                            <div class="tab-nav" id="tabNav">
+                                            <div class="tab-add-product" id="tabNav">
                                                 <button class="d-f jc-b ai-center gap-8 btn btn-add_order tab-button active" data-tab="tab-1">Sản phẩm 1 <span class="remove-tab"></span></button>
                                                 <button class="add-tab" id="addTabButton"></button>
                                             </div>
