@@ -26,6 +26,9 @@
     &.fa-info-gray {
         background: url(../img/icon/WarningCircle-gray.svg) center center no-repeat;
     }
+    &.fas-print{
+        background: url(../img/icon/print.svg) center center no-repeat;
+    }
 }
 
 .btn {
@@ -205,8 +208,9 @@
     }
 
     .card-primary {
-        height: calc(100vh - 120px);
-
+        border-radius: 16px;
+        padding-bottom: 16px;
+        margin-bottom: 70px;
         .tab-content {
             .card {
                 padding-top: 16px;
@@ -1043,7 +1047,7 @@
     position: fixed;
     right: 0;
     bottom: 0;
-    width: calc(100% - 200px);
+    width: calc(100% - 214px);
     background: #fff;
 }
 

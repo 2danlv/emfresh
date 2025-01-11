@@ -2927,6 +2927,9 @@ table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:after {
 .fas.fa-info-gray {
   background: url(../img/icon/WarningCircle-gray.svg) center center no-repeat;
 }
+.fas.fas-print {
+  background: url(../img/icon/print.svg) center center no-repeat;
+}
 
 .btn.btn-disable {
   opacity: 0.4;
@@ -3083,7 +3086,9 @@ table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:after {
   text-overflow: ellipsis;
 }
 .order .card-primary {
-  height: calc(100vh - 120px);
+  border-radius: 16px;
+  padding-bottom: 16px;
+  margin-bottom: 70px;
 }
 .order .card-primary .tab-content .card {
   padding-top: 16px;
@@ -3777,7 +3782,7 @@ table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:after {
   position: fixed;
   right: 0;
   bottom: 0;
-  width: calc(100% - 200px);
+  width: calc(100% - 214px);
   background: #fff;
 }
 
@@ -3833,4 +3838,143 @@ table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:after {
   width: 348px;
   height: 120px;
   transform: translate(130%, 40%);
+}
+
+.print {
+  font-size: var(--font-size-web-body-md, 14px);
+  font-weight: var(--font-weight-medium, 500);
+  line-height: var(--font-line-height-s16, 24px);
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: var(--button-radiusCorner, 8px);
+  border: 1.5px solid var(--button-outline-border-default, #DEDFE0);
+}
+.print:hover {
+  color: var(--button-outline-text-hover, #208046);
+  border-radius: var(--button-radiusCorner, 8px);
+  border: 1.5px solid var(--button-outline-border-hover, #208046);
+}
+.print:hover .fas-print {
+  background: url(../img/icon-hover/print-svgrepo-com.svg) center center no-repeat;
+}
+
+.order-code {
+  color: #000;
+  font-size: var(--font-size-web-title-md, 24px);
+  font-weight: var(--font-weight-semibold, 600);
+  line-height: var(--font-line-height-s24, 36px);
+}
+
+.tlt-section {
+  width: 100%;
+  border-bottom: 1px solid var(--modal-divider, #DEDFE0);
+  padding: 12px 16px;
+  color: var(--modal-text, #0F0F0F);
+  font-family: var(--font-type-body, Inter);
+  font-size: var(--font-size-web-body-xl, 18px);
+  font-weight: var(--font-weight-bold, 700);
+  line-height: var(--font-line-height-s18, 27px);
+}
+
+.cost-txt {
+  color: #000;
+  text-align: right;
+  font-size: var(--font-size-web-title-sm, 20px);
+  font-weight: var(--font-weight-semibold, 600);
+  line-height: var(--font-line-height-s20, 30px);
+}
+.cost-txt.red {
+  color: var(--color-red-300, #CC2929);
+  text-align: right;
+}
+
+.txt {
+  color: #0F0F0F;
+  font-size: var(--font-size-web-body-lg, 16px);
+  line-height: var(--font-line-height-s16, 24px);
+}
+.txt.blue {
+  overflow: hidden;
+  color: var(--color-blue-700, #2451C2);
+  text-overflow: ellipsis;
+}
+.txt.black {
+  color: #000;
+}
+.txt.ellipsis {
+  min-width: 368px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.note-txt {
+  color: var(--color-grey-600, #5B5B5C);
+  font-size: var(--font-size-web-body-md, 14px);
+  font-weight: 400;
+  line-height: var(--font-line-height-s14, 20px);
+}
+.note-txt.italic {
+  font-style: italic;
+}
+
+.section-content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px 0;
+}
+.section-content .product-item {
+  padding-inline: 8px;
+}
+.section-content .product-item .product-body {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--modal-divider, #DEDFE0);
+}
+.section-content.status-content {
+  gap: 16px 0;
+}
+.section-content.status-content .tag-status {
+  overflow: hidden;
+  color: var(--color-grey-900, #0F0F0F);
+  text-align: center;
+  text-overflow: ellipsis;
+  font-size: var(--font-size-web-body-md, 14px);
+  font-weight: var(--font-weight-semibold, 600);
+  line-height: var(--font-line-height-s14, 20px);
+  padding: 4px;
+  width: 100px;
+}
+.section-content.status-content .tag-status.purple {
+  background: var(--color-purple-300, #C6B1F6);
+}
+.section-content.status-content .tag-status.green {
+  background: var(--color-primary-900, #208046);
+  color: #fff;
+}
+
+.section-wapper {
+  border-radius: 8px;
+  background: var(--modal-background, #FFF);
+}
+.section-wapper + .section-wapper {
+  margin-top: 32px;
+}
+
+.bottom-line {
+  border-bottom: 1px solid var(--modal-divider, #DEDFE0);
+}
+
+.line-dots-top {
+  border-top: 2px dashed var(--modal-divider, #DEDFE0);
+}
+
+.section-ship {
+  padding-bottom: 16px;
+  padding-top: 16px;
+  margin-inline: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px 0;
 }
