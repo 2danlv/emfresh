@@ -79,7 +79,7 @@ $(document).ready(function () {
     $("#tabContents").append(content);
 
     activateTab(`tab-${tabCount}`);
-    $(".tab-button").find(".remove-tab").addClass('show');
+    $(".tab-button").find(".remove-tab").addClass("show");
   });
 
   $(document).on("click", ".remove-tab", function (e) {
@@ -112,17 +112,21 @@ $(document).ready(function () {
       }
 
       if ($(".tab-button").length == 1) {
-        $(".remove-tab").removeClass('show');
+        $(".remove-tab").removeClass("show");
       }
       $(".tab-button").each(function (index) {
-        $(this).html(`Sản phẩm ${(index + 1)}<span class="remove-tab ${$(".tab-button").length == 1 ? '': 'show'}">`);
+        $(this).html(
+          `Sản phẩm ${index + 1}<span class="remove-tab ${
+            $(".tab-button").length == 1 ? "" : "show"
+          }">`
+        );
       });
       modal.hide();
     }
   });
-  $('.modal-close').on('click', function(){
+  $(".modal-close").on("click", function () {
     $("#modal-remove-tab").hide();
-  })
+  });
 
   $(".tabNavigation [rel='customer']").trigger("click");
   $("ul.tabNavigation li").click(function () {
@@ -130,10 +134,27 @@ $(document).ready(function () {
     if ($(".tabNavigation li.selected [rel='settings-product']")) {
       $(".edit-product [rel='detail-product']").trigger("click");
     }
+
     if (rel == "product") {
       $(".toast").addClass("show");
     } else {
       $(".toast").removeClass("show");
+    }
+  });
+  $("ul.tab-nav-detail li").click(function () {
+    var rel = $(this).attr("rel");
+    if (rel == "info") {
+      $(".js-group-btn").addClass("show");
+    } else {
+      $(".js-group-btn").removeClass("show");
+    }
+    if (rel == 'settings-product') {
+      $('.js-btn-clone').hide();
+      $('.js-btn-save').show();
+    }
+    else{
+      $('.js-btn-clone').show();
+      $('.js-btn-save').hide();
     }
   });
   $(".tag-container").each(function () {
@@ -177,17 +198,30 @@ $(document).ready(function () {
   });
 
   $(".clone-note").click(function () {
-    var clone = $(".special-item:first").clone();
-    clone.find(".tag").remove();
+    var clone = `
+    <div class="special-item row">
+      <div class="col-4">
+          <select id="district_0" name="special-note" class="district-select form-control">
+              <option value="Note rau củ" selected>Note rau củ</option>
+              <option value="Note tinh bột">Note tinh bột</option>
+              <option value="Note nước sốt">Note nước sốt</option>
+              <option value="Note khác">Note khác</option>
+              <option value="Note đính kèm">Note đính kèm</option>
+              <option value="Phân loại yêu cầu">Note tinh bột</option>
+          </select>
+      </div>
+      <div class="col-8">
+          <div class="tag-container" id="tagContainer">
+              <input type="text" class="form-control tag-input" id="tagInput">
+          </div>
+      </div>
+    </div>`;
     $(".special-request").append(clone);
   });
   $(function () {
     $(".js-calendar").on("click", function () {
       var w_calendar = $(this).width();
-      $(".page-template-create_order .daterangepicker").css(
-        "width",
-        w_calendar
-      );
+      $(".daterangepicker").css("width", w_calendar);
     });
     $(".js-calendar").daterangepicker(
       {
@@ -371,7 +405,6 @@ $(".ship_fee_days, .discount").on("change", function () {
 });
 function toggleOrderDetails() {
   var tab_id = $("ul.tabNavigation li.selected").attr("rel");
-  console.log(tab_id);
   if (tab_id !== "customer") {
     $(".order-details").show();
   } else {
@@ -395,3 +428,9 @@ $("ul.edit-product li").click(function () {
 $(".close-toast").on("click", function () {
   $(".toast").removeClass("show");
 });
+$('.explain-icon').on('click', function(){
+  $('.explain-block').addClass('show')
+})
+$('.close-explain').on('click', function(){
+  $('.explain-block').removeClass('show')
+})

@@ -27,7 +27,7 @@ get_header();
                                 </div>
                                 <div class="info-customer line-dots">
                                     <p class="pt-16">Linh (Nu Kenny)</p>
-                                    <p class="copy modal-button pt-8" data-target="#modal-copy" title="Copy: 0909739506">0909739506</p>
+                                    <p class="copy modal-button pt-8 fw-bold" data-target="#modal-copy" title="Copy: 0909739506">0909739506</p>
                                     <p class="pt-8 pb-16 text-ellipsis">44L đường số 11, KDC Miếu Nổi, Phường 07, Quận Bình Thạnh</p>
                                 </div>
                                 <div class="order-details">
@@ -309,33 +309,23 @@ get_header();
                                                                         </div>
                                                                     </div>
                                                                     <div class="d-f gap-12 ai-center">
-                                                                        <label class="auto-fill-checkbox">
+                                                                        <label class="auto-fill-checkbox mt-16 mb-16">
                                                                             <input type="checkbox">
                                                                             <span class="slider"></span>
                                                                         </label>
-                                                                        <span class="fs-16 color-gray">Tự chọn món</span>
+                                                                        Tự chọn mó<noscript></noscript>
+                                                                        <div class="explain-icon">
+                                                                            <img width="16" src="<?php site_the_assets(); ?>img/icon/WarningCircle-gray.svg" alt="">
+                                                                            <div class="explain-block d-f ai-center gap-8">
+                                                                                Chế độ này bật khi được khách hàng cho phép chọn món giúp họ
+                                                                                <i class="fas fa-trash close-explain"></i>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="special-request pt-16">
-                                                            <div class="special-item row">
-                                                                <div class="col-4">
-                                                                    <select id="district_0" name="special-note" class="district-select form-control">
-                                                                        <option value="Note rau củ" selected>Note rau củ</option>
-                                                                        <option value="Note tinh bột">Note tinh bột</option>
-                                                                        <option value="Note nước sốt">Note nước sốt</option>
-                                                                        <option value="Note khác">Note khác</option>
-                                                                        <option value="Note đính kèm">Note đính kèm</option>
-                                                                        <option value="Phân loại yêu cầu">Note tinh bột</option>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="col-8">
-                                                                    <div class="tag-container" id="tagContainer">
-                                                                        <input type="text" class="form-control tag-input" id="tagInput">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
                                                         </div>
                                                         <div class="d-f ai-center pt-20 clone-note">
                                                             <span class="fas fa-plus mr-8"></span>Thêm yêu cầu phần ăn đặc biệt
@@ -346,7 +336,7 @@ get_header();
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane" id="pay">
+                                <div class="tab-pane pay-field" id="pay">
                                     <div class="card">
                                         <div class="total-pay d-f jc-b ai-center">
                                             <p>Tổng tiền sản phẩm:</p>
@@ -404,7 +394,7 @@ get_header();
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane" id="delivery">
+                                <div class="tab-pane delivery-field" id="delivery">
                                     <div class="card">
                                         <div class="row delivery-item">
                                             <div class="col-4">Đặt lịch:</div>
@@ -461,7 +451,6 @@ get_header();
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="d-f ai-center pb-16 pt-24 add-new-note">
                                         <span class="fas fa-plus mr-8"></span> Thêm note giao hàng mới
                                     </div>

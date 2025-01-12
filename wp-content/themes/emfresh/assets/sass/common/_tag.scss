@@ -2,10 +2,13 @@
     cursor: pointer;
     color: #2451C2;
 }
-.nowrap{
+
+.nowrap {
     white-space: nowrap;
 }
-.tag.btn,.select2-selection__rendered {
+
+.tag.btn,
+.select2-selection__rendered {
     padding: 4px 8px 4px;
     color: #fff;
     white-space: nowrap;
@@ -13,6 +16,7 @@
     display: inline-block;
     border-radius: 3px;
     cursor: auto;
+
     ::first-letter {
         text-transform: uppercase;
     }
@@ -42,93 +46,117 @@
 .btn.tag_5 {
     background-color: orange;
 }
+
 .select2-results ul li {
     &::first-letter {
         text-transform: uppercase;
     }
-  }
-  .select2-container--default .select2-selection--multiple {
+}
+
+.select2-container--default .select2-selection--multiple {
     min-height: 40px;
+
     .select2-selection__choice__remove {
         margin-right: 0;
         margin-left: 4px;
     }
+
     .select2-selection__rendered li {
         line-height: 27px;
     }
-      .select2-selection__rendered li.select2-selection__choice{
+
+    .select2-selection__rendered li.select2-selection__choice {
         border: none;
         display: flex;
         align-items: center;
         flex-direction: row-reverse;
-        .select2-selection__choice__remove ~ *{
+
+        .select2-selection__choice__remove~* {
             &::first-letter {
                 text-transform: uppercase;
             }
         }
+
         &[title="Thân thiết"] {
             background: var(--color-purple-300, #C6B1F6);
             color: #0F0F0F;
+
             .select2-selection__choice__remove {
                 color: #0F0F0F;
+
                 &:hover {
                     color: #0F0F0F;
                 }
             }
         }
+
         &[title="Ăn nhóm"] {
             background: var(--color-blue-600, #2759D4);
             color: #fff;
+
             .select2-selection__choice__remove {
                 color: #fff;
+
                 &:hover {
                     color: #fff;
                 }
             }
         }
+
         &[title="Khách nước ngoài"] {
             background: var(--color-grey-200, #C0C0C2);
             color: #BA2525;
+
             .select2-selection__choice__remove {
                 color: #BA2525;
+
                 &:hover {
                     color: #C0C0C2;
                 }
             }
         }
+
         &[title="Bệnh lý"],
         &[title="Khách có bệnh lý"] {
             background: var(--color-grey-800, #282829);
             color: #FFC500;
+
             .select2-selection__choice__remove {
                 color: #FFC500;
+
                 &:hover {
                     color: #FFC500;
                 }
             }
         }
+
         &[title="Khách hãm"] {
             background-color: red;
+
             .select2-selection__choice__remove {
                 color: #fff;
+
                 &:hover {
                     color: #fff;
                 }
             }
         }
+
         &[title="Bảo lưu"] {
             background-color: orange;
+
             .select2-selection__choice__remove {
                 color: #fff;
+
                 &:hover {
                     color: #fff;
                 }
             }
         }
     }
-  } 
-  
-  
+}
+
+
 .btn.status_1 {
     color: #fff;
     background: var(--color-primary-900, #208046);
@@ -155,109 +183,155 @@
     background-color: orange;
     color: #fff;
 }
+
 .btn.status_6 {
     color: var(--button-ghost-text-default, #4BA66F);
     border-radius: var(--button-radiusCorner, 8px);
     background: var(--button-filledTonal-background-default, #F0FAF4);
 }
-.order_1 {background-color: green;}
-.order_2 {background-color: red;}
-.order_3 {background-color: orange;}
-.order_4 {background-color: yellow;}
+
+.order_1 {
+    background-color: green;
+}
+
+.order_2 {
+    background-color: red;
+}
+
+.order_3 {
+    background-color: orange;
+}
+
+.order_4 {
+    background-color: yellow;
+}
+
 .fas {
     width: 24px;
     height: 24px;
     display: inline-block;
+
     img {
         vertical-align: top;
     }
 }
+
 .fa-trash {
-    background: url(../img/icon/delete-svgrepo-com.svg) center center no-repeat ;
+    background: url(../img/icon/delete-svgrepo-com.svg) center center no-repeat;
 }
+
 .fa-bin {
-    background: url(../img/icon/bin.svg) center center no-repeat ;
+    background: url(../img/icon/bin.svg) center center no-repeat;
 }
+
 .fa-bin-red {
-    background: url(../img/icon/bin-red.svg) center center no-repeat ;
+    background: url(../img/icon/bin-red.svg) center center no-repeat;
 }
+
 .fa-filter {
-    background: url(../img/icon/filter-svgrepo-com.svg) center center no-repeat ;
+    background: url(../img/icon/filter-svgrepo-com.svg) center center no-repeat;
 }
+
 .fa-plus {
-    background: url(../img/icon/plus-svgrepo-com.svg) center center no-repeat ;
+    background: url(../img/icon/plus-svgrepo-com.svg) center center no-repeat;
     width: 16px;
     height: 16px;
 }
+
 .fa-plus-green {
-    background: url(../img/icon-hover/plus-svgrepo-com.svg) center center no-repeat ;
+    background: url(../img/icon-hover/plus-svgrepo-com.svg) center center no-repeat;
 }
+
 .fa-left {
-    background: url(../img/icon/CaretLeft.svg) center center no-repeat ;
+    background: url(../img/icon/CaretLeft.svg) center center no-repeat;
+
     &:hover {
         background-image: url(../img/icon-hover/Back.svg);
     }
 }
+
 .fa-right {
-    background: url(../img/icon/CaretRight.svg) center center no-repeat ;
+    background: url(../img/icon/CaretRight.svg) center center no-repeat;
+
     &:hover {
         background-image: url(../img/icon-hover/Forward.svg);
     }
 }
+
 .fa-export {
-    background: url(../img/icon/download-svgrepo-com.svg) center center no-repeat ;
+    background: url(../img/icon/download-svgrepo-com.svg) center center no-repeat;
 }
+
 .fa-info {
-    background: url(../img/icon/contact-svgrepo-com.svg) center center no-repeat ;
+    background: url(../img/icon/contact-svgrepo-com.svg) center center no-repeat;
 }
+
 .fa-location {
-    background: url(../img/icon/address-location-map-svgrepo-com.svg) center center no-repeat ;
+    background: url(../img/icon/address-location-map-svgrepo-com.svg) center center no-repeat;
 }
+
 .fa-tick {
-    background: url(../img/icon/tick-svgrepo-com_green.svg) center center no-repeat ;
+    background: url(../img/icon/tick-svgrepo-com_green.svg) center center no-repeat;
 }
+
 .fa-check-circle {
-    background: url(../img/icon/CheckCircle.svg) center center no-repeat ;
+    background: url(../img/icon/CheckCircle.svg) center center no-repeat;
 }
+
 .fa-warning {
-    background: url(../img/icon/WarningCircle_yellow.svg) center center no-repeat ;
+    background: url(../img/icon/WarningCircle_yellow.svg) center center no-repeat;
 }
-.button,.btn {
+
+.button,
+.btn {
     padding: 8px 24px;
     border-radius: var(--button-radiusCorner, 8px);
     border: 1.5px solid var(--button-outline-border-default, #DEDFE0);
     border: none;
     cursor: pointer;
-    margin:0 4px;
+    margin: 0 4px;
 }
+
 .btn-primary {
-background: var(--button-solid-background-default, #208046);
-border: 1px solid var(--input-border-error, #208046);
-color: #fff;
+    background: var(--button-solid-background-default, #208046);
+    border: 1px solid var(--input-border-error, #208046);
+    color: #fff;
+
+    &.out-line {
+        color: var(--button-ghost-text-default, #4BA66F);
+        border-radius: var(--button-radiusCorner, 8px);
+        background: var(--button-filledTonal-background-default, #F0FAF4);
+        border: none;
+    }
 }
+
 .btn-secondary {
     border-radius: var(--button-radiusCorner, 8px);
     border: 1.5px solid var(--button-outline-border-default, #DEDFE0);
     border: 1px solid var(--input-border-error, #DEDFE0);
 }
+
 .btn-danger {
     border-radius: var(--button-radiusCorner, 8px);
     border: 1px solid var(--input-border-error, #F73131);
     background: var(--inform-background-error, #FFE7E0);
     color: #F73131;
 }
+
 .badge {
     color: #4BA66F;
     padding: 4px 8px;
     border-radius: var(--tag-radiusCorner-rounded, 4px);
     border: 1px solid var(--tag-border-selected, #4BA66F);
     background: var(--tag-background-active, #F0FAF4);
+
     &.badge-success {
         color: #fff;
         border-radius: var(--radius-rounded-4, 4px);
         border: 1px solid var(--tag-border-selected, #36995D);
         background: var(--button-solid-background-hover, #36995D);
     }
+
     &.badge-error {
         color: #CC2929;
         border-radius: var(--radius-rounded-4, 4px);
@@ -270,29 +344,37 @@ color: #fff;
     &.in-range {
         background: var(--calendar-background-cell-range, #F0FAF4);
     }
-    &.active,&.active:hover,&:hover,&.end-date,&.available:hover {
+
+    &.active,
+    &.active:hover,
+    &:hover,
+    &.end-date,
+    &.available:hover {
         background: var(--calendar-background-cell-selected, #4BA66F);
         color: #fff;
     }
-    
-} 
+
+}
+
 div.dt-datetime table {
     button span {
         text-align: center;
     }
+
     td.selectable {
         background: none;
-        button:hover ,
+
+        button:hover,
         &.selected button,
-        &.now button
-        {
+        &.now button {
             background: var(--calendar-background-cell-selected, #4BA66F);
             color: #fff;
             border-radius: 2px;
         }
-        
+
     }
-} 
-div.dt-container.dt-empty-footer tbody > tr:last-child > * {
+}
+
+div.dt-container.dt-empty-footer tbody>tr:last-child>* {
     border: none;
 }
