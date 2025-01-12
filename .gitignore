@@ -15,7 +15,7 @@ wp-content/*
 
 !wp-content/plugins/
 !wp-content/plugins/emfresh/index.php
-
+wp-content/themes/emfresh/assets/css/style.css
 uploads/*
 !/assets/*
 .htaccess
