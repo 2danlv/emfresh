@@ -90,7 +90,7 @@ $(document).ready(function () {
 
     $("#modal-remove-tab .modal-dialog").css("top", posY);
     $("#modal-remove-tab .modal-dialog").css("right", posX);
-    $("#modal-remove-tab").show();
+    $("#modal-remove-tab").addClass('is-active');
 
     var tabToRemove = $(this).closest("[data-tab]");
     $("#modal-remove-tab").data("tabToRemove", tabToRemove);
@@ -121,11 +121,8 @@ $(document).ready(function () {
           }">`
         );
       });
-      modal.hide();
+      modal.removeClass('is-active');
     }
-  });
-  $(".modal-close").on("click", function () {
-    $("#modal-remove-tab").hide();
   });
 
   $(".tabNavigation [rel='customer']").trigger("click");
@@ -432,5 +429,10 @@ $('.explain-icon').on('click', function(){
   $('.explain-block').addClass('show')
 })
 $('.close-explain').on('click', function(){
-  $('.explain-block').removeClass('show')
+  $(this).closest('.explain-block').removeClass('show')
+  console.log($(this).closest('.explain-block'))
+})
+$('.history-header').on('click', function(){
+  $(this).next().slideToggle().toggleClass('is-active');
+  $(this).toggleClass('is-active');
 })

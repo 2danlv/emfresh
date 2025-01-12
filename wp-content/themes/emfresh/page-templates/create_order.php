@@ -229,7 +229,7 @@ get_header();
                                                     </div>
                                                 </div>
                                                 <div class="history-item">
-                                                    <div class="d-f jc-b ai-center history-header">
+                                                    <div class="d-f jc-b ai-center history-header collapsed">
                                                         <div class="d-f ai-center history-id gap-8">
                                                             <span class="fas fa-dropdown"></span>
                                                             <span class="number">123456</span>
@@ -313,7 +313,7 @@ get_header();
                                                                             <input type="checkbox">
                                                                             <span class="slider"></span>
                                                                         </label>
-                                                                        Tự chọn mó<noscript></noscript>
+                                                                        Tự chọn món
                                                                         <div class="explain-icon">
                                                                             <img width="16" src="<?php site_the_assets(); ?>img/icon/WarningCircle-gray.svg" alt="">
                                                                             <div class="explain-block d-f ai-center gap-8">

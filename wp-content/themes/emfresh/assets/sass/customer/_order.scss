@@ -952,6 +952,18 @@
                         line-height: var(--font-line-height-s16, 24px);
                     }
                 }
+
+                &.is-active {
+                    .fa-dropdown {
+                        transition: .3s;
+                        transform: rotate(0);
+                    }
+                }
+
+                .fa-dropdown {
+                    transition: .3s;
+                    transform: rotate(-90deg);
+                }
             }
 
             .history-status {
@@ -977,6 +989,7 @@
             }
 
             .history-content {
+                display: none;
                 padding: 10px 16px 28px;
                 border: 1px solid var(--color-grey-100, #DEDFE0);
 
@@ -1154,7 +1167,8 @@
     .close-explain {
         cursor: pointer;
     }
-    &.show{
+
+    &.show {
         display: flex;
     }
 }
