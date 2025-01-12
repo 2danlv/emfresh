@@ -13,9 +13,12 @@
 .modal.is-active { display: flex }
 .modal-background { background-color: rgba(10, 10, 10, .86); bottom: 0; left: 0; position: absolute; right: 0; top: 0; }
 .modal-card,
-.modal-content {max-height: calc(100vh - 160px); overflow: auto; position: relative; width: 100% ;}
-.modal-content { padding:0px 16px 0px; margin: 0 }
+.modal-content {max-height: calc(100vh - 160px); overflow: auto; position: relative; width: 100% ; padding:0px 16px 0px; margin: 0 }
+.modal-dialog.h-200 {max-height: calc(100vh - 100px);}
 .modal-content a {color: #f12837;}
+.modal .form-control select {
+  width: 100%;
+}
 .modal-card { background-color: #fff; border-radius: 6px; display: flex; flex-direction: column; max-height: calc(100vh - 40px); overflow: hidden }
 .modal-card-foot,
 .modal-header { padding: 5px 0 16px; position: relative ;border-bottom: var(--number-1px, 1px) solid var(--modal-divider, #DEDFE0);}

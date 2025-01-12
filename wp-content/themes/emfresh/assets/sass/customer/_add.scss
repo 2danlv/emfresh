@@ -9,22 +9,7 @@
       padding-top: 16px;
     }
   }
-  input[type="text"],input[type="tel"],select {
-    border-radius: var(--input-radiusCorner, 8px);
-    border: 1px solid var(--input-border-default, #DEDFE0);
-    background: var(--input-background-default, #F6F6F6);
-    padding: 10px;
-    width: 100%;
-  }
-  select {
-    padding: 8px 8px;
-    height: 38.1px;
-    &.disabled {
-      opacity: 0.6;
-      cursor: auto;
-      pointer-events: none;
-    }
-  }
+  
   .card-body{
     background-color: #fff;
     border-radius: var(--modal-radiusCorner, 16px);
