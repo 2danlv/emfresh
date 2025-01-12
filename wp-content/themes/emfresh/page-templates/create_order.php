@@ -345,15 +345,15 @@ get_header();
                                         <div class="shipping-fee">
                                             <div class="fee-item d-f jc-b ai-center">
                                                 <p>Số ngày phát sinh phí ship:</p>
-                                                <input type="number" name="number" placeholder="-" class="form-control text-right ship_fee_days">
+                                                <input type="number" name="number" placeholder="-" min="0" class="form-control text-right ship_fee_days">
                                             </div>
                                             <div class="fee-item d-f jc-b ai-center">
                                                 <p>Tổng tiền phí ship:</p>
-                                                <input type="number" name="number" placeholder="-" class="form-control text-right total_ship">
+                                                <input type="number" name="number" placeholder="-" min="0" class="form-control text-right total_ship">
                                             </div>
                                             <div class="fee-item d-f jc-b ai-center">
                                                 <p>Giảm giá:</p>
-                                                <input type="number" name="number" placeholder="-" class="form-control text-right discount">
+                                                <input type="number" name="number" placeholder="-" min="0" class="form-control text-right discount">
                                             </div>
                                         </div>
                                         <div class="total-pay d-f jc-b ai-center">

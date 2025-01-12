@@ -220,7 +220,7 @@ $(document).ready(function () {
   });
   $(function () {
     $(".js-calendar").on("click", function () {
-      var w_calendar = $(this).width();
+      var w_calendar = $(this).width() + 50;
       $(".daterangepicker").css("width", w_calendar);
     });
     $(".js-calendar").daterangepicker(
