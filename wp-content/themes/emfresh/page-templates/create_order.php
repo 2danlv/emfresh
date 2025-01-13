@@ -271,7 +271,7 @@ get_header();
                                             <!-- Tab Content Areas -->
                                             <div id="tabContents">
                                                 <div class="tab-content-wrapper active" id="tab-1">
-                                                    <div class="tab-content">
+                                                    <div class="tab-content js-input-field">
                                                         <div class="row24">
                                                             <div class="col-5">
                                                                 <div class="label mb-4">Phân loại:</div>
@@ -474,8 +474,9 @@ get_header();
     </div>
 </div><!-- /.container-fluid -->
 <div class="navigation-bottom d-f jc-b ai-center">
-    <span class="btn btn-secondary btn-prev btn-disable">Quay lại</span>
-    <span class="btn btn-primary btn-next">Tiếp theo</span>
+    <span class="btn btn-secondary js-btn-prev btn-disable">Quay lại</span>
+    <span class="btn btn-primary js-next-tab btn-next">Tiếp theo</span>
+    <span class="btn btn-primary js-create-order btn-next hidden">Tạo đơn</span>
 </div>
 </section>
 <!-- /.content -->
