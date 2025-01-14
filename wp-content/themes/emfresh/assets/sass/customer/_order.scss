@@ -321,6 +321,7 @@
     .title-order {
         border-bottom: 1px solid var(--modal-divider, #dedfe0);
         padding: 12px 0;
+        margin-bottom: 14px;
     }
 
 
@@ -929,14 +930,14 @@
 
     .history {
         display: none;
-
+        padding:0 10px 10px;
         .history-item {
             margin-bottom: 10px;
 
             .history-header {
                 background: var(--color-grey-100, #DEDFE0);
                 padding: 8px;
-
+                cursor: pointer;
                 .history-id {
                     .fa-dropdown {
                         background: url(../img/icon/down-black.svg) center center no-repeat;
@@ -988,7 +989,6 @@
             }
 
             .history-content {
-                display: none;
                 padding: 10px 16px 28px;
                 border: 1px solid var(--color-grey-100, #DEDFE0);
 

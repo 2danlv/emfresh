@@ -139,9 +139,12 @@ get_header();
                                                             <a class="management-link" href="#">Đi đến Quản lý nhóm</a>
                                                         </div>
                                                     </div>
-                                                    <a href="#modal-add-address" class="btn-add-address d-f ai-center pb-16 pt-8 pl-8">
+                                                    <div class="item">
+                                                        <p class="fs-16 color-black other-address">45 Hoa Lan, Phường 3, Quận Phú Nhuận</p>
+                                                    </div>
+                                                    <div data-target="#modal-add-address" class="btn-add-address modal-button d-f ai-center pb-16 pt-8 pl-8">
                                                         <span class="fas fa-plus mr-8"></span>Thêm địa chỉ mới
-                                                    </a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -155,8 +158,8 @@ get_header();
                                                 <div class="pt-8 color-gray fs-12 fw-regular">Chưa có lịch sử mua hàng</div>
                                             </div>
                                             <div class="history">
-                                                <div class="history-item using">
-                                                    <div class="d-f jc-b ai-center history-header">
+                                                <details class="history-item using">
+                                                    <summary class="d-f jc-b ai-center history-header">
                                                         <div class="d-f ai-center history-id gap-8">
                                                             <span class="fas fa-dropdown"></span>
                                                             <span class="number">123456</span>
@@ -165,7 +168,7 @@ get_header();
                                                             <span class="status_order">Đang dùng</span>
                                                             <span class="copy"></span>
                                                         </div>
-                                                    </div>
+                                                    </summary>
                                                     <div class="history-content">
                                                         <div class="info">
                                                             <div class="d-f ai-center gap-10 address">
@@ -179,7 +182,7 @@ get_header();
                                                             </div>
                                                             <div class="d-f ai-center gap-10 pt-8">
                                                                 <span class="fas fa-shopping-cart"></span>
-                                                                <span class="txt txt-green fw-bold ">400.000</span>
+                                                                <span class="txt-green fw-bold ">400.000</span>
                                                             </div>
                                                         </div>
                                                         <div class="note">
@@ -199,9 +202,9 @@ get_header();
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="history-item">
-                                                    <div class="d-f jc-b ai-center history-header">
+                                                </details>
+                                                <details class="history-item">
+                                                    <summary class="d-f jc-b ai-center history-header">
                                                         <div class="d-f ai-center history-id gap-8">
                                                             <span class="fas fa-dropdown"></span>
                                                             <span class="number">123456</span>
@@ -210,7 +213,7 @@ get_header();
                                                             <span class="status_order">Hoàn tất</span>
                                                             <span class="copy"></span>
                                                         </div>
-                                                    </div>
+                                                    </summary>
                                                     <div class="history-content">
                                                         <div class="info">
                                                             <div class="d-f ai-center gap-10 address">
@@ -223,13 +226,13 @@ get_header();
                                                             </div>
                                                             <div class="d-f ai-center gap-10 pt-8">
                                                                 <span class="fas fa-shopping-cart"></span>
-                                                                <span class="txt txt-green fw-bold ">400.000</span>
+                                                                <span class="txt-green fw-bold ">400.000</span>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="history-item">
-                                                    <div class="d-f jc-b ai-center history-header collapsed">
+                                                </details>
+                                                <details class="history-item">
+                                                    <summary class="d-f jc-b ai-center history-header collapsed">
                                                         <div class="d-f ai-center history-id gap-8">
                                                             <span class="fas fa-dropdown"></span>
                                                             <span class="number">123456</span>
@@ -238,7 +241,7 @@ get_header();
                                                             <span class="status_order">Hoàn tất</span>
                                                             <span class="copy"></span>
                                                         </div>
-                                                    </div>
+                                                    </summary>
                                                     <div class="history-content">
                                                         <div class="info">
                                                             <div class="d-f ai-center gap-10 address">
@@ -251,11 +254,11 @@ get_header();
                                                             </div>
                                                             <div class="d-f ai-center gap-10 pt-8">
                                                                 <span class="fas fa-shopping-cart"></span>
-                                                                <span class="txt txt-green fw-bold ">400.000</span>
+                                                                <span class="txt-green fw-bold ">400.000</span>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </details>
                                             </div>
                                         </div>
                                     </div>
@@ -432,9 +435,9 @@ get_header();
                                                         <p class="fs-16 color-black other-address">44L đường số 11, KDC Miếu Nổi, Phường 3, Quận Bình Thạnh</p>
                                                         <p class="note_shiper hidden">gửi lễ tân/bảo vệ rồi nhắn tin khách</p>
                                                     </div>
-                                                    <a href="#modal-add-address" class="btn-add-address d-f ai-center pb-16 pt-8 pl-8">
+                                                    <div data-target="#modal-add-address" class="btn-add-address modal-button d-f ai-center pb-16 pt-8 pl-8">
                                                         <span class="fas fa-plus mr-8"></span>Thêm địa chỉ mới
-                                                    </a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
