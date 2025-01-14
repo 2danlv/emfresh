@@ -301,8 +301,8 @@ get_header();
 									</ul>
 									<div class="tab-pane tab-pane-2" id="detail-product">
 										<div class="card">
-											<div class="pl-16 pr-16">
-												<div class="tab-add-product d-f" id="tabNav">
+											<div class="pl-16 pr-16 tab-products">
+												<div class="tab-add-product" id="tabNav">
 													<button class="d-f jc-b ai-center gap-8 btn btn-add_order tab-button active" data-tab="tab-1">Sản phẩm 1 <span class="remove-tab"></span></button>
 													<button class="add-tab" id="addTabButton"></button>
 												</div>
@@ -351,7 +351,14 @@ get_header();
 																				<input type="checkbox">
 																				<span class="slider"></span>
 																			</label>
-																			<span class="fs-16 color-gray">Tự chọn món</span>
+																			Tự chọn món
+																			<div class="explain-icon">
+																				<img width="16" src="<?php site_the_assets(); ?>img/icon/WarningCircle-gray.svg" alt="">
+																				<div class="explain-block d-f ai-center gap-8">
+																					Chế độ này bật khi được khách hàng cho phép chọn món giúp họ
+																					<i class="fas fa-trash close-explain"></i>
+																				</div>
+																			</div>
 																		</div>
 																	</div>
 																</div>

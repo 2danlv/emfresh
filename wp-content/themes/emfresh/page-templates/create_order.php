@@ -229,7 +229,7 @@ get_header();
                                                     </div>
                                                 </div>
                                                 <div class="history-item">
-                                                    <div class="d-f jc-b ai-center history-header">
+                                                    <div class="d-f jc-b ai-center history-header collapsed">
                                                         <div class="d-f ai-center history-id gap-8">
                                                             <span class="fas fa-dropdown"></span>
                                                             <span class="number">123456</span>
@@ -271,7 +271,7 @@ get_header();
                                             <!-- Tab Content Areas -->
                                             <div id="tabContents">
                                                 <div class="tab-content-wrapper active" id="tab-1">
-                                                    <div class="tab-content">
+                                                    <div class="tab-content js-input-field">
                                                         <div class="row24">
                                                             <div class="col-5">
                                                                 <div class="label mb-4">Phân loại:</div>
@@ -313,7 +313,7 @@ get_header();
                                                                             <input type="checkbox">
                                                                             <span class="slider"></span>
                                                                         </label>
-                                                                        Tự chọn mó<noscript></noscript>
+                                                                        Tự chọn món
                                                                         <div class="explain-icon">
                                                                             <img width="16" src="<?php site_the_assets(); ?>img/icon/WarningCircle-gray.svg" alt="">
                                                                             <div class="explain-block d-f ai-center gap-8">
@@ -345,15 +345,15 @@ get_header();
                                         <div class="shipping-fee">
                                             <div class="fee-item d-f jc-b ai-center">
                                                 <p>Số ngày phát sinh phí ship:</p>
-                                                <input type="number" name="number" placeholder="-" class="form-control text-right ship_fee_days">
+                                                <input type="number" name="number" placeholder="-" min="0" class="form-control text-right ship_fee_days">
                                             </div>
                                             <div class="fee-item d-f jc-b ai-center">
                                                 <p>Tổng tiền phí ship:</p>
-                                                <input type="number" name="number" placeholder="-" class="form-control text-right total_ship">
+                                                <input type="number" name="number" placeholder="-" min="0" class="form-control text-right total_ship">
                                             </div>
                                             <div class="fee-item d-f jc-b ai-center">
                                                 <p>Giảm giá:</p>
-                                                <input type="number" name="number" placeholder="-" class="form-control text-right discount">
+                                                <input type="number" name="number" placeholder="-" min="0" class="form-control text-right discount">
                                             </div>
                                         </div>
                                         <div class="total-pay d-f jc-b ai-center">
@@ -474,8 +474,9 @@ get_header();
     </div>
 </div><!-- /.container-fluid -->
 <div class="navigation-bottom d-f jc-b ai-center">
-    <span class="btn btn-secondary btn-prev btn-disable">Quay lại</span>
-    <span class="btn btn-primary btn-next">Tiếp theo</span>
+    <span class="btn btn-secondary js-btn-prev btn-disable">Quay lại</span>
+    <span class="btn btn-primary js-next-tab btn-next">Tiếp theo</span>
+    <span class="btn btn-primary js-create-order btn-next hidden">Tạo đơn</span>
 </div>
 </section>
 <!-- /.content -->

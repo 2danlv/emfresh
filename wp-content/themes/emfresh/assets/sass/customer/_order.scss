@@ -610,15 +610,14 @@
     .add-tab {
         cursor: pointer;
         border: none;
-        padding: 10px;
-        width: 36px;
-        height: 36px;
-        background: url(../img/icon/plus-white.svg) center 12px no-repeat #208046;
+        width: 32px;
+        height: 32px;
+        background: url(../img/icon/plus-white.svg) center center no-repeat #208046;
         border-radius: var(--number-8px, 8px);
     }
 
     .tab-button {
-        padding: 6px 14px;
+        padding: 3px 14px;
         border-radius: var(--number-8px, 8px);
         border: 1.5px solid var(--button-outline-border-default, #DEDFE0);
         background: #fff;
@@ -822,7 +821,7 @@
                 width: 100%;
                 margin-top: 8px;
                 display: none;
-                gap: 0 37px;
+                gap: 0 27px;
                 align-items: center;
 
                 label {
@@ -952,6 +951,18 @@
                         line-height: var(--font-line-height-s16, 24px);
                     }
                 }
+
+                &.is-active {
+                    .fa-dropdown {
+                        transition: .3s;
+                        transform: rotate(0);
+                    }
+                }
+
+                .fa-dropdown {
+                    transition: .3s;
+                    transform: rotate(-90deg);
+                }
             }
 
             .history-status {
@@ -977,6 +988,7 @@
             }
 
             .history-content {
+                display: none;
                 padding: 10px 16px 28px;
                 border: 1px solid var(--color-grey-100, #DEDFE0);
 
@@ -1123,6 +1135,7 @@
 }
 
 .explain-block {
+    z-index: 9;
     display: none;
     padding: 8px;
     border-radius: var(--tooltip-radiusCorner, 8px);
@@ -1154,7 +1167,8 @@
     .close-explain {
         cursor: pointer;
     }
-    &.show{
+
+    &.show {
         display: flex;
     }
 }
