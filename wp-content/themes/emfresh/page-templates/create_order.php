@@ -93,10 +93,10 @@ get_header();
                                                     <img class="pt-18 pb-8" src="<?php site_the_assets(); ?>/img/icon/no-results.svg" alt="">
                                                     <p class="color-gray fs-12 fw-regular pb-8">Không tìm thấy SĐT phù hợp</p>
                                                     <p class="color-gray fs-12 fw-regular pb-16">Hãy thử thay đổi từ khoá tìm kiếm hoặc thêm khách hàng mới với SĐT này</p>
-                                                    <button class="btn-add-customer">
+                                                    <a href="#" class="btn-add-customer">
                                                         <span class="d-f ai-center"><i class="fas mr-4"><img src="<?php site_the_assets(); ?>img/icon-hover/plus-svgrepo-com_white.svg" alt=""></i>Thêm
                                                             khách hàng mới với SĐT này</span>
-                                                    </button>
+                                                            </a>
                                                 </div>
                                                 <div class="results">
                                                     <p class="name">Linh (Nu Kenny)</p>
