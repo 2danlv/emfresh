@@ -13,29 +13,13 @@ global $em_customer, $em_order, $em_customer_tag, $em_log;
 $list_order_status = $em_order->get_statuses();
 $list_tags = $em_customer->get_tags();
 
+$detail_order_url = get_permalink(137);
+
 // cập nhật data cho customer
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
   $list_id = isset($_POST['list_id']) ? sanitize_textarea_field($_POST['list_id']) : '';
   $array_id = explode(',', $list_id);
-  //$status_post = isset($_POST['status']) ? intval($_POST['status']) : 0;
-  //$tag_post    = isset($_POST['tag']) ? intval($_POST['tag']) : 0;
-  //$order_payment_status = isset($_POST['order_payment_status']) ? sanitize_textarea_field($_POST['order_payment_status']) : '';
-  //vardump($tag_post);
-
   $updated = [];
- 
-
-  // if ($order_payment_status != '') {
-  //   $customer_update_data = [
-  //     'id'            => intval($id),
-  //     'order_payment_status' => $order_payment_status
-  //   ];
-  // }
-  
-  // $response_update = $em_customer->update($customer_update_data);
-  // if ($response_update) {
-  //   $updated[$id] = 'ok';
-  // }
 
   wp_redirect(add_query_arg([
     'code' => 200,
@@ -70,7 +54,7 @@ get_header();
         <div class="row ai-center">
           <div class="col-8">
             <ul class="d-f ai-center">
-              <li class="add"><a href="/customer/add-customer/"><img src="<?php echo site_get_template_directory_assets(); ?>/img/icon/plus-svgrepo-com.svg" alt=""></a></li>
+              <li class="add"><a href="<?php echo $detail_url ?>"><img src="<?php echo site_get_assets(); ?>/img/icon/plus-svgrepo-com.svg" alt=""></a></li>
               <li><span class="btn btn-fillter">Bộ lọc</span></li>
               <li class="has-child">
                 <span class="btn btn-action">Thao tác</span>
@@ -140,31 +124,33 @@ get_header();
           if (isset($response['data']) && is_array($response['data'])) {
             // Loop through the data array and print each entry
             foreach ($response['data'] as $record) {
-              if (is_array($record)) {?>
+              if (is_array($record)) {
+                  $link = add_query_arg(['order_id' => $record['id']], $detail_order_url);
+                  $location_list = explode(',', $record['location_name']);
+
+                ?>
                   <tr class="nowrap">
                     <td data-number="0" class="text-center"><input type="checkbox" class="checkbox-element" data-number="<?php echo $record['phone']; ?>" value="<?php echo $record['id'] ?>"></td>
-                    <td data-number="1" class="text-left">12345</td>
-                    <td data-number="2" class="text-capitalize nowrap wrap-td"><div class="ellipsis"><a href="detail-customer/?customer_id=<?php echo $record['id'] ?>"><?php echo $record['customer_name']; ?></a></div></td>
+                    <td data-number="1" class="text-left"><?php echo $record['order_number'] ?></td>
+                    <td data-number="2" class="text-capitalize nowrap wrap-td"><div class="ellipsis"><a href="<?php echo $link ?>"><?php echo $record['customer_name']; ?></a></div></td>
                     <td data-number="3" class="text-left"><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $record['phone']; ?>"><?php echo $record['phone']; ?></span></td>
                     <td data-number="4" class="text-capitalize wrap-td" style="min-width: 300px;">
                       <div class="nowrap ellipsis"><?php echo $record['location_name'] ?></div>
                     </td>
-                    <td data-number="5" class="text-capitalize">
-                      <?php // echo $record['district']; ?>
-                    </td>
-                    <td data-number="6" class="text-center">M</td>
-                    <td data-number="7">2SM+1ET+1EP+1TA</td>
+                    <td data-number="5" class="text-center"><?php echo trim(end($location_list)) ?></td>
+                    <td data-number="6" class="text-center"><?php echo $record['order_type'] ?></td>
+                    <td data-number="7"><?php echo $record['item_name'] ?></td>
                     <td data-number="8">24/10/24</td>
                     <td data-number="9">25/10/24</td>
-                    <td data-number="10" class="wrap-td" style="min-width: 290px;"><div class="ellipsis">Slimfit M: Note rau củ: cà rốt, bí đỏ, củ dền, bí ngòi</div></td>
+                    <td data-number="10" class="wrap-td" style="min-width: 290px;"><div class="ellipsis"><?php echo $record['note'] ?></div></td>
                     <td data-number="11" class="wrap-td" style="min-width: 290px;"><div class="ellipsis">Thứ 3 - Thứ 5: 45 Hoa Lan, Phường 3, Quận Phú Nhuận</div></td>
-                    <td data-number="12">Đang dùng</td>
-                    <td data-number="13">Chuyển khoản</td>
-                    <td data-number="14">1 phần</td>
-                    <td data-number="15">60.000.000</td>
-                    <td data-number="16">400.000</td>
-                    <td data-number="17">12.345.000</td>
-                    <td data-number="18">12.345.000</td>
+                    <td data-number="12"><?php echo $record['status_name'] ?></td>
+                    <td data-number="13"><?php echo $record['payment_method_name'] ?></td>
+                    <td data-number="14"><?php echo $record['payment_status_name'] ?></td>
+                    <td data-number="15"><?php echo $record['total'] > 0 ? number_format($record['total']) : 0 ?></td>
+                    <td data-number="16"><?php echo $record['remaining_amount'] > 0 ? number_format($record['remaining_amount']) : 0 ?></td>
+                    <td data-number="17"><?php echo $record['used_value'] > 0 ? number_format($record['used_value']) : 0 ?></td>
+                    <td data-number="18"><?php echo $record['remaining_value'] > 0 ? number_format($record['remaining_value']) : 0 ?></td>
                     <td data-number="19" class="text-center"><span class="avatar"><img src="<?php echo get_avatar_url($record['modified_at']); ?>" width="24" alt="<?php echo get_the_author_meta('display_name', $record['modified_at']); ?>"></span></td>
                     <td data-number="20"><?php echo get_the_author_meta('display_name', $record['modified_at']); ?></td>
                     <td data-number="21" style="min-width: 140px;"><?php echo date('H:i d/m/Y', strtotime($record['modified'])); ?></td>
