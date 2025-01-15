@@ -15,6 +15,19 @@ class EM_Customer_Tag extends EF_Default
 
     protected $table_ver = '1.0';
 
+    /**
+     * Constructor: setups filters and actions
+     *
+     * @since 1.0
+     *
+     */
+    function __construct()
+    {
+        parent::__construct();
+
+        add_action('deleted_table_em_customer_item', array($this, 'auto_delete_by_customer'), 10, 2);
+    }
+
     function create_table()
     {
         global $wpdb;
@@ -117,6 +130,15 @@ class EM_Customer_Tag extends EF_Default
         }
 
         return $count > 0;
+    }
+    
+    function auto_delete_by_customer($id = 0, $deleted = false)
+    {
+        global $wpdb;
+
+        if ($deleted == true && $id > 0) {
+            $wpdb->delete($wpdb->prefix . $this->table, ['customer_id' => $id], ['%d']);
+        }
     }
 }
 

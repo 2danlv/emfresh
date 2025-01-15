@@ -110,6 +110,52 @@ class EM_Location extends EF_Default
         return $rules;
     }
 
+    function filter_item($data = [], $type = '')
+    {
+        $item = [];
+
+        if (is_array($data)) {
+            foreach ($data as $key => $value) {
+                $item[$key] = $value;
+
+                if ($key == 'id') {
+                    $item['location_name'] = $this->get_fullname($data);
+                }
+            }
+        }
+
+        if ($type == 'list') {
+            return $item;
+        }
+
+        return $item;
+    }
+
+    function get_fullname($item)
+    {
+        $data = [];
+
+        if(is_numeric($item) && $item > 0) {
+            $item = $this->get_item($item);
+        }
+
+        if(!empty($item['id'])) {
+            $fields = array(
+                'address',
+                'ward',
+                'district',
+            );
+
+            foreach($fields as $key) {
+                if(!empty($item[$key])) {
+                    $data[$key] = $item[$key];
+                }
+            }
+        }
+        
+        return implode(', ', $data);
+    }
+
     function auto_delete_by_customer($id = 0, $deleted = false)
     {
         global $wpdb;

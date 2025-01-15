@@ -7,7 +7,9 @@ function em_test_init()
 
         $name = isset($_GET['name']) ? trim($_GET['name']) : '';
 
-        if($name == 'location') {
+        if($name == 'order-item') {
+            em_test_order_item();
+        } else if($name == 'location') {
             em_test_location();
         } else {
             $name = 'customer';
@@ -21,6 +23,66 @@ function em_test_init()
     }
 }
 add_action('wp', 'em_test_init');
+
+function em_test_order_item()
+{
+    $dev = trim($_GET['dev']);
+
+    $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
+    if($order_id == 0) {
+        em_test_print_response(['code' => 400, 'message' => 'required: order_id > 0 (add, update)']);
+    }
+
+    $id = isset($_GET['id']) ? intval($_GET['id']) : 1;
+
+    if ($dev == 'update' || $dev == 'add') {
+        $data = [
+            'address'   => sprintf('%d DC', rand(1, 300)),
+            'ward'      => 'P' . rand(1, 10),
+            'district'  => 'Q' . rand(1, 10),
+            'city'      => 'TP.'. rand(1, 60),
+        ];
+
+        if ($dev == 'add') {
+            $data['order_id'] = $order_id;
+
+            $response = em_api_request('location/add', $data);
+        } else {
+            $data['id'] = $id;
+
+            $response = em_api_request('location/update', $data);
+        }
+
+        $response[$dev . '-data'] = $data;
+        em_test_print_response($response);
+    } else if ($dev == 'item') {
+        $data['id'] = $id;
+
+        $response = em_api_request('location/item', $data);
+
+        $response[$dev . '-id'] = $id;
+        em_test_print_response($response);
+    } else if ($dev == 'delete') {
+        $data['id'] = $id;
+
+        $response = em_api_request('location/delete', $data);
+
+        $response[$dev . '-id'] = $id;
+        em_test_print_response($response);
+    } else {
+        $paged = isset($_GET['paged']) ? intval($_GET['paged']) : 1;
+        $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 10;
+
+        $response = em_api_request('location/list', [
+            'order_id' => $order_id,
+            'limit' => $limit  < 1 ? 10 : $limit,
+            'paged' => $paged < 1 ? 1 : $paged
+        ]);
+        
+        $response['dev'] = $dev;
+        em_test_print_response($response);
+    }
+}
 
 function em_test_customer()
 {
@@ -59,20 +121,21 @@ function em_test_customer()
         $response[$dev . '-id'] = $id;
         em_test_print_response($response);
     } else if ($dev == 'delete') {
-				 if(strpos($id, '-')>-1) {
-							list($start, $stop) = explode('-', $id);
-							for($i = $start; $i <= $stop; $i++){
-									$response = em_api_request('customer/delete', ['id' => $i]);
-							}
-				 } else {
-        $data = [
-            'id' => $id
-        ];
-        $response = em_api_request('customer/delete', $data);
+        if(strpos($id, '-')>-1) {
+            list($start, $stop) = explode('-', $id);
+            for($i = $start; $i <= $stop; $i++){
+                $response = em_api_request('customer/delete', ['id' => $i]);
+            }
+        } else {
+            $data = [
+                'id' => $id
+            ];
+
+            $response = em_api_request('customer/delete', $data);
         }
-				
 
         $response[$dev . '-id'] = $id;
+
         em_test_print_response($response);
     } else if ($dev == 'history') {
         $response = em_api_request('customer/history', ['customer_id' => $id]);

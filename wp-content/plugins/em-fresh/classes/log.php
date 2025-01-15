@@ -164,9 +164,11 @@ class EM_Log extends EF_Default
     {
         if ($this->table == $table_name || $deleted == false) return $deleted;
 
-        if($table_name == 'em_customer') {
+        if(in_array($table_name, ['em_customer'])) {
+            global $wpdb;
+
             $where = [
-                'module'        => 'em_customer',
+                'module'        => $table_name,
     			'module_id'     => $id,
             ];
 

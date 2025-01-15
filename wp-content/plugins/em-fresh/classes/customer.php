@@ -571,7 +571,7 @@ class EM_Customer extends EF_Default
 
         return parent::action($action, $response, $args);
     }
-}
+} 
 
 global $em_customer;
 

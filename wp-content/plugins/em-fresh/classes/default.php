@@ -27,7 +27,7 @@ class EF_Default
      */
     function __construct()
     {
-        add_action('admin_init', array($this, 'admin_init'));
+        // add_action('admin_init', array($this, 'admin_init'));
         add_action('init', array($this, 'init'));
     }
 
@@ -94,6 +94,13 @@ class EF_Default
         );
 
         return $fields;
+    }
+
+    function get_filters()
+    {
+        return [
+            'id' => ''
+        ];
     }
 
     function get_rules($action = '')
@@ -303,6 +310,10 @@ class EF_Default
             $query .= sprintf(" LIMIT %d OFFSET %d", $limit, $offset);
         }
 
+        if(isset($_GET['sqdev'])) {
+            die($query);
+        }
+
         $list = $wpdb->get_results($query, ARRAY_A);
 
         foreach ($list as $i => $item) {
@@ -374,22 +385,72 @@ class EF_Default
 
     function get_item($id = 0)
     {
+        global $wpdb, $em_db_cache;
+
+        $cache_key = $this->get_tbl_name() . '_' . $id;
+
+        if(empty($em_db_cache)) {
+            $em_db_cache = [];
+        } else if(isset($em_db_cache[$cache_key])) {
+            return $em_db_cache[$cache_key];
+        }
+
+        $query = "SELECT * FROM %i WHERE id = %d";
+
+        $query = $wpdb->prepare($query, $this->get_tbl_name(), $id);
+
+        $item = $wpdb->get_row($query, ARRAY_A);
+
+        $item = is_array($item) ? $this->filter_item($item, 'detail') : [];
+
+        $em_db_cache[$cache_key] = $item;
+
+        return $item;
+    }
+
+    function get_item_by($args = [])
+    {
         global $wpdb;
 
-        $query = "SELECT * FROM %i WHERE id = %s";
+        $query = "SELECT * FROM %i WHERE 1";
 
-        $item = $wpdb->get_row($wpdb->prepare($query, $this->get_tbl_name(), $id), ARRAY_A);
+        $wheres = $this->get_where($args);
+
+        if (count($wheres) > 0) {
+            $query .= ' AND ' . implode(' AND ', $wheres);
+        }
+
+        $query = $wpdb->prepare($query, $this->get_tbl_name());
+
+        $item = $wpdb->get_row($query, ARRAY_A);
 
         return is_array($item) ? $this->filter_item($item, 'detail') : [];
+    }
+
+    function get_field_by($field = '', $args = [])
+    {
+        $item = $this->get_item_by($args);
+
+        return $item && is_array($item) && isset($item[$field]) ? $item[$field] : null;
     }
 
     function get_where($args = [])
     {
         $wheres = [];
 
-        foreach ($args as $name => $value) {
-            if ($value != '') {
-                $wheres[] = "`$name` = '$value'";
+        $filters = $this->get_filters();
+
+        foreach ($filters as $name => $rule) {
+            if (isset($args[$name])) {
+                $value = sanitize_text_field($args[$name]);
+
+                if ($rule == 'LIKE') {
+                    $wheres[] = "`$name` LIKE '%{$value}%'";
+                } else if(str_contains($rule, '%')){
+                    $wheres[] =  "DATE_FORMAT(`created`, '$rule') = '$value'";
+                } else {
+                    $wheres[] = "`$name` = '$value'";
+                }
             }
         }
 

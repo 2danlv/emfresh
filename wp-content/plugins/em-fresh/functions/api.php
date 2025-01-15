@@ -2,32 +2,53 @@
 
 defined('ABSPATH') or die();
 
+function em_api_request($route = '', $args = [])
+{
+    $route = str_replace('api/', '', $route);
+
+    list($name, $action) = explode('/', $route);
+
+    $emClass = em_api_get_class($name);
+    
+    if(empty($emClass)) {
+        $response = ['code' => 400, 'message' => 'No Action'];
+    } else {
+        $response = ['code' => 200];
+
+        $response = $emClass->action($action, $response, $args);
+    }
+
+    return em_api_get_response($response);
+}
+
 function em_api_init()
 {
     add_rewrite_rule(
-        "api/([^/]+)/([^/]+)/?$",
-        'index.php?api_name=$matches[1]&api_action=$matches[2]',
+        "em-api/([^/]+)/([^/]+)/?$",
+        'index.php?em_name=$matches[1]&em_action=$matches[2]',
         'top'
     );
 
     // add_rewrite_rule(
     //     "api/([^/]+)/?$",
-    //     'index.php?api_name=$matches[1]',
+    //     'index.php?em_name=$matches[1]',
     //     'top'
     // );
 
     // add_rewrite_rule(
     //     "swagger/?$",
-    //     'index.php?api_name=swagger',
+    //     'index.php?em_name=swagger',
     //     'top'
     // );
+
+    // flush_rewrite_rules();
 }
 add_action('init', 'em_api_init');
 
 function em_api_add_query_vars($vars)
 {
-    $vars[] = 'api_name';
-    $vars[] = 'api_action';
+    $vars[] = 'em_name';
+    $vars[] = 'em_action';
 
     return $vars;
 }
@@ -63,15 +84,15 @@ function em_api_get_response($args = [])
 
 function em_api_wp_route($wp)
 {
-    if(empty($wp->query_vars['api_name'])) return;
-    $name = $wp->query_vars['api_name'];
+    if(empty($wp->query_vars['em_name'])) return;
+    $name = $wp->query_vars['em_name'];
 
-    if(empty($wp->query_vars['api_action'])) {
+    if(empty($wp->query_vars['em_action'])) {
         $response = ['code' => 400];
     } else {
         $response = ['code' => 200];
 
-        $action  = $wp->query_vars['api_action'];
+        $action  = $wp->query_vars['em_action'];
 
         $emClass = em_api_get_class($name);
     
@@ -107,23 +128,4 @@ function em_api_get_class($name = '')
     }
 
     return $emClass;
-}
-
-function em_api_request($route = '', $args = [])
-{
-    $route = str_replace('api/', '', $route);
-
-    list($name, $action) = explode('/', $route);
-
-    $emClass = em_api_get_class($name);
-    
-    if(empty($emClass)) {
-        $response = ['code' => 400, 'message' => 'No Action'];
-    } else {
-        $response = ['code' => 200];
-
-        $response = $emClass->action($action, $response, $args);
-    }
-
-    return em_api_get_response($response);
 }

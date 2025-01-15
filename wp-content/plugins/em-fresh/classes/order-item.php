@@ -1,0 +1,135 @@
+<?php
+defined('ABSPATH') or die();
+
+require_once 'default.php';
+
+/**
+ * @package EM_Order_Item
+ */
+
+class EM_Order_Item extends EF_Default
+{
+    protected $table = 'em_order_item';
+
+    protected $option_name = 'em_order_item_create_table';
+
+    protected $table_ver = '1.0';
+
+    /**
+     * Constructor: setups filters and actions
+     *
+     * @since 1.0
+     *
+     */
+    function __construct()
+    {
+        parent::__construct();
+
+        add_action('deleted_table_em_order_item', array($this, 'auto_delete_by_order'), 10, 2);
+    }
+
+    function create_table()
+    {
+        return '';
+    }
+
+    function get_fields()
+    {
+        $fields = array(
+            'order_id'      => 0,
+            'location_id'   => 0,
+            'ship_price'    => 0,
+            'product_id'    => 0,
+            'product_price' => 0,
+            'type'          => '',
+            'auto_choose'   => 0,
+            'days'          => '',
+            'date_start'    => '',
+            'date_stop'     => '',
+            'quantity'      => '',
+            'amount'        => '',
+            'note'          => '',
+            'created'       => '',
+            'created_at'    => 0,
+            'modified'      => '',
+            'modified_at'   => 0,
+        );
+
+        return $fields;
+    }
+
+    function get_filters()
+    {
+        return [
+            'order_id' => ''
+        ];
+    }
+
+    function get_rules($action = '')
+    {
+        $rules = array(
+            'order_id'      => 'required',
+            'location_id'   => 'required',
+            'type'          => 'required',
+            'days'          => 'required',
+            'date_start'    => 'required',
+            'quantity'      => 'required',
+            'amount'        => 'required',
+        );
+
+        return $rules;
+    }
+
+    function get_where($args = [])
+    {
+        $wheres = parent::get_where($args);
+
+        if (isset($args['min_date'])) {
+            $value = sanitize_text_field($args['min_date']);
+
+            $wheres[] =  "DATE_FORMAT(`date_start`, 'Y-m-d') >= '$value'";
+        }
+
+        if (isset($args['max_date'])) {
+            $value = sanitize_text_field($args['max_date']);
+
+            $wheres[] =  "DATE_FORMAT(`date_stop`, 'Y-m-d') <= '$value'";
+        }
+
+        return $wheres;
+    }
+
+    function filter_item($data = [], $type = '')
+    {
+        $item = [];
+
+        if (is_array($data)) {
+            global $em_location;
+
+            foreach ($data as $key => $value) {
+                $item[$key] = $value;
+
+                if ($key == 'location_id') {
+                    $item['location_name'] = $em_location->get_fullname($value);
+                } else if($key == 'note'){
+                    $item['note_list'] = em_admin_get_notes($value);
+                }
+            }
+        }
+
+        return parent::filter_item($item, $type);
+    }
+
+    function auto_delete_by_order($id = 0, $deleted = false)
+    {
+        global $wpdb;
+
+        if ($deleted == true && $id > 0) {
+            $wpdb->delete($wpdb->prefix . $this->table, ['order_id' => $id], ['%d']);
+        }
+    }
+}
+
+global $em_order_item;
+
+$em_order_item = new EM_Order_Item();
