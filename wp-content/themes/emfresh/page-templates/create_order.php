@@ -27,7 +27,7 @@ get_header();
                                 </div>
                                 <div class="info-customer line-dots">
                                     <p class="pt-16">Linh (Nu Kenny)</p>
-                                    <p class="copy modal-button pt-8 fw-bold" data-target="#modal-copy" title="Copy: 0909739506">0909739506</p>
+                                    <p class="copy modal-button pt-8" data-target="#modal-copy" title="Copy: 0909739506">0909739506</p>
                                     <p class="pt-8 pb-16 text-ellipsis">44L đường số 11, KDC Miếu Nổi, Phường 07, Quận Bình Thạnh</p>
                                 </div>
                                 <div class="order-details">
@@ -83,6 +83,7 @@ get_header();
                                 <li class="nav-item" rel="pay">Thanh toán</li>
                                 <li class="nav-item" rel="delivery">Giao hàng</li>
                             </ul>
+                            <div class="overlay-drop-menu"></div>
                             <div class="tab-content">
                                 <div class="tab-pane" id="customer">
                                     <div class="card rounded-b-r">
@@ -93,16 +94,18 @@ get_header();
                                                     <img class="pt-18 pb-8" src="<?php site_the_assets(); ?>/img/icon/no-results.svg" alt="">
                                                     <p class="color-gray fs-12 fw-regular pb-8">Không tìm thấy SĐT phù hợp</p>
                                                     <p class="color-gray fs-12 fw-regular pb-16">Hãy thử thay đổi từ khoá tìm kiếm hoặc thêm khách hàng mới với SĐT này</p>
-                                                    <a href="#" class="btn-add-customer">
+                                                    <a href="/customer/add-customer/" class="btn-add-customer">
                                                         <span class="d-f ai-center"><i class="fas mr-4"><img src="<?php site_the_assets(); ?>img/icon-hover/plus-svgrepo-com_white.svg" alt=""></i>Thêm
                                                             khách hàng mới với SĐT này</span>
                                                             </a>
                                                 </div>
                                                 <div class="results">
-                                                    <p class="name">Linh (Nu Kenny)</p>
-                                                    <p class="color-black fs-14 fw-regular phone pt-8 pb-8">0123456789</p>
-                                                    <p class="color-black fs-14 fw-regular address">44L đường số 11, KDC Miếu Nổi, Phường 3, Quận Bình Thạnh</p>
-                                                    <p class="note_shiper hidden">gửi lễ tân/bảo vệ rồi nhắn tin khách</p>
+                                                    <div class="result-item">
+                                                        <p class="name">Linh (Nu Kenny)</p>
+                                                        <p class="color-black fs-14 fw-regular phone pt-8 pb-8">0123456789</p>
+                                                        <p class="color-black fs-14 fw-regular address">44L đường số 11, KDC Miếu Nổi, Phường 3, Quận Bình Thạnh</p>
+                                                        <p class="note_shiper hidden">gửi lễ tân/bảo vệ rồi nhắn tin khách</p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -118,6 +121,7 @@ get_header();
                                                     <input type="text" name="nickname" class="address_delivery is-disabled form-control" maxlength="50" placeholder="Địa chỉ giao hàng">
                                                 </div>
                                                 <p class="fs-14 fw-regular note-shipper hidden color-gray pt-4 pl-8">Note với shipper: <span class="note_shiper"></span></p>
+                                                
                                                 <div class="dropdown-menu">
                                                     <div class="item active">
                                                         <p class="fs-16 color-black other-address">44L đường số 11, KDC Miếu Nổi, Phường 3, Quận Bình Thạnh</p>
@@ -142,7 +146,7 @@ get_header();
                                                     <div class="item">
                                                         <p class="fs-16 color-black other-address">45 Hoa Lan, Phường 3, Quận Phú Nhuận</p>
                                                     </div>
-                                                    <div data-target="#modal-add-address" class="btn-add-address modal-button d-f ai-center pb-16 pt-8 pl-8">
+                                                    <div data-target="#modal-add-address-1" class="btn-add-address modal-button d-f ai-center pb-16 pt-8 pl-8">
                                                         <span class="fas fa-plus mr-8"></span>Thêm địa chỉ mới
                                                     </div>
                                                 </div>
@@ -330,7 +334,7 @@ get_header();
                                                         </div>
                                                         <div class="special-request pt-16">
                                                         </div>
-                                                        <div class="d-f ai-center pt-20 clone-note">
+                                                        <div id="add-tagify" class="d-f ai-center pt-20 clone-note">
                                                             <span class="fas fa-plus mr-8"></span>Thêm yêu cầu phần ăn đặc biệt
                                                         </div>
                                                     </div>
@@ -368,10 +372,10 @@ get_header();
                                                 <p>Phương thức thanh toán:</p>
                                                 <div class="d-f jc-b ai-center gap-16">
                                                     <label class="d-f ai-center gap-12">
-                                                        <input type="radio" name="payment-method" class="form-control cod" checked="checked">COD
+                                                        <input type="radio" name="payment-method" value="cod" class="form-control cod" checked="checked">COD
                                                     </label>
                                                     <label class="d-f ai-center gap-12">
-                                                        <input type="radio" name="payment-method" class="form-control transfer">Chuyển khoản
+                                                        <input type="radio" name="payment-method" value="banking" class="form-control transfer">Chuyển khoản
                                                     </label>
                                                 </div>
                                             </div>
@@ -385,10 +389,11 @@ get_header();
                                                         <li class="status-pay-item" data-status='yes'><span class="white">Rồi</span></>
                                                     </ul>
                                                 </div>
+                                                <input type="hidden" class="input_status-payment" name="status-payment">
                                             </div>
                                             <div class="paymented d-f jc-b ai-center pt-8">
                                                 <p>Đã thanh toán:</p>
-                                                <input type="number" name="number" placeholder="-" class="form-control text-right">
+                                                <input type="number" name="total_pay" placeholder="-" class="form-control text-right">
                                             </div>
                                             <div class="payment-item d-f jc-b ai-center pt-8">
                                                 <p>Cần thanh toán:</p>
@@ -425,8 +430,8 @@ get_header();
                                         </div>
                                         <div class="row delivery-item pt-24 ai-center">
                                             <div class="col-4">Địa chỉ giao:</div>
-                                            <div class="col-8 address">
-                                                <div class="dropdown">
+                                            <div class="col-8 dropdown-address">
+                                                <div class="dropdown active">
                                                     <input type="text" name="nickname" class="address_delivery is-disabled form-control pb-4" maxlength="50" placeholder="Vui lòng chọn">
                                                     <span class="fs-14 hidden fw-regular note-shipper color-gray pl-8">Note với shipper: <span class="note_shiper"></span></span>
                                                 </div>
@@ -435,22 +440,26 @@ get_header();
                                                         <p class="fs-16 color-black other-address">44L đường số 11, KDC Miếu Nổi, Phường 3, Quận Bình Thạnh</p>
                                                         <p class="note_shiper hidden">gửi lễ tân/bảo vệ rồi nhắn tin khách</p>
                                                     </div>
-                                                    <div data-target="#modal-add-address" class="btn-add-address modal-button d-f ai-center pb-16 pt-8 pl-8">
+                                                    <div data-target="#modal-add-address-2" class="btn-add-address modal-button d-f ai-center pb-16 pt-8 pl-8">
                                                         <span class="fas fa-plus mr-8"></span>Thêm địa chỉ mới
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row delivery-item js-note show pt-16 ai-center">
-                                            <div class="col-4">Note shipper theo ngày:</div>
-                                            <div class="col-8">
-                                                <input type="text" name="note_shipper_by_day" class="form-control note_shipper_by_day">
+                                        <div class="delivery-item js-note">
+                                            <div class="row  pt-16 ai-center">
+                                                <div class="col-4">Note shipper theo ngày:</div>
+                                                <div class="col-8">
+                                                    <input type="text" name="note_shipper_by_day" class="form-control note_shipper_by_day">
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="row delivery-item js-note show pt-16 ai-center">
-                                            <div class="col-4">Note admin theo ngày:</div>
-                                            <div class="col-8">
-                                                <input type="text" name="note_admin_by_day" class="form-control note_admin_by_day">
+                                        <div class="delivery-item js-note">
+                                            <div class="row  pt-16 ai-center">
+                                                <div class="col-4">Note admin theo ngày:</div>
+                                                <div class="col-8">
+                                                    <input type="text" name="note_admin_by_day" class="form-control note_admin_by_day">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -485,7 +494,7 @@ get_header();
 <!-- /.content -->
 </div>
 <!-- /.card-body -->
-<div class="modal fade" id="modal-add-address">
+<div class="modal fade modal-add-address" id="modal-add-address-1">
     <div class="overlay"></div>
     <div class="modal-content customer">
         <div class="d-f ai-center gap-10 tlt">
@@ -551,7 +560,7 @@ get_header();
                     <div class="row pt-16">
                         <div class="col-6">
                             <div class="icheck-primary d-f ai-center">
-                                <input type="radio" name="location_active" id="active_126" value="126" checked="checked">
+                                <input type="radio" name="location_active" id="active_126" value="126">
                                 <input type="hidden" class="location_active" name="locations[0][active]" value="1">
                                 <label class="pl-4" for="active_126">
                                     Đặt làm địa chỉ mặc định
@@ -564,7 +573,90 @@ get_header();
         </form>
         <div class="modal-footer d-f jc-e pb-8 pt-16">
             <button type="button" class="btn btn-secondary modal-close">Huỷ</button>
-            <button type="submit" class="btn btn-primary add-address">Áp dụng</button>
+            <button type="submit" class="btn btn-primary add-address modal-close">Áp dụng</button>
+        </div>
+    </div>
+</div>
+<div class="modal fade modal-add-address" id="modal-add-address-2">
+    <div class="overlay"></div>
+    <div class="modal-content customer">
+        <div class="d-f ai-center gap-10 tlt">
+            <span class="fas fa-location"></span>
+            <span>Địa chỉ</span>
+        </div>
+        <form method="post" id="customer-form" action="">
+            <div class="row address-group location_0 address_active pt-16">
+                <div class="city col-4 pb-16">
+                    <select id="province_126" name="locations[0][province]" class="province-select form-control" disabled="">
+                        <option value="">Select Tỉnh/Thành phố</option>
+                        <option value="Thành phố Hồ Chí Minh" selected="">Thành phố Hồ Chí Minh</option>
+                    </select>
+                </div>
+                <div class="col-4 pb-16">
+                    <select id="district_126" name="" class="district-select form-control text-capitalize">
+                        <option value="Quận Bình Thạnh" selected="">Quận Bình Thạnh</option>
+                        <option value="Quận 1">Quận 1</option>
+                        <option value="Quận 3">Quận 3</option>
+                        <option value="Quận 4">Quận 4</option>
+                        <option value="Quận 5">Quận 5</option>
+                        <option value="Quận 6">Quận 6</option>
+                        <option value="Quận 7">Quận 7</option>
+                        <option value="Quận 8">Quận 8</option>
+                        <option value="Quận 10">Quận 10</option>
+                        <option value="Quận 11">Quận 11</option>
+                        <option value="Quận 12">Quận 12</option>
+                        <option value="Quận Bình Tân">Quận Bình Tân</option>
+                        <option value="Quận Bình Thạnh">Quận Bình Thạnh</option>
+                        <option value="Quận Gò Vấp">Quận Gò Vấp</option>
+                        <option value="Quận Phú Nhuận">Quận Phú Nhuận</option>
+                        <option value="Quận Tân Bình">Quận Tân Bình</option>
+                        <option value="Quận Tân Phú">Quận Tân Phú</option>
+                        <option value="Thành phố Thủ Đức">Thành phố Thủ Đức</option>
+                        <option value="Huyện Bình Chánh">Huyện Bình Chánh</option>
+                        <option value="Huyện Cần Giờ">Huyện Cần Giờ</option>
+                        <option value="Huyện Củ Chi">Huyện Củ Chi</option>
+                        <option value="Huyện Hóc Môn">Huyện Hóc Môn</option>
+                        <option value="Huyện Nhà Bè">Huyện Nhà Bè</option>
+                    </select>
+                </div>
+                <div class="col-4 pb-16">
+                    <select id="ward_126" name="locations[0][ward]" class="ward-select form-control" disabled>
+                        <option selected="">Phường/Xã*</option>
+                    </select>
+                </div>
+                <div class="col-12 pb-16">
+                    <input id="address_126" type="text" class="form-control address" placeholder="Địa chỉ cụ thể*" name="locations[0][address]">
+                </div>
+                <div class="group-note col-12">
+                    <div class="note_shiper hidden pb-16">
+                        <input type="text" name="locations[0][note_shipper]" value="" placeholder="Note với shipper">
+                    </div>
+                    <div class="note_admin hidden pb-16">
+                        <input type="text" name="locations[0][note_admin]" value="" placeholder="Note với admin">
+                    </div>
+                </div>
+                <div class="show-group-note d-f ai-center pb-16 pt-8 pl-8">
+                    <span class="fas fa-plus mr-8"></span> Thêm ghi chú giao hàng
+                </div>
+                <div class="col-12 pb-16">
+                    <hr>
+                    <div class="row pt-16">
+                        <div class="col-6">
+                            <div class="icheck-primary d-f ai-center">
+                                <input type="radio" name="location_active" id="active_126" value="126">
+                                <input type="hidden" class="location_active" name="locations[0][active]" value="1">
+                                <label class="pl-4" for="active_126">
+                                    Lưu vào danh sách địa chỉ
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="modal-footer d-f jc-e pb-8 pt-16">
+            <button type="button" class="btn btn-secondary modal-close">Huỷ</button>
+            <button type="submit" class="btn btn-primary add-address modal-close">Áp dụng</button>
         </div>
     </div>
 </div>
@@ -575,13 +667,13 @@ get_header();
             <form method="post" id="list-customer" action="">
                 <div class="modal-body pt-8 pb-16">
                     <input type="hidden" class="customer_id" name="customer_id" value="">
-                    <div class="d-f ai-center">
+                    <div class="d-f">
                         <i class="fas fa-warning mr-4"></i>
                         <p>Bạn có chắc muốn xoá sản phẩm đang thực hiện trên đơn hàng này không?</p>
                     </div>
 
                 </div>
-                <div class="modal-footer d-f jc-end pb-8">
+                <div class="modal-footer d-f jc-b pb-8">
                     <button type="button" class="btn btn-secondary modal-close">Đóng</button>
                     <button type="button" name="remove" class="btn btn-danger modal-close">Xóa</button>
                 </div>
@@ -595,12 +687,83 @@ get_header();
 // endwhile;
 get_footer('customer');
 ?>
+<link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet">
 <script src="<?php site_the_assets(); ?>js/assistant.js"></script>
 <script src="<?php site_the_assets(); ?>js/location.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
 <script src="<?php site_the_assets(); ?>js/order.js"></script>
 <script type="text/javascript">
-    jQuery( function ( $ )
-    {
-        
+    jQuery( function ( $ ) {
+        function initializeTagify(selector) {
+            $(selector).each(function () {
+                if (!this.tagify) { 
+                    var tagifyInstance = new Tagify(this, {
+                        whitelist: [
+                            "cà rốt",
+                            "bí đỏ",
+                            "củ dền",
+                            "bí ngòi",
+                            "thay bún sang cơm trắng",
+                            "thay miến sang cơm trắng",
+                            "1/2 tinh bột"
+                        ],
+                        placeholder: "...",
+                        dropdown: {
+                            enabled: 1, 
+                            maxItems: 10, 
+                            position: "all" 
+                        }
+                    });
+                    this.tagify = tagifyInstance;
+                    tagifyInstance.on('change', function() {
+                        updateCurrentTags(); 
+                    });
+                }
+            });
+        }
+        var inputIndex = 0; 
+        function updateCurrentTags() {
+            let currentTagsHtml = '';
+            $('input.tagify-input').each(function() {
+                let tagifyInstance = this.tagify;
+                let selectedValue = $(this).parent('p').find('select').val(); 
+                if (tagifyInstance) {
+                    let tags = tagifyInstance.value.map(tag => tag.value).join(', '); 
+                    currentTagsHtml += `<div>Selected Option: ${selectedValue} - Tags: ${tags}</div>`; 
+                }
+            });
+            // $('#current-tags').html(currentTagsHtml);
+        }
+        $(document).ready(function () {
+            initializeTagify('input.tagify-input');
+            $('#add-tagify').on('click', function () {
+                inputIndex++; 
+                const newInput = `
+                    <div class="special-item row">
+                        <div class="col-4">
+                            <select id="district_0" name="special-note" class="form-control">
+                                <option value="Note rau củ" selected>Note rau củ</option>
+                                <option value="Note tinh bột">Note tinh bột</option>
+                                <option value="Note nước sốt">Note nước sốt</option>
+                                <option value="Note khác">Note khác</option>
+                                <option value="Note đính kèm">Note đính kèm</option>
+                                <option value="Phân loại yêu cầu">Note tinh bột</option>
+                            </select>
+                        </div>
+                        <div class="col-8">
+                            <div class="tag-container">
+                                <input type="text" name="tags" class="tagify-input" tag-input">
+                            </div>
+                        </div>
+                        </div>
+                `;
+                $('.special-request').append(newInput); 
+                initializeTagify('input.tagify-input'); 
+            });
+            updateCurrentTags();
+            $(document).on('change', 'select.tagify-select', function() {
+                updateCurrentTags(); 
+            });
+        });
     } );
 </script>

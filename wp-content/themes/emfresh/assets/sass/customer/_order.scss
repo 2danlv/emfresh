@@ -356,15 +356,15 @@
             box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.12);
             padding: 8px;
             position: absolute;
-            top: 49px;
+            top: 41px;
             left: 0;
             width: 100%;
-
+            z-index: 22;
             .item {
                 border-radius: var(--radius-rounded-4, 4px);
                 padding: 8px;
                 cursor: pointer;
-
+                z-index: 23;
                 &.active,
                 &:hover {
                     background: var(--color-grey-50, #F2F3F5);
@@ -396,7 +396,7 @@
 
     .calendar {
         position: relative;
-
+        cursor: pointer;
         input[name='calendar'] {
             background: url(../img/icon/CalendarBlank.svg) right 8px center no-repeat;
         }
@@ -515,7 +515,6 @@
             bottom: 0;
             background-color: #ccc;
             border-radius: 25px;
-            transition: 0.4s;
 
             &::before {
                 position: absolute;
@@ -527,7 +526,6 @@
                 transform: translate(0, 50%);
                 background-color: white;
                 border-radius: 50%;
-                transition: 0.4s;
             }
         }
 
@@ -554,11 +552,13 @@
         flex-wrap: wrap;
         border-radius: 5px;
         align-items: center;
-        gap: 8px;
-        padding: 8px;
         border-radius: var(--dropdown-radiusCorner, 8px);
         border: 1px solid var(--dropdown-border-default, #DEDFE0);
         background: var(--Sample-frame-background-white, #FFF);
+        .tagify {
+            width: 100%;
+            border: none;
+        }
     }
 
     .special-item+.special-item {
@@ -801,12 +801,8 @@
                 background: var(--checkbox-background-default, #FFF);
             }
 
-            &.note {
+            &.js-note, {
                 display: none;
-
-                &.show {
-                    display: flex;
-                }
             }
 
             .loop {
@@ -865,7 +861,44 @@
         z-index: 20;
     }
 }
-
+.overlay-drop-menu {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: none;
+    position: fixed;
+    z-index: 21;
+}
+.drp-calendar {
+    padding-bottom: 0;
+}
+.daterangepicker-open {
+    display: flex !important;
+    flex-direction: column-reverse;
+    
+    .ranges {
+        text-align: center;
+        li,li.active {
+            display: inline-block;
+            cursor: pointer;
+            color: var(--tab-text-active, #208046);
+            font-size: var(--font-size-web-body-lg, 16px);
+            font-weight: var(--font-weight-semibold, 600);
+            line-height: var(--font-line-height-s16, 24px);
+            border: none;
+            padding-left: 28px;
+            background: url(../img/icon-hover/UserCircle.svg) left center no-repeat;
+            background-size: 20px auto;
+            padding-top: 0;
+            padding-bottom: 0;
+            margin-bottom: 10px;
+        }
+        li[data-range-key="Custom Range"] {
+            display: none;
+        }
+    }
+}
 .note {
     color: var(--input-text-unfill, #747475);
     text-overflow: ellipsis;
@@ -955,13 +988,11 @@
 
                 &.is-active {
                     .fa-dropdown {
-                        transition: .3s;
                         transform: rotate(0);
                     }
                 }
 
                 .fa-dropdown {
-                    transition: .3s;
                     transform: rotate(-90deg);
                 }
             }
@@ -1067,7 +1098,7 @@
     background: #fff;
 }
 
-#modal-add-address {
+.modal-add-address {
     align-items: center;
     justify-content: center;
 
@@ -1130,12 +1161,14 @@
         position: absolute;
         width: 348px;
         height: 120px;
-        transform: translate(130%, 40%);
+        p {
+            flex: 1;
+        }
     }
 }
 
 .explain-block {
-    z-index: 9;
+    z-index: 21;
     display: none;
     padding: 8px;
     border-radius: var(--tooltip-radiusCorner, 8px);
