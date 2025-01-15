@@ -31,14 +31,10 @@ $(document).ready(function () {
   $(".overlay-drop-menu,.other-address").click(function () {
     $('.overlay-drop-menu').hide();
     $('.dropdown-menu').hide();
-  });
-  $(document).click(function () {
-    if (!$(event.target).closest(".tooltip-content, .tooltip-icon").length) {
-      $(".tooltip-content").hide();
-    }
+    $(".tooltip-content").hide();
   });
   $(".tooltip-content .close").on("click", function () {
-    $(this).closest(".tooltip-content").hide();
+    $(".tooltip-content").hide();
   });
   
   $('.history-item summary').click(function (e) { 
