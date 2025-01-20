@@ -117,10 +117,10 @@ $(document).ready(function () {
 let tabCount = 1;
 function activateTab(tabId) {
   $(".tab-button").removeClass("active");
-  $(".tab-content-wrapper").removeClass("active");
-
+  $(".js-order-item").hide();
+  
   $(`[data-tab="${tabId}"]`).addClass("active");
-  $(`#${tabId}`).addClass("active");
+  $(`#${tabId}`).show();
 }
 
 $(document).on('click', '.add-tab', function (e) {
@@ -139,8 +139,8 @@ $(document).on('click', '.add-tab', function (e) {
 
   $('.js-order-item').hide();
   $('.js-order-items').append(new_item);
-  $('.js-show-order-item').removeClass('active');
-  $(this).before(`<span class="btn btn-add_order tab-button js-show-order-item" data-tab="order_item_${id}">Sản phẩm ${id}<em class="js-remove-order-item">&times;</em></span>`);
+  $('.btn-add_order').removeClass('active');
+  $(this).before(`<span class="btn btn-add_order active tab-button js-show-order-item" data-tab="order_item_${id}">Sản phẩm ${id}<em class="js-remove-order-item">&times;</em></span>`);
 
   $('.order_item_total').val(id);
 });

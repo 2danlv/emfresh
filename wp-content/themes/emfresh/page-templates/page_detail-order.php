@@ -372,9 +372,9 @@ get_header();
 													</div>
 												</div>
 												<div class="tab-products">
-													<div id="tabContents">
+													<div id="tabContents" class="js-order-items">
 														<?php foreach($order_items as $i => $order_item) : extract($order_item); ?>
-														<div class="tab-content-wrapper js-order-item <?php echo $i == 1 ? '' : 'active' ?>" id="order_item_<?php echo $i + 1 ?>" >
+														<div class="js-order-item" id="order_item_<?php echo $i + 1 ?>" >
 															<div class="tab-content">
 																	<input type="hidden" name="order_item[<?php echo $i ?>][id]" class="input-id" value="<?php echo $id ?>" />
 																	<input type="hidden" name="order_item[<?php echo $i ?>][remove]" class="input-remove" />
