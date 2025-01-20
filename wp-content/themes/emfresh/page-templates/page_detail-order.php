@@ -514,8 +514,26 @@ get_header();
 															<ul class="status-pay-menu">
 															<?php
 																foreach ($list_payment_statuses as $value => $label) {
-																	printf('<li class="status-pay-item"><span data-status="%d" %s>%s</span></li>', $value, $order_detail['payment_status'] == $value ? 'selected' : '', $label);
-																}
+																	$class = '';
+																	switch ($label) {
+																		case 'Chưa':
+																			$class = 'red';
+																			break;
+																		case '1 Phần':
+																			$class = 'purple';
+																			break;
+																		default:
+																		$class = 'white';
+																			break;
+																	}
+																printf(
+																	'<li class="status-pay-item" value="%d" %s><span class="%s">%s</span></li>',
+																	$value,
+																	$order_detail['payment_status'] == $value ? 'selected' : '',
+																	$class,
+																	$label
+																);
+															}
 															?>
 															</ul>
 														</div>
@@ -956,7 +974,7 @@ get_header();
 </div>
 <script id="note_template" type="text/template">
 <div class="row row-note mb-16">
-	<div class="col-md-4">
+	<div class="col-4">
 		<select class="form-control input-note_name">
 			<?php
 				foreach ($list_notes as $name => $note_item) {
@@ -966,7 +984,7 @@ get_header();
 			<option value="khac" selected>Khác</option>
 		</select>
 	</div>
-	<div class="col-md-8 col-note_values">
+	<div class="col-8 col-note_values tag-container">
 		<input type="text" class="form-control input-note_values" />
 	</div>
 </div>
