@@ -123,76 +123,98 @@ function activateTab(tabId) {
   $(`#${tabId}`).addClass("active");
 }
 
+$(document).on('click', '.add-tab', function (e) {
+  e.preventDefault();
+
+  let html = $('.js-order-item:first').prop('outerHTML');
+  if (typeof html != 'string') return;
+
+  let index = parseInt($('.order_item_total').val()),
+    id = index + 1,
+    new_item = $(html.replace(/(\[0\])/g, '[' + index + ']')).show();
+
+  new_item.find('input, select, textarea').val('');
+  new_item.find('.text-amount').text('0');
+  new_item.attr('id', 'order_item_' + id);
+
+  $('.js-order-item').hide();
+  $('.js-order-items').append(new_item);
+  $('.js-show-order-item').removeClass('active');
+  $(this).before(`<span class="btn btn-add_order tab-button js-show-order-item" data-tab="order_item_${id}">Sản phẩm ${id}<em class="js-remove-order-item">&times;</em></span>`);
+
+  $('.order_item_total').val(id);
+});
+
 $(document).on("click", ".tab-button", function () {
   const tabId = $(this).data("tab");
   activateTab(tabId);
 });
-$(".add-tab").click(function () {
-  tabCount++;
+// $(".add-tab").click(function () {
+//   tabCount++;
 
-  const newTabButton = $(
-    `<a href="#tab-${tabCount}" class="btn btn-add_order tab-button" data-tab="tab-${tabCount}">Sản phẩm ${tabCount}<span class="remove-tab"></a>`
-  );
-  $("#tabNav .add-tab").before(newTabButton);
+//   const newTabButton = $(
+//     `<a href="#tab-${tabCount}" class="btn btn-add_order tab-button" data-tab="tab-${tabCount}">Sản phẩm ${tabCount}<span class="remove-tab"></a>`
+//   );
+//   $("#tabNav .add-tab").before(newTabButton);
 
-  const content = $("#tabContents .tab-content-wrapper:first")
-    .clone(true)
-    .prop("id", `tab-${tabCount}`);
-  content.find("input").each(function () {
-    const type = $(this).attr("type");
-    if (type === "checkbox" || type === "radio") {
-      $(this).prop("checked", false); // Reset checkboxes/radios
-    } else {
-      $(this).val(""); // Clear text inputs
-    }
-  });
-  content.find('.start-day').daterangepicker({
-    singleDatePicker: true,
-    autoUpdateInput: true,
-    autoApply: true,
-    minDate: new Date(),
-    opens: 'left',
-    locale: {
-      format: "DD/MM/YYYY",daysOfWeek: ["CN", "T2", "T3", "T4", "T5", "T6", "T7"],
-      monthNames: [
-        "Tháng 1,",
-        "Tháng 2,",
-        "Tháng 3,",
-        "Tháng 4,",
-        "Tháng 5,",
-        "Tháng 6,",
-        "Tháng 7,",
-        "Tháng 8,",
-        "Tháng 9,",
-        "Tháng 10,",
-        "Tháng 11,",
-        "Tháng 12,",
-      ],
-      firstDay: 1,
-    },
-    ranges: {
-      'Hôm nay': new Date()
-    }
-  }).on('show.daterangepicker', function() {
-    $(this).data('daterangepicker').container.addClass('daterangepicker-open');
-  }).on('hide.daterangepicker', function() {
-    $(this).data('daterangepicker').container.removeClass('daterangepicker-open');
-  }).on('apply.daterangepicker', function(ev, picker) {
-    var today = $('.start-day').val();
-    if (today == moment().format('DD/MM/YYYY')) {
-      $(".toast").addClass("show");
-    }
-  });
-  content.find("select").each(function () {
-    $(this).val(""); // Reset select fields
-  });
+//   const content = $("#tabContents .tab-content-wrapper:first")
+//     .clone(true)
+//     .prop("id", `tab-${tabCount}`);
+//   content.find("input").each(function () {
+//     const type = $(this).attr("type");
+//     if (type === "checkbox" || type === "radio") {
+//       $(this).prop("checked", false); // Reset checkboxes/radios
+//     } else {
+//       $(this).val(""); // Clear text inputs
+//     }
+//   });
+//   content.find('.start-day').daterangepicker({
+//     singleDatePicker: true,
+//     autoUpdateInput: true,
+//     autoApply: true,
+//     minDate: new Date(),
+//     opens: 'left',
+//     locale: {
+//       format: "DD/MM/YYYY",daysOfWeek: ["CN", "T2", "T3", "T4", "T5", "T6", "T7"],
+//       monthNames: [
+//         "Tháng 1,",
+//         "Tháng 2,",
+//         "Tháng 3,",
+//         "Tháng 4,",
+//         "Tháng 5,",
+//         "Tháng 6,",
+//         "Tháng 7,",
+//         "Tháng 8,",
+//         "Tháng 9,",
+//         "Tháng 10,",
+//         "Tháng 11,",
+//         "Tháng 12,",
+//       ],
+//       firstDay: 1,
+//     },
+//     ranges: {
+//       'Hôm nay': new Date()
+//     }
+//   }).on('show.daterangepicker', function() {
+//     $(this).data('daterangepicker').container.addClass('daterangepicker-open');
+//   }).on('hide.daterangepicker', function() {
+//     $(this).data('daterangepicker').container.removeClass('daterangepicker-open');
+//   }).on('apply.daterangepicker', function(ev, picker) {
+//     var today = $('.start-day').val();
+//     if (today == moment().format('DD/MM/YYYY')) {
+//       $(".toast").addClass("show");
+//     }
+//   });
+//   content.find("select").each(function () {
+//     $(this).val(""); // Reset select fields
+//   });
 
-  content.find(".price").text("0");
-  $("#tabContents").append(content);
+//   content.find(".price").text("0");
+//   $("#tabContents").append(content);
   
-  activateTab(`tab-${tabCount}`);
-  $(".tab-button").find(".remove-tab").addClass("show");
-});
+//   activateTab(`tab-${tabCount}`);
+//   $(".tab-button").find(".remove-tab").addClass("show");
+// });
 $(document).on("click", ".remove-tab", function (e) {
   e.stopPropagation();
   $("#modal-remove-tab").addClass("is-active");

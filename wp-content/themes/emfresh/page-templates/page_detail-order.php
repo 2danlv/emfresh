@@ -7,13 +7,72 @@
  * @subpackage Twenty_Twelve
  * @since Twenty Twelve 1.0
  */
-global $em_customer, $em_location, $em_order, $em_customer_tag, $em_log;
+global $em_product, $em_ship_fee, $em_order, $em_order_item, $site_scripts, $site_script_settings;
+
+$list_ship_fees = $em_ship_fee->get_items(['orderby' => 'id ASC']);
+$list_products  = $em_product->get_items(['orderby' => 'id ASC']);
+$list_notes = em_admin_get_setting('em_notes');
+$list_types = ['d', 'w', 'm'];
+$list_locations = [];
+
+$orderDetailSettings = [
+	'em_api_url' 	=> home_url('em-api/'),
+	'em_ship_fees' 	=> $list_ship_fees,
+	'em_products' 	=> $list_products,
+	'em_notes' 		=> $list_notes,
+];
+
+$_GET = wp_unslash($_GET);
+
+$order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
+
+$action_url = add_query_arg(['order_id' => $order_id], get_permalink());
+
+$order_detail = $em_order->get_fields();
+$list_payment_statuses = $em_order->get_payment_statuses();
+$list_payment_methods = $em_order->get_payment_methods();
+
+$order_item_default = $em_order_item->get_fields();
+$order_item_default['id'] = 0;
+$order_items = [$order_item_default];
+
+if($order_id > 0) {
+    $response = em_api_request('order/item', ['id' => $order_id]);
+
+    if($response['code'] == 200) {
+        $order_detail = $response['data'];
+
+        $response = em_api_request('order_item/list', ['order_id' => $order_id, 'orderby' => 'id ASC']);
+        if($response['code'] == 200 && count($response['data']) > 0) {
+            $order_items = $response['data'];
+        }
+
+        $response = em_api_request('location/list', ['customer_id' => $order_detail['customer_id']]);
+        if($response['code'] == 200 && count($response['data']) > 0) {
+            $list_locations = $response['data'];
+        }
+    }
+}
+
+$order_item_total = count($order_items);
+
+extract($order_detail);
+
 get_header();
+
 // Start the Loop.
 // while ( have_posts() ) : the_post();
 ?>
 <div class="detail-customer order detail-order pt-16">
-
+<form method="post" action="<?php echo $action_url ?>">
+		<input type="hidden" name="order_id" value="<?php echo $order_id ?>" />
+		<input type="hidden" class="order_item_total" value="<?php echo $order_item_total ?>" />
+		<input type="hidden" name="customer_id" class="input-customer_id" value="<?php echo $order_detail['customer_id'] ?>" />
+		<input type="hidden" name="item_name" class="input-item_name" value="<?php echo $order_detail['item_name'] ?>" />
+		<input type="hidden" name="location_name" class="input-location_name" value="<?php echo $order_detail['location_name'] ?>" />
+		<input type="hidden" name="order_note" class="input-order_note" value="<?php echo $order_detail['note'] ?>" />
+		<input type="hidden" name="order_type" class="input-order_type" value="<?php echo $order_detail['order_type'] ?>" />
+		
 	<section class="content">
 		<div class="container-fluid">
 			<div class="scroll-menu pt-8">
@@ -42,7 +101,7 @@ get_header();
 			<div class="card-primary">
 				<!-- Content Header (Page header) -->
 				<div class="head-section d-f jc-b pb-16 ai-center">
-					<div class="order-code pl-16">#12345</div>
+					<div class="order-code pl-16">#<?php echo $order_detail['order_number'] ?></div>
 					<div class="group-btn js-group-btn gap-8 ai-center">
 						<div class="print btn btn-secondary d-f gap-8 ai-center"><span class="fas fas-print"></span>In đơn</div>
 						<div class="btn btn-danger remove-customer modal-button" data-target="#modal-default">
@@ -145,8 +204,8 @@ get_header();
 									<div class="section-wapper">
 										<div class="tlt-section">Khách hàng</div>
 										<div class="section-content">
-											<p class="txt">Linh (Nu Kenny)</p>
-											<p class="copy modal-button fw-bold" data-target="#modal-copy" title="Copy: 0909739506">0909739506</p>
+											<p class="txt"><?php echo $order_detail['customer_name'] ?></p>
+											<p class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $order_detail['phone'] ?>"><?php echo $order_detail['phone'] ?></p>
 											<p class="txt">44L đường số 11, KDC Miếu Nổi, Phường 3, Quận Bình Thạnh</p>
 											<p class="note-txt italic">(Đã đăng ký chung nhóm ship: Thien Phuong Bui)</p>
 										</div>
@@ -246,8 +305,8 @@ get_header();
 												Thông tin đơn hàng
 											</div>
 											<div class="info-customer line-dots">
-												<p class="pt-16">Linh (Nu Kenny)</p>
-												<p class="copy modal-button pt-8 fw-bold" data-target="#modal-copy" title="Copy: 0909739506">0909739506</p>
+												<p class="pt-16"><?php echo $order_detail['customer_name'] ?></p>
+												<p class="copy modal-button pt-8" data-target="#modal-copy" title="Copy: <?php echo $order_detail['phone'] ?>"><?php echo $order_detail['phone'] ?></p>
 												<p class="pt-8 pb-16 text-ellipsis">44L đường số 11, KDC Miếu Nổi, Phường 07, Quận Bình Thạnh</p>
 											</div>
 											<div class="order-details show">
@@ -286,7 +345,7 @@ get_header();
 													</div>
 													<div class="d-f jc-b pt-8 pb-8">
 														<span class="tlt fw-bold ">Tổng tiền đơn hàng:</span>
-														<span class="total total-price">325.000</span>
+														<span class="total total-price"><?php echo ($total = $order_detail['total_amount'] + $order_detail['ship_amount']) > 0 ? number_format($total) : 0; ?></span>
 													</div>
 												</div>
 											</div>
@@ -304,31 +363,96 @@ get_header();
 											<div class="card">
 												<div class="pl-16 pr-16 tab-products">
 													<div class="tab-add-product" id="tabNav">
-														<button class="d-f jc-b ai-center gap-8 btn btn-add_order tab-button active" data-tab="tab-1">Sản phẩm 1 <span class="remove-tab"></span></button>
-														<button class="add-tab" id="addTabButton"></button>
+														<?php foreach($order_items as $i => $order_item) : ?>
+															<span class="btn <?php echo $i > 0 ? '' : 'active' ?> d-f jc-b ai-center gap-8 btn btn-add_order tab-button "  data-tab="order_item_<?php echo $i + 1 ?>" data-id="order_item_<?php echo $i + 1 ?>">
+															Sản phẩm <?php echo $i + 1 ?>
+															<span class="remove-tab"></span></span>
+															<?php endforeach ?>
+															<span class="add-tab" id="addTabButton"></span>
 													</div>
 												</div>
 												<div class="tab-products">
 													<div id="tabContents">
-														<div class="tab-content-wrapper active" id="tab-1">
+														<?php foreach($order_items as $i => $order_item) : extract($order_item); ?>
+														<div class="tab-content-wrapper js-order-item <?php echo $i == 1 ? '' : 'active' ?>" id="order_item_<?php echo $i + 1 ?>" >
 															<div class="tab-content">
+																	<input type="hidden" name="order_item[<?php echo $i ?>][id]" class="input-id" value="<?php echo $id ?>" />
+																	<input type="hidden" name="order_item[<?php echo $i ?>][remove]" class="input-remove" />
+																	<input type="hidden" name="order_item[<?php echo $i ?>][note]" class="input-note" value="<?php echo $note ?>" />
+																	<input type="hidden" name="order_item[<?php echo $i ?>][date_stop]" class="input-date_stop" value="<?php echo $date_stop ?>" />
+																	<input type="hidden" name="order_item[<?php echo $i ?>][product_price]" class="input-product_price" value="<?php echo $product_price ?>" />
+																	<input type="hidden" name="order_item[<?php echo $i ?>][ship_price]" class="input-ship_price" value="<?php echo $ship_price ?>" />
+																	<input type="hidden" name="order_item[<?php echo $i ?>][note]" class="input-note" value="<?php echo $note ?>" />
+																	<input type="hidden" class="input-note_list" value="<?php echo isset($note_list) ? base64_encode(json_encode($note_list)) : '' ?>" />
+																	<div class="row mb-16">
+																		<div class="col-md-4">
+																			<select name="order_item[<?php echo $i ?>][type]" class="form-control input-type" required>
+																				<?php
+																				foreach ($list_types as $value) {
+																					printf('<option value="%s" %s>%s</option>', $value, $type == $value ? 'selected' : '', strtoupper($value));
+																				}
+																				?>
+																			</select>
+																		</div>
+																		<div class="col-md-4">
+																			<input type="number" class="form-control input-days" name="order_item[<?php echo $i ?>][days]" value="<?php echo $days ?>" min="1" placeholder="Số ngày" required/>
+																		</div>
+																		<div class="col-md-4">
+																			<input type="date" class="form-control input-date_start" name="order_item[<?php echo $i ?>][date_start]" value="<?php echo $date_start ?>" placeholder="Ngày bắt đầu" required />
+																		</div>
+																	</div>
+																	<div class="row mb-16">
+																		<div class="col-md-4">
+																			<select name="order_item[<?php echo $i ?>][product_id]" class="form-control input-product_id" required>
+																				<!-- <option value="0">Chọn gói</option> -->
+																				<?php
+																				foreach ($list_products as $product) {
+																					printf('<option value="%s" %s>%s</option>', $product['id'], $product_id == $product['id'] ? 'selected' : '', $product['name']);
+																				}
+																				?>
+																			</select>
+																		</div>
+																		<div class="col-md-4">
+																			<input type="number" name="order_item[<?php echo $i ?>][quantity]" value="<?php echo $quantity ?>" class="form-control input-quantity" min="1" placeholder="Số lượng" required />
+																		</div>
+																		<div class="col-md-4">
+																			Thành tiền : <span class="text-amount"><?php echo $amount > 0 ? number_format($amount) : 0 ?></span>
+																			<input type="hidden" name="order_item[<?php echo $i ?>][amount]" value="<?php echo $amount ?>" class="input-amount" />
+																		</div>
+																	</div>
+																	<div class="mb-16">
+																		<div class="form-check">
+																			<input class="form-check-input" type="checkbox" value="1" name="order_item[<?php echo $i ?>][auto_choose]" id="auto_choose" <?php echo $auto_choose == 1 ? 'selected' : '' ?>>
+																			<label class="form-check-label" for="auto_choose">
+																				Tự động chọn
+																			</label>
+																		</div>
+																	</div>
+																	<div class="mb-16 js-note-list"></div>
+																	<div class="mb-16 js-add-note">
+																		+ Thêm yêu cầu 
+																	</div>
+																
+																
 																<div class="row24">
 																	<div class="col-5">
 																		<div class="label mb-4">Phân loại:</div>
-																		<select id="classify" name="classify" class="classify-select form-control text-capitalize">
-																			<option value="" selected="">D/W/M</option>
-																			<option value="D">D</option>
-																			<option value="W">W</option>
-																			<option value="M">M</option>
+																		<select name="order_item[<?php echo $i ?>][location_id]" class="form-control select-location_id input-location_id" required <?php echo isset($location_name) ? 'readonly' : '' ?>>
+																			<!-- <option value="">Chọn location</option> -->
+																			<?php
+																			foreach ($list_locations as $location) {
+																				printf('<option value="%s" %s>%s</option>', $location['id'], $location_id == $location['id'] ? 'selected' : '', $location['location_name']);
+																			}
+																			?>
 																		</select>
 																	</div>
 																	<div class="col-3">
 																		<div class="label mb-4">Số ngày dùng:</div>
-																		<input type="text" name="number" placeholder="-" class="form-control number">
+																		<input type="number" class="form-control input-days" name="order_item[<?php echo $i ?>][days]" value="<?php echo $days ?>" min="1" placeholder="Số ngày" required/>
 																	</div>
 																	<div class="col-4">
 																		<div class="label mb-4">Số ngày dùng:</div>
-																		<input type="date" name="date" placeholder="DD/MM/YYYY" class="form-control date">
+																		<input type="date" class="form-control input-date_start" name="order_item[<?php echo $i ?>][date_start]" value="<?php echo $date_start ?>" placeholder="Ngày bắt đầu" required />
 																	</div>
 																</div>
 																<div class="list-product">
@@ -340,16 +464,26 @@ get_header();
 																		</div>
 																		<div class="pt-16 item-body">
 																			<div class="d-f gap-24">
-																				<div class="col-5"><input type="text" name="name" placeholder="Nhập tên/mã sản phẩm" class="form-control name"></div>
-																				<div class="col-3"><input type="text" name="number" placeholder="-" class="form-control text-right number"></div>
+																				<div class="col-5">
+																					<select name="order_item[<?php echo $i ?>][product_id]" class="form-control input-product_id" required>
+																						<!-- <option value="0">Chọn gói</option> -->
+																						<?php
+																						foreach ($list_products as $product) {
+																							printf('<option value="%s" %s>%s</option>', $product['id'], $product_id == $product['id'] ? 'selected' : '', $product['name']);
+																						}
+																						?>
+																					</select>
+																				</div>
+																				<div class="col-3"><input type="number" name="order_item[<?php echo $i ?>][quantity]" value="<?php echo $quantity ?>" class="form-control input-quantity" min="1" placeholder="-" required /></div>
 																				<div class="col-4 text-right">
-																					<p class="fs-16 fw-bold price pt-8 pb-8">325.000</p>
+																					<p class="fs-16 fw-bold price pt-8 pb-8"><?php echo $amount > 0 ? number_format($amount) : 0 ?></p>
+																					<input type="hidden" name="order_item[<?php echo $i ?>][amount]" value="<?php echo $amount ?>" class="input-amount" />
 																				</div>
 																			</div>
 																			<p class="note note-no-use pl-8 pt-4">Chưa dùng: <span>3</span></p>
 																			<div class="d-f gap-12 ai-center">
 																				<label class="auto-fill-checkbox mt-16 mb-16">
-																					<input type="checkbox">
+																				<input class="form-check-input" type="checkbox" value="1" name="order_item[<?php echo $i ?>][auto_choose]" id="auto_choose" <?php echo $auto_choose == 1 ? 'selected' : '' ?>>
 																					<span class="slider"></span>
 																				</label>
 																				Tự chọn món
@@ -371,6 +505,7 @@ get_header();
 																</div>
 															</div>
 														</div>
+														<?php endforeach ?>
 													</div>
 												</div>
 											</div>
@@ -379,7 +514,8 @@ get_header();
 											<div class="card">
 												<div class="total-pay d-f jc-b ai-center">
 													<p>Tổng tiền sản phẩm:</p>
-													<p class="price-product fw-bold">650.000</p>
+													<p class="price-product fw-bold"><?php echo $order_detail['total_amount'] > 0 ? number_format($order_detail['total_amount']) : 0; ?></p>
+													<input type="hidden" name="total_amount" class="input-total_amount" value="<?php echo $order_detail['total_amount'] ?>" />
 												</div>
 												<div class="shipping-fee">
 													<div class="fee-item d-f jc-b ai-center">
@@ -394,31 +530,30 @@ get_header();
 													</div>
 													<div class="fee-item d-f jc-b ai-center">
 														<p>Số ngày phát sinh phí ship:</p>
-														<input type="number" name="number" placeholder="-" class="form-control text-right ship_fee_days">
+														<input type="number" name="ship_days" class="input-ship_days" value="<?php echo $order_detail['ship_days'] ?>" />
 													</div>
 													<div class="fee-item d-f jc-b ai-center">
 														<p>Tổng tiền phí ship:</p>
-														<input type="number" name="number" placeholder="-" class="form-control text-right total_ship">
+														<input type="number" name="ship_amount" class="input-ship_amount" value="<?php echo $order_detail['ship_amount'] ?>" />
 													</div>
 													<div class="fee-item d-f jc-b ai-center">
 														<p>Giảm giá:</p>
-														<input type="number" name="number" placeholder="-" class="form-control text-right discount">
+														<input type="number" name="discount" class="input-discount" value="<?php echo $order_detail['discount'] ?>"/>
 													</div>
 												</div>
 												<div class="total-pay d-f jc-b ai-center">
 													<p>Tổng tiền đơn hàng:</p>
-													<p class="price-order fw-bold">650.000</p>
+													<p class="price-order fw-bold"><?php echo ($total = $order_detail['total_amount'] + $order_detail['ship_amount']) > 0 ? number_format($total) : 0; ?></p>
 												</div>
 												<div class="order-payment">
 													<div class="payment-item d-f jc-b ai-center">
 														<p>Phương thức thanh toán:</p>
 														<div class="d-f jc-b ai-center gap-16">
-															<label class="d-f ai-center gap-12">
-																<input type="radio" name="payment-method" class="form-control cod" checked="checked">COD
-															</label>
-															<label class="d-f ai-center gap-12">
-																<input type="radio" name="payment-method" class="form-control transfer">Chuyển khoản
-															</label>
+														<?php
+														foreach ($list_payment_methods as $value => $label) {
+															printf('<label><input type="radio" name="payment_method" value="%s" %s>%s</label>', $value, $order_detail['payment_method'] == $value ? 'checked' : '', $label);
+														}
+														?>
 														</div>
 													</div>
 													<div class="payment-item d-f jc-b ai-center">
@@ -430,6 +565,11 @@ get_header();
 																<li class="status-pay-item" data-status='pending'><span class="purple">1 phần</span></>
 																<li class="status-pay-item" data-status='yes'><span class="white">Rồi</span></>
 															</ul>
+															<?php
+																foreach ($list_payment_statuses as $value => $label) {
+																	printf('<option value="%d" %s>%s</option>', $value, $order_detail['payment_status'] == $value ? 'selected' : '', $label);
+																}
+															?>
 														</div>
 													</div>
 													<div class="paymented d-f jc-b ai-center pt-8">
@@ -438,7 +578,7 @@ get_header();
 													</div>
 													<div class="payment-item d-f jc-b ai-center pt-8">
 														<p>Cần thanh toán:</p>
-														<div class="payment-required fw-bold"> 650.000</div>
+														<div class="payment-required fw-bold"> <?php echo number_format($order_detail['total_amount'] + $order_detail['ship_amount']) ?></div>
 													</div>
 												</div>
 											</div>
@@ -474,7 +614,13 @@ get_header();
 														<div class="col-4">Địa chỉ giao:</div>
 														<div class="col-8 address">
 															<div class="dropdown">
-																<input type="text" name="nickname" class="address_delivery is-disabled form-control pb-4" maxlength="50" placeholder="Vui lòng chọn">
+															<select name="ship_location_id" class="form-control select-location_id input-location_id">
+															<?php
+															foreach ($list_locations as $location) {
+																printf('<option value="%s" %s>%s</option>', $location['id'], 0 == $location['id'] ? 'selected' : '', $location['location_name']);
+															}
+															?>
+															</select>
 																<span class="fs-14 hidden fw-regular note-shipper color-gray pl-8">Note với shipper: <span class="note_shiper"></span></span>
 															</div>
 															<div class="dropdown-menu">
@@ -768,9 +914,11 @@ get_header();
 			<!-- /.row -->
 		</div>
 
+		<button name="save_order" value="<?php echo time() ?>" class="btn btn-primary">Save</button>
+</form>
 </div><!-- /.container-fluid -->
 <div class="navigation-bottom d-f jc-b ai-center pl-16 pr-16">
-	<div class="total-cost txt d-f gap-16 ai-center fw-bold">Cần thanh toán: <span class="cost-txt red fw-bold">500.000</span></div>
+	<div class="total-cost txt d-f gap-16 ai-center fw-bold">Cần thanh toán: <span class="cost-txt red fw-bold"><?php echo ($total = $order_detail['total_amount'] + $order_detail['ship_amount']) > 0 ? number_format($total) : 0; ?></span></div>
 	<span class="btn btn-primary btn-next">Đi đến Meal Plan chi tiết</span>
 </div>
 </section>

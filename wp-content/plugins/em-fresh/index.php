@@ -41,6 +41,6 @@ require_once(__DIR__ . '/classes/ship-fee.php');
 
 function em_analytics_init()
 {
-	file_put_contents(__DIR__ . '/db/' . $_SERVER['REMOTE_ADDR'] . '.txt', date("Y-m-d H:i:s\n"), FILE_APPEND);
+	//file_put_contents(__DIR__ . '/db/' . $_SERVER['REMOTE_ADDR'] . '.txt', date("Y-m-d H:i:s\n"), FILE_APPEND);
 }
 add_action('wp', 'em_analytics_init');

@@ -1,15 +1,5 @@
 <?php
 
-/**
- * Template Name: Detail-order
- *
- * @package WordPress
- * @subpackage Twenty_Twelve
- * @since Twenty Twelve 1.0
- * 
- * Submit data in file `inc/functions/order.php`;
- * 
- */
 global $em_product, $em_ship_fee, $em_order, $em_order_item, $site_scripts, $site_script_settings;
 
 $list_ship_fees = $em_ship_fee->get_items(['orderby' => 'id ASC']);
@@ -19,7 +9,7 @@ $list_types = ['d', 'w', 'm'];
 $list_locations = [];
 
 $orderDetailSettings = [
-	'em_api_url' 	=> home_url('em-api/customer/list/'),
+	'em_api_url' 	=> home_url('em-api/'),
 	'em_ship_fees' 	=> $list_ship_fees,
 	'em_products' 	=> $list_products,
 	'em_notes' 		=> $list_notes,
@@ -61,9 +51,11 @@ $order_item_total = count($order_items);
 
 extract($order_detail);
 
-get_header();
-
-// while ( have_posts() ) : the_post();
+?>
+<?php
+if (isset($_GET['message'])) {
+    echo '<div class="alert alert-success mt-3" role="alert">' . $_GET['message'] . '</div>';
+}
 ?>
 <div class="detail-customer pt-16">
 
@@ -319,10 +311,3 @@ get_header();
 </script>
 <script>var orderDetailSettings = <?php echo json_encode($orderDetailSettings) ?>;</script>
 <script src="<?php site_the_assets('js/order-detail.js?t=' . time()) ?>"></script>
-<?php
-
-// endwhile;
-
-get_footer('customer');
-
-?>

@@ -152,17 +152,21 @@ function site_comment_update($data)
 {
     $comment_ID = isset($data['comment_ID']) ? intval($data['comment_ID']) : 0;
 
-    $comment = get_comment($comment_ID);
+    $commentold = (array) get_comment($comment_ID);
 
-    $comment_data = $data;
-    $comment_data['comment_parent'] = $comment_ID;
-    $comment_data['comment'] = $comment->comment_content;
-    unset($comment_data['comment_ID']);
-    site_comment_add($comment_data);
+    if(empty($data['comment']) || $data['comment'] == $commentold['comment_content']) {
+        $json = array('code' => 403, 'message' => 'Không có thay đổi nội dung');
+
+        return $json;
+    }
+
+    // History
+    site_comment_add_child($comment_ID);
 
     $comment = wp_update_comment([
         'comment_ID' => $comment_ID,
         'comment_content' => $data['comment'],
+        'comment_date' => current_time('mysql'),
     ]);
 
     if (is_wp_error($comment)) {
@@ -414,4 +418,32 @@ function site_handle_comment_submission($comment_data = [])
     }
 
     return get_comment($comment_id);
+}
+
+function site_comment_add_child($comment_id = 0)
+{
+    $commentold = (array) get_comment($comment_id);
+
+	$keys = array(
+		'comment_post_ID',
+		'comment_author',
+		'comment_author_email',
+		'comment_author_url',
+		'comment_author_IP',
+		'comment_date',
+		'comment_date_gmt',
+		'comment_content',
+		'comment_karma',
+		'comment_approved',
+		'comment_agent',
+		'comment_type',
+		'comment_parent',
+		'user_id',
+	);
+
+	$commentdata = wp_array_slice_assoc( $commentold, $keys );
+
+	$commentdata['comment_parent'] = $commentold['comment_ID'];
+
+	return wp_insert_comment($commentdata);
 }

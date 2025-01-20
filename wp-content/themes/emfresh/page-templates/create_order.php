@@ -7,12 +7,70 @@
  * @subpackage Twenty_Twelve
  * @since Twenty Twelve 1.0
  */
+global $em_product, $em_ship_fee, $em_order, $em_order_item, $site_scripts, $site_script_settings;
+
+$list_ship_fees = $em_ship_fee->get_items(['orderby' => 'id ASC']);
+$list_products  = $em_product->get_items(['orderby' => 'id ASC']);
+$list_notes = em_admin_get_setting('em_notes');
+$list_types = ['d', 'w', 'm'];
+$list_locations = [];
+
+$orderDetailSettings = [
+	'em_api_url' 	=> home_url('em-api/'),
+	'em_ship_fees' 	=> $list_ship_fees,
+	'em_products' 	=> $list_products,
+	'em_notes' 		=> $list_notes,
+];
+
+$_GET = wp_unslash($_GET);
+
+$order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
+
+$action_url = add_query_arg(['order_id' => $order_id], get_permalink());
+
+$order_detail = $em_order->get_fields();
+$list_payment_statuses = $em_order->get_payment_statuses();
+$list_payment_methods = $em_order->get_payment_methods();
+
+$order_item_default = $em_order_item->get_fields();
+$order_item_default['id'] = 0;
+$order_items = [$order_item_default];
+
+if($order_id > 0) {
+    $response = em_api_request('order/item', ['id' => $order_id]);
+
+    if($response['code'] == 200) {
+        $order_detail = $response['data'];
+
+        $response = em_api_request('order_item/list', ['order_id' => $order_id, 'orderby' => 'id ASC']);
+        if($response['code'] == 200 && count($response['data']) > 0) {
+            $order_items = $response['data'];
+        }
+
+        $response = em_api_request('location/list', ['customer_id' => $order_detail['customer_id']]);
+        if($response['code'] == 200 && count($response['data']) > 0) {
+            $list_locations = $response['data'];
+        }
+    }
+}
+
+$order_item_total = count($order_items);
+
+extract($order_detail);
 get_header();
 // Start the Loop.
 // while ( have_posts() ) : the_post(); 
 ?>
 <div class="detail-customer order">
-
+<form method="post" action="<?php echo $action_url ?>">
+		<input type="hidden" name="order_id" value="<?php echo $order_id ?>" />
+		<input type="hidden" class="order_item_total" value="<?php echo $order_item_total ?>" />
+		<input type="hidden" name="customer_id" class="input-customer_id" value="<?php echo $order_detail['customer_id'] ?>" />
+		<input type="hidden" name="item_name" class="input-item_name" value="<?php echo $order_detail['item_name'] ?>" />
+		<input type="hidden" name="location_name" class="input-location_name" value="<?php echo $order_detail['location_name'] ?>" />
+		<input type="hidden" name="order_note" class="input-order_note" value="<?php echo $order_detail['note'] ?>" />
+		<input type="hidden" name="order_type" class="input-order_type" value="<?php echo $order_detail['order_type'] ?>" />
+		
     <section class="content">
         <div class="container-fluid">
             <div class="card-primary">
@@ -479,6 +537,7 @@ get_header();
         </div>
         <!-- /.row -->
     </section>
+</form>
     <div class="toast warning">
         <i class="fas fa-warning"></i>
         Khách hàng vẫn còn đơn đang dùng tại thời điểm<span>04/11/2024</span>
