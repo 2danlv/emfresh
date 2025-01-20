@@ -514,25 +514,7 @@ get_header();
 															<ul class="status-pay-menu">
 															<?php
 																foreach ($list_payment_statuses as $value => $label) {
-																	$class = '';
-																	switch ($label) {
-																		case 'Chưa':
-																			$class = 'red';
-																			break;
-																		case '1 Phần':
-																			$class = 'purple';
-																			break;
-																		default:
-																		$class = 'white';
-																			break;
-																	}
-																printf(
-																	'<li class="status-pay-item" value="%d" %s><span class="%s">%s</span></li>',
-																	$value,
-																	$order_detail['payment_status'] == $value ? 'selected' : '',
-																	$class,
-																	$label
-																);
+																	printf('<li class="status-pay-item"><span data-status="%d" %s>%s</span></li>', $value, $order_detail['payment_status'] == $value ? 'selected' : '', $label);
 															}
 															?>
 															</ul>
