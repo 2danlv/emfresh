@@ -301,7 +301,16 @@
         color: var(--button-ghost-text-default, #4BA66F);
         border-radius: var(--button-radiusCorner, 8px);
         background: var(--button-filledTonal-background-default, #F0FAF4);
-        border: none;
+        border: 1px solid transparent;
+        height: 40px;
+        &:hover {
+            background: var(--button-solid-background-default, #208046);
+            border: 1px solid var(--input-border-error, #208046);
+            color: #fff;
+            img {
+                filter: brightness(0) saturate(100%) invert(99%) sepia(1%) saturate(78%) hue-rotate(216deg) brightness(114%) contrast(100%) !important;
+            }
+        }
     }
 }
 

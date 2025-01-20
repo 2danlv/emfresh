@@ -75,12 +75,48 @@ $(document).ready(function () {
     $(".explain-block").removeClass("show");
     $(".overlay-drop-menu").hide();
   });
- 
-    $('.start-day,.js-calendar.date').daterangepicker({
+  $('.start-day').daterangepicker({
+    singleDatePicker: true,
+    autoUpdateInput: true,
+    autoApply: true,
+    minDate: new Date(),
+    opens: 'left',
+    locale: {
+      format: "DD/MM/YYYY",daysOfWeek: ["CN", "T2", "T3", "T4", "T5", "T6", "T7"],
+      monthNames: [
+        "Tháng 1,",
+        "Tháng 2,",
+        "Tháng 3,",
+        "Tháng 4,",
+        "Tháng 5,",
+        "Tháng 6,",
+        "Tháng 7,",
+        "Tháng 8,",
+        "Tháng 9,",
+        "Tháng 10,",
+        "Tháng 11,",
+        "Tháng 12,",
+      ],
+      firstDay: 1,
+    },
+    ranges: {
+      'Hôm nay': new Date()
+    }
+  }).on('show.daterangepicker', function() {
+    $(this).data('daterangepicker').container.addClass('daterangepicker-open');
+  }).on('hide.daterangepicker', function() {
+    $(this).data('daterangepicker').container.removeClass('daterangepicker-open');
+  }).on('apply.daterangepicker', function(ev, picker) {
+    var today = $('.start-day').val();
+    if (today == moment().format('DD/MM/YYYY')) {
+      $(".toast").addClass("show");
+    }
+  });
+    $('.js-calendar.date').daterangepicker({
       singleDatePicker: true,
       autoUpdateInput: true,
       autoApply: true,
-      minDate: new Date(),
+      //minDate: new Date(),
       opens: 'left',
       locale: {
         format: "DD/MM/YYYY",daysOfWeek: ["CN", "T2", "T3", "T4", "T5", "T6", "T7"],
@@ -108,7 +144,7 @@ $(document).ready(function () {
     }).on('hide.daterangepicker', function() {
       $(this).data('daterangepicker').container.removeClass('daterangepicker-open');
     }).on('apply.daterangepicker', function(ev, picker) {
-      var today = $('.start-day').val();
+      var today = $('.js-calendar.date').val();
       if (today == moment().format('DD/MM/YYYY')) {
         $(".toast").addClass("show");
       }
@@ -143,6 +179,43 @@ $(document).on('click', '.add-tab', function (e) {
   $(this).before(`<span class="btn btn-add_order active tab-button js-show-order-item" data-tab="order_item_${id}">Sản phẩm ${id}<span class="remove-tab"></span></span>`);
 
   $('.order_item_total').val(id);
+  $('.js-calendar.date').daterangepicker({
+    singleDatePicker: true,
+    autoUpdateInput: true,
+    autoApply: true,
+    minDate: new Date(),
+    opens: 'left',
+    locale: {
+      format: "DD/MM/YYYY",daysOfWeek: ["CN", "T2", "T3", "T4", "T5", "T6", "T7"],
+      monthNames: [
+        "Tháng 1,",
+        "Tháng 2,",
+        "Tháng 3,",
+        "Tháng 4,",
+        "Tháng 5,",
+        "Tháng 6,",
+        "Tháng 7,",
+        "Tháng 8,",
+        "Tháng 9,",
+        "Tháng 10,",
+        "Tháng 11,",
+        "Tháng 12,",
+      ],
+      firstDay: 1,
+    },
+    ranges: {
+      'Hôm nay': new Date()
+    }
+  }).on('show.daterangepicker', function() {
+    $(this).data('daterangepicker').container.addClass('daterangepicker-open');
+  }).on('hide.daterangepicker', function() {
+    $(this).data('daterangepicker').container.removeClass('daterangepicker-open');
+  }).on('apply.daterangepicker', function(ev, picker) {
+    var today = $('.js-calendar.date').val();
+    if (today == moment().format('DD/MM/YYYY')) {
+      $(".toast").addClass("show");
+    }
+  });
 });
 
 $(document).on("click", ".tab-button", function () {

@@ -43,7 +43,8 @@ jQuery(function ($) {
 		let product = em_products.find(item => item.id == product_id);
 		let quantity = parseInt(order_item.find('.input-quantity').val());
 		let days = parseInt(order_item.find('.input-days').val());
-		let type = order_item.find('.input-type').val().toLowerCase();
+		// let type = order_item.find('.input-type').val().toLowerCase();
+		let type = order_item.find('.input-type').val();
 		let amount = 0,
 			price = 0;
 		let date_start = order_item.find('.input-date_start').val() || '';
@@ -110,7 +111,7 @@ jQuery(function ($) {
 		order_item.find('.input-product_price').val(price);
 		order_item.find('.text-amount').text(format_money(amount));
 		order_item.find('.input-amount').val(amount);
-		//order_item.find('.input-date_stop').val(get_date_value(date_start, days));
+		order_item.find('.input-date_stop').val(get_date_value(date_start, days));
 		order_item.find('.input-ship_price').val(ship_price);
 	}
 
@@ -251,17 +252,17 @@ jQuery(function ($) {
 		$('.text-total_amount').text(format_money(total_amount));
 	}
 
-	// function get_date_value(date_string, days) {
-	// 	if (days > 0) {
-	// 		let date = new Date(date_string);
+	function get_date_value(date_string, days) {
+		if (days > 0) {
+			let date = new Date(date_string);
 
-	// 		date.setDate(date.getDate() + days);
+			//date.setDate(date.getDate() + days);
 
-	// 		return date.toISOString().substring(0, 10);
-	// 	}
+			//return date.toISOString().substring(0, 10);
+		}
 
-	// 	return date_string;
-	// }
+		return date_string;
+	}
 
 	function get_ship_price(location_label) 
 	{

@@ -84,8 +84,8 @@ get_header();
 					<div class="col-6 d-f ai-center jc-end group-button_top">
 						<a class="btn btn-primary js-btn-clone out-line" href="#"><span class="d-f ai-center"><i class="fas mr-4"><img
 										src="<?php echo site_get_template_directory_assets(); ?>img/icon-hover/plus-svgrepo-com.svg" alt=""></i>Tạo bảo sao</span></a>
-						<a class="btn btn-primary js-btn-save out-line" href="#">Lưu thay đổi</span></a>
 						<span class="btn btn-primary btn-disable btn-save_edit hidden">Lưu thay đổi</span>
+						<button name="save_order" value="<?php echo time() ?>" class="btn btn-primary js-btn-save out-line">Lưu thay đổi</button>
 					</div>
 				</div>
 				<div class="card-header">
@@ -402,7 +402,7 @@ get_header();
 																	</div>
 																	<div class="col-4">
 																		<div class="label mb-4">Số ngày dùng:</div>
-																		<input type="date" class="form-control input-date_start" name="order_item[<?php echo $i ?>][date_start]" value="<?php echo $date_start ?>" placeholder="Ngày bắt đầu" required />
+																		<input type="text" class="form-control js-calendar date input-date_start" name="order_item[<?php echo $i ?>][date_start]" value="<?php echo date("d/m/Y", strtotime($date_start));  ?>" placeholder="Ngày bắt đầu" required />
 																	</div>
 																</div>
 																<div class="list-product">
@@ -862,7 +862,6 @@ get_header();
 			<!-- /.row -->
 		</div>
 
-		<button name="save_order" value="<?php echo time() ?>" class="btn btn-primary">Save</button>
 </form>
 </div><!-- /.container-fluid -->
 <div class="navigation-bottom d-f jc-b ai-center pl-16 pr-16">
@@ -983,7 +982,9 @@ get_footer('customer');
 <script src="<?php site_the_assets(); ?>js/location.js"></script>
 <script src="<?php site_the_assets(); ?>js/order.js"></script>
 <script src="<?php site_the_assets(); ?>js/order-detail.js"></script>
-<script type="text/javascript">
+<script type="text/javascript">$(document).ready(function () {
+		initializeTagify('input.input-note_values');
+	});
 	function initializeTagify(selector) {
             $(selector).each(function () {
                 if (!this.tagify) { 
