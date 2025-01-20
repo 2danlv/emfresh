@@ -155,9 +155,14 @@ class EM_Order extends EF_Default
             'ship_days'     => 0,
             'ship_amount'   => 0,
             'total_amount'  => 0,
+            'discount'      => 0,
             'note'          => '',
             'item_name'     => '',
             'location_name' => '',
+            'created'       => '',
+            'created_at'    => 0,
+            'modified'      => '',
+            'modified_at'   => 0,
         );
 
         return $fields;

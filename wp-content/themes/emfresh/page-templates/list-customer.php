@@ -125,7 +125,7 @@ get_header();
         <div class="row ai-center">
           <div class="col-8">
             <ul class="d-f ai-center">
-              <li class="add"><a href="/customer/add-customer/"><img src="<?php echo site_get_template_directory_assets(); ?>/img/icon/plus-svgrepo-com.svg" alt=""></a></li>
+              <li class="add"><a href="<?php echo home_url('customer/add-customer') ?>"><img src="<?php echo site_get_template_directory_assets(); ?>/img/icon/plus-svgrepo-com.svg" alt=""></a></li>
               <li><span class="btn btn-fillter">Bộ lọc</span></li>
               <li><span class="btn quick-edit" data-target="#modal-edit">Cập nhật nhanh</span></li>
 
@@ -254,7 +254,7 @@ get_header();
                     <td data-number="11" class="text-left"></td>
                     <td data-number="12" class="text-left"></td>
                     <td data-number="13" class="text-left"></td>
-                    <td data-number="14" class="text-left"><?php echo $record['point']; ?></td>
+                    <td data-number="14" class="text-left"><?php echo $record['point'] > 0 ? $record['point'] : ''; ?></td>
                     <td data-number="15"></td>
                     <td data-number="16" class="text-right"><span class="avatar"><img src="<?php echo get_avatar_url($record['modified_at']); ?>" width="24" alt="<?php echo get_the_author_meta('display_name', $record['modified_at']); ?>"></span></td>
                     <td data-number="17"><?php echo get_the_author_meta('display_name', $record['modified_at']); ?></td>

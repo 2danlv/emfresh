@@ -27,28 +27,16 @@ $list_payment_status = $em_order->get_statuses();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['remove'])) {
     $customer_id   = intval($_POST['customer_id']);
-
-    $customer_old = $em_customer->get_item($customer_id);
-
-    $customer_data = [
+	
+    em_api_request('customer/delete', [
         'id' => $customer_id,
-    ];
-    $response = em_api_request('customer/delete', $customer_data);
-
-    if ($response['code'] == 200) {
-        // Log delete
-        $em_log->insert([
-            'action'        => 'Xóa',
-            'module'        => 'em_customer',
-            'module_id'     => $customer_id,
-            'content'       => $customer_old['customer_name']
-        ]);
-    }
+    ]);
 
     wp_redirect(add_query_arg([
         'message' => 'Delete Success',
         'expires' => time() + 3,
     ], $list_customer_url));
+	
     exit;
 }
 
