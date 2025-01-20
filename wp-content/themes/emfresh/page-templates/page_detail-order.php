@@ -426,7 +426,7 @@ get_header();
 																				</div>
 																				<div class="col-3"><input type="number" name="order_item[<?php echo $i ?>][quantity]" value="<?php echo $quantity ?>" class="form-control input-quantity" min="1" placeholder="-" required /></div>
 																				<div class="col-4 text-right">
-																					<p class="fs-16 fw-bold price pt-8 pb-8"><?php echo $amount > 0 ? number_format($amount) : 0 ?></p>
+																					<p class="fs-16 fw-bold price text-amount pt-8 pb-8"><?php echo $amount > 0 ? number_format($amount) : 0 ?></p>
 																					<input type="hidden" name="order_item[<?php echo $i ?>][amount]" value="<?php echo $amount ?>" class="input-amount" />
 																				</div>
 																			</div>
