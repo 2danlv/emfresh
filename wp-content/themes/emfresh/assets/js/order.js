@@ -140,7 +140,7 @@ $(document).on('click', '.add-tab', function (e) {
   $('.js-order-item').hide();
   $('.js-order-items').append(new_item);
   $('.btn-add_order').removeClass('active');
-  $(this).before(`<span class="btn btn-add_order active tab-button js-show-order-item" data-tab="order_item_${id}">Sản phẩm ${id}<em class="js-remove-order-item">&times;</em></span>`);
+  $(this).before(`<span class="btn btn-add_order active tab-button js-show-order-item" data-tab="order_item_${id}">Sản phẩm ${id}<span class="remove-tab"></span></span>`);
 
   $('.order_item_total').val(id);
 });
@@ -253,12 +253,13 @@ $('#modal-remove-tab button[name="remove"]').on("click", function () {
 $(".status-payment").on("click", function () {
   $(this).find(".status-pay-menu").slideToggle(0);
 });
-$(".status-pay-menu .status-pay-item").on("click", function () {
+$(".status-pay-menu .status-pay-item span").on("click", function () {
   $(".paymented").hide();
   $(".status-pay").html($(this).html());
+  
   $(".input_status-payment").val($(this).attr('data-status'));
-  var status = $(this).data("status");
-  if (status === "pending") {
+  var status = $(this).attr('data-status');
+  if (status === "4") {
     $(".paymented").css("display", "flex");
   } else if (status === "yes") {
     $(".payment-required").text("0");
@@ -275,4 +276,6 @@ $(".delivery-field .add-new-note").click(function () {
     $('.delivery-item.js-note').show();
     $(this).hide();
 });
+
 });
+

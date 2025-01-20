@@ -640,7 +640,6 @@
         }
 
         .remove-tab {
-            display: none;
             position: relative;
             z-index: 9;
             width: 24px;
@@ -730,17 +729,17 @@
                         }
                     }
 
-                    .red {
+                    .red,span[data-status="2"] {
                         color: #fff;
                         background: var(--color-red-500, #AB2222);
                     }
 
-                    .purple {
+                    .purple,span[data-status="4"] {
                         color: #000;
                         background: var(--color-purple-300, #C6B1F6);
                     }
 
-                    .white {
+                    .white,span[data-status="1"] {
                         color: #000;
                         border: 1px solid var(--tag-border-hover, #A7A7A8);
                         background: var(--tag-background-default, #F2F3F5);

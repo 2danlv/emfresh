@@ -1,3 +1,33 @@
+$(document).ready(function () {
+    // $(".tabNavigation [rel='activity-history']").trigger("click");
+    initializeTagify('input.input-note_values');
+    
+    $("ul.edit-product li").click(function () {
+        switch_tabs_order(jQuery(this))
+      });
+      switch_tabs_order(jQuery('.defaulttab_order'));
+      
+    });
+$('.js-cancel').on('click', function(){
+    $('#modal-cancel').addClass("is-active");
+    $("body").addClass("overflow");
+});
+$('.js-end').on('click', function(){
+    $('#modal-end').addClass("is-active");
+    $("body").addClass("overflow");
+});
+$('.js-continue').on('click', function(){
+    $('#modal-continue').addClass("is-active");
+    $("body").addClass("overflow");
+});
+function switch_tabs_order(obj) {
+	jQuery('.tab-pane-2').stop().fadeOut(1);
+	jQuery('ul.tab-order li').removeClass("selected");
+	var id_order = obj.attr("rel");
+	jQuery('#' + id_order).stop().fadeIn(300);
+	//jQuery('#'+id).show();
+	obj.addClass("selected");
+}
 jQuery(function ($) {
 
 	if (typeof orderDetailSettings == 'undefined') return;
@@ -132,7 +162,7 @@ jQuery(function ($) {
 		let input = $('<input type="text" class="form-control input-note_values" />');
 
 		if (typeof items != 'undefined' && typeof items.values != 'undefined') {
-			input = $('<select class="form-control input-note_values select2" multiple="multiple"></select>');
+			input = $('<input type="text" class="form-control input-note_values" />');
 
 			input.html(items.values.map(text => `<option value="${text}">${text}</option>`).join("\n"));
 		}
@@ -409,7 +439,8 @@ jQuery(function ($) {
 		let order_item = $(this).closest('.js-order-item');
 		if (order_item.length > 0) {
 			note_add_row(order_item);
+			initializeTagify('input.input-note_values');
 		}
 	});
 
-})
+});

@@ -337,11 +337,11 @@ get_header();
 												<div class="info-pay">
 													<div class="d-f jc-b pt-18">
 														<span class="tlt fw-bold ">Tổng tiền phí ship:</span>
-														<span class="ship">-</span>
+														<span class="ship"><?php echo number_format($order_detail['ship_amount']) ?></span>
 													</div>
 													<div class="d-f jc-b pt-8">
 														<span class="tlt fw-bold ">Giảm giá:</span>
-														<span class="discount">-</span>
+														<span class="discount"><?php echo $order_detail['discount'] ?></span>
 													</div>
 													<div class="d-f jc-b pt-8 pb-8">
 														<span class="tlt fw-bold ">Tổng tiền đơn hàng:</span>
@@ -374,7 +374,7 @@ get_header();
 												<div class="tab-products">
 													<div id="tabContents" class="js-order-items">
 														<?php foreach($order_items as $i => $order_item) : extract($order_item); ?>
-														<div class="js-order-item" id="order_item_<?php echo $i + 1 ?>" >
+														<div class="js-order-item" id="order_item_<?php echo $i + 1 ?>" <?php echo $i > 0 ? 'style="display: none;"' : '' ?>>
 															<div class="tab-content">
 																	<input type="hidden" name="order_item[<?php echo $i ?>][id]" class="input-id" value="<?php echo $id ?>" />
 																	<input type="hidden" name="order_item[<?php echo $i ?>][remove]" class="input-remove" />
@@ -384,64 +384,14 @@ get_header();
 																	<input type="hidden" name="order_item[<?php echo $i ?>][ship_price]" class="input-ship_price" value="<?php echo $ship_price ?>" />
 																	<input type="hidden" name="order_item[<?php echo $i ?>][note]" class="input-note" value="<?php echo $note ?>" />
 																	<input type="hidden" class="input-note_list" value="<?php echo isset($note_list) ? base64_encode(json_encode($note_list)) : '' ?>" />
-																	<div class="row mb-16">
-																		<div class="col-md-4">
-																			<select name="order_item[<?php echo $i ?>][type]" class="form-control input-type" required>
-																				<?php
-																				foreach ($list_types as $value) {
-																					printf('<option value="%s" %s>%s</option>', $value, $type == $value ? 'selected' : '', strtoupper($value));
-																				}
-																				?>
-																			</select>
-																		</div>
-																		<div class="col-md-4">
-																			<input type="number" class="form-control input-days" name="order_item[<?php echo $i ?>][days]" value="<?php echo $days ?>" min="1" placeholder="Số ngày" required/>
-																		</div>
-																		<div class="col-md-4">
-																			<input type="date" class="form-control input-date_start" name="order_item[<?php echo $i ?>][date_start]" value="<?php echo $date_start ?>" placeholder="Ngày bắt đầu" required />
-																		</div>
-																	</div>
-																	<div class="row mb-16">
-																		<div class="col-md-4">
-																			<select name="order_item[<?php echo $i ?>][product_id]" class="form-control input-product_id" required>
-																				<!-- <option value="0">Chọn gói</option> -->
-																				<?php
-																				foreach ($list_products as $product) {
-																					printf('<option value="%s" %s>%s</option>', $product['id'], $product_id == $product['id'] ? 'selected' : '', $product['name']);
-																				}
-																				?>
-																			</select>
-																		</div>
-																		<div class="col-md-4">
-																			<input type="number" name="order_item[<?php echo $i ?>][quantity]" value="<?php echo $quantity ?>" class="form-control input-quantity" min="1" placeholder="Số lượng" required />
-																		</div>
-																		<div class="col-md-4">
-																			Thành tiền : <span class="text-amount"><?php echo $amount > 0 ? number_format($amount) : 0 ?></span>
-																			<input type="hidden" name="order_item[<?php echo $i ?>][amount]" value="<?php echo $amount ?>" class="input-amount" />
-																		</div>
-																	</div>
-																	<div class="mb-16">
-																		<div class="form-check">
-																			<input class="form-check-input" type="checkbox" value="1" name="order_item[<?php echo $i ?>][auto_choose]" id="auto_choose" <?php echo $auto_choose == 1 ? 'selected' : '' ?>>
-																			<label class="form-check-label" for="auto_choose">
-																				Tự động chọn
-																			</label>
-																		</div>
-																	</div>
-																	<div class="mb-16 js-note-list"></div>
-																	<div class="mb-16 js-add-note">
-																		+ Thêm yêu cầu 
-																	</div>
-																
-																
 																<div class="row24">
 																	<div class="col-5">
 																		<div class="label mb-4">Phân loại:</div>
-																		<select name="order_item[<?php echo $i ?>][location_id]" class="form-control select-location_id input-location_id" required <?php echo isset($location_name) ? 'readonly' : '' ?>>
-																			<!-- <option value="">Chọn location</option> -->
+																		<select name="order_item[<?php echo $i ?>][type]" class="form-control input-type" required>
+																			<!-- <option value="">Chọn loại</option> -->
 																			<?php
-																			foreach ($list_locations as $location) {
-																				printf('<option value="%s" %s>%s</option>', $location['id'], $location_id == $location['id'] ? 'selected' : '', $location['location_name']);
+																			foreach ($list_types as $value) {
+																				printf('<option value="%s" %s>%s</option>', $value, $type == $value ? 'selected' : '', strtoupper($value));
 																			}
 																			?>
 																		</select>
@@ -498,9 +448,9 @@ get_header();
 																		</div>
 																	</div>
 																</div>
-																<div class="special-request pt-16">
+																<div class="special-request js-note-list pt-16">
 																</div>
-																<div class="d-f ai-center pt-20 clone-note fw-bold">
+																<div class="d-f ai-center pt-20 clone-note js-add-note fw-bold">
 																	<span class="fas fa-plus mr-8"></span>Thêm yêu cầu phần ăn đặc biệt
 																</div>
 															</div>
@@ -560,16 +510,14 @@ get_header();
 														<p>Trạng thái thanh toán:</p>
 														<div class="status-payment">
 															<div class="status-pay"><span class="red">Chưa</span></div>
+															<input type="hidden" name="payment_status" class="payment_status input_status-payment" value="" />
 															<ul class="status-pay-menu">
-																<li class="status-pay-item" data-status='no'><span class="red">Chưa</span></>
-																<li class="status-pay-item" data-status='pending'><span class="purple">1 phần</span></>
-																<li class="status-pay-item" data-status='yes'><span class="white">Rồi</span></>
-															</ul>
 															<?php
 																foreach ($list_payment_statuses as $value => $label) {
-																	printf('<option value="%d" %s>%s</option>', $value, $order_detail['payment_status'] == $value ? 'selected' : '', $label);
+																	printf('<li class="status-pay-item"><span data-status="%d" %s>%s</span></li>', $value, $order_detail['payment_status'] == $value ? 'selected' : '', $label);
 																}
 															?>
+															</ul>
 														</div>
 													</div>
 													<div class="paymented d-f jc-b ai-center pt-8">
@@ -1006,15 +954,58 @@ get_header();
 		</div>
 	</div>
 </div>
+<script id="note_template" type="text/template">
+<div class="row row-note mb-16">
+	<div class="col-md-4">
+		<select class="form-control input-note_name">
+			<?php
+				foreach ($list_notes as $name => $note_item) {
+					printf('<option value="%s">%s</option>', $name, $note_item['name']);
+				}
+			?>
+			<option value="khac" selected>Khác</option>
+		</select>
+	</div>
+	<div class="col-md-8 col-note_values">
+		<input type="text" class="form-control input-note_values" />
+	</div>
+</div>
+</script>
+<script>var orderDetailSettings = <?php echo json_encode($orderDetailSettings) ?>;</script>
 <?php
 
 // endwhile;
 get_footer('customer');
 ?>
+<link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
 <script src="<?php site_the_assets(); ?>js/assistant.js"></script>
 <script src="<?php site_the_assets(); ?>js/location.js"></script>
 <script src="<?php site_the_assets(); ?>js/order.js"></script>
-<script src="<?php site_the_assets(); ?>js/detail-order.js"></script>
+<script src="<?php site_the_assets(); ?>js/order-detail.js"></script>
 <script type="text/javascript">
-	
+	function initializeTagify(selector) {
+            $(selector).each(function () {
+                if (!this.tagify) { 
+                    var tagifyInstance = new Tagify(this, {
+                        whitelist: [
+                            "cà rốt",
+                            "bí đỏ",
+                            "củ dền",
+                            "bí ngòi",
+                            "thay bún sang cơm trắng",
+                            "thay miến sang cơm trắng",
+                            "1/2 tinh bột"
+                        ],
+                        placeholder: "...",
+                        dropdown: {
+                            enabled: 1, 
+                            maxItems: 10, 
+                            position: "all" 
+                        }
+                    });
+                   
+                }
+            });
+        }
 </script>
