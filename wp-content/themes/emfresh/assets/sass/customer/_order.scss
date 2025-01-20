@@ -272,12 +272,15 @@
     .note-w-shipper {
         display: none;
     }
-
+tags.tagify.form-control {
+    margin: 0;
+    padding: 0;
+}
     .card-primary input[type="text"],
     .card-primary input[type="number"],
     .card-primary input[type="tel"],
     .card-primary input[type="date"],
-    .card-primary select {
+    .card-primary select ,.tagify.form-control{
         border-radius: var(--input-radiusCorner, 8px);
         border: 1px solid var(--input-border-default, #dedfe0);
         padding: 10px;
@@ -551,6 +554,7 @@
         display: flex;
         flex-wrap: wrap;
         border-radius: 5px;
+        padding: 0;
         align-items: center;
         border-radius: var(--dropdown-radiusCorner, 8px);
         border: 1px solid var(--dropdown-border-default, #DEDFE0);

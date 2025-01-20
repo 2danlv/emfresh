@@ -255,8 +255,7 @@ $(".status-payment").on("click", function () {
 });
 $(".status-pay-menu .status-pay-item span").on("click", function () {
   $(".paymented").hide();
-  $(".status-pay").html($(this).html());
-  
+  $(".status-pay").html($(this).closest('.status-pay-item').html());
   $(".input_status-payment").val($(this).attr('data-status'));
   var status = $(this).attr('data-status');
   if (status === "4") {
