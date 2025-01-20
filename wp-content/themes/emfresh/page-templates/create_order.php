@@ -470,7 +470,7 @@ get_header();
                                             </div>
                                             <div class="paymented d-f jc-b ai-center pt-8">
                                                 <p>Đã thanh toán:</p>
-                                                <input type="number" name="total_pay" placeholder="-" class="form-control text-right">
+                                                <input type="number" name="total_pay" placeholder="-" class="input-paymented form-control text-right">
                                             </div>
                                             <div class="payment-item d-f jc-b ai-center pt-8">
                                                 <p>Cần thanh toán:</p>
