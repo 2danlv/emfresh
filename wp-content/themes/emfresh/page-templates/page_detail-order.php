@@ -582,16 +582,18 @@ get_header();
 															</div>
 														</div>
 													</div>
-													<div class="row delivery-item js-note show pt-16 ai-center">
-														<div class="col-4">Note shipper theo ngày:</div>
-														<div class="col-8">
-															<input type="text" name="note_shipper_by_day" class="form-control note_shipper_by_day">
+													<div class="js-note delivery-item">
+														<div class="row pt-16 ai-center">
+															<div class="col-4">Note shipper theo ngày:</div>
+															<div class="col-8">
+																<input type="text" name="note_shipper_by_day" class="form-control note_shipper_by_day">
+															</div>
 														</div>
-													</div>
-													<div class="row delivery-item js-note show pt-16 ai-center">
-														<div class="col-4">Note admin theo ngày:</div>
-														<div class="col-8">
-															<input type="text" name="note_admin_by_day" class="form-control note_admin_by_day">
+														<div class="row pt-16 ai-center">
+															<div class="col-4">Note admin theo ngày:</div>
+															<div class="col-8">
+																<input type="text" name="note_admin_by_day" class="form-control note_admin_by_day">
+															</div>
 														</div>
 													</div>
 												</div>
