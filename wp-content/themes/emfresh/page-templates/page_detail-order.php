@@ -501,7 +501,7 @@ get_header();
 														<div class="d-f jc-b ai-center gap-16">
 														<?php
 														foreach ($list_payment_methods as $value => $label) {
-															printf('<label><input type="radio" name="payment_method" value="%s" %s>%s</label>', $value, $order_detail['payment_method'] == $value ? 'checked' : '', $label);
+															printf('<label class="d-f ai-center gap-8"><input type="radio" name="payment_method" value="%s" %s>%s</label>', $value, $order_detail['payment_method'] == $value ? 'checked' : '', $label);
 														}
 														?>
 														</div>
@@ -582,16 +582,18 @@ get_header();
 															</div>
 														</div>
 													</div>
-													<div class="row delivery-item js-note show pt-16 ai-center">
-														<div class="col-4">Note shipper theo ngày:</div>
-														<div class="col-8">
-															<input type="text" name="note_shipper_by_day" class="form-control note_shipper_by_day">
+													<div class="js-note delivery-item">
+														<div class="row pt-16 ai-center">
+															<div class="col-4">Note shipper theo ngày:</div>
+															<div class="col-8">
+																<input type="text" name="note_shipper_by_day" class="form-control note_shipper_by_day">
+															</div>
 														</div>
-													</div>
-													<div class="row delivery-item js-note show pt-16 ai-center">
-														<div class="col-4">Note admin theo ngày:</div>
-														<div class="col-8">
-															<input type="text" name="note_admin_by_day" class="form-control note_admin_by_day">
+														<div class="row pt-16 ai-center">
+															<div class="col-4">Note admin theo ngày:</div>
+															<div class="col-8">
+																<input type="text" name="note_admin_by_day" class="form-control note_admin_by_day">
+															</div>
 														</div>
 													</div>
 												</div>
@@ -982,7 +984,8 @@ get_footer('customer');
 <script src="<?php site_the_assets(); ?>js/location.js"></script>
 <script src="<?php site_the_assets(); ?>js/order.js"></script>
 <script src="<?php site_the_assets(); ?>js/order-detail.js"></script>
-<script type="text/javascript">$(document).ready(function () {
+<script type="text/javascript">
+$(document).ready(function () {
 		initializeTagify('input.input-note_values');
 	});
 	function initializeTagify(selector) {
