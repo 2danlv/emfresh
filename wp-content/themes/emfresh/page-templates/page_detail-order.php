@@ -384,8 +384,8 @@ get_header();
 																	<input type="hidden" name="order_item[<?php echo $i ?>][ship_price]" class="input-ship_price" value="<?php echo $ship_price ?>" />
 																	<input type="hidden" name="order_item[<?php echo $i ?>][note]" class="input-note" value="<?php echo $note ?>" />
 																	<input type="hidden" class="input-note_list" value="<?php echo isset($note_list) ? base64_encode(json_encode($note_list)) : '' ?>" />
-																	<div class="row mb-16">
-																		<div class="col-md-4">
+																	<div class="row">
+																		<div class="col-5">
 																			<select name="order_item[<?php echo $i ?>][type]" class="form-control input-type" required>
 																				<?php
 																				foreach ($list_types as $value) {
@@ -394,67 +394,13 @@ get_header();
 																				?>
 																			</select>
 																		</div>
-																		<div class="col-md-4">
+																		<div class="col-3">
 																			<input type="number" class="form-control input-days" name="order_item[<?php echo $i ?>][days]" value="<?php echo $days ?>" min="1" placeholder="Số ngày" required/>
 																		</div>
-																		<div class="col-md-4">
+																		<div class="col-4">
 																			<input type="date" class="form-control input-date_start" name="order_item[<?php echo $i ?>][date_start]" value="<?php echo $date_start ?>" placeholder="Ngày bắt đầu" required />
 																		</div>
 																	</div>
-																	<div class="row mb-16">
-																		<div class="col-md-4">
-																			<select name="order_item[<?php echo $i ?>][product_id]" class="form-control input-product_id" required>
-																				<!-- <option value="0">Chọn gói</option> -->
-																				<?php
-																				foreach ($list_products as $product) {
-																					printf('<option value="%s" %s>%s</option>', $product['id'], $product_id == $product['id'] ? 'selected' : '', $product['name']);
-																				}
-																				?>
-																			</select>
-																		</div>
-																		<div class="col-md-4">
-																			<input type="number" name="order_item[<?php echo $i ?>][quantity]" value="<?php echo $quantity ?>" class="form-control input-quantity" min="1" placeholder="Số lượng" required />
-																		</div>
-																		<div class="col-md-4">
-																			Thành tiền : <span class="text-amount"><?php echo $amount > 0 ? number_format($amount) : 0 ?></span>
-																			<input type="hidden" name="order_item[<?php echo $i ?>][amount]" value="<?php echo $amount ?>" class="input-amount" />
-																		</div>
-																	</div>
-																	<div class="mb-16">
-																		<div class="form-check">
-																			<input class="form-check-input" type="checkbox" value="1" name="order_item[<?php echo $i ?>][auto_choose]" id="auto_choose" <?php echo $auto_choose == 1 ? 'selected' : '' ?>>
-																			<label class="form-check-label" for="auto_choose">
-																				Tự động chọn
-																			</label>
-																		</div>
-																	</div>
-																	<div class="mb-16 js-note-list"></div>
-																	<div class="mb-16 js-add-note">
-																		+ Thêm yêu cầu 
-																	</div>
-																
-																
-																<div class="row24">
-																	<div class="col-5">
-																		<div class="label mb-4">Phân loại:</div>
-																		<select name="order_item[<?php echo $i ?>][location_id]" class="form-control select-location_id input-location_id" required <?php echo isset($location_name) ? 'readonly' : '' ?>>
-																			<!-- <option value="">Chọn location</option> -->
-																			<?php
-																			foreach ($list_locations as $location) {
-																				printf('<option value="%s" %s>%s</option>', $location['id'], $location_id == $location['id'] ? 'selected' : '', $location['location_name']);
-																			}
-																			?>
-																		</select>
-																	</div>
-																	<div class="col-3">
-																		<div class="label mb-4">Số ngày dùng:</div>
-																		<input type="number" class="form-control input-days" name="order_item[<?php echo $i ?>][days]" value="<?php echo $days ?>" min="1" placeholder="Số ngày" required/>
-																	</div>
-																	<div class="col-4">
-																		<div class="label mb-4">Số ngày dùng:</div>
-																		<input type="date" class="form-control input-date_start" name="order_item[<?php echo $i ?>][date_start]" value="<?php echo $date_start ?>" placeholder="Ngày bắt đầu" required />
-																	</div>
-																</div>
 																<div class="list-product">
 																	<div class="product-item">
 																		<div class="d-f gap-24 item-head">
@@ -561,15 +507,30 @@ get_header();
 														<div class="status-payment">
 															<div class="status-pay"><span class="red">Chưa</span></div>
 															<ul class="status-pay-menu">
-																<li class="status-pay-item" data-status='no'><span class="red">Chưa</span></>
-																<li class="status-pay-item" data-status='pending'><span class="purple">1 phần</span></>
-																<li class="status-pay-item" data-status='yes'><span class="white">Rồi</span></>
-															</ul>
 															<?php
 																foreach ($list_payment_statuses as $value => $label) {
-																	printf('<option value="%d" %s>%s</option>', $value, $order_detail['payment_status'] == $value ? 'selected' : '', $label);
-																}
+																	$class = '';
+																	switch ($label) {
+																		case 'Chưa':
+																			$class = 'red';
+																			break;
+																		case '1 Phần':
+																			$class = 'purple';
+																			break;
+																		default:
+																		$class = 'white';
+																			break;
+																	}
+																printf(
+																	'<li class="status-pay-item" value="%d" %s><span class="%s">%s</span></li>',
+																	$value,
+																	$order_detail['payment_status'] == $value ? 'selected' : '',
+																	$class,
+																	$label
+																);
+															}
 															?>
+															</ul>
 														</div>
 													</div>
 													<div class="paymented d-f jc-b ai-center pt-8">
