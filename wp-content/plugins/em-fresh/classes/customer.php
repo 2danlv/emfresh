@@ -108,7 +108,7 @@ class EM_Customer extends EF_Default
         return $deleted;
     }
 
-    function get_items($args = [], $filters = [])
+    function get_items($args = [])
     {
         global $wpdb;
 
@@ -140,6 +140,7 @@ class EM_Customer extends EF_Default
             $wheres = array_merge($wheres, $location_wheres);
         }
 
+        $filters = $this->get_filters();
         if (count($filters) > 0) {
             $wheres = array_merge($wheres, $filters);
         }
@@ -161,8 +162,8 @@ class EM_Customer extends EF_Default
 
         $list = $wpdb->get_results($query, ARRAY_A);
 
-        foreach ($list as $i => $item) {
-            $list[$i] = $this->filter_item($item, 'list');
+        foreach ($list as &$item) {
+            $item = $this->filter_item($item, 'list');
         }
 
         return $list;
@@ -335,6 +336,11 @@ class EM_Customer extends EF_Default
         );
 
         return $fields;
+    }
+
+    function get_filters()
+    {
+        return [];
     }
 
     function get_rules($action = '')
