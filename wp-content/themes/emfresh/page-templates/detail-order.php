@@ -76,8 +76,6 @@ get_header();
 		<input type="hidden" name="order_note" class="input-order_note" value="<?php echo $order_detail['note'] ?>" />
 		<input type="hidden" name="order_type" class="input-order_type" value="<?php echo $order_detail['order_type'] ?>" />
 		
-		<br><br>
-
 		<div class="row">
 			<div class="col-md-6">
 				<div class="card card-preview">

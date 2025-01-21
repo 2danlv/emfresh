@@ -4,6 +4,7 @@
     <li class="nav-item" rel="detail-delivery">Giao hàng</li>
 </ul>
 <form method="post" action="<?php echo $action_url ?>">
+<button name="save_order" value="<?php echo time() ?>" class="btn btn-primary js-btn-save">Lưu thay đổi</button>
     <input type="hidden" name="order_id" value="<?php echo $order_id ?>" />
     <input type="hidden" class="order_item_total" value="<?php echo $order_item_total ?>" />
     <input type="hidden" name="customer_id" class="input-customer_id" value="<?php echo $order_detail['customer_id'] ?>" />
@@ -23,5 +24,5 @@
             <?php include(get_template_directory() . '/parts/order/edit-detail-ship.php'); ?>
         </div>
     </div>
-    <button name="save_order" value="<?php echo time() ?>" class="btn btn-primary js-btn-save">Lưu thay đổi</button>
+    
 </form>

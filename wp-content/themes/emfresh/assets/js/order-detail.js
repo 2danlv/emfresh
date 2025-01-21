@@ -139,32 +139,7 @@ jQuery(function ($) {
 		}
 	}
 
-	function note_add_row(order_item, note_list) {
-		// select2
-		let html = $('#note_template').html();
-		if (typeof html != 'string') return;
-
-		if (typeof note_list == 'object') {
-			Object.keys(note_list).forEach(name => {
-				let item = note_list[name];
-
-				if (item.values.length > 0) {
-					let note_row = $(html),
-						input = note_get_input(em_notes[name]);
-
-					note_row.find('.input-note_name').val(name);
-
-					input.val(item.values);
-
-					note_row.find('.col-note_values').html(input);
-
-					order_item.find('.js-note-list').append(note_row);
-				}
-			});
-		} else {
-			order_item.find('.js-note-list').append(html);
-		}
-	}
+	
 
 	function note_get_input(items) {
 		let input = $('<input type="text" class="form-control input-note_values" />');
@@ -444,12 +419,39 @@ jQuery(function ($) {
 		}
 	});
 
-	$(document).on('click', '.js-add-note', function () {
-		let order_item = $(this).closest('.js-order-item');
-		if (order_item.length > 0) {
-			note_add_row(order_item);
-			initializeTagify('input.input-note_values');
-		}
-	});
+	
 
 });
+$(document).on('click', '.js-add-note', function () {
+	let order_item = $(this).closest('.js-order-item');
+	if (order_item.length > 0) {
+		note_add_row(order_item);
+		initializeTagify('input.input-note_values');
+	}
+});
+function note_add_row(order_item, note_list) {
+	// select2
+	let html = $('#note_template').html();
+	if (typeof html != 'string') return;
+
+	if (typeof note_list == 'object') {
+		Object.keys(note_list).forEach(name => {
+			let item = note_list[name];
+
+			if (item.values.length > 0) {
+				let note_row = $(html),
+					input = note_get_input(em_notes[name]);
+
+				note_row.find('.input-note_name').val(name);
+
+				input.val(item.values);
+
+				note_row.find('.col-note_values').html(input);
+
+				order_item.find('.js-note-list').append(note_row);
+			}
+		});
+	} else {
+		order_item.find('.js-note-list').append(html);
+	}
+}
