@@ -52,11 +52,14 @@ if($order_id > 0) {
             $list_locations = $response['data'];
         }
     }
+} else {
+	$order_detail = $em_order->filter_item($order_detail);
 }
 
 $order_item_total = count($order_items);
 
 extract($order_detail);
+
 get_header();
 // Start the Loop.
 // while ( have_posts() ) : the_post(); 
@@ -135,27 +138,28 @@ get_header();
                             <div class="overlay-drop-menu"></div>
                             <div class="tab-content">
                                 <div class="tab-pane" id="customer">
-                                <?php include get_template_directory() . '/parts/order/customer.php'; ?>
+                                    <?php include get_template_directory() . '/parts/order/customer.php'; ?>
                                 </div>
                                 <form method="post" action="<?php echo $action_url ?>">
     
-                                <input type="hidden" name="order_id" value="<?php echo $order_id ?>" />
-                                <input type="hidden" class="order_item_total" value="<?php echo $order_item_total ?>" />
-                                <input type="hidden" name="customer_id" class="input-customer_id" value="<?php echo $order_detail['customer_id'] ?>" />
-                                <input type="hidden" name="item_name" class="input-item_name" value="<?php echo $order_detail['item_name'] ?>" />
-                                <input type="hidden" name="location_name" class="input-location_name" value="<?php echo $order_detail['location_name'] ?>" />
-                                <input type="hidden" name="order_note" class="input-order_note" value="<?php echo $order_detail['note'] ?>" />
-                                <!-- <input type="hidden" name="order_type" class="input-order_type" value="<?php // echo $order_detail['order_type'] ?>" /> -->
+                                    <input type="hidden" name="order_id" value="<?php echo $order_id ?>" />
+                                    <input type="hidden" class="order_item_total" value="<?php echo $order_item_total ?>" />
+                                    <input type="hidden" name="customer_id" class="input-customer_id" value="<?php echo $order_detail['customer_id'] ?>" />
+                                    <input type="hidden" name="item_name" class="input-item_name" value="<?php echo $order_detail['item_name'] ?>" />
+                                    <input type="hidden" name="location_name" class="input-location_name" value="<?php echo $order_detail['location_name'] ?>" />
+                                    <input type="hidden" name="order_note" class="input-order_note" value="<?php echo $order_detail['note'] ?>" />
+                                    <input type="hidden" name="order_type" class="input-order_type" value="<?php echo $order_detail['order_type'] ?>" />
 
-                                <div class="tab-pane" id="product">
-                                    <?php include get_template_directory() . '/parts/order/edit-detail-create.php'; ?>
-                                </div>
-                                <div class="tab-pane pay-field" id="pay">
-                                    <?php include get_template_directory() . '/parts/order/edit-detail-pay.php'; ?>
-                                </div>
-                                <div class="tab-pane delivery-field" id="delivery">
-                                    <?php include get_template_directory() . '/parts/order/edit-detail-ship.php'; ?>
-                                </div>
+                                    <div class="tab-pane" id="product">
+                                        <?php include get_template_directory() . '/parts/order/edit-detail-create.php'; ?>
+                                    </div>
+                                    <div class="tab-pane pay-field" id="pay">
+                                        <?php include get_template_directory() . '/parts/order/edit-detail-pay.php'; ?>
+                                    </div>
+                                    <div class="tab-pane delivery-field" id="delivery">
+                                        <?php include get_template_directory() . '/parts/order/edit-detail-ship.php'; ?>
+                                    </div>
+
                                 </form>
                             </div>
                             <!-- /.tab-pane -->

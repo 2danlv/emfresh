@@ -37,7 +37,6 @@ class EM_Order_Item extends EF_Default
     {
         $fields = array(
             'order_id'      => 0,
-            'location_id'   => 0,
             'ship_price'    => 0,
             'product_id'    => 0,
             'product_price' => 0,
@@ -69,7 +68,6 @@ class EM_Order_Item extends EF_Default
     {
         $rules = array(
             'order_id'      => 'required',
-            'location_id'   => 'required',
             'type'          => 'required',
             'days'          => 'required',
             'date_start'    => 'required',
@@ -104,13 +102,13 @@ class EM_Order_Item extends EF_Default
         $item = [];
 
         if (is_array($data)) {
-            global $em_location;
+            // global $em_location;
 
             foreach ($data as $key => $value) {
                 $item[$key] = $value;
 
                 if ($key == 'location_id') {
-                    $item['location_name'] = $em_location->get_fullname($value);
+                    // $item['location_name'] = $em_location->get_fullname($value);
                 } else if($key == 'note'){
                     $item['note_list'] = em_admin_get_notes($value);
                 }

@@ -2,7 +2,7 @@
     <div class="pl-16 pr-16 tab-products">
         <div class="tab-add-product" id="tabNav">
             <?php foreach ($order_items as $i => $order_item) : ?>
-                <span class="btn <?php echo $i > 0 ? '' : 'active' ?> d-f jc-b ai-center gap-8 btn btn-add_order tab-button " data-tab="order_item_<?php echo $i + 1 ?>" data-id="order_item_<?php echo $i + 1 ?>">
+                <span class="btn <?php echo $i > 0 ? '' : 'active' ?> d-f jc-b ai-center gap-8 btn btn-add_order tab-button js-show-order-item" data-tab="order_item_<?php echo $i + 1 ?>" data-id="order_item_<?php echo $i + 1 ?>">
                     Sản phẩm <?php echo $i + 1 ?>
                     <span class="remove-tab"></span></span>
             <?php endforeach ?>

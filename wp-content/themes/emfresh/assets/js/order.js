@@ -9,7 +9,7 @@ $(document).ready(function () {
     $(this).hide();
     $(".history-order .history").show();
   });
-  $(".dropdown.active").on("click", function () {
+  $(".dropdown").on("click", function () {
     $(this).closest(".dropdown-address").find('.dropdown-menu').show();
     $(".overlay-drop-menu").show();
   });
@@ -37,7 +37,7 @@ $(document).ready(function () {
 
     $(".input-order input.fullname").val(name);
     $(".input-order input.phone").val(phone);
-    $(".input-order input.address_delivery").val(address);
+    $(".input-order input.address_delivery,.input-location_name").val(address);
     $(".input-order .note-shipper").show();
     $(".input-order .note-shipper .note_shiper").text(note_shiper);
     

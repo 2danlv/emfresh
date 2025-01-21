@@ -19,7 +19,7 @@ $list_types = ['d', 'w', 'm'];
 $list_locations = [];
 
 $orderDetailSettings = [
-	'em_api_url' 	=> home_url('em-api/customer/list/'),
+	'em_api_url' 	=> home_url('em-api/'),
 	'em_ship_fees' 	=> $list_ship_fees,
 	'em_products' 	=> $list_products,
 	'em_notes' 		=> $list_notes,

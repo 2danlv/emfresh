@@ -52,6 +52,8 @@ if($order_id > 0) {
             $list_locations = $response['data'];
         }
     }
+} else {
+	$order_detail = $em_order->filter_item($order_detail);
 }
 
 $order_item_total = count($order_items);
@@ -247,7 +249,7 @@ get_footer('customer');
 <script src="<?php site_the_assets(); ?>js/assistant.js"></script>
 <script src="<?php site_the_assets(); ?>js/location.js"></script>
 <script src="<?php site_the_assets(); ?>js/order.js"></script>
-<script src="<?php site_the_assets(); ?>js/order-detail.js"></script>
+<script src="<?php site_the_assets(); ?>js/order-detail.js?t=<?php echo time() ?>"></script>
 <script type="text/javascript">
 $(document).ready(function () {
 		initializeTagify('input.input-note_values');

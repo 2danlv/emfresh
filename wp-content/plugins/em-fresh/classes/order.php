@@ -151,6 +151,7 @@ class EM_Order extends EF_Default
         $fields = array(
             'order_number'  => '',
             'customer_id'   => 0,
+            'location_id'   => 0,
             'status'        => 0,
             'ship_days'     => 0,
             'ship_amount'   => 0,
@@ -159,6 +160,10 @@ class EM_Order extends EF_Default
             'note'          => '',
             'item_name'     => '',
             'location_name' => '',
+            'payment_method' => '',
+            'payment_status' => 0,
+            'order_status'  => 0,
+            'order_type'    => '',
             'created'       => '',
             'created_at'    => 0,
             'modified'      => '',
@@ -273,7 +278,7 @@ class EM_Order extends EF_Default
         $item = [];
 
         if (is_array($data)) {
-            global $em_customer, $em_order_item;
+            global $em_customer, $em_order_item, $em_location;
 
             foreach ($data as $key => $value) {
                 $item[$key] = $value;
@@ -287,7 +292,9 @@ class EM_Order extends EF_Default
                 } else if ($key == 'payment_method') {
                     $item['payment_method_name'] = $this->get_payment_methods($value);
                 } else if ($key == 'remaining_amount') {
-                    $total = intval($item['total_amount']);
+                    $total = intval($item['ship_amount'] + $item['total_amount']);
+                    
+                    $item['paid'] = $total - $value;
 
                     $today = current_time('Y-m-d');
                     $used_value = 0;
@@ -311,6 +318,8 @@ class EM_Order extends EF_Default
 
                     $item['used_value'] = $used_value;
                     $item['remaining_value'] = $total - $used_value;
+                } else if ($key == 'location_id') {
+                    $item['location_name'] = $em_location->get_fullname($value);
                 } else if ($key == 'customer_id') {
                     $customer = $em_customer->get_item($value);
 
