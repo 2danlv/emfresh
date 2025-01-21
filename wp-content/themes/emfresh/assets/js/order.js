@@ -104,7 +104,7 @@ $(document).ready(function () {
       singleDatePicker: true,
       autoUpdateInput: true,
       autoApply: true,
-      //minDate: new Date(),
+      minDate: new Date(),
       opens: 'left',
       locale: {
         format: "DD/MM/YYYY",daysOfWeek: ["CN", "T2", "T3", "T4", "T5", "T6", "T7"],
@@ -137,7 +137,6 @@ $(document).ready(function () {
       var formattedDate = picker.startDate.format('YYYY-MM-DD');
       var targetInput = inputElement.siblings('.input-date_start');
       targetInput.val(formattedDate);
-      $('.input-date_start').val(today_val);
       if (today == moment().format('DD/MM/YYYY')) {
         $(".toast").addClass("show");
       }
