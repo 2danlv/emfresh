@@ -409,6 +409,9 @@ function updateStatus(selectedItem) {
     $(".payment-required").text(formatCurrency(total_cost));
   }
 }
+$(".status-payment").on("click", function () {
+  $(this).find(".status-pay-menu").slideToggle(0);
+});
 
 function updatePaymentRequired() {
   var status = $(".status-pay").attr("data-status");
