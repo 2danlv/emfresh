@@ -58,7 +58,7 @@ $(document).ready(function() {
 			<div class="col-10 content-wrapper">
 				<!-- Content Header (Page header) -->
 				<?php 
-				if ( is_page_template( 'page-templates/detail-customer.php' ) || is_page_template( 'page-templates/detail-order.php' ) ) { ?>
+				if ( is_page_template( 'page-templates/detail-customer.php' ) ) { ?>
 					<style>
 					.content-header  {
 						display: none;

@@ -140,13 +140,14 @@ get_header();
                                 <div class="tab-pane" id="customer">
                                     <?php include get_template_directory() . '/parts/order/customer.php'; ?>
                                 </div>
-                                <form method="post" class="edit--order" action="<?php echo $action_url ?>">
+                                <form method="post" action="<?php echo $action_url ?>">
     
                                     <input type="hidden" name="order_id" value="<?php echo $order_id ?>" />
                                     <input type="hidden" class="order_item_total" value="<?php echo $order_item_total ?>" />
                                     <input type="hidden" name="customer_id" class="input-customer_id" value="<?php echo $order_detail['customer_id'] ?>" />
                                     <input type="hidden" name="item_name" class="input-item_name" value="<?php echo $order_detail['item_name'] ?>" />
                                     <input type="hidden" name="location_name" class="input-location_name" value="<?php echo $order_detail['location_name'] ?>" />
+                                    <input type="hidden" name="location_id" class="input-location_id" value="<?php echo $order_detail['location_id'] ?>" />
                                     <input type="hidden" name="order_note" class="input-order_note" value="<?php echo $order_detail['note'] ?>" />
                                     <input type="hidden" name="order_type" class="input-order_type" value="<?php echo $order_detail['order_type'] ?>" />
 

@@ -32,7 +32,7 @@
 <!-- ./wrapper -->
 
 <!-- Bootstrap 4 -->
-<script src="<?php echo site_get_template_directory_assets();?>/js/select2/js/select2.full.min.js"></script>
+<script src="<?php site_the_assets('js/select2/js/select2.full.min.js');?>"></script>
 
 <!-- DataTables  & Plugins -->
 <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
@@ -45,9 +45,8 @@
 <script src="https://cdn.datatables.net/fixedcolumns/5.0.3/js/dataTables.fixedColumns.js"></script>
 <script src="https://cdn.datatables.net/fixedcolumns/5.0.3/js/fixedColumns.dataTables.js"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.10.19/sorting/datetime-moment.js"></script>
-<script src="<?php echo site_get_template_directory_assets();?>/libs/tooltip/jquery-ui.min.js"></script>
-<script src="<?php echo site_get_template_directory_assets();?>/js/script.js"></script>
-
+<script src="<?php site_the_assets('libs/tooltip/jquery-ui.min.js');?>"></script>
+<script src="<?php site_the_assets('js/script.js');?>"></script>
 <?php
 global $site_scripts;
 
