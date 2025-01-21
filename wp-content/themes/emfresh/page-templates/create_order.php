@@ -406,6 +406,7 @@ get_footer('customer');
 <script src="<?php site_the_assets(); ?>js/order.js"></script>
 <script src="<?php site_the_assets(); ?>js/order-detail.js"></script>
 <script type="text/javascript">$(document).ready(function () {
+    $('.js-calendar.date').val('');
 		initializeTagify('input.input-note_values');
 	});
 	function initializeTagify(selector) {

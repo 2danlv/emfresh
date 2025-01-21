@@ -8,6 +8,7 @@
                     Lặp lại hàng tuần
                 </label>
                 <div class="calendar">
+                <input type="hidden" class="form-control input-date_start" name="calendar-schedule" value="" />
                     <input type="text" name="calendar" placeholder="DD/MM/YYYY" class="form-control js-calendar date">
                 </div>
                 <div class="repeat-weekly">
