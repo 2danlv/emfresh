@@ -208,7 +208,6 @@ $(document).on('click', '.add-tab', function (e) {
     var formattedDate = picker.startDate.format('YYYY-MM-DD');
     var targetInput = inputElement.siblings('.input-date_start');
     targetInput.val(formattedDate);
-    $('.input-date_start').val(today_val);
     if (today == moment().format('DD/MM/YYYY')) {
       $(".toast").addClass("show");
     }
