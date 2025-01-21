@@ -135,186 +135,7 @@ get_header();
                             <div class="overlay-drop-menu"></div>
                             <div class="tab-content">
                                 <div class="tab-pane" id="customer">
-                                    <div class="card rounded-b-r">
-                                        <div class="box-search">
-                                            <input class="search-cus mb-16" placeholder="Tìm khách hàng bằng tên / SĐT" type="text">
-                                            <div class="search-result">
-                                                <div class="no-results active">
-                                                    <img class="pt-18 pb-8" src="<?php site_the_assets(); ?>/img/icon/no-results.svg" alt="">
-                                                    <p class="color-gray fs-12 fw-regular pb-8">Không tìm thấy SĐT phù hợp</p>
-                                                    <p class="color-gray fs-12 fw-regular pb-16">Hãy thử thay đổi từ khoá tìm kiếm hoặc thêm khách hàng mới với SĐT này</p>
-                                                    <a href="/customer/add-customer/" class="btn-add-customer">
-                                                        <span class="d-f ai-center"><i class="fas mr-4"><img src="<?php site_the_assets(); ?>img/icon-hover/plus-svgrepo-com_white.svg" alt=""></i>Thêm
-                                                            khách hàng mới với SĐT này</span>
-                                                            </a>
-                                                </div>
-                                                <div class="results">
-                                                    <div class="result-item">
-                                                        <p class="name">Linh (Nu Kenny)</p>
-                                                        <p class="color-black fs-14 fw-regular phone pt-8 pb-8">0123456789</p>
-                                                        <p class="color-black fs-14 fw-regular address">44L đường số 11, KDC Miếu Nổi, Phường 3, Quận Bình Thạnh</p>
-                                                        <p class="note_shiper hidden">gửi lễ tân/bảo vệ rồi nhắn tin khách</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row input-order">
-                                            <div class="col-8 pb-16">
-                                                <input type="text" name="nickname" class="fullname is-disabled form-control" maxlength="50" placeholder="Tên khách hàng">
-                                            </div>
-                                            <div class="col-4 pb-16">
-                                                <input type="text" name="fullname" class="phone is-disabled form-control" maxlength="50" placeholder="SĐT">
-                                            </div>
-                                            <div class="col-12 pb-32 dropdown-address">
-                                                <div class="dropdown active">
-                                                    <input type="text" name="nickname" class="address_delivery is-disabled form-control" maxlength="50" placeholder="Địa chỉ giao hàng">
-                                                </div>
-                                                <p class="fs-14 fw-regular note-shipper hidden color-gray pt-4 pl-8">Note với shipper: <span class="note_shiper"></span></p>
-                                                
-                                                <div class="dropdown-menu">
-                                                    <div class="item active">
-                                                        <p class="fs-16 color-black other-address">44L đường số 11, KDC Miếu Nổi, Phường 3, Quận Bình Thạnh</p>
-                                                        <div class="group-management-link d-f jc-b ai-center pt-8">
-                                                            <div class="tooltip d-f ai-center">
-                                                                <p class="fs-14 fw-regular color-gray">(Đã đăng ký chung nhóm ship: Thien Phuong Bui)</p>
-                                                                <p class="note_shiper hidden">gửi lễ tân/bảo vệ rồi nhắn tin khách</p>
-                                                                <span class="fas tooltip-icon fa-info-gray"></span>
-                                                                <div class="tooltip-content">
-                                                                    <div class="close fas fa-trash"></div>
-                                                                    <ul>
-                                                                        <li>Thien Phuong Bui</li>
-                                                                        <li>Dieu Linh (zalo)</li>
-                                                                        <li>Nguyen Hai Minh Thi</li>
-                                                                        <li>Dinh Thi Hien Ly</li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                            <a class="management-link" href="#">Đi đến Quản lý nhóm</a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="item">
-                                                        <p class="fs-16 color-black other-address">45 Hoa Lan, Phường 3, Quận Phú Nhuận</p>
-                                                    </div>
-                                                    <div data-target="#modal-add-address-1" class="btn-add-address modal-button d-f ai-center pb-16 pt-8 pl-8">
-                                                        <span class="fas fa-plus mr-8"></span>Thêm địa chỉ mới
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <h3 class="card-title title-order d-f ai-center">
-                                            <span class="fas fa-clock mr-8"></span>
-                                            Đơn hàng gần đây
-                                        </h3>
-                                        <div class="history-order">
-                                            <div class="no-history show">
-                                                <img src="<?php site_the_assets(); ?>/img/icon/cart.svg" alt="">
-                                                <div class="pt-8 color-gray fs-12 fw-regular">Chưa có lịch sử mua hàng</div>
-                                            </div>
-                                            <div class="history">
-                                                <details class="history-item using">
-                                                    <summary class="d-f jc-b ai-center history-header">
-                                                        <div class="d-f ai-center history-id gap-8">
-                                                            <span class="fas fa-dropdown"></span>
-                                                            <span class="number">123456</span>
-                                                        </div>
-                                                        <div class="d-f history-status gap-16">
-                                                            <span class="status_order">Đang dùng</span>
-                                                            <span class="copy"></span>
-                                                        </div>
-                                                    </summary>
-                                                    <div class="history-content">
-                                                        <div class="info">
-                                                            <div class="d-f ai-center gap-10 address">
-                                                                <span class="fas fa-location"></span>
-                                                                <span class="txt">44L đường số 11, KDC Miếu Nổi, Phường 3, Quận Bình Thạnh</span>
-                                                            </div>
-                                                            <p class="color-gray-2 fs-14 fw-regular pl-26 pt-8">(Đã đăng ký chung nhóm ship: Thien Phuong Bui)</p>
-                                                            <div class="d-f ai-center gap-10 pt-8 purchase-summary">
-                                                                <span class="fas fa-shopping-cart"></span>
-                                                                <span class="txt">2EM+1PM+1EP</span>
-                                                            </div>
-                                                            <div class="d-f ai-center gap-10 pt-8">
-                                                                <span class="fas fa-shopping-cart"></span>
-                                                                <span class="txt-green fw-bold ">400.000</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="note">
-                                                            <div class="note-item d-f jc-b ai-center gap-10 pt-8">
-                                                                <div class="d-f ai-center gap-10">
-                                                                    <span class="fas fa-note"></span>
-                                                                    <span class="txt">Yêu cầu đặc biệt:</span>
-                                                                </div>
-                                                                <span class="txt">Note rau củ: cà rốt, bí đỏ, củ dền, bí ngòi</span>
-                                                            </div>
-                                                            <div class="note-item d-f jc-b ai-center gap-10 pt-8">
-                                                                <div class="d-f ai-center gap-10">
-                                                                    <span class="fas fa-note"></span>
-                                                                    <span class="txt">Giao hàng:</span>
-                                                                </div>
-                                                                <span class="txt">Thứ 3 - Thứ 5: 45 Hoa Lan, Phường 3, Quận Phú Nhuận</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </details>
-                                                <details class="history-item">
-                                                    <summary class="d-f jc-b ai-center history-header">
-                                                        <div class="d-f ai-center history-id gap-8">
-                                                            <span class="fas fa-dropdown"></span>
-                                                            <span class="number">123456</span>
-                                                        </div>
-                                                        <div class="d-f history-status gap-16">
-                                                            <span class="status_order">Hoàn tất</span>
-                                                            <span class="copy"></span>
-                                                        </div>
-                                                    </summary>
-                                                    <div class="history-content">
-                                                        <div class="info">
-                                                            <div class="d-f ai-center gap-10 address">
-                                                                <span class="fas fa-location"></span>
-                                                                <span class="txt">44L đường số 11, KDC Miếu Nổi, Phường 3, Quận Bình Thạnh</span>
-                                                            </div>
-                                                            <div class="d-f ai-center gap-10 pt-8 purchase-summary">
-                                                                <span class="fas fa-shopping-cart"></span>
-                                                                <span class="txt">2EM+1PM+1EP</span>
-                                                            </div>
-                                                            <div class="d-f ai-center gap-10 pt-8">
-                                                                <span class="fas fa-shopping-cart"></span>
-                                                                <span class="txt-green fw-bold ">400.000</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </details>
-                                                <details class="history-item">
-                                                    <summary class="d-f jc-b ai-center history-header collapsed">
-                                                        <div class="d-f ai-center history-id gap-8">
-                                                            <span class="fas fa-dropdown"></span>
-                                                            <span class="number">123456</span>
-                                                        </div>
-                                                        <div class="d-f history-status gap-16">
-                                                            <span class="status_order">Hoàn tất</span>
-                                                            <span class="copy"></span>
-                                                        </div>
-                                                    </summary>
-                                                    <div class="history-content">
-                                                        <div class="info">
-                                                            <div class="d-f ai-center gap-10 address">
-                                                                <span class="fas fa-location"></span>
-                                                                <span class="txt">44L đường số 11, KDC Miếu Nổi, Phường 3, Quận Bình Thạnh</span>
-                                                            </div>
-                                                            <div class="d-f ai-center gap-10 pt-8 purchase-summary">
-                                                                <span class="fas fa-shopping-cart"></span>
-                                                                <span class="txt">2EM+1PM+1EP</span>
-                                                            </div>
-                                                            <div class="d-f ai-center gap-10 pt-8">
-                                                                <span class="fas fa-shopping-cart"></span>
-                                                                <span class="txt-green fw-bold ">400.000</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </details>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <?php include get_template_directory() . '/parts/order/customer.php'; ?>
                                 </div>
                                 <form method="post" action="<?php echo $action_url ?>">
     
@@ -324,16 +145,16 @@ get_header();
                                 <input type="hidden" name="item_name" class="input-item_name" value="<?php echo $order_detail['item_name'] ?>" />
                                 <input type="hidden" name="location_name" class="input-location_name" value="<?php echo $order_detail['location_name'] ?>" />
                                 <input type="hidden" name="order_note" class="input-order_note" value="<?php echo $order_detail['note'] ?>" />
-                                <input type="hidden" name="order_type" class="input-order_type" value="<?php echo $order_detail['order_type'] ?>" />
+                                <!-- <input type="hidden" name="order_type" class="input-order_type" value="<?php // echo $order_detail['order_type'] ?>" /> -->
 
                                 <div class="tab-pane" id="product">
-                                    <?php include(get_template_directory() . '/parts/order/edit-detail-create.php'); ?>
+                                    <?php include get_template_directory() . '/parts/order/edit-detail-create.php'; ?>
                                 </div>
                                 <div class="tab-pane pay-field" id="pay">
-                                    <?php include(get_template_directory() . '/parts/order/edit-detail-pay.php'); ?>
+                                    <?php include get_template_directory() . '/parts/order/edit-detail-pay.php'; ?>
                                 </div>
                                 <div class="tab-pane delivery-field" id="delivery">
-                                    <?php include(get_template_directory() . '/parts/order/edit-detail-ship.php'); ?>
+                                    <?php include get_template_directory() . '/parts/order/edit-detail-ship.php'; ?>
                                 </div>
                                 </form>
                             </div>

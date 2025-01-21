@@ -15,13 +15,13 @@
 
     <div class="tab-content">
         <div class="tab-pane-2" id="detail-product">
-            <?php include(get_template_directory() . '/parts/order/edit-detail-create.php'); ?>
+            <?php include get_template_directory() . '/parts/order/edit-detail-create.php'; ?>
         </div>
         <div class="tab-pane-2 pay-field" id="detail-pay">
-            <?php include(get_template_directory() . '/parts/order/edit-detail-pay.php'); ?>
+            <?php include get_template_directory() . '/parts/order/edit-detail-pay.php'; ?>
         </div>
         <div class="tab-pane-2 delivery-field" id="detail-delivery">
-            <?php include(get_template_directory() . '/parts/order/edit-detail-ship.php'); ?>
+            <?php include get_template_directory() . '/parts/order/edit-detail-ship.php'; ?>
         </div>
     </div>
     
