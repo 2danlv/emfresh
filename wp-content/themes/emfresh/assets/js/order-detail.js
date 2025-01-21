@@ -28,6 +28,13 @@ function switch_tabs_order(obj) {
 	//jQuery('#'+id).show();
 	obj.addClass("selected");
 }
+
+if (typeof orderDetailSettings != 'undefined') {
+	Object.keys(orderDetailSettings).forEach(key => {
+		window[key] = orderDetailSettings[key];
+	});
+}
+
 jQuery(function ($) {
 
 	if (typeof orderDetailSettings == 'undefined') return;

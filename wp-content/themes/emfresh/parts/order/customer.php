@@ -7,8 +7,7 @@
                 <p class="color-gray fs-12 fw-regular pb-8">Không tìm thấy SĐT phù hợp</p>
                 <p class="color-gray fs-12 fw-regular pb-16">Hãy thử thay đổi từ khoá tìm kiếm hoặc thêm khách hàng mới với SĐT này</p>
                 <a href="/customer/add-customer/" class="btn-add-customer">
-                    <span class="d-f ai-center"><i class="fas mr-4"><img src="<?php site_the_assets(); ?>img/icon-hover/plus-svgrepo-com_white.svg" alt=""></i>Thêm
-                        khách hàng mới với SĐT này</span>
+                    <span class="d-f ai-center"><i class="fas mr-4"><img src="<?php site_the_assets(); ?>img/icon-hover/plus-svgrepo-com_white.svg" alt=""></i>Thêm khách hàng mới với SĐT này</span>
                 </a>
             </div>
             <div class="results" id="autocomplete-results"></div>
@@ -26,7 +25,6 @@
                 <input type="text" name="address_delivery" class="address_delivery is-disabled form-control" maxlength="50" placeholder="Địa chỉ giao hàng">
             </div>
             <p class="fs-14 fw-regular note-shipper hidden color-gray pt-4 pl-8">Note với shipper: <span class="note_shiper"></span></p>
-
             <div class="dropdown-menu">
                 <div class="item active">
                     <p class="fs-16 color-black other-address">44L đường số 11, KDC Miếu Nổi, Phường 3, Quận Bình Thạnh</p>

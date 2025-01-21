@@ -13,7 +13,7 @@ global $em_customer, $em_order, $em_customer_tag, $em_log;
 $list_order_status = $em_order->get_statuses();
 $list_tags = $em_customer->get_tags();
 
-$detail_order_url = get_permalink(137);
+$detail_order_url = get_permalink(143);
 
 // cập nhật data cho customer
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {

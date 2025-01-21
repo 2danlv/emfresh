@@ -72,14 +72,14 @@ get_header();
 			<div class="scroll-menu pt-8">
 				<div class="row">
 					<div class="col-6 backtolist d-f ai-center">
-						<a href="/customer/" class="d-f ai-center"><span class="mr-4"><img src="<?php echo site_get_template_directory_assets(); ?>img/icon/caretup.svg" alt=""></span><span> Quay lại
-								danh sách khách hàng</span></a>
+						<a href="/list-order/" class="d-f ai-center"><span class="mr-4"><img src="<?php echo site_get_template_directory_assets(); ?>img/icon/caretup.svg" alt=""></span><span> Quay lại
+								danh sách đơn hàng</span></a>
 					</div>
 					<div class="col-6 d-f ai-center jc-end group-button_top">
 						<a class="btn btn-primary js-btn-clone out-line" href="#"><span class="d-f ai-center"><i class="fas mr-4"><img
 										src="<?php echo site_get_template_directory_assets(); ?>img/icon-hover/plus-svgrepo-com.svg" alt=""></i>Tạo bảo sao</span></a>
 						<span class="btn btn-primary btn-disable btn-save_edit hidden">Lưu thay đổi</span>
-						<button name="save_order" value="<?php echo time() ?>" class="btn btn-primary js-btn-save out-line">Lưu thay đổi</button>
+						<span class="btn btn-primary js-btn-save out-line">Lưu thay đổi</span>
 					</div>
 				</div>
 				<div class="card-header">

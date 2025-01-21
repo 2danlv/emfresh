@@ -132,7 +132,12 @@ $(document).ready(function () {
     }).on('hide.daterangepicker', function() {
       $(this).data('daterangepicker').container.removeClass('daterangepicker-open');
     }).on('apply.daterangepicker', function(ev, picker) {
+      var inputElement = $(this);
       var today = $('.js-calendar.date').val();
+      var formattedDate = picker.startDate.format('YYYY-MM-DD');
+      var targetInput = inputElement.siblings('.input-date_start');
+      targetInput.val(formattedDate);
+      $('.input-date_start').val(today_val);
       if (today == moment().format('DD/MM/YYYY')) {
         $(".toast").addClass("show");
       }
@@ -157,10 +162,10 @@ $(document).on('click', '.add-tab', function (e) {
     id = index + 1,
     new_item = $(html.replace(/(\[0\])/g, '[' + index + ']')).show();
 
-  new_item.find('input, select, textarea').val('');
+  
   new_item.find('.text-amount').text('0');
   new_item.attr('id', 'order_item_' + id);
-
+  new_item.find('input, select, textarea').val('');
   $('.js-order-item').hide();
   $('.js-order-items').append(new_item);
   $('.btn-add_order').removeClass('active');
@@ -199,11 +204,17 @@ $(document).on('click', '.add-tab', function (e) {
   }).on('hide.daterangepicker', function() {
     $(this).data('daterangepicker').container.removeClass('daterangepicker-open');
   }).on('apply.daterangepicker', function(ev, picker) {
+    var inputElement = $(this);
     var today = $('.js-calendar.date').val();
+    var formattedDate = picker.startDate.format('YYYY-MM-DD');
+    var targetInput = inputElement.siblings('.input-date_start');
+    targetInput.val(formattedDate);
+    $('.input-date_start').val(today_val);
     if (today == moment().format('DD/MM/YYYY')) {
       $(".toast").addClass("show");
     }
   });
+  new_item.find('.js-calendar.date').val('');
 });
 
 $(document).on("click", ".tab-button", function () {
@@ -337,7 +348,9 @@ $(".delivery-field .add-new-note").click(function () {
 $(".js-input-field").on("input", "input, select", function () {
   $(".order-details").fadeIn();
 });
-
+$('.js-btn-save.out-line').click(function (e) { 
+  $('.edit--order').submit();
+});
 });
 var original_total_cost = parseFloat(
   $(".price-product").text().replace(/\./g, "")

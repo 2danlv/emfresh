@@ -40,7 +40,8 @@
                             </div>
                             <div class="col-4">
                                 <div class="label mb-4">Số ngày dùng:</div>
-                                <input type="text" class="form-control js-calendar date input-date_start" name="order_item[<?php echo $i ?>][date_start]" value="<?php echo date("d/m/Y", strtotime($date_start));  ?>" placeholder="Ngày bắt đầu" required />
+                                <input type="text" class="form-control input-date_start" name="order_item[<?php echo $i ?>][date_start]" value="<?php echo $date_start;  ?>" />
+                                <input type="text" class="form-control js-calendar date"  value="<?php echo date("d/m/Y", strtotime($date_start));  ?>" placeholder="Ngày bắt đầu" required />
                             </div>
                         </div>
                         <div class="list-product">
