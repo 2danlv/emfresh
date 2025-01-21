@@ -335,8 +335,11 @@ $(".status-pay-menu .status-pay-item span").on("click", function () {
 $("#loop").change(function () {
   if ($(this).is(":checked")) {
     $(".repeat-weekly").addClass("show");
+    $(this).closest('.delivery-item').find('.calendar').hide();
+    $(this).closest('.delivery-item').find('.calendar input').val('');
   } else {
     $(".repeat-weekly").removeClass("show");
+    $(this).closest('.delivery-item').find('.calendar').show();
   }
 });
 $(".delivery-field .add-new-note").click(function () {
