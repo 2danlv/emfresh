@@ -1,3 +1,4 @@
+const SHIP = 5000;
 $(document).ready(function () {
   $('.detail-customer.order .search-cus').keyup(function (e) { 
     e.preventDefault();
@@ -323,9 +324,7 @@ $('#modal-remove-tab button[name="remove"]').on("click", function () {
     modal.removeClass("is-active");
   }
 });
-$(".status-payment").on("click", function () {
-  $(this).find(".status-pay-menu").slideToggle(0);
-});
+
 $(".status-pay-menu .status-pay-item span").on("click", function () {
   $(".paymented").hide();
   $(".status-pay").html($(this).closest('.status-pay-item').html());
@@ -348,6 +347,83 @@ $(".delivery-field .add-new-note").click(function () {
     $('.delivery-item.js-note').show();
     $(this).hide();
 });
-
+$(".js-input-field").on("input", "input, select", function () {
+  $(".order-details").fadeIn();
 });
 
+});
+var original_total_cost = parseFloat(
+  $(".price-product").text().replace(/\./g, "")
+);
+var total_cost = original_total_cost;
+
+$(".ship_fee_days, .discount, .total_ship").on("change", function (e) {
+  updateTotalCost(e.target);
+  var ship = parseInt($(".total_ship").val(), 10) || 0;
+  var discount = parseInt($(".fee-item .discount").val(), 10) || 0;
+  var price = parseFloat($(".price-order").text().replace(/\./g, "")) || 0;
+  $(".info-pay .discount").text(formatCurrency(discount));
+  $(".info-pay .ship").text(formatCurrency(ship));
+  $(".info-pay .total").text(formatCurrency(price));
+});
+
+$(".status-pay-menu .status-pay-item").on("click", function () {
+  updateStatus($(this));
+});
+
+$(".input-paymented").on("change", function () {
+  updatePaymentRequired();
+});
+
+function updateTotalCost(target) {
+  var ship_fee_days = parseInt($(".ship_fee_days").val(), 10) || 0;
+  var user_input_ship_fee = parseInt($(".total_ship").val(), 10);
+  var calculated_ship_fee = ship_fee_days * SHIP;
+
+  if (target.classList.contains("total_ship")) {
+    calculated_ship_fee = !isNaN(user_input_ship_fee)
+      ? user_input_ship_fee
+      : calculated_ship_fee;
+  }
+  $(".total_ship").val(calculated_ship_fee);
+  var discount = parseInt($("input.discount").val(), 10) || 0;
+  total_cost = original_total_cost + calculated_ship_fee - discount;
+  var formattedCurrency = formatCurrency(total_cost);
+  $(".price-order").text(formattedCurrency);
+  updatePaymentRequired();
+}
+
+function updateStatus(selectedItem) {
+  $(".paymented").hide();
+  $(".status-pay").html(selectedItem.html());
+
+  var status = selectedItem.data("status");
+  $(".status-pay").attr("data-status", status);
+
+  if (status === "pending") {
+    $(".paymented").css("display", "flex");
+    updatePaymentRequired();
+  } else if (status === "yes") {
+    $(".payment-required").text("0");
+  } else {
+    $(".payment-required").text(formatCurrency(total_cost));
+  }
+}
+
+function updatePaymentRequired() {
+  var status = $(".status-pay").attr("data-status");
+  var paymented = parseInt($(".input-paymented").val(), 10) || 0;
+
+  if (status === "no") {
+    $(".payment-required").text(formatCurrency(total_cost));
+  } else if (status === "yes") {
+    $(".payment-required").text("0");
+  } else if (status === "pending") {
+    var remaining = total_cost - paymented;
+    $(".payment-required").text(formatCurrency(remaining));
+  }
+}
+
+function formatCurrency(value) {
+  return new Intl.NumberFormat("vi-VN").format(value);
+}

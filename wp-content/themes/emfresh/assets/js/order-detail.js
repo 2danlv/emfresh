@@ -38,6 +38,7 @@ jQuery(function ($) {
 
 	function update_order_item_info(order_item) {
 		order_item = $(order_item);
+		order_details = $('.order-details')
 
 		let product_id = parseInt(order_item.find('.input-product_id').val());
 		let product = em_products.find(item => item.id == product_id);
@@ -113,6 +114,12 @@ jQuery(function ($) {
 		order_item.find('.input-amount').val(amount);
 		order_item.find('.input-date_stop').val(get_date_value(date_start, days));
 		order_item.find('.input-ship_price').val(ship_price);
+
+		order_details.find('.info-product .price').text(format_money(amount));
+		order_details.find('.info-product .quantity').text(quantity);
+		order_details.find('.info-product .name').text(order_item.find('.input-product_id option:selected').text());
+		order_details.find('.date-start').text(date_start);
+		order_details.find('.type').text(type);
 	}
 
 	function format_money(number) {
@@ -193,6 +200,7 @@ jQuery(function ($) {
 		})
 
 		order_item.find('.input-note').val(notes.join("\n"));
+		
 	}
 
 	function update_order_info() {
