@@ -54,7 +54,7 @@ get_header();
         <div class="row ai-center">
           <div class="col-8">
             <ul class="d-f ai-center">
-              <li class="add"><a href="<?php echo $detail_url ?>"><img src="<?php echo site_get_assets(); ?>/img/icon/plus-svgrepo-com.svg" alt=""></a></li>
+              <li class="add"><a href="/list-order/add-order/?order_id=0"><img src="<?php echo site_get_assets(); ?>/img/icon/plus-svgrepo-com.svg" alt=""></a></li>
               <li><span class="btn btn-fillter">Bộ lọc</span></li>
               <li class="has-child">
                 <span class="btn btn-action">Thao tác</span>
