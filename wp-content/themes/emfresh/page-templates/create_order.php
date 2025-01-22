@@ -78,9 +78,9 @@ get_header();
                                     Thông tin đơn hàng
                                 </div>
                                 <div class="info-customer line-dots">
-                                    <p class="pt-16">Linh (Nu Kenny)</p>
-                                    <p class="copy modal-button pt-8" data-target="#modal-copy" title="Copy: 0909739506">0909739506</p>
-                                    <p class="pt-8 pb-16 text-ellipsis">44L đường số 11, KDC Miếu Nổi, Phường 07, Quận Bình Thạnh</p>
+                                    <p class="pt-16 customer-name">Linh (Nu Kenny)</p>
+                                    <p class="copy modal-button pt-8 customer-phone" data-target="#modal-copy" title="Copy: 0909739506">0909739506</p>
+                                    <p class="pt-8 pb-16 text-ellipsis customer-address">44L đường số 11, KDC Miếu Nổi, Phường 07, Quận Bình Thạnh</p>
                                 </div>
                                 <div class="order-details">
                                     <div class="info-order line-dots">

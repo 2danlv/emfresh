@@ -46,6 +46,7 @@
                 method: 'GET',
                 dataType: 'json',
                 success: function(response) {
+                    //console.log('customer', response.data);
                     var suggestions = '';
                     var results = response.data.filter(function(customer) {
                         return customer.customer_name.toLowerCase().includes(query.toLowerCase()) ||
@@ -93,8 +94,16 @@
 
         $('#search').val(name); 
         $('.input-order .fullname').val(name); 
-        $('.input-order .phone').val(phone); 
+        $('.input-order .phone').val(phone);
         $('.address_delivery').val(address);
+        $('.info-customer .customer-name').text(name);
+        $('.info-customer .customer-phone').text(phone);
+        $('.info-customer .customer-address').text(address);
+        if(note_shiper.length != 0) {
+            $('.note-shipper').removeClass('hidden');
+        } else {
+            $('.note-shipper').addClass('hidden');
+        }
         $('.input-order .note_shiper').val(note_shiper);
         $('.result').show(); 
         $('#autocomplete-results,.no-result').hide();
@@ -109,7 +118,7 @@
                 success: function(response) {
                     const container = $('.locations-container');
                     container.empty();
-                    //console.log('location', response.data);
+                    // console.log('location', response.data);
                     
                     response.data.forEach(location => {
                     const template = `
@@ -118,7 +127,7 @@
                             <div class="group-management-link d-f jc-b ai-center pt-8">
                                 <div class="tooltip d-f ai-center">
                                     <p class="fs-14 fw-regular color-gray">(Đã đăng ký chung nhóm ship: Thien Phuong Bui)</p>
-                                    <p class="note_shiper hidden">${location.note_shipper || 'No notes available'}</p>
+                                    <p class="note_shiper hidden">${location.note_shipper}</p>
                                     <span class="fas tooltip-icon fa-info-gray"></span>
                                     <div class="tooltip-content">
                                         <div class="close fas fa-trash"></div>

@@ -38,8 +38,12 @@ $(document).ready(function () {
     $(".input-order input.fullname").val(name);
     $(".input-order input.phone").val(phone);
     $(".input-order input.address_delivery,.input-location_name").val(address);
-    $(".input-order .note-shipper").show();
-    $(".input-order .note-shipper .note_shiper").text(note_shiper);
+    if(note_shiper.length != 0) {
+      $('.note-shipper').removeClass('hidden');
+    } else {
+      $('.note-shipper').addClass('hidden');
+    }
+    $(".note-shipper .note_shiper").text(note_shiper);
     
     $(".results").hide();
     $(".dropdown").css("pointer-events", "all");
@@ -53,7 +57,14 @@ $(document).ready(function () {
     var other_address = $(this).find(".other-address").text();
     var note_shiper = $(this).find(".note_shiper").text();
     $(".dropdown input").val(other_address);
-    $(".input-order .note-shipper .note_shiper").text(note_shiper);
+    $('.info-customer .customer-address').text(other_address);
+    console.log('log',note_shiper.length);
+    if(note_shiper.length != 0) {
+      $('.note-shipper').removeClass('hidden');
+    } else {
+      $('.note-shipper').addClass('hidden');
+    }
+    $(".note-shipper .note_shiper").text(note_shiper);
   });
   $(".explain-icon img").on("click", function () {
     $(".explain-block").addClass("show");
