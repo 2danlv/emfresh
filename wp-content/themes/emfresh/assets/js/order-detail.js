@@ -37,12 +37,6 @@ if (typeof orderDetailSettings != 'undefined') {
 
 jQuery(function ($) {
 
-	if (typeof orderDetailSettings == 'undefined') return;
-
-	Object.keys(orderDetailSettings).forEach(key => {
-		window[key] = orderDetailSettings[key];
-	})
-
 	function update_order_item_info(order_item) {
 		order_item = $(order_item);
 		order_details = $('.order-details')
@@ -56,7 +50,9 @@ jQuery(function ($) {
 		let amount = 0,
 			price = 0;
 		let date_start = order_item.find('.input-date_start').val() || '';
-		let ship_price = get_ship_price(order_item.find('.input-location_id option:selected').text());
+
+		// let ship_price = get_ship_price(order_item.find('.input-location_id option:selected').text());
+		let ship_price = get_ship_price($('.input-location_name').val());
 
 		if (product_id > 0 && product != null && quantity > 0 && type != '' && days > 0) {
 			let meal = 'meal_w_';
@@ -232,7 +228,6 @@ jQuery(function ($) {
 		});
 
 		$('.input-item_name').val(Object.keys(item_name).map(text => `${item_name[text]}${text}`).join('+'));
-		$('.input-location_name').val(location_name);
 		$('.input-order_note').val(order_note);
 		$('.input-order_type').val(order_type);
 		$('.input-ship_days').val(ship_days);

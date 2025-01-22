@@ -14,6 +14,7 @@ $list_order_status = $em_order->get_statuses();
 $list_tags = $em_customer->get_tags();
 
 $detail_order_url = get_permalink(143);
+$add_order_url = get_permalink(140);
 
 // cập nhật data cho customer
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
@@ -54,7 +55,7 @@ get_header();
         <div class="row ai-center">
           <div class="col-8">
             <ul class="d-f ai-center">
-              <li class="add"><a href="/list-order/add-order/?order_id=0"><img src="<?php echo site_get_assets(); ?>/img/icon/plus-svgrepo-com.svg" alt=""></a></li>
+              <li class="add"><a href="<?php echo $add_order_url ?>"><img src="<?php echo site_get_assets(); ?>/img/icon/plus-svgrepo-com.svg" alt=""></a></li>
               <li><span class="btn btn-fillter">Bộ lọc</span></li>
               <li class="has-child">
                 <span class="btn btn-action">Thao tác</span>

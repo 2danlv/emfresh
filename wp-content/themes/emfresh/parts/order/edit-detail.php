@@ -27,3 +27,10 @@
     </div>
     
 </form>
+<!-- var_dump
+<?php 
+
+var_dump($order_detail); 
+
+?>
+-->

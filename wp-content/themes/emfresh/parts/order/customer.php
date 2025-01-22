@@ -186,14 +186,15 @@
                     });
 
                     if (results.length > 0) {
-                        results.forEach(function(customer) {
-                            suggestions += '<div class="result-item">'+
-                                            '<p class="name">' + customer.customer_name + '</p>'+
-                                            '<p class="color-black fs-14 fw-regular phone pt-8 pb-8">'+customer.phone+'</p>'+
-                                            '<p class="color-black fs-14 fw-regular address">'+ customer.address + ' ' + customer.ward + ' ' + customer.district +'</p>'+
-                                            '<p class="note_shiper hidden">'+customer.note_shipping+'</p>'+
-                                            '</div>';
-                        });
+                        suggestions = results.map(customer => 
+                            `<div class="result-item" data-id="${customer.id}">
+                                <p class="name">${customer.customer_name}</p>
+                                <p class="color-black fs-14 fw-regular phone pt-8 pb-8">${customer.phone}</p>
+                                <p class="color-black fs-14 fw-regular address">${customer.address + ' ' + customer.ward + ' ' + customer.district }</p>
+                                <p class="note_shiper hidden">${customer.note_shipping}</p>
+                            </div>`
+                        ).join("\n");
+                        
                         $('#autocomplete-results').html(suggestions).show();
                         $('.detail-customer.order .search-result .no-results,.history-order .history,.history-order .no-history').hide();
                         $('.detail-customer.order .search-result .results,.title-order,.history-order').show();
@@ -221,14 +222,31 @@
         var phone = $(this).find('.phone').text();
         var address = $(this).find('.address').text();
         var note_shiper = $(this).find('.note_shiper').text();
+        var customer_id = $(this).data('id') || 0;
 
         $('#search').val(name); 
         $('.input-order .fullname').val(name); 
         $('.input-order .phone').val(phone); 
-        $('.input-order .address_delivery').val(address); 
-        $('.input-order .note_shiper').val(note_shiper); 
+        $('.input-order .address_delivery').val(address);
+        $('.input-order .note_shiper').val(note_shiper);
         $('.result').show(); 
-        $('#autocomplete-results,.no-result').hide();  
+        $('#autocomplete-results,.no-result').hide();
+        
+        $('.input-customer_id').val(customer_id);
+        $('.input-location_name').val(address);
+        if(customer_id > 0) {
+            $.ajax({
+                url: '<?php echo home_url('em-api/location/list/'); ?>?customer_id=' + customer_id,
+                method: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    console.log('location', response.data);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching data from API', error);
+                }
+            });
+        }
     });
 
     
