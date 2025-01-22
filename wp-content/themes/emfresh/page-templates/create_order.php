@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Template Name: Create order
  *
@@ -8,45 +7,34 @@
  * @since Twenty Twelve 1.0
  */
 global $em_product, $em_ship_fee, $em_order, $em_order_item, $site_scripts, $site_script_settings;
-
 $list_ship_fees = $em_ship_fee->get_items(['orderby' => 'id ASC']);
 $list_products  = $em_product->get_items(['orderby' => 'id ASC']);
 $list_notes = em_admin_get_setting('em_notes');
 $list_types = ['d', 'w', 'm'];
 $list_locations = [];
-
 $orderDetailSettings = [
 	'em_api_url' 	=> home_url('em-api/customer/list/'),
 	'em_ship_fees' 	=> $list_ship_fees,
 	'em_products' 	=> $list_products,
 	'em_notes' 		=> $list_notes,
 ];
-
 $_GET = wp_unslash($_GET);
-
 $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
-
 $action_url = add_query_arg(['order_id' => $order_id], get_permalink());
-
 $order_detail = $em_order->get_fields();
 $list_payment_statuses = $em_order->get_payment_statuses();
 $list_payment_methods = $em_order->get_payment_methods();
-
 $order_item_default = $em_order_item->get_fields();
 $order_item_default['id'] = 0;
 $order_items = [$order_item_default];
-
 if($order_id > 0) {
     $response = em_api_request('order/item', ['id' => $order_id]);
-
     if($response['code'] == 200) {
         $order_detail = $response['data'];
-
         $response = em_api_request('order_item/list', ['order_id' => $order_id, 'orderby' => 'id ASC']);
         if($response['code'] == 200 && count($response['data']) > 0) {
             $order_items = $response['data'];
         }
-
         $response = em_api_request('location/list', ['customer_id' => $order_detail['customer_id']]);
         if($response['code'] == 200 && count($response['data']) > 0) {
             $list_locations = $response['data'];
@@ -55,14 +43,11 @@ if($order_id > 0) {
 } else {
 	$order_detail = $em_order->filter_item($order_detail);
 }
-
 $order_item_total = count($order_items);
-
 extract($order_detail);
-
 get_header();
 // Start the Loop.
-// while ( have_posts() ) : the_post(); 
+// while ( have_posts() ) : the_post();
 ?>
 <div class="detail-customer order">
     <section class="content">
@@ -141,7 +126,6 @@ get_header();
                                     <?php include get_template_directory() . '/parts/order/customer.php'; ?>
                                 </div>
                                 <form method="post" class="form-add-order" action="<?php echo $action_url ?>">
-    
                                     <input type="hidden" name="order_id" value="<?php echo $order_id ?>" />
                                     <input type="hidden" class="order_item_total" value="<?php echo $order_item_total ?>" />
                                     <input type="hidden" name="customer_id" class="input-customer_id" value="<?php echo $order_detail['customer_id'] ?>" />
@@ -150,7 +134,6 @@ get_header();
                                     <input type="hidden" name="location_id" class="input-location_id" value="<?php echo $order_detail['location_id'] ?>" />
                                     <input type="hidden" name="order_note" class="input-order_note" value="<?php echo $order_detail['note'] ?>" />
                                     <input type="hidden" name="order_type" class="input-order_type" value="<?php echo $order_detail['order_type'] ?>" />
-
                                     <div class="tab-pane" id="product">
                                         <?php include get_template_directory() . '/parts/order/edit-detail-create.php'; ?>
                                     </div>
@@ -160,7 +143,6 @@ get_header();
                                     <div class="tab-pane delivery-field" id="delivery">
                                         <?php include get_template_directory() . '/parts/order/edit-detail-ship.php'; ?>
                                     </div>
-
                                 </form>
                             </div>
                             <!-- /.tab-pane -->
@@ -366,7 +348,6 @@ get_header();
                         <i class="fas fa-warning mr-4"></i>
                         <p>Bạn có chắc muốn xoá sản phẩm đang thực hiện trên đơn hàng này không?</p>
                     </div>
-
                 </div>
                 <div class="modal-footer d-f jc-b pb-8">
                     <button type="button" class="btn btn-secondary modal-close">Đóng</button>
@@ -385,7 +366,6 @@ get_header();
 					printf('<option value="%s">%s</option>', $name, $note_item['name']);
 				}
 			?>
-			<option value="khac" selected>Khác</option>
 		</select>
 	</div>
 	<div class="col-8 col-note_values tag-container">
@@ -394,8 +374,7 @@ get_header();
 </div>
 </script>
 <?php
-
-
+ $categoriesJSON = json_encode($list_notes);
 // endwhile;
 get_footer('customer');
 ?>
@@ -414,7 +393,6 @@ get_footer('customer');
             obj.addClass('selected');
             updateNavigationButtons();
         }
-
         function navigateTabs(direction) {
             const currentTab = $('ul.tab-order li.selected');
             let newTab;
@@ -427,12 +405,10 @@ get_footer('customer');
                 switch_tabs_add_order(newTab);
             }
         }
-
         function updateNavigationButtons() {
             const firstTab = $('ul.tab-order li').first();
             const lastTab = $('ul.tab-order li').last();
             const currentTab = $('ul.tab-order li.selected');
-
             if (currentTab.is(firstTab)) {
                 $('.js-btn-prev').addClass('btn-disable');
                 $('.js-btn-prev').removeClass('btn-primary');
@@ -440,7 +416,6 @@ get_footer('customer');
                 $('.js-btn-prev').removeClass('btn-disable');
                 $('.js-btn-prev').addClass('btn-primary');
             }
-
             if (currentTab.is(lastTab)) {
                 $('.js-next-tab').addClass('hidden');
                 $('.js-create-order').removeClass('hidden');
@@ -449,7 +424,6 @@ get_footer('customer');
                 $('.js-create-order').addClass('hidden');
             }
         }
-
         $(document).ready(function () {
             $('ul.tab-order.tab-nav li').click(function () {
                 switch_tabs_add_order($(this));
@@ -467,27 +441,32 @@ get_footer('customer');
         initializeTagify('input.input-note_values');
     });
 	function initializeTagify(selector) {
-            $(selector).each(function () {
-                if (!this.tagify) { 
-                    var tagifyInstance = new Tagify(this, {
-                        whitelist: [
-                            "cà rốt",
-                            "bí đỏ",
-                            "củ dền",
-                            "bí ngòi",
-                            "thay bún sang cơm trắng",
-                            "thay miến sang cơm trắng",
-                            "1/2 tinh bột"
-                        ],
-                        placeholder: "...",
-                        dropdown: {
-                            enabled: 1, 
-                            maxItems: 10, 
-                            position: "all" 
-                        }
-                    });
-                   
-                }
-            });
+        const categories = <?php echo $categoriesJSON ?>;
+        $(selector).each(function () {
+            if (!$(this).data('tagify')) {
+                var tagifyInstance = new Tagify(this, {
+                    whitelist: categories["rau-cu"].values,
+                    placeholder: "...",
+                    dropdown: {
+                        enabled: 0,
+                        maxItems: 10,
+                        position: "all"
+                    }
+                });
+                $(this).data('tagify', tagifyInstance);
+            }
+        });
+    }
+$(document).on('change', '.input-note_name', function () {
+    $(this).closest('.row-note').find($('.input-note_values')).val('');
+    const selectedCategory = $(this).val();
+    const categories = <?php echo $categoriesJSON ?>;
+    $('.input-note_values').each(function () {
+        const tagifyInstance = $(this).data('tagify');
+        if (tagifyInstance) {
+            tagifyInstance.settings.whitelist = categories[selectedCategory]?.values || [];
+            tagifyInstance.dropdown.hide();
         }
+    });
+});
 </script>

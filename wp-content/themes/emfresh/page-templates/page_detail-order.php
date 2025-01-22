@@ -85,9 +85,9 @@ get_header();
 				<div class="card-header">
 					<ul class="nav tab-nav tab-nav-detail tabNavigation pt-16">
 						<li class="nav-item defaulttab" rel="info">Thông tin đơn hàng</li>
-						<li class="nav-item" rel="pay">Thanh toán</li>
 						<li class="nav-item" rel="settings-product">Chỉnh sửa thông tin</li>
 						<li class="nav-item" rel="activity-history">Lịch sử thao tác</li>
+						<li class="nav-item" rel="pay">Lịch sử thanh toán</li>
 						<li class="nav-item" rel="reserve">Bảo lưu</li>
 					</ul>
 				</div>
@@ -109,16 +109,16 @@ get_header();
 							<?php include( get_template_directory().'/parts/order/info.php');?>
 						</div>
 						<!-- /.tab-pane -->
-						<div class="tab-pane" id="pay">
-							<?php include( get_template_directory().'/parts/order/pay.php');?>
-						</div>
-						<!-- /.tab-pane -->
 						<div class="tab-pane" id="settings-product">
 							<?php include( get_template_directory().'/parts/order/settings-product.php');?>
 						</div>
 						<div class="tab-pane activity-history" id="activity-history">
 							<?php include( get_template_directory().'/parts/order/activity-history.php');?>
 						</div>
+						<div class="tab-pane" id="pay">
+							<?php include( get_template_directory().'/parts/order/pay.php');?>
+						</div>
+						<!-- /.tab-pane -->
 						<div class="tab-pane" id="reserve">
 							<?php include( get_template_directory().'/parts/order/reserve.php');?>
 						</div>
@@ -230,7 +230,6 @@ get_header();
 					printf('<option value="%s">%s</option>', $name, $note_item['name']);
 				}
 			?>
-			<option value="khac" selected>Khác</option>
 		</select>
 	</div>
 	<div class="col-8 col-note_values tag-container">
@@ -240,7 +239,7 @@ get_header();
 </script>
 <script>var orderDetailSettings = <?php echo json_encode($orderDetailSettings) ?>;</script>
 <?php
-
+$categoriesJSON = json_encode($list_notes);
 // endwhile;
 get_footer('customer');
 ?>
@@ -252,30 +251,35 @@ get_footer('customer');
 <script src="<?php site_the_assets(); ?>js/order-detail.js?t=<?php echo time() ?>"></script>
 <script type="text/javascript">
 $(document).ready(function () {
-		initializeTagify('input.input-note_values');
+	initializeTagify('input.input-note_values');
+});
+function initializeTagify(selector) {
+	const categories = <?php echo $categoriesJSON ?>;
+	$(selector).each(function () {
+		if (!$(this).data('tagify')) {
+			var tagifyInstance = new Tagify(this, {
+				whitelist: categories["rau-cu"].values,
+				placeholder: "...",
+				dropdown: {
+					enabled: 0,
+					maxItems: 10,
+					position: "all"
+				}
+			});
+			$(this).data('tagify', tagifyInstance);
+		}
 	});
-	function initializeTagify(selector) {
-            $(selector).each(function () {
-                if (!this.tagify) { 
-                    var tagifyInstance = new Tagify(this, {
-                        whitelist: [
-                            "cà rốt",
-                            "bí đỏ",
-                            "củ dền",
-                            "bí ngòi",
-                            "thay bún sang cơm trắng",
-                            "thay miến sang cơm trắng",
-                            "1/2 tinh bột"
-                        ],
-                        placeholder: "...",
-                        dropdown: {
-                            enabled: 1, 
-                            maxItems: 10, 
-                            position: "all" 
-                        }
-                    });
-                   
-                }
-            });
+}
+$(document).on('change', '.input-note_name', function () {
+    $(this).closest('.row-note').find($('.input-note_values')).val('');
+    const selectedCategory = $(this).val();
+    const categories = <?php echo $categoriesJSON ?>;
+    $('.input-note_values').each(function () {
+        const tagifyInstance = $(this).data('tagify');
+        if (tagifyInstance) {
+            tagifyInstance.settings.whitelist = categories[selectedCategory]?.values || [];
+            tagifyInstance.dropdown.hide();
         }
+    });
+});
 </script>
