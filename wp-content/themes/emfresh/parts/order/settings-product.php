@@ -14,26 +14,36 @@
                     <div class="info-order line-dots">
                         <div class="d-f jc-b pt-8">
                             <span class="tlt fw-bold ">Phân loại đơn hàng:</span>
-                            <span>W</span>
+                            <span class="type"><?php echo strtoupper($order_items[0]['type']); ?></span>
                         </div>
                         <div class="d-f jc-b pt-8">
                             <span class="tlt fw-bold ">Ngày bắt đầu đơn hàng:</span>
-                            <span>04/11/2024</span>
+                            <span class="date-start"><?php echo date("d/m/Y", strtotime($order_items[0]['date_start'])); ?></span>
                         </div>
                         <div class="tlt fw-bold  pt-8">Thông tin sản phẩm:</div>
-                        <div class="info-product pt-8">
+                        <?php foreach ($order_items as $i => $order_item) : extract($order_item); ?>
+                        <div class="info-product pt-8" data-id="order_item_<?php echo $i + 1 ?>">
                             <div class="d-f jc-b">
-                                <div class="d-f"><span class="name">Slimfit M</span>&nbsp;x&nbsp;<span class="quantity">5</span></div>
-                                <div class="price">325.000</div>
+                                <div class="d-f"><span class="name">
+                                    <?php
+                                        foreach ($list_products as $product) {
+                                            echo $product['id'] == $product_id ? $product['name'] : '';
+                                        }
+                                        ?>
+                                    </span>&nbsp;x&nbsp;<span class="quantity"><?php echo $quantity > 0 ? number_format($quantity) : 1 ?></span></div>
+                                <div class="price"><?php echo $amount > 0 ? number_format($amount) : 0 ?></div>
                             </div>
                             <div class="note-box pb-20">
-                                <p><span class="note">Note rau củ</span>:&nbsp;<span class="value">cà rốt, bí đỏ, củ dền, bí ngòi</span></p>
-                                <p><span class="note">Note tinh bột</span>:&nbsp;<span class="value">thay bún sang cơm trắng, thay miến sang cơm trắng, 1/2 tinh
-                                        bột</span></p>
-                                <p><span class="note">Note khác</span>:&nbsp;<span class="value">ko rau lá, chỉ củ, 2 sốt</span></p>
-                                <p><span class="note">Note đính kèm</span>:&nbsp;<span class="value">thêm 1 tương ớt, thêm 1 ớt, túi riêng</span></p>
+                                <?php
+                                    foreach ($note_list as $note) {
+                                        foreach ($note['values'] as $value) {
+                                            printf('<p><span class="note">Note %s</span>:&nbsp;<span class="value">%s</span></p>', $note['name'], $value);
+                                        }
+                                    }
+                                    ?>
                             </div>
                         </div>
+                        <?php endforeach ?>
                     </div>
                     <div class="info-pay">
                         <div class="d-f jc-b pt-18">

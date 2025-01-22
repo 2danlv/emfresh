@@ -39,6 +39,7 @@ jQuery(function ($) {
 
 	function update_order_item_info(order_item) {
 		order_item = $(order_item);
+		data_id = order_item.closest('.js-order-item').attr('id');
 		order_details = $('.order-details')
 
 		let product_id = parseInt(order_item.find('.input-product_id').val());
@@ -118,10 +119,16 @@ jQuery(function ($) {
 		order_item.find('.input-date_stop').val(get_date_value(date_start, days));
 		order_item.find('.input-ship_price').val(ship_price);
 
-		order_details.find('.info-product .price').text(format_money(amount));
-		order_details.find('.info-product .quantity').text(quantity);
-		order_details.find('.info-product .name').text(order_item.find('.input-product_id option:selected').text());
-		order_details.find('.date-start').text(date_start);
+		order_details.find(`[data-id="${data_id}"] .price`).text(format_money(amount));
+		order_details.find(`[data-id="${data_id}"] .quantity`).text(quantity);
+		order_details.find(`[data-id="${data_id}"] .name`).text(order_item.find('.input-product_id option:selected').text());
+
+		var date = new Date(date_start);
+		var formattedDate = ('0' + date.getDate()).slice(-2) + '/' +
+                    ('0' + (date.getMonth() + 1)).slice(-2) + '/' +
+                    date.getFullYear();
+		order_details.find('.date-start').text(formattedDate);
+		type = type.toUpperCase();
 		order_details.find('.type').text(type);
 	}
 
@@ -421,39 +428,38 @@ jQuery(function ($) {
 		}
 	});
 
+
+	$(document).on('click', '.js-add-note', function () {
+		let order_item = $(this).closest('.js-order-item');
+		if (order_item.length > 0) {
+			note_add_row(order_item);
+			initializeTagify('input.input-note_values');
+		}
+	});
+	function note_add_row(order_item, note_list) {
+		// select2
+		let html = $('#note_template').html();
+		if (typeof html != 'string') return;
 	
-
-});
-$(document).on('click', '.js-add-note', function () {
-	let order_item = $(this).closest('.js-order-item');
-	if (order_item.length > 0) {
-		note_add_row(order_item);
-		initializeTagify('input.input-note_values');
+		if (typeof note_list == 'object') {
+			Object.keys(note_list).forEach(name => {
+				let item = note_list[name];
+	
+				if (item.values.length > 0) {
+					let note_row = $(html),
+						input = note_get_input(em_notes[name]);
+	
+					note_row.find('.input-note_name').val(name);
+	
+					input.val(item.values);
+	
+					note_row.find('.col-note_values').html(input);
+	
+					order_item.find('.js-note-list').append(note_row);
+				}
+			});
+		} else {
+			order_item.find('.js-note-list').append(html);
+		}
 	}
 });
-function note_add_row(order_item, note_list) {
-	// select2
-	let html = $('#note_template').html();
-	if (typeof html != 'string') return;
-
-	if (typeof note_list == 'object') {
-		Object.keys(note_list).forEach(name => {
-			let item = note_list[name];
-
-			if (item.values.length > 0) {
-				let note_row = $(html),
-					input = note_get_input(em_notes[name]);
-
-				note_row.find('.input-note_name').val(name);
-
-				input.val(item.values);
-
-				note_row.find('.col-note_values').html(input);
-
-				order_item.find('.js-note-list').append(note_row);
-			}
-		});
-	} else {
-		order_item.find('.js-note-list').append(html);
-	}
-}
