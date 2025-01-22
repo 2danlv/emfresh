@@ -274,7 +274,7 @@ $(document).on('change', '.input-note_name', function () {
     $(this).closest('.row-note').find($('.input-note_values')).val('');
     const selectedCategory = $(this).val();
     const categories = <?php echo $categoriesJSON ?>;
-    $('.input-note_values').each(function () {
+    $(this).closest('.row-note').find($('.input-note_values')).each(function () {
         const tagifyInstance = $(this).data('tagify');
         if (tagifyInstance) {
             tagifyInstance.settings.whitelist = categories[selectedCategory]?.values || [];
