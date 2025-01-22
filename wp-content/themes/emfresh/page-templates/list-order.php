@@ -91,7 +91,7 @@ get_header();
         <thead>
           <tr class="nowrap">
             <th data-number="0" class="text-center"><input type="checkbox" name="checkall" id="checkall" /></th>
-            <th data-number="1" class="dt-orderable-none"><span class="nowrap">Mã đơn</span></th>
+            <th data-number="1" class="dt-orderable-none text-left"><span class="nowrap">Mã đơn</span></th>
             <th data-number="2"><span class="nowrap">Tên khách hàng</span></th>
             <th data-number="3" class="text-left">SĐT</th>
             <th data-number="4" class="dt-orderable-none">Địa chỉ</th>
@@ -132,7 +132,7 @@ get_header();
                 ?>
                   <tr class="nowrap">
                     <td data-number="0" class="text-center"><input type="checkbox" class="checkbox-element" data-number="<?php echo $record['phone']; ?>" value="<?php echo $record['id'] ?>"></td>
-                    <td data-number="1" class="text-left"><?php echo $record['order_number'] ?></td>
+                    <td data-number="1" class="text-left"><a href="<?php echo $link ?>"><?php echo $record['order_number'] ?></a></td>
                     <td data-number="2" class="text-capitalize nowrap wrap-td"><div class="ellipsis"><a href="<?php echo $link ?>"><?php echo $record['customer_name']; ?></a></div></td>
                     <td data-number="3" class="text-left"><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $record['phone']; ?>"><?php echo $record['phone']; ?></span></td>
                     <td data-number="4" class="text-capitalize wrap-td" style="min-width: 300px;">
