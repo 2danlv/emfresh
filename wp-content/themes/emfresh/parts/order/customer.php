@@ -38,6 +38,7 @@
 </div>
 <script>
     $(document).ready(function() {
+        $('.js-show-order-item:first .remove-tab').addClass("hidden");
     $('.search-cus').keyup(function() {
         var query = $(this).val();
         if (query.length > 2) {  

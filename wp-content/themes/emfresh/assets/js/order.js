@@ -164,7 +164,7 @@ function activateTab(tabId) {
 
 $(document).on('click', '.add-tab', function (e) {
   e.preventDefault();
-
+$('.js-show-order-item .remove-tab').removeClass("hidden");
   let html = $('.js-order-item:first').prop('outerHTML');
   if (typeof html != 'string') return;
 
@@ -319,12 +319,12 @@ $('#modal-remove-tab button[name="remove"]').on("click", function () {
     }
 
     if ($(".tab-button").length == 1) {
-      $(".remove-tab").removeClass("show");
+      $(".remove-tab").addClass("hidden");
     }
     $(".tab-button").each(function (index) {
       $(this).html(
         `Sản phẩm ${index + 1}<span class="remove-tab ${
-          $(".tab-button").length == 1 ? "" : "show"
+          $(".tab-button").length == 1 ? "hidden" : ""
         }">`
       );
     });
