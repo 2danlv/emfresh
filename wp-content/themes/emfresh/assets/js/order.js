@@ -13,15 +13,12 @@ $(document).ready(function () {
     $(this).closest(".dropdown-address").find('.dropdown-menu').show();
     $(".overlay-drop-menu").show();
   });
-  $(".tooltip-icon").on("click", function () {
+  $(document).on('click', '.tooltip-icon', function (e) {
     $(this).siblings(".tooltip-content").show();
   });
-  $(document).on('click', '.overlay-drop-menu,.other-address', function (e) {
+  $(document).on('click', '.overlay-drop-menu,.other-address,.tooltip-content .close', function (e) {
     $('.overlay-drop-menu').hide();
     $('.dropdown-menu').hide();
-    $(".tooltip-content").hide();
-  });
-  $(".tooltip-content .close").on("click", function () {
     $(".tooltip-content").hide();
   });
   
@@ -58,7 +55,6 @@ $(document).ready(function () {
     var note_shiper = $(this).find(".note_shiper").text();
     $(".dropdown input").val(other_address);
     $('.info-customer .customer-address').text(other_address);
-    console.log('log',note_shiper.length);
     if(note_shiper.length != 0) {
       $('.note-shipper').removeClass('hidden');
     } else {

@@ -47,7 +47,7 @@
                 method: 'GET',
                 dataType: 'json',
                 success: function(response) {
-                    //console.log('customer', response.data);
+                    console.log('customer', response.data);
                     var suggestions = '';
                     var results = response.data.filter(function(customer) {
                         return customer.customer_name.toLowerCase().includes(query.toLowerCase()) ||
@@ -59,7 +59,7 @@
                             `<div class="result-item" data-id="${customer.id}">
                                 <p class="name">${customer.customer_name}</p>
                                 <p class="color-black fs-14 fw-regular phone pt-8 pb-8">${customer.phone}</p>
-                                <p class="color-black fs-14 fw-regular address">${customer.address + ' ' + customer.ward + ' ' + customer.district }</p>
+                                <p class="color-black fs-14 fw-regular address">${customer.address + ', ' + customer.ward + ', ' + customer.district }</p>
                                 <p class="note_shiper hidden">${customer.note_shipping}</p>
                             </div>`
                         ).join("\n");
@@ -106,7 +106,7 @@
             $('.note-shipper').addClass('hidden');
         }
         $('.input-order .note_shiper').val(note_shiper);
-        $('.result').show(); 
+        $('.result,.info-customer').show(); 
         $('#autocomplete-results,.no-result').hide();
         
         $('.input-customer_id').val(customer_id);
