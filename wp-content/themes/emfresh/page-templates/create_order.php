@@ -129,7 +129,7 @@ get_header();
                     <!-- /.col -->
                     <div class="col-8">
                         <div class="card-body">
-                            <ul class="nav tab-order tab-nav tabNavigation pt-20">
+                            <ul class="nav tab-order tab-nav pt-20">
                                 <li class="nav-item defaulttab" rel="customer">Khách hàng</li>
                                 <li class="nav-item" rel="product">Sản phẩm</li>
                                 <li class="nav-item" rel="pay">Thanh toán</li>
@@ -140,7 +140,7 @@ get_header();
                                 <div class="tab-pane" id="customer">
                                     <?php include get_template_directory() . '/parts/order/customer.php'; ?>
                                 </div>
-                                <form method="post" action="<?php echo $action_url ?>">
+                                <form method="post" class="form-add-order" action="<?php echo $action_url ?>">
     
                                     <input type="hidden" name="order_id" value="<?php echo $order_id ?>" />
                                     <input type="hidden" class="order_item_total" value="<?php echo $order_item_total ?>" />
@@ -183,7 +183,7 @@ get_header();
 <div class="navigation-bottom d-f jc-b ai-center">
     <span class="btn btn-secondary js-btn-prev btn-disable">Quay lại</span>
     <span class="btn btn-primary js-next-tab btn-next">Tiếp theo</span>
-    <span class="btn btn-primary js-create-order btn-next hidden">Tạo đơn</span>
+    <span class="btn btn-primary js-create-order hidden">Tạo đơn</span>
 </div>
 </section>
 <!-- /.content -->
@@ -405,10 +405,67 @@ get_footer('customer');
 <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
 <script src="<?php site_the_assets(); ?>js/order.js"></script>
 <script src="<?php site_the_assets(); ?>js/order-detail.js"></script>
-<script type="text/javascript">$(document).ready(function () {
-    $('.js-calendar.date').val('');
-		initializeTagify('input.input-note_values');
-	});
+<script type="text/javascript">
+    function switch_tabs_add_order(obj) {
+            $('.tab-pane').stop().fadeOut(1);
+            $('ul.tab-order li').removeClass('selected');
+            var id_order = obj.attr('rel');
+            jQuery('#' + id_order).stop().fadeIn(300);
+            obj.addClass('selected');
+            updateNavigationButtons();
+        }
+
+        function navigateTabs(direction) {
+            const currentTab = $('ul.tab-order li.selected');
+            let newTab;
+            if (direction === 'next') {
+                newTab = currentTab.next('li');
+            } else {
+                newTab = currentTab.prev('li');
+            }
+            if (newTab.length > 0) {
+                switch_tabs_add_order(newTab);
+            }
+        }
+
+        function updateNavigationButtons() {
+            const firstTab = $('ul.tab-order li').first();
+            const lastTab = $('ul.tab-order li').last();
+            const currentTab = $('ul.tab-order li.selected');
+
+            if (currentTab.is(firstTab)) {
+                $('.js-btn-prev').addClass('btn-disable');
+                $('.js-btn-prev').removeClass('btn-primary');
+            } else {
+                $('.js-btn-prev').removeClass('btn-disable');
+                $('.js-btn-prev').addClass('btn-primary');
+            }
+
+            if (currentTab.is(lastTab)) {
+                $('.js-next-tab').addClass('hidden');
+                $('.js-create-order').removeClass('hidden');
+            } else {
+                $('.js-next-tab').removeClass('hidden');
+                $('.js-create-order').addClass('hidden');
+            }
+        }
+
+        $(document).ready(function () {
+            $('ul.tab-order.tab-nav li').click(function () {
+                switch_tabs_add_order($(this));
+            });
+            $('.js-next-tab').click(function () {
+                navigateTabs('next');
+            });
+            $('.js-btn-prev').click(function () {
+                navigateTabs('prev');
+            });
+            switch_tabs_add_order($('.defaulttab'));
+        });
+    $(document).ready(function () {
+        $('.js-calendar.date').val('');
+        initializeTagify('input.input-note_values');
+    });
 	function initializeTagify(selector) {
             $(selector).each(function () {
                 if (!this.tagify) { 

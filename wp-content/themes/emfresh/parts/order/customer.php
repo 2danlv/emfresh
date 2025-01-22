@@ -26,148 +26,15 @@
             </div>
             <p class="fs-14 fw-regular note-shipper hidden color-gray pt-4 pl-8">Note với shipper: <span class="note_shiper"></span></p>
             <div class="dropdown-menu">
-                <div class="item active">
-                    <p class="fs-16 color-black other-address">44L đường số 11, KDC Miếu Nổi, Phường 3, Quận Bình Thạnh</p>
-                    <div class="group-management-link d-f jc-b ai-center pt-8">
-                        <div class="tooltip d-f ai-center">
-                            <p class="fs-14 fw-regular color-gray">(Đã đăng ký chung nhóm ship: Thien Phuong Bui)</p>
-                            <p class="note_shiper hidden">gửi lễ tân/bảo vệ rồi nhắn tin khách</p>
-                            <span class="fas tooltip-icon fa-info-gray"></span>
-                            <div class="tooltip-content">
-                                <div class="close fas fa-trash"></div>
-                                <ul>
-                                    <li>Thien Phuong Bui</li>
-                                    <li>Dieu Linh (zalo)</li>
-                                    <li>Nguyen Hai Minh Thi</li>
-                                    <li>Dinh Thi Hien Ly</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <a class="management-link" href="#">Đi đến Quản lý nhóm</a>
-                    </div>
-                </div>
-                <div class="item">
-                    <p class="fs-16 color-black other-address">45 Hoa Lan, Phường 3, Quận Phú Nhuận</p>
-                </div>
+                <div class="locations-container"></div>
                 <div data-target="#modal-add-address-1" class="btn-add-address modal-button d-f ai-center pb-16 pt-8 pl-8">
                     <span class="fas fa-plus mr-8"></span>Thêm địa chỉ mới
                 </div>
             </div>
         </div>
     </div>
-    <h3 class="card-title title-order d-f ai-center">
-        <span class="fas fa-clock mr-8"></span>
-        Đơn hàng gần đây
-    </h3>
-    <div class="history-order">
-        <div class="no-history show">
-            <img src="<?php site_the_assets(); ?>/img/icon/cart.svg" alt="">
-            <div class="pt-8 color-gray fs-12 fw-regular">Chưa có lịch sử mua hàng</div>
-        </div>
-        <div class="history">
-            <details class="history-item using">
-                <summary class="d-f jc-b ai-center history-header">
-                    <div class="d-f ai-center history-id gap-8">
-                        <span class="fas fa-dropdown"></span>
-                        <span class="number">123456</span>
-                    </div>
-                    <div class="d-f history-status gap-16">
-                        <span class="status_order">Đang dùng</span>
-                        <span class="copy"></span>
-                    </div>
-                </summary>
-                <div class="history-content">
-                    <div class="info">
-                        <div class="d-f ai-center gap-10 address">
-                            <span class="fas fa-location"></span>
-                            <span class="txt">44L đường số 11, KDC Miếu Nổi, Phường 3, Quận Bình Thạnh</span>
-                        </div>
-                        <p class="color-gray-2 fs-14 fw-regular pl-26 pt-8">(Đã đăng ký chung nhóm ship: Thien Phuong Bui)</p>
-                        <div class="d-f ai-center gap-10 pt-8 purchase-summary">
-                            <span class="fas fa-shopping-cart"></span>
-                            <span class="txt">2EM+1PM+1EP</span>
-                        </div>
-                        <div class="d-f ai-center gap-10 pt-8">
-                            <span class="fas fa-shopping-cart"></span>
-                            <span class="txt-green fw-bold ">400.000</span>
-                        </div>
-                    </div>
-                    <div class="note">
-                        <div class="note-item d-f jc-b ai-center gap-10 pt-8">
-                            <div class="d-f ai-center gap-10">
-                                <span class="fas fa-note"></span>
-                                <span class="txt">Yêu cầu đặc biệt:</span>
-                            </div>
-                            <span class="txt">Note rau củ: cà rốt, bí đỏ, củ dền, bí ngòi</span>
-                        </div>
-                        <div class="note-item d-f jc-b ai-center gap-10 pt-8">
-                            <div class="d-f ai-center gap-10">
-                                <span class="fas fa-note"></span>
-                                <span class="txt">Giao hàng:</span>
-                            </div>
-                            <span class="txt">Thứ 3 - Thứ 5: 45 Hoa Lan, Phường 3, Quận Phú Nhuận</span>
-                        </div>
-                    </div>
-                </div>
-            </details>
-            <details class="history-item">
-                <summary class="d-f jc-b ai-center history-header">
-                    <div class="d-f ai-center history-id gap-8">
-                        <span class="fas fa-dropdown"></span>
-                        <span class="number">123456</span>
-                    </div>
-                    <div class="d-f history-status gap-16">
-                        <span class="status_order">Hoàn tất</span>
-                        <span class="copy"></span>
-                    </div>
-                </summary>
-                <div class="history-content">
-                    <div class="info">
-                        <div class="d-f ai-center gap-10 address">
-                            <span class="fas fa-location"></span>
-                            <span class="txt">44L đường số 11, KDC Miếu Nổi, Phường 3, Quận Bình Thạnh</span>
-                        </div>
-                        <div class="d-f ai-center gap-10 pt-8 purchase-summary">
-                            <span class="fas fa-shopping-cart"></span>
-                            <span class="txt">2EM+1PM+1EP</span>
-                        </div>
-                        <div class="d-f ai-center gap-10 pt-8">
-                            <span class="fas fa-shopping-cart"></span>
-                            <span class="txt-green fw-bold ">400.000</span>
-                        </div>
-                    </div>
-                </div>
-            </details>
-            <details class="history-item">
-                <summary class="d-f jc-b ai-center history-header collapsed">
-                    <div class="d-f ai-center history-id gap-8">
-                        <span class="fas fa-dropdown"></span>
-                        <span class="number">123456</span>
-                    </div>
-                    <div class="d-f history-status gap-16">
-                        <span class="status_order">Hoàn tất</span>
-                        <span class="copy"></span>
-                    </div>
-                </summary>
-                <div class="history-content">
-                    <div class="info">
-                        <div class="d-f ai-center gap-10 address">
-                            <span class="fas fa-location"></span>
-                            <span class="txt">44L đường số 11, KDC Miếu Nổi, Phường 3, Quận Bình Thạnh</span>
-                        </div>
-                        <div class="d-f ai-center gap-10 pt-8 purchase-summary">
-                            <span class="fas fa-shopping-cart"></span>
-                            <span class="txt">2EM+1PM+1EP</span>
-                        </div>
-                        <div class="d-f ai-center gap-10 pt-8">
-                            <span class="fas fa-shopping-cart"></span>
-                            <span class="txt-green fw-bold ">400.000</span>
-                        </div>
-                    </div>
-                </div>
-            </details>
-        </div>
-    </div>
+    <?php include get_template_directory() . '/parts/order/customer-history.php'; ?>
+    
 </div>
 <script>
     $(document).ready(function() {
@@ -227,7 +94,7 @@
         $('#search').val(name); 
         $('.input-order .fullname').val(name); 
         $('.input-order .phone').val(phone); 
-        $('.input-order .address_delivery').val(address);
+        $('.address_delivery').val(address);
         $('.input-order .note_shiper').val(note_shiper);
         $('.result').show(); 
         $('#autocomplete-results,.no-result').hide();
@@ -240,7 +107,35 @@
                 method: 'GET',
                 dataType: 'json',
                 success: function(response) {
-                    console.log('location', response.data);
+                    const container = $('.locations-container');
+                    container.empty();
+                    //console.log('location', response.data);
+                    
+                    response.data.forEach(location => {
+                    const template = `
+                        <div class="item">
+                            <p class="fs-16 color-black other-address">${location.location_name}</p>
+                            <div class="group-management-link d-f jc-b ai-center pt-8">
+                                <div class="tooltip d-f ai-center">
+                                    <p class="fs-14 fw-regular color-gray">(Đã đăng ký chung nhóm ship: Thien Phuong Bui)</p>
+                                    <p class="note_shiper hidden">${location.note_shipper || 'No notes available'}</p>
+                                    <span class="fas tooltip-icon fa-info-gray"></span>
+                                    <div class="tooltip-content">
+                                        <div class="close fas fa-trash"></div>
+                                        <ul>
+                                            <li>Thien Phuong Bui</li>
+                                            <li>Dieu Linh (zalo)</li>
+                                            <li>Nguyen Hai Minh Thi</li>
+                                            <li>Dinh Thi Hien Ly</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <a class="management-link" href="#">Đi đến Quản lý nhóm</a>
+                            </div>
+                        </div>
+                    `;                  
+                    container.append(template);
+                    });
                 },
                 error: function(xhr, status, error) {
                     console.error('Error fetching data from API', error);

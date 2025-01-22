@@ -851,7 +851,11 @@ tags.tagify.form-control {
                     display: flex;
                 }
             }
-
+            .dropdown-address {
+                .group-management-link {
+                    display: none;
+                }
+            }
             .address {
                 position: relative;
 

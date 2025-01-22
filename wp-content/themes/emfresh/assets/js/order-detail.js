@@ -328,7 +328,7 @@ jQuery(function ($) {
 			order_item = p.closest('.js-order-item');
 		if (order_item.length > 0) {
 			if (check_order_item('location_date', order_item) == false) {
-				alert('Địa điểm và thời gian đang dùng! Vùi lòng chọn lại');
+				alert('Địa điểm và thời gian đang dùng! Vui lòng chọn lại');
 
 				return;
 			}

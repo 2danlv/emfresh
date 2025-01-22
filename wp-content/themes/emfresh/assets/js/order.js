@@ -16,7 +16,7 @@ $(document).ready(function () {
   $(".tooltip-icon").on("click", function () {
     $(this).siblings(".tooltip-content").show();
   });
-  $(".overlay-drop-menu,.other-address").click(function () {
+  $(document).on('click', '.overlay-drop-menu,.other-address', function (e) {
     $('.overlay-drop-menu').hide();
     $('.dropdown-menu').hide();
     $(".tooltip-content").hide();
@@ -49,7 +49,7 @@ $(document).ready(function () {
   $(".close-toast").on("click", function () {
     $(".toast").removeClass("show");
   });
-  $(".order .dropdown-menu .item").click(function (e) {
+  $(document).on('click', '.order .dropdown-menu .item', function (e) {
     var other_address = $(this).find(".other-address").text();
     var note_shiper = $(this).find(".note_shiper").text();
     $(".dropdown input").val(other_address);
@@ -351,6 +351,9 @@ $(".js-input-field").on("input", "input, select", function () {
 });
 $('.js-btn-save.out-line').click(function (e) { 
   $('.edit--order').submit();
+});
+$('.js-create-order').click(function (e) { 
+  $('.form-add-order').submit();
 });
 });
 var original_total_cost = parseFloat(

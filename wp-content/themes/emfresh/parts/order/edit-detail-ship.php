@@ -56,25 +56,23 @@ extract($ship);
         </div>
         <div class="row delivery-item pt-24 ai-center">
             <div class="col-4">Địa chỉ giao:</div>
-            <div class="col-8 address">
-                <div class="dropdown">
-                    <select name="ship[location_id]" class="form-control select-location_id input-location_id">
+            <div class="col-8 dropdown-address">
+                <div class="dropdown active">
+                    <input type="text" name="ship[location_id]" class="address_delivery form-control select-location_id input-location_id">
+                    <!-- <select  class="form-control select-location_id input-location_id">
                         <?php
-                        foreach ($list_locations as $location) {
-                            printf('<option value="%s" %s>%s</option>', $location['id'], $order_detail['location_id'] == $location['id'] ? 'selected' : '', $location['location_name']);
-                        }
+                        // foreach ($list_locations as $location) {
+                        //     printf('<option value="%s" %s>%s</option>', $location['id'], $order_detail['location_id'] == $location['id'] ? 'selected' : '', $location['location_name']);
+                        // }
                         ?>
-                    </select>
+                    </select> -->
                     <span class="fs-14 hidden fw-regular note-shipper color-gray pl-8">Note với shipper: <span class="note_shiper"></span></span>
                 </div>
                 <div class="dropdown-menu">
-                    <div class="item">
-                        <p class="fs-16 color-black other-address">44L đường số 11, KDC Miếu Nổi, Phường 3, Quận Bình Thạnh</p>
-                        <p class="note_shiper hidden">gửi lễ tân/bảo vệ rồi nhắn tin khách</p>
-                    </div>
-                    <a href="#modal-add-address" class="btn-add-address d-f ai-center pb-16 pt-8 pl-8">
+                    <div class="locations-container"></div>
+                    <div data-target="#modal-add-address-1" class="btn-add-address modal-button d-f ai-center pb-16 pt-8 pl-8">
                         <span class="fas fa-plus mr-8"></span>Thêm địa chỉ mới
-                    </a>
+                    </div>
                 </div>
             </div>
         </div>
