@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card card-no_border">
     <div class="total-pay d-f jc-b ai-center">
         <p>Tổng tiền sản phẩm:</p>
         <p class="price-product fw-bold"><?php echo $order_detail['total_amount'] > 0 ? number_format($order_detail['total_amount']) : 0; ?></p>

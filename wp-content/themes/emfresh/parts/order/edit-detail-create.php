@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card card-no_border">
     <div class="pl-16 pr-16 tab-products">
         <div class="tab-add-product" id="tabNav">
             <?php foreach ($order_items as $i => $order_item) : ?>

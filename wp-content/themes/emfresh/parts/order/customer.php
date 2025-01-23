@@ -1,4 +1,4 @@
-<div class="card rounded-b-r">
+<div class="card card-no_border">
     <div class="box-search">
         <input class="search-cus mb-16" id="search" placeholder="Tìm khách hàng bằng tên / SĐT" type="text">
         <div class="search-result">

@@ -27,7 +27,7 @@ foreach($params as $key => $value) {
 extract($ship);
 
 ?>
-<div class="card">
+<div class="card card-no_border">
     <div class="pl-16 pr-16">
         <div class="row delivery-item">
             <div class="col-4">Đặt lịch:</div>
