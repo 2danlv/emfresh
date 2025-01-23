@@ -401,12 +401,10 @@ tags.tagify.form-control {
         }
     }
 
-    .calendar {
+    .card .js-calendar.date {
         position: relative;
         cursor: pointer;
-        input[name='calendar'] {
-            background: url(../img/icon/CalendarBlank.svg) right 8px center no-repeat;
-        }
+            background: url(../img/icon/CalendarBlank.svg) right 8px center no-repeat #F6F6F6;
     }
 
     .tooltip {

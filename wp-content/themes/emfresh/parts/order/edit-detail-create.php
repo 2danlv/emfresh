@@ -26,7 +26,7 @@
                             <div class="col-5">
                                 <div class="label mb-4">Phân loại:</div>
                                 <select name="order_item[<?php echo $i ?>][type]" class="form-control input-type" required>
-                                    <!-- <option value="">Chọn loại</option> -->
+                                    <option value="" disabled selected>D / W / M</option>
                                     <?php
                                     foreach ($list_types as $value) {
                                         printf('<option value="%s" %s>%s</option>', $value, $type == $value ? 'selected' : '', strtoupper($value));
@@ -60,7 +60,7 @@
                                     <div class="d-f gap-24">
                                         <div class="col-5">
                                             <select name="order_item[<?php echo $i ?>][product_id]" class="form-control input-product_id" required>
-                                                <!-- <option value="0">Chọn gói</option> -->
+                                                <option value="" disabled selected>Nhập tên/mã sản phẩm</option>
                                                 <?php
                                                 foreach ($list_products as $product) {
                                                     printf('<option value="%s" %s>%s</option>', $product['id'], $product_id == $product['id'] ? 'selected' : '', $product['name']);
