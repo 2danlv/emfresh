@@ -440,8 +440,8 @@ get_footer('customer');
         $('.js-calendar.date').val('');
         initializeTagify('input.input-note_values');
     });
-	var categories = <?php echo $categoriesJSON ?>;
-    function initializeTagify(selector) {
+	function initializeTagify(selector) {
+        const categories = <?php echo $categoriesJSON ?>;
         $(selector).each(function () {
             if (!$(this).data('tagify')) {
                 var tagifyInstance = new Tagify(this, {
@@ -457,15 +457,16 @@ get_footer('customer');
             }
         });
     }
-    $(document).on('change', '.input-note_name', function () {
-        var selectedCategory = $(this).val();
-        $(this).closest('.row-note').find($('.input-note_values')).each(function () {
-            const tagifyInstance = $(this).data('tagify');
-            if (tagifyInstance) {
-                tagifyInstance.removeAllTags();
-                tagifyInstance.settings.whitelist = categories[selectedCategory]?.values || [];
-                tagifyInstance.dropdown.hide();
-            }
-        });
+$(document).on('change', '.input-note_name', function () {
+    $(this).closest('.row-note').find($('.input-note_values')).val('');
+    const selectedCategory = $(this).val();
+    const categories = <?php echo $categoriesJSON ?>;
+    $(this).closest('.row-note').find($('.input-note_values')).each(function () {
+        const tagifyInstance = $(this).data('tagify');
+        if (tagifyInstance) {
+            tagifyInstance.settings.whitelist = categories[selectedCategory]?.values || [];
+            tagifyInstance.dropdown.hide();
+        }
     });
+});
 </script>

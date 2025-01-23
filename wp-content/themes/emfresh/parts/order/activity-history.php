@@ -1,3 +1,13 @@
+<?php
+
+
+$order_logs = $em_log->get_items([
+    'module' => 'em_order',
+    'module_id' => $order_id,
+    // 'orderby'   => 'id DESC',
+]);
+
+?>
 <div class="table-container activity-history-table">
     <div class="table-wrapper">
         <table>
@@ -12,39 +22,25 @@
                 </tr>
             </thead>
             <tbody>
+                <?php foreach($order_logs as $item) :
+                
+                    $item_time = strtotime($item['created']);
+                    $contents = explode(':', $item['content']);
+                ?>
                 <tr>
-                    <td><img class="mr-8" src="<?php echo site_get_template_directory_assets(); ?>img/icon/User-gray.svg" width="24" alt="">Như Quỳnh</td>
-                    <td>cập nhật</td>
-                    <td>địa chỉ</td>
-                    <td class="ellipsis">44L đường số 11, KDC Miếu Nổi, Phường 3, Quận Bình Thạnh</td>
-                    <td>01:00</td>
-                    <td>29/10/24</td>
+                    <td>
+                        <img class="mr-8" src="<?php echo get_avatar_url($item['created_at']) ?>" width="24" alt="">
+                        <?php echo $item['created_author'] ?>
+                    </td>
+                    <td><?php echo $item['action'] ?></td>
+                    <td><?php echo $contents[0] ?></td>
+                    <td class="ellipsis"><?php echo isset($contents[1]) ? $contents[1] : '' ?></td>
+                    <td><?php echo date('H:i', $item_time) ?></td>
+                    <td><?php echo date('d/m/Y', $item_time) ?></td>
                 </tr>
-                <tr>
-                    <td><img class="mr-8" src="<?php echo site_get_template_directory_assets(); ?>img/icon/User-gray.svg" width="24" alt="">Như Quỳnh</td>
-                    <td>cập nhật</td>
-                    <td>địa chỉ</td>
-                    <td class="ellipsis">sản phẩm 1 số lượng 05</td>
-                    <td>01:00</td>
-                    <td>29/10/24</td>
-                </tr>
-                <tr>
-                    <td><img class="mr-8" src="<?php echo site_get_template_directory_assets(); ?>img/icon/User-gray.svg" width="24" alt="">Như Quỳnh</td>
-                    <td>cập nhật</td>
-                    <td>địa chỉ</td>
-                    <td class="ellipsis">sản phẩm 1 số lượng 05</td>
-                    <td>01:00</td>
-                    <td>29/10/24</td>
-                </tr>
-                <tr>
-                    <td><img class="mr-8" src="<?php echo site_get_template_directory_assets(); ?>img/icon/User-gray.svg" width="24" alt="">Như Quỳnh</td>
-                    <td>cập nhật</td>
-                    <td>địa chỉ</td>
-                    <td class="ellipsis">sản phẩm 1 số lượng 05</td>
-                    <td>01:00</td>
-                    <td>29/10/24</td>
-                </tr>
-                <tr>
+                <?php endforeach ?>
+
+                <?php /*/ ?>
                 <tr>
                     <td><img class="mr-8" src="<?php echo site_get_template_directory_assets(); ?>img/icon/User-gray.svg" width="24" alt="">Như Quỳnh</td>
                     <td>cập nhật</td>
@@ -70,21 +66,6 @@
                     <td>29/10/24</td>
                 </tr>
                 <tr>
-                    <td><img class="mr-8" src="<?php echo site_get_template_directory_assets(); ?>img/icon/User-gray.svg" width="24" alt="">Như Quỳnh</td>
-                    <td>cập nhật</td>
-                    <td>địa chỉ</td>
-                    <td class="ellipsis">sản phẩm 1 số lượng 05</td>
-                    <td>01:00</td>
-                    <td>29/10/24</td>
-                </tr>
-                <tr>
-                    <td><img class="mr-8" src="<?php echo site_get_template_directory_assets(); ?>img/icon/User-gray.svg" width="24" alt="">Như Quỳnh</td>
-                    <td>cập nhật</td>
-                    <td>địa chỉ</td>
-                    <td class="ellipsis">sản phẩm 1 số lượng 05</td>
-                    <td>01:00</td>
-                    <td>29/10/24</td>
-                </tr>
                 <tr>
                     <td><img class="mr-8" src="<?php echo site_get_template_directory_assets(); ?>img/icon/User-gray.svg" width="24" alt="">Như Quỳnh</td>
                     <td>cập nhật</td>
@@ -125,6 +106,47 @@
                     <td>01:00</td>
                     <td>29/10/24</td>
                 </tr>
+                <tr>
+                    <td><img class="mr-8" src="<?php echo site_get_template_directory_assets(); ?>img/icon/User-gray.svg" width="24" alt="">Như Quỳnh</td>
+                    <td>cập nhật</td>
+                    <td>địa chỉ</td>
+                    <td class="ellipsis">sản phẩm 1 số lượng 05</td>
+                    <td>01:00</td>
+                    <td>29/10/24</td>
+                </tr>
+                <tr>
+                    <td><img class="mr-8" src="<?php echo site_get_template_directory_assets(); ?>img/icon/User-gray.svg" width="24" alt="">Như Quỳnh</td>
+                    <td>cập nhật</td>
+                    <td>địa chỉ</td>
+                    <td class="ellipsis">sản phẩm 1 số lượng 05</td>
+                    <td>01:00</td>
+                    <td>29/10/24</td>
+                </tr>
+                <tr>
+                    <td><img class="mr-8" src="<?php echo site_get_template_directory_assets(); ?>img/icon/User-gray.svg" width="24" alt="">Như Quỳnh</td>
+                    <td>cập nhật</td>
+                    <td>địa chỉ</td>
+                    <td class="ellipsis">sản phẩm 1 số lượng 05</td>
+                    <td>01:00</td>
+                    <td>29/10/24</td>
+                </tr>
+                <tr>
+                    <td><img class="mr-8" src="<?php echo site_get_template_directory_assets(); ?>img/icon/User-gray.svg" width="24" alt="">Như Quỳnh</td>
+                    <td>cập nhật</td>
+                    <td>địa chỉ</td>
+                    <td class="ellipsis">sản phẩm 1 số lượng 05</td>
+                    <td>01:00</td>
+                    <td>29/10/24</td>
+                </tr>
+                <tr>
+                    <td><img class="mr-8" src="<?php echo site_get_template_directory_assets(); ?>img/icon/User-gray.svg" width="24" alt="">Như Quỳnh</td>
+                    <td>cập nhật</td>
+                    <td>địa chỉ</td>
+                    <td class="ellipsis">sản phẩm 1 số lượng 05</td>
+                    <td>01:00</td>
+                    <td>29/10/24</td>
+                </tr>
+                <?php /*/ ?>
             </tbody>
         </table>
     </div>

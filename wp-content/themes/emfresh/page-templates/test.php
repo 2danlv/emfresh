@@ -10,24 +10,28 @@
 
 if(isset($_GET['abs'])) {
     if(intval($_GET['abs']) > 10000) {
-        global $em_customer;
+        global $em_log;
 
-        $items = $em_customer->get_items([
-            'limit' => -1
-        ]);
+        // $items = $em_log->get_items([
+        //     'limit' => -1
+        // ]);
     
-        foreach($items as $item) {
-            // $response = $em_customer->delete($item['id']);
+        // var_dump($items);
 
-            echo $item['id'] . ';';
-            
-            die;
+        // foreach($items as $item) {
 
-    
-            // if ($response) {
-            //     echo $item['customer_name'] . ' - ' . $item['nickname'] . ' deleted';
-            // }
-        }
+        // }
+
+        $data = json_decode('
+{"action":"C\u1eadp nh\u1eadt s\u1ea3n ph\u1ea7m","module":"em_order","module_id":1,"content":"S\u1ea3n ph\u1ea9m 1","insert":0}', true);
+
+        // Add Log 
+        $insert = $em_log->insert($data);
+
+        $data['insert'] = $insert;
+
+        var_dump($data);
+
     } else {
         echo time();
     }

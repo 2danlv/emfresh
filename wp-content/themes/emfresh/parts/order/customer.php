@@ -47,7 +47,7 @@
                 method: 'GET',
                 dataType: 'json',
                 success: function(response) {
-                    console.log('customer', response.data);
+                    //console.log('customer', response.data);
                     var suggestions = '';
                     var results = response.data.filter(function(customer) {
                         return customer.customer_name.toLowerCase().includes(query.toLowerCase()) ||

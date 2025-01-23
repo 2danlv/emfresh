@@ -75,6 +75,16 @@ class EM_Log extends EF_Default
         return $rules;
     }
 
+    function get_filters()
+    {
+        $filters = array(
+            'module'        => '',
+            'module_id'     => '',
+        );
+
+        return $filters;
+    }
+
     function get_data($table_name = '', $data = [])
     {
         $log_data = $this->get_fields();
@@ -98,12 +108,16 @@ class EM_Log extends EF_Default
 
         $key = sprintf('%s-%s', $table_name, $id);
 
+        if (empty($em_log_old)) {
+            $em_log_old = [];
+        }
+
         if (empty($em_log_old[$key])) {
             $query = $wpdb->prepare("SELECT * FROM %i WHERE id = %s", $wpdb->prefix . $table_name, $id);
 
             $item = $wpdb->get_row($query, ARRAY_A);
 
-            $em_log_old[$key] = $this->get_item_by($id, $table_name);
+            $em_log_old[$key] = $item;
         }
 
         return $em_log_old[$key];

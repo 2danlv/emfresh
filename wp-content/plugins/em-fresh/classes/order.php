@@ -159,11 +159,11 @@ class EM_Order extends EF_Default
             'discount'      => 0,
             'note'          => '',
             'item_name'     => '',
-            'location_name' => '',
             'payment_method' => '',
             'payment_status' => 0,
             'order_status'  => 0,
             'order_type'    => '',
+            'params'        => '',
             'created'       => '',
             'created_at'    => 0,
             'modified'      => '',
@@ -271,7 +271,20 @@ class EM_Order extends EF_Default
         }
 
         return substr($prefix, 0, $max - $n) . substr($number, 0, $n);
-    }    
+    }
+    
+    function get_params($id = 0, $field = '')
+    {
+        $params = [];
+
+        $item = $this->get_item($id);
+
+        if(!empty($item['id'])) {
+            $params = (array) unserialize($item['params']);
+        }
+
+        return $params;
+    }
 
     function filter_item($data = [], $type = '')
     {

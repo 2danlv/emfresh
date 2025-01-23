@@ -97,19 +97,34 @@ class EM_Order_Item extends EF_Default
         return $wheres;
     }
 
+    function get_product($id = 0, $field = '')
+    {
+        global $em_product;
+
+        $item = $em_product->get_item($id);
+
+        if (!empty($item['id'])) {
+            return isset($item[$field]) ? $item[$field] : '';
+        }
+
+        return $item;
+    }
+
     function filter_item($data = [], $type = '')
     {
         $item = [];
 
         if (is_array($data)) {
-            // global $em_location;
-
             foreach ($data as $key => $value) {
                 $item[$key] = $value;
 
-                if ($key == 'location_id') {
-                    // $item['location_name'] = $em_location->get_fullname($value);
-                } else if($key == 'note'){
+                if($type == 'detail') {
+                    if ($key == 'product_id') {
+                        $item['product_name'] = $this->get_product($value, 'name');
+                    }
+                }
+                
+                if($key == 'note'){
                     $item['note_list'] = em_admin_get_notes($value);
                 }
             }
