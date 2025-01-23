@@ -22,9 +22,8 @@
         </div>
         <div class="col-12 pb-32 dropdown-address">
             <div class="dropdown active">
-                <input type="text" name="address_delivery" class="address_delivery is-disabled form-control" maxlength="50" placeholder="Địa chỉ giao hàng">
+                <input type="text" name="address_delivery" class="address_delivery is-disabled form-control" placeholder="Địa chỉ giao hàng">
             </div>
-            <p class="fs-14 fw-regular note-shipper hidden color-gray pt-4 pl-8">Note với shipper: <span class="note_shiper"></span></p>
             <div class="dropdown-menu">
                 <div class="locations-container"></div>
                 <div data-target="#modal-add-address-1" class="btn-add-address modal-button d-f ai-center pb-16 pt-8 pl-8">

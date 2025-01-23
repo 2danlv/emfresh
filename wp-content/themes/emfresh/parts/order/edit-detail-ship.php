@@ -56,16 +56,40 @@ extract($ship);
         </div>
         <div class="row delivery-item pt-24 ai-center">
             <div class="col-4">Địa chỉ giao:</div>
-            <div class="col-8 dropdown-address">
-                <div class="dropdown active">
+            <div class="col-8">
+                <div class="dropdown-address">
+                    <div class="dropdown active" style="pointer-events: all;">
+                        <input type="text" name="ship[location_id]" class="address_delivery is-disabled form-control" placeholder="Địa chỉ giao hàng">
+                    </div>
+                    <p class="fs-14 fw-regular note-shipper hidden color-gray pt-4 pl-8">Note với shipper: <span class="note_shiper"></span></p>
+                    <div class="dropdown-menu">
+                        <div class="locations-container">
+                            <?php 
+                            foreach ($list_locations as $location) { ?>
+                            
+                            <div class="item">
+                                <p class="fs-16 color-black other-address"><?php echo $location['location_name']; ?></p>
+                            </div>
+                            <!-- printf('<option value="%s" %s>%s</option>', $location['id'], $order_detail['location_id'] == $location['id'] ? 'selected' : '', $location['location_name']); -->
+                            
+                            <?php }
+                            ?>
+                        
+                        </div>
+                        <div data-target="#modal-add-address-1" class="btn-add-address modal-button d-f ai-center pb-16 pt-8 pl-8">
+                            <span class="fas fa-plus mr-8"></span>Thêm địa chỉ mới
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="dropdown active">
                     <input type="text" name="ship[location_id]" class="address_delivery form-control select-location_id input-location_id">
-                    <!-- <select  class="form-control select-location_id input-location_id">
+                    <select  class="form-control select-location_id input-location_id">
                         <?php
                         // foreach ($list_locations as $location) {
                         //     printf('<option value="%s" %s>%s</option>', $location['id'], $order_detail['location_id'] == $location['id'] ? 'selected' : '', $location['location_name']);
                         // }
                         ?>
-                    </select> -->
+                    </select>
                     <span class="fs-14 hidden fw-regular note-shipper color-gray pl-8">Note với shipper: <span class="note_shiper"></span></span>
                 </div>
                 <div class="dropdown-menu">
@@ -73,7 +97,7 @@ extract($ship);
                     <div data-target="#modal-add-address-1" class="btn-add-address modal-button d-f ai-center pb-16 pt-8 pl-8">
                         <span class="fas fa-plus mr-8"></span>Thêm địa chỉ mới
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="js-note delivery-item">

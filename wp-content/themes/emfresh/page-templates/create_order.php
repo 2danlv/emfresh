@@ -373,6 +373,7 @@ get_header();
 	</div>
 </div>
 </script>
+<script>var orderDetailSettings = <?php echo json_encode($orderDetailSettings) ?>;</script>
 <?php
  $categoriesJSON = json_encode($list_notes);
 // endwhile;
