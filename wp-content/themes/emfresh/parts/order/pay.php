@@ -7,9 +7,8 @@ $order_payment_logs = $em_log->get_items([
 ]);
 
 ?>
-<div class="table-container pay-table">
-    <div class="table-wrapper">
-        <table>
+<div class="card history-action">
+        <table class="regular">
             <thead>
                 <tr>
                     <th>Thời gian</th>
@@ -43,30 +42,6 @@ $order_payment_logs = $em_log->get_items([
                     <td>01:00</td>
                     <td>29/10/24</td>
                     <td><img class="mr-8" src="<?php echo site_get_template_directory_assets(); ?>img/icon/User-gray.svg" width="24" alt="">Như Quỳnh</td>
-                    <td>COD</td>
-                    <td>- 1.000.000</td>
-                    <td>0</td>
-                </tr>
-                <tr>
-                    <td>01:00</td>
-                    <td>29/10/24</td>
-                    <td><img class="mr-8" src="<?php echo site_get_template_directory_assets(); ?>img/icon/User-gray.svg" width="24" alt="">Như Quỳnh</td>
-                    <td>Bổ sung đơn hàng</td>
-                    <td>+ 500.0000</td>
-                    <td>+ 1.000.000</td>
-                </tr>
-                <tr>
-                    <td>01:00</td>
-                    <td>29/10/24</td>
-                    <td><img class="mr-8" src="<?php echo site_get_template_directory_assets(); ?>img/icon/User-gray.svg" width="24" alt="">Như Quỳnh</td>
-                    <td>Chuyển khoản</td>
-                    <td>- 200.000</td>
-                    <td>+ 500.000</td>
-                </tr>
-                <tr>
-                    <td>01:00</td>
-                    <td>29/10/24</td>
-                    <td><img class="mr-8" src="<?php echo site_get_template_directory_assets(); ?>img/icon/User-gray.svg" width="24" alt="">Như Quỳnh</td>
                     <td>Tạo đơn hàng</td>
                     <td>+ 700.000</td>
                     <td>+ 700.000</td>
@@ -74,5 +49,4 @@ $order_payment_logs = $em_log->get_items([
                 <?php /*/ ?>
             </tbody>
         </table>
-    </div>
 </div>

@@ -445,7 +445,7 @@ get_header();
 													<td>22/09/24</td>
 													<td>400.000</td>
 													<td align="center"><span class="status_pay">Rồi</td>
-													<td align="center" class="status-order"><span class="status_order">Đang dùng</< /td>
+													<td align="center" class="status-order"><span class="status_order">Đang dùng</span></td>
 												</tr>
 											</table>
 										</div>

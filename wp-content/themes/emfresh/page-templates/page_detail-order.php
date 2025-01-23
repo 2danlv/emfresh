@@ -112,7 +112,7 @@ get_header();
 						<div class="tab-pane" id="settings-product">
 							<?php include( get_template_directory().'/parts/order/settings-product.php');?>
 						</div>
-						<div class="tab-pane activity-history" id="activity-history">
+						<div class="tab-pane" id="activity-history">
 							<?php include( get_template_directory().'/parts/order/activity-history.php');?>
 						</div>
 						<div class="tab-pane" id="pay">

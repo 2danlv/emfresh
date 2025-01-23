@@ -60,7 +60,7 @@
     }
 
     &.ellipsis {
-        min-width: 368px;
+        min-width: 100%;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;

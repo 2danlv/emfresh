@@ -125,10 +125,10 @@ get_header();
           if (isset($response['data']) && is_array($response['data'])) {
             // Loop through the data array and print each entry
             foreach ($response['data'] as $record) {
+              //var_dump($record);
               if (is_array($record)) {
                   $link = add_query_arg(['order_id' => $record['id']], $detail_order_url);
                   $location_list = explode(',', $record['location_name']);
-
                 ?>
                   <tr class="nowrap">
                     <td data-number="0" class="text-center"><input type="checkbox" class="checkbox-element" data-number="<?php echo $record['phone']; ?>" value="<?php echo $record['id'] ?>"></td>
@@ -145,9 +145,9 @@ get_header();
                     <td data-number="9">25/10/24</td>
                     <td data-number="10" class="wrap-td" style="min-width: 290px;"><div class="ellipsis"><?php echo $record['note'] ?></div></td>
                     <td data-number="11" class="wrap-td" style="min-width: 290px;"><div class="ellipsis">Thứ 3 - Thứ 5: 45 Hoa Lan, Phường 3, Quận Phú Nhuận</div></td>
-                    <td data-number="12"><?php echo $record['status_name'] ?></td>
+                    <td data-number="12"><span class="status_order status_order-<?php echo $record['status']; ?>"><?php echo $record['status_name'] ?></span></td>
                     <td data-number="13"><?php echo $record['payment_method_name'] ?></td>
-                    <td data-number="14"><?php echo $record['payment_status_name'] ?></td>
+                    <td data-number="14"><span class="status_order status_pay-<?php echo $record['payment_status']; ?>"><?php echo $record['payment_status_name'] ?></span></td>
                     <td data-number="15"><?php echo $record['total'] > 0 ? number_format($record['total']) : 0 ?></td>
                     <td data-number="16"><?php echo $record['remaining_amount'] > 0 ? number_format($record['remaining_amount']) : 0 ?></td>
                     <td data-number="17"><?php echo $record['used_value'] > 0 ? number_format($record['used_value']) : 0 ?></td>
@@ -199,24 +199,28 @@ get_header();
         <div class="row">
           <div class="col-6">
             <ul class="filter list-unstyled">
-              <li><label><input type="checkbox" data-column="1" value="" disabled checked> Tên khách hàng</label></li>
+              <li><label><input type="checkbox" data-column="0" value="" disabled checked>Mã đơn</label></li>
+              <li><label><input type="checkbox" data-column="1" value="" disabled checked>Tên khách hàng</label></li>
               <li><label><input type="checkbox" data-column="2" value="" disabled checked> Số điện thoại</label></li>
-              <li><label><input type="checkbox" data-column="3" value="3" checked> Địa chỉ mặc định</label></li>
-              <li><label><input type="checkbox" data-column="5" value="5" checked> Trạng thái khách hàng</label></li>
-              <li><label><input type="checkbox" data-column="7" value="7"> Tag phân loại</label></li>
-              <li><label><input type="checkbox" data-column="8" value="8"> Giới tính</label></li>
-              <li><label><input type="checkbox" data-column="9" value="9"> Note dụng cụ ăn</label></li>
+              <li><label><input type="checkbox" data-column="3" value="" disabled checked> Địa chỉ</label></li>
+              <li><label><input type="checkbox" data-column="6" value="6">Phân loại</label></li>
+              <li><label><input type="checkbox" data-column="7" value="7" checked>Mã gói sản phẩm</label></li>
+              <li><label><input type="checkbox" data-column="8" value="8">Ngày bắt đầu</label></li>
+              <li><label><input type="checkbox" data-column="9" value="9">Ngày kết thúc</label></li>
+              <li><label><input type="checkbox" data-column="10" value="7">Yêu cầu đặc biệt</label></li>
             </ul>
           </div>
           <div class="col-6">
             <ul class="filter list-unstyled">
-              <li><label><input type="checkbox" data-column="10" value="10" checked> Số đơn</label></li>
-              <li><label><input type="checkbox" data-column="11" value="11" checked> Số ngày ăn</label></li>
-              <li><label><input type="checkbox" data-column="12" value="12" checked> Số phần ăn</label></li>
-              <li><label><input type="checkbox" data-column="13" value="13"> Tổng tiền đã chi</label></li>
-              <li><label><input type="checkbox" data-column="14" value="14" checked> Điểm tích luỹ</label></li>
-              <li><label><input type="checkbox" data-column="15" value="15"> Lịch sử đặt gần nhất</label></li>
-              <li class="check_2"><label><input type="checkbox" value="16" data-column="19,21" checked> Nhân viên + Lần cập nhật cuối</label></li>
+              <li><label><input type="checkbox" data-column="11" value="11">Giao hàng</label></li>
+              <li><label><input type="checkbox" data-column="12" value="13"checked >Trạng thái đơn hàng</label></li>
+              <li><label><input type="checkbox" data-column="13" value="13">Hình thức thanh toán</label></li>
+              <li><label><input type="checkbox" data-column="14" value="14">Trạng thái thanh toán</label></li>
+              <li><label><input type="checkbox" data-column="15" value="15">Tổng tiền đơn hàng</label></li>
+              <li><label><input type="checkbox" data-column="16" value="16">Số tiền còn lại</label></li>
+              <li><label><input type="checkbox" data-column="17" value="17">Giá trị đã dùng (admin only)</label></li>
+              <li><label><input type="checkbox" data-column="18" value="18">Giá trị chưa dùng (admin only)</label></li>
+              <li class="check_2"><label><input type="checkbox" value="16" data-column="19,21" checked>Nhân viên + Lần cập nhật cuối</label></li>
             </ul>
           </div>
         </div>
