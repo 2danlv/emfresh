@@ -71,11 +71,11 @@ get_header();
                                     <div class="info-order line-dots">
                                         <div class="d-f jc-b pt-8">
                                             <span class="tlt fw-bold ">Phân loại đơn hàng:</span>
-                                            <span>W</span>
+                                            <span class="type">W</span>
                                         </div>
                                         <div class="d-f jc-b pt-8">
                                             <span class="tlt fw-bold ">Ngày bắt đầu đơn hàng:</span>
-                                            <span>04/11/2024</span>
+                                            <span class="date-start">04/11/2024</span>
                                         </div>
                                         <div class="tlt fw-bold  pt-8">Thông tin sản phẩm:</div>
                                         <div class="info-product pt-8">

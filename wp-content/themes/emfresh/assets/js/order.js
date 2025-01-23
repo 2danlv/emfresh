@@ -327,16 +327,18 @@ $('#modal-remove-tab button[name="remove"]').on("click", function () {
     modal.removeClass("is-active");
   }
 });
+$(document).on("click", ".status-pay-menu .status-pay-item span", function () {
 
-$(".status-pay-menu .status-pay-item span").on("click", function () {
   $(".paymented").hide();
   $(".status-pay").html($(this).closest('.status-pay-item').html());
   $(".input_status-payment").val($(this).attr('data-status'));
   var status = $(this).attr('data-status');
-  if (status === "4") {
+  
+  if (status == 4) {
     $(".paymented").css("display", "flex");
-  } else if (status === "yes") {
+  } else {
     $(".payment-required").text("0");
+    $(".paymented").css("display", "none");
   }
 });
 $("#loop").change(function () {
