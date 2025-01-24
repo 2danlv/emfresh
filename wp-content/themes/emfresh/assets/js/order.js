@@ -148,10 +148,6 @@ $(document).ready(function () {
       var formattedDate = picker.startDate.format('YYYY-MM-DD');
       var targetInput = inputElement.siblings('.input-date_start');
       targetInput.val(formattedDate);
-      $('.js-order-item').find('.input-date_start').val(formattedDate)
-      var formattedDatePreview = picker.startDate.format('DD/MM/YYYY')
-      $('.order-details .info-order').find('.date-start').text(formattedDatePreview)
-      $('.js-order-item').find('.js-calendar.date').val(formattedDatePreview)
       if (today == moment().format('DD/MM/YYYY')) {
         $(".toast").addClass("show");
       }
@@ -171,7 +167,6 @@ $(document).on('click', '.add-tab', function (e) {
 $('.js-show-order-item .remove-tab').removeClass("hidden");
   let html = $('.js-order-item:first').prop('outerHTML');
   var type = $('.js-order-item:first').find('.input-type').val()
-  var date_start = $('.js-order-item:first').find('.input-date_start').val()
   if (typeof html != 'string') return;
 
   let index = parseInt($('.order_item_total').val()),
@@ -182,8 +177,6 @@ $('.js-show-order-item .remove-tab').removeClass("hidden");
   new_item.find('.text-amount').text('0');
   new_item.attr('id', 'order_item_' + id);
   new_item.find('input, select, textarea').val('');
-  new_item.find('.input-type').val(type);
-  new_item.find('.input-date_start').val(date_start);
 
   $('.js-order-item').hide();
   $('.js-order-items').append(new_item);
@@ -228,17 +221,11 @@ $('.js-show-order-item .remove-tab').removeClass("hidden");
     var formattedDate = picker.startDate.format('YYYY-MM-DD');
     var targetInput = inputElement.siblings('.input-date_start');
     targetInput.val(formattedDate);
-    $('.js-order-item').find('.input-date_start').val(formattedDate)
-    var formattedDatePreview = picker.startDate.format('DD/MM/YYYY')
-    $('.order-details .info-order').find('.date-start').text(formattedDatePreview)
-    $('.js-order-item').find('.js-calendar.date').val(formattedDatePreview)
     if (today == moment().format('DD/MM/YYYY')) {
       $(".toast").addClass("show");
     }
   });
-  date_start = moment(date_start).format('DD/MM/YYYY')
-  new_item.find('.js-calendar.date').val(date_start);
-  $('.order-details').find('.info-order').append(generateInfoProduct('order_item_' + id));
+  $('.order-details').find('.order-wapper').append(generateInfoProduct('order_item_' + id));
 });
 
 $(document).on("click", ".tab-button", function () {
@@ -467,14 +454,25 @@ function formatCurrency(value) {
   return new Intl.NumberFormat("vi-VN").format(value);
 }
 function generateInfoProduct(item_id) {
-  return `<div class="info-product pt-8 hidden" data-id="${item_id}">
+  return `
+  <div class="info-order hidden line-dots" data-id="${item_id}">
+  <div class="d-f jc-b pt-8">
+          <span class="tlt fw-bold ">Phân loại đơn hàng:</span>
+          <span class="type"></span>
+      </div>
+      <div class="d-f jc-b pt-8">
+          <span class="tlt fw-bold ">Ngày bắt đầu đơn hàng:</span>
+          <span class="date-start"></span>
+      </div>
+      <div class="tlt fw-bold  pt-8">Thông tin sản phẩm:</div>
+  <div class="info-product pt-8">
           <div class="d-f jc-b">
-              <div class="d-f"><span class="name">Slimfit M</span>&nbsp;x&nbsp;<span class="quantity">5</span></div>
-              <div class="price">325.000</div>
+              <div class="d-f"><span class="name"></span>&nbsp;x&nbsp;<span class="quantity"></span></div>
+              <div class="price"></div>
           </div>
           <div class="note-box pb-20">
               </div>
-      </div>`;
+      </div></div>`;
 }
 $(document).on('change', '.input-note_values', function () {
   var item = $(this).closest('.js-order-item');

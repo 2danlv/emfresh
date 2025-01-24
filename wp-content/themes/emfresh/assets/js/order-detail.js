@@ -124,8 +124,6 @@ jQuery(function ($) {
 		order_details.find(`[data-id="${data_id}"] .quantity`).text(quantity);
 		order_details.find(`[data-id="${data_id}"] .name`).text(order_item.find('.input-product_id option:selected').text());
 
-		$('.js-order-item').find('.input-type').val(type)
-
 		if (date_start != '') {
 			var date = new Date(date_start);
 			var formattedDate = ('0' + date.getDate()).slice(-2) + '/' +
@@ -134,8 +132,8 @@ jQuery(function ($) {
 		}
 		type = type.toUpperCase(); 
 
-		order_details.find('.date-start').text(formattedDate);
-		order_details.find('.type').text(type);
+		order_details.find(`[data-id="${data_id}"] .date-start`).text(formattedDate);
+		order_details.find(`[data-id="${data_id}"] .type`).text(type);
 		if (amount && quantity && order_item.find('.input-product_id option:selected').text()) {
 			order_details.find(`[data-id="${data_id}"]`).removeClass('hidden')
 		}

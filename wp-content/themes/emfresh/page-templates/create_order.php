@@ -68,22 +68,24 @@ get_header();
                                     <p class="pt-8 pb-16 text-ellipsis customer-address"></p>
                                 </div>
                                 <div class="order-details hidden">
-                                    <div class="info-order line-dots">
-                                        <div class="d-f jc-b pt-8">
-                                            <span class="tlt fw-bold ">Phân loại đơn hàng:</span>
-                                            <span class="type">W</span>
-                                        </div>
-                                        <div class="d-f jc-b pt-8">
-                                            <span class="tlt fw-bold ">Ngày bắt đầu đơn hàng:</span>
-                                            <span class="date-start"></span>
-                                        </div>
-                                        <div class="tlt fw-bold  pt-8">Thông tin sản phẩm:</div>
-                                        <div class="info-product hidden pt-8" data-id="order_item_1">
-                                            <div class="d-f jc-b">
-                                                <div class="d-f"><span class="name">Slimfit M</span>&nbsp;x&nbsp;<span class="quantity">5</span></div>
-                                                <div class="price">325.000</div>
+                                    <div class="order-wapper">
+                                        <div class="info-order hidden line-dots" data-id="order_item_1">
+                                            <div class="d-f jc-b pt-8">
+                                                <span class="tlt fw-bold ">Phân loại đơn hàng:</span>
+                                                <span class="type">W</span>
                                             </div>
-                                            <div class="note-box pb-20"></div>
+                                            <div class="d-f jc-b pt-8">
+                                                <span class="tlt fw-bold ">Ngày bắt đầu đơn hàng:</span>
+                                                <span class="date-start"></span>
+                                            </div>
+                                            <div class="tlt fw-bold  pt-8">Thông tin sản phẩm:</div>
+                                            <div class="info-product pt-8">
+                                                <div class="d-f jc-b">
+                                                    <div class="d-f"><span class="name">Slimfit M</span>&nbsp;x&nbsp;<span class="quantity">5</span></div>
+                                                    <div class="price">325.000</div>
+                                                </div>
+                                                <div class="note-box pb-20"></div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="info-pay">
