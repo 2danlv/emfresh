@@ -48,8 +48,9 @@ jQuery(function ($) {
 		let days = parseInt(order_item.find('.input-days').val());
 		// let type = order_item.find('.input-type').val().toLowerCase();
 		let type = order_item.find('.input-type').val();
+		
 		let amount = 0,
-			price = 0;
+		price = 0;
 		let date_start = order_item.find('.input-date_start').val() || '';
 
 		// let ship_price = get_ship_price(order_item.find('.input-location_id option:selected').text());
@@ -123,13 +124,24 @@ jQuery(function ($) {
 		order_details.find(`[data-id="${data_id}"] .quantity`).text(quantity);
 		order_details.find(`[data-id="${data_id}"] .name`).text(order_item.find('.input-product_id option:selected').text());
 
-		var date = new Date(date_start);
-		var formattedDate = ('0' + date.getDate()).slice(-2) + '/' +
-                    ('0' + (date.getMonth() + 1)).slice(-2) + '/' +
-                    date.getFullYear();
+		$('.js-order-item').find('.input-type').val(type)
+
+		if (date_start != '') {
+			var date = new Date(date_start);
+			var formattedDate = ('0' + date.getDate()).slice(-2) + '/' +
+						('0' + (date.getMonth() + 1)).slice(-2) + '/' +
+						date.getFullYear();
+		}
+		type = type.toUpperCase(); 
+
 		order_details.find('.date-start').text(formattedDate);
-		type = type.toUpperCase();
 		order_details.find('.type').text(type);
+		if (amount && quantity && order_item.find('.input-product_id option:selected').text()) {
+			order_details.find(`[data-id="${data_id}"]`).removeClass('hidden')
+		}
+		if (type) {
+			order_details.removeClass('hidden')
+		}
 	}
 
 	function format_money(number) {

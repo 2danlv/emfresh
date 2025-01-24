@@ -144,6 +144,10 @@ $(document).ready(function () {
       var formattedDate = picker.startDate.format('YYYY-MM-DD');
       var targetInput = inputElement.siblings('.input-date_start');
       targetInput.val(formattedDate);
+      $('.js-order-item').find('.input-date_start').val(formattedDate)
+      date_start = picker.startDate.format('DD/MM/YYYY')
+      var formattedDatePreview = picker.startDate.format('DD/MM/YYYY')
+      $('.order-details .info-order').find('.date-start').text(formattedDatePreview)
       if (today == moment().format('DD/MM/YYYY')) {
         $(".toast").addClass("show");
       }
@@ -162,6 +166,8 @@ $(document).on('click', '.add-tab', function (e) {
   e.preventDefault();
 $('.js-show-order-item .remove-tab').removeClass("hidden");
   let html = $('.js-order-item:first').prop('outerHTML');
+  var type = $('.js-order-item:first').find('.input-type').val()
+  var date_start = $('.js-order-item:first').find('.input-date_start').val()
   if (typeof html != 'string') return;
 
   let index = parseInt($('.order_item_total').val()),
@@ -172,6 +178,9 @@ $('.js-show-order-item .remove-tab').removeClass("hidden");
   new_item.find('.text-amount').text('0');
   new_item.attr('id', 'order_item_' + id);
   new_item.find('input, select, textarea').val('');
+  new_item.find('.input-type').val(type);
+  new_item.find('.input-date_start').val(date_start);
+
   $('.js-order-item').hide();
   $('.js-order-items').append(new_item);
   $('.btn-add_order').removeClass('active');
@@ -219,7 +228,9 @@ $('.js-show-order-item .remove-tab').removeClass("hidden");
       $(".toast").addClass("show");
     }
   });
-  new_item.find('.js-calendar.date').val('');
+  date_start = moment(date_start).format('DD/MM/YYYY')
+  new_item.find('.js-calendar.date').val(date_start);
+  $('.order-details').find('.info-order').append(generateInfoProduct('order_item_' + id));
 });
 
 $(document).on("click", ".tab-button", function () {
@@ -296,7 +307,10 @@ $(document).on("click", ".remove-tab", function (e) {
   e.stopPropagation();
   $("#modal-remove-tab").addClass("is-active");
   var tabToRemove = $(this).closest("[data-tab]");
+  var idTabRemove = $(this).closest("[data-tab]").data('tab');
   $("#modal-remove-tab").data("tabToRemove", tabToRemove);
+  $('.info-order').find(`[data-id="${idTabRemove}"]`).addClass('remove')
+  
 });
 
 $('#modal-remove-tab button[name="remove"]').on("click", function () {
@@ -326,6 +340,7 @@ $('#modal-remove-tab button[name="remove"]').on("click", function () {
     });
     modal.removeClass("is-active");
   }
+  $('.info-order').find('.info-product.remove').remove();
 });
 $(document).on("click", ".status-pay-menu .status-pay-item span", function () {
 
@@ -442,4 +457,31 @@ function updatePaymentRequired() {
 
 function formatCurrency(value) {
   return new Intl.NumberFormat("vi-VN").format(value);
+}
+$(document).on('change', '.js-order-item [name]', function () {
+  let allHaveValue = true;
+  $('.js-order-item [name]').each(function () {
+    if ($(this).is('input[type="hidden"]')) {
+      return; 
+    }
+    if (!$(this).val()) {
+      allHaveValue = false;
+      return false;
+    }
+  });
+  if (allHaveValue) {
+    console.log("object")
+    
+  } else {
+  }
+})
+function generateInfoProduct(item_id) {
+  return `<div class="info-product pt-8 hidden" data-id="${item_id}">
+          <div class="d-f jc-b">
+              <div class="d-f"><span class="name">Slimfit M</span>&nbsp;x&nbsp;<span class="quantity">5</span></div>
+              <div class="price">325.000</div>
+          </div>
+          <div class="note-box pb-20">
+              </div>
+      </div>`;
 }

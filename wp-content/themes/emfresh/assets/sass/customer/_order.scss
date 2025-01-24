@@ -152,12 +152,6 @@
         border-bottom: 2px dashed var(--modal-divider, #dedfe0);
     }
 
-    .order-details {
-        &.show {
-            display: block;
-        }
-    }
-
     .info-product {
         color: var(--input-text-filled, #0f0f0f);
         padding-inline: 8px;
