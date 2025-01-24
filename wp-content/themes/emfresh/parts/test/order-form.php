@@ -132,11 +132,9 @@ if (isset($_GET['message'])) {
 						<div class="js-order-item" id="order_item_<?php echo $i + 1 ?>" <?php echo $i > 0 ? 'style="display: none;"' : '' ?>>
 							<input type="hidden" name="order_item[<?php echo $i ?>][id]" class="input-id" value="<?php echo $id ?>" />
 							<input type="hidden" name="order_item[<?php echo $i ?>][remove]" class="input-remove" />
-							<input type="hidden" name="order_item[<?php echo $i ?>][note]" class="input-note" value="<?php echo $note ?>" />
 							<input type="hidden" name="order_item[<?php echo $i ?>][date_stop]" class="input-date_stop" value="<?php echo $date_stop ?>" />
 							<input type="hidden" name="order_item[<?php echo $i ?>][product_price]" class="input-product_price" value="<?php echo $product_price ?>" />
 							<input type="hidden" name="order_item[<?php echo $i ?>][ship_price]" class="input-ship_price" value="<?php echo $ship_price ?>" />
-							<input type="hidden" name="order_item[<?php echo $i ?>][note]" class="input-note" value="<?php echo $note ?>" />
 							<input type="hidden" class="input-note_list" value="<?php echo isset($note_list) ? base64_encode(json_encode($note_list)) : '' ?>" />
 							<div class="mb-16">
 								Sản phẩm <?php echo $i + 1 ?>
@@ -200,6 +198,11 @@ if (isset($_GET['message'])) {
 							<div class="mb-16 js-add-note">
 								+ Thêm yêu cầu 
 							</div>
+							<p>
+								<label>note: auto fill by list note</label>
+								<input type="text" name="order_item[<?php echo $i ?>][note]" class="input-note" value="<?php echo $note ?>" placeholder="input-note"/>
+							</p>
+							
 						</div>
 						<?php endforeach ?>
 					</div>

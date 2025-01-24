@@ -71,11 +71,11 @@ get_header();
                                     <div class="info-order line-dots">
                                         <div class="d-f jc-b pt-8">
                                             <span class="tlt fw-bold ">Phân loại đơn hàng:</span>
-                                            <span class="type">W</span>
+                                            <span>W</span>
                                         </div>
                                         <div class="d-f jc-b pt-8">
                                             <span class="tlt fw-bold ">Ngày bắt đầu đơn hàng:</span>
-                                            <span class="date-start">04/11/2024</span>
+                                            <span>04/11/2024</span>
                                         </div>
                                         <div class="tlt fw-bold  pt-8">Thông tin sản phẩm:</div>
                                         <div class="info-product pt-8">
@@ -126,6 +126,7 @@ get_header();
                                     <?php include get_template_directory() . '/parts/order/customer.php'; ?>
                                 </div>
                                 <form method="post" class="form-add-order" action="<?php echo $action_url ?>">
+                                    <input type="hidden" name="save_order" value="<?php echo time() ?>" />
                                     <input type="hidden" name="order_id" value="<?php echo $order_id ?>" />
                                     <input type="hidden" class="order_item_total" value="<?php echo $order_item_total ?>" />
                                     <input type="hidden" name="customer_id" class="input-customer_id" value="<?php echo $order_detail['customer_id'] ?>" />
@@ -373,7 +374,6 @@ get_header();
 	</div>
 </div>
 </script>
-<script>var orderDetailSettings = <?php echo json_encode($orderDetailSettings) ?>;</script>
 <?php
  $categoriesJSON = json_encode($list_notes);
 // endwhile;
@@ -384,6 +384,7 @@ get_footer('customer');
 <script src="<?php site_the_assets(); ?>js/location.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
 <script src="<?php site_the_assets(); ?>js/order.js"></script>
+<script>var orderDetailSettings = <?php echo json_encode($orderDetailSettings) ?>;</script>
 <script src="<?php site_the_assets(); ?>js/order-detail.js"></script>
 <script type="text/javascript">
     function switch_tabs_add_order(obj) {

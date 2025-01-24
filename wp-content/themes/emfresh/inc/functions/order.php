@@ -53,7 +53,7 @@ function site_order_submit()
             
             $response = em_api_request('order/add', $order_data);
             if($response['code'] == 200) {
-                $order_id = $response['insert_id'];
+                $order_id = $response['data']['insert_id'];
 
                 site_order_payment_history($order_id, 'Tạo đơn hàng', [
                     // $order_data['payment_amount'],
@@ -157,7 +157,7 @@ function site_order_submit()
             $query_args['message'] = 'Success';
         }
     
-        wp_redirect(add_query_arg($query_args, get_permalink()));
+        wp_redirect(add_query_arg($query_args, site_order_edit_link()));
         exit();
     }
 }
@@ -229,4 +229,14 @@ function site_order_log($before = [], $after = [])
             'content'       => implode(', ', $log_content)
         ]);
     }
+}
+
+function site_order_add_link()
+{
+    return get_permalink(140);
+}
+
+function site_order_edit_link()
+{
+    return get_permalink(143);
 }

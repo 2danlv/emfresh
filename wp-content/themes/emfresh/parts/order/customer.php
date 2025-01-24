@@ -24,6 +24,7 @@
             <div class="dropdown active">
                 <input type="text" name="address_delivery" class="address_delivery is-disabled form-control" placeholder="Địa chỉ giao hàng">
             </div>
+            <p class="fs-14 fw-regular note-shipper hidden color-gray pt-4 pl-8">Note với shipper: <span class="note_shiper"></span></p>
             <div class="dropdown-menu">
                 <div class="locations-container"></div>
                 <div data-target="#modal-add-address-1" class="btn-add-address modal-button d-f ai-center pb-16 pt-8 pl-8">
@@ -36,8 +37,10 @@
     
 </div>
 <script>
-    $(document).ready(function() {
-        $('.js-show-order-item:first .remove-tab').addClass("hidden");
+$(document).ready(function() {
+
+    $('.js-show-order-item:first .remove-tab').addClass("hidden");
+
     $('.search-cus').keyup(function() {
         var query = $(this).val();
         if (query.length > 2) {  
@@ -83,7 +86,6 @@
             $('#autocomplete-results').hide();  
         }
     });
-
     
     $(document).on('click', '.result-item', function() {
         var name = $(this).find('.name').text();
@@ -91,6 +93,7 @@
         var address = $(this).find('.address').text();
         var note_shiper = $(this).find('.note_shiper').text();
         var customer_id = $(this).data('id') || 0;
+        var location_id = 0;
 
         $('#search').val(name); 
         $('.input-order .fullname').val(name); 
@@ -110,6 +113,7 @@
         
         $('.input-customer_id').val(customer_id);
         $('.input-location_name').val(address);
+
         if(customer_id > 0) {
             $.ajax({
                 url: '<?php echo home_url('em-api/location/list/'); ?>?customer_id=' + customer_id,
@@ -121,29 +125,35 @@
                     // console.log('location', response.data);
                     
                     response.data.forEach(location => {
-                    const template = `
-                        <div class="item">
-                            <p class="fs-16 color-black other-address">${location.location_name}</p>
-                            <div class="group-management-link d-f jc-b ai-center pt-8">
-                                <div class="tooltip d-f ai-center">
-                                    <p class="fs-14 fw-regular color-gray">(Đã đăng ký chung nhóm ship: Thien Phuong Bui)</p>
-                                    <p class="note_shiper hidden">${location.note_shipper}</p>
-                                    <span class="fas tooltip-icon fa-info-gray"></span>
-                                    <div class="tooltip-content">
-                                        <div class="close fas fa-trash"></div>
-                                        <ul>
-                                            <li>Thien Phuong Bui</li>
-                                            <li>Dieu Linh (zalo)</li>
-                                            <li>Nguyen Hai Minh Thi</li>
-                                            <li>Dinh Thi Hien Ly</li>
-                                        </ul>
+                        if(location.active == 1 && location_id == 0) {
+                            location_id = location.id;
+
+                            $('.input-location_id').val(location_id);
+                        }
+
+                        const template = `
+                            <div class="item" data-location_id="${location.id}">
+                                <p class="fs-16 color-black other-address">${location.location_name}</p>
+                                <div class="group-management-link d-f jc-b ai-center pt-8">
+                                    <div class="tooltip d-f ai-center">
+                                        <p class="fs-14 fw-regular color-gray">(Đã đăng ký chung nhóm ship: Thien Phuong Bui)</p>
+                                        <p class="note_shiper hidden">${location.note_shipper}</p>
+                                        <span class="fas tooltip-icon fa-info-gray"></span>
+                                        <div class="tooltip-content">
+                                            <div class="close fas fa-trash"></div>
+                                            <ul>
+                                                <li>Thien Phuong Bui</li>
+                                                <li>Dieu Linh (zalo)</li>
+                                                <li>Nguyen Hai Minh Thi</li>
+                                                <li>Dinh Thi Hien Ly</li>
+                                            </ul>
+                                        </div>
                                     </div>
+                                    <a class="management-link" href="#">Đi đến Quản lý nhóm</a>
                                 </div>
-                                <a class="management-link" href="#">Đi đến Quản lý nhóm</a>
                             </div>
-                        </div>
-                    `;                  
-                    container.append(template);
+                        `;
+                        container.append(template);
                     });
                 },
                 error: function(xhr, status, error) {
@@ -153,7 +163,6 @@
         }
     });
 
-    
     $(document).click(function(e) {
         if (!$(e.target).closest('#search').length) {
             $('#autocomplete-results').hide();

@@ -55,6 +55,8 @@ $(document).ready(function () {
     var note_shiper = $(this).find(".note_shiper").text();
     $(".dropdown input").val(other_address);
     $('.info-customer .customer-address').text(other_address);
+    $('.input-location_name').val(other_address);
+    $('.input-location_id').val($(this).data('location_id'));
     if(note_shiper.length != 0) {
       $('.note-shipper').removeClass('hidden');
     } else {

@@ -48,8 +48,9 @@ jQuery(function ($) {
 		let days = parseInt(order_item.find('.input-days').val());
 		// let type = order_item.find('.input-type').val().toLowerCase();
 		let type = order_item.find('.input-type').val();
-		let amount = 0,
-			price = 0;
+		let amount = 0;
+		let meal_number = 0; // so bua an
+		let price = 0;
 		let date_start = order_item.find('.input-date_start').val() || '';
 
 		// let ship_price = get_ship_price(order_item.find('.input-location_id option:selected').text());
@@ -62,6 +63,7 @@ jQuery(function ($) {
 				// Gia goi an = gia goi tuan 1 bua/ngay*SL/5 + 5k*SL (day la phu thu)
 
 				meal += 1;
+				meal_number = 1;
 
 				if (typeof product[meal] != 'undefined') {
 					price = parseInt(product[meal]);
@@ -72,12 +74,13 @@ jQuery(function ($) {
 				if (days <= 5) {
 					// Gia goi an = gia goi tuan có tong so phan an tiem can/ tong so phan an tuong ung cua goi nay * SL
 					if (quantity < 8) {
-						meal += 1;
+						meal_number = 1;
 					} else if (quantity <= 12) {
-						meal += 2;
+						meal_number = 2;
 					} else {
-						meal += 3;
+						meal_number = 3;
 					}
+					meal += meal_number;
 
 					if (typeof product[meal] != 'undefined') {
 						price = parseInt(product[meal]);
@@ -87,7 +90,8 @@ jQuery(function ($) {
 					}
 				} else {
 					// Gia goi an = gia goi co so bua/ngay tuong ung tuan/5 * so ngay khach dat
-					meal += parseInt(quantity / days);
+					meal_number = parseInt(quantity / days);
+					meal += meal_number;
 
 					if (typeof product[meal] != 'undefined') {
 						price = parseInt(product[meal]);
@@ -98,10 +102,13 @@ jQuery(function ($) {
 				}
 			} else if (type == 'm') {
 				if (quantity <= 20) {
+					meal_number = 1;
 					amount = (price = parseInt(product['meal_m_1'])) / 20 * quantity;
 				} else if (quantity <= 50) {
+					meal_number = 2;
 					amount = (price = parseInt(product['meal_m_2'])) / 40 * quantity;
 				} else {
+					meal_number = 3;
 					amount = (price = parseInt(product['meal_m_3'])) / 60 * quantity;
 				}
 			}
@@ -110,7 +117,7 @@ jQuery(function ($) {
 		// console.log({type: type, days: days, quantity: quantity, price: price, amount: amount});
 
 		if(ship_price > 0) {
-			amount += days * ship_price;
+			amount += days * meal_number * ship_price;
 		}
 
 		order_item.find('.input-product_price').val(price);
