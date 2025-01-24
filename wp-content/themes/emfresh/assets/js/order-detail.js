@@ -181,8 +181,7 @@ jQuery(function ($) {
 		order_item.find('.js-note-list .row-note').each(function () {
 			let row = $(this),
 				name = row.find('.input-note_name').val(),
-				value = row.find('.input-note_values').val();
-
+				value = row.find('.input-note_values tagify__tag-text').text();
 			if (name != '' && value) {
 				if (typeof value == 'string') {
 					if (value == '') return;
@@ -194,10 +193,10 @@ jQuery(function ($) {
 
 				notes.push(name + ' : ' + value.join(', '));
 			}
+			console.log(value)
 		})
 
 		order_item.find('.input-note').val(notes.join("\n"));
-		
 	}
 
 	function update_order_info() {
@@ -334,6 +333,24 @@ jQuery(function ($) {
 
 		return check;
 	}
+	function update_pay() {
+		let total = 0;
+		let ship = parseFloat($('.info-pay').find('.ship').text().replace(/[^0-9.-]+/g, '')) || 0;
+		let discount = parseFloat($('.info-pay').find('.discount').text().replace(/[^0-9.-]+/g, '')) || 0;
+
+		$('.info-order').find('.price').each(function () {
+		    let value = parseFloat($(this).text().replace(/[^0-9.-]+/g, ''));
+		
+		    if (!isNaN(value)) {
+		        total += value;
+		    }
+		});
+		total = total + ship - discount;
+		$('.info-pay').find('.total-price').text(format_money(total))
+		$('.pay-field').find('.price-product').text(format_money(total))
+	}
+
+	update_pay()
 
 	$(document).on('change', '.js-order-item [name]', function () {
 		let p = $(this),
@@ -350,6 +367,8 @@ jQuery(function ($) {
 			update_order_item_note(order_item);
 
 			update_order_info();
+
+			update_pay();
 		}
 	});
 
@@ -474,4 +493,6 @@ jQuery(function ($) {
 			order_item.find('.js-note-list').append(html);
 		}
 	}
+
+	
 });

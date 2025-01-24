@@ -62,6 +62,10 @@ $(document).ready(function () {
     }
     $(".note-shipper .note_shiper").text(note_shiper);
   });
+  $(document).on('click', '.delivery-item .dropdown-menu .item', function (e) {
+    var delivery_address  = $(this).text();
+    $('.info-customer .address').text(delivery_address)
+  });
   $(".explain-icon img").on("click", function () {
     $(".explain-block").addClass("show");
     $(".overlay-drop-menu").show();
@@ -462,23 +466,6 @@ function updatePaymentRequired() {
 function formatCurrency(value) {
   return new Intl.NumberFormat("vi-VN").format(value);
 }
-$(document).on('change', '.js-order-item [name]', function () {
-  let allHaveValue = true;
-  $('.js-order-item [name]').each(function () {
-    if ($(this).is('input[type="hidden"]')) {
-      return; 
-    }
-    if (!$(this).val()) {
-      allHaveValue = false;
-      return false;
-    }
-  });
-  if (allHaveValue) {
-    console.log("object")
-    
-  } else {
-  }
-})
 function generateInfoProduct(item_id) {
   return `<div class="info-product pt-8 hidden" data-id="${item_id}">
           <div class="d-f jc-b">
@@ -489,3 +476,44 @@ function generateInfoProduct(item_id) {
               </div>
       </div>`;
 }
+$(document).on('change', '.input-note_values', function () {
+  var item = $(this).closest('.js-order-item');
+  var id = item.attr('id')
+  var noteHtml = ''
+  const allNotes = getAllNotesValues(item);
+  $.each(allNotes, function (indexInArray, valueOfElement) {
+    var textValue = ''
+    $.each(valueOfElement.noteValues, function (indexInArray, valueNote) { 
+      if (textValue) {
+        textValue += ', ' + valueNote["value"];
+    } else {
+        textValue = valueNote["value"];
+    }
+    });
+    noteHtml += `<p><span class="note">Note ${valueOfElement['noteName']}</span>:&nbsp;<span class="value">${textValue}</span></p>`
+  });
+  $('.order-details').find(`[data-id="${id}"] .note-box`).html(noteHtml);
+})
+function getAllNotesValues(item) {
+  const notesData = [];
+  
+  item.find('.row-note').each(function() {
+      const noteRow = $(this);
+      const noteName = noteRow.find('.input-note_name').val(); 
+      let noteValues = []; 
+
+      noteRow.find('.input-note_values').each(function() {
+          const tagifyInstance = $(this).data('tagify');
+          if (tagifyInstance && tagifyInstance.value.length > 0) {
+              noteValues = tagifyInstance.value;
+          }
+      });
+      
+      notesData.push({
+          noteName: noteName,
+          noteValues: noteValues
+      });
+  });
+  return notesData;
+}
+

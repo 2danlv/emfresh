@@ -8,7 +8,7 @@
                 <div class="info-customer line-dots">
                     <p class="pt-16"><?php echo $order_detail['customer_name'] ?></p>
                     <p class="copy modal-button pt-8" data-target="#modal-copy" title="Copy: <?php echo $order_detail['phone'] ?>"><?php echo $order_detail['phone'] ?></p>
-                    <p class="pt-8 pb-16 text-ellipsis">44L đường số 11, KDC Miếu Nổi, Phường 07, Quận Bình Thạnh</p>
+                    <p class="pt-8 pb-16 text-ellipsis address">44L đường số 11, KDC Miếu Nổi, Phường 07, Quận Bình Thạnh</p>
                 </div>
                 <div class="order-details show">
                     <div class="info-order line-dots">
