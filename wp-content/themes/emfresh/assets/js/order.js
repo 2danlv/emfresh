@@ -145,9 +145,9 @@ $(document).ready(function () {
       var targetInput = inputElement.siblings('.input-date_start');
       targetInput.val(formattedDate);
       $('.js-order-item').find('.input-date_start').val(formattedDate)
-      date_start = picker.startDate.format('DD/MM/YYYY')
       var formattedDatePreview = picker.startDate.format('DD/MM/YYYY')
       $('.order-details .info-order').find('.date-start').text(formattedDatePreview)
+      $('.js-order-item').find('.js-calendar.date').val(formattedDatePreview)
       if (today == moment().format('DD/MM/YYYY')) {
         $(".toast").addClass("show");
       }
@@ -224,6 +224,10 @@ $('.js-show-order-item .remove-tab').removeClass("hidden");
     var formattedDate = picker.startDate.format('YYYY-MM-DD');
     var targetInput = inputElement.siblings('.input-date_start');
     targetInput.val(formattedDate);
+    $('.js-order-item').find('.input-date_start').val(formattedDate)
+    var formattedDatePreview = picker.startDate.format('DD/MM/YYYY')
+    $('.order-details .info-order').find('.date-start').text(formattedDatePreview)
+    $('.js-order-item').find('.js-calendar.date').val(formattedDatePreview)
     if (today == moment().format('DD/MM/YYYY')) {
       $(".toast").addClass("show");
     }
