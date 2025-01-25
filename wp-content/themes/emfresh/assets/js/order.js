@@ -186,7 +186,7 @@ $('.js-show-order-item .remove-tab').removeClass("hidden");
   $(this).before(`<span class="btn btn-add_order active tab-button js-show-order-item" data-tab="order_item_${id}" data-id="order_item_${id}">Sản phẩm ${id}<span class="remove-tab"></span></span>`);
 
   $('.order_item_total').val(id);
-  $('.js-calendar.date').daterangepicker({
+  new_item.find('.js-calendar.date').daterangepicker({
     singleDatePicker: true,
     autoUpdateInput: true,
     autoApply: true,
@@ -227,6 +227,7 @@ $('.js-show-order-item .remove-tab').removeClass("hidden");
       $(".toast").addClass("show");
     }
   });
+  new_item.find('.js-calendar.date').val('');
   $('.order-details').find('.order-wapper').append(generateInfoProduct('order_item_' + id));
 });
 

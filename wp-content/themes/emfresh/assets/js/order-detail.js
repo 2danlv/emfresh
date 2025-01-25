@@ -130,13 +130,22 @@ jQuery(function ($) {
 		order_details.find(`[data-id="${data_id}"] .quantity`).text(quantity);
 		order_details.find(`[data-id="${data_id}"] .name`).text(order_item.find('.input-product_id option:selected').text());
 
-		var date = new Date(date_start);
-		var formattedDate = ('0' + date.getDate()).slice(-2) + '/' +
-                    ('0' + (date.getMonth() + 1)).slice(-2) + '/' +
-                    date.getFullYear();
-		order_details.find('.date-start').text(formattedDate);
-		type = type.toUpperCase();
-		order_details.find('.type').text(type);
+		if (date_start != '') {
+			var date = new Date(date_start);
+			var formattedDate = ('0' + date.getDate()).slice(-2) + '/' +
+						('0' + (date.getMonth() + 1)).slice(-2) + '/' +
+						date.getFullYear();
+		}
+		type = type.toUpperCase(); 
+
+		order_details.find(`[data-id="${data_id}"] .date-start`).text(formattedDate);
+		order_details.find(`[data-id="${data_id}"] .type`).text(type);
+		if (amount && quantity && order_item.find('.input-product_id option:selected').text()) {
+			order_details.find(`[data-id="${data_id}"]`).removeClass('hidden')
+		}
+		if (type) {
+			order_details.removeClass('hidden')
+		}
 	}
 
 	function format_money(number) {
@@ -341,6 +350,24 @@ jQuery(function ($) {
 
 		return check;
 	}
+	function update_pay() {
+		let total = 0;
+		let ship = parseFloat($('.info-pay').find('.ship').text().replace(/[^0-9.-]+/g, '')) || 0;
+		let discount = parseFloat($('.info-pay').find('.discount').text().replace(/[^0-9.-]+/g, '')) || 0;
+
+		$('.info-order').find('.price').each(function () {
+		    let value = parseFloat($(this).text().replace(/[^0-9.-]+/g, ''));
+		
+		    if (!isNaN(value)) {
+		        total += value;
+		    }
+		});
+		total = total + ship - discount;
+		$('.info-pay').find('.total-price').text(format_money(total))
+		$('.pay-field').find('.price-product').text(format_money(total))
+	}
+
+	update_pay()
 
 	$(document).on('change', '.js-order-item [name]', function () {
 		let p = $(this),
@@ -357,6 +384,8 @@ jQuery(function ($) {
 			update_order_item_note(order_item);
 
 			update_order_info();
+
+			update_pay();
 		}
 	});
 
@@ -414,26 +443,31 @@ jQuery(function ($) {
 
 	$(document).on('click', '.btn-add_order .remove-tab', function (e) {
 		e.preventDefault();
+		var idTabRemove = $(this).closest("[data-tab]").data('tab');
 		$("#modal-remove-tab").addClass("is-active");
 		let btn = $(this).closest('[data-id]'),
 			order_item = $('#' + btn.data('id'));
+		$('.order-details').find(`[data-id="${idTabRemove}"]`).addClass('remove')
 		
 
 		if (btn.length > 0 && order_item.length > 0) {
 			$(document).on('click', '.js-remove-order-item', function (e) {
 				e.preventDefault();
 				btn.remove();
+				$('.order-details').find('.info-order.remove').remove();
 				order_item.addClass('removed').hide().find('.input-remove').val(1);
 				if ($(".btn-add_order.tab-button").length == 1) {
 					$(".remove-tab").addClass("hidden");
 				}
-				$(".btn-add_order.tab-button").first().addClass('active');
 				setTimeout(function () {
 					let p = $('.js-show-order-item:first');
 					show_order_item(p);
 					update_order_info();
 				}, 300);
 			});
+			$(document).on('click', '.modal-close', function (e) {
+				$('.order-details').find(`[data-id="${idTabRemove}"]`).removeClass('remove')
+			})
 		}
 	});
 	
@@ -487,4 +521,6 @@ jQuery(function ($) {
 			order_item.find('.js-note-list').append(html);
 		}
 	}
+
+	
 });
