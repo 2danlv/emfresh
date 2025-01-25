@@ -453,7 +453,8 @@ get_footer('customer');
                         enabled: 0,
                         maxItems: 10,
                         position: "all"
-                    }
+                    },
+                    originalInputValueFormat: valuesArr => valuesArr.map(item => item.value).join(', ')
                 });
                 $(this).data('tagify', tagifyInstance);
             }

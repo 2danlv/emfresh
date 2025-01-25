@@ -35,11 +35,11 @@
                                 </select>
                             </div>
                             <div class="col-3">
-                                <div class="label mb-4">Số ngày dùng:</div>
+                                <div class="label mb-4">Số ngày ăn:</div>
                                 <input type="number" class="form-control input-days" name="order_item[<?php echo $i ?>][days]" value="<?php echo $days ?>" min="1" placeholder="Số ngày" required />
                             </div>
                             <div class="col-4">
-                                <div class="label mb-4">Số ngày dùng:</div>
+                                <div class="label mb-4">Ngày bắt đầu:</div>
                                 <input type="hidden" class="form-control input-date_start" name="order_item[<?php echo $i ?>][date_start]" value="<?php echo $date_start;  ?>" />
                                 <?php if ($date_start !='') { ?>
                                     <input type="text" class="form-control js-calendar date"  value="<?php echo date("d/m/Y", strtotime($date_start));  ?>" placeholder="Ngày bắt đầu" required />
