@@ -139,7 +139,7 @@ get_header();
                       <div class="nowrap ellipsis"><?php echo $record['location_name'] ?></div>
                     </td>
                     <td data-number="5" class="text-center"><?php echo trim(end($location_list)) ?></td>
-                    <td data-number="6" class="text-center"><?php echo $record['order_type'] ?></td>
+                    <td data-number="6" class="text-center"><?php echo strtoupper($record['order_type']) ?></td>
                     <td data-number="7"><?php echo $record['item_name'] ?></td>
                     <td data-number="8">24/10/24</td>
                     <td data-number="9">25/10/24</td>

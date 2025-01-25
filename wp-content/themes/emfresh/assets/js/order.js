@@ -174,6 +174,7 @@ $('.js-show-order-item .remove-tab').removeClass("hidden");
   new_item.find('.text-amount').text('0');
   new_item.attr('id', 'order_item_' + id);
   new_item.find('input, select, textarea').val('');
+  new_item.find('.special-request').html('');
   $('.js-order-item').hide();
   $('.js-order-items').append(new_item);
   $('.btn-add_order').removeClass('active');
