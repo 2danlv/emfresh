@@ -498,7 +498,7 @@ function getAllNotesValues(item) {
   
   item.find('.row-note').each(function() {
       const noteRow = $(this);
-      const noteName = noteRow.find('.input-note_name').val(); 
+      const noteName = noteRow.find('.input-note_name option:selected').text(); 
       let noteValues = []; 
 
       noteRow.find('.input-note_values').each(function() {
