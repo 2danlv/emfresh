@@ -221,16 +221,17 @@ get_footer('customer');
         }
         function updateNavigationButtons() {
             const firstTab = $('ul.tab-order li').first();
-            const lastTab = $('ul.tab-order li').last();
+            const lastTab1 = $('ul.tab-order li:nth-last-child(2)');
+            const lastTab2 = $('ul.tab-order li').last();
             const currentTab = $('ul.tab-order li.selected');
             if (currentTab.is(firstTab)) {
                 $('.js-btn-prev').addClass('btn-disable');
-                $('.js-btn-prev').removeClass('btn-primary');
+                //$('.js-btn-prev').removeClass('btn-primary');
             } else {
                 $('.js-btn-prev').removeClass('btn-disable');
-                $('.js-btn-prev').addClass('btn-primary');
+                //$('.js-btn-prev').addClass('btn-primary');
             }
-            if (currentTab.is(lastTab)) {
+            if (currentTab.is(lastTab1) || currentTab.is(lastTab2)) {
                 $('.js-next-tab').addClass('hidden');
                 $('.js-create-order').removeClass('hidden');
             } else {
