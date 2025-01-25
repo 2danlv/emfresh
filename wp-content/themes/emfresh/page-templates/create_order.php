@@ -67,27 +67,24 @@ get_header();
                                     <p class="copy modal-button pt-8 customer-phone" data-target="#modal-copy" title="Copy"></p>
                                     <p class="pt-8 pb-16 text-ellipsis customer-address"></p>
                                 </div>
-                                <div class="order-details">
-                                    <div class="info-order line-dots">
-                                        <div class="d-f jc-b pt-8">
-                                            <span class="tlt fw-bold ">Phân loại đơn hàng:</span>
-                                            <span>W</span>
-                                        </div>
-                                        <div class="d-f jc-b pt-8">
-                                            <span class="tlt fw-bold ">Ngày bắt đầu đơn hàng:</span>
-                                            <span>04/11/2024</span>
-                                        </div>
-                                        <div class="tlt fw-bold  pt-8">Thông tin sản phẩm:</div>
-                                        <div class="info-product pt-8">
-                                            <div class="d-f jc-b">
-                                                <div class="d-f"><span class="name">Slimfit M</span>&nbsp;x&nbsp;<span class="quantity">5</span></div>
-                                                <div class="price">325.000</div>
+                                <div class="order-details hidden">
+                                    <div class="order-wapper">
+                                        <div class="info-order hidden line-dots" data-id="order_item_1">
+                                            <div class="d-f jc-b pt-8">
+                                                <span class="tlt fw-bold ">Phân loại đơn hàng:</span>
+                                                <span class="type">W</span>
                                             </div>
-                                            <div class="note-box pb-20">
-                                                <p><span class="note">Note rau củ</span>:&nbsp;<span class="value">cà rốt, bí đỏ, củ dền, bí ngòi</span></p>
-                                                <p><span class="note">Note tinh bột</span>:&nbsp;<span class="value">thay bún sang cơm trắng, thay miến sang cơm trắng, 1/2 tinh bột</span></p>
-                                                <p><span class="note">Note khác</span>:&nbsp;<span class="value">ko rau lá, chỉ củ, 2 sốt</span></p>
-                                                <p><span class="note">Note đính kèm</span>:&nbsp;<span class="value">thêm 1 tương ớt, thêm 1 ớt, túi riêng</span></p>
+                                            <div class="d-f jc-b pt-8">
+                                                <span class="tlt fw-bold ">Ngày bắt đầu đơn hàng:</span>
+                                                <span class="date-start"></span>
+                                            </div>
+                                            <div class="tlt fw-bold  pt-8">Thông tin sản phẩm:</div>
+                                            <div class="info-product pt-8">
+                                                <div class="d-f jc-b">
+                                                    <div class="d-f"><span class="name">Slimfit M</span>&nbsp;x&nbsp;<span class="quantity">5</span></div>
+                                                    <div class="price">325.000</div>
+                                                </div>
+                                                <div class="note-box pb-20"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -462,7 +459,7 @@ $(document).on('change', '.input-note_name', function () {
     $(this).closest('.row-note').find($('.input-note_values')).val('');
     const selectedCategory = $(this).val();
     const categories = <?php echo $categoriesJSON ?>;
-    $(this).closest('.row-note').find($('.input-note_values')).each(function () {
+    var value = $(this).closest('.row-note').find($('.input-note_values')).each(function () {
         const tagifyInstance = $(this).data('tagify');
         if (tagifyInstance) {
             tagifyInstance.settings.whitelist = categories[selectedCategory]?.values || [];
@@ -470,4 +467,5 @@ $(document).on('change', '.input-note_name', function () {
         }
     });
 });
+
 </script>

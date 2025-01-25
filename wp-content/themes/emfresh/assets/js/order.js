@@ -64,6 +64,10 @@ $(document).ready(function () {
     }
     $(".note-shipper .note_shiper").text(note_shiper);
   });
+  $(document).on('click', '.delivery-item .dropdown-menu .item', function (e) {
+    var delivery_address  = $(this).text();
+    $('.info-customer .address').text(delivery_address)
+  });
   $(".explain-icon img").on("click", function () {
     $(".explain-block").addClass("show");
     $(".overlay-drop-menu").show();
@@ -164,6 +168,7 @@ $(document).on('click', '.add-tab', function (e) {
   e.preventDefault();
 $('.js-show-order-item .remove-tab').removeClass("hidden");
   let html = $('.js-order-item:first').prop('outerHTML');
+  var type = $('.js-order-item:first').find('.input-type').val()
   if (typeof html != 'string') return;
 
   let index = parseInt($('.order_item_total').val()),
@@ -222,7 +227,7 @@ $('.js-show-order-item .remove-tab').removeClass("hidden");
       $(".toast").addClass("show");
     }
   });
-  new_item.find('.js-calendar.date').val('');
+  $('.order-details').find('.order-wapper').append(generateInfoProduct('order_item_' + id));
 });
 
 $(document).on("click", ".tab-button", function () {
@@ -448,3 +453,65 @@ function updatePaymentRequired() {
 function formatCurrency(value) {
   return new Intl.NumberFormat("vi-VN").format(value);
 }
+function generateInfoProduct(item_id) {
+  return `
+  <div class="info-order hidden line-dots" data-id="${item_id}">
+  <div class="d-f jc-b pt-8">
+          <span class="tlt fw-bold ">Phân loại đơn hàng:</span>
+          <span class="type"></span>
+      </div>
+      <div class="d-f jc-b pt-8">
+          <span class="tlt fw-bold ">Ngày bắt đầu đơn hàng:</span>
+          <span class="date-start"></span>
+      </div>
+      <div class="tlt fw-bold  pt-8">Thông tin sản phẩm:</div>
+  <div class="info-product pt-8">
+          <div class="d-f jc-b">
+              <div class="d-f"><span class="name"></span>&nbsp;x&nbsp;<span class="quantity"></span></div>
+              <div class="price"></div>
+          </div>
+          <div class="note-box pb-20">
+              </div>
+      </div></div>`;
+}
+$(document).on('change', '.input-note_values', function () {
+  var item = $(this).closest('.js-order-item');
+  var id = item.attr('id')
+  var noteHtml = ''
+  const allNotes = getAllNotesValues(item);
+  $.each(allNotes, function (indexInArray, valueOfElement) {
+    var textValue = ''
+    $.each(valueOfElement.noteValues, function (indexInArray, valueNote) { 
+      if (textValue) {
+        textValue += ', ' + valueNote["value"];
+    } else {
+        textValue = valueNote["value"];
+    }
+    });
+    noteHtml += `<p><span class="note">Note ${valueOfElement['noteName']}</span>:&nbsp;<span class="value">${textValue}</span></p>`
+  });
+  $('.order-details').find(`[data-id="${id}"] .note-box`).html(noteHtml);
+})
+function getAllNotesValues(item) {
+  const notesData = [];
+  
+  item.find('.row-note').each(function() {
+      const noteRow = $(this);
+      const noteName = noteRow.find('.input-note_name').val(); 
+      let noteValues = []; 
+
+      noteRow.find('.input-note_values').each(function() {
+          const tagifyInstance = $(this).data('tagify');
+          if (tagifyInstance && tagifyInstance.value.length > 0) {
+              noteValues = tagifyInstance.value;
+          }
+      });
+      
+      notesData.push({
+          noteName: noteName,
+          noteValues: noteValues
+      });
+  });
+  return notesData;
+}
+

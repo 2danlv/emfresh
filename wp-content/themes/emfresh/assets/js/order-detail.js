@@ -130,13 +130,22 @@ jQuery(function ($) {
 		order_details.find(`[data-id="${data_id}"] .quantity`).text(quantity);
 		order_details.find(`[data-id="${data_id}"] .name`).text(order_item.find('.input-product_id option:selected').text());
 
-		var date = new Date(date_start);
-		var formattedDate = ('0' + date.getDate()).slice(-2) + '/' +
-                    ('0' + (date.getMonth() + 1)).slice(-2) + '/' +
-                    date.getFullYear();
-		order_details.find('.date-start').text(formattedDate);
-		type = type.toUpperCase();
-		order_details.find('.type').text(type);
+		if (date_start != '') {
+			var date = new Date(date_start);
+			var formattedDate = ('0' + date.getDate()).slice(-2) + '/' +
+						('0' + (date.getMonth() + 1)).slice(-2) + '/' +
+						date.getFullYear();
+		}
+		type = type.toUpperCase(); 
+
+		order_details.find(`[data-id="${data_id}"] .date-start`).text(formattedDate);
+		order_details.find(`[data-id="${data_id}"] .type`).text(type);
+		if (amount && quantity && order_item.find('.input-product_id option:selected').text()) {
+			order_details.find(`[data-id="${data_id}"]`).removeClass('hidden')
+		}
+		if (type) {
+			order_details.removeClass('hidden')
+		}
 	}
 
 	function format_money(number) {
@@ -176,8 +185,7 @@ jQuery(function ($) {
 		order_item.find('.js-note-list .row-note').each(function () {
 			let row = $(this),
 				name = row.find('.input-note_name').val(),
-				value = row.find('.input-note_values').val();
-
+				value = row.find('.input-note_values tagify__tag-text').text();
 			if (name != '' && value) {
 				if (typeof value == 'string') {
 					if (value == '') return;
@@ -189,10 +197,10 @@ jQuery(function ($) {
 
 				notes.push(name + ' : ' + value.join(', '));
 			}
+			console.log(value)
 		})
 
 		order_item.find('.input-note').val(notes.join("\n"));
-		
 	}
 
 	function update_order_info() {
@@ -329,6 +337,24 @@ jQuery(function ($) {
 
 		return check;
 	}
+	function update_pay() {
+		let total = 0;
+		let ship = parseFloat($('.info-pay').find('.ship').text().replace(/[^0-9.-]+/g, '')) || 0;
+		let discount = parseFloat($('.info-pay').find('.discount').text().replace(/[^0-9.-]+/g, '')) || 0;
+
+		$('.info-order').find('.price').each(function () {
+		    let value = parseFloat($(this).text().replace(/[^0-9.-]+/g, ''));
+		
+		    if (!isNaN(value)) {
+		        total += value;
+		    }
+		});
+		total = total + ship - discount;
+		$('.info-pay').find('.total-price').text(format_money(total))
+		$('.pay-field').find('.price-product').text(format_money(total))
+	}
+
+	update_pay()
 
 	$(document).on('change', '.js-order-item [name]', function () {
 		let p = $(this),
@@ -345,6 +371,8 @@ jQuery(function ($) {
 			update_order_item_note(order_item);
 
 			update_order_info();
+
+			update_pay();
 		}
 	});
 
@@ -474,4 +502,6 @@ jQuery(function ($) {
 			order_item.find('.js-note-list').append(html);
 		}
 	}
+
+	
 });
