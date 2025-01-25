@@ -43,6 +43,7 @@ $(document).ready(function() {
 
     $('.search-cus').keyup(function() {
         var query = $(this).val();
+        $('.no-results .btn-add-customer').attr('href', '/customer/add-customer/?phone='+query);
         if (query.length > 2) {  
             $.ajax({
                 url: '<?php echo home_url('em-api/customer/list/'); ?>',  

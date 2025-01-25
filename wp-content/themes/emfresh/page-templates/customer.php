@@ -338,7 +338,19 @@ function checkphone() {
         // return false;
     }
 }
+$.getQueryParam = function(param) {
+    let urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+};
+
 $(document).ready(function() {
+    let phone = $.getQueryParam('phone')
+    if (/^\d+$/.test(phone)) {
+        $('.phone_number').val(phone);
+    } else {
+        $('.nickname').val(phone);
+    }
+    
     $('.nickname').keyup(updatetxt);
     $('.fullname').keyup(updatetxt);
     $('.phone_number').keyup(updatephone);
