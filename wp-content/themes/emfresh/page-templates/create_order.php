@@ -361,7 +361,7 @@ get_header();
 <script id="note_template" type="text/template">
 <div class="row row-note mb-16">
 	<div class="col-4">
-		<select class="form-control input-note_name">
+		<select name="note_name" class="form-control input-note_name">
 			<?php
 				foreach ($list_notes as $name => $note_item) {
 					printf('<option value="%s">%s</option>', $name, $note_item['name']);
@@ -370,7 +370,7 @@ get_header();
 		</select>
 	</div>
 	<div class="col-8 col-note_values tag-container">
-		<input type="text" class="form-control input-note_values" />
+		<input type="text" name="note_values" class="form-control input-note_values" />
 	</div>
 </div>
 </script>
