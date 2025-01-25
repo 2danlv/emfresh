@@ -76,7 +76,7 @@ extract($ship);
                             ?>
                         
                         </div>
-                        <div data-target="#modal-add-address-1" class="btn-add-address modal-button d-f ai-center pb-16 pt-8 pl-8">
+                        <div data-target="#modal-add-address-1" class="btn-add-address modal-button d-f ai-center pb-8 pt-8 pl-8">
                             <span class="fas fa-plus mr-8"></span>Thêm địa chỉ mới
                         </div>
                     </div>
@@ -117,5 +117,5 @@ extract($ship);
     </div>
 </div>
 <div class="d-f ai-center pb-16 pt-24 add-new-note">
-    <span class="fas fa-plus mr-8"></span> Thêm note giao hàng mới
+    <span class="fas fa-plus mr-8"></span> Thêm yêu cầu giao hàng mới
 </div>
