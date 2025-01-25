@@ -72,7 +72,7 @@ get_header();
                                         <div class="info-order hidden line-dots" data-id="order_item_1">
                                             <div class="d-f jc-b pt-8">
                                                 <span class="tlt fw-bold ">Phân loại đơn hàng:</span>
-                                                <span class="type">W</span>
+                                                <span class="type"></span>
                                             </div>
                                             <div class="d-f jc-b pt-8">
                                                 <span class="tlt fw-bold ">Ngày bắt đầu đơn hàng:</span>
@@ -82,7 +82,7 @@ get_header();
                                             <div class="info-product pt-8">
                                                 <div class="d-f jc-b">
                                                     <div class="d-f"><span class="name">Slimfit M</span>&nbsp;x&nbsp;<span class="quantity">5</span></div>
-                                                    <div class="price">325.000</div>
+                                                    <div class="price"></div>
                                                 </div>
                                                 <div class="note-box pb-20"></div>
                                             </div>
@@ -99,7 +99,7 @@ get_header();
                                         </div>
                                         <div class="d-f jc-b pt-8 pb-8">
                                             <span class="tlt fw-bold ">Tổng tiền đơn hàng:</span>
-                                            <span class="total total-price">325.000</span>
+                                            <span class="total total-price"></span>
                                         </div>
                                     </div>
                                 </div>

@@ -430,15 +430,18 @@ jQuery(function ($) {
 
 	$(document).on('click', '.btn-add_order .remove-tab', function (e) {
 		e.preventDefault();
+		var idTabRemove = $(this).closest("[data-tab]").data('tab');
 		$("#modal-remove-tab").addClass("is-active");
 		let btn = $(this).closest('[data-id]'),
 			order_item = $('#' + btn.data('id'));
+		$('.order-details').find(`[data-id="${idTabRemove}"]`).addClass('remove')
 		
 
 		if (btn.length > 0 && order_item.length > 0) {
 			$(document).on('click', '.js-remove-order-item', function (e) {
 				e.preventDefault();
 				btn.remove();
+				$('.order-details').find('.info-order.remove').remove();
 				order_item.addClass('removed').hide().find('.input-remove').val(1);
 				if ($(".btn-add_order.tab-button").length == 1) {
 					$(".remove-tab").addClass("hidden");
@@ -449,6 +452,9 @@ jQuery(function ($) {
 					update_order_info();
 				}, 300);
 			});
+			$(document).on('click', '.modal-close', function (e) {
+				$('.order-details').find(`[data-id="${idTabRemove}"]`).removeClass('remove')
+			})
 		}
 	});
 	
