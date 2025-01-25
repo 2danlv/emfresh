@@ -218,8 +218,8 @@ get_header();
               <li><label><input type="checkbox" data-column="14" value="14">Trạng thái thanh toán</label></li>
               <li><label><input type="checkbox" data-column="15" value="15">Tổng tiền đơn hàng</label></li>
               <li><label><input type="checkbox" data-column="16" value="16">Số tiền còn lại</label></li>
-              <li><label><input type="checkbox" data-column="17" value="17">Giá trị đã dùng (admin only)</label></li>
-              <li><label><input type="checkbox" data-column="18" value="18">Giá trị chưa dùng (admin only)</label></li>
+              <li><label><input type="checkbox" data-column="17" value="17">Giá trị đã dùng <!-- (admin only) --></label></li>
+              <li><label><input type="checkbox" data-column="18" value="18">Giá trị chưa dùng <!-- (admin only) --></label></li>
               <li class="check_2"><label><input type="checkbox" value="16" data-column="19,21" checked>Nhân viên + Lần cập nhật cuối</label></li>
             </ul>
           </div>

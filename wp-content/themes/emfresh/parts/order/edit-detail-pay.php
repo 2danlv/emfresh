@@ -6,16 +6,6 @@
     </div>
     <div class="shipping-fee">
         <div class="fee-item d-f jc-b ai-center">
-            <p>Là đơn gộp tụ ship?</p>
-            <div class="d-f gap-12 ai-center">
-                <label class="auto-fill-checkbox">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                </label>
-                <span class="fs-16 color-gray">Không</span>
-            </div>
-        </div>
-        <div class="fee-item d-f jc-b ai-center">
             <p>Số ngày phát sinh phí ship:</p>
             <input type="number" name="ship_days" class="input-ship_days" value="<?php echo $order_detail['ship_days'] ?>" />
         </div>
