@@ -426,8 +426,8 @@ jQuery(function ($) {
 				order_item.addClass('removed').hide().find('.input-remove').val(1);
 				if ($(".btn-add_order.tab-button").length == 1) {
 					$(".remove-tab").addClass("hidden");
-					$(".btn-add_order.tab-button").first().addClass('active');
 				}
+				$(".btn-add_order.tab-button").first().addClass('active');
 				setTimeout(function () {
 					let p = $('.js-show-order-item:first');
 					show_order_item(p);
