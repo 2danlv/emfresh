@@ -178,7 +178,7 @@ $('.js-show-order-item .remove-tab').removeClass("hidden");
   $('.js-order-item').hide();
   $('.js-order-items').append(new_item);
   $('.btn-add_order').removeClass('active');
-  $(this).before(`<span class="btn btn-add_order active tab-button js-show-order-item" data-tab="order_item_${id}">Sản phẩm ${id}<span class="remove-tab"></span></span>`);
+  $(this).before(`<span class="btn btn-add_order active tab-button js-show-order-item" data-tab="order_item_${id}" data-id="order_item_${id}">Sản phẩm ${id}<span class="remove-tab"></span></span>`);
 
   $('.order_item_total').val(id);
   $('.js-calendar.date').daterangepicker({
@@ -295,41 +295,41 @@ $(document).on("click", ".tab-button", function () {
 //   activateTab(`tab-${tabCount}`);
 //   $(".tab-button").find(".remove-tab").addClass("show");
 // });
-$(document).on("click", ".remove-tab", function (e) {
-  e.stopPropagation();
-  $("#modal-remove-tab").addClass("is-active");
-  var tabToRemove = $(this).closest("[data-tab]");
-  $("#modal-remove-tab").data("tabToRemove", tabToRemove);
-});
+// $(document).on("click", ".remove-tab", function (e) {
+//   e.stopPropagation();
+//   $("#modal-remove-tab").addClass("is-active");
+//   var tabToRemove = $(this).closest("[data-tab]");
+//   $("#modal-remove-tab").data("tabToRemove", tabToRemove);
+// });
 
-$('#modal-remove-tab button[name="remove"]').on("click", function () {
-  var modal = $("#modal-remove-tab");
-  var tabToRemove = modal.data("tabToRemove");
-  tabCount = $(".tab-button").length - 1;
-  if (tabToRemove) {
-    const dataId = tabToRemove.data("tab");
+// $('#modal-remove-tab button[name="remove"]').on("click", function () {
+//   var modal = $("#modal-remove-tab");
+//   var tabToRemove = modal.data("tabToRemove");
+//   tabCount = $(".tab-button").length - 1;
+//   if (tabToRemove) {
+//     const dataId = tabToRemove.data("tab");
 
-    $(`#${dataId}`).remove();
-    tabToRemove.remove();
+//     $(`#${dataId}`).remove();
+//     tabToRemove.remove();
 
-    const firstTab = $(".tab-button").first();
-    if (firstTab.length > 0) {
-      activateTab(firstTab.data("tab"));
-    }
+//     const firstTab = $(".tab-button").first();
+//     if (firstTab.length > 0) {
+//       activateTab(firstTab.data("tab"));
+//     }
 
-    if ($(".tab-button").length == 1) {
-      $(".remove-tab").addClass("hidden");
-    }
-    $(".tab-button").each(function (index) {
-      $(this).html(
-        `Sản phẩm ${index + 1}<span class="remove-tab ${
-          $(".tab-button").length == 1 ? "hidden" : ""
-        }">`
-      );
-    });
-    modal.removeClass("is-active");
-  }
-});
+//     if ($(".tab-button").length == 1) {
+//       $(".remove-tab").addClass("hidden");
+//     }
+//     $(".tab-button").each(function (index) {
+//       $(this).html(
+//         `Sản phẩm ${index + 1}<span class="remove-tab ${
+//           $(".tab-button").length == 1 ? "hidden" : ""
+//         }">`
+//       );
+//     });
+//     modal.removeClass("is-active");
+//   }
+// });
 $(document).on("click", ".status-pay-menu .status-pay-item span", function () {
 
   $(".paymented").hide();
@@ -382,7 +382,9 @@ $(".ship_fee_days, .discount, .total_ship").on("change", function (e) {
   $(".info-pay .ship").text(formatCurrency(ship));
   $(".info-pay .total").text(formatCurrency(price));
 });
-
+$(".input-ship_amount").on("change", function (e) {
+  $(this).val(formatCurrency($(this).val()));
+});
 $(".status-pay-menu .status-pay-item").on("click", function () {
   updateStatus($(this));
 });

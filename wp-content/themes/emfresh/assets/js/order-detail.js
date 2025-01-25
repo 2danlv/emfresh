@@ -400,25 +400,30 @@ jQuery(function ($) {
 		$('.order_item_total').val(id);
 	});
 
-	$(document).on('click', '.js-remove-order-item', function (e) {
+	$(document).on('click', '.btn-add_order .remove-tab', function (e) {
 		e.preventDefault();
-
+		$("#modal-remove-tab").addClass("is-active");
 		let btn = $(this).closest('[data-id]'),
 			order_item = $('#' + btn.data('id'));
-		if (btn.length > 0 && order_item.length > 0 && confirm('Bạn có chắc muốn xóa sản phẩm này không?')) {
-			btn.remove();
-			order_item.addClass('removed').hide().find('.input-remove').val(1);
+		
 
-			setTimeout(function () {
-				let p = $('.js-show-order-item:first');
-
-				show_order_item(p);
-
-				update_order_info();
-			}, 300);
+		if (btn.length > 0 && order_item.length > 0) {
+			$(document).on('click', '.js-remove-order-item', function (e) {
+				e.preventDefault();
+				btn.remove();
+				order_item.addClass('removed').hide().find('.input-remove').val(1);
+				if ($(".btn-add_order.tab-button").length == 1) {
+					$(".remove-tab").addClass("hidden");
+				}
+				setTimeout(function () {
+					let p = $('.js-show-order-item:first');
+					show_order_item(p);
+					update_order_info();
+				}, 300);
+			});
 		}
-
 	});
+	
 
 	$(document).on('click', '.js-show-order-item', function () {
 		show_order_item(this);

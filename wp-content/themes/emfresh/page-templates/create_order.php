@@ -342,7 +342,6 @@ get_header();
     <div class="overlay"></div>
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="post" id="list-customer" action="">
                 <div class="modal-body pt-8 pb-16">
                     <input type="hidden" class="customer_id" name="customer_id" value="">
                     <div class="d-f">
@@ -352,9 +351,8 @@ get_header();
                 </div>
                 <div class="modal-footer d-f jc-b pb-8">
                     <button type="button" class="btn btn-secondary modal-close">Đóng</button>
-                    <button type="button" name="remove" class="btn btn-danger modal-close">Xóa</button>
+                    <button type="button" name="remove" class="btn btn-danger js-remove-order-item modal-close">Xóa</button>
                 </div>
-            </form>
         </div>
     </div>
 </div>
