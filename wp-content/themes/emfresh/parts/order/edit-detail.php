@@ -3,6 +3,7 @@
     <li class="nav-item" rel="detail-pay">Thanh toán</li>
     <li class="nav-item" rel="detail-delivery">Giao hàng</li>
 </ul>
+<div class="overlay-drop-menu"></div>
 <form method="post" class="edit--order" action="<?php echo $action_url ?>">
     <input type="hidden" name="save_order" value="<?php echo time() ?>" />
     <input type="hidden" name="order_id" value="<?php echo $order_id ?>" />
