@@ -49,11 +49,11 @@
         </div>
         <div class="paymented d-f jc-b ai-center pt-8">
             <p>Đã thanh toán:</p>
-            <input type="number" name="number" placeholder="-" class="form-control text-right">
+            <input type="number" name="paid" placeholder="-" class="form-control text-right" value="<?php echo $order_detail['paid'] > 0 ? number_format($order_detail['paid']) : 0 ?>">
         </div>
         <div class="payment-item d-f jc-b ai-center pt-8">
             <p>Cần thanh toán:</p>
-            <div class="payment-required fw-bold"> <?php echo number_format($order_detail['total_amount'] + $order_detail['ship_amount']) ?></div>
+            <div class="payment-required fw-bold"><?php echo $order_detail['remaining_amount'] > 0 ? number_format($order_detail['remaining_amount']) : 0 ?></div>
         </div>
     </div>
 </div>

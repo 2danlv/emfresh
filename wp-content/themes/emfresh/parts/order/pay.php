@@ -23,7 +23,7 @@ $order_payment_logs = $em_log->get_items([
                 <?php foreach($order_payment_logs as $item) :
                     
                     $item_time = strtotime($item['created']);
-                    // $contents = explode(':', $item['content']);
+                    $contents = explode('|', $item['content']);
                 ?>
                 <tr>
                     <td><?php echo date('H:i', $item_time) ?></td>
@@ -33,8 +33,8 @@ $order_payment_logs = $em_log->get_items([
                         <?php echo $item['created_author'] ?>
                     </td>
                     <td><?php echo $item['action'] ?></td>
-                    <td><?php // echo $contents[0] ?></td>
-                    <td><?php // echo isset($contents[1]) ? $contents[1] : '' ?></td>
+                    <td><?php echo $contents[0] ?></td>
+                    <td><?php echo isset($contents[1]) ? $contents[1] : '' ?></td>
                 </tr>
                 <?php endforeach ?>
                 <?php /*/ ?>

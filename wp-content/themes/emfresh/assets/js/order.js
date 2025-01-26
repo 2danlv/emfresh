@@ -343,7 +343,7 @@ $(document).on("click", ".status-pay-menu .status-pay-item span", function () {
   $(".input_status-payment").val($(this).attr('data-status'));
   var status = $(this).attr('data-status');
   
-  if (status == 4) {
+  if (status == 3) {
     $(".paymented").css("display", "flex");
   } else {
     $(".payment-required").text("0");
@@ -498,7 +498,7 @@ function getAllNotesValues(item) {
   
   item.find('.row-note').each(function() {
       const noteRow = $(this);
-      const noteName = noteRow.find('.input-note_name option:selected').text(); 
+      const noteName = noteRow.find('.input-note_name').val(); 
       let noteValues = []; 
 
       noteRow.find('.input-note_values').each(function() {

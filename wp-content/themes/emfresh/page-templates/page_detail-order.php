@@ -172,6 +172,17 @@ get_footer('customer');
 <script type="text/javascript">
 $(document).ready(function () {
 	initializeTagify('input.input-note_values');
+	$(".status-pay-menu .status-pay-item span[selected]").each(function() {
+    var status = $(this).data('status');
+    $(".status-pay").html($(this).closest('.status-pay-item').html());
+    $(".input_status-payment").val(status);
+    if (status == 3) {
+        $(".paymented").css("display", "flex");
+    }
+});
+
+
+	
 });
 function initializeTagify(selector) {
 	const categories = <?php echo $categoriesJSON ?>;
