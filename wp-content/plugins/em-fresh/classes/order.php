@@ -67,85 +67,6 @@ class EM_Order extends EF_Default
         return $insert_id;
     }
 
-    function get_items__not_use($args = [])
-    {
-        global $wpdb;
-
-        $table_order = $this->get_tbl_name();
-        $table_order_item = $wpdb->prefix . 'em_order_item';
-        $table_location = $wpdb->prefix . 'em_location';
-        $tbl_prefix = 'o.';
-
-        extract(shortcode_atts(array(
-            'orderby'   => $tbl_prefix . 'id DESC',
-            'paged'     => 1,
-            'offset'    => 0,
-            'limit'     => 20,
-        ), $args));
-
-        $query = " SELECT o.* "
-                ." ,oi.* "
-                ." ,l.address "
-                ." ,l.ward "
-                ." ,l.district "
-                // ." ,l.city "
-                ." FROM $table_order AS o "
-                ." LEFT JOIN $table_order_item AS oi ON oi.order_id = o.id "
-                ." LEFT JOIN $table_location AS l ON l.id = oi.location_id ";
-        
-        $wheres = $this->get_where($args, $tbl_prefix);
-        
-        if (count($wheres) > 0) {
-            $query .= ' WHERE ' . implode(' AND ', $wheres);
-        }
-
-        $query .= " GROUP BY {$tbl_prefix}id ";
-        $query .= " ORDER BY $orderby ";
-
-        if ($limit > 0) {
-            if ($offset == 0 && $paged > 1) {
-                $offset = ($paged - 1) * $limit;
-            }
-
-            $query .= sprintf(" LIMIT %d OFFSET %d", $limit, $offset);
-        }
-
-        if(isset($_GET['sqdev'])) {
-            die($query);
-        }
-
-        $list = $wpdb->get_results($query, ARRAY_A);
-
-        foreach ($list as $i => $item) {
-            $list[$i] = $this->filter_item($item, 'list');
-        }
-
-        return $list;
-    }
-
-    function get_where__not_use($args = [], $tbl_prefix = 'o.')
-    {
-        $wheres = [];
-
-        $filters = [
-            'phone'     => '=',
-        ];
-
-        foreach ($filters as $name => $rule) {
-            if (!empty($args[$name])) {
-                $value = sanitize_text_field($args[$name]);
-
-                if ($rule == 'LIKE') {
-                    $wheres[] = "{$tbl_prefix}`$name` LIKE '%{$value}%'";
-                } else {
-                    $wheres[] = "{$tbl_prefix}`$name` = '$value'";
-                }
-            }
-        }
-
-        return $wheres;
-    }
-
     function get_fields()
     {
         $fields = array(
@@ -164,6 +85,9 @@ class EM_Order extends EF_Default
             'order_status'  => 0,
             'order_type'    => '',
             'params'        => '',
+            'total'         => 0,
+            'paid'          => 0,
+            'remaining_amount' => 0,
             'created'       => '',
             'created_at'    => 0,
             'modified'      => '',
@@ -229,8 +153,8 @@ class EM_Order extends EF_Default
         $list = [
             1 => "Rồi",
             2 => "Chưa",
-            3 => "COD",
-            4 => "1 Phần"
+            // 3 => "COD",
+            3 => "1 Phần"
         ];
 
         if ($key != null) {
@@ -307,7 +231,9 @@ class EM_Order extends EF_Default
                 } else if ($key == 'remaining_amount') {
                     $total = intval($item['ship_amount'] + $item['total_amount']);
                     
-                    $item['paid'] = $total - $value;
+                    if($value == 0) {
+                        $item['remaining_amount'] = $total;
+                    }
 
                     $today = current_time('Y-m-d');
                     $used_value = 0;
@@ -331,6 +257,12 @@ class EM_Order extends EF_Default
 
                     $item['used_value'] = $used_value;
                     $item['remaining_value'] = $total - $used_value;
+                } else if ($key == 'paid') {
+                    if($value == 0) {
+                        $total = intval($item['ship_amount'] + $item['total_amount']);
+                    
+                        $item['paid'] = $total - intval($item['remaining_amount']);
+                    }
                 } else if ($key == 'location_id') {
                     $item['location_name'] = $em_location->get_fullname($value);
                 } else if ($key == 'customer_id') {
