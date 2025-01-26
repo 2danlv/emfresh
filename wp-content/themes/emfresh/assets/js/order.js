@@ -358,6 +358,7 @@ $("#loop").change(function () {
   } else {
     $(".repeat-weekly").removeClass("show");
     $(this).closest('.delivery-item').find('.calendar').show();
+    $('.repeat-weekly input').prop("checked", false);
   }
 });
 $(".delivery-field .add-new-note").click(function () {

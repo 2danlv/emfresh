@@ -92,7 +92,7 @@
             <div class="section-content">
                 <p class="txt"><?php echo $order_detail['customer_name'] ?></p>
                 <p class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $order_detail['phone'] ?>"><?php echo $order_detail['phone'] ?></p>
-                <p class="txt">44L đường số 11, KDC Miếu Nổi, Phường 3, Quận Bình Thạnh</p>
+                <p class="txt ellipsis"><?php echo $detail_local; ?></p>
                 <p class="note-txt italic">(Đã đăng ký chung nhóm ship: Thien Phuong Bui)</p>
             </div>
         </div>

@@ -104,6 +104,15 @@ get_header();
 					</div>
 				</div>
 				<div class="card-body">
+				<?php 
+                        foreach ($list_locations as $location) {
+                            if ($order_detail['location_id'] == $location['id']) {
+                                $detail_local = $location['location_name'];
+                            } else {
+                                $detail_local = '';
+                            }
+                        }
+                        ?>
 					<div class="tab-content">
 						<div class="tab-pane" id="info">
 							<?php include( get_template_directory().'/parts/order/info.php');?>
