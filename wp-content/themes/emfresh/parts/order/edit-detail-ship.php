@@ -38,7 +38,7 @@ extract($ship);
                 </label>
                 <div class="calendar">
                     <input type="hidden" class="form-control input-date_start" name="ship[calendar]" value="<?php echo $ship_calendar ?>" />
-                    <input type="text" placeholder="DD/MM/YYYY" class="form-control js-calendar date" value="<?php echo $ship_calendar ?>">
+                    <input type="text" placeholder="DD/MM/YYYY" class="form-control js-calendar date" value="<?php echo date("d/m/Y", strtotime($ship_calendar));  ?>">
                 </div>
                 <div class="repeat-weekly">
                     <input type="checkbox" id="monday" hidden name="ship[days][]" value="monday" <?php echo in_array('monday', $ship_days) ? 'checked' : '' ?>>
