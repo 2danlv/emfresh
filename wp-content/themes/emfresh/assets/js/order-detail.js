@@ -178,6 +178,8 @@ jQuery(function ($) {
 	}
 
 	function format_money(number) {
+		number = parseFloat(number); 
+		if (isNaN(number)) return '0';
 		return number.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,').split('.')[0];
 	}
 
@@ -190,7 +192,7 @@ jQuery(function ($) {
 			p.show();
 
 			$('.js-show-order-item').removeClass('btn-primary').addClass('btn-secondary');
-			btn.addClass('btn-primary');
+			btn.addClass('btn-primary active');
 		}
 	}
 
@@ -252,7 +254,7 @@ jQuery(function ($) {
 			order_note = '',
 			order_type = '';
 
-		$('.js-order-item').each(function () {
+		$('.js-order-item:not(.removed)').each(function () {
 			let p = $(this),
 				text, 
 				quantity = parseInt(p.find('.input-quantity').val()),
@@ -295,9 +297,11 @@ jQuery(function ($) {
 		$('.input-order_note').val(order_note);
 		$('.input-order_type').val(order_type);
 		$('.input-ship_days').val(ship_days);
-		$('.input-ship_amount').val(ship_amount);
-		$('.input-total_amount').val(total_amount);
-		$('.input-total').val(total_amount + ship_amount);
+		if (!isNaN(ship_amount)) {
+			$('.input-ship_amount').val(format_money(ship_amount));
+			$('.info-pay .ship').text(format_money(ship_amount));
+		}
+		$('.input-total,.input-total_amount').val(total_amount + ship_amount);
 		$('.text-total_amount').text(format_money(total_amount));
 	}
 
@@ -383,17 +387,19 @@ jQuery(function ($) {
 		let total = 0;
 		let ship = parseFloat($('.info-pay').find('.ship').text().replace(/[^0-9.-]+/g, '')) || 0;
 		let discount = parseFloat($('.info-pay').find('.discount').text().replace(/[^0-9.-]+/g, '')) || 0;
-
-		$('.info-order').find('.price').each(function () {
+		$('.paymented .input-preorder').val(0);
+		$('.info-order:not(.hidden)').find('.price').each(function () {
 		    let value = parseFloat($(this).text().replace(/[^0-9.-]+/g, ''));
 		
 		    if (!isNaN(value)) {
 		        total += value;
 		    }
 		});
-		total = total + ship - discount;
-		$('.info-pay').find('.total-price').text(format_money(total))
-		$('.pay-field').find('.price-product').text(format_money(total))
+		total_all = total + ship - discount;
+		$('.info-pay').find('.total-price').text(format_money(total_all));
+		$('.total-pay .price-product').text(format_money(total));
+		$('.total-pay .price-order,.order-payment .payment-required').text(format_money(total_all));
+		$('.input-total,.input-total_amount').val(total_all);
 	}
 
 	update_pay()
@@ -476,27 +482,27 @@ jQuery(function ($) {
 		$("#modal-remove-tab").addClass("is-active");
 		let btn = $(this).closest('[data-id]'),
 			order_item = $('#' + btn.data('id'));
-		$('.order-details').find(`[data-id="${idTabRemove}"]`).addClass('remove')
-		
-
+	
 		if (btn.length > 0 && order_item.length > 0) {
-			$(document).on('click', '.js-remove-order-item', function (e) {
+			$(document).off('click', '.js-remove-order-item').on('click', '.js-remove-order-item', function (e) {
 				e.preventDefault();
+				$('.order-details').find(`[data-id="${idTabRemove}"]`).addClass('hidden');
 				btn.remove();
 				$('.order-details').find('.info-order.remove').remove();
 				order_item.addClass('removed').hide().find('.input-remove').val(1);
 				if ($(".btn-add_order.tab-button").length == 1) {
 					$(".remove-tab").addClass("hidden");
 				}
+				
 				setTimeout(function () {
 					let p = $('.js-show-order-item:first');
 					show_order_item(p);
 					update_order_info();
 				}, 300);
 			});
-			$(document).on('click', '.modal-close', function (e) {
-				$('.order-details').find(`[data-id="${idTabRemove}"]`).removeClass('remove')
-			})
+			$(document).off('click', 'btn.btn-secondary.modal-close').on('click', 'btn.btn-secondary.modal-close', function (e) {
+				$('.order-details').find(`[data-id="${idTabRemove}"]`).removeClass('remove');
+			});
 		}
 	});
 	
@@ -505,7 +511,7 @@ jQuery(function ($) {
 		show_order_item(this);
 	});
 
-	$('.js-order-item').each(function () {
+	$('.js-order-item:not(.removed)').each(function () {
 		let order_item = $(this),
 			note_list = order_item.find('.input-note_list').val();
 
@@ -551,5 +557,26 @@ jQuery(function ($) {
 		}
 	}
 
-	
+	$('.input-ship_amount').on('keyup', function () {
+		let ship_amount = $(this).val().replace(/,/g, '');
+		$(this).val(format_money(ship_amount));
+		$('.info-pay .ship').text(format_money(ship_amount));
+		update_pay();
+	});
+	$('.input-discount').on('keyup', function () {
+		let discount = $(this).val().replace(/,/g, '');
+		$(this).val(format_money(discount));
+		$('.info-pay .discount').text(format_money(discount));
+		update_pay();
+	});
+	$('.paymented .input-preorder').on('keyup', function () {
+		let preorder = $(this).val().replace(/,/g, '');
+		$(this).val(format_money(preorder));
+		//$('.info-pay .discount').text(format_money(preorder));
+		let input_preorder = parseFloat($(this).val().replace(/[^0-9.-]+/g, '')) || 0;
+		let total_amount = parseFloat($('.total-pay').find('.input-total_amount').val().replace(/[^0-9.-]+/g, '')) || 0;
+		
+		let preorder_val = total_amount - input_preorder;
+		$('.payment-required').text(format_money(preorder_val));
+	});
 });

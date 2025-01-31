@@ -380,18 +380,16 @@ var original_total_cost = parseFloat(
 );
 var total_cost = original_total_cost;
 
-$(".ship_fee_days, .discount, .total_ship").on("change", function (e) {
-  updateTotalCost(e.target);
-  var ship = parseInt($(".total_ship").val(), 10) || 0;
-  var discount = parseInt($(".fee-item .discount").val(), 10) || 0;
-  var price = parseFloat($(".price-order").text().replace(/\./g, "")) || 0;
-  $(".info-pay .discount").text(formatCurrency(discount));
-  $(".info-pay .ship").text(formatCurrency(ship));
-  $(".info-pay .total").text(formatCurrency(price));
-});
-$(".input-ship_amount").on("change", function (e) {
-  $(this).val(formatCurrency($(this).val()));
-});
+// $(".ship_fee_days, .discount, .total_ship").on("change", function (e) {
+//   updateTotalCost(e.target);
+//   var ship = parseInt($(".total_ship").val(), 10) || 0;
+//   var discount = parseInt($(".fee-item .discount").val(), 10) || 0;
+//   var price = parseFloat($(".price-order").text().replace(/\./g, "")) || 0;
+//   //$(".info-pay .discount").text(formatCurrency(discount));
+//   $(".info-pay .ship").text(formatCurrency(ship));
+//   $(".info-pay .total").text(formatCurrency(price));
+// });
+
 $(".status-pay-menu .status-pay-item").on("click", function () {
   updateStatus($(this));
 });
@@ -400,23 +398,23 @@ $(".input-paymented").on("change", function () {
   updatePaymentRequired();
 });
 
-function updateTotalCost(target) {
-  var ship_fee_days = parseInt($(".ship_fee_days").val(), 10) || 0;
-  var user_input_ship_fee = parseInt($(".total_ship").val(), 10);
-  var calculated_ship_fee = ship_fee_days * SHIP;
+// function updateTotalCost(target) {
+//   var ship_fee_days = parseInt($(".ship_fee_days").val(), 10) || 0;
+//   var user_input_ship_fee = parseInt($(".total_ship").val(), 10);
+//   var calculated_ship_fee = ship_fee_days * SHIP;
 
-  if (target.classList.contains("total_ship")) {
-    calculated_ship_fee = !isNaN(user_input_ship_fee)
-      ? user_input_ship_fee
-      : calculated_ship_fee;
-  }
-  $(".total_ship").val(calculated_ship_fee);
-  var discount = parseInt($("input.discount").val(), 10) || 0;
-  total_cost = original_total_cost + calculated_ship_fee - discount;
-  var formattedCurrency = formatCurrency(total_cost);
-  $(".price-order").text(formattedCurrency);
-  updatePaymentRequired();
-}
+//   if (target.classList.contains("total_ship")) {
+//     calculated_ship_fee = !isNaN(user_input_ship_fee)
+//       ? user_input_ship_fee
+//       : calculated_ship_fee;
+//   }
+//   $(".total_ship").val(calculated_ship_fee);
+//   var discount = parseInt($("input.discount").val(), 10) || 0;
+//   total_cost = original_total_cost + calculated_ship_fee - discount;
+//   var formattedCurrency = formatCurrency(total_cost);
+//   $(".price-order").text(formattedCurrency);
+//   updatePaymentRequired();
+// }
 
 function updateStatus(selectedItem) {
   $(".paymented").hide();
@@ -453,7 +451,7 @@ function updatePaymentRequired() {
 }
 
 function formatCurrency(value) {
-  return new Intl.NumberFormat("vi-VN").format(value);
+  //return new Intl.NumberFormat("vi-VN").format(value);
 }
 function generateInfoProduct(item_id) {
   return `
