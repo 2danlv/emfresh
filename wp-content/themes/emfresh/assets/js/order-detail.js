@@ -295,7 +295,7 @@ jQuery(function ($) {
 
 		$('.input-item_name').val(Object.keys(item_name).map(text => `${item_name[text]}${text}`).join('+'));
 		$('.input-order_note').val(order_note);
-		$('.input-order_type').val(order_type);
+		counts_type();
 		$('.input-ship_days').val(ship_days);
 		if (!isNaN(ship_amount)) {
 			$('.input-ship_amount').val(format_money(ship_amount));
@@ -580,3 +580,38 @@ jQuery(function ($) {
 		$('.payment-required,.total-cost .cost-txt').text(format_money(preorder_val));
 	});
 });
+$(document).on("change", ".input-type", function() {
+	counts_type();
+	
+  });
+function counts_type() {
+		var counts = { d: 0, w: 0, m: 0 };
+	  
+		$(".js-order-item:not(.removed) .input-type").each(function() {
+			var selectedValue = $(this).find("option:selected").val();
+			if (selectedValue && counts[selectedValue] !== undefined) {
+				counts[selectedValue]++;
+			}
+		});
+	  
+		var result = [];
+	  
+		if (counts.d == 1) {
+		  result.push(`D`);
+		} else if (counts.d > 1) {
+		  result.push(`${counts.d}D`);
+		}
+		if (counts.w == 1) {
+		  result.push(`W`);
+		} else if (counts.w > 1) {
+		  result.push(`${counts.w}W`);
+		}
+		if (counts.m == 1) {
+		  result.push(`M`);
+		} else if (counts.m > 1) {
+		  result.push(`${counts.m}M`);
+		}
+		$(".info-order .type-total").text(result.join(' + '));
+		$(".form-add-order .input-order_type,.edit--order .input-order_type").val(result.join(' + '));
+		
+}

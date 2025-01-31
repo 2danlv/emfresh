@@ -113,11 +113,19 @@ $(document).ready(function () {
       $(".toast").addClass("show");
     }
   });
-    $('.js-calendar.date').daterangepicker({
+  $('.js-calendar.date').each(function() {
+    var today_calendar;
+    if ($(this).val() != '') {
+      today_calendar = $(this).val();
+    } else {
+      today_calendar = new Date();
+    }
+
+    $(this).daterangepicker({
       singleDatePicker: true,
       autoUpdateInput: true,
       autoApply: true,
-      minDate: new Date(),
+      minDate: today_calendar,
       opens: 'left',
       locale: {
         format: "DD/MM/YYYY",daysOfWeek: ["CN", "T2", "T3", "T4", "T5", "T6", "T7"],
@@ -154,6 +162,7 @@ $(document).ready(function () {
         $(".toast").addClass("show");
       }
     });
+  });
   
 let tabCount = 1;
 function activateTab(tabId) {
@@ -455,16 +464,16 @@ function formatCurrency(value) {
 }
 function generateInfoProduct(item_id) {
   return `
-  <div class="info-order hidden line-dots" data-id="${item_id}">
-  <div class="d-f jc-b pt-8">
+  <div class="info-order hidden line" data-id="${item_id}">
+  <div class="d-f jc-b pt-8 hidden">
           <span class="tlt fw-bold ">Phân loại đơn hàng:</span>
           <span class="type"></span>
       </div>
-      <div class="d-f jc-b pt-8">
+      <div class="d-f jc-b pt-8 hidden">
           <span class="tlt fw-bold ">Ngày bắt đầu đơn hàng:</span>
           <span class="date-start"></span>
       </div>
-      <div class="tlt fw-bold  pt-8">Thông tin sản phẩm:</div>
+      <div class="tlt fw-bold  pt-8 hidden">Thông tin sản phẩm:</div>
   <div class="info-product pt-8">
           <div class="d-f jc-b">
               <div class="d-f"><span class="name"></span>&nbsp;x&nbsp;<span class="quantity"></span></div>

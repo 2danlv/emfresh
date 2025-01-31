@@ -11,10 +11,10 @@
                     <p class="pt-8 pb-16 text-ellipsis address"><?php echo $detail_local; ?></p>
                 </div>
                 <div class="order-details show">
-                    <div class="info-order line-dots">
+                    <div class="info-order line">
                         <div class="d-f jc-b pt-8">
                             <span class="tlt fw-bold ">Phân loại đơn hàng:</span>
-                            <span class="type"><?php echo strtoupper($order_items[0]['type']); ?></span>
+                            <span class="type-total"><?php echo strtoupper($order_items[0]['type']); ?></span>
                         </div>
                         <div class="d-f jc-b pt-8">
                             <span class="tlt fw-bold ">Ngày bắt đầu đơn hàng:</span>

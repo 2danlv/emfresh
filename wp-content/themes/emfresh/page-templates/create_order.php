@@ -69,10 +69,10 @@ get_header();
                                 </div>
                                 <div class="order-details hidden">
                                     <div class="order-wapper">
-                                        <div class="info-order hidden line-dots" data-id="order_item_1">
+                                        <div class="info-order hidden line" data-id="order_item_1">
                                             <div class="d-f jc-b pt-8">
                                                 <span class="tlt fw-bold ">Phân loại đơn hàng:</span>
-                                                <span class="type"></span>
+                                                <span class="type-total"></span>
                                             </div>
                                             <div class="d-f jc-b pt-8">
                                                 <span class="tlt fw-bold ">Ngày bắt đầu đơn hàng:</span>

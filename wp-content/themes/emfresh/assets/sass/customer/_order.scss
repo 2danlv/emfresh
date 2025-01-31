@@ -151,7 +151,9 @@
     .line-dots {
         border-bottom: 2px dashed var(--modal-divider, #dedfe0);
     }
-
+    .line {
+        border-bottom: 1px solid var(--modal-divider, #DEDFE0);
+    }
     .info-product {
         color: var(--input-text-filled, #0f0f0f);
         padding-inline: 8px;
@@ -553,6 +555,7 @@ tags.tagify.form-control {
         border-radius: var(--dropdown-radiusCorner, 8px);
         border: 1px solid var(--dropdown-border-default, #DEDFE0);
         background: var(--Sample-frame-background-white, #FFF);
+        z-index: 0;
         .tagify {
             width: 100%;
             border: none;
