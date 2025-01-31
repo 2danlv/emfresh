@@ -398,7 +398,7 @@ jQuery(function ($) {
 		total_all = total + ship - discount;
 		$('.info-pay').find('.total-price').text(format_money(total_all));
 		$('.total-pay .price-product').text(format_money(total));
-		$('.total-pay .price-order,.order-payment .payment-required').text(format_money(total_all));
+		$('.total-pay .price-order,.order-payment .payment-required,.total-cost .cost-txt').text(format_money(total_all));
 		$('.input-total,.input-total_amount').val(total_all);
 	}
 
@@ -577,6 +577,6 @@ jQuery(function ($) {
 		let total_amount = parseFloat($('.total-pay').find('.input-total_amount').val().replace(/[^0-9.-]+/g, '')) || 0;
 		
 		let preorder_val = total_amount - input_preorder;
-		$('.payment-required').text(format_money(preorder_val));
+		$('.payment-required,.total-cost .cost-txt').text(format_money(preorder_val));
 	});
 });
