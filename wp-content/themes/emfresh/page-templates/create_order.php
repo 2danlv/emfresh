@@ -187,7 +187,7 @@ get_header();
 </div>
 </script>
 <?php
- $categoriesJSON = json_encode($list_notes);
+$categoriesJSON = json_encode($list_notes, JSON_UNESCAPED_UNICODE);
 // endwhile;
 get_footer('customer');
 ?>
@@ -196,7 +196,7 @@ get_footer('customer');
 <script src="<?php site_the_assets(); ?>js/location.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
 <script src="<?php site_the_assets(); ?>js/order.js"></script>
-<script>var orderDetailSettings = <?php echo json_encode($orderDetailSettings) ?>;</script>
+<script>var orderDetailSettings = <?php echo json_encode($orderDetailSettings, JSON_UNESCAPED_UNICODE) ?>;</script>
 <script src="<?php site_the_assets(); ?>js/order-detail.js"></script>
 <script type="text/javascript">
     function switch_tabs_add_order(obj) {
@@ -257,10 +257,11 @@ get_footer('customer');
     });
 	function initializeTagify(selector) {
         const categories = <?php echo $categoriesJSON ?>;
+        const keys = Object.keys(categories);
         $(selector).each(function () {
             if (!$(this).data('tagify')) {
                 var tagifyInstance = new Tagify(this, {
-                    whitelist: categories["rau-cu"].values,
+                    whitelist: categories[keys[0]].values,
                     placeholder: "...",
                     dropdown: {
                         enabled: 0,

@@ -27,6 +27,7 @@ $_GET = wp_unslash($_GET);
 $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
 
 $action_url = add_query_arg(['order_id' => $order_id], get_permalink());
+$duplicate_url = add_query_arg(['duplicate_order' => $order_id, 'dupnonce' => wp_create_nonce('duplicate_order-' . $order_id)], get_permalink());
 
 $order_detail = $em_order->get_fields();
 $list_payment_statuses = $em_order->get_payment_statuses();
@@ -76,7 +77,7 @@ get_header();
 								danh sách đơn hàng</span></a>
 					</div>
 					<div class="col-6 d-f ai-center jc-end group-button_top">
-						<a class="btn btn-primary js-btn-clone out-line" href="#"><span class="d-f ai-center"><i class="fas mr-4"><img
+						<a class="btn btn-primary js-btn-clone out-line" href="<?php echo $duplicate_url ?>"><span class="d-f ai-center"><i class="fas mr-4"><img
 										src="<?php echo site_get_template_directory_assets(); ?>img/icon-hover/plus-svgrepo-com.svg" alt=""></i>Tạo bảo sao</span></a>
 						<span class="btn btn-primary btn-disable btn-save_edit hidden">Lưu thay đổi</span>
 						<span class="btn btn-primary js-btn-save out-line">Lưu thay đổi</span>
@@ -166,9 +167,9 @@ get_header();
 	</div>
 </div>
 </script>
-<script>var orderDetailSettings = <?php echo json_encode($orderDetailSettings) ?>;</script>
+<script>var orderDetailSettings = <?php echo json_encode($orderDetailSettings, JSON_UNESCAPED_UNICODE) ?>;</script>
 <?php
-$categoriesJSON = json_encode($list_notes);
+$categoriesJSON = json_encode($list_notes, JSON_UNESCAPED_UNICODE);
 // endwhile;
 get_footer('customer');
 ?>
@@ -195,10 +196,11 @@ $(document).ready(function () {
 });
 function initializeTagify(selector) {
 	const categories = <?php echo $categoriesJSON ?>;
+	const keys = Object.keys(categories);
 	$(selector).each(function () {
 		if (!$(this).data('tagify')) {
 			var tagifyInstance = new Tagify(this, {
-				whitelist: categories["rau-cu"].values,
+				whitelist: categories[keys[0]].values,
 				placeholder: "...",
 				dropdown: {
 					enabled: 0,

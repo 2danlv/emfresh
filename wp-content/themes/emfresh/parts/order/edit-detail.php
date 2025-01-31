@@ -31,7 +31,7 @@
 <!-- var_dump
 <?php 
 
-var_dump($order_detail); 
+// var_dump($order_detail); 
 
 ?>
 -->

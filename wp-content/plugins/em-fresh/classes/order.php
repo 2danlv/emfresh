@@ -258,11 +258,11 @@ class EM_Order extends EF_Default
                     $item['used_value'] = $used_value;
                     $item['remaining_value'] = $total - $used_value;
                 } else if ($key == 'paid') {
-                    if($value == 0) {
-                        $total = intval($item['ship_amount'] + $item['total_amount']);
+                    // if($value == 0) {
+                    //     $total = intval($item['ship_amount'] + $item['total_amount']);
                     
-                        $item['paid'] = $total - intval($item['remaining_amount']);
-                    }
+                    //     $item['paid'] = $total - intval($item['remaining_amount']);
+                    // }
                 } else if ($key == 'location_id') {
                     $item['location_name'] = $em_location->get_fullname($value);
                 } else if ($key == 'customer_id') {

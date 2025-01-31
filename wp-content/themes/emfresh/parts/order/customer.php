@@ -161,6 +161,23 @@ $(document).ready(function() {
                     console.error('Error fetching data from API', error);
                 }
             });
+
+            // Don hang gan day
+            $.ajax({
+                url: '<?php echo home_url('em-api/order/list/'); ?>?customer_id=' + customer_id,
+                method: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    response.data.forEach(order => {
+
+                    });
+
+                    console.log('Don hang gan day', response.data);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching data from API', error);
+                }
+            });
         }
     });
 

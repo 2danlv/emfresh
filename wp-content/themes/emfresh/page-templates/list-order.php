@@ -17,9 +17,14 @@ $detail_order_url = site_order_edit_link();
 $add_order_url = site_order_add_link();
 
 // cập nhật data cho customer
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['remove_post'])) {
   $list_id = isset($_POST['list_id']) ? sanitize_textarea_field($_POST['list_id']) : '';
   $array_id = explode(',', $list_id);
+
+  foreach($array_id as $id) {
+    $em_order->delete($id);
+  }
+
   $updated = [];
 
   wp_redirect(add_query_arg([

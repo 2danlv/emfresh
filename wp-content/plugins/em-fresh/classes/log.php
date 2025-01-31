@@ -178,7 +178,13 @@ class EM_Log extends EF_Default
     {
         if ($this->table == $table_name || $deleted == false) return $deleted;
 
-        if(in_array($table_name, ['em_customer'])) {
+        $table_parents = [
+            'em_customer',
+            'em_order',
+            'em_order_payment',
+        ];
+
+        if(in_array($table_name, $table_parents)) {
             global $wpdb;
 
             $where = [
@@ -191,6 +197,10 @@ class EM_Log extends EF_Default
             }, $where);
 
             $deleted = $wpdb->delete($this->get_tbl_name(), $where, $type);
+
+            if($table_name == 'em_order') {
+                $this->deleted_em_table_item($id, $deleted, 'em_order_payment');
+            }
         }
 
         return $deleted;

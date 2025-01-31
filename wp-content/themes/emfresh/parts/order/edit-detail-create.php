@@ -16,7 +16,7 @@
                     <div class="tab-content">
                         <input type="hidden" name="order_item[<?php echo $i ?>][id]" class="input-id" value="<?php echo $id ?>" />
                         <input type="hidden" name="order_item[<?php echo $i ?>][remove]" class="input-remove" />
-                        <input type="hidden" name="order_item[<?php echo $i ?>][note]" class="input-note" value="<?php echo $note ?>" />
+                        <input type="hidden" name="order_item[<?php echo $i ?>][meal_number]" class="input-meal_number" value="<?php echo isset($meal_number) ? $meal_number : '' ?>" />
                         <input type="hidden" name="order_item[<?php echo $i ?>][date_stop]" class="input-date_stop" value="<?php echo $date_stop ?>" />
                         <input type="hidden" name="order_item[<?php echo $i ?>][product_price]" class="input-product_price" value="<?php echo $product_price ?>" />
                         <input type="hidden" name="order_item[<?php echo $i ?>][ship_price]" class="input-ship_price" value="<?php echo $ship_price ?>" />
@@ -75,6 +75,7 @@
                                         </div>
                                     </div>
                                     <p class="note note-no-use pl-8 pt-4">Chưa dùng: <span>3</span></p>
+                                    <p class="console-product pl-8 pt-4"></p>
                                     <div class="d-f gap-12 ai-center">
                                         <label class="auto-fill-checkbox mt-16 mb-16">
                                             <input class="form-check-input" type="checkbox" value="1" name="order_item[<?php echo $i ?>][auto_choose]" id="auto_choose" <?php echo $auto_choose == 1 ? 'selected' : '' ?>>

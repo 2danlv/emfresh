@@ -49,7 +49,7 @@ function em_admin_get_notes($value = '')
         if(str_contains($row, ':')) {
             list($name, $values) = array_map('trim', explode(':', $row));
 
-            $list[ sanitize_title($name) ] = [
+            $list[ $name ] = [
                 'name' => $name,
                 'values' => array_map('trim', explode(',', trim($values)))
             ];

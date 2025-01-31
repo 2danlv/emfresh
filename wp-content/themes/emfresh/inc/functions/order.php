@@ -4,6 +4,22 @@ function site_order_submit()
 {
     global $em_order, $em_order_item, $em_log;
 
+    $order_default = [
+        'ship_days' => 0,
+        'ship_amount' => 0,
+        'total_amount' => 0,
+        'discount' => 0,
+        'item_name' => '',
+        'location_id' => 0,
+        'order_type' => '',
+        'payment_status' => 0,
+        'payment_method' => '',
+        'payment_amount' => 0,
+        'remaining_amount' => 0,
+        'paid' => 0,
+        'note' => '',
+    ];
+
     if (!empty($_POST['save_order'])) {
         $_POST = wp_unslash($_POST);
         
@@ -18,24 +34,21 @@ function site_order_submit()
 
         $order_id = isset($_POST['order_id']) ? intval($_POST['order_id']) : 0;
 
-        $order_data = shortcode_atts([
-            'ship_days' => 0,
-            'ship_amount' => 0,
-            'total_amount' => 0,
-            'discount' => 0,
-            'item_name' => '',
-            'location_id' => 0,
-            'order_type' => '',
-            'payment_status' => 0,
-            'payment_method' => '',
-            'payment_amount' => 0,
-        ], $_POST);
+        $order_data = shortcode_atts($order_default, $_POST);
         
-        if(isset($_POST['order_note'])) {
-            $order_data['note'] = sanitize_text_field($_POST['order_note']);
-        }
+        // if(isset($_POST['order_note'])) {
+        //     $order_data['note'] = sanitize_text_field($_POST['order_note']);
+        // }
 
         $order_data['total'] = intval($order_data['ship_amount'] + $order_data['total_amount']);
+
+        if($order_data['payment_status'] == 3 && $order_data['paid'] > 0) {
+            // 1 phan
+            $order_data['remaining_amount'] = $order_data['total'] - $order_data['paid'];
+        } else if($order_data['payment_status'] != 1) {
+            // chua va 1 phan
+            $order_data['remaining_amount'] = $order_data['total'];
+        }
 
         $params = [];
         if(!empty($_POST['ship'])) {
@@ -55,11 +68,7 @@ function site_order_submit()
             if($response['code'] == 200) {
                 $order_id = $response['data']['insert_id'];
 
-                site_order_payment_history($order_id, 'Tạo đơn hàng', [
-                    // $order_data['payment_amount'],
-                    '+' . $order_data['total'],
-                    '+' . $order_data['total'],
-                ]);
+                site_order_log($order_default, $order_data);
             } else {
                 $errors = $response['errors'];
             }
@@ -75,12 +84,14 @@ function site_order_submit()
                 'quantity' => 'Số lượng',
                 'auto_choose' => 'Tự chọn món',
                 'note' => 'Ghi chú',
-            );
+            );            
             
             foreach($_POST['order_item'] as $i => $order_item) {
                 $order_item['order_id'] = $order_id;
 
                 $item_title = 'Sản phẩm ' . ($i + 1);
+
+                $note = '';
 
                 if(!empty($order_item['id'])) {
                     if(!empty($order_item['remove'])) {
@@ -89,10 +100,10 @@ function site_order_submit()
                         if($response['code'] == 200) {
                             // Log update
                             $em_log->insert([
-                                'action'        => 'Xóa',
+                                'action'        => 'Sản phẩm',
                                 'module'        => 'em_order',
                                 'module_id'     => $order_id,
-                                'content'       => $item_title
+                                'content'       => 'Xóa ' . $item_title
                             ]);
                         }
                     } else {
@@ -105,7 +116,7 @@ function site_order_submit()
 
                             foreach($item_labels as $key => $label) {
                                 if(isset($before[$key]) && isset($order_item[$key]) && $order_item[$key] != $before[$key]) {
-                                    $value = $order_item[$key];
+                                    $value = $before[$key];
 
                                     if($key == 'product_id') {
                                         $value = $em_order_item->get_product($value, 'name');
@@ -115,28 +126,38 @@ function site_order_submit()
                                 }
                             }
 
+                            $note = !empty($order_item['note']) ? $order_item['note'] : '';
+
                             if(count($log_content) > 0) {
                                 // Log update
                                 $em_log->insert([
-                                    'action'        => 'Cập nhật',
+                                    'action'        => 'Sản phẩm',
                                     'module'        => 'em_order',
                                     'module_id'     => $order_id,
-                                    'content'       => $item_title . ' - ' . implode(', ', $log_content)
+                                    'content'       => $item_title . ' ' . implode(' ', $log_content)
                                 ]);
                             }
                         }
                     }
                 } else {
                     unset($order_item['id']);
+
+                    $note = !empty($order_item['note']) ? $order_item['note'] : '';
     
                     $response = em_api_request('order_item/add', $order_item);
+                }
+
+                if($note != '' && $order_data['note'] == '') {
+                    $notes = explode("\n", $note);
+                    
+                    $order_data['note'] = $notes[0];
                 }
             }
 
             if($update) {
                 $order_data['id'] = $order_id;
 
-                $before = $em_order->get_item($order_id);
+                $before = $em_order->get_item($order_id); 
 
                 $response = em_api_request('order/update', $order_data);
 
@@ -160,27 +181,54 @@ function site_order_submit()
         wp_redirect(add_query_arg($query_args, site_order_edit_link()));
         exit();
     }
+
+    // Duplicate order
+    $duplicate_order = !empty($_GET['duplicate_order']) ? (int) $_GET['duplicate_order'] : 0;
+    $dupnonce = !empty($_GET['dupnonce']) ? trim($_GET['dupnonce']) : '';
+    if ($duplicate_order > 0 && wp_verify_nonce($dupnonce, "duplicate_order-{$duplicate_order}")) {        
+        $order_id = 0;
+        $errors = [];
+
+        $order_data = $em_order->get_item($duplicate_order);
+        if(!empty($order_data['id'])) {
+            unset($order_data['id']);
+
+            $response = em_api_request('order/add', $order_data);
+            if($response['code'] == 200) {
+                $order_id = $response['data']['insert_id'];
+
+                site_order_log($order_default, $order_data);
+
+                $order_items = $em_order_item->get_items(['order_id' => $duplicate_order]);
+
+                foreach($order_items as $order_item) {
+                    unset($order_item['id']);
+                    
+                    $order_item['order_id'] = $order_id;
+
+                    $response = em_api_request('order_item/add', $order_item);
+                }
+            } else {
+                $errors = $response['errors'];
+            }
+        }
+
+        $query_args = [
+            'order_id' => $order_id,
+            'expires' => time() + 3,
+        ];
+        
+        if(count($errors)>0) {
+            $query_args['message'] = 'Errors';
+        } else {
+            $query_args['message'] = 'Success';
+        }
+    
+        wp_redirect(add_query_arg($query_args, site_order_edit_link()));
+        exit();
+    }
 }
 add_action('wp', 'site_order_submit');
-
-function site_order_payment_history($order_id = 0, $action = '', $log_content = '')
-{
-    if($order_id == 0) return;
-
-    global $em_log;
-
-    if(is_array($log_content)) {
-        $log_content = implode(',', $log_content);
-    }
-
-    // Log update
-    $em_log->insert([
-        'action'        => $action,
-        'module'        => 'em_order_payment',
-        'module_id'     => $order_id,
-        'content'       => $log_content
-    ]);
-}
 
 function site_order_log($before = [], $after = [])
 {
@@ -208,25 +256,57 @@ function site_order_log($before = [], $after = [])
     // $data = [date('Ymd-His'), $before , $after];
     // file_put_contents(ABSPATH . '/html/log-2.json', json_encode($data, JSON_UNESCAPED_UNICODE));
 
-    if($before['payment_method'] != $after['payment_method']) {
+    if(empty($before['id'])) {
+        $action = 'Tạo đơn hàng';
+        $module = 'em_order_payment';
+
+        if($after['payment_status'] == 2) {
+            // chua
+            $log_content[] = '+'. number_format($after['total']);
+            $log_content[] = '+'. number_format($after['total']);
+        } else if($after['payment_status'] == 3) {
+            // 1 phan
+            $log_content[] = $after['paid'] > 0 ? '-'. number_format($after['paid']) : 0;
+            $log_content[] = $after['remaining_amount'] > 0 ? '+'. number_format($after['remaining_amount']) : 0;
+        }
+    } else if($before['remaining_amount'] != $after['remaining_amount']) {
         $action = $em_order->get_payment_methods($after['payment_method']);
-
         $module = 'em_order_payment';
-    } else if($before['payment_status'] != $after['payment_status']) {
-        $action = $em_order->get_payment_statuses($after['payment_status']);
 
+        if($after['payment_status'] == 1) {
+            // roi
+            $log_content[] = '+'. number_format($after['total']);
+            $log_content[] = 0;
+        } else if($after['payment_status'] == 3) {
+            // 1 phan
+            $log_content[] = $after['paid'] > 0 ? '-'. number_format($after['paid']) : 0;
+            $log_content[] = $after['remaining_amount'] > 0 ? '+'. number_format($after['remaining_amount']) : 0;
+        }
+    } else if($before['total'] < $after['total']) {
+        $action = 'Bổ sung đơn hàng';
         $module = 'em_order_payment';
-    } else if($after['payment_amount'] > 0){
-        // $action = 'Bổ sung đơn hàng';
+
+        $log_content[] = $after['remaining_amount'] > 0 ? '+'. number_format($after['remaining_amount']) : 0;
+        $log_content[] = '+'. number_format($after['total'] - $before['total']);
+    } else if($before['location_id'] < $after['location_id']) {
+        $action = 'Địa chỉ';
+
+        $log_content[] = $before['location_name'];
     }
     
     if($action != '') {
+        if($module == 'em_order_payment') {
+            $content = implode('|', $log_content);
+        } else {
+            $content = implode(', ', $log_content);
+        }
+
         // Add Log 
         $em_log->insert([
             'action'        => $action,
             'module'        => $module,
             'module_id'     => $after['id'],
-            'content'       => implode(', ', $log_content)
+            'content'       => $content
         ]);
     }
 }

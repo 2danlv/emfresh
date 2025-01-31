@@ -1,13 +1,12 @@
 $(document).ready(function () {
     // $(".tabNavigation [rel='activity-history']").trigger("click");
     
-    
     $("ul.edit-product li").click(function () {
         switch_tabs_order(jQuery(this))
-      });
-      switch_tabs_order(jQuery('.defaulttab_order'));
+	});
+	switch_tabs_order(jQuery('.defaulttab_order'));
       
-    });
+});
 $('.js-cancel').on('click', function(){
     $('#modal-cancel').addClass("is-active");
     $("body").addClass("overflow");
@@ -56,6 +55,8 @@ jQuery(function ($) {
 		// let ship_price = get_ship_price(order_item.find('.input-location_id option:selected').text());
 		let ship_price = get_ship_price($('.input-location_name').val());
 
+		let debug = [];
+
 		if (product_id > 0 && product != null && quantity > 0 && type != '' && days > 0) {
 			let meal = 'meal_w_';
 
@@ -68,7 +69,12 @@ jQuery(function ($) {
 				if (typeof product[meal] != 'undefined') {
 					price = parseInt(product[meal]);
 
+					debug.push(`Gia goi tuan 1 bua/ngay: gia = ` + format_money(price));
+					
 					amount = price * quantity / 5 + 5000 * quantity;
+
+					debug.push(`Cong thuc: gia * quantity / 5 + 5,000 * so luong`);
+					debug.push(`Thanh tien: ${format_money(price)} * ${quantity} / 5 + 5,000 * ${quantity} = ` + format_money(amount));
 				}
 			} else if (type == 'w') {
 				if (days <= 5) {
@@ -85,8 +91,13 @@ jQuery(function ($) {
 					if (typeof product[meal] != 'undefined') {
 						price = parseInt(product[meal]);
 
+						debug.push(`Gia goi tuan ${meal_number} bua/ngay: gia = ` + format_money(price));
+
 						// price / 5 * so phan an
 						amount = price / 5 * quantity;
+
+						debug.push(`Cong thuc: gia / 5 * so luong`);
+						debug.push(`Thanh tien: ${format_money(price)} / 5 * ${quantity} = ` + format_money(amount));
 					}
 				} else {
 					// Gia goi an = gia goi co so bua/ngay tuong ung tuan/5 * so ngay khach dat
@@ -96,33 +107,51 @@ jQuery(function ($) {
 					if (typeof product[meal] != 'undefined') {
 						price = parseInt(product[meal]);
 
+						debug.push(`Gia goi tuan ${meal_number} bua/ngay: gia = ` + format_money(price));
+
 						// price / 5 * so ngay
 						amount = price / 5 * days;
+
+						debug.push(`Cong thuc: gia / 5 * so ngay`);
+						debug.push(`Thanh tien: ${format_money(price)} / 5 * ${days} = ` + format_money(amount));
 					}
 				}
 			} else if (type == 'm') {
+				let quydoi = 0;
+
 				if (quantity <= 20) {
+					quydoi = 20;
 					meal_number = 1;
-					amount = (price = parseInt(product['meal_m_1'])) / 20 * quantity;
 				} else if (quantity <= 50) {
+					quydoi = 40;
 					meal_number = 2;
-					amount = (price = parseInt(product['meal_m_2'])) / 40 * quantity;
 				} else {
+					quydoi = 60;
 					meal_number = 3;
-					amount = (price = parseInt(product['meal_m_3'])) / 60 * quantity;
 				}
+				
+				price = parseInt(product['meal_m_' + meal_number]);
+
+				amount = price / quydoi * quantity;
+
+				debug.push(`Gia goi tuan ${meal_number} bua/ngay: gia = ` + format_money(price));
+				debug.push(`Cong thuc: gia / ${quydoi} * so luong`);
+				debug.push(`Thanh tien: ${format_money(price)} / ${quydoi} * ${quantity} = ` + format_money(amount));
 			}
 		}
 
 		// console.log({type: type, days: days, quantity: quantity, price: price, amount: amount});
 
-		if(ship_price > 0) {
-			amount += days * meal_number * ship_price;
-		}
+		// if(ship_price > 0) {
+		// 	amount += days * meal_number * ship_price;
+		// }
+		
+		order_item.find('.console-product').html(debug.join("<br>"));
 
 		order_item.find('.input-product_price').val(price);
 		order_item.find('.text-amount').text(format_money(amount));
 		order_item.find('.input-amount').val(amount);
+		order_item.find('.input-meal_number').val(meal_number);
 		order_item.find('.input-date_stop').val(get_date_value(date_start, days));
 		order_item.find('.input-ship_price').val(ship_price);
 
@@ -164,8 +193,6 @@ jQuery(function ($) {
 			btn.addClass('btn-primary');
 		}
 	}
-
-	
 
 	function note_get_input(items) {
 		let input = $('<input type="text" class="form-control input-note_values" />');
@@ -227,7 +254,9 @@ jQuery(function ($) {
 
 		$('.js-order-item').each(function () {
 			let p = $(this),
-				text, days = parseInt(p.find('.input-days').val());
+				text, 
+				quantity = parseInt(p.find('.input-quantity').val()),
+				days = parseInt(p.find('.input-days').val());
 
 			ship_days += days;
 
@@ -241,7 +270,7 @@ jQuery(function ($) {
 					item_name[text] = 0;
 				}
 
-				item_name[text] += 1;
+				item_name[text] += parseInt(quantity / days);
 			}
 
 			text = p.find('.input-location_id option:selected').text() || '';
@@ -249,7 +278,7 @@ jQuery(function ($) {
 				location_name = text;
 			}
 
-			text = p.find('.input-note_list').val();
+			text = p.find('.input-note').val().trim();
 			if (order_note == '' && text != '') {
 				order_note = text.split("\n")[0];
 			}
