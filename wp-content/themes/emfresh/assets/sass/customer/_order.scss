@@ -209,8 +209,8 @@
     .card-primary {
         border-radius: 16px;
         padding-bottom: 16px;
-        margin-bottom: 70px;
-
+        height:calc(100vh - 130px); 
+        overflow: auto;
         .tab-content {
             .card {
                 padding-bottom: 24px;
