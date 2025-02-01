@@ -422,11 +422,10 @@ jQuery(function ($) {
 		});
 		total_1 = total + ship - discount;
 		total_2 = total + ship - discount - ip_preorder;
-		//if ($('.input-total_amount').val() == 0) {
+		if ($('.input-total_amount').val() != 0) {
 			$('.info-pay .total-price,.total-pay .price-order').text(format_money(total_1));
 			$('.order-payment .payment-required,.total-cost .cost-txt').text(format_money(total_2));
-			
-		//}
+		}
 		$('.total-pay .price-product').text(format_money(total));
 		$('.input-total,.input-total_amount').val(total_2);
 	}

@@ -79,7 +79,7 @@ get_header();
 					</div>
 					<div class="col-6 d-f ai-center jc-end group-button_top">
 						<a class="btn btn-primary js-btn-clone out-line" href="<?php echo $duplicate_url ?>"><span class="d-f ai-center"><i class="fas mr-4"><img
-										src="<?php echo site_get_template_directory_assets(); ?>img/icon-hover/plus-svgrepo-com.svg" alt=""></i>Tạo bảo sao</span></a>
+										src="<?php echo site_get_template_directory_assets(); ?>img/icon-hover/plus-svgrepo-com.svg" alt=""></i>Tạo bản sao</span></a>
 						<span class="btn btn-primary btn-disable btn-save_edit hidden">Lưu thay đổi</span>
 						<span class="btn btn-primary js-btn-save out-line">Lưu thay đổi</span>
 					</div>
@@ -101,9 +101,15 @@ get_header();
 					<div class="js-group-btn">
 						<div class="d-f gap-8 ai-center">
 							<div class="print btn btn-secondary d-f gap-8 ai-center"><span class="fas fas-print"></span>In đơn</div>
+							<?php $today = date('Y-m-d');
+							$compare_date = $order_items[0]['date_start']; 
+							$user = $current_user->roles;
+							if ($today < $compare_date || $user[0] === 'administrator') {
+							 ?>
 							<div class="btn btn-danger remove-customer modal-button" data-target="#modal-default">
 								Xoá đơn này
 							</div>
+							<?php } ?>
 						</div>
 					</div>
 				</div>

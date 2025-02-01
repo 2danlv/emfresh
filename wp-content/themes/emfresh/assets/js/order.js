@@ -150,8 +150,12 @@ $(document).ready(function () {
       }
     }).on('show.daterangepicker', function() {
       $(this).data('daterangepicker').container.addClass('daterangepicker-open');
-    }).on('hide.daterangepicker', function() {
+    }).on('hide.daterangepicker', function(ev, picker) {
       $(this).data('daterangepicker').container.removeClass('daterangepicker-open');
+      var inputElement = $(this);
+      var formattedDate = picker.startDate.format('YYYY-MM-DD');
+      var targetInput = inputElement.siblings('.input-date_start');
+      targetInput.val(formattedDate);
     }).on('apply.daterangepicker', function(ev, picker) {
       var inputElement = $(this);
       var today = $('.js-calendar.date').val();
@@ -161,9 +165,27 @@ $(document).ready(function () {
       if (today == moment().format('DD/MM/YYYY')) {
         $(".toast").addClass("show");
       }
-    });
+      showdate();
+      });
+    if($(this).siblings('.input-date_start').val() === '') {
+      $(this).val('');
+    }
   });
-  
+function showdate() {
+  let values = $(".js-order-item .input-date_start").map(function () {
+    return $(this).val();
+  }).get().filter(date => date);
+  if (values.length === 0) {
+      return;
+  }
+  let dates = values.map(date => new Date(date));
+  let minDate = new Date(Math.min(...dates));
+  let day = String(minDate.getDate()).padStart(2, '0');
+  let month = String(minDate.getMonth() + 1).padStart(2, '0');
+  let year = minDate.getFullYear();
+  let minDateStr = `${day}/${month}/${year}`;
+  $(".order-details .date-start").text(minDateStr);
+}
 let tabCount = 1;
 function activateTab(tabId) {
   $(".tab-button").removeClass("active");
@@ -224,8 +246,12 @@ $('.js-show-order-item .remove-tab').removeClass("hidden");
     }
   }).on('show.daterangepicker', function() {
     $(this).data('daterangepicker').container.addClass('daterangepicker-open');
-  }).on('hide.daterangepicker', function() {
+  }).on('hide.daterangepicker', function(ev, picker) {
     $(this).data('daterangepicker').container.removeClass('daterangepicker-open');
+    var inputElement = $(this);
+      var formattedDate = picker.startDate.format('YYYY-MM-DD');
+      var targetInput = inputElement.siblings('.input-date_start');
+      targetInput.val(formattedDate);
   }).on('apply.daterangepicker', function(ev, picker) {
     var inputElement = $(this);
     var today = $('.js-calendar.date').val();
@@ -235,6 +261,7 @@ $('.js-show-order-item .remove-tab').removeClass("hidden");
     if (today == moment().format('DD/MM/YYYY')) {
       $(".toast").addClass("show");
     }
+    showdate();
   });
   new_item.find('.js-calendar.date').val('');
   $('.order-details').find('.order-wapper').append(generateInfoProduct('order_item_' + id));

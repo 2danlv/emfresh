@@ -38,9 +38,10 @@
         <div class="payment-item d-f jc-b ai-center">
             <p>Trạng thái thanh toán:</p>
             <div class="status-payment">
-                <div class="status-pay"><span class="red">Chưa</span></div>
-                <input type="hidden" name="payment_status" class="payment_status input_status-payment" value="" />
+                <div class="status-pay"><span data-status="<?php echo $order_detail['payment_status'] > 0 ? $order_detail['payment_status'] : 2; ?>"><?php echo $order_detail['payment_status'] ? $order_detail['payment_status_name'] : 'Chưa'; ?></span></div>
+                <input type="hidden" name="payment_status" class="payment_status input_status-payment" value="<?php echo $order_detail['payment_status'] > 0 ? $order_detail['payment_status'] : 2; ?>" />
                 <ul class="status-pay-menu">
+                <li class="status-pay-item"><span data-status="0">--</span></li>
                     <?php
                     foreach ($list_payment_statuses as $value => $label) {
                         printf('<li class="status-pay-item"><span data-status="%d" %s>%s</span></li>', $value, $order_detail['payment_status'] == $value ? 'selected' : '', $label);

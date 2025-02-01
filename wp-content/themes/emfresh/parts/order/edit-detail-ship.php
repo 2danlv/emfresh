@@ -37,8 +37,8 @@ extract($ship);
                     Lặp lại hàng tuần
                 </label>
                 <div class="calendar">
-                    <input type="hidden" class="form-control input-date_start" name="ship[calendar]" value="<?php echo $ship_calendar ?>" />
-                    <input type="text" placeholder="DD/MM/YYYY" class="form-control js-calendar date" value="<?php echo date("d/m/Y", strtotime($ship_calendar));  ?>">
+                    <input type="hidden" class="form-control input-date_start" name="ship[calendar]" value="<?php echo !empty($ship_calendar) != '' ? $ship_calendar : ''; ?>" />
+                    <input type="text" placeholder="DD/MM/YYYY" class="form-control js-calendar date" value="<?php echo !empty($ship_calendar) ? date("d/m/Y", strtotime($ship_calendar)) : ''; ?>">
                 </div>
                 <div class="repeat-weekly">
                     <input type="checkbox" id="monday" hidden name="ship[days][]" value="monday" <?php echo in_array('monday', $ship_days) ? 'checked' : '' ?>>
@@ -59,7 +59,7 @@ extract($ship);
             <div class="col-8">
                 <div class="dropdown-address">
                     <div class="dropdown active" style="pointer-events: all;">
-                        <input type="text" name="ship[location_id]" class="address_delivery is-disabled form-control" value="<?php echo $detail_local; ?>" placeholder="Địa chỉ giao hàng">
+                        <input type="text" name="ship[location_id]" class="address_delivery is-disabled form-control" value="<?php echo isset($detail_local) ? $detail_local : ''; ?>" placeholder="Địa chỉ giao hàng">
                     </div>
                     <p class="fs-14 fw-regular note-shipper hidden color-gray pt-4 pl-8">Note với shipper: <span class="note_shiper"></span></p>
                     <div class="dropdown-menu">
@@ -81,23 +81,6 @@ extract($ship);
                         </div>
                     </div>
                 </div>
-                <!-- <div class="dropdown active">
-                    <input type="text" name="ship[location_id]" class="address_delivery form-control select-location_id input-location_id">
-                    <select  class="form-control select-location_id input-location_id">
-                        <?php
-                        // foreach ($list_locations as $location) {
-                        //     printf('<option value="%s" %s>%s</option>', $location['id'], $order_detail['location_id'] == $location['id'] ? 'selected' : '', $location['location_name']);
-                        // }
-                        ?>
-                    </select>
-                    <span class="fs-14 hidden fw-regular note-shipper color-gray pl-8">Note với shipper: <span class="note_shiper"></span></span>
-                </div>
-                <div class="dropdown-menu">
-                    <div class="locations-container"></div>
-                    <div data-target="#modal-add-address-1" class="btn-add-address modal-button d-f ai-center pb-16 pt-8 pl-8">
-                        <span class="fas fa-plus mr-8"></span>Thêm địa chỉ mới
-                    </div>
-                </div> -->
             </div>
         </div>
         <div class="js-note delivery-item">

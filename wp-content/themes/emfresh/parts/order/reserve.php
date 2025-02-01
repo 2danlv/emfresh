@@ -25,7 +25,7 @@
     <div class="col-4">
         <div class="btn btn-secondary btn-reserve js-continue">Tiếp tục đơn hàng</div>
         <div class="btn btn-secondary btn-reserve js-cancel">Huỷ phần bảo lưu & Giảm giá đơn mới</div>
-        <div class="btn btn-secondary btn-reserve js-end danger">Kết thúc đơn hàng vì quá hạn (admin only)</div>
+        <div class="btn btn-secondary btn-reserve js-end danger">Kết thúc đơn hàng vì quá hạn<!-- (admin only)--></div> 
     </div>
 </div>
 <div class="table-container">

@@ -157,6 +157,9 @@
     .info-product {
         color: var(--input-text-filled, #0f0f0f);
         padding-inline: 8px;
+        .info-product {
+            padding-inline: 0px;
+        }
         &.info-order.line {
             border-bottom: none;
             .info-product {
