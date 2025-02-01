@@ -252,7 +252,7 @@ get_header();
 							</select>
 						</p>
 						<p>
-							Cần thanh toán: <span class="text-payment_amount"><?php echo number_format($order_detail['total_amount'] + $order_detail['ship_amount']) ?></span>				
+							Cần thanh toán: <span class="text-payment_amount"><?php echo ($total = $order_detail['total_amount'] - $order_detail['paid']) > 0 ? number_format($total) : 0; ?></span>				
 						</p>
 					</div>
 				</div>

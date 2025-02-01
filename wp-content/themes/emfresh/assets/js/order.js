@@ -345,20 +345,7 @@ $(document).on("click", ".tab-button", function () {
 //     modal.removeClass("is-active");
 //   }
 // });
-$(document).on("click", ".status-pay-menu .status-pay-item span", function () {
 
-  $(".paymented").hide();
-  $(".status-pay").html($(this).closest('.status-pay-item').html());
-  $(".input_status-payment").val($(this).attr('data-status'));
-  var status = $(this).attr('data-status');
-  
-  if (status == 3) {
-    $(".paymented").css("display", "flex");
-  } else {
-    $(".payment-required").text("0");
-    $(".paymented").css("display", "none");
-  }
-});
 $("#loop").change(function () {
   if ($(this).is(":checked")) {
     $(".repeat-weekly").addClass("show");
@@ -464,7 +451,7 @@ function formatCurrency(value) {
 }
 function generateInfoProduct(item_id) {
   return `
-  <div class="info-order hidden line" data-id="${item_id}">
+  <div class="info-order info-product hidden line" data-id="${item_id}">
   <div class="d-f jc-b pt-8 hidden">
           <span class="tlt fw-bold ">Phân loại đơn hàng:</span>
           <span class="type"></span>

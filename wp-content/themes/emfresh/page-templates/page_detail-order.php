@@ -98,10 +98,12 @@ get_header();
 				<!-- Content Header (Page header) -->
 				<div class="head-section d-f jc-b pb-16 ai-center">
 					<div class="order-code pl-16">#<?php echo $order_detail['order_number'] ?></div>
-					<div class="group-btn js-group-btn gap-8 ai-center">
-						<div class="print btn btn-secondary d-f gap-8 ai-center"><span class="fas fas-print"></span>In đơn</div>
-						<div class="btn btn-danger remove-customer modal-button" data-target="#modal-default">
-							Xoá đơn này
+					<div class="js-group-btn">
+						<div class="d-f gap-8 ai-center">
+							<div class="print btn btn-secondary d-f gap-8 ai-center"><span class="fas fas-print"></span>In đơn</div>
+							<div class="btn btn-danger remove-customer modal-button" data-target="#modal-default">
+								Xoá đơn này
+							</div>
 						</div>
 					</div>
 				</div>
@@ -144,7 +146,7 @@ get_header();
 		</div>
 </div><!-- /.container-fluid -->
 <div class="navigation-bottom d-f jc-b ai-center pl-16 pr-16">
-	<div class="total-cost txt d-f gap-16 ai-center fw-bold">Cần thanh toán: <span class="cost-txt red fw-bold"><?php echo ($total = $order_detail['total_amount'] + $order_detail['ship_amount']) > 0 ? number_format($total) : 0; ?></span></div>
+	<div class="total-cost txt d-f gap-16 ai-center fw-bold">Cần thanh toán: <span class="cost-txt red fw-bold"><?php echo ($total = $order_detail['total_amount'] - $order_detail['paid']) > 0 ? number_format($total) : 0; ?></span></div>
 	<span class="btn btn-primary btn-next">Đi đến Meal Plan chi tiết</span>
 </div>
 </section>
@@ -190,6 +192,14 @@ $(document).ready(function () {
     if (status == 3) {
         $(".paymented").css("display", "flex");
     }
+	$('.tab-nav-detail li').click(function (e) { 
+		e.preventDefault();
+		$('.js-group-btn').hide();
+	});
+	$('.tab-nav-detail li:first').click(function (e) { 
+		e.preventDefault();
+		$('.js-group-btn').show();
+	});
 });
 
 

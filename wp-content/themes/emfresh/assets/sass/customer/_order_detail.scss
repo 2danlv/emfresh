@@ -92,6 +92,12 @@
             padding-bottom: 8px;
             border-bottom: 1px solid var(--modal-divider, #DEDFE0);
         }
+        &:last-child {
+            .product-body {
+                border: none;
+                padding-bottom: 0;
+            }
+        }
     }
 
     &.status-content {
@@ -109,6 +115,21 @@
             width: 100px;
             color: #FFF;
             background: var(--color-primary-900, #208046);
+            &.bg2 {
+                color: #fff;
+                background: var(--color-red-500, #AB2222);
+            }
+            
+            &.bg3 {
+                color: #000;
+                background: var(--color-purple-300, #C6B1F6);
+            }
+            
+            &.bg1 {
+                color: #000;
+                border: 1px solid var(--tag-border-hover, #A7A7A8);
+                background: var(--tag-background-default, #F2F3F5);
+            }
         }
 
         &.reserve {
@@ -119,6 +140,10 @@
             }
 
         }
+        
+            
+        
+        
     }
 }
 

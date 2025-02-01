@@ -157,7 +157,13 @@
     .info-product {
         color: var(--input-text-filled, #0f0f0f);
         padding-inline: 8px;
-
+        &.info-order.line {
+            border-bottom: none;
+            .info-product {
+                padding-left: 0;
+            }
+            
+        }
         .name {
             font-weight: var(--font-weight-semibold, 600);
             line-height: var(--font-line-height-s16, 24px);
@@ -209,8 +215,8 @@
     .card-primary {
         border-radius: 16px;
         padding-bottom: 16px;
-        height:calc(100vh - 130px); 
-        overflow: auto;
+        min-height:calc(100vh - 130px); 
+        margin-bottom: 70px;
         .tab-content {
             .card {
                 padding-bottom: 24px;

@@ -313,6 +313,7 @@ jQuery(function ($) {
 		counts_type();
 		$('.input-ship_days').val(ship_days);
 		if (!isNaN(ship_amount)) {
+			$('.ip_ship_amount').val(ship_amount);
 			$('.input-ship_amount').val(format_money(ship_amount));
 			$('.info-pay .ship').text(format_money(ship_amount));
 		}
@@ -402,7 +403,11 @@ jQuery(function ($) {
 		let total = 0;
 		let ship = parseFloat($('.info-pay').find('.ship').text().replace(/[^0-9.-]+/g, '')) || 0;
 		let discount = parseFloat($('.info-pay').find('.discount').text().replace(/[^0-9.-]+/g, '')) || 0;
-		$('.paymented .input-preorder').val(0);
+		let ip_preorder = parseFloat($('.paymented').find('.ip_preorder').val().replace(/[^0-9.-]+/g, '')) || 0;
+		
+		if ($('.paymented .input-preorder').val() =='') {
+			$('.paymented .input-preorder').val(0)
+		}
 		$('.info-order:not(.hidden)').find('.price').each(function () {
 		    let value = parseFloat($(this).text().replace(/[^0-9.-]+/g, ''));
 		
@@ -410,15 +415,40 @@ jQuery(function ($) {
 		        total += value;
 		    }
 		});
-		total_all = total + ship - discount;
-		$('.info-pay').find('.total-price').text(format_money(total_all));
+		total_1 = total + ship - discount;
+		total_2 = total + ship - discount - ip_preorder;
+		//if ($('.input-total_amount').val() == 0) {
+			$('.info-pay .total-price,.total-pay .price-order').text(format_money(total_1));
+			$('.order-payment .payment-required,.total-cost .cost-txt').text(format_money(total_2));
+			
+		//}
 		$('.total-pay .price-product').text(format_money(total));
-		$('.total-pay .price-order,.order-payment .payment-required,.total-cost .cost-txt').text(format_money(total_all));
-		$('.input-total,.input-total_amount').val(total_all);
+		$('.input-total,.input-total_amount').val(total_2);
 	}
 
-	update_pay()
+	update_pay();
+	$(document).on("click", ".status-pay-menu .status-pay-item span", function () {
 
+		$(".paymented").hide();
+		$(".status-pay").html($(this).closest('.status-pay-item').html());
+		$(".input_status-payment").val($(this).attr('data-status'));
+		var status = $(this).attr('data-status');
+		
+		if (status == 3) {
+		  $(".paymented").css("display", "flex");
+		  $(".ip_preorder,.input-preorder").val(0);
+		  update_pay();
+		} else if (status == 1){
+		  $(".payment-required").text("0");
+		  $('.payment-required,.total-cost .cost-txt').text(0);
+		  $(".input-total_amount").val(0);
+		  $(".paymented").css("display", "none");
+		} else if (status == 2){
+			$(".ip_preorder,.input-preorder").val(0);
+			update_pay();
+		}
+	  });
+	  
 	$(document).on('change', '.js-order-item [name]', function () {
 		let p = $(this),
 			order_item = p.closest('.js-order-item');
@@ -571,28 +601,35 @@ jQuery(function ($) {
 			order_item.find('.js-note-list').append(html);
 		}
 	}
-
+	$('.input-ship_amount, .input-discount, .paymented .input-preorder').each(function() {
+		$(this).val(format_money($(this).val()));
+	});
+	
 	$('.input-ship_amount').on('keyup', function () {
 		let ship_amount = $(this).val().replace(/,/g, '');
+		$('.shipping-fee .ip_ship_amount').val(ship_amount);
 		$(this).val(format_money(ship_amount));
 		$('.info-pay .ship').text(format_money(ship_amount));
 		update_pay();
 	});
 	$('.input-discount').on('keyup', function () {
 		let discount = $(this).val().replace(/,/g, '');
+		$('.shipping-fee .ip_discount').val(discount);
 		$(this).val(format_money(discount));
 		$('.info-pay .discount').text(format_money(discount));
 		update_pay();
 	});
 	$('.paymented .input-preorder').on('keyup', function () {
 		let preorder = $(this).val().replace(/,/g, '');
+		$('.paymented .ip_preorder').val(preorder);
 		$(this).val(format_money(preorder));
 		//$('.info-pay .discount').text(format_money(preorder));
 		let input_preorder = parseFloat($(this).val().replace(/[^0-9.-]+/g, '')) || 0;
-		let total_amount = parseFloat($('.total-pay').find('.input-total_amount').val().replace(/[^0-9.-]+/g, '')) || 0;
+		let total_amount = parseFloat($('.total-pay .price-order').text().replace(/[^0-9.-]+/g, '')) || 0;
 		
 		let preorder_val = total_amount - input_preorder;
 		$('.payment-required,.total-cost .cost-txt').text(format_money(preorder_val));
+		update_pay();
 	});
 });
 $(document).on("change", ".input-type", function() {
@@ -620,6 +657,6 @@ function counts_type() {
 		  result.push(`D`);
 		}
 		$(".info-order .type-total").text(result.join(' + '));
-		$(".form-add-order .input-order_type,.edit--order .input-order_type").val(result.join(' + '));
+		$(".form-add-order .input-order_type,.edit--order .input-order_type,.input-type_name").val(result.join(' + '));
 		
 }

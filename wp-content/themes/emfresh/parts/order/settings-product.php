@@ -21,6 +21,7 @@
                             <span class="date-start"><?php echo date("d/m/Y", strtotime($order_items[0]['date_start'])); ?></span>
                         </div>
                         <div class="tlt fw-bold  pt-8">Thông tin sản phẩm:</div>
+                        <div class="order-wapper">
                         <?php foreach ($order_items as $i => $order_item) : extract($order_item); ?>
                         <div class="info-product pt-8" data-id="order_item_<?php echo $i + 1 ?>">
                             <div class="d-f jc-b">
@@ -44,6 +45,7 @@
                             </div>
                         </div>
                         <?php endforeach ?>
+                        </div>
                     </div>
                     <div class="info-pay">
                         <div class="d-f jc-b pt-18">
@@ -52,11 +54,11 @@
                         </div>
                         <div class="d-f jc-b pt-8">
                             <span class="tlt fw-bold ">Giảm giá:</span>
-                            <span class="discount"><?php echo $order_detail['discount'] ?></span>
+                            <span class="discount"><?php echo number_format($order_detail['discount']);?></span>
                         </div>
                         <div class="d-f jc-b pt-8 pb-8">
                             <span class="tlt fw-bold ">Tổng tiền đơn hàng:</span>
-                            <span class="total total-price"><?php echo ($total = $order_detail['total_amount'] + $order_detail['ship_amount']) > 0 ? number_format($total) : 0; ?></span>
+                            <span class="total total-price"><?php echo ($total = $order_detail['total_amount'] ) > 0 ? number_format($total) : 0; ?></span>
                         </div>
                     </div>
                 </div>
