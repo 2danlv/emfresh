@@ -169,65 +169,70 @@ $(document).ready(function() {
 
             // Don hang gan day
             $.ajax({
-        url: '<?php echo home_url('em-api/order/list/'); ?>?customer_id=' + customer_id,
-        method: 'GET',
-        dataType: 'json',
-        success: function(response) {
-            let container = document.getElementById('order-container');
-            container.innerHTML = '';
-            response.data.forEach(order => {
-                let locationName = order.location_name;
-                let locationMatch = order.params.match(/s:\d+:"(.*?)";/);
-                if (locationMatch && locationMatch.length > 1) {
-                    locationName = locationMatch[1];
-                }
-                
-                let orderHtml = `
-                <details class="history-item using">
-                    <summary class="d-f jc-b ai-center history-header">
-                        <div class="d-f ai-center history-id gap-8">
-                            <span class="fas fa-dropdown"></span>
-                            <span class="number">${order.order_number}</span>
-                        </div>
-                        <div class="d-f history-status gap-16">
-                            <span class="status_order">${order.status_name}</span>
-                            <a href="<?php echo $js_duplicate_url ?>&duplicate_order=${order.id}" target="_blank"><span class="copy"></span></a>
-                        </div>
-                    </summary>
-                    <div class="history-content">
-                        <div class="info">
-                            <div class="d-f ai-center gap-10 address">
-                                <span class="fas fa-location"></span>
-                                <span class="txt">${locationName}</span>
-                            </div>
-                            <p class="color-gray-2 fs-14 fw-regular pl-26 pt-8"></p>
-                            <div class="d-f ai-center gap-10 pt-8 purchase-summary">
-                                <span class="fas fa-shopping-cart"></span>
-                                <span class="txt">${order.item_name}</span>
-                            </div>
-                            <div class="d-f ai-center gap-10 pt-8">
-                                <span class="fas fa-shopping-cart"></span>
-                                <span class="txt-green fw-bold ">${order.total_amount.toLocaleString()}</span>
-                            </div>
-                        </div>
-                        <div class="note">
-                            <div class="note-item d-f jc-b ai-center gap-10 pt-8">
-                                <div class="d-f ai-center gap-10">
-                                    <span class="fas fa-note"></span>
-                                    <span class="txt">Ghi chú:</span>
+                url: '<?php echo home_url('em-api/order/list/'); ?>?customer_id=' + customer_id,
+                method: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    let container = document.getElementById('order-container');
+                    container.innerHTML = '';
+                    
+                    response.data.forEach(order => {
+                        let locationName = order.location_name; 
+                        
+                        try {
+                            let locationMatch = order.params.match(/s:\d+:"location_id";s:\d+:"(.*?)";/);
+                            if (locationMatch && locationMatch.length > 1) {
+                                locationName = locationMatch[1];
+                            }
+                        } catch (error) {
+                            console.error("Error extracting location from params:", error);
+                        }
+
+                        let orderHtml = `
+                            <details class="history-item using">
+                                <summary class="d-f jc-b ai-center history-header">
+                                    <div class="d-f ai-center history-id gap-8">
+                                        <span class="fas fa-dropdown"></span>
+                                        <span class="number">${order.order_number}</span>
+                                    </div>
+                                    <div class="d-f history-status gap-16">
+                                        <span class="status_order">${order.status_name}</span>
+                                        <a href="${order.duplicate_url}" target="_blank"><span class="copy"></span></a>
+                                    </div>
+                                </summary>
+                                <div class="history-content">
+                                    <div class="info">
+                                        <div class="d-f ai-center gap-10 address">
+                                            <span class="fas fa-location"></span>
+                                            <span class="txt">${locationName}</span>
+                                        </div>
+                                        <div class="d-f ai-center gap-10 pt-8 purchase-summary">
+                                            <span class="fas fa-shopping-cart"></span>
+                                            <span class="txt">${order.item_name}</span>
+                                        </div>
+                                        <div class="d-f ai-center gap-10 pt-8">
+                                            <span class="fas fa-shopping-cart"></span>
+                                            <span class="txt-green fw-bold">${order.total_amount.toLocaleString()}</span>
+                                        </div>
+                                    </div>
+                                    <div class="note">
+                                        <div class="note-item d-f jc-b ai-center gap-10 pt-8">
+                                            <div class="d-f ai-center gap-10">
+                                                <span class="fas fa-note"></span>
+                                                <span class="txt">Ghi chú:</span>
+                                            </div>
+                                            <span class="txt">${order.note || 'No notes available'}</span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <span class="txt">${order.note}</span>
-                            </div>
-                        </div>
-                    </div>
-                </details>`;
-                container.innerHTML += orderHtml;
+                            </details>`;
+                        container.innerHTML += orderHtml;
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching data from API', error);
+                }
             });
-        },
-        error: function(xhr, status, error) {
-            console.error('Error fetching data from API', error);
-        }
-    });
         }
     });
 

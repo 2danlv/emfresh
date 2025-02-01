@@ -59,7 +59,8 @@ extract($ship);
             <div class="col-8">
                 <div class="dropdown-address">
                     <div class="dropdown active" style="pointer-events: all;">
-                        <input type="text" name="ship[location_id]" class="address_delivery is-disabled form-control" value="<?php echo isset($detail_local) ? $detail_local : ''; ?>" placeholder="Địa chỉ giao hàng">
+                    <?php $params = unserialize($order_detail['params']); ?>
+                        <input type="text" name="ship[location_id]" class="address_delivery is-disabled form-control" value="<?php echo isset($params['ship']['location_id']) ? $params['ship']['location_id'] : ''; ?>" placeholder="Địa chỉ giao hàng">
                     </div>
                     <p class="fs-14 fw-regular note-shipper hidden color-gray pt-4 pl-8">Note với shipper: <span class="note_shiper"></span></p>
                     <div class="dropdown-menu">

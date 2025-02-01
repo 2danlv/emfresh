@@ -428,6 +428,12 @@ jQuery(function ($) {
 		}
 		$('.total-pay .price-product').text(format_money(total));
 		$('.input-total,.input-total_amount').val(total_2);
+		if ($('.input_status-payment').val() == 1) {
+			$('.order-payment .payment-required,.total-cost .cost-txt').text(0);
+		} else if ($('.input_status-payment').val() == 0){
+			$('.order-payment .payment-required,.total-cost .cost-txt').text(format_money(total_2));
+		}
+		
 	}
 
 	update_pay();
@@ -448,6 +454,9 @@ jQuery(function ($) {
 		  $(".input-total_amount").val(0);
 		  $(".paymented").css("display", "none");
 		} else if (status == 2){
+			$(".ip_preorder,.input-preorder").val(0);
+			update_pay();
+		}else if (status == 0){
 			$(".ip_preorder,.input-preorder").val(0);
 			update_pay();
 		}
@@ -547,6 +556,7 @@ jQuery(function ($) {
 					let p = $('.js-show-order-item:first');
 					show_order_item(p);
 					update_order_info();
+					update_pay();
 				}, 300);
 			});
 			$(document).off('click', 'btn.btn-secondary.modal-close').on('click', 'btn.btn-secondary.modal-close', function (e) {

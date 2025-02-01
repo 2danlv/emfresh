@@ -478,7 +478,7 @@ function formatCurrency(value) {
 }
 function generateInfoProduct(item_id) {
   return `
-  <div class="info-order info-product hidden line" data-id="${item_id}">
+  <div class="info-order hidden line" data-id="${item_id}">
   <div class="d-f jc-b pt-8 hidden">
           <span class="tlt fw-bold ">Phân loại đơn hàng:</span>
           <span class="type"></span>
