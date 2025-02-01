@@ -311,7 +311,7 @@ jQuery(function ($) {
 		$('.input-type_name').val(
 			Object.keys(type_name)
 				.map(text => `${type_name[text]}`.replace(/\d/g, '') + text.replace(/\d/g, ''))
-				.join(' + ')
+				.join(', ')
 				.toUpperCase()
 		);
 		$('.input-order_note').val(order_note);
@@ -670,6 +670,6 @@ function counts_type() {
 		if (counts.d > 0) {
 		  result.push(`D`);
 		}
-		$(".info-order .type-total").text(result.join(' + '));
+		$(".info-order .type-total").text(result.join(', '));
 		
 }
