@@ -27,7 +27,8 @@ $_GET = wp_unslash($_GET);
 $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
 
 $action_url = add_query_arg(['order_id' => $order_id], get_permalink());
-$duplicate_url = add_query_arg(['duplicate_order' => $order_id, 'dupnonce' => wp_create_nonce('duplicate_order-' . $order_id)], get_permalink());
+$duplicate_url = add_query_arg(['duplicate_order' => $order_id, 'dupnonce' => wp_create_nonce('dupnonce')], get_permalink());
+$delete_url = add_query_arg(['delete_order' => $order_id, 'delnonce' => wp_create_nonce('delnonce')], get_permalink());
 
 $order_detail = $em_order->get_fields();
 $list_payment_statuses = $em_order->get_payment_statuses();

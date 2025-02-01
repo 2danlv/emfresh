@@ -1,3 +1,8 @@
+<?php
+
+$js_duplicate_url = add_query_arg(['dupnonce' => wp_create_nonce('dupnonce')], get_permalink());
+
+?>
 <div class="card card-no_border">
     <div class="box-search">
         <input class="search-cus mb-16" id="search" placeholder="Tìm khách hàng bằng tên / SĐT" type="text">
@@ -186,7 +191,7 @@ $(document).ready(function() {
                         </div>
                         <div class="d-f history-status gap-16">
                             <span class="status_order">${order.status_name}</span>
-                            <span class="copy"></span>
+                            <a href="<?php echo $js_duplicate_url ?>&duplicate_order=${order.id}" target="_blank"><span class="copy"></span></a>
                         </div>
                     </summary>
                     <div class="history-content">

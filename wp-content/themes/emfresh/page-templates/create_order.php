@@ -128,6 +128,7 @@ get_header();
                                     <input type="hidden" class="order_item_total" value="<?php echo $order_item_total ?>" />
                                     <input type="hidden" name="customer_id" class="input-customer_id" value="<?php echo $order_detail['customer_id'] ?>" />
                                     <input type="hidden" name="item_name" class="input-item_name" value="<?php echo $order_detail['item_name'] ?>" />
+                                    <input type="hidden" name="type_name" class="input-type_name" value="<?php echo $order_detail['type_name'] ?>" />
                                     <input type="hidden" name="location_name" class="input-location_name" value="<?php echo $order_detail['location_name'] ?>" />
                                     <input type="hidden" name="location_id" class="input-location_id" value="<?php echo $order_detail['location_id'] ?>" />
                                     <input type="hidden" name="order_note" class="input-order_note" value="<?php echo $order_detail['note'] ?>" />

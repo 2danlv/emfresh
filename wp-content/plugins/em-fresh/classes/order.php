@@ -80,6 +80,7 @@ class EM_Order extends EF_Default
             'discount'      => 0,
             'note'          => '',
             'item_name'     => '',
+            'type_name'     => '',
             'payment_method' => '',
             'payment_status' => 0,
             'order_status'  => 0,

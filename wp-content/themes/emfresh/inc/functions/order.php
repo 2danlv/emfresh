@@ -10,6 +10,7 @@ function site_order_submit()
         'total_amount' => 0,
         'discount' => 0,
         'item_name' => '',
+        'type_name' => '',
         'location_id' => 0,
         'order_type' => '',
         'payment_status' => 0,
@@ -185,7 +186,7 @@ function site_order_submit()
     // Duplicate order
     $duplicate_order = !empty($_GET['duplicate_order']) ? (int) $_GET['duplicate_order'] : 0;
     $dupnonce = !empty($_GET['dupnonce']) ? trim($_GET['dupnonce']) : '';
-    if ($duplicate_order > 0 && wp_verify_nonce($dupnonce, "duplicate_order-{$duplicate_order}")) {        
+    if ($duplicate_order > 0 && wp_verify_nonce($dupnonce, "dupnonce")) {        
         $order_id = 0;
         $errors = [];
 
@@ -225,6 +226,27 @@ function site_order_submit()
         }
     
         wp_redirect(add_query_arg($query_args, site_order_edit_link()));
+        exit();
+    }
+
+    // Delete order
+    $delete_order = !empty($_GET['delete_order']) ? (int) $_GET['delete_order'] : 0;
+    $delnonce = !empty($_GET['delnonce']) ? trim($_GET['delnonce']) : '';
+    if ($delete_order > 0 && wp_verify_nonce($delnonce, "delnonce")) {
+        $deleted = $em_order->delete($delete_order);
+        
+        $query_args = [
+            'order_id' => $delete_order,
+            'expires' => time() + 3,
+        ];
+        
+        if($deleted) {
+            $query_args['message'] = 'Delete-order-success';
+        } else {
+            $query_args['message'] = 'Delete-order-errors';
+        }
+    
+        wp_redirect(add_query_arg($query_args, site_order_list_link()));
         exit();
     }
 }
@@ -309,6 +331,11 @@ function site_order_log($before = [], $after = [])
             'content'       => $content
         ]);
     }
+}
+
+function site_order_list_link()
+{
+    return get_permalink(134);
 }
 
 function site_order_add_link()

@@ -28,6 +28,15 @@ class EM_Product extends EF_Default
 
         return $fields;
     }
+
+    function get_filters()
+    {
+        $filters = array(
+            'name'  => 'LIKE',
+        );
+
+        return $filters;
+    }
 }
 
 global $em_product;

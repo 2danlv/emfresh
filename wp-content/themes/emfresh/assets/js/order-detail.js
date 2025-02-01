@@ -250,6 +250,7 @@ jQuery(function ($) {
 			total_amount = 0,
 			ship_amount = 0,
 			item_name = {},
+			type_name = {},
 			location_name = '',
 			order_note = '',
 			order_type = '';
@@ -258,11 +259,16 @@ jQuery(function ($) {
 			let p = $(this),
 				text, 
 				quantity = parseInt(p.find('.input-quantity').val()),
-				days = parseInt(p.find('.input-days').val());
+				days = parseInt(p.find('.input-days').val()),
+				ship_fee = 0;
 
 			ship_days += days;
 
-			ship_amount += parseInt(p.find('.input-ship_price').val() * days);
+			// tong ship se lay theo so ngay an lon nhat
+			ship_fee = parseInt(p.find('.input-ship_price').val() * days);
+			if(ship_amount < ship_fee) {
+				ship_amount = ship_fee;
+			}
 
 			text = p.find('.input-product_id option:selected').text() || '';
 			if (text != '') {
@@ -289,11 +295,20 @@ jQuery(function ($) {
 			if (order_type == '' && text != '') {
 				order_type = text;
 			}
+
+			if (text != '') {
+				if (typeof type_name[text] == 'undefined') {
+					type_name[text] = 0;
+				}
+
+				type_name[text] += parseInt(quantity / days);
+			}
 			
 			total_amount += parseInt(p.find('.input-amount').val());
 		});
 
 		$('.input-item_name').val(Object.keys(item_name).map(text => `${item_name[text]}${text}`).join('+'));
+		$('.input-type_name').val(Object.keys(type_name).map(text => `${type_name[text]}${text}`).join('+').toUpperCase());
 		$('.input-order_note').val(order_note);
 		counts_type();
 		$('.input-ship_days').val(ship_days);
