@@ -308,7 +308,12 @@ jQuery(function ($) {
 		});
 
 		$('.input-item_name').val(Object.keys(item_name).map(text => `${item_name[text]}${text}`).join('+'));
-		$('.input-type_name').val(Object.keys(type_name).map(text => `${type_name[text]}${text}`).join('+').toUpperCase());
+		$('.input-type_name').val(
+			Object.keys(type_name)
+				.map(text => `${type_name[text]}`.replace(/\d/g, '') + text.replace(/\d/g, ''))
+				.join(' + ')
+				.toUpperCase()
+		);
 		$('.input-order_note').val(order_note);
 		counts_type();
 		$('.input-ship_days').val(ship_days);
