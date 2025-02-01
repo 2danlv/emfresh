@@ -5,7 +5,7 @@
             <div class="section-content">
                 <div class="d-f ai-center jc-b">
                     <p class="txt">Phân loại đơn hàng:</p>
-                    <p class="txt"><?php echo $order_detail['order_type']; ?></p>
+                    <p class="txt"><?php echo $order_detail['type_name']; ?></p>
                 </div>
                 <div class="d-f ai-center jc-b">
                     <p class="txt">Mã gói sản phẩm:</p>

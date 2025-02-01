@@ -14,7 +14,7 @@
                     <div class="info-order line">
                         <div class="d-f jc-b pt-8">
                             <span class="tlt fw-bold ">Phân loại đơn hàng:</span>
-                            <span class="type-total"><?php echo strtoupper($order_items[0]['type']); ?></span>
+                            <span class="type-total"><?php echo $order_detail['type_name']; ?></span>
                         </div>
                         <div class="d-f jc-b pt-8">
                             <span class="tlt fw-bold ">Ngày bắt đầu đơn hàng:</span>

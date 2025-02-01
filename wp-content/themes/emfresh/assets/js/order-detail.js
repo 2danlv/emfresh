@@ -657,6 +657,5 @@ function counts_type() {
 		  result.push(`D`);
 		}
 		$(".info-order .type-total").text(result.join(' + '));
-		$(".form-add-order .input-order_type,.edit--order .input-order_type,.input-type_name").val(result.join(' + '));
 		
 }
