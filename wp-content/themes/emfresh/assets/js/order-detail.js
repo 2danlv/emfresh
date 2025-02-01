@@ -595,21 +595,14 @@ function counts_type() {
 		});
 	  
 		var result = [];
-	  
-		if (counts.d == 1) {
-		  result.push(`D`);
-		} else if (counts.d > 1) {
-		  result.push(`${counts.d}D`);
-		}
-		if (counts.w == 1) {
-		  result.push(`W`);
-		} else if (counts.w > 1) {
-		  result.push(`${counts.w}W`);
-		}
-		if (counts.m == 1) {
+		if (counts.m > 0) {
 		  result.push(`M`);
-		} else if (counts.m > 1) {
-		  result.push(`${counts.m}M`);
+		}
+		if (counts.w > 0) {
+		  result.push(`W`);
+		}
+		if (counts.d > 0) {
+		  result.push(`D`);
 		}
 		$(".info-order .type-total").text(result.join(' + '));
 		$(".form-add-order .input-order_type,.edit--order .input-order_type").val(result.join(' + '));
