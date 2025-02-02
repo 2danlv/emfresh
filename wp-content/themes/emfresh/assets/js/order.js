@@ -14,9 +14,7 @@ $(document).ready(function () {
     $(this).siblings(".tooltip-content").show();
   });
   $(document).on('click', '.overlay-drop-menu,.other-address,.tooltip-content .close', function (e) {
-    $('.overlay-drop-menu').hide();
-    $('.dropdown-menu').hide();
-    $(".tooltip-content").hide();
+    $('.overlay-drop-menu,.dropdown-menu,.tooltip-content,.status-pay-menu').hide();
   });
   
   $('.history-item summary').click(function (e) { 
@@ -336,6 +334,7 @@ var total_cost = original_total_cost;
 // });
 
 $(".status-pay-menu .status-pay-item").on("click", function () {
+  $(".overlay-drop-menu").hide();
   updateStatus($(this));
 });
 
@@ -379,6 +378,7 @@ function updateStatus(selectedItem) {
 }
 $(".status-payment").on("click", function () {
   $(this).find(".status-pay-menu").slideToggle(0);
+  $(".overlay-drop-menu").show();
 });
 
 function updatePaymentRequired() {
