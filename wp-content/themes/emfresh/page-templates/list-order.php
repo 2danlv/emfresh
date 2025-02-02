@@ -150,7 +150,25 @@ get_header();
                     <td data-number="9">25/10/24</td>
                     <td data-number="10" class="wrap-td" style="min-width: 290px;"><div class="ellipsis"><?php echo $record['note'] ?></div></td>
                     <?php $params = unserialize($record['params']); ?>
-                    <td data-number="11" class="wrap-td" style="min-width: 290px;"><div class="ellipsis">Thứ 3 - Thứ 5: <?php echo $params['ship']['location_id']; ?></div></td>
+                    <td data-number="11" class="wrap-td" style="min-width: 440px;">
+                      <div class="ellipsis">
+                      <?php 
+                      if (isset($params['ship']) && is_array($params['ship'])) {
+                        foreach ($params['ship'] as $ship) { ?>
+                                <?php 
+                                if (!empty($ship['location_name'])) { ?>
+                                   <?php
+                                    if (!empty($ship['days']) && is_array($ship['days'])) { 
+                                        echo implode(", ", $ship['days']);
+                                        echo ": ";
+                                    }
+                                    echo $ship['location_name']."<br>"; ?>
+                              <?php  } ?>
+                        <?php }
+                    }                      
+                      ?>
+                      </div>
+                    </td>
                     <td data-number="12"><span class="status_order status_order-<?php echo $record['status']; ?>"><?php echo $record['status_name'] ?></span></td>
                     <td data-number="13"><?php echo $record['payment_method_name'] ?></td>
                     <td data-number="14"><span class="status_order status_pay-<?php echo $record['payment_status']; ?>"><?php echo $record['payment_status_name'] ?></span></td>

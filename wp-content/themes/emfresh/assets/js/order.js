@@ -134,8 +134,8 @@ $(document).ready(function () {
   });
   $('.js-calendar.date').each(function() {
     var today_calendar;
-    if ($(this).val() != '') {
-      today_calendar = $(this).val();
+    if ($('.input-date_create').val() != '') {
+      today_calendar = $('.input-date_create').val();
     } else {
       today_calendar = new Date();
     }
