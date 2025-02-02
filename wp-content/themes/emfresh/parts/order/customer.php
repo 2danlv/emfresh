@@ -109,9 +109,9 @@ $(document).ready(function() {
         $('.info-customer .customer-phone').text(phone);
         $('.info-customer .customer-address').text(address);
         if(note_shiper.length != 0) {
-            $('.note-shipper').removeClass('hidden');
+            $('.input-order .note-shipper').removeClass('hidden');
         } else {
-            $('.note-shipper').addClass('hidden');
+            $('.input-order .note-shipper').addClass('hidden');
         }
         $('.input-order .note_shiper').val(note_shiper);
         $('.result,.info-customer').show(); 
