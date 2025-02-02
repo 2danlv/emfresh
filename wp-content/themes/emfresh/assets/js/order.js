@@ -23,28 +23,28 @@ $(document).ready(function () {
     $(this).toggleClass('is-active');
   });
   
-  $(".order .search-result .result-item").click(function (e) { 
-    var name = $(this).find(".name").text();
-    var phone = $(this).find(".phone").text();
-    var address = $(this).find(".address").text();
-    var note_shiper = $(this).find(".note_shiper").text();
+  // $(".order .search-result .result-item").click(function (e) { 
+  //   var name = $(this).find(".name").text();
+  //   var phone = $(this).find(".phone").text();
+  //   var address = $(this).find(".address").text();
+  //   var note_shiper = $(this).find(".note_shiper").text();
 
-    $(".input-order input.fullname").val(name);
-    $(".input-order input.phone").val(phone);
-    $('.input-location_id').val($(this).data('location_id'));
-    $(".input-order input.address_delivery,.input-location_name").val(address);
-    if(note_shiper.length != 0) {
-      $('.note-shipper').removeClass('hidden');
-    } else {
-      $('.note-shipper').addClass('hidden');
-    }
-    $(".note-shipper .note_shiper").text(note_shiper);
+  //   $(".input-order input.fullname").val(name);
+  //   $(".input-order input.phone").val(phone);
+  //   $('.input-location_id').val($(this).data('location_id'));
+  //   $(".input-order input.address_delivery,.input-location_name").val(address);
+  //   if(note_shiper.length != 0) {
+  //     $('.note-shipper').removeClass('hidden');
+  //   } else {
+  //     $('.note-shipper').addClass('hidden');
+  //   }
+  //   $(".note-shipper .note_shiper").text(note_shiper);
     
-    $(".results").hide();
-    $(".dropdown").css("pointer-events", "all");
-    $(".history-order").find(".show").removeClass("show");
-    $(".history-order").find(".history").addClass("show");
-  });
+  //   $(".results").hide();
+  //   $(".dropdown").css("pointer-events", "all");
+  //   $(".history-order").find(".show").removeClass("show");
+  //   $(".history-order").find(".history").addClass("show");
+  // });
   $(".close-toast").on("click", function () {
     $(".toast").removeClass("show");
   });
@@ -57,30 +57,31 @@ $(document).ready(function () {
     $deliveryItem.find(".dropdown input.address_delivery").val(other_address);
     $deliveryItem.find('.ship_location_id').val($(this).data('location_id'));
     
-    if(note_shiper.length != 0) {
-      $deliveryItem.find('.note-shipper').removeClass('hidden');
-    } else {
-      $deliveryItem.find('.note-shipper').addClass('hidden');
-    }
-    $deliveryItem.find(".note-shipper .note_shiper").text(note_shiper);
+    // if(note_shiper.length != 0) {
+    //   $deliveryItem.find('.note-shipper').removeClass('hidden');
+    // } else {
+    //   $deliveryItem.find('.note-shipper').addClass('hidden');
+    // }
+    // $deliveryItem.find(".note-shipper .note_shiper").text(note_shiper);
   });
   
   $(document).on('click', '.order .input-order .dropdown-menu .item', function (e) {
-    let $deliveryItem = $(this).closest('.locations-container');
+    let $order_wrap = $(this).closest('.locations-container');
     
     var other_address = $(this).find(".other-address").text();
     var note_shiper = $(this).find(".note_shiper").text();
     $('.info-customer .customer-address,.info-customer .address').text(other_address);
-    $('.input-location_name,.address_delivery').val(other_address);
+    $('.input-location_name,.input-order .address_delivery').val(other_address);
     
-    $deliveryItem.find('.ship_location_id').val($(this).data('location_id'));
+    $order_wrap.find('.ship_location_id').val($(this).data('location_id'));
     
     if(note_shiper.length != 0) {
-      $deliveryItem.find('.note-shipper').removeClass('hidden');
+      $('.input-order .note-shipper').removeClass('hidden');
+      $(".input-order .note-shipper .note_shiper").text(note_shiper);
     } else {
-      $deliveryItem.find('.note-shipper').addClass('hidden');
+      $('.input-order .note-shipper').addClass('hidden');
     }
-    $deliveryItem.find(".note-shipper .note_shiper").text(note_shiper);
+    
   });
   
   $(document).on('click', '.dropdown', function (e) {
@@ -293,12 +294,12 @@ $(document).on("click", ".tab-button", function () {
 });
 
 $(document).on('change', '.input_loop', function () {
-  let $deliveryItem = $(this).closest('.delivery-item');
+  let $deliveryItem = $(this).closest('.card-ship-item');
   
   if ($(this).is(":checked")) {
       $deliveryItem.find(".repeat-weekly").addClass("show");
       $deliveryItem.find('.calendar').hide();
-      $deliveryItem.find('.calendar input').val('');
+      $deliveryItem.find('.calendar input,.js-note-ship input').val('');
       $deliveryItem.find(".js-note-ship").hide();
   } else {
       $deliveryItem.find(".repeat-weekly").removeClass("show");

@@ -99,7 +99,7 @@ if(count($order_ships) == 0) {
                 </div>
             </div>
         </div>
-        <div class="delivery-item">
+        <div class="delivery-item js-note-ship">
             <div class="row pt-16 ai-center">
                 <div class="col-4">Note shipper theo ngày:</div>
                 <div class="col-8">
@@ -167,6 +167,9 @@ $(document).ready(function () {
             }
         });
         newItem.find('.repeat-weekly').removeClass('show');
+        newItem.find('.js-note-ship').show();
+        newItem.find('.js-note-ship').show();
+        newItem.find('.note-shipper').addClass('hidden');
         $(".card-ship-item").last().after(newItem);
         count++;
 });

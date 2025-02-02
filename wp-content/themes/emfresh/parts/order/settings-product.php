@@ -8,14 +8,7 @@
                 <div class="info-customer line-dots">
                     <p class="pt-16"><?php echo $order_detail['customer_name'] ?></p>
                     <p class="copy modal-button pt-8" data-target="#modal-copy" title="Copy: <?php echo $order_detail['phone'] ?>"><?php echo $order_detail['phone'] ?></p>
-                    <?php 
-                    if (isset($params['ship']) && is_array($params['ship'])) {
-                        foreach ($params['ship'] as $ship) { ?>
-                            <p class="pt-8 pb-16 text-ellipsis address"><?php echo $ship['location_name'] ?></p>
-                       <?php }
-                    }
-                    ?>
-                    
+                    <p class="pt-8 pb-16 text-ellipsis address"><?php echo $detail_local; ?></p>
                 </div>
                 <div class="order-details show">
                     <div class="order-wapper">

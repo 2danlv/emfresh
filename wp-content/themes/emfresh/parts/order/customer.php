@@ -104,7 +104,7 @@ $(document).ready(function() {
         $('#search').val(name); 
         $('.input-order .fullname').val(name); 
         $('.input-order .phone').val(phone);
-        $('.address_delivery').val(address);
+        $('.input-order .address_delivery').val(address);
         $('.info-customer .customer-name').text(name);
         $('.info-customer .customer-phone').text(phone);
         $('.info-customer .customer-address').text(address);
