@@ -258,7 +258,7 @@ if ($customer_id == 0 || count($response_customer['data']) == 0) {
 // lấy danh sách location
 $location_filter = [
 	'customer_id' => $customer_id,
-	'limit' => 5,
+	'limit' => -1,
 	'orderby' => 'active DESC, id DESC',
 ];
 $response_get_location = em_api_request('location/list', $location_filter);

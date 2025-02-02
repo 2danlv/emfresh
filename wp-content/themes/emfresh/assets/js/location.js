@@ -32,7 +32,7 @@ $(document).ready(function () {
 var $locationFields = $('#location-fields');
 var $addButton = $('.add-location-button');
 var fieldCount = $locationFields.find('> .address-group').length;
-var maxFields = 5;
+var maxFields = 500;
 $(document).on('click', '.delete-location-button', function(e) {
   e.preventDefault();
   $(this).closest('.address-group').remove();
@@ -157,7 +157,7 @@ $.getJSON('/wp-content/themes/emfresh/assets/data/city.json', function(data) {
       fieldCount++;
     } else {
       $(".alert.valid-form").show();
-      $(".alert.valid-form").text('Chỉ được thêm tối đa 5 địa chỉ.');
+      $(".alert.valid-form").text('Chỉ được thêm tối đa 500 địa chỉ.');
       $("html, body").animate({ scrollTop: 0 }, 600);
     }
   });

@@ -51,7 +51,7 @@ $(document).ready(function() {
         $('.no-results .btn-add-customer').attr('href', '/customer/add-customer/?phone='+query);
         if (query.length > 2) {  
             $.ajax({
-                url: '<?php echo home_url('em-api/customer/list/'); ?>',  
+                url: '<?php echo home_url('em-api/customer/list/?limit=-1'); ?>',  
                 method: 'GET',
                 dataType: 'json',
                 success: function(response) {
