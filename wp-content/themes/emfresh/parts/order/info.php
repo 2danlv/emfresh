@@ -127,8 +127,13 @@
         <div class="section-wapper">
             <div class="tlt-section">Giao hàng</div>
             <div class="section-content">
-                <?php $params = unserialize($order_detail['params']); ?>
-                <p class="txt black ellipsis">Thứ 3 (06/01): <?php echo $params['ship']['location_id']; ?></p>
+                <?php $params = unserialize($order_detail['params']);
+                    if (isset($params['ship']) && is_array($params['ship'])) {
+                        foreach ($params['ship'] as $ship) { ?>
+                            <p class="txt black ellipsis">Thứ 3 (06/01): <?php echo $ship['location_name']; ?></p>
+                    <?php }
+                    }
+                ?>
                 <p class="note-txt italic">(Đã đăng ký chung nhóm ship: Thien Phuong Bui)</p>
             </div>
         </div>

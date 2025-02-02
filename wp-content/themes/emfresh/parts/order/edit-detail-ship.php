@@ -36,55 +36,52 @@ if(count($order_ships) == 0) {
 }
 
 ?>
-<div class="card card-no_border">
-    <?php         
+<div class="card order-card-ship card-no_border">
+    <?php     
+        $count = 0;    
         foreach($order_ships as $item) :
-
             $data = [];
-
             foreach($item as $key => $value) {
                 $data['ship_'. $key] = $value;
             }
-
             extract($data);
-
             if($ship_location_id > 0) {
                 $ship_location_name = $em_location->get_fullname($ship_location_id);
             }
     ?>
-    <div class="pl-16 pr-16">
+    <div class="card-ship-item pl-16 pr-16 pb-32">
         <div class="row delivery-item">
             <div class="col-4">Đặt lịch:</div>
             <div class="col-8">
                 <label for="loop" class="d-f ai-center gap-12 pb-8 loop">
-                    <input type="checkbox" name="ship[0][loop]" id="loop" <?php echo $ship_loop == 'on' ? 'checked' : '' ?>>
+                    <input type="checkbox" name="ship[<?php echo $count; ?>][loop]" class="input_loop" <?php echo $ship_loop == 'on' ? 'checked' : '' ?>>
                     Lặp lại hàng tuần
                 </label>
-                <div class="calendar">
-                    <input type="hidden" class="form-control input-date_start" name="ship[0][calendar]" value="<?php echo !empty($ship_calendar) != '' ? $ship_calendar : ''; ?>" />
+                <div class="calendar pt-8">
+                    <input type="hidden" class="form-control input-date_start" name="ship[<?php echo $count; ?>][calendar]" value="<?php echo !empty($ship_calendar) != '' ? $ship_calendar : ''; ?>" />
                     <input type="text" placeholder="DD/MM/YYYY" class="form-control js-calendar date" value="<?php echo !empty($ship_calendar) ? date("d/m/Y", strtotime($ship_calendar)) : ''; ?>">
                 </div>
-                <div class="repeat-weekly">
-                    <input type="checkbox" id="monday" hidden name="ship[0][days][]" value="monday" <?php echo in_array('monday', $ship_days) ? 'checked' : '' ?>>
-                    <label for="monday">Thứ Hai</label>
-                    <input type="checkbox" id="tuesday" hidden name="ship[0][days][]" value="tuesday" <?php echo in_array('tuesday', $ship_days) ? 'checked' : '' ?>>
-                    <label for="tuesday"> Thứ Ba</label>
-                    <input type="checkbox" id="wednesday" hidden name="ship[0][days][]" value="wednesday" <?php echo in_array('wednesday', $ship_days) ? 'checked' : '' ?>>
-                    <label for="wednesday"> Thứ Tư</label>
-                    <input type="checkbox" id="thursday" hidden name="ship[0][days][]" value="thursday" <?php echo in_array('thursday', $ship_days) ? 'checked' : '' ?>>
-                    <label for="thursday"> Thứ Năm</label>
-                    <input type="checkbox" id="friday" hidden name="ship[0][days][]" value="friday" <?php echo in_array('friday', $ship_days) ? 'checked' : '' ?>>
-                    <label for="friday"> Thứ Sáu</label>
+                <div class="repeat-weekly pt-8">
+                    <input type="checkbox" id="monday_<?php echo $count; ?>" hidden name="ship[<?php echo $count; ?>][days][]" value="monday" <?php echo in_array('monday', $ship_days) ? 'checked' : '' ?>>
+                    <label for="monday_<?php echo $count; ?>">Thứ Hai</label>
+                    <input type="checkbox" id="tuesday_<?php echo $count; ?>" hidden name="ship[<?php echo $count; ?>][days][]" value="tuesday" <?php echo in_array('tuesday', $ship_days) ? 'checked' : '' ?>>
+                    <label for="tuesday_<?php echo $count; ?>"> Thứ Ba</label>
+                    <input type="checkbox" id="wednesday_<?php echo $count; ?>" hidden name="ship[<?php echo $count; ?>][days][]" value="wednesday" <?php echo in_array('wednesday', $ship_days) ? 'checked' : '' ?>>
+                    <label for="wednesday_<?php echo $count; ?>"> Thứ Tư</label>
+                    <input type="checkbox" id="thursday_<?php echo $count; ?>" hidden name="ship[<?php echo $count; ?>][days][]" value="thursday" <?php echo in_array('thursday', $ship_days) ? 'checked' : '' ?>>
+                    <label for="thursday_<?php echo $count; ?>"> Thứ Năm</label>
+                    <input type="checkbox" id="friday_<?php echo $count; ?>" hidden name="ship[<?php echo $count; ?>][days][]" value="friday" <?php echo in_array('friday', $ship_days) ? 'checked' : '' ?>>
+                    <label for="friday_<?php echo $count; ?>"> Thứ Sáu</label>
                 </div>
             </div>
         </div>
-        <div class="row delivery-item pt-24 ai-center">
+        <div class="row delivery-item pt-16 ai-center">
             <div class="col-4">Địa chỉ giao:</div>
             <div class="col-8">
-                <input type="hidden" name="ship[0][location_id]" class="ship_location_id" value="<?php echo $ship_location_id; ?>">
+                <input type="hidden" name="ship[<?php echo $count; ?>][location_id]" class="ship_location_id" value="<?php echo $ship_location_id; ?>">
                 <div class="dropdown-address">
                     <div class="dropdown active" style="pointer-events: all;">                    
-                        <input type="text" name="ship[0][location_name]" class="address_delivery is-disabled form-control" value="<?php echo $ship_location_name; ?>" placeholder="Địa chỉ giao hàng">
+                        <input type="text" name="ship[<?php echo $count; ?>][location_name]" class="address_delivery is-disabled form-control" value="<?php echo $ship_location_name; ?>" placeholder="Địa chỉ giao hàng">
                     </div>
                     <p class="fs-14 fw-regular note-shipper hidden color-gray pt-4 pl-8">Note với shipper: <span class="note_shiper"></span></p>
                     <div class="dropdown-menu">
@@ -95,51 +92,142 @@ if(count($order_ships) == 0) {
                             </div>
                             <?php endforeach ?>
                         </div>
-                        <div data-target="#modal-add-address-1" class="btn-add-address modal-button d-f ai-center pb-8 pt-8 pl-8">
+                        <div data-target="#modal-add-address" class="btn-add-address modal-button d-f ai-center pb-8 pt-8 pl-8">
                             <span class="fas fa-plus mr-8"></span>Thêm địa chỉ mới
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="js-note delivery-item">
+        <div class="delivery-item">
             <div class="row pt-16 ai-center">
                 <div class="col-4">Note shipper theo ngày:</div>
                 <div class="col-8">
-                    <input type="text" name="ship[0][note_shipper]" class="form-control note_shipper_by_day">
+                    <input type="text" name="ship[<?php echo $count; ?>][note_shipper]" value="<?php echo $data['ship_note_shipper']; ?>" class="form-control note_shipper_by_day">
                 </div>
             </div>
             <div class="row pt-16 ai-center">
                 <div class="col-4">Note admin theo ngày:</div>
                 <div class="col-8">
-                    <input type="text" name="ship[0][note_admin]" class="form-control note_admin_by_day">
+                    <input type="text" name="ship[<?php echo $count; ?>][note_admin]" value="<?php echo $data['ship_note_admin']; ?>" class="form-control note_admin_by_day">
                 </div>
             </div>
         </div>
     </div>
-    <?php endforeach ?>
+    <?php 
+    $count++;
+    endforeach ?>
 </div>
+
 <div class="d-f ai-center pb-16 pt-24 add-new-note">
     <span class="fas fa-plus mr-8"></span> Thêm yêu cầu giao hàng mới
 </div>
-<!-- submit add location
+<!-- submit add location-->
 <script>
+$(document).ready(function () {
+    let count = $(".card-ship-item").length;
+    
+    $(".delivery-item .btn-add-address").on('click', function () {
+        $('.modal-add-address .show-group-note').hide();
+    });
+    
+    $(".btn-add-address").on('click', function () {
+        $('.modal-add-address .alert-warning').hide();
+        $('.modal-add-address').find("input,select:not(#province)").each(function () {
+            if ($(this).is(":checkbox")) {
+                $(this).prop("checked", false);
+            } else if ($(this).is("select")) {
+                $(this).val("");
+            } else {
+                $(this).val("");
+            }
+        });
+        $("#district").val(""); 
+        $("#ward").html('<option selected="">Phường/Xã*</option>').prop("disabled", true);
+    });
+    $(".delivery-field .add-new-note").click(function () {
+        let newItem = $(".card-ship-item").first().clone();
+        newItem.find("input, select, textarea").each(function () {
+            let name = $(this).attr("name");
+            let id = $(this).attr("id");
+            if (name) {
+                name = name.replace(/\[0\]/g, "[" + count + "]");
+                $(this).attr("name", name);
+            }
+            if (id) {
+                let newId = id + "_" + count;
+                $(this).attr("id", newId);
+                $(this).next("label").attr("for", newId);
+            }
+            
+            if ($(this).is(":checkbox")) {
+                $(this).prop("checked", false);
+            } else {
+                $(this).val("");
+            }
+        });
+        newItem.find('.repeat-weekly').removeClass('show');
+        $(".card-ship-item").last().after(newItem);
+        count++;
+});
+$('.modal-add-address .add-address').on('click', function (e) {
+        e.preventDefault();
+        let customerId = $('.input-customer_id').val();
+        let address = $('.modal-add-address .address').val();
+        let ward = $('.modal-add-address #ward').val();
+        let district = $('.modal-add-address #district').val();
+        let city = $('.modal-add-address #province').val();
+        let noteShipper = $('.modal-add-address .locations_note_shipper').val();
+        let noteAdmin = $('.modal-add-address .locations_note_admin').val();
+        let locations_active = $('.modal-add-address .location_active').prop('checked') ? 1 : 0;
+        if (!district || !ward || !address ) {
+            $('.modal-add-address .alert-warning').show();
+            return;
+        }
+        $.post('<?php echo home_url('em-api/location/add'); ?>', {
+            'customer_id': customerId,
+            'address': address,
+            'ward': ward,
+            'district': district,
+            'city': city,
+            'note_shipper': noteShipper,
+            'note_admin': noteAdmin,
+            'active':locations_active
+        }, function (res) {
+            // console.log('location.add.res', res);
 
-$.post('<?php echo home_url('em-api/location/add'); ?>', {
-    'customer_id'   : 0,
-    'address'       : '',
-    'ward'          : '',
-    'district'      : '',
-    'city'          : '',
-    'note_shipper'  : '',
-    'note_admin'    : '',
-}, function(res){
-    console.log('location.add.res', res);
-
-    if(res.code == 200) {
-        res.data.insert_id;
-    }
+            if (res.code == 200) {
+                res.data.insert_id;
+                let insertId = res.data.insert_id;
+                let newLocationHTML = `
+                    <div class="item" data-location_id="${res.data.insert_id}">
+                        <p class="fs-16 color-black other-address">${address}, ${ward}, ${district}</p>
+                    </div>
+                `;
+                $('.locations-container').append(newLocationHTML);
+                $('.modal').removeClass('is-active');
+		        $('body').removeClass('overflow');
+            } else {
+                alert("Lỗi: " + res.message);
+            }
+        }, 'json');
+    });
 });
 
+// $.post('<?php echo home_url('em-api/location/add'); ?>', {
+//     'customer_id'   : 0,
+//     'address'       : '',
+//     'ward'          : '',
+//     'district'      : '',
+//     'city'          : '',
+//     'note_shipper'  : '',
+//     'note_admin'    : '',
+// }, function(res){
+//     console.log('location.add.res', res);
+
+//     if(res.code == 200) {
+//         res.data.insert_id;
+//     }
+// });
+
 </script>
--->

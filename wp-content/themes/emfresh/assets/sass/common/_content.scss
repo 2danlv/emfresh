@@ -1,17 +1,16 @@
 .row .content-wrapper {
     flex-grow: 1;
     padding-left: 206px;
-    .alert {
-        border-radius: 8px;
-        padding: 8px;
-        color: #fff;
-        background-color: #0099cc;
-        &.alert-warning {
-            background-color: orange;
-            
-        }
-    } 
 }
+.alert {
+    border-radius: 8px;
+    padding: 8px;
+    color: #fff;
+    background-color: #0099cc;
+    &.alert-warning {
+        background-color: orange;
+    }
+} 
 .content-import {
     border-radius: 16px;
     background: var(--background-dim-green, #F6F6F6);

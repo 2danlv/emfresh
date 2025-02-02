@@ -685,8 +685,7 @@ get_header();
 															$address_active = "";
 														}
 													?>
-														<div class="address-group current-address pb-16 location_<?php echo ($record['active']);
-																							echo $address_active; ?> " data-index="<?php echo $index ?>">
+														<div class="address-group current-address pb-16 location_<?php echo ($record['active']); echo $address_active; ?> " data-index="<?php echo $index ?>">
 															<input type="hidden" name="locations[<?php echo $index ?>][id]" value="<?php echo $record['id'] ?>" />
 															<div class="card-body">
 																<div class="card-header">
@@ -1123,7 +1122,7 @@ get_footer('customer');
 		});
 
 		var fieldCount = <?php echo count($response_get_location['data']); ?>;
-		var maxFields = 5;
+		var maxFields = 500;
 		$(document).on('click', '.delete-location-button', function(e) {
 			e.preventDefault();
 			let btn = $(this),

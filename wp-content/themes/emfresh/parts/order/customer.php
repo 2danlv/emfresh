@@ -32,7 +32,7 @@ $js_duplicate_url = add_query_arg(['dupnonce' => wp_create_nonce('dupnonce')], g
             <p class="fs-14 fw-regular note-shipper hidden color-gray pt-4 pl-8">Note với shipper: <span class="note_shiper"></span></p>
             <div class="dropdown-menu">
                 <div class="locations-container"></div>
-                <div data-target="#modal-add-address-1" class="btn-add-address modal-button d-f ai-center pb-16 pt-8 pl-8">
+                <div data-target="#modal-add-address" class="btn-add-address modal-button d-f ai-center pb-16 pt-8 pl-8">
                     <span class="fas fa-plus mr-8"></span>Thêm địa chỉ mới
                 </div>
             </div>
@@ -221,7 +221,7 @@ $(document).ready(function() {
                                                 <span class="fas fa-note"></span>
                                                 <span class="txt">Ghi chú:</span>
                                             </div>
-                                            <span class="txt">${order.note || 'No notes available'}</span>
+                                            <span class="txt">${order.note}</span>
                                         </div>
                                     </div>
                                 </div>
