@@ -152,7 +152,7 @@ get_header();
                     <?php $params = unserialize($record['params']); ?>
                     <td data-number="11" class="wrap-td" style="min-width: 290px;"><div class="ellipsis">Thứ 3 - Thứ 5: <?php echo $params['ship']['location_id']; ?></div></td>
                     <td data-number="12"><span class="status_order status_order-<?php echo $record['status']; ?>"><?php echo $record['status_name'] ?></span></td>
-                    <td data-number="13"><span class="status_order status_order-<?php echo $record['payment_method']; ?>"><?php echo $record['payment_method_name'] ?></span></td>
+                    <td data-number="13"><?php echo $record['payment_method_name'] ?></td>
                     <td data-number="14"><span class="status_order status_pay-<?php echo $record['payment_status']; ?>"><?php echo $record['payment_status_name'] ?></span></td>
                     <td data-number="15"><?php echo $record['total'] > 0 ? number_format($record['total']) : 0 ?></td>
                     <td data-number="16"><?php echo $record['remaining_amount'] > 0 ? number_format($record['remaining_amount']) : 0 ?></td>
