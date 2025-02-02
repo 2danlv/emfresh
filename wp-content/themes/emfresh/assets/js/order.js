@@ -307,7 +307,15 @@ $(document).on('change', '.input_loop', function () {
   }
 });
 
-
+$('.input_loop').each(function() {
+  if ($(this).is(":checked")) {
+      let $loop_deliveryItem = $(this).closest('.card-ship-item');
+      $loop_deliveryItem.find(".repeat-weekly").addClass("show");
+      $loop_deliveryItem.find('.calendar').hide();
+      $loop_deliveryItem.find('.calendar input,.js-note-ship input').val('');
+      $loop_deliveryItem.find(".js-note-ship").hide();
+  }
+});
 $(".js-input-field").on("input", "input, select", function () {
   $(".order-details").fadeIn();
 });

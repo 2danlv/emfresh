@@ -130,8 +130,18 @@
                 <?php $params = unserialize($order_detail['params']);
                     if (isset($params['ship']) && is_array($params['ship'])) {
                         foreach ($params['ship'] as $ship) { ?>
-                            <p class="txt black ellipsis">Thứ 3 (06/01): <?php echo $ship['location_name']; ?></p>
-                    <?php }
+                                <?php 
+                                if (!empty($ship['location_name'])) { ?>
+                                    <p class="txt black ellipsis">
+                                   <?php
+                                    if (!empty($ship['days']) && is_array($ship['days'])) { 
+                                        echo implode(", ", $ship['days']);
+                                        echo "<br>";
+                                    }
+                                    echo $ship['location_name']; ?>
+                                   </p> 
+                              <?php  } ?>
+                        <?php }
                     }
                 ?>
                 <p class="note-txt italic">(Đã đăng ký chung nhóm ship: Thien Phuong Bui)</p>

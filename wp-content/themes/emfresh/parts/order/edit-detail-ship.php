@@ -62,15 +62,15 @@ if(count($order_ships) == 0) {
                     <input type="text" placeholder="DD/MM/YYYY" class="form-control js-calendar date" value="<?php echo !empty($ship_calendar) ? date("d/m/Y", strtotime($ship_calendar)) : ''; ?>">
                 </div>
                 <div class="repeat-weekly pt-8">
-                    <input type="checkbox" id="monday_<?php echo $count; ?>" hidden name="ship[<?php echo $count; ?>][days][]" value="monday" <?php echo in_array('monday', $ship_days) ? 'checked' : '' ?>>
+                    <input type="checkbox" id="monday_<?php echo $count; ?>" hidden name="ship[<?php echo $count; ?>][days][]" value="Thứ Hai" <?php echo in_array('Thứ Hai', $ship_days) ? 'checked' : '' ?>>
                     <label for="monday_<?php echo $count; ?>">Thứ Hai</label>
-                    <input type="checkbox" id="tuesday_<?php echo $count; ?>" hidden name="ship[<?php echo $count; ?>][days][]" value="tuesday" <?php echo in_array('tuesday', $ship_days) ? 'checked' : '' ?>>
+                    <input type="checkbox" id="tuesday_<?php echo $count; ?>" hidden name="ship[<?php echo $count; ?>][days][]" value="Thứ Ba" <?php echo in_array('Thứ Ba', $ship_days) ? 'checked' : '' ?>>
                     <label for="tuesday_<?php echo $count; ?>"> Thứ Ba</label>
-                    <input type="checkbox" id="wednesday_<?php echo $count; ?>" hidden name="ship[<?php echo $count; ?>][days][]" value="wednesday" <?php echo in_array('wednesday', $ship_days) ? 'checked' : '' ?>>
+                    <input type="checkbox" id="wednesday_<?php echo $count; ?>" hidden name="ship[<?php echo $count; ?>][days][]" value="Thứ Tư" <?php echo in_array('Thứ Tư', $ship_days) ? 'checked' : '' ?>>
                     <label for="wednesday_<?php echo $count; ?>"> Thứ Tư</label>
-                    <input type="checkbox" id="thursday_<?php echo $count; ?>" hidden name="ship[<?php echo $count; ?>][days][]" value="thursday" <?php echo in_array('thursday', $ship_days) ? 'checked' : '' ?>>
+                    <input type="checkbox" id="thursday_<?php echo $count; ?>" hidden name="ship[<?php echo $count; ?>][days][]" value="Thứ Năm" <?php echo in_array('Thứ Năm', $ship_days) ? 'checked' : '' ?>>
                     <label for="thursday_<?php echo $count; ?>"> Thứ Năm</label>
-                    <input type="checkbox" id="friday_<?php echo $count; ?>" hidden name="ship[<?php echo $count; ?>][days][]" value="friday" <?php echo in_array('friday', $ship_days) ? 'checked' : '' ?>>
+                    <input type="checkbox" id="friday_<?php echo $count; ?>" hidden name="ship[<?php echo $count; ?>][days][]" value="Thứ Sáu" <?php echo in_array('Thứ Sáu', $ship_days) ? 'checked' : '' ?>>
                     <label for="friday_<?php echo $count; ?>"> Thứ Sáu</label>
                 </div>
             </div>
