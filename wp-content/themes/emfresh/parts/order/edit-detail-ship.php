@@ -7,6 +7,7 @@ $order_ships = $em_order->get_ships($order_detail);
 <div class="card order-card-ship card-no_border">
     <?php     
         $count = 0;    
+        if (!empty($order_ships)) { 
         foreach($order_ships as $item) :
             $data = [];
             foreach($item as $key => $value) {
@@ -81,7 +82,69 @@ $order_ships = $em_order->get_ships($order_detail);
     </div>
     <?php 
     $count++;
-    endforeach ?>
+    endforeach ;
+} else { ?>
+    <div class="card-ship-item pl-16 pr-16 pb-32">
+        <div class="row delivery-item">
+            <div class="col-4">Đặt lịch:</div>
+            <div class="col-8">
+                <label for="loop" class="d-f ai-center gap-12 pb-8 loop">
+                    <input type="checkbox" name="ship[0][loop]" class="input_loop">
+                    Lặp lại hàng tuần
+                </label>
+                <div class="calendar pt-8">
+                    <input type="hidden" class="form-control input-date_start" name="ship[0][calendar]" value="" />
+                    <input type="text" placeholder="DD/MM/YYYY" class="form-control js-calendar date" value="">
+                </div>
+                <div class="repeat-weekly pt-8">
+                    <input type="checkbox" id="monday_0" hidden name="ship[0][days][]" value="Thứ Hai">
+                    <label for="monday_0">Thứ Hai</label>
+                    <input type="checkbox" id="tuesday_0" hidden name="ship[0][days][]" value="Thứ Ba">
+                    <label for="tuesday_0"> Thứ Ba</label>
+                    <input type="checkbox" id="wednesday_0" hidden name="ship[0][days][]" value="Thứ Tư">
+                    <label for="wednesday_0"> Thứ Tư</label>
+                    <input type="checkbox" id="thursday_0" hidden name="ship[0][days][]" value="Thứ Năm">
+                    <label for="thursday_0"> Thứ Năm</label>
+                    <input type="checkbox" id="friday_0" hidden name="ship[0][days][]" value="Thứ Sáu">
+                    <label for="friday_0"> Thứ Sáu</label>
+                </div>
+            </div>
+        </div>
+        <div class="row delivery-item pt-16 ai-center">
+            <div class="col-4">Địa chỉ giao:</div>
+            <div class="col-8">
+                <input type="hidden" name="ship[0][location_id]" class="ship_location_id" value="">
+                <div class="dropdown-address">
+                    <div class="dropdown active" style="pointer-events: all;">                    
+                        <input type="text" name="ship[0][location_name]" class="address_delivery is-disabled form-control" value="" placeholder="Địa chỉ giao hàng">
+                    </div>
+                    <p class="fs-14 fw-regular note-shipper hidden color-gray pt-4 pl-8">Note với shipper: <span class="note_shiper"></span></p>
+                    <div class="dropdown-menu">
+                        <div class="locations-container">
+                        </div>
+                        <div data-target="#modal-add-address" class="btn-add-address modal-button d-f ai-center pb-8 pt-8 pl-8">
+                            <span class="fas fa-plus mr-8"></span>Thêm địa chỉ mới
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="delivery-item js-note-ship">
+            <div class="row pt-16 ai-center">
+                <div class="col-4">Note shipper theo ngày:</div>
+                <div class="col-8">
+                    <input type="text" name="ship[0][note_shipper]" value="" class="form-control note_shipper_by_day">
+                </div>
+            </div>
+            <div class="row pt-16 ai-center">
+                <div class="col-4">Note admin theo ngày:</div>
+                <div class="col-8">
+                    <input type="text" name="ship[0][note_admin]" value="" class="form-control note_admin_by_day">
+                </div>
+            </div>
+        </div>
+    </div>
+<?php } ?>
 </div>
 
 <div class="d-f ai-center pb-16 pt-24 add-new-note">
