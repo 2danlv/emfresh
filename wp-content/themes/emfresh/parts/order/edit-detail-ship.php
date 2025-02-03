@@ -1,39 +1,7 @@
 <?php
 global $em_order, $em_location;
 
-$default_params = [
-    'loop' => '',
-    'calendar' => '',
-    'days' => [],
-    'location_id' => 0,
-    'location_name' => '',
-    'note_shipper' => '',
-    'note_admin' => '',
-];
-
-$order_ships = [];
-
-if(!empty($order_detail['params'])) {
-    $data_params = unserialize($order_detail['params']);
-
-    if(isset($data_params['ship'])) {
-        $list_ship = $data_params['ship'];
-
-        if(isset($list_ship['location_id'])) {
-            $order_ships[] = shortcode_atts($default_params, $list_ship);
-        } else if(count($list_ship) > 0 && isset($list_ship[0]['location_id'])) {
-            foreach($list_ship as $item) {
-                $order_ships[] = shortcode_atts($default_params, $item);
-            }
-        }
-    
-        // var_dump($list_ship, $order_ships);
-    }
-}
-
-if(count($order_ships) == 0) {
-    $order_ships[] = $default_params;
-}
+$order_ships = $em_order->get_ships($order_detail);
 
 ?>
 <div class="card order-card-ship card-no_border">
@@ -45,9 +13,6 @@ if(count($order_ships) == 0) {
                 $data['ship_'. $key] = $value;
             }
             extract($data);
-            if($ship_location_id > 0) {
-                $ship_location_name = $em_location->get_fullname($ship_location_id);
-            }
     ?>
     <div class="card-ship-item pl-16 pr-16 pb-32">
         <div class="row delivery-item">

@@ -8,7 +8,7 @@
  * @since Twenty Twelve 1.0
  */
 
-global $em_customer, $em_order, $em_customer_tag, $em_log;
+global $em_customer, $em_order, $em_customer_tag, $em_log, $em_location;
 
 $list_order_status = $em_order->get_statuses();
 $list_tags = $em_customer->get_tags();
@@ -146,26 +146,26 @@ get_header();
                     <td data-number="5" class="text-center"><?php echo trim(end($location_list)) ?></td>
                     <td data-number="6" class="text-center"><?php echo strtoupper($record['type_name']) ?></td>
                     <td data-number="7"><?php echo $record['item_name'] ?></td>
-                    <td data-number="8">24/10/24</td>
-                    <td data-number="9">25/10/24</td>
+                    <td data-number="8"><?php echo date('d/m/Y', strtotime($record['date_start'])) ?></td>
+                    <td data-number="9"><?php echo date('d/m/Y', strtotime($record['date_stop'])) ?></td>
                     <td data-number="10" class="wrap-td" style="min-width: 290px;"><div class="ellipsis"><?php echo $record['note'] ?></div></td>
                     <?php $params = unserialize($record['params']); ?>
                     <td data-number="11" class="wrap-td" style="min-width: 440px;">
                       <div class="ellipsis">
                       <?php 
-                      if (isset($params['ship']) && is_array($params['ship'])) {
-                        foreach ($params['ship'] as $ship) { ?>
-                                <?php 
-                                if (!empty($ship['location_name'])) { ?>
-                                   <?php
-                                    if (!empty($ship['days']) && is_array($ship['days'])) { 
-                                        echo implode(", ", $ship['days']);
-                                        echo ": ";
-                                    }
-                                    echo $ship['location_name']."<br>"; ?>
-                              <?php  } ?>
-                        <?php }
-                    }                      
+                        $ships = $em_order->get_ships($record);
+                        if (count($ships) > 0) {
+                          foreach ($ships as $ship) {
+                            if (!empty($ship['location_name'])) {
+                              if (!empty($ship['days']) && is_array($ship['days'])) { 
+                                echo implode(", ", $ship['days']);
+                                echo ": ";
+                              }
+                              
+                              echo $ship['location_name']."<br>";
+                            }
+                          }
+                        }
                       ?>
                       </div>
                     </td>

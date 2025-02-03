@@ -150,7 +150,7 @@ function update_order_item_info(order_item) {
 	order_item.find('.text-amount').text(format_money(amount));
 	order_item.find('.input-amount').val(amount);
 	order_item.find('.input-meal_number').val(meal_number);
-	order_item.find('.input-date_stop').val(get_date_value(date_start, days));
+	order_item.find('.input-date_stop').val(get_date_value(date_start, days - 1));
 	order_item.find('.input-ship_price').val(ship_price);
 
 	order_details.find(`[data-id="${data_id}"] .price`).text(format_money(amount));
@@ -328,9 +328,9 @@ function get_date_value(date_string, days) {
 	if (days > 0) {
 		let date = new Date(date_string);
 
-		//date.setDate(date.getDate() + days);
+		date.setDate(date.getDate() + days);
 
-		//return date.toISOString().substring(0, 10);
+		return date.toISOString().substring(0, 10);
 	}
 
 	return date_string;

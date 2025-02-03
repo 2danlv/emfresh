@@ -89,6 +89,8 @@ class EM_Order extends EF_Default
             'total'         => 0,
             'paid'          => 0,
             'remaining_amount' => 0,
+            'date_start'    => '',
+            'date_stop'     => '',
             'created'       => '',
             'created_at'    => 0,
             'modified'      => '',
@@ -211,6 +213,59 @@ class EM_Order extends EF_Default
         return $params;
     }
 
+    function get_ships($item = [])
+    {
+        if(is_numeric($item)) {
+            $item  = $this->get_item($item);
+        }
+
+        if (empty($item['id'])) {
+            return [];
+        }
+
+        $default_params = [
+            'loop' => '',
+            'calendar' => '',
+            'days' => [],
+            'location_id' => 0,
+            'location_name' => '',
+            'note_shipper' => '',
+            'note_admin' => '',
+        ];
+        
+        $order_ships = [];
+        
+        if(!empty($item['params'])) {
+            $data_params = unserialize($item['params']);
+        
+            if(isset($data_params['ship'])) {
+                $list_ship = $data_params['ship'];
+        
+                if(isset($list_ship['location_id'])) {
+                    $order_ships[] = shortcode_atts($default_params, $list_ship);
+                } else if(count($list_ship) > 0 && isset($list_ship[0]['location_id'])) {
+                    foreach($list_ship as $item) {
+                        $order_ships[] = shortcode_atts($default_params, $item);
+                    }
+                }
+            }
+        }
+        
+        if(count($order_ships) == 0) {
+            $order_ships[] = $default_params;
+        } else {
+            global $em_location;
+
+            foreach($order_ships as &$ship) {
+                if(empty($ship['location_name']) && $ship['location_id'] > 0) {
+                    $ship['location_name'] = $em_location->get_fullname($ship['location_id']);
+                }
+            }
+        }
+
+        return $order_ships;
+    }
+
     function filter_item($data = [], $type = '')
     {
         $item = [];
@@ -258,12 +313,38 @@ class EM_Order extends EF_Default
 
                     $item['used_value'] = $used_value;
                     $item['remaining_value'] = $total - $used_value;
-                } else if ($key == 'paid') {
-                    // if($value == 0) {
-                    //     $total = intval($item['ship_amount'] + $item['total_amount']);
-                    
-                    //     $item['paid'] = $total - intval($item['remaining_amount']);
-                    // }
+                } else if ($key == 'date_start') {
+                    if($value == '0000-00-00') {
+                        $order_items = $em_order_item->get_items([
+                            'order_id' => $item['id'],
+                            'limit' => 1,
+                            'orderby' => 'date_start ASC'
+                        ]);
+
+                        if(isset($order_items[0]['date_start'])) {
+                            $item[$key] = $order_items[0]['date_start'];
+
+                            // $this->update([
+                            //     'date_start' => $item[$key],
+                            // ], ['id' => $item['id']]);
+                        }
+                    }
+                } else if ($key == 'date_stop') {
+                    if($value == '0000-00-00') {
+                        $order_items = $em_order_item->get_items([
+                            'order_id' => $item['id'],
+                            'limit' => 1,
+                            'orderby' => 'date_stop DESC'
+                        ]);
+
+                        if(isset($order_items[0]['date_stop'])) {
+                            $item[$key] = $order_items[0]['date_stop'];
+
+                            // $this->update([
+                            //     'date_stop' => $item[$key],
+                            // ], ['id' => $item['id']]);
+                        }
+                    }
                 } else if ($key == 'location_id') {
                     $item['location_name'] = $em_location->get_fullname($value);
                 } else if ($key == 'customer_id') {
