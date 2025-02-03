@@ -199,6 +199,53 @@ $(document).ready(function () {
         newItem.find('.js-note-ship').show();
         newItem.find('.note-shipper').addClass('hidden');
         $(".card-ship-item").last().after(newItem);
+        newItem.find('.js-calendar.date').daterangepicker({
+            singleDatePicker: true,
+            autoUpdateInput: true,
+            autoApply: true,
+            minDate: new Date(),
+            opens: 'left',
+            locale: {
+            format: "DD/MM/YYYY",daysOfWeek: ["CN", "T2", "T3", "T4", "T5", "T6", "T7"],
+            monthNames: [
+                "Tháng 1,",
+                "Tháng 2,",
+                "Tháng 3,",
+                "Tháng 4,",
+                "Tháng 5,",
+                "Tháng 6,",
+                "Tháng 7,",
+                "Tháng 8,",
+                "Tháng 9,",
+                "Tháng 10,",
+                "Tháng 11,",
+                "Tháng 12,",
+            ],
+            firstDay: 1,
+            },
+            ranges: {
+            'Hôm nay': new Date()
+            }
+        }).on('show.daterangepicker', function() {
+            $(this).data('daterangepicker').container.addClass('daterangepicker-open');
+        }).on('hide.daterangepicker', function(ev, picker) {
+            $(this).data('daterangepicker').container.removeClass('daterangepicker-open');
+            var inputElement = $(this);
+            var formattedDate = picker.startDate.format('YYYY-MM-DD');
+            var targetInput = inputElement.siblings('.input-date_start');
+            targetInput.val(formattedDate);
+        }).on('apply.daterangepicker', function(ev, picker) {
+            var inputElement = $(this);
+            var today = $('.js-calendar.date').val();
+            var formattedDate = picker.startDate.format('YYYY-MM-DD');
+            var targetInput = inputElement.siblings('.input-date_start');
+            targetInput.val(formattedDate);
+            if (today == moment().format('DD/MM/YYYY')) {
+            $(".toast").addClass("show");
+            }
+            showdate();
+        });
+        newItem.find('.js-calendar.date').val('');
         count++;
 });
 $('.modal-add-address .add-address').on('click', function (e) {
