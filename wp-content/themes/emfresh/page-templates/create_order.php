@@ -161,7 +161,7 @@ get_header();
     </section>
     <div class="toast warning">
         <i class="fas fa-warning"></i>
-        Khách hàng vẫn còn đơn đang dùng tại thời điểm<span>04/11/2024</span>
+        Khách hàng vẫn còn đơn đang dùng tại thời điểm <span  class="order_date_stop hidden"></span><span  class="order_date_stop_show"></span>
         <i class="fas fa-trash close-toast"></i>
     </div>
 </div><!-- /.container-fluid -->

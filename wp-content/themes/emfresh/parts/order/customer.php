@@ -20,13 +20,13 @@ $js_duplicate_url = add_query_arg(['dupnonce' => wp_create_nonce('dupnonce')], g
     </div>
     <div class="row input-order">
         <div class="col-8 pb-16">
-            <input type="text" name="nickname" class="fullname is-disabled form-control" maxlength="50" placeholder="Tên khách hàng">
+            <input type="text" name="nickname" class="fullname is-disabled form-control" placeholder="Tên khách hàng">
         </div>
         <div class="col-4 pb-16">
-            <input type="text" name="phone" class="phone is-disabled form-control" maxlength="50" placeholder="SĐT">
+            <input type="text" name="phone" class="phone is-disabled form-control" placeholder="SĐT">
         </div>
         <div class="col-12 pb-16">
-            <input type="text" class="name_2nd form-control" maxlength="50" placeholder="Tên người nhận dùm">
+            <input type="text" class="name_2nd form-control" placeholder="Tên người nhận">
         </div>
         <div class="col-12 pb-32 dropdown-address">
             <div class="dropdown active">
@@ -83,12 +83,12 @@ $(document).ready(function() {
                         $('#autocomplete-results').html(suggestions).show();
                         $('.detail-customer.order .search-result .no-results,.history-order .history,.history-order .no-history').hide();
                         $('.detail-customer.order .search-result .results,.title-order,.history-order').show();
-                        $(".dropdown").css("pointer-events", "all");
+                        $(".input-order .dropdown").css("pointer-events", "all");
                     } else {
                         $('#autocomplete-results').hide();
                         $('.detail-customer.order .search-result .no-results').show();
                         $('.detail-customer.order .title-order,.detail-customer.order .history-order,.detail-customer.order .search-result .results').hide();
-                        $(".dropdown").css("pointer-events", "none");
+                        $(".input-order .dropdown").css("pointer-events", "none");
                     }
                 },
                 error: function(xhr, status, error) {
@@ -193,6 +193,7 @@ $(document).ready(function() {
                 method: 'GET',
                 dataType: 'json',
                 success: function(response) {
+                    // console.log('don hang', response.data);
                     let container = document.getElementById('order-container');
                     container.innerHTML = '';
                     
@@ -239,15 +240,21 @@ $(document).ready(function() {
                                         <div class="note-item d-f jc-b ai-center gap-10 pt-8">
                                             <div class="d-f ai-center gap-10">
                                                 <span class="fas fa-note"></span>
-                                                <span class="txt">Ghi chú:</span>
+                                                <span class="txt">Yêu cầu đặc biệt: ${order.note}</span>
                                             </div>
-                                            <span class="txt">${order.note}</span>
+                                            <span class="txt"></span>
                                         </div>
                                     </div>
                                 </div>
                             </details>`;
                         container.innerHTML += orderHtml;
                     });
+                    var maxDateStop = response.data.reduce(function (maxDate, item) {
+                        return (new Date(item.date_stop) > new Date(maxDate)) ? item.date_stop : maxDate;
+                    }, "1970-01-01");
+                    
+                    $('.toast.warning .order_date_stop').text(maxDateStop);
+                    $('.toast.warning .order_date_stop_show').text(moment(maxDateStop).format('DD/MM/YYYY'));
                 },
                 error: function(xhr, status, error) {
                     console.error('Error fetching data from API', error);

@@ -101,10 +101,15 @@ get_header();
 					<div class="js-group-btn">
 						<div class="d-f gap-8 ai-center">
 							<div class="print btn btn-secondary d-f gap-8 ai-center"><span class="fas fas-print"></span>In đơn</div>
+							<?php $min_date_start = null;
+							foreach ($order_items as $item) {
+								if ($min_date_start === null || strtotime($item['date_start']) < strtotime($min_date_start)) {
+									$min_date_start = $item['date_start'];
+								}
+							} ?>
 							<?php $today = date('Y-m-d');
-							$compare_date = $order_items[0]['date_start']; 
 							$user = $current_user->roles;
-							if ($today < $compare_date || $user[0] === 'administrator') {
+							if ($today < $min_date_start || $user[0] === 'administrator') {
 							 ?>
 							<div class="btn btn-danger remove-customer modal-button" data-target="#modal-default">
 								Xoá đơn này

@@ -1,10 +1,17 @@
 <div class="card card-no_border">
     <div class="pl-16 pr-16 tab-products">
         <div class="tab-add-product" id="tabNav">
-            <?php foreach ($order_items as $i => $order_item) : ?>
+            <?php
+            $current_date = new DateTime("now", new DateTimeZone("Asia/Ho_Chi_Minh"));
+            $current_date_format = $current_date->format('Y-m-d');
+             foreach ($order_items as $i => $order_item) : extract($order_item); ?>
                 <span class="btn <?php echo $i > 0 ? '' : 'active' ?> d-f jc-b ai-center gap-8 btn btn-add_order tab-button js-show-order-item" data-tab="order_item_<?php echo $i + 1 ?>" data-id="order_item_<?php echo $i + 1 ?>">
                     Sản phẩm <?php echo $i + 1 ?>
-                    <span class="remove-tab"></span></span>
+                    <?php 
+                    if ($date_start >= $current_date_format) { ?>
+                        <span class="remove-tab"></span>
+                    <?php } ?>
+                </span>
             <?php endforeach ?>
             <span class="add-tab" id="addTabButton"></span>
         </div>
@@ -12,8 +19,19 @@
     <div class="tab-products">
         <div id="tabContents" class="js-order-items">
             <?php foreach ($order_items as $i => $order_item) : extract($order_item); ?>
+            <?php 
+                    if ($date_start <= $current_date_format) {
+                        //echo "Ngày " . $min_date->format('Y-m-d') . " đã bắt đầu";
+                        $day_start = $date_start ;
+                        $class_disable ="disable_edit";
+                    } else {
+                        //echo "Ngày " . $min_date->format('Y-m-d') . " chưa bắt đầu";
+                        $day_start = $current_date_format;
+                        $class_disable =""; ?>
+               <?php } ?>
                 <div class="js-order-item" id="order_item_<?php echo $i + 1 ?>" <?php echo $i > 0 ? 'style="display: none;"' : '' ?>>
                     <div class="tab-content">
+                        <input type="hidden" class="mindate_start" value="<?php echo $day_start; ?>">
                         <input type="hidden" name="order_item[<?php echo $i ?>][id]" class="input-id" value="<?php echo $id ?>" />
                         <input type="hidden" name="order_item[<?php echo $i ?>][remove]" class="input-remove" />
                         <input type="hidden" name="order_item[<?php echo $i ?>][meal_number]" class="input-meal_number" value="<?php echo isset($meal_number) ? $meal_number : '' ?>" />
@@ -22,7 +40,7 @@
                         <input type="hidden" name="order_item[<?php echo $i ?>][ship_price]" class="input-ship_price" value="<?php echo $ship_price ?>" />
                         <input type="hidden" name="order_item[<?php echo $i ?>][note]" class="input-note" value="<?php echo $note ?>" />
                         <input type="hidden" class="input-note_list" value="<?php echo isset($note_list) ? base64_encode(json_encode($note_list)) : '' ?>" />
-                        <div class="row24">
+                        <div class="row24 group-type <?php echo $class_disable; ?>">
                             <div class="col-5">
                                 <div class="label mb-4">Phân loại:</div>
                                 <select name="order_item[<?php echo $i ?>][type]" class="form-control input-type" required>
@@ -40,7 +58,7 @@
                             </div>
                             <div class="col-4">
                                 <div class="label mb-4">Ngày bắt đầu:</div>
-                                <input type="hidden" class="form-control input-date_start" name="order_item[<?php echo $i ?>][date_start]" value="<?php echo $date_start;  ?>" />
+                                <input type="hidden" class="form-control input-date_start" name="order_item[<?php echo $i ?>][date_start]" value="<?php echo $date_start;?>" />
                                 <?php if ($date_start !='') { ?>
                                     <input type="text" class="form-control js-calendar date"  value="<?php echo date("d/m/Y", strtotime($date_start));  ?>" placeholder="Ngày bắt đầu" required />
                                 <?php } else { ?>

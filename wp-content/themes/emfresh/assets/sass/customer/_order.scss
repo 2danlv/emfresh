@@ -946,7 +946,7 @@ tags.tagify.form-control {
 }
 
 .toast {
-    position: absolute;
+    position: fixed;
     padding: 12px;
     color: var(--inform-text, #0F0F0F);
     font-size: var(--font-size-web-body-md, 14px);
