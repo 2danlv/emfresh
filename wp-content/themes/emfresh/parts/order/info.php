@@ -119,6 +119,12 @@
                 <?php } ?>
                 <p class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $order_detail['phone'] ?>"><?php echo $order_detail['phone'] ?></p>
                 <p class="txt ellipsis"><?php echo $detail_local; ?></p>
+                <?php if (!empty($order_detail['note_shipper'])) { ?>
+                <p class="txt ellipsis">Note shipper: <?php echo $order_detail['note_shipper'] ?></p>
+                <?php }
+                if (!empty($order_detail['note_admin'])) { ?>
+                <p class="txt ellipsis">Note admin: <?php echo $order_detail['note_admin'] ?></p>
+                <?php } ?>
                 <p class="note-txt italic">(Đã đăng ký chung nhóm ship: Thien Phuong Bui)</p>
             </div>
         </div>
@@ -163,12 +169,12 @@
                             </p>
                             <?php if (!empty($ship['note_shipper'])) { ?>
                                 <p class="txt black">
-                                    <?php echo $ship['note_shipper'];  ?>
+                                    Note shipper theo ngày: <br><?php echo $ship['note_shipper'];  ?>
                                 </p>
                             <?php } 
                             if (!empty($ship['note_admin'])) { ?>
                                 <p class="txt black">
-                                    <?php echo $ship['note_admin'];  ?>
+                                    Note admin theo ngày: <br><?php echo $ship['note_admin'];  ?>
                                 </p>
                         <?php  }
                         }

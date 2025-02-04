@@ -341,7 +341,11 @@ class EM_Order extends EF_Default
                         }
                     }
                 } else if ($key == 'location_id') {
-                    $item['location_name'] = $em_location->get_fullname($value);
+                    $location = $em_location->get_item($value);
+
+                    $item['location_name'] = $em_location->get_fullname($location);
+                    $item['note_shipper'] = $location && isset($location['note_shipper']) ? $location['note_shipper'] : '';
+                    $item['note_admin'] = $location && isset($location['note_admin']) ? $location['note_admin'] : '';
                 } else if ($key == 'customer_id') {
                     $customer = $em_customer->get_item($value);
 

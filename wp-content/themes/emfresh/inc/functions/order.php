@@ -117,10 +117,10 @@ function site_order_submit()
                         if($response['code'] == 200) {
                             // Log update
                             $em_log->insert([
-                                'action'        => 'Sản phẩm',
+                                'action'        => 'Xóa - Sản phẩm',
                                 'module'        => 'em_order',
                                 'module_id'     => $order_id,
-                                'content'       => 'Xóa ' . $item_title
+                                'content'       => $item_title
                             ]);
                         }
                     } else {
@@ -146,7 +146,7 @@ function site_order_submit()
                             if(count($log_content) > 0) {
                                 // Log update
                                 $em_log->insert([
-                                    'action'        => 'Sản phẩm',
+                                    'action'        => 'Cập nhật - Sản phẩm',
                                     'module'        => 'em_order',
                                     'module_id'     => $order_id,
                                     'content'       => $item_title . ' ' . implode(' ', $log_content)
@@ -276,19 +276,6 @@ function site_order_log($before = [], $after = [])
 
     global $em_order, $em_log;
 
-    $labels = array(
-        // 'status'        => 0,
-        // 'ship_days'     => 0,
-        // 'ship_amount'   => 0,
-        // 'total_amount'  => 0,
-        // 'discount'      => 0,
-        // 'note'          => '',
-        'payment_method' => 'Phương thức thanh toán',
-        'payment_status' => 'Tình trạng thanh toán',
-        'order_status'  => 'Tình trạng đơn hàng',
-        'order_type'    => 'Loại đơn hàng',
-    );
-
     $log_content = [];
     $action = '';
     $module = 'em_order';
@@ -328,8 +315,8 @@ function site_order_log($before = [], $after = [])
 
         $log_content[] = $after['remaining_amount'] > 0 ? '+'. number_format($after['remaining_amount']) : 0;
         $log_content[] = '+'. number_format($after['total'] - $before['total']);
-    } else if($before['location_id'] < $after['location_id']) {
-        $action = 'Địa chỉ';
+    } else if($before['location_id'] != $after['location_id']) {
+        $action = 'Cập nhật - Địa chỉ';
 
         $log_content[] = $before['location_name'];
     }
