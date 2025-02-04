@@ -5,6 +5,7 @@ function site_order_submit()
     global $em_order, $em_order_item, $em_log;
 
     $order_default = [
+        'customer_name_2nd' => '',
         'ship_days' => 0,
         'ship_amount' => 0,
         'total_amount' => 0,

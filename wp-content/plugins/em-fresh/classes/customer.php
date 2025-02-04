@@ -133,6 +133,8 @@ class EM_Customer extends EF_Default
             . " ,location.ward "
             . " ,location.district "
             . " ,location.city "
+            . " ,location.note_shipper "
+            . " ,location.note_admin "
             . " FROM $table_customer AS customer "
             . " LEFT JOIN $table_location AS location ON location.customer_id = customer.id AND location.active = 1 ";
 

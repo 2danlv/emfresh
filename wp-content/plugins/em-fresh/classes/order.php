@@ -72,6 +72,7 @@ class EM_Order extends EF_Default
         $fields = array(
             'order_number'  => '',
             'customer_id'   => 0,
+            'customer_name_2nd' => '',
             'location_id'   => 0,
             'status'        => 0,
             'ship_days'     => 0,
@@ -126,6 +127,7 @@ class EM_Order extends EF_Default
             1 => "Đang dùng",
             2 => "Hoàn tất",
             3 => "Bảo lưu",
+            4 => "Chưa dùng",
         ];
 
         if ($key != null) {
@@ -273,6 +275,8 @@ class EM_Order extends EF_Default
         if (is_array($data)) {
             global $em_customer, $em_order_item, $em_location;
 
+            $today = current_time('Y-m-d');
+
             foreach ($data as $key => $value) {
                 $item[$key] = $value;
 
@@ -291,7 +295,6 @@ class EM_Order extends EF_Default
                         $item['remaining_amount'] = $total;
                     }
 
-                    $today = current_time('Y-m-d');
                     $used_value = 0;
 
                     if($total > 0) {
@@ -323,10 +326,6 @@ class EM_Order extends EF_Default
 
                         if(isset($order_items[0]['date_start'])) {
                             $item[$key] = $order_items[0]['date_start'];
-
-                            // $this->update([
-                            //     'date_start' => $item[$key],
-                            // ], ['id' => $item['id']]);
                         }
                     }
                 } else if ($key == 'date_stop') {
@@ -339,10 +338,6 @@ class EM_Order extends EF_Default
 
                         if(isset($order_items[0]['date_stop'])) {
                             $item[$key] = $order_items[0]['date_stop'];
-
-                            // $this->update([
-                            //     'date_stop' => $item[$key],
-                            // ], ['id' => $item['id']]);
                         }
                     }
                 } else if ($key == 'location_id') {
@@ -353,6 +348,17 @@ class EM_Order extends EF_Default
                     $item['customer_name'] = $customer && isset($customer['customer_name']) ? $customer['customer_name'] : '';
                     $item['phone'] = $customer && isset($customer['phone']) ? $customer['phone'] : '';
                 }
+            }
+
+            if($item['status'] != 3) {
+                $status = 1;
+                if($today < $item['date_start']){
+                    $status = 4;
+                } else if($today > $item['date_stop']) {
+                    $status = 2;
+                }
+                $item['status'] = $status;
+                $item['status_name'] = $this->get_statuses($status);
             }
         } else {
             $item = $data;

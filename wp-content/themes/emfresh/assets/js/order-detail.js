@@ -326,9 +326,19 @@ function update_order_info() {
 
 function get_date_value(date_string, days) {
 	if (days > 0) {
-		let date = new Date(date_string);
+		let date = new Date(date_string), i = 1, unallowed = ['sun', 'sat'];
 
-		date.setDate(date.getDate() + days);
+		while(i < days) {
+			date.setDate(date.getDate() + 1);
+
+			let thu = date.toString().toLowerCase().substring(0,3);
+
+			if(unallowed.indexOf(thu) > -1) {
+				continue;
+			}
+
+			i++;
+		}
 
 		return date.toISOString().substring(0, 10);
 	}
@@ -363,7 +373,7 @@ function get_order_item_schedule(order_item) {
 	order_item = $(order_item);
 
 	let data = {
-		location_id: +order_item.find('.input-location_id').val(),
+		location_id: +$('.input-location_id').val(),
 		days: +order_item.find('.input-days').val(),
 		date_start: order_item.find('.input-date_start').val(),
 		list: []

@@ -25,11 +25,15 @@ $js_duplicate_url = add_query_arg(['dupnonce' => wp_create_nonce('dupnonce')], g
         <div class="col-4 pb-16">
             <input type="text" name="phone" class="phone is-disabled form-control" maxlength="50" placeholder="SĐT">
         </div>
+        <div class="col-12 pb-16">
+            <input type="text" class="name_2nd form-control" maxlength="50" placeholder="Tên người nhận dùm">
+        </div>
         <div class="col-12 pb-32 dropdown-address">
             <div class="dropdown active">
                 <input type="text" name="address_delivery" class="address_delivery is-disabled form-control" placeholder="Địa chỉ giao hàng">
             </div>
             <p class="fs-14 fw-regular note-shipper hidden color-gray pt-4 pl-8">Note với shipper: <span class="note_shiper"></span></p>
+            <p class="fs-14 fw-regular note-admin hidden color-gray pt-4 pl-8">Note với admin: <span class="note_admin"></span></p>
             <div class="dropdown-menu">
                 <div class="locations-container"></div>
                 <div data-target="#modal-add-address" class="btn-add-address modal-button d-f ai-center pb-16 pt-8 pl-8">
@@ -45,7 +49,10 @@ $js_duplicate_url = add_query_arg(['dupnonce' => wp_create_nonce('dupnonce')], g
 $(document).ready(function() {
 
     $('.js-show-order-item:first .remove-tab').addClass("hidden");
-
+    $('.input-order .name_2nd').keyup(function() {
+        var input_name_2nd = $(this).val();
+        $('.form-add-order .input-customer_name_2nd').val(input_name_2nd);
+    });
     $('.search-cus').keyup(function() {
         var query = $(this).val();
         $('.no-results .btn-add-customer').attr('href', '/customer/add-customer/?phone='+query);
@@ -68,7 +75,8 @@ $(document).ready(function() {
                                 <p class="name">${customer.customer_name}</p>
                                 <p class="color-black fs-14 fw-regular phone pt-8 pb-8">${customer.phone}</p>
                                 <p class="color-black fs-14 fw-regular address">${customer.address + ', ' + customer.ward + ', ' + customer.district }</p>
-                                <p class="note_shiper hidden">${customer.note_shipping}</p>
+                                <p class="note_shiper hidden">${customer.note_shipper}</p>
+                                <p class="note_admin hidden">${customer.note_admin}</p>
                             </div>`
                         ).join("\n");
                         
@@ -98,6 +106,7 @@ $(document).ready(function() {
         var phone = $(this).find('.phone').text();
         var address = $(this).find('.address').text();
         var note_shiper = $(this).find('.note_shiper').text();
+        var note_admin = $(this).find('.note_admin').text();
         var customer_id = $(this).data('id') || 0;
         var location_id = 0;
 
@@ -110,10 +119,20 @@ $(document).ready(function() {
         $('.info-customer .customer-address').text(address);
         if(note_shiper.length != 0) {
             $('.input-order .note-shipper').removeClass('hidden');
+            $(".input-order .note-shipper .note_shiper").text(note_shiper);
+            $('.form-add-order .note_shiper').val(note_shiper);
         } else {
             $('.input-order .note-shipper').addClass('hidden');
+            $('.form-add-order .note_shiper').val('');
         }
-        $('.input-order .note_shiper').val(note_shiper);
+        if(note_admin.length != 0) {
+            $('.input-order .note-admin').removeClass('hidden');
+            $(".input-order .note-admin .note_admin").text(note_admin);
+            $('.form-add-order .note_admin').val(note_admin);
+        } else {
+            $('.input-order .note-admin').addClass('hidden');
+            $('.form-add-order .note_admin').val('');
+        }
         $('.result,.info-customer').show(); 
         $('#autocomplete-results,.no-result').hide();
         
@@ -144,6 +163,7 @@ $(document).ready(function() {
                                     <div class="tooltip d-f ai-center">
                                         <p class="fs-14 fw-regular color-gray">(Đã đăng ký chung nhóm ship: Thien Phuong Bui)</p>
                                         <p class="note_shiper hidden">${location.note_shipper}</p>
+                                        <p class="note_admin hidden">${location.note_admin}</p>
                                         <span class="fas tooltip-icon fa-info-gray"></span>
                                         <div class="tooltip-content">
                                             <div class="close fas fa-trash"></div>

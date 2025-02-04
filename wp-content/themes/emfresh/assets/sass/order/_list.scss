@@ -3,6 +3,8 @@
         color: #fff;
         padding: 4px 13px;
         font-weight: bold;
+        display: block;
+        text-align: center;
         &-1 {
             background: var(--color-primary-900, #208046);
             border: 1px solid var(--tag-border-hover, #208046);
