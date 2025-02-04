@@ -1,5 +1,7 @@
 const SHIP = 5000;
 $(document).ready(function() {
+    var today_calendar = new Date();
+    
     $(document).click(function(event) {
         if (!$(event.target).closest(".search-cus, .results, .no-results").length) {
             $(".results, .no-results").hide();
@@ -43,9 +45,7 @@ $(document).ready(function() {
         var note_admin = $(this).find('.note_admin').text();
         $('.info-customer .customer-address,.info-customer .address').text(other_address);
         $('.input-location_name,.input-order .address_delivery').val(other_address);
-
         $order_wrap.find('.ship_location_id').val($(this).data('location_id'));
-
         if (note_shiper.length != 0) {
             $('.input-order .note-shipper').removeClass('hidden');
             $(".input-order .note-shipper .note_shiper").text(note_shiper);
@@ -54,7 +54,7 @@ $(document).ready(function() {
             $('.input-order .note-shipper').addClass('hidden');
             $('.form-add-order .note_shiper').val('');
         }
-        if (note_admin.length != 0) {
+        if(note_admin.length != 0) {
             $('.input-order .note-admin').removeClass('hidden');
             $(".input-order .note-admin .note_admin").text(note_admin);
             $('.form-add-order .note_admin').val(note_admin);
@@ -78,123 +78,23 @@ $(document).ready(function() {
         $(".explain-block").removeClass("show");
         $(".overlay-drop-menu").hide();
     });
-    $('.start-day').daterangepicker({
-        singleDatePicker: true,
-        autoUpdateInput: true,
-        autoApply: true,
-        minDate: new Date(),
-        opens: 'left',
-        locale: {
-            format: "DD/MM/YYYY",
-            daysOfWeek: ["CN", "T2", "T3", "T4", "T5", "T6", "T7"],
-            monthNames: [
-                "Tháng 1,",
-                "Tháng 2,",
-                "Tháng 3,",
-                "Tháng 4,",
-                "Tháng 5,",
-                "Tháng 6,",
-                "Tháng 7,",
-                "Tháng 8,",
-                "Tháng 9,",
-                "Tháng 10,",
-                "Tháng 11,",
-                "Tháng 12,",
-            ],
-            firstDay: 1,
-        },
-        ranges: {
-            'Hôm nay': new Date()
-        }
-    }).on('show.daterangepicker', function() {
-        $(this).data('daterangepicker').container.addClass('daterangepicker-open');
-    }).on('hide.daterangepicker', function() {
-        $(this).data('daterangepicker').container.removeClass('daterangepicker-open');
-    }).on('apply.daterangepicker', function(ev, picker) {
-        var today = $('.start-day').val();
-        if (today == moment().format('DD/MM/YYYY')) {
-            $(".toast").addClass("show");
-        }
-    });
+    initializeDatePicker('.start-day', today_calendar);
+    
     $('.js-calendar.date').each(function() {
         var today_calendar;
         if ($('.input-date_create').val() != '') {
           mindate_start = $(this).closest('.js-order-item').find('.mindate_start').val();
           today_calendar = moment(mindate_start).format('DD/MM/YYYY')
-          console.log('log',today_calendar);
         } else {
             today_calendar = new Date();
         }
-
-        $(this).daterangepicker({
-            singleDatePicker: true,
-            autoUpdateInput: true,
-            autoApply: true,
-            minDate: today_calendar,
-            opens: 'left',
-            locale: {
-                format: "DD/MM/YYYY",
-                daysOfWeek: ["CN", "T2", "T3", "T4", "T5", "T6", "T7"],
-                monthNames: [
-                    "Tháng 1,",
-                    "Tháng 2,",
-                    "Tháng 3,",
-                    "Tháng 4,",
-                    "Tháng 5,",
-                    "Tháng 6,",
-                    "Tháng 7,",
-                    "Tháng 8,",
-                    "Tháng 9,",
-                    "Tháng 10,",
-                    "Tháng 11,",
-                    "Tháng 12,",
-                ],
-                firstDay: 1,
-            },
-            ranges: {
-                'Hôm nay': new Date()
-            }
-        }).on('show.daterangepicker', function() {
-            $(this).data('daterangepicker').container.addClass('daterangepicker-open');
-        }).on('hide.daterangepicker', function(ev, picker) {
-            $(this).data('daterangepicker').container.removeClass('daterangepicker-open');
-            var inputElement = $(this);
-            var formattedDate = picker.startDate.format('YYYY-MM-DD');
-            var targetInput = inputElement.siblings('.input-date_start');
-            targetInput.val(formattedDate);
-        }).on('apply.daterangepicker', function(ev, picker) {
-            var inputElement = $(this);
-            var order_date_stop_curent = $('.toast.warning .order_date_stop').text();
-            var formattedDate = picker.startDate.format('YYYY-MM-DD');
-            var targetInput = inputElement.siblings('.input-date_start');
-            targetInput.val(formattedDate);
-            if (new Date(order_date_stop_curent) >= new Date(formattedDate)) {
-              $(".order .toast.warning").addClass("show");
-            } else {
-              $(".order .toast.warning").removeClass("show");
-            }
-            showdate();
-        });
+        initializeDatePicker($(this), today_calendar,showDate);
         if ($(this).siblings('.input-date_start').val() === '') {
             $(this).val('');
         }
     });
 
-    function showdate() {
-        let values = $(".js-order-item .input-date_start").map(function() {
-            return $(this).val();
-        }).get().filter(date => date);
-        if (values.length === 0) {
-            return;
-        }
-        let dates = values.map(date => new Date(date));
-        let minDate = new Date(Math.min(...dates));
-        let day = String(minDate.getDate()).padStart(2, '0');
-        let month = String(minDate.getMonth() + 1).padStart(2, '0');
-        let year = minDate.getFullYear();
-        let minDateStr = `${day}/${month}/${year}`;
-        $(".order-details .date-start").text(minDateStr);
-    }
+    
     let tabCount = 1;
 
     function activateTab(tabId) {
@@ -228,54 +128,8 @@ $(document).ready(function() {
         $(this).before(`<span class="btn btn-add_order active tab-button js-show-order-item" data-tab="order_item_${id}" data-id="order_item_${id}">Sản phẩm ${id}<span class="remove-tab"></span></span>`);
 
         $('.order_item_total').val(id);
-        new_item.find('.js-calendar.date').daterangepicker({
-            singleDatePicker: true,
-            autoUpdateInput: true,
-            autoApply: true,
-            minDate: new Date(),
-            opens: 'left',
-            locale: {
-                format: "DD/MM/YYYY",
-                daysOfWeek: ["CN", "T2", "T3", "T4", "T5", "T6", "T7"],
-                monthNames: [
-                    "Tháng 1,",
-                    "Tháng 2,",
-                    "Tháng 3,",
-                    "Tháng 4,",
-                    "Tháng 5,",
-                    "Tháng 6,",
-                    "Tháng 7,",
-                    "Tháng 8,",
-                    "Tháng 9,",
-                    "Tháng 10,",
-                    "Tháng 11,",
-                    "Tháng 12,",
-                ],
-                firstDay: 1,
-            },
-            ranges: {
-                'Hôm nay': new Date()
-            }
-        }).on('show.daterangepicker', function() {
-            $(this).data('daterangepicker').container.addClass('daterangepicker-open');
-        }).on('hide.daterangepicker', function(ev, picker) {
-            $(this).data('daterangepicker').container.removeClass('daterangepicker-open');
-            var inputElement = $(this);
-            var formattedDate = picker.startDate.format('YYYY-MM-DD');
-            var targetInput = inputElement.siblings('.input-date_start');
-            targetInput.val(formattedDate);
-        }).on('apply.daterangepicker', function(ev, picker) {
-            var inputElement = $(this);
-            var order_date_stop_new = $('.toast.warning .order_date_stop').text();
-            var formattedDate = picker.startDate.format('YYYY-MM-DD');
-            var targetInput = inputElement.siblings('.input-date_start');
-            targetInput.val(formattedDate);
-            if (new Date(order_date_stop_new) >= new Date(formattedDate)) {
-              $(".order .toast.warning").addClass("show");
-            } else {
-              $(".order .toast.warning").removeClass("show");
-            }
-            showdate();
+        new_item.find('.js-calendar.date').each(function() {
+          initializeDatePicker($(this), today_calendar,showDate);
         });
         new_item.find('.js-calendar.date').val('');
         $('.order-details').find('.order-wapper').append(generateInfoProduct('order_item_' + id));
@@ -320,7 +174,6 @@ $(document).ready(function() {
     $('.js-create-order').click(function(e) {
         $('.form-add-order').submit();
     });
-    $('.tab-add-product.disable_edit .remove-tab').remove();
     $('.group-type.disable_edit input').prop('disabled', true);
     $('.disable_edit .input-quantity').each(function() {
       // When the input value changes
@@ -449,4 +302,65 @@ function getAllNotesValues(item) {
         });
     });
     return notesData;
+}
+function initializeDatePicker(selector, minDate, showDate) {
+  $(selector).daterangepicker({
+      singleDatePicker: true,
+      autoUpdateInput: true,
+      autoApply: true,
+      minDate: minDate,
+      opens: 'left',
+      locale: {
+          format: "DD/MM/YYYY",
+          daysOfWeek: ["CN", "T2", "T3", "T4", "T5", "T6", "T7"],
+          monthNames: [
+              "Tháng 1,", "Tháng 2,", "Tháng 3,", "Tháng 4,", "Tháng 5,", "Tháng 6,",
+              "Tháng 7,", "Tháng 8,", "Tháng 9,", "Tháng 10,", "Tháng 11,", "Tháng 12,"
+          ],
+          firstDay: 1,
+      },
+      ranges: {
+          'Hôm nay': new Date()
+      }
+  }).on('show.daterangepicker', function() {
+      $(this).data('daterangepicker').container.addClass('daterangepicker-open');
+  }).on('hide.daterangepicker', function(ev, picker) {
+      $(this).data('daterangepicker').container.removeClass('daterangepicker-open');
+      var formattedDate = picker.startDate.format('YYYY-MM-DD');
+      $(this).siblings('.input-date_start').val(formattedDate);
+  }).on('apply.daterangepicker', function(ev, picker) {
+      var inputElement = $(this);
+      var formattedDate = picker.startDate.format('YYYY-MM-DD');
+      var targetInput = inputElement.siblings('.input-date_start');
+      targetInput.val(formattedDate);
+      
+      var orderDateStop = $('.toast.warning .order_date_stop').text();
+      if (new Date(orderDateStop) >= new Date(formattedDate)) {
+          $(".order .toast.warning").addClass("show");
+      } else {
+          $(".order .toast.warning").removeClass("show");
+      }
+      
+      if (inputElement.hasClass('start-day') && inputElement.val() == moment().format('DD/MM/YYYY')) {
+          $(".toast").addClass("show");
+      }
+      
+      showDate;
+  });
+}
+
+function showDate() {
+  let values = $(".js-order-item .input-date_start").map(function() {
+      return $(this).val();
+  }).get().filter(date => date);
+  if (values.length === 0) {
+      return;
+  }
+  let dates = values.map(date => new Date(date));
+  let minDate = new Date(Math.min(...dates));
+  let day = String(minDate.getDate()).padStart(2, '0');
+  let month = String(minDate.getMonth() + 1).padStart(2, '0');
+  let year = minDate.getFullYear();
+  let minDateStr = `${day}/${month}/${year}`;
+  $(".order-details .date-start").text(minDateStr);
 }

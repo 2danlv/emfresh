@@ -8,7 +8,7 @@
                 <span class="btn <?php echo $i > 0 ? '' : 'active' ?> d-f jc-b ai-center gap-8 btn btn-add_order tab-button js-show-order-item" data-tab="order_item_<?php echo $i + 1 ?>" data-id="order_item_<?php echo $i + 1 ?>">
                     Sản phẩm <?php echo $i + 1 ?>
                     <?php 
-                    if ($date_start >= $current_date_format) { ?>
+                    if (!empty($date_start) || $date_start <= $current_date_format) {?>
                         <span class="remove-tab"></span>
                     <?php } ?>
                 </span>
@@ -19,16 +19,16 @@
     <div class="tab-products">
         <div id="tabContents" class="js-order-items">
             <?php foreach ($order_items as $i => $order_item) : extract($order_item); ?>
-            <?php 
-                    if ($date_start <= $current_date_format) {
-                        //echo "Ngày " . $min_date->format('Y-m-d') . " đã bắt đầu";
-                        $day_start = $date_start ;
-                        $class_disable ="disable_edit";
-                    } else {
-                        //echo "Ngày " . $min_date->format('Y-m-d') . " chưa bắt đầu";
-                        $day_start = $current_date_format;
-                        $class_disable =""; ?>
-               <?php } ?>
+            <?php
+                if (!empty($date_start) && $date_start <= $current_date_format) {
+                    //echo "Ngày " . $min_date->format('Y-m-d') . " đã bắt đầu";
+                    $day_start = $date_start ;
+                    $class_disable ="disable_edit";
+                } else {
+                    //echo "Ngày " . $min_date->format('Y-m-d') . " chưa bắt đầu";
+                    $day_start = $current_date_format;
+                    $class_disable =""; ?>
+            <?php } ?>
                 <div class="js-order-item" id="order_item_<?php echo $i + 1 ?>" <?php echo $i > 0 ? 'style="display: none;"' : '' ?>>
                     <div class="tab-content">
                         <input type="hidden" class="mindate_start" value="<?php echo $day_start; ?>">

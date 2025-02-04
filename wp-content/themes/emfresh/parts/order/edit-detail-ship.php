@@ -277,12 +277,34 @@ $('.modal-add-address .add-address').on('click', function (e) {
             if (res.code == 200) {
                 res.data.insert_id;
                 let insertId = res.data.insert_id;
-                let newLocationHTML = `
+                let delivery_newLocationHTML = `
                     <div class="item" data-location_id="${res.data.insert_id}">
                         <p class="fs-16 color-black other-address">${address}, ${ward}, ${district}</p>
                     </div>
                 `;
-                $('.locations-container').append(newLocationHTML);
+                let customer_newLocationHTML = `<div class="item" data-location_id="${res.data.insert_id}">
+                                <p class="fs-16 color-black other-address">${address}, ${ward}, ${district}</p>
+                                <div class="group-management-link d-f jc-b ai-center pt-8">
+                                    <div class="tooltip d-f ai-center">
+                                        <p class="fs-14 fw-regular color-gray">(Đã đăng ký chung nhóm ship: Thien Phuong Bui)</p>
+                                        <p class="note_shiper hidden">${noteShipper}</p>
+                                        <p class="note_admin hidden">${noteAdmin}</p>
+                                        <span class="fas tooltip-icon fa-info-gray"></span>
+                                        <div class="tooltip-content">
+                                            <div class="close fas fa-trash"></div>
+                                            <ul>
+                                                <li>Thien Phuong Bui</li>
+                                                <li>Dieu Linh (zalo)</li>
+                                                <li>Nguyen Hai Minh Thi</li>
+                                                <li>Dinh Thi Hien Ly</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <a class="management-link" href="#">Đi đến Quản lý nhóm</a>
+                                </div>
+                            </div>`;
+                $('.delivery-item .locations-container').append(delivery_newLocationHTML);
+                $('.input-order .locations-container').append(customer_newLocationHTML);
                 $('.modal').removeClass('is-active');
 		        $('body').removeClass('overflow');
             } else {

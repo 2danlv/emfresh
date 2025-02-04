@@ -101,7 +101,7 @@ $(document).ready(function() {
         }
     });
     
-    $(document).on('click', '.result-item', function() {
+    $(document).on('click', '.results .result-item', function() {
         var name = $(this).find('.name').text();
         var phone = $(this).find('.phone').text();
         var address = $(this).find('.address').text();
