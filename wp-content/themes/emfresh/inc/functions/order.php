@@ -85,17 +85,32 @@ function site_order_submit()
                 'quantity' => 'Số lượng',
                 'auto_choose' => 'Tự chọn món',
                 'note' => 'Ghi chú',
-            );            
+            );
+
+            $date_start = '';
+            $date_stop = '';
             
             foreach($_POST['order_item'] as $i => $order_item) {
                 $order_item['order_id'] = $order_id;
 
                 $item_title = 'Sản phẩm ' . ($i + 1);
 
-                $note = '';
+                if($date_start == '' || $date_start > $order_item['date_start']) {
+                    $date_start = $order_item['date_start'];
+                }
+
+                if($date_stop == '' || $date_stop < $order_item['date_stop']) {
+                    $date_stop = $order_item['date_stop'];
+                }
+                
+                $note = !empty($order_item['note']) ? $order_item['note'] : '';
 
                 if(!empty($order_item['id'])) {
                     if(!empty($order_item['remove'])) {
+                        $note = '';
+                        $date_start = '';
+                        $date_stop = '';
+
                         $response = em_api_request('order_item/delete', ['id' => $order_item['id']]);
 
                         if($response['code'] == 200) {
@@ -127,8 +142,6 @@ function site_order_submit()
                                 }
                             }
 
-                            $note = !empty($order_item['note']) ? $order_item['note'] : '';
-
                             if(count($log_content) > 0) {
                                 // Log update
                                 $em_log->insert([
@@ -142,8 +155,6 @@ function site_order_submit()
                     }
                 } else {
                     unset($order_item['id']);
-
-                    $note = !empty($order_item['note']) ? $order_item['note'] : '';
     
                     $response = em_api_request('order_item/add', $order_item);
                 }
@@ -155,16 +166,22 @@ function site_order_submit()
                 }
             }
 
-            if($update) {
-                $order_data['id'] = $order_id;
+            $order_data['id'] = $order_id;
 
-                $before = $em_order->get_item($order_id); 
+            if($date_start != '') {
+                $order_data['date_start'] = $date_start;
+            }
 
-                $response = em_api_request('order/update', $order_data);
+            if($date_stop != '') {
+                $order_data['date_stop'] = $date_stop;
+            }
 
-                if($response['code'] == 200) {
-                    site_order_log($before, $order_data);
-                }
+            $before = $em_order->get_item($order_id); 
+
+            $response = em_api_request('order/update', $order_data);
+
+            if($response['code'] == 200 && $update) {
+                site_order_log($before, $order_data);
             }
         }
     

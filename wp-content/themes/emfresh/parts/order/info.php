@@ -137,6 +137,7 @@
                 </div>
             </div>
         </div>
+        <?php if($params !=null) { ?>
         <div class="section-wapper">
             <div class="tlt-section">Giao hàng</div>
             <div class="section-content">
@@ -160,5 +161,6 @@
                 <p class="note-txt italic">(Đã đăng ký chung nhóm ship: Thien Phuong Bui)</p>
             </div>
         </div>
+        <?php } ?>
     </div>
 </div>

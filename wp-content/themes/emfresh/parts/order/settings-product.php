@@ -21,7 +21,13 @@
                             </div>
                             <div class="d-f jc-b pt-8">
                                 <span class="tlt fw-bold ">Ngày bắt đầu đơn hàng:</span>
-                                <span class="date-start"><?php echo date("d/m/Y", strtotime($order_items[0]['date_start'])); ?></span>
+                                <?php $min_date_start = null;
+                                    foreach ($order_items as $item) {
+                                        if ($min_date_start === null || strtotime($item['date_start']) < strtotime($min_date_start)) {
+                                            $min_date_start = $item['date_start'];
+                                        }
+                                    } ?>
+                                <span class="date-start"><?php echo date("d/m/Y", strtotime($min_date_start)); ?></span>
                             </div>
                             <div class="tlt fw-bold  pt-8">Thông tin sản phẩm:</div>
                             <?php } ?>

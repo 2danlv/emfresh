@@ -37,11 +37,11 @@ if(isset($_GET['abs'])) {
                     $item['date_stop'] = date('Y-m-d', strtotime($item['date_start']) + $days * DAY_IN_SECONDS);
                 }
 
-                if($date_start == '' || $date_start < $item['date_start']) {
+                if($date_start == '' || $date_start > $item['date_start']) {
                     $date_start = $item['date_start'];
                 }
 
-                if($date_stop == '' || $date_stop > $item['date_stop']) {
+                if($date_stop == '' || $date_stop < $item['date_stop']) {
                     $date_stop = $item['date_stop'];
                 }
 
