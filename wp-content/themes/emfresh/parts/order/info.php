@@ -34,6 +34,7 @@
                 </div>
             </div>
         </div>
+        <?php //var_dump($order_detail); ?>
         <div class="section-wapper">
             <div class="tlt-section">Sản phẩm</div>
             <div class="section-content">
@@ -142,25 +143,35 @@
                 </div>
             </div>
         </div>
-        <?php if($params !=null) { ?>
+        <?php $params = unserialize($order_detail['params']);
+        //var_dump($params);
+        if (!empty($params['ship'][0]) && array_filter($params['ship'][0])) {
+        ?>
         <div class="section-wapper">
             <div class="tlt-section">Giao hàng</div>
             <div class="section-content">
-                <?php $params = unserialize($order_detail['params']);
-                    if (isset($params['ship']) && is_array($params['ship'])) {
-                        foreach ($params['ship'] as $ship) { ?>
-                                <?php 
-                                if (!empty($ship['location_name'])) { ?>
-                                    <p class="txt black ellipsis">
-                                   <?php
-                                    if (!empty($ship['days']) && is_array($ship['days'])) { 
-                                        echo implode(", ", $ship['days']);
-                                        echo "<br>";
-                                    }
-                                    echo $ship['location_name']; ?>
-                                   </p> 
-                              <?php  } ?>
-                        <?php }
+                <?php 
+                    foreach ($params['ship'] as $ship) {  
+                        if (!empty($ship['location_name'])) { ?>
+                            <p class="txt black ellipsis">
+                            <?php
+                            if (!empty($ship['days']) && is_array($ship['days'])) { 
+                                echo implode(", ", $ship['days']);
+                                echo "<br>";
+                            }
+                            echo $ship['location_name']; ?>
+                            </p>
+                            <?php if (!empty($ship['note_shipper'])) { ?>
+                                <p class="txt black">
+                                    <?php echo $ship['note_shipper'];  ?>
+                                </p>
+                            <?php } 
+                            if (!empty($ship['note_admin'])) { ?>
+                                <p class="txt black">
+                                    <?php echo $ship['note_admin'];  ?>
+                                </p>
+                        <?php  }
+                        }
                     }
                 ?>
                 <p class="note-txt italic">(Đã đăng ký chung nhóm ship: Thien Phuong Bui)</p>
