@@ -25,6 +25,8 @@ $order_logs = $em_log->get_items([
                     $item_time = strtotime($item['created']);
                     $actions = array_map('trim', explode('-', $item['action']));
                     // $contents = array_map('trim', explode(':', $item['content']));
+
+                    $content = str_replace(["\n", '  '], ' ', $item['content']);
                 ?>
                 <tr>
                     <td>
@@ -33,7 +35,7 @@ $order_logs = $em_log->get_items([
                     </td>
                     <td><?php echo $actions[0] ?></td>
                     <td><?php echo $actions[1] ?></td>
-                    <td class="ellipsis"><?php echo $item['content'] // isset($contents[1]) ? $contents[1] : '' ?></td>
+                    <td class="ellipsis"><?php echo $content ?></td>
                     <td><?php echo date('H:i', $item_time) ?></td>
                     <td><?php echo date('d/m/Y', $item_time) ?></td>
                 </tr>

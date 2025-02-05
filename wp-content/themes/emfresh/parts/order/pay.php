@@ -3,7 +3,7 @@
 $order_payment_logs = $em_log->get_items([
     'module' => 'em_order_payment',
     'module_id' => $order_id,
-    // 'orderby'   => 'id DESC',
+    'orderby'   => 'id DESC',
 ]);
 
 ?>

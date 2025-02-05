@@ -57,7 +57,7 @@ class EM_Order extends EF_Default
     {
         $insert_id = parent::insert($data);
 
-        if($insert_id > 0) {
+        if ($insert_id > 0) {
             $this->update([
                 'id' => $insert_id,
                 'order_number' => $this->get_order_number($insert_id),
@@ -112,7 +112,7 @@ class EM_Order extends EF_Default
     {
         $rules = array();
 
-        if($action == 'add') {
+        if ($action == 'add') {
             $rules = array(
                 'customer_id'   => 'required',
             );
@@ -127,7 +127,6 @@ class EM_Order extends EF_Default
             1 => "Đang dùng",
             2 => "Hoàn tất",
             3 => "Bảo lưu",
-            4 => "Chưa dùng",
         ];
 
         if ($key != null) {
@@ -195,20 +194,20 @@ class EM_Order extends EF_Default
 
         $n = strlen($number);
 
-        if($n == $max) {
+        if ($n == $max) {
             return $number;
         }
 
         return substr($prefix, 0, $max - $n) . substr($number, 0, $n);
     }
-    
+
     function get_params($id = 0, $field = '')
     {
         $params = [];
 
         $item = $this->get_item($id);
 
-        if(!empty($item['id'])) {
+        if (!empty($item['id'])) {
             $params = (array) unserialize($item['params']);
         }
 
@@ -217,7 +216,7 @@ class EM_Order extends EF_Default
 
     function get_ships($item = [])
     {
-        if(is_numeric($item)) {
+        if (is_numeric($item)) {
             $item  = $this->get_item($item);
         }
 
@@ -234,32 +233,32 @@ class EM_Order extends EF_Default
             'note_shipper' => '',
             'note_admin' => '',
         ];
-        
+
         $order_ships = [];
-        
-        if(!empty($item['params'])) {
+
+        if (!empty($item['params'])) {
             $data_params = unserialize($item['params']);
-        
-            if(isset($data_params['ship'])) {
+
+            if (isset($data_params['ship'])) {
                 $list_ship = $data_params['ship'];
-        
-                if(isset($list_ship['location_id'])) {
+
+                if (isset($list_ship['location_id'])) {
                     $order_ships[] = shortcode_atts($default_params, $list_ship);
-                } else if(count($list_ship) > 0 && isset($list_ship[0]['location_id'])) {
-                    foreach($list_ship as $item) {
+                } else if (count($list_ship) > 0 && isset($list_ship[0]['location_id'])) {
+                    foreach ($list_ship as $item) {
                         $order_ships[] = shortcode_atts($default_params, $item);
                     }
                 }
             }
         }
-        
-        if(count($order_ships) == 0) {
+
+        if (count($order_ships) == 0) {
             $order_ships[] = $default_params;
         } else {
             global $em_location;
 
-            foreach($order_ships as &$ship) {
-                if(empty($ship['location_name']) && $ship['location_id'] > 0) {
+            foreach ($order_ships as &$ship) {
+                if (empty($ship['location_name']) && $ship['location_id'] > 0) {
                     $ship['location_name'] = $em_location->get_fullname($ship['location_id']);
                 }
             }
@@ -281,6 +280,8 @@ class EM_Order extends EF_Default
                 $item[$key] = $value;
 
                 if ($key == 'status') {
+
+                    
                     $item['status_name'] = $this->get_statuses($value);
                 } else if ($key == 'order_status') {
                     $item['order_status_name'] = $this->get_order_statuses($value);
@@ -290,24 +291,23 @@ class EM_Order extends EF_Default
                     $item['payment_method_name'] = $this->get_payment_methods($value);
                 } else if ($key == 'remaining_amount') {
                     $total = intval($item['ship_amount'] + $item['total_amount']);
-                    
-                    if($value == 0) {
+
+                    if ($value == 0) {
                         $item['remaining_amount'] = $total;
                     }
 
                     $used_value = 0;
 
-                    if($total > 0) {
+                    if ($total > 0) {
                         $order_items = $em_order_item->get_items([
                             'order_id' => $item['id'],
-                            'min_date' => $today,
                         ]);
 
-                        foreach($order_items as $order_item) {
+                        foreach ($order_items as $order_item) {
                             $date_start = $order_item['date_start'];
 
-                            if($date_start < $today) {
-                                $day_count = intval((strtotime($today) - strtotime($date_start)) / DAY_IN_SECONDS) + 1;
+                            if ($date_start < $today) {
+                                $day_count = $this->count_days($order_item);
 
                                 $used_value += intval($order_item['amount'] / $order_item['days']) * $day_count;
                             }
@@ -317,27 +317,35 @@ class EM_Order extends EF_Default
                     $item['used_value'] = $used_value;
                     $item['remaining_value'] = $total - $used_value;
                 } else if ($key == 'date_start') {
-                    if($value == '0000-00-00') {
+                    if ($value == '0000-00-00') {
                         $order_items = $em_order_item->get_items([
                             'order_id' => $item['id'],
                             'limit' => 1,
                             'orderby' => 'date_start ASC'
                         ]);
 
-                        if(isset($order_items[0]['date_start'])) {
-                            $item[$key] = $order_items[0]['date_start'];
+                        if (isset($order_items[0]['date_start'])) {
+                            $value = $item[$key] = $order_items[0]['date_start'];
+
+                            $this->update([
+                                'date_start' => $value
+                            ], ['id' => $item['id']]);
                         }
                     }
                 } else if ($key == 'date_stop') {
-                    if($value == '0000-00-00') {
+                    if ($value == '0000-00-00') {
                         $order_items = $em_order_item->get_items([
                             'order_id' => $item['id'],
                             'limit' => 1,
                             'orderby' => 'date_stop DESC'
                         ]);
 
-                        if(isset($order_items[0]['date_stop'])) {
-                            $item[$key] = $order_items[0]['date_stop'];
+                        if (isset($order_items[0]['date_stop'])) {
+                            $value = $item[$key] = $order_items[0]['date_stop'];
+
+                            $this->update([
+                                'date_stop' => $value
+                            ], ['id' => $item['id']]);
                         }
                     }
                 } else if ($key == 'location_id') {
@@ -354,13 +362,9 @@ class EM_Order extends EF_Default
                 }
             }
 
-            if($item['status'] != 3) {
-                $status = 1;
-                if($today < $item['date_start']){
-                    $status = 4;
-                } else if($today > $item['date_stop']) {
-                    $status = 2;
-                }
+            if ($item['status'] == 1 && $today > $item['date_stop']) {
+                $status = 2;
+
                 $item['status'] = $status;
                 $item['status_name'] = $this->get_statuses($status);
             }
@@ -371,12 +375,52 @@ class EM_Order extends EF_Default
         return parent::filter_item($item, $type);
     }
 
+    function get_where($args = [])
+    {
+        $wheres = parent::get_where($args);
+
+        if(!empty($args['check_date_start'])) {
+            $wheres[] = sprintf("`date_start` <= '%s'", $args['check_date_start']);
+            $wheres[] = "`date_start` <> '0000-00-00'";
+        }
+
+        if(!empty($args['check_date_stop'])) {
+            $wheres[] = sprintf("`date_stop` >= '%s'", $args['check_date_stop']);
+            $wheres[] = "`date_stop` <> '0000-00-00'";
+        }
+
+        return $wheres;
+    }
+
+    function count_days($item = [])
+    {
+        $date_start = $item['date_start'];
+        $date_stop = $item['date_stop'];
+        $today = current_time('Y-m-d');
+
+        $count = 0;
+
+        while ($date_start < $today && $date_start <= $date_stop) {
+            $time_next = strtotime($date_start) + DAY_IN_SECONDS;
+
+            $date_start = date('Y-m-d', $time_next);
+
+            if (in_array(date('D', $time_next), ['Sun', 'Sat'])) {
+                continue;
+            }
+
+            $count++;
+        }
+
+        return $count;
+    }
+
     function auto_delete_by_customer($id = 0, $deleted = false)
     {
         if ($deleted == true && $id > 0) {
             $items = $this->get_items(['customer_id' => $id]);
 
-            foreach($items as $item) {
+            foreach ($items as $item) {
                 $this->delete($item['id']);
             }
         }
