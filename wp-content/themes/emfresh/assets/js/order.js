@@ -39,13 +39,13 @@ $(document).ready(function() {
 
     $(document).on('click', '.order .input-order .dropdown-menu .item', function(e) {
         let $order_wrap = $(this).closest('.locations-container');
-
+        var location_id = $(this).data('location_id')
         var other_address = $(this).find(".other-address").text();
         var note_shiper = $(this).find(".note_shiper").text();
         var note_admin = $(this).find('.note_admin').text();
         $('.info-customer .customer-address,.info-customer .address').text(other_address);
         $('.input-location_name,.input-order .address_delivery').val(other_address);
-        $order_wrap.find('.ship_location_id').val($(this).data('location_id'));
+        $('.form-add-order .input-location_id').val(location_id);
         if (note_shiper.length != 0) {
             $('.input-order .note-shipper').removeClass('hidden');
             $(".input-order .note-shipper .note_shiper").text(note_shiper);

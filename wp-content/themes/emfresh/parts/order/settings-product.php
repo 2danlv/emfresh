@@ -13,7 +13,7 @@
                     <p class="pt-8">Người nhận: <?php echo $order_detail['customer_name_2nd']; ?> (<?php echo $matches[1]; ?>)</p>
                     <?php } ?>
                     <p class="copy modal-button pt-8" data-target="#modal-copy" title="Copy: <?php echo $order_detail['phone'] ?>"><?php echo $order_detail['phone'] ?></p>
-                    <p class="pt-8 pb-16 text-ellipsis address"><?php echo $detail_local; ?></p>
+                    <p class="pt-8 pb-16 text-ellipsis address"><?php echo $order_detail['location_name']; ?></p>
                 </div>
                 <div class="order-details show">
                     <div class="order-wapper">

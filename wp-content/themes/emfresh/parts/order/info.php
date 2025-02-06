@@ -112,7 +112,7 @@
                 <p class="txt">Người nhận: <?php echo $order_detail['customer_name_2nd']; ?> (<a href="/customer/detail-customer/?customer_id=<?php echo $order_detail['customer_id'] ?>"><?php echo $matches[1]; ?>)</a></p>
                 <?php } ?>
                 <p class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $order_detail['phone'] ?>"><?php echo $order_detail['phone'] ?></p>
-                <p class="txt ellipsis"><?php echo $detail_local; ?></p>
+                <p class="txt ellipsis"><?php echo $order_detail['location_name']; ?></p>
                 <?php if (!empty($order_detail['note_shipper'])) { ?>
                 <p class="txt ellipsis">Note shipper: <?php echo $order_detail['note_shipper'] ?></p>
                 <?php }

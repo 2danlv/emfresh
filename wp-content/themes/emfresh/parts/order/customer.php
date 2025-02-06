@@ -193,21 +193,21 @@ $(document).ready(function() {
                 method: 'GET',
                 dataType: 'json',
                 success: function(response) {
-                    // console.log('don hang', response.data);
+                    console.log('don hang', response.data);
                     let container = document.getElementById('order-container');
                     container.innerHTML = '';
                     
                     response.data.forEach(order => {
                         let locationName = order.location_name; 
                         
-                        try {
-                            let locationMatch = order.params.match(/s:\d+:"location_id";s:\d+:"(.*?)";/);
-                            if (locationMatch && locationMatch.length > 1) {
-                                locationName = locationMatch[1];
-                            }
-                        } catch (error) {
-                            console.error("Error extracting location from params:", error);
-                        }
+                        // try {
+                        //     let locationMatch = order.params.match(/s:\d+:"location_id";s:\d+:"(.*?)";/);
+                        //     if (locationMatch && locationMatch.length > 1) {
+                        //         locationName = locationMatch[1];
+                        //     }
+                        // } catch (error) {
+                        //     console.error("Error extracting location from params:", error);
+                        // }
 
                         let orderHtml = `
                             <details class="history-item using">
