@@ -992,7 +992,14 @@ tags.tagify.form-control {
         padding:0 10px 10px;
         .history-item {
             margin-bottom: 10px;
-
+            &[open] .history-header{
+                .fa-dropdown {
+                    transform: rotate(0);
+                }
+            }
+            &:first-child .history-content .note-group{
+                display: block;
+            }
             .history-header {
                 background: var(--color-grey-100, #DEDFE0);
                 padding: 8px;
@@ -1012,11 +1019,7 @@ tags.tagify.form-control {
                     }
                 }
 
-                &.is-active {
-                    .fa-dropdown {
-                        transform: rotate(0);
-                    }
-                }
+                
 
                 .fa-dropdown {
                     transform: rotate(-90deg);
@@ -1049,9 +1052,14 @@ tags.tagify.form-control {
                 padding: 10px 16px 28px;
                 border: 1px solid var(--color-grey-100, #DEDFE0);
 
-                .info {
-                    border-bottom: 1px dashed var(--modal-divider, #DEDFE0);
-                    padding-bottom: 8px;
+                .note-group {
+                    border-top: 1px dashed var(--modal-divider, #DEDFE0);
+                    margin-top: 8px;
+                    display: none;
+                    &.empty {
+                        margin-top: 0;
+                        border-top: none;
+                    }
                 }
 
                 .txt {
@@ -1075,33 +1083,34 @@ tags.tagify.form-control {
 
             &.using {
                 .history-header {
-                    background: var(--color-primary-900, #208046);
-
-                    .history-id {
-                        .fa-dropdown {
-                            background: url(../img/icon/down-white.svg) center center no-repeat;
-                        }
-
-                        .number {
-                            color: var(--button-solid-text, #FCFCFC);
-                        }
-                    }
-                }
-
-                .history-status {
-                    .status_order {
-                        color: #fff;
-                        border: none;
+                    &.header_1{
                         background: var(--color-primary-900, #208046);
-                    }
+                        .history-id {
+                            .fa-dropdown {
+                                background: url(../img/icon/down-white.svg) center center no-repeat;
+                            }
 
-                    .copy {
-                        background: url(../img/icon/copy-white.svg) center center no-repeat;
+                            .number {
+                                color: var(--button-solid-text, #FCFCFC);
+                            }
+                        }
+                        .history-status {
+                            .status_order {
+                                color: #fff;
+                                border: none;
+                                background: var(--color-primary-900, #208046);
+                            }
+        
+                            .copy {
+                                background: url(../img/icon/copy-white.svg) center center no-repeat;
+                            }
+                        }
+        
+                        .history-content {
+                            border: 1px solid var(--color-primary-900, #208046);
+                        }
                     }
-                }
-
-                .history-content {
-                    border: 1px solid var(--color-primary-900, #208046);
+                    
                 }
             }
         }

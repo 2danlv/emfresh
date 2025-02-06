@@ -333,18 +333,13 @@ function initializeDatePicker(selector, minDate, showDate) {
       var formattedDate = picker.startDate.format('YYYY-MM-DD');
       var targetInput = inputElement.siblings('.input-date_start');
       targetInput.val(formattedDate);
-      
       var orderDateStop = $('.toast.warning .order_date_stop').text();
       if (new Date(orderDateStop) >= new Date(formattedDate)) {
           $(".order .toast.warning").addClass("show");
+          $('.order .toast.warning .order_date_stop_show').text(picker.startDate.format('DD/MM/YYYY'));
       } else {
           $(".order .toast.warning").removeClass("show");
-      }
-      
-      if (inputElement.hasClass('start-day') && inputElement.val() == moment().format('DD/MM/YYYY')) {
-          $(".toast").addClass("show");
-      }
-      
+      }  
       showDate;
   });
 }

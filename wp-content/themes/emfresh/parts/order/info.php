@@ -158,8 +158,12 @@
                             if (!empty($ship['days']) && is_array($ship['days'])) { 
                                 echo implode(", ", $ship['days']);
                                 echo "<br>";
+                            } else { 
+                                echo  date("d/m/Y", strtotime($ship['calendar']));
+                                echo "<br>";
                             }
-                            echo $ship['location_name']; ?>
+                                ?>
+                            <?php echo $ship['location_name']; ?>
                             </p>
                             <?php if (!empty($ship['note_shipper'])) { ?>
                                 <p class="txt black">

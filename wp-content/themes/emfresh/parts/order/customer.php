@@ -193,25 +193,60 @@ $(document).ready(function() {
                 method: 'GET',
                 dataType: 'json',
                 success: function(response) {
-                    console.log('don hang', response.data);
+                    // console.log('don hang', response.data);
                     let container = document.getElementById('order-container');
                     container.innerHTML = '';
-                    
-                    response.data.forEach(order => {
-                        let locationName = order.location_name; 
-                        
-                        // try {
-                        //     let locationMatch = order.params.match(/s:\d+:"location_id";s:\d+:"(.*?)";/);
-                        //     if (locationMatch && locationMatch.length > 1) {
-                        //         locationName = locationMatch[1];
-                        //     }
-                        // } catch (error) {
-                        //     console.error("Error extracting location from params:", error);
-                        // }
+                    if(response.data == ''){
+                        $('.history-order .no-history').show();
+                        return;
+                    }
+                    response.data.forEach((order, index) => {
+                        let locationName = order.location_name;
+                        let locationInParams = locationName;
+                        let schedule = "Không có thông tin";
 
+                        try {
+                            
+                            let locationInParamsMatch = order.params.match(/s:\d+:"location_name";s:\d+:"(.*?)";/);
+                            if (locationInParamsMatch && locationInParamsMatch.length > 1) {
+                                locationInParams = locationInParamsMatch[1]; 
+                            }
+
+                            
+                            let daysMatch = order.params.match(/s:\d+:"days";a:\d+:\{(.*?)\}/);
+                            let calendarMatch = order.params.match(/s:\d+:"calendar";s:\d+:"(.*?)";/);
+
+                            let days = "";
+                            let calendar = "";
+
+                            
+                            if (daysMatch && daysMatch.length > 1) {
+                                days = daysMatch[1]
+                                    .replace(/i:\d+;/g, "")
+                                    .replace(/s:\d+:"/g, "")
+                                    .replace(/";/g, ", ")
+                                    .slice(0, -2); 
+                            }
+
+                            
+                            if (calendarMatch && calendarMatch.length > 1) {
+                                calendar = calendarMatch[1];
+                            }
+
+                            
+                            if (calendar && calendar !== "") {
+                                schedule = `${moment(calendar).format('DD/MM/YYYY')}`; 
+                            } else if (days && days !== "") {
+                                schedule = `${days}`; 
+                            }
+                        } catch (error) {
+                            console.error("Lỗi xử lý params:", error);
+                        }
+
+                        
                         let orderHtml = `
                             <details class="history-item using">
-                                <summary class="d-f jc-b ai-center history-header">
+                                <summary class="d-f jc-b ai-center history-header header_${order.status}">
                                     <div class="d-f ai-center history-id gap-8">
                                         <span class="fas fa-dropdown"></span>
                                         <span class="number">${order.order_number}</span>
@@ -236,25 +271,56 @@ $(document).ready(function() {
                                             <span class="txt-green fw-bold">${order.total_amount.toLocaleString()}</span>
                                         </div>
                                     </div>
-                                    <div class="note">
-                                        <div class="note-item d-f jc-b ai-center gap-10 pt-8">
-                                            <div class="d-f ai-center gap-10">
-                                                <span class="fas fa-note"></span>
-                                                <span class="txt">Yêu cầu đặc biệt: ${order.note}</span>
-                                            </div>
-                                            <span class="txt"></span>
-                                        </div>
+                                    <div class="note-group">
+                        `;
+
+                        
+                        if (order.note && order.note !== '') {
+                            orderHtml += `
+                                <div class="note-item d-f jc-b ai-center gap-10 pt-8">
+                                    <div class="d-f ai-center gap-10">
+                                        <span class="fas fa-note"></span>
+                                        <span class="txt">Yêu cầu đặc biệt:</span>
                                     </div>
-                                </div>
-                            </details>`;
-                        container.innerHTML += orderHtml;
+                                    <span class="txt">${order.note}</span>
+                                </div>`;
+                        }
+
+                        
+                        if (locationInParams && locationInParams !== '') {
+                            orderHtml += `
+                                <div class="note">
+                                    <div class="note-item d-f jc-b ai-center gap-10 pt-8">
+                                        <div class="d-f ai-center gap-10">
+                                            <span class="fas fa-note"></span>
+                                            <span class="txt">Giao hàng:</span>
+                                        </div>
+                                        <span class="txt">${schedule} - ${locationInParams}</span>
+                                    </div>
+                                </div>`;
+                        }
+
+                        orderHtml += `</div></div></details>`;
+
+                        
+                        $(container).append(orderHtml);
+
+                        
+                        let noteGroup = $(container).find('.note-group').last();  
+                        if (!noteGroup.text().trim()) { 
+                            noteGroup.addClass('empty');
+                        }
+                        if (index < 3) {
+                            $(container).find('details.history-item').eq(index).attr('open', true);
+                        }
                     });
+
                     var maxDateStop = response.data.reduce(function (maxDate, item) {
                         return (new Date(item.date_stop) > new Date(maxDate)) ? item.date_stop : maxDate;
                     }, "1970-01-01");
                     
                     $('.toast.warning .order_date_stop').text(maxDateStop);
-                    $('.toast.warning .order_date_stop_show').text(moment(maxDateStop).format('DD/MM/YYYY'));
+                    // $('.toast.warning .order_date_stop_show').text(moment(maxDateStop).format('DD/MM/YYYY'));
                 },
                 error: function(xhr, status, error) {
                     console.error('Error fetching data from API', error);

@@ -472,24 +472,27 @@ $(document).on("click", ".status-pay-menu .status-pay-item span", function () {
 	}
 	});
 	
-$(document).on('change', '.js-order-item [name]', function () {
+$(document).on('blur', '.js-order-item [name]', function () {
 	let p = $(this),
 		order_item = p.closest('.js-order-item');
-	if (order_item.length > 0) {
-		if (check_order_item('location_date', order_item) == false) {
-			alert('Địa điểm và thời gian đang dùng! Vui lòng chọn lại');
+		if (order_item.length > 0) {
+			if (check_order_item('location_date', order_item) == false) {
+				alert('Địa điểm và thời gian đang dùng! Vui lòng chọn lại');
 
-			return;
+				return;
+			}
+			let calendarInput = order_item.find('.js-calendar.date');
+			if (calendarInput.val() !== undefined && calendarInput.val() !== '') {
+				update_order_item_info(order_item);
+				
+				update_order_item_note(order_item);
+				
+				update_order_info();
+				
+				update_pay();
+			}
+			
 		}
-
-		update_order_item_info(order_item);
-
-		update_order_item_note(order_item);
-
-		update_order_info();
-
-		update_pay();
-	}
 });
 
 $(document).on('click', '.js-search-customer', function () {
