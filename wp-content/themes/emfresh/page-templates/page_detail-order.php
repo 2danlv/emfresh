@@ -111,7 +111,7 @@ get_header();
 							$user = $current_user->roles;
 							if ($today < $min_date_start || $user[0] === 'administrator') {
 							 ?>
-							<div class="btn btn-danger remove-customer modal-button" data-target="#modal-default">
+							<div class="btn btn-danger remove-customer modal-button" data-target="#modal-end">
 								Xoá đơn này
 							</div>
 							<?php } ?>

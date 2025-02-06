@@ -113,7 +113,7 @@
 				</div>
 				<div class="modal-footer d-f jc-b pb-8 pt-16">
 					<button type="button" class="btn btn-secondary modal-close">Đóng</button>
-					<button type="submit" name="remove" class="btn btn-danger modal-close">Xóa</button>
+					<a href="<?php echo $delete_url; ?>" class="btn btn-danger modal-close">Xóa</a>
 				</div>
 			</form>
 		</div>

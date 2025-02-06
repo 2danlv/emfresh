@@ -218,7 +218,7 @@ $(document).ready(function() {
                                     </div>
                                     <div class="d-f history-status gap-16">
                                         <span class="status_order">${order.status_name}</span>
-                                        <a href="${order.duplicate_url}" target="_blank"><span class="copy"></span></a>
+                                        <a href="<?php echo $js_duplicate_url; ?>&duplicate_order=${order.order_number}" target="_blank"><span class="copy"></span></a>
                                     </div>
                                 </summary>
                                 <div class="history-content">
