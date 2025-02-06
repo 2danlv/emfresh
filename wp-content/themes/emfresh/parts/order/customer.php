@@ -268,7 +268,7 @@ $(document).ready(function() {
                                         </div>
                                         <div class="d-f ai-center gap-10 pt-8">
                                             <span class="fas fa-shopping-cart"></span>
-                                            <span class="txt-green fw-bold">${order.total_amount.toLocaleString()}</span>
+                                            <span class="txt-green fw-bold">${format_money(order.total_amount.toLocaleString())}</span>
                                         </div>
                                     </div>
                                     <div class="note-group">
@@ -328,11 +328,16 @@ $(document).ready(function() {
             });
         }
     });
-
+function format_money(number) {
+	number = parseFloat(number); 
+	if (isNaN(number)) return '0';
+	return number.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,').split('.')[0];
+}
     $(document).click(function(e) {
         if (!$(e.target).closest('#search').length) {
             $('#autocomplete-results').hide();
         }
     });
 });
+
 </script>
