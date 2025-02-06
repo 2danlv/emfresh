@@ -108,7 +108,7 @@
 				<div class="modal-body pt-8 pb-16">
 					<div class="d-f ai-center">
 						<i class="fas fa-warning mr-4"></i>
-						<p>Bạn có chắc chắn muốn kết thúc đơn hàng này ?</p>
+						<p>Bạn có chắc chắn muốn xóa đơn hàng này ?</p>
 					</div>
 				</div>
 				<div class="modal-footer d-f jc-b pb-8 pt-16">
