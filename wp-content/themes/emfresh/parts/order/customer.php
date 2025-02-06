@@ -267,7 +267,7 @@ $(document).ready(function() {
                                             <span class="txt">${order.item_name}</span>
                                         </div>
                                         <div class="d-f ai-center gap-10 pt-8">
-                                            <span class="fas fa-shopping-cart"></span>
+                                            <span class="fas fa-shopping-money"></span>
                                             <span class="txt-green fw-bold">${format_money(order.total_amount.toLocaleString())}</span>
                                         </div>
                                     </div>

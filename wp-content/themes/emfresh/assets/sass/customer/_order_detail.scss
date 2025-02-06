@@ -150,7 +150,9 @@
 .section-wapper {
     border-radius: 16px;
     background: var(--modal-background, #FFF);
-
+    .copy {
+        font-size: 16px;
+    }
     &+.section-wapper {
         margin-top: 32px;
     }

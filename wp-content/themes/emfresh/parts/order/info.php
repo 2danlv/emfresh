@@ -58,10 +58,6 @@
             </div>
             <div class="section-ship line-dots-top">
                 <div class="d-f ai-center jc-b">
-                    <p class="txt">Là đơn gộp tụ ship?</p>
-                    <p class="txt">Không</p>
-                </div>
-                <div class="d-f ai-center jc-b">
                     <p class="txt">Số ngày phát sinh phí ship:</p>
                     <p class="txt"><?php echo $order_detail['ship_days']; ?></p>
                 </div>
