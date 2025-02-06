@@ -68,7 +68,9 @@ get_header();
 // while ( have_posts() ) : the_post();
 ?>
 <div class="detail-customer order detail-order pt-16">
-
+<style>
+.content-header{display: none;}
+</style>
 	<section class="content">
 		<div class="container-fluid">
 			<div class="scroll-menu pt-8">
