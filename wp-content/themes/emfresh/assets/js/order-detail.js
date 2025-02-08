@@ -244,8 +244,7 @@ function update_order_item_note(order_item) {
 }
 
 function update_order_info() {
-	let ship_days = 0,
-		total_amount = 0,
+	let total_amount = 0,
 		ship_amount = 0,
 		item_name = {},
 		type_name = {},
@@ -259,8 +258,6 @@ function update_order_info() {
 			quantity = parseInt(p.find('.input-quantity').val()),
 			days = parseInt(p.find('.input-days').val()),
 			ship_fee = 0;
-
-		ship_days += days;
 
 		// tong ship se lay theo so ngay an lon nhat
 		ship_fee = parseInt(p.find('.input-ship_price').val() * days);
@@ -314,7 +311,6 @@ function update_order_info() {
 	);
 	$('.input-order_note').val(order_note);
 	counts_type();
-	$('.input-ship_days').val(ship_days);
 	if (!isNaN(ship_amount)) {
 		$('.ip_ship_amount').val(ship_amount);
 		$('.input-ship_amount').val(format_money(ship_amount));
@@ -474,25 +470,19 @@ $(document).on("click", ".status-pay-menu .status-pay-item span", function () {
 	
 $(document).on('blur', '.js-order-item [name]', function () {
 	let p = $(this),
-		order_item = p.closest('.js-order-item');
-		if (order_item.length > 0) {
-			if (check_order_item('location_date', order_item) == false) {
-				alert('Địa điểm và thời gian đang dùng! Vui lòng chọn lại');
-
-				return;
-			}
-			let calendarInput = order_item.find('.js-calendar.date');
-			if (calendarInput.val() !== undefined && calendarInput.val() !== '') {
-				update_order_item_info(order_item);
-				
-				update_order_item_note(order_item);
-				
-				update_order_info();
-				
-				update_pay();
-			}
+	order_item = p.closest('.js-order-item');
+	if (order_item.length > 0) {
+		let calendarInput = order_item.find('.js-calendar.date');
+		if (calendarInput.val() !== undefined && calendarInput.val() !== '') {
+			update_order_item_info(order_item);
 			
-		}
+			update_order_item_note(order_item);
+			
+			update_order_info();
+			
+			update_pay();
+		}			
+	}
 });
 
 $(document).on('click', '.js-search-customer', function () {
