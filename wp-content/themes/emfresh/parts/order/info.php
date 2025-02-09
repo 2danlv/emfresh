@@ -149,6 +149,7 @@
                 <?php 
                     foreach ($params['ship'] as $ship) {  
                         if (!empty($ship['location_name'])) { ?>
+                        <div class="item-section">
                             <p class="txt black ellipsis">
                             <?php
                             if (!empty($ship['days']) && is_array($ship['days'])) { 
@@ -161,17 +162,20 @@
                                 ?>
                             <?php echo $ship['location_name']; ?>
                             </p>
-                            <?php if (!empty($ship['note_shipper'])) { ?>
-                                <p class="txt black">
+                            <ul>
+                                <?php if (!empty($ship['note_shipper'])) { ?>
+                                <li class="txt black">
                                     Note shipper theo ngày: <br><?php echo $ship['note_shipper'];  ?>
-                                </p>
-                            <?php } 
-                            if (!empty($ship['note_admin'])) { ?>
-                                <p class="txt black">
-                                    Note admin theo ngày: <br><?php echo $ship['note_admin'];  ?>
-                                </p>
-                        <?php  }
-                        }
+                                </li>
+                                <?php } 
+                                if (!empty($ship['note_admin'])) { ?>
+                                    <li class="txt black">
+                                        Note admin theo ngày: <br><?php echo $ship['note_admin'];  ?>
+                                    </li>
+                                <?php  } ?>
+                            </ul>
+                        </div>
+                    <?php    }
                     }
                 ?>
                 <p class="note-txt italic">(Đã đăng ký chung nhóm ship: Thien Phuong Bui)</p>

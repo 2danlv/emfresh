@@ -99,7 +99,19 @@
             }
         }
     }
-
+    .item-section {
+        border-top: 1px solid var(--modal-divider, #DEDFE0);
+        padding-top: 8px;
+        &:first-child {
+            padding-top: 0;
+            border: none;
+        }
+        ul {
+            li {
+                padding-left: 16px;
+            }
+        }
+    }
     &.status-content {
         gap: 16px 0;
 

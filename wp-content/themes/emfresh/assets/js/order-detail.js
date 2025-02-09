@@ -459,7 +459,13 @@ $(document).on("click", ".status-pay-menu .status-pay-item span", function () {
 	
 $(document).on('blur', '.js-order-item [name]', function () {
 	let p = $(this),
-	order_item = p.closest('.js-order-item');
+	order_item = p.closest('.js-order-item'),
+	dateNumber = parseInt(order_item.find(".input-days").val()) || 0,
+    number = parseInt(order_item.find(".input-quantity").val()) || 0;
+	// if (number < dateNumber) {
+    //     order_item.find(".input-quantity").val(dateNumber);
+    //     return;
+    // } 
 	if (order_item.length > 0) {
 		let calendarInput = order_item.find('.js-calendar.date');
 		if (calendarInput.val() !== undefined && calendarInput.val() !== '') {
@@ -647,7 +653,15 @@ $('.paymented .input-preorder').on('keyup', function () {
 });
 
 $(document).on("change", ".input-type", function() {
-	counts_type();	
+	let $deliveryItem = $(this).closest('.js-order-item');
+	counts_type();
+	if ($(this).val() == 'd') {
+		$deliveryItem.find('.input-days').val(1);
+		$deliveryItem.find('.input-days').prop('readonly', true);
+	} else {
+		$deliveryItem.find('.input-days').val("");
+		$deliveryItem.find('.input-days').prop('readonly', false);
+	}
 });
 
 function counts_type() {

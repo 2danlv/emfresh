@@ -186,7 +186,7 @@ $(document).ready(function() {
     });
         $(document).on('blur', '.input-quantity', function() {
         let $deliveryItem = $(this).closest(".js-order-item");
-            calculateParts($deliveryItem);
+            //calculateParts($deliveryItem);
         });
         $(document).on('input change', '.input-date_start', function() {
         //let $deliveryItem = $(this).closest(".js-order-item");
@@ -385,15 +385,15 @@ function getWorkSchedule(effectiveStart, totalDays) {
     let dateNumber = parseInt($deliveryItem.find(".input-days").val()) || 0;
     let number = parseInt($deliveryItem.find(".input-quantity").val()) || 0;
 
-    if ($deliveryItem.find(".input-days").is(":focus")) {
-        $deliveryItem.find(".input-quantity").val(dateNumber);
-        number = dateNumber;
-    }
+    // if ($deliveryItem.find(".input-days").is(":focus")) {
+    //     $deliveryItem.find(".input-quantity").val(dateNumber);
+    //     number = dateNumber;
+    // }
 
     if (number < dateNumber) {
-        $('.alert').text("Số lượng không được nhỏ hơn số ngày sử dụng!");
-        $deliveryItem.find(".input-quantity").val(dateNumber);
-        number = dateNumber;
+        // $('.alert').text("Số lượng không được nhỏ hơn số ngày sử dụng!");
+        // $deliveryItem.find(".input-quantity").val(dateNumber);
+        // number = dateNumber;
     } else {
         $('.alert').text("");
     }
