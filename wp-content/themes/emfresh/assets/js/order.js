@@ -175,18 +175,25 @@ $(document).ready(function() {
         $('.form-add-order').submit();
     });
     $('.group-type.disable_edit input').prop('disabled', true);
-    $('.disable_edit .input-quantity').each(function() {
-      // When the input value changes
-      $(this).on('input', function() {
-          var value = $(this).val();
-
-          // If value is less than or equal to 2, reset it to 3 (or any other default value)
-          if (value <= 2) {
-            alert('Không được giảm bé hơn số phần ăn đã dùng');
-            $(this).val(2); // You can set the value to 3 or any value greater than 2
-          }
-      });
-  });
+    $(".js-order-item").each(function() {
+        let $deliveryItem = $(this);
+        calculateParts($deliveryItem);
+    });
+    $(document).on('change', '.input-days', function() {
+        let $deliveryItem = $(this).closest(".js-order-item");
+        $deliveryItem.find(".input-quantity").val($(this).val());
+        $deliveryItem.find(".note-no-use span").text($(this).val());
+        });
+        $(document).on('blur', '.input-quantity', function() {
+        let $deliveryItem = $(this).closest(".js-order-item");
+            calculateParts($deliveryItem);
+        });
+        $(document).on('input change', '.input-date_start', function() {
+        let $deliveryItem = $(this).closest(".js-order-item");
+        calculateParts($deliveryItem);
+    });
+   
+    
 });
 var original_total_cost = parseFloat(
     $(".price-product").text().replace(/\./g, "")
@@ -360,77 +367,63 @@ function showDate() {
   $(".order-details .date-start").text(minDateStr);
 }
 
-
-      function calculateParts() {
-        let startDateStr = $("#startDate").val();
-        let dateNumber = parseInt($("#dateNumber").val()) || 0;
-        let number = parseInt($("#number").val()) || 0;
-
-        // Khi nhập số ngày, tự động cập nhật số lượng = số ngày
-        if ($("#dateNumber").is(":focus")) {
-          $("#number").val(dateNumber);
-          number = dateNumber;
-        }
-
-        if (number < dateNumber) {
-          $('.alert').text("Số lượng không được nhỏ hơn số ngày sử dụng!");
-          $("#number").val(dateNumber);
-          number = dateNumber;
-        } else {
-            $('.alert').text("");
-        }
-        
-
-        if (!startDateStr || dateNumber <= 0 || number <= 0) {
-          $("#soPhanText,#remainingDaysText,#remainingPartsText").text("");
-          return;
-        }
-
-        let inputDate = new Date(startDateStr);
-
-        // Xác định effective start:
-        // Nếu inputDate là Saturday (6) => effectiveStart = inputDate + 2 (thứ 2)
-        // Nếu inputDate là Sunday (0)   => effectiveStart = inputDate + 1 (thứ 2)
-        // Ngược lại: effectiveStart = inputDate
-        let effectiveStart = new Date(inputDate);
-        let dow = effectiveStart.getDay();
-        if (dow === 6) { // Saturday
-          effectiveStart.setDate(effectiveStart.getDate() + 2);
-        } else if (dow === 0) { // Sunday
-          effectiveStart.setDate(effectiveStart.getDate() + 1);
-        }
-
-        // Tạo lịch làm việc gồm dateNumber ngày làm việc (Mon-Fri)
-        let schedule = getWorkSchedule(effectiveStart, dateNumber);
-
-        // Tính số ngày đã sử dụng là những ngày trong lịch mà < today_calendar
-        let usedDays = schedule.filter(function(d) {
-          return d < today_calendar;
-        }).length;
-
-        let remainingDays = dateNumber - usedDays;
-        if (remainingDays < 0) { remainingDays = 0; }
-
-        // Số phần mỗi ngày:
-        let soPhan = number / dateNumber;
-        let remainingParts = soPhan * remainingDays;
-
-        // Cập nhật kết quả hiển thị dưới dạng text
-        $("#soPhanText").text(soPhan.toFixed(2));
-        $("#remainingDaysText").text(remainingDays);
-        $("#remainingPartsText").text(remainingParts.toFixed(2));
+function getWorkSchedule(effectiveStart, totalDays) {
+    let schedule = [];
+    let d = new Date(effectiveStart);
+    while (schedule.length < totalDays) {
+      let dow = d.getDay();
+      if (dow >= 1 && dow <= 5) {  // chỉ tính thứ 2 đến thứ 6
+        schedule.push(new Date(d));
       }
-      calculateParts();
-      $("#dateNumber").on("input", function() {
-        let dn = parseInt($(this).val()) || 0;
-        $("#number").val(dn);
-        calculateParts();
-      });
+      d.setDate(d.getDate() + 1);
+    }
+    return schedule;
+  }
+  function calculateParts($deliveryItem) {
+    let today = new Date();
+    let startDateStr = $deliveryItem.find(".input-date_start").val();
+    let dateNumber = parseInt($deliveryItem.find(".input-days").val()) || 0;
+    let number = parseInt($deliveryItem.find(".input-quantity").val()) || 0;
 
-      $("#number").on("blur", function() {
-        calculateParts();
-      });
+    if ($deliveryItem.find(".input-days").is(":focus")) {
+        $deliveryItem.find(".input-quantity").val(dateNumber);
+        number = dateNumber;
+    }
 
-      $("#startDate").on("input change", function() {
-        calculateParts();
-      });
+    if (number < dateNumber) {
+        $('.alert').text("Số lượng không được nhỏ hơn số ngày sử dụng!");
+        $deliveryItem.find(".input-quantity").val(dateNumber);
+        number = dateNumber;
+    } else {
+        $('.alert').text("");
+    }
+
+    if (!startDateStr || dateNumber <= 0 || number <= 0) {
+        $deliveryItem.find(".note-no-use span").text("");
+        return;
+    }
+
+    let inputDate = new Date(startDateStr);
+    let effectiveStart = new Date(inputDate);
+    let dow = effectiveStart.getDay();
+    if (dow === 6) {
+        effectiveStart.setDate(effectiveStart.getDate() + 2);
+    } else if (dow === 0) {
+        effectiveStart.setDate(effectiveStart.getDate() + 1);
+    }
+
+    let schedule = getWorkSchedule(effectiveStart, dateNumber);
+    let usedDays = schedule.filter(function(d) {
+        return d < today;
+    }).length;
+
+    let remainingDays = dateNumber - usedDays;
+    if (remainingDays < 0) { remainingDays = 0; }
+
+    let soPhan = number / dateNumber;
+    let remainingParts = soPhan * remainingDays;
+
+    $deliveryItem.find(".note-no-use span").text(remainingParts.toFixed(2));
+}
+  
+      

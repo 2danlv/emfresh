@@ -304,7 +304,8 @@ function update_order_info() {
 	$('.input-order_note').val(order_note);
 	counts_type();
 	
-	$('.input-total,.input-total_amount').val(total_amount + ship_amount);
+	// $('.input-total,.input-total_amount').val(total_amount + ship_amount);
+	$('.input-total,.input-total_amount').val(total_amount);
 	$('.text-total_amount').text(format_money(total_amount));
 }
 
