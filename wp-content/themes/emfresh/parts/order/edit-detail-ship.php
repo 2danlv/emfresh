@@ -195,7 +195,7 @@ $(document).ready(function () {
             }
         });
         newItem.find('.repeat-weekly').removeClass('show');
-        newItem.find('.js-note-ship').show();
+        newItem.find('.calendar').show();
         newItem.find('.js-note-ship').show();
         newItem.find('.note-shipper').addClass('hidden');
         $(".card-ship-item").last().after(newItem);
