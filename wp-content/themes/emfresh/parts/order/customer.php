@@ -51,7 +51,17 @@ $(document).ready(function() {
     $('.js-show-order-item:first .remove-tab').addClass("hidden");
     $('.input-order .name_2nd').keyup(function() {
         var input_name_2nd = $(this).val();
-        $('.form-add-order .input-customer_name_2nd').val(input_name_2nd);
+        var input_fullname = $('.input-order .fullname').val();
+        var split_fullname = input_fullname.match(/\((.*?)\)/);
+        if (split_fullname && input_name_2nd !='') {
+            $('.info-customer .customer-name_2nd').addClass('pt-8');
+            $('.form-add-order .input-customer_name_2nd').val(input_name_2nd + " " + split_fullname[0]);
+            $('.info-customer .customer-name_2nd').text(input_name_2nd + " " + split_fullname[0]);
+        } else {
+            $('.info-customer .customer-name_2nd').removeClass('pt-8');
+            $('.form-add-order .input-customer_name_2nd').val(input_name_2nd);
+            $('.info-customer .customer-name_2nd').text(input_name_2nd);
+        }
     });
     $('.search-cus').keyup(function() {
         var query = $(this).val();
@@ -109,7 +119,8 @@ $(document).ready(function() {
         var note_admin = $(this).find('.note_admin').text();
         var customer_id = $(this).data('id') || 0;
         var location_id = 0;
-
+        $('.form-add-order .input-customer_name_2nd,.input-order .name_2nd').val("");
+        $('.info-customer .customer-name_2nd').text("");
         $('#search').val(name); 
         $('.input-order .fullname').val(name); 
         $('.input-order .phone').val(phone);

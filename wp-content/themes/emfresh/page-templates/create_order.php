@@ -65,6 +65,7 @@ get_header();
                                 </div>
                                 <div class="info-customer hidden line-dots">
                                     <p class="pt-16 customer-name"></p>
+                                    <p class="customer-name_2nd"></p>
                                     <p class="copy modal-button pt-8 customer-phone" data-target="#modal-copy" title="Copy"></p>
                                     <p class="pt-8 pb-16 text-ellipsis customer-address"></p>
                                 </div>

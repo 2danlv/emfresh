@@ -8,9 +8,8 @@
                 <div class="info-customer line-dots">
                     <p class="pt-16"><?php echo $order_detail['customer_name'] ?></p>
                     <?php 
-                    preg_match('/\((.*?)\)/', $order_detail['customer_name'], $matches);
                     if ($order_detail['customer_name_2nd'] != '') { ?>
-                    <p class="pt-8">Người nhận: <?php echo $order_detail['customer_name_2nd']; ?> (<?php echo $matches[1]; ?>)</p>
+                    <p class="pt-8">Người nhận: <?php echo $order_detail['customer_name_2nd']; ?></p>
                     <?php } ?>
                     <p class="copy modal-button pt-8" data-target="#modal-copy" title="Copy: <?php echo $order_detail['phone'] ?>"><?php echo $order_detail['phone'] ?></p>
                     <p class="pt-8 pb-16 text-ellipsis address"><?php echo $order_detail['location_name']; ?></p>
