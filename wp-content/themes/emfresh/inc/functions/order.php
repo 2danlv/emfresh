@@ -54,7 +54,15 @@ function site_order_submit()
 
         $params = [];
         if(!empty($_POST['ship'])) {
-            $params['ship'] = $_POST['ship'];
+            $list_ships = [];
+
+            foreach($_POST['ship'] as $i => $ship) {
+                if(!empty($ship['location_id']) || !empty($ship['location_name'])) {
+                    $list_ships[] = $ship;
+                }
+            }
+
+            $params['ship'] = $list_ships;
         }
         $order_data['params'] = count($params) > 0 ? serialize($params) : '';
 
@@ -80,12 +88,12 @@ function site_order_submit()
 
             $item_labels = array(
                 'type' => 'Phân loại',
-                'days' => 'Số ngày dùng',
-                'product_id' => 'Tên sản phẩm',
+                'days' => 'Số ngày ăn',
                 'date_start' => 'Ngày bắt đầu',
+                'product_id' => 'Tên sản phẩm',
                 'quantity' => 'Số lượng',
-                'auto_choose' => 'Tự chọn món',
-                'note' => 'Ghi chú',
+                'auto_choose' => 'tự chọn món',
+                'note' => 'Yêu cầu đặc biệt',
             );
 
             $date_start = '';
@@ -133,10 +141,15 @@ function site_order_submit()
 
                             foreach($item_labels as $key => $label) {
                                 if(isset($before[$key]) && isset($order_item[$key]) && $order_item[$key] != $before[$key]) {
-                                    $value = $before[$key];
+                                    $value = $order_item[$key];
 
                                     if($key == 'product_id') {
                                         $value = $em_order_item->get_product($value, 'name');
+                                    } else if($key == 'type'){
+                                        $value = strtoupper($value);
+                                    } else if($key == 'auto_choose'){
+                                        $label = ($value == 1 ? 'Bật' : 'Tắt') . ' ' . $label;
+                                        $value = '';
                                     }
 
                                     $log_content[] = $label . ' ' . $value;
@@ -149,7 +162,7 @@ function site_order_submit()
                                     'action'        => 'Cập nhật - Sản phẩm',
                                     'module'        => 'em_order',
                                     'module_id'     => $order_id,
-                                    'content'       => $item_title . ' ' . implode(' ', $log_content)
+                                    'content'       => $item_title . ' : ' . implode(' ', $log_content)
                                 ]);
                             }
                         }
@@ -183,6 +196,33 @@ function site_order_submit()
 
             if($response['code'] == 200 && $update) {
                 site_order_log($before, $order_data);
+
+                if($before['params'] != $order_data['params']) {
+                    $before_ships   = $em_order->get_ships($before);
+                    $after_ships    = $em_order->get_ships($order_data);
+            
+                    foreach($after_ships as $i => $ship) {
+                        $log_content = [];
+                        
+                        if(empty($before_ships[$i])) {
+                            $action = 'Thêm - Giao hàng';
+                            $log_content[] = 'Địa chỉ ' . $ship['location_name'];
+                        } else {
+                            $before_ship = $before_ships[$i];
+                            if($before_ship['location_name'] != $ship['location_name']) {
+                                $action = 'Cập nhật - Giao hàng';
+                                $log_content[] = 'Địa chỉ ' . $ship['location_name'];
+                            }
+                        }
+
+                        $em_log->insert([
+                            'action'        => $action,
+                            'module'        => 'em_order',
+                            'module_id'     => $order_id,
+                            'content'       => implode(' ', $log_content)
+                        ]);
+                    }
+                }
             }
         }
     
@@ -211,18 +251,34 @@ function site_order_submit()
         $order_data = $em_order->get_item($duplicate_order);
         if(!empty($order_data['id'])) {
             unset($order_data['id']);
+            
+            $order_data['ship_days'] = 0;
+            $order_data['ship_amount'] = 0;
+            $order_data['payment_status'] = 2;
+            $order_data['paid'] = 0;
+            $order_data['remaining_amount'] = 0;
+            $order_data['discount'] = 0;
+            $order_data['total'] = $order_data['total_amount'];
+            $order_data['params'] = '';
 
             $response = em_api_request('order/add', $order_data);
             if($response['code'] == 200) {
                 $order_id = $response['data']['insert_id'];
 
-                site_order_log($order_default, $order_data);
-
                 $order_items = $em_order_item->get_items(['order_id' => $duplicate_order]);
+
+                $today = current_time('Y-m-d');
 
                 foreach($order_items as $order_item) {
                     unset($order_item['id']);
-                    
+
+                    $date_stop = $order_item['date_stop'];
+                    if($date_stop < $today) {
+                        $date_stop = $today;
+                    }
+
+                    $order_item['date_start'] = site_order_get_date_next($date_stop);
+                    $order_item['date_stop'] = site_order_get_date_value($order_item['date_start'], $order_item['days']);
                     $order_item['order_id'] = $order_id;
 
                     $response = em_api_request('order_item/add', $order_item);
@@ -309,19 +365,26 @@ function site_order_log($before = [], $after = [])
             $log_content[] = $after['paid'] > 0 ? '-'. number_format($after['paid']) : 0;
             $log_content[] = $after['remaining_amount'] > 0 ? '+'. number_format($after['remaining_amount']) : 0;
         }
-    } else if($before['total'] < $after['total']) {
+    } else if($before['total'] != $after['total']) {
         $action = 'Bổ sung đơn hàng';
         $module = 'em_order_payment';
 
         $log_content[] = $after['remaining_amount'] > 0 ? '+'. number_format($after['remaining_amount']) : 0;
         $log_content[] = '+'. number_format($after['total'] - $before['total']);
-    } else if($before['location_id'] != $after['location_id']) {
-        $action = 'Cập nhật - Địa chỉ';
+    } else if($before['ship_days'] != $after['ship_days']) {
+        $action = 'Cập nhật';
+        $module = 'em_order_payment';
 
-        $log_content[] = $before['location_name'];
+        $log_content[] = 'Số ngày phát sinh phí ship ' . $after['ship_days'];
+        $log_content[] = 'Tổng tiền phí ship ' . number_format($after['ship_amount']);
+    } else if($before['discount'] != $after['discount']) {
+        $action = 'Cập nhật';
+        $module = 'em_order_payment';
+
+        $log_content[] = 'Giảm giá ' . $after['discount'];
     }
     
-    if($action != '') {
+    if($action != '' && count($log_content) > 0) {
         if($module == 'em_order_payment') {
             $content = implode('|', $log_content);
         } else {
@@ -336,6 +399,42 @@ function site_order_log($before = [], $after = [])
             'content'       => $content
         ]);
     }
+}
+
+function site_order_get_date_value($date_start = '', $days = 0)
+{
+    $i = 1;
+
+    while($i < $days) {
+        $time_next = strtotime($date_start) + DAY_IN_SECONDS;
+
+        $date_start = date('Y-m-d', $time_next);
+
+        if(in_array(date('D', $time_next), ['Sat', 'Sun'])) {
+            continue;
+        }
+
+        $i++;
+    }
+
+    return $date_start;
+}
+
+function site_order_get_date_next($date_start = '')
+{
+    while(1) {
+        $time_next = strtotime($date_start) + DAY_IN_SECONDS;
+
+        $date_start = date('Y-m-d', $time_next);
+
+        if(in_array(date('D', $time_next), ['Sat', 'Sun'])) {
+            continue;
+        }
+
+        return $date_start;
+    }
+
+    return '';
 }
 
 function site_order_list_link()
