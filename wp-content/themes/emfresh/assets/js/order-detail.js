@@ -245,7 +245,6 @@ function update_order_item_note(order_item) {
 
 function update_order_info() {
 	let total_amount = 0,
-		ship_amount = 0,
 		item_name = {},
 		type_name = {},
 		location_name = '',
@@ -256,14 +255,7 @@ function update_order_info() {
 		let p = $(this),
 			text, 
 			quantity = parseInt(p.find('.input-quantity').val()),
-			days = parseInt(p.find('.input-days').val()),
-			ship_fee = 0;
-
-		// tong ship se lay theo so ngay an lon nhat
-		ship_fee = parseInt(p.find('.input-ship_price').val() * days);
-		if(ship_amount < ship_fee) {
-			ship_amount = ship_fee;
-		}
+			days = parseInt(p.find('.input-days').val());
 
 		text = p.find('.input-product_id option:selected').text() || '';
 		if (text != '') {
@@ -311,11 +303,7 @@ function update_order_info() {
 	);
 	$('.input-order_note').val(order_note);
 	counts_type();
-	if (!isNaN(ship_amount)) {
-		$('.ip_ship_amount').val(ship_amount);
-		$('.input-ship_amount').val(format_money(ship_amount));
-		$('.info-pay .ship').text(format_money(ship_amount));
-	}
+	
 	$('.input-total,.input-total_amount').val(total_amount + ship_amount);
 	$('.text-total_amount').text(format_money(total_amount));
 }
@@ -620,6 +608,14 @@ function note_add_row(order_item, note_list) {
 
 $('.input-ship_amount, .input-discount, .paymented .input-preorder').each(function() {
 	$(this).val(format_money($(this).val()));
+});
+
+$('.input-ship_days').on('change', function () {
+	let ship_amount = parseInt($('.input-ship_price').val() * $(this).val());
+
+	$('.ip_ship_amount').val(ship_amount);
+	$('.input-ship_amount').val(format_money(ship_amount));
+	$('.info-pay .ship').text(format_money(ship_amount));
 });
 
 $('.input-ship_amount').on('keyup', function () {
