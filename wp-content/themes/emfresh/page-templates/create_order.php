@@ -90,7 +90,7 @@ get_header();
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="info-pay">
+                                    <div class="info-pay hidden">
                                         <div class="d-f jc-b pt-18">
                                             <span class="tlt fw-bold ">Tổng tiền phí ship:</span>
                                             <span class="ship">-</span>
@@ -241,6 +241,7 @@ get_footer('customer');
             if (currentTab.is(lastTab1) || currentTab.is(lastTab2)) {
                 $('.js-next-tab').addClass('hidden');
                 $('.js-create-order').removeClass('hidden');
+                $('.order-details .info-pay').show();
             } else {
                 $('.js-next-tab').removeClass('hidden');
                 $('.js-create-order').addClass('hidden');

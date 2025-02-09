@@ -12,12 +12,12 @@
         <div class="fee-item d-f jc-b ai-center">
             <p>Tổng tiền phí ship:</p>
             <input type="number" name="ship_amount" class="ip_ship_amount hidden" value="<?php echo $order_detail['ship_amount'] ?>" />
-            <input type="number" class="input-ship_amount" value="<?php echo $order_detail['ship_amount'] ?>" />
+            <input type="text" class="input-ship_amount text-right" value="<?php echo $order_detail['ship_amount'] ?>" />
         </div>
         <div class="fee-item d-f jc-b ai-center">
             <p>Giảm giá:</p>
             <input type="number" name="discount" class="ip_discount hidden" value="<?php echo $order_detail['discount'] ?>" />
-            <input type="number" class="input-discount" value="<?php echo $order_detail['discount'] ?>" />
+            <input type="text" class="input-discount text-right" value="<?php echo $order_detail['discount'] ?>" />
         </div>
     </div>
     <div class="total-pay d-f jc-b ai-center">
