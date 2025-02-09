@@ -118,6 +118,9 @@
 }
 
 .order {
+    input[type="number"] {
+        text-align: right;
+    }
     .tab-add-product {
         border-bottom: 1px solid var(--modal-divider, #DEDFE0);
         padding-bottom: 12px;
