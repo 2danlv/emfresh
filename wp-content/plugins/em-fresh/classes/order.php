@@ -257,9 +257,23 @@ class EM_Order extends EF_Default
         } else {
             global $em_location;
 
-            foreach ($order_ships as &$ship) {
+            $today = current_time('Y-m-d');
+
+            foreach ($order_ships as $i => $ship) {
+                if(!empty($ship['calendar']) && $ship['calendar'] <= $today) {
+                    unset($order_ships[$i]);
+                    continue;
+                }
+
+                if(empty($ship['location_id']) && empty($ship['location_name'])) {
+                    unset($order_ships[$i]);
+                    continue;
+                }
+
                 if (empty($ship['location_name']) && $ship['location_id'] > 0) {
                     $ship['location_name'] = $em_location->get_fullname($ship['location_id']);
+
+                    $order_ships[$i] = $ship;
                 }
             }
         }
