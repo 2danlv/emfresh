@@ -165,7 +165,7 @@ function update_order_item_info(order_item) {
 	}
 	type = type.toUpperCase(); 
 
-	order_details.find(`[data-id="${data_id}"] .date-start`).text(formattedDate);
+	// order_details.find(`[data-id="${data_id}"] .date-start`).text(formattedDate);
 	order_details.find(`[data-id="${data_id}"] .type`).text(type);
 	if (amount && quantity && order_item.find('.input-product_id option:selected').text()) {
 		order_details.find(`[data-id="${data_id}"]`).removeClass('hidden')

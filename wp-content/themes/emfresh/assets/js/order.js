@@ -347,7 +347,7 @@ function initializeDatePicker(selector, minDate, showDate) {
       } else {
           $(".order .toast.warning").removeClass("show");
       }  
-      showDate;
+      showDate();
   });
 }
 
