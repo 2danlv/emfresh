@@ -70,9 +70,18 @@ $(document).ready(function() {
 					<div class="row ai-center">
 						<div class="col-9 d-f ai-center nowrap">
 							<h1><?php the_title(); ?></h1>
+							<input class="input-search" placeholder="Tên khách hàng / SĐT / Địa chỉ" type="text">
 							<?php 
-							if ( is_page_template( 'page-templates/list-customer.php' ) || is_page_template( 'page-templates/list-order.php' ) ) { ?>
-								<input class="input-search" placeholder="Tên khách hàng / SĐT / Địa chỉ" type="text">
+							if ( !is_page_template( 'page-templates/list-customer.php' ) && !is_page_template( 'page-templates/list-order.php' ) ) { ?>
+							<style>
+								.content-header .input-search {
+									width: 0;
+									padding-left: 0;
+									padding-right: 0;
+									border: 1px solid transparent;
+									background: none;
+								}
+							</style>
 							<?php } 
 							?>
 						</div>

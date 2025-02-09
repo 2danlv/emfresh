@@ -359,3 +359,78 @@ function showDate() {
   let minDateStr = `${day}/${month}/${year}`;
   $(".order-details .date-start").text(minDateStr);
 }
+
+
+      function calculateParts() {
+        let startDateStr = $("#startDate").val();
+        let dateNumber = parseInt($("#dateNumber").val()) || 0;
+        let number = parseInt($("#number").val()) || 0;
+
+        // Khi nhập số ngày, tự động cập nhật số lượng = số ngày
+        if ($("#dateNumber").is(":focus")) {
+          $("#number").val(dateNumber);
+          number = dateNumber;
+        }
+
+        if (number < dateNumber) {
+          $('.alert').text("Số lượng không được nhỏ hơn số ngày sử dụng!");
+          $("#number").val(dateNumber);
+          number = dateNumber;
+        } else {
+            $('.alert').text("");
+        }
+        
+
+        if (!startDateStr || dateNumber <= 0 || number <= 0) {
+          $("#soPhanText,#remainingDaysText,#remainingPartsText").text("");
+          return;
+        }
+
+        let inputDate = new Date(startDateStr);
+
+        // Xác định effective start:
+        // Nếu inputDate là Saturday (6) => effectiveStart = inputDate + 2 (thứ 2)
+        // Nếu inputDate là Sunday (0)   => effectiveStart = inputDate + 1 (thứ 2)
+        // Ngược lại: effectiveStart = inputDate
+        let effectiveStart = new Date(inputDate);
+        let dow = effectiveStart.getDay();
+        if (dow === 6) { // Saturday
+          effectiveStart.setDate(effectiveStart.getDate() + 2);
+        } else if (dow === 0) { // Sunday
+          effectiveStart.setDate(effectiveStart.getDate() + 1);
+        }
+
+        // Tạo lịch làm việc gồm dateNumber ngày làm việc (Mon-Fri)
+        let schedule = getWorkSchedule(effectiveStart, dateNumber);
+
+        // Tính số ngày đã sử dụng là những ngày trong lịch mà < today_calendar
+        let usedDays = schedule.filter(function(d) {
+          return d < today_calendar;
+        }).length;
+
+        let remainingDays = dateNumber - usedDays;
+        if (remainingDays < 0) { remainingDays = 0; }
+
+        // Số phần mỗi ngày:
+        let soPhan = number / dateNumber;
+        let remainingParts = soPhan * remainingDays;
+
+        // Cập nhật kết quả hiển thị dưới dạng text
+        $("#soPhanText").text(soPhan.toFixed(2));
+        $("#remainingDaysText").text(remainingDays);
+        $("#remainingPartsText").text(remainingParts.toFixed(2));
+      }
+      calculateParts();
+      $("#dateNumber").on("input", function() {
+        let dn = parseInt($(this).val()) || 0;
+        $("#number").val(dn);
+        calculateParts();
+      });
+
+      $("#number").on("blur", function() {
+        calculateParts();
+      });
+
+      $("#startDate").on("input change", function() {
+        calculateParts();
+      });

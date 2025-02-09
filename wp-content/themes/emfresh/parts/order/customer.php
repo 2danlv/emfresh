@@ -151,52 +151,7 @@ $(document).ready(function() {
         $('.input-location_name').val(address);
 
         if(customer_id > 0) {
-            $.ajax({
-                url: '<?php echo home_url('em-api/location/list/'); ?>?customer_id=' + customer_id,
-                method: 'GET',
-                dataType: 'json',
-                success: function(response) {
-                    const container = $('.locations-container');
-                    container.empty();
-                    // console.log('location', response.data);
-                    
-                    response.data.forEach(location => {
-                        if(location.active == 1 && location_id == 0) {
-                            location_id = location.id;
-
-                            $('.input-location_id').val(location_id);
-                        }
-
-                        const template = `
-                            <div class="item" data-location_id="${location.id}">
-                                <p class="fs-16 color-black other-address">${location.location_name}</p>
-                                <div class="group-management-link d-f jc-b ai-center pt-8">
-                                    <div class="tooltip d-f ai-center">
-                                        <p class="fs-14 fw-regular color-gray">(Đã đăng ký chung nhóm ship: Thien Phuong Bui)</p>
-                                        <p class="note_shiper hidden">${location.note_shipper}</p>
-                                        <p class="note_admin hidden">${location.note_admin}</p>
-                                        <span class="fas tooltip-icon fa-info-gray"></span>
-                                        <div class="tooltip-content">
-                                            <div class="close fas fa-trash"></div>
-                                            <ul>
-                                                <li>Thien Phuong Bui</li>
-                                                <li>Dieu Linh (zalo)</li>
-                                                <li>Nguyen Hai Minh Thi</li>
-                                                <li>Dinh Thi Hien Ly</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <a class="management-link" href="#">Đi đến Quản lý nhóm</a>
-                                </div>
-                            </div>
-                        `;
-                        container.append(template);
-                    });
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error fetching data from API', error);
-                }
-            });
+            getLocation(customer_id,location_id);
 
             // Don hang gan day
             $.ajax({
