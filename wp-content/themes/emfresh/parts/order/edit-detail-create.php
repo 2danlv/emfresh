@@ -92,7 +92,9 @@
                                             <input type="hidden" name="order_item[<?php echo $i ?>][amount]" value="<?php echo $amount ?>" class="input-amount" />
                                         </div>
                                     </div>
-                                    <p class="note note-no-use pl-8 pt-4">Chưa dùng: <span>3</span></p>
+                                    <?php if($order_id > 0) { ?>
+                                    <p class="note note-no-use pl-8 pt-4">Chưa dùng: <span>0</span></p>
+                                    <?php } ?>
                                     <p class="console-product pl-8 pt-4"></p>
                                     <div class="d-f gap-12 ai-center">
                                         <label class="auto-fill-checkbox mt-16 mb-16">

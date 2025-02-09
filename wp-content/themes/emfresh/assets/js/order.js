@@ -180,17 +180,17 @@ $(document).ready(function() {
         calculateParts($deliveryItem);
     });
     $(document).on('change', '.input-days', function() {
-        let $deliveryItem = $(this).closest(".js-order-item");
-        $deliveryItem.find(".input-quantity").val($(this).val());
-        $deliveryItem.find(".note-no-use span").text($(this).val());
-        });
+        // let $deliveryItem = $(this).closest(".js-order-item");
+        // $deliveryItem.find(".input-quantity").val($(this).val());
+        // $deliveryItem.find(".note-no-use span").text($(this).val());
+    });
         $(document).on('blur', '.input-quantity', function() {
         let $deliveryItem = $(this).closest(".js-order-item");
             calculateParts($deliveryItem);
         });
         $(document).on('input change', '.input-date_start', function() {
-        let $deliveryItem = $(this).closest(".js-order-item");
-        calculateParts($deliveryItem);
+        //let $deliveryItem = $(this).closest(".js-order-item");
+        //calculateParts($deliveryItem);
     });
    
     
@@ -398,32 +398,32 @@ function getWorkSchedule(effectiveStart, totalDays) {
         $('.alert').text("");
     }
 
-    if (!startDateStr || dateNumber <= 0 || number <= 0) {
-        $deliveryItem.find(".note-no-use span").text("");
-        return;
-    }
+    // if (!startDateStr || dateNumber <= 0 || number <= 0) {
+    //     $deliveryItem.find(".note-no-use span").text("");
+    //     return;
+    // }
 
-    let inputDate = new Date(startDateStr);
-    let effectiveStart = new Date(inputDate);
-    let dow = effectiveStart.getDay();
-    if (dow === 6) {
-        effectiveStart.setDate(effectiveStart.getDate() + 2);
-    } else if (dow === 0) {
-        effectiveStart.setDate(effectiveStart.getDate() + 1);
-    }
+    // let inputDate = new Date(startDateStr);
+    // let effectiveStart = new Date(inputDate);
+    // let dow = effectiveStart.getDay();
+    // if (dow === 6) {
+    //     effectiveStart.setDate(effectiveStart.getDate() + 2);
+    // } else if (dow === 0) {
+    //     effectiveStart.setDate(effectiveStart.getDate() + 1);
+    // }
 
-    let schedule = getWorkSchedule(effectiveStart, dateNumber);
-    let usedDays = schedule.filter(function(d) {
-        return d < today;
-    }).length;
+    // let schedule = getWorkSchedule(effectiveStart, dateNumber);
+    // let usedDays = schedule.filter(function(d) {
+    //     return d < today;
+    // }).length;
 
-    let remainingDays = dateNumber - usedDays;
-    if (remainingDays < 0) { remainingDays = 0; }
+    // let remainingDays = dateNumber - usedDays;
+    // if (remainingDays < 0) { remainingDays = 0; }
 
-    let soPhan = number / dateNumber;
-    let remainingParts = soPhan * remainingDays;
+    // let soPhan = number / dateNumber;
+    // let remainingParts = soPhan * remainingDays;
 
-    $deliveryItem.find(".note-no-use span").text(remainingParts.toFixed(2));
+    // $deliveryItem.find(".note-no-use span").text(remainingParts.toFixed(2));
 }
   
       
