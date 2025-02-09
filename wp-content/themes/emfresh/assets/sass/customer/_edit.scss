@@ -92,7 +92,6 @@
       border-bottom: none;
     }
     .history-order {
-      overflow: auto;
       margin: 0 -16px;
       table {
         margin-bottom: 16px;
@@ -130,38 +129,7 @@
         }
       }
     }
-    .dt-paging {
-      display: inline-block;
-      nav {
-        display: flex;
-        button {
-          border-radius: 8px;
-          margin-left: 8px;
-          width: 40px;
-          height: 40px;
-          line-height: 40px;
-          text-align: center;
-          border: 1px solid var(--pagination-border-default, #DEDFE0);
-          background: var(--pagination-background-default, #FFF);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          &.current {
-            background-color: #2A8C51;
-            border: 1px solid var(--pagination-border-default, #2A8C51);
-            color: #fff;
-          }
-          &.disabled {
-            cursor: auto;
-          }
-          &.first,
-          &.last {
-            display: none;
-          }
-        }
-      }
-    }
+
     .btn-export {
       border-radius: var(--button-radiusCorner, 8px);
       border: 1.5px solid var(--button-outline-border-default, #DEDFE0);

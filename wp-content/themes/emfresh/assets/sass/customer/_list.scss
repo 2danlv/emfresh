@@ -244,6 +244,9 @@ table.dataTable thead tr > .dtfc-fixed-start {
 table.table {
     border-radius: 16px 16px 0px 0px;
     border-collapse: collapse;
+    * {
+        align-content: center;
+    }
     &.no-border {
         border-radius: 0;
         thead th {

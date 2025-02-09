@@ -264,6 +264,13 @@ $location_filter = [
 $response_get_location = em_api_request('location/list', $location_filter);
 $customer_tags = $em_customer_tag->get_items(['customer_id' => $customer_id]);
 $tag_ids = custom_get_list_by_key($customer_tags, 'tag_id');
+// lấy danh sách đơn hàng
+$detail_order_url = site_order_edit_link();
+$response_order = em_api_request('order/list', [
+	'paged' => 1,
+	'customer_id' => $customer_id,
+	'limit' => -1,
+  ]);
 get_header();
 // Start the Loop.
 // while ( have_posts() ) : the_post();
@@ -413,56 +420,48 @@ get_header();
 											Lịch sử đặt đơn
 										</div>
 										<div class="history-order" style="margin: 0;">
-											<table class="nowrap-bak">
-												<tr>
-													<th>Mã đơn</th>
-													<th>Mã gói sản phẩm</th>
-													<th>Ngày <br>
-														bắt đầu
-													</th>
-													<th>Ngày<br>
-														kết thúc
-													</th>
-													<th>Tổng tiền</th>
-													<th>Trạng thái<br>
-														thanh toán</th>
-													<th>Trạng thái<br>
-														đơn hàng</th>
-												</tr>
-												<tr>
-													<td>97</td>
-													<td>2SM+1ET+1EP+1TA</td>
-													<td>22/09/24</td>
-													<td align="center">-</td>
-													<td>400.000</td>
-													<td align="center"><span class="status_pay">Rồi</td>
-													<td align="center" class="status-order"><span class="status_order">Đang dùng</span></td>
-												</tr>
-												<tr>
-													<td>97</td>
-													<td>2SM+1ET+1EP+1TA</td>
-													<td>22/09/24</td>
-													<td>22/09/24</td>
-													<td>400.000</td>
-													<td align="center"><span class="status_pay">Rồi</td>
-													<td align="center" class="status-order"><span class="status_order">Đang dùng</span></td>
-												</tr>
+											<?php if (isset($response_order['data']) && is_array($response_order['data'])) { ?>
+											<table class="nowrap-bak regular">
+												<thead>
+													<tr>
+														<th>Mã đơn</th>
+														<th>Mã gói sản phẩm</th>
+														<th>Ngày <br>bắt đầu</th>
+														<th>Ngày<br>kết thúc</th>
+														<th>Tổng tiền</th>
+														<th>Trạng thái<br>thanh toán</th>
+														<th>Trạng thái<br>đơn hàng</th>
+													</tr>
+												</thead>
+												<tbody>
+													<?php 
+													foreach ($response_order['data'] as $record_order) {
+														// var_dump($response_order);
+														if (is_array($record_order)) {
+															$link = add_query_arg(['order_id' => $record_order['id']], $detail_order_url);
+														?>
+														<tr>
+															<td><a href="<?php echo $link ?>"><?php echo $record_order['order_number'] ?></a></td>
+															<td><a href="<?php echo $link ?>"><?php echo strtoupper($record_order['item_name']) ?></a></td>
+															<td><?php echo date('d/m/Y', strtotime($record_order['date_start'])) ?></td>
+															<td align="center"><?php echo date('d/m/Y', strtotime($record_order['date_stop'])) ?></td>
+															<td><?php echo $record_order['total'] > 0 ? number_format($record_order['total']) : 0 ?></td>
+															<td align="center"><span class="status_pay"><?php echo $record_order['payment_status_name'] ?></span></td>
+															<td align="center" class="status-order"><span class="status_order"><?php echo $record_order['status_name'] ?></span></td>
+														</tr>
+														<?php
+														} else {
+															echo "Không tìm thấy dữ liệu!\n";
+														}
+													}
+												}
+												?>
+												</tbody>
 											</table>
 										</div>
 										<div class="d-f ai-center jc-b pt-16">
 											<div class="btn btn-export d-f ai-center">
 												<span class="fas fa-export"></span> Xuất Excel
-											</div>
-											<div class="dt-paging">
-												<nav aria-label="pagination">
-													<button class="dt-paging-button disabled previous" role="link" type="button" aria-controls="list-customer" aria-disabled="true" aria-label="Previous" data-dt-idx="previous" tabindex="-1"><i class="fas fa-left"></i></button>
-													<button class="dt-paging-button current" role="link" type="button" aria-controls="list-customer" aria-current="page" data-dt-idx="0">1</button>
-													<button class="dt-paging-button" role="link" type="button" aria-controls="list-customer" aria-current="page" data-dt-idx="0">2</button>
-													<button class="dt-paging-button" role="link" type="button" aria-controls="list-customer" aria-current="page" data-dt-idx="0">3</button>
-													<button class="dt-paging-button" role="link" type="button" aria-controls="list-customer" aria-current="page" data-dt-idx="0">4</button>
-													<button class="dt-paging-button" role="link" type="button" aria-controls="list-customer" aria-current="page" data-dt-idx="0">5</button>
-													<button class="dt-paging-button disabled next" role="link" type="button" aria-controls="list-customer" aria-disabled="true" aria-label="Next" data-dt-idx="next" tabindex="-1"><i class="fas fa-right"></i></button>
-												</nav>
 											</div>
 										</div>
 									</div>
