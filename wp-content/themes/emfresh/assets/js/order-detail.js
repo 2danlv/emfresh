@@ -313,25 +313,19 @@ function update_order_info() {
 }
 
 function get_date_value(date_string, days) {
-	if (days > 0) {
-		let date = new Date(date_string), i = 1, unallowed = ['sun', 'sat'];
-
-		while(i < days) {
-			date.setDate(date.getDate() + 1);
-
-			let thu = date.toString().toLowerCase().substring(0,3);
-
-			if(unallowed.indexOf(thu) > -1) {
-				continue;
-			}
-
-			i++;
-		}
-
-		return date.toISOString().substring(0, 10);
-	}
-
-	return date_string;
+    if (days > 0) {
+        let date = new Date(date_string), i = 0;
+        while (i < days) {
+            date.setDate(date.getDate() + 1);
+            let dayOfWeek = date.getDay();
+            if (dayOfWeek === 0 || dayOfWeek === 6) {
+                continue;
+            }
+            i++;
+        }
+        return date.toISOString().substring(0, 10);
+    }
+    return date_string;
 }
 
 function get_ship_price(location_label) 

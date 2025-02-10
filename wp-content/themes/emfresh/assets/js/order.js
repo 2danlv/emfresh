@@ -367,18 +367,6 @@ function showDate() {
   $(".order-details .date-start").text(minDateStr);
 }
 
-function getWorkSchedule(effectiveStart, totalDays) {
-    let schedule = [];
-    let d = new Date(effectiveStart);
-    while (schedule.length < totalDays) {
-      let dow = d.getDay();
-      if (dow >= 1 && dow <= 5) {  // chỉ tính thứ 2 đến thứ 6
-        schedule.push(new Date(d));
-      }
-      d.setDate(d.getDate() + 1);
-    }
-    return schedule;
-  }
   function calculateParts($deliveryItem) {
     let today = new Date();
     let startDateStr = $deliveryItem.find(".input-date_start").val();
