@@ -345,14 +345,15 @@ get_header();
 									<span>Trạng thái khách hàng:</span>
 									<span><?php echo $response_customer['data']['status_name'] ?></span>
 								</div>
-								<?php var_dump($response_order['data']); ?>
+								<?php //var_dump($response_order['data']); ?>
 								<div class="d-f jc-b pt-8">
 									<span>Số đơn:</span>
 									<span><?php echo count($response_order['data']); ?></span>
 								</div>
 								<div class="d-f jc-b pt-8">
 									<span>Số ngày ăn:</span>
-									<span>60</span>
+									<?php $total_order_days = array_sum(array_column($response_order['data'], 'ship_days')); ?>
+									<span><?php echo $total_order_days; ?></span>
 								</div>
 								<div class="d-f jc-b pt-8">
 									<span>Số phần ăn:</span>
@@ -360,7 +361,8 @@ get_header();
 								</div>
 								<div class="d-f jc-b pt-8">
 									<span>Tổng tiền đã chi:</span>
-									<span>4.000.000</span>
+									<?php $total_order_money = array_sum(array_column($response_order['data'], 'total_amount')); ?>
+									<span class="total_order_money"><?php echo number_format($total_order_money); ?></span>
 								</div>
 								<div class="d-f jc-b pt-8">
 									<span>Điểm tích luỹ:</span>
@@ -368,7 +370,10 @@ get_header();
 								</div>
 								<div class="d-f jc-b pt-8 pb-4">
 									<span>Lịch sử đặt gần nhất:</span>
-									<span>08:31 29/09/2024</span>
+									<?php 
+									$max_date = max(array_column($response_order['data'], 'date_start'));
+									?>
+									<span><?php echo date('d/m/Y', strtotime($max_date)) ?></span>
 								</div>
 								<hr>
 								<div class="d-f jc-b pt-8">
