@@ -190,7 +190,12 @@ function site_order_submit()
                 $order_data['date_stop'] = $date_stop;
             }
 
-            $before = $em_order->get_item($order_id); 
+            $before = $em_order->get_item($order_id);
+
+            // doi tinh trang thanh toan thanh 1 phan
+            if($order_data['total'] > $before['total']) {
+                $order_data['payment_status'] = 3;
+            }
 
             $response = em_api_request('order/update', $order_data);
 

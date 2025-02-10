@@ -264,7 +264,6 @@ $location_filter = [
 $response_get_location = em_api_request('location/list', $location_filter);
 $customer_tags = $em_customer_tag->get_items(['customer_id' => $customer_id]);
 $tag_ids = custom_get_list_by_key($customer_tags, 'tag_id');
-// lấy danh sách đơn hàng
 $detail_order_url = site_order_edit_link();
 $response_order = em_api_request('order/list', [
 	'paged' => 1,

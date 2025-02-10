@@ -61,6 +61,9 @@ function update_order_item_info(order_item) {
 		if (type == 'd') {
 			// Gia goi an = gia goi tuan 1 bua/ngay*SL/5 + 5k*SL (day la phu thu)
 
+			quantity = days;
+			order_item.find('.input-quantity').val(quantity);
+
 			meal += 1;
 			meal_number = 1;
 
@@ -91,11 +94,11 @@ function update_order_item_info(order_item) {
 
 					debug.push(`Gia goi tuan ${meal_number} bua/ngay: gia = ` + format_money(price));
 
-					// price / 5 * so phan an
-					amount = price / 5 * quantity;
+					// price / (5 * so bua) * so phan an
+					amount = price / (5 * meal_number) * quantity;
 
-					debug.push(`Cong thuc: gia / 5 * so luong`);
-					debug.push(`Thanh tien: ${format_money(price)} / 5 * ${quantity} = ` + format_money(amount));
+					debug.push(`Cong thuc: gia / (5 * ${meal_number}) * so luong`);
+					debug.push(`Thanh tien: ${format_money(price)} / (5 * ${meal_number}) ${quantity} = ` + format_money(amount));
 				}
 			} else {
 				// Gia goi an = gia goi co so bua/ngay tuong ung tuan/5 * so ngay khach dat
@@ -117,7 +120,7 @@ function update_order_item_info(order_item) {
 		} else if (type == 'm') {
 			let quydoi = 0;
 
-			if (quantity <= 20) {
+			if (quantity <= 30) {
 				quydoi = 20;
 				meal_number = 1;
 			} else if (quantity <= 50) {
