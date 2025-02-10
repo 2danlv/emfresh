@@ -345,9 +345,10 @@ get_header();
 									<span>Trạng thái khách hàng:</span>
 									<span><?php echo $response_customer['data']['status_name'] ?></span>
 								</div>
+								<?php var_dump($response_order['data']); ?>
 								<div class="d-f jc-b pt-8">
 									<span>Số đơn:</span>
-									<span>12</span>
+									<span><?php echo count($response_order['data']); ?></span>
 								</div>
 								<div class="d-f jc-b pt-8">
 									<span>Số ngày ăn:</span>

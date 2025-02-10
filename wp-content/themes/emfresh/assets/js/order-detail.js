@@ -473,6 +473,12 @@ $(document).on('blur', '.js-order-item [name]', function () {
 			update_order_info();
 			
 			update_pay();
+			$('.card-ship-item .js-calendar.date').each(function() {
+				initializeDatePicker($(this), getMinDate(),getMaxDate(),null);
+				if ($(this).siblings('.input-date_start').val() === '') {
+					$(this).val('');
+				}
+			});
 		}			
 	}
 });

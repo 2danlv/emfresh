@@ -1,7 +1,11 @@
 const SHIP = 5000;
 $(document).ready(function() {
-    var today_calendar = new Date();
-    
+    if ($('.input-date_create').val() != '') {
+        mindate_start = $(this).closest('.js-order-item').find('.mindate_start').val();
+        today_calendar = moment(mindate_start).format('DD/MM/YYYY')
+      } else {
+          today_calendar = new Date();
+      }
     $(document).click(function(event) {
         if (!$(event.target).closest(".search-cus, .results, .no-results").length) {
             $(".results, .no-results").hide();
@@ -78,22 +82,21 @@ $(document).ready(function() {
         $(".explain-block").removeClass("show");
         $(".overlay-drop-menu").hide();
     });
-    initializeDatePicker('.start-day', today_calendar);
+    initializeDatePicker('.start-day', today_calendar,false,null);
     
-    $('.js-calendar.date').each(function() {
-        var today_calendar;
-        if ($('.input-date_create').val() != '') {
-          mindate_start = $(this).closest('.js-order-item').find('.mindate_start').val();
-          today_calendar = moment(mindate_start).format('DD/MM/YYYY')
-        } else {
-            today_calendar = new Date();
-        }
-        initializeDatePicker($(this), today_calendar,showDate);
+    $('.js-order-item .js-calendar.date').each(function() {
+        
+        initializeDatePicker($(this), today_calendar,false,showMinDate);
         if ($(this).siblings('.input-date_start').val() === '') {
             $(this).val('');
         }
     });
-
+    $('.card-ship-item .js-calendar.date').each(function() {
+        initializeDatePicker($(this), getMinDate(),getMaxDate(),null);
+        if ($(this).siblings('.input-date_start').val() === '') {
+            $(this).val('');
+        }
+    });
     
     let tabCount = 1;
 
@@ -129,7 +132,7 @@ $(document).ready(function() {
 
         $('.order_item_total').val(id);
         new_item.find('.js-calendar.date').each(function() {
-          initializeDatePicker($(this), today_calendar,showDate);
+          initializeDatePicker($(this), today_calendar,false,showMinDate);
         });
         new_item.find('.js-calendar.date').val('');
         $('.order-details').find('.order-wapper').append(generateInfoProduct('order_item_' + id));
@@ -165,6 +168,39 @@ $(document).ready(function() {
             $loop_deliveryItem.find(".js-note-ship").hide();
         }
     });
+    let count_card_ship_item = $(".order-card-ship .card-ship-item").length;
+    $(".delivery-field .add-new-note").click(function () {
+        let deliveryNewItem = $(".card-ship-item").first().clone();
+        deliveryNewItem.find("input, select, textarea").each(function () {
+            let name = $(this).attr("name");
+            let id = $(this).attr("id");
+            if (name) {
+                name = name.replace(/\[0\]/g, "[" + count_card_ship_item + "]");
+                $(this).attr("name", name);
+            }
+            if (id) {
+                let newId = id + "_" + count_card_ship_item;
+                $(this).attr("id", newId);
+                $(this).next("label").attr("for", newId);
+            }
+            
+            if ($(this).is(":checkbox")) {
+                $(this).prop("checked", false);
+            } else {
+                $(this).val("");
+            }
+        });
+        deliveryNewItem.find('.repeat-weekly').removeClass('show');
+        deliveryNewItem.find('.calendar').show();
+        deliveryNewItem.find('.js-note-ship').show();
+        deliveryNewItem.find('.note-shipper').addClass('hidden');
+        $(".card-ship-item").last().after(deliveryNewItem);
+        deliveryNewItem.find('.js-calendar.date').each(function() {
+          initializeDatePicker($(this), getMinDate(),getMaxDate(),null);
+        });
+        deliveryNewItem.find('.js-calendar.date').val('');
+        count_card_ship_item++;
+});
     $(".js-input-field").on("input", "input, select", function() {
         $(".order-details").fadeIn();
     });
@@ -310,12 +346,16 @@ function getAllNotesValues(item) {
     });
     return notesData;
 }
-function initializeDatePicker(selector, minDate, showDate) {
+function initializeDatePicker(selector, minDate = null,maxDate = false, showMinDate = null) {
+    if (!minDate) {
+        minDate = getMinDate();
+    }
   $(selector).daterangepicker({
       singleDatePicker: true,
       autoUpdateInput: true,
       autoApply: true,
       minDate: minDate,
+      maxDate: maxDate || false,
       opens: 'left',
       locale: {
           format: "DD/MM/YYYY",
@@ -336,22 +376,48 @@ function initializeDatePicker(selector, minDate, showDate) {
       var formattedDate = picker.startDate.format('YYYY-MM-DD');
       $(this).siblings('.input-date_start').val(formattedDate);
   }).on('apply.daterangepicker', function(ev, picker) {
-      var inputElement = $(this);
-      var formattedDate = picker.startDate.format('YYYY-MM-DD');
-      var targetInput = inputElement.siblings('.input-date_start');
-      targetInput.val(formattedDate);
-      var orderDateStop = $('.toast.warning .order_date_stop').text();
-      if (new Date(orderDateStop) >= new Date(formattedDate)) {
-          $(".order .toast.warning").addClass("show");
-          $('.order .toast.warning .order_date_stop_show').text(picker.startDate.format('DD/MM/YYYY'));
-      } else {
-          $(".order .toast.warning").removeClass("show");
-      }  
-      showDate();
+    var inputElement = $(this);
+    var formattedDate = picker.startDate.format('YYYY-MM-DD');
+    var targetInput = inputElement.siblings('.input-date_start');
+    targetInput.val(formattedDate);
+    var orderDateStop = $('.toast.warning .order_date_stop').text();
+    if (new Date(orderDateStop) >= new Date(formattedDate)) {
+        $(".order .toast.warning").addClass("show");
+        $('.order .toast.warning .order_date_stop_show').text(picker.startDate.format('DD/MM/YYYY'));
+    } else {
+        $(".order .toast.warning").removeClass("show");
+    }  
+    if (typeof showMinDate === "function") {
+        showMinDate();
+    }
   });
 }
+function getMaxDate() { 
+    let values = $(".js-order-item .input-date_stop").map(function() {  
+        return $(this).val();
+    }).get().filter(date => date); // Lọc các giá trị rỗng
 
-function showDate() {
+    if (values.length === 0) {
+        return null; // Trả về null nếu không có ngày hợp lệ
+    }
+
+    let dates = values.map(date => new Date(date));
+    return new Date(Math.max(...dates)); // Trả về ngày lớn nhất
+}
+function getMinDate() { 
+    let values = $(".js-order-item .input-date_start").map(function() {  
+        return $(this).val();
+    }).get().filter(date => date); // Lọc các giá trị rỗng
+
+    if (values.length === 0) {
+        return null; // Trả về null nếu không có ngày hợp lệ
+    }
+
+    let dates = values.map(date => new Date(date));
+    return new Date(Math.min(...dates)); // Trả về ngày nhỏ nhất
+}
+
+function showMinDate() {
   let values = $(".js-order-item .input-date_start").map(function() {
       return $(this).val();
   }).get().filter(date => date);
@@ -365,8 +431,9 @@ function showDate() {
   let year = minDate.getFullYear();
   let minDateStr = `${day}/${month}/${year}`;
   $(".order-details .date-start").text(minDateStr);
-}
-
+  
+  
+} 
   function calculateParts($deliveryItem) {
     let today = new Date();
     let startDateStr = $deliveryItem.find(".input-date_start").val();
