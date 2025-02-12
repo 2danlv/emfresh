@@ -78,6 +78,7 @@ class EM_Order extends EF_Default
             'ship_days'     => 0,
             'ship_amount'   => 0,
             'total_amount'  => 0,
+            'total_quantity'  => 0,
             'discount'      => 0,
             'note'          => '',
             'item_name'     => '',
@@ -157,7 +158,6 @@ class EM_Order extends EF_Default
         $list = [
             1 => "Rồi",
             2 => "Chưa",
-            // 3 => "COD",
             3 => "1 Phần"
         ];
 
@@ -293,9 +293,7 @@ class EM_Order extends EF_Default
             foreach ($data as $key => $value) {
                 $item[$key] = $value;
 
-                if ($key == 'status') {
-
-                    
+                if ($key == 'status') {                    
                     $item['status_name'] = $this->get_statuses($value);
                 } else if ($key == 'order_status') {
                     $item['order_status_name'] = $this->get_order_statuses($value);
@@ -312,7 +310,7 @@ class EM_Order extends EF_Default
 
                     $used_value = 0;
 
-                    if ($total > 0) {
+                    if ($total > 0 && isset($item['id'])) {
                         $order_items = $em_order_item->get_items([
                             'order_id' => $item['id'],
                         ]);
@@ -331,7 +329,7 @@ class EM_Order extends EF_Default
                     $item['used_value'] = $used_value;
                     $item['remaining_value'] = $total - $used_value;
                 } else if ($key == 'date_start') {
-                    if ($value == '0000-00-00') {
+                    if ($value == '0000-00-00' && isset($item['id'])) {
                         $order_items = $em_order_item->get_items([
                             'order_id' => $item['id'],
                             'limit' => 1,
@@ -347,7 +345,7 @@ class EM_Order extends EF_Default
                         }
                     }
                 } else if ($key == 'date_stop') {
-                    if ($value == '0000-00-00') {
+                    if ($value == '0000-00-00' && isset($item['id'])) {
                         $order_items = $em_order_item->get_items([
                             'order_id' => $item['id'],
                             'limit' => 1,
@@ -370,9 +368,24 @@ class EM_Order extends EF_Default
                     $item['note_admin'] = $location && isset($location['note_admin']) ? $location['note_admin'] : '';
                 } else if ($key == 'customer_id') {
                     $customer = $em_customer->get_item($value);
-
+                    
                     $item['customer_name'] = $customer && isset($customer['customer_name']) ? $customer['customer_name'] : '';
                     $item['phone'] = $customer && isset($customer['phone']) ? $customer['phone'] : '';
+                } else if ($key == 'total_quantity' && $value == 0 && isset($item['id'])) {
+                    $order_items = $em_order_item->get_items([
+                        'order_id' => $item['id'],
+                        'limit' => -1,
+                    ]);
+
+                    foreach($order_items as $order_item) {
+                        $value += $order_item['quantity'];
+                    }
+
+                    $item[$key] = $value;
+
+                    $this->update([
+                        'total_quantity' => $value
+                    ], ['id' => $item['id']]);
                 }
             }
 

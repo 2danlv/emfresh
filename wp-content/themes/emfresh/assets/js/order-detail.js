@@ -41,9 +41,9 @@ function update_order_item_info(order_item) {
 
 	let product_id = parseInt(order_item.find('.input-product_id').val());
 	let product = em_products.find(item => item.id == product_id);
-	let quantity = parseInt(order_item.find('.input-quantity').val());
+	let input_quantity = order_item.find('.input-quantity');
+	let quantity = parseInt(input_quantity.val());
 	let days = parseInt(order_item.find('.input-days').val());
-	// let type = order_item.find('.input-type').val().toLowerCase();
 	let type = order_item.find('.input-type').val();
 	let amount = 0;
 	let meal_number = 0; // so bua an
@@ -61,8 +61,10 @@ function update_order_item_info(order_item) {
 		if (type == 'd') {
 			// Gia goi an = gia goi tuan 1 bua/ngay*SL/5 + 5k*SL (day la phu thu)
 
-			quantity = days;
-			order_item.find('.input-quantity').val(quantity);
+			input_quantity.attr('min', 1);
+			if(quantity < 1) {
+				input_quantity.val(1);
+			}
 
 			meal += 1;
 			meal_number = 1;
@@ -78,6 +80,11 @@ function update_order_item_info(order_item) {
 				debug.push(`Thanh tien: ${format_money(price)} * ${quantity} / 5 + 5,000 * ${quantity} = ` + format_money(amount));
 			}
 		} else if (type == 'w') {
+			input_quantity.attr('min', 1);
+			if(quantity < 1) {
+				input_quantity.val(1);
+			}
+			
 			if (days <= 5) {
 				// Gia goi an = gia goi tuan có tong so phan an tiem can/ tong so phan an tuong ung cua goi nay * SL
 				if (quantity < 8) {
@@ -103,6 +110,12 @@ function update_order_item_info(order_item) {
 			} else {
 				// Gia goi an = gia goi co so bua/ngay tuong ung tuan/5 * so ngay khach dat
 				meal_number = parseInt(quantity / days);
+				if(quantity % days > 0) {
+					meal_number++;
+				}
+				if(meal_number > 3) {
+					meal_number = 3;
+				}
 				meal += meal_number;
 
 				if (typeof product[meal] != 'undefined') {
@@ -118,6 +131,11 @@ function update_order_item_info(order_item) {
 				}
 			}
 		} else if (type == 'm') {
+			input_quantity.attr('min', 15);
+			if(quantity < 15) {
+				input_quantity.val(15);
+			}
+
 			let quydoi = 0;
 
 			if (quantity <= 30) {
@@ -248,6 +266,7 @@ function update_order_item_note(order_item) {
 
 function update_order_info() {
 	let total_amount = 0,
+		ship_days = 0,
 		item_name = {},
 		type_name = {},
 		location_name = '',
@@ -293,6 +312,10 @@ function update_order_info() {
 
 			type_name[text] += parseInt(quantity / days);
 		}
+
+		if(ship_days < days) {
+			ship_days = days;
+		}
 		
 		total_amount += parseInt(p.find('.input-amount').val());
 	});
@@ -306,6 +329,10 @@ function update_order_info() {
 	);
 	$('.input-order_note').val(order_note);
 	counts_type();
+	
+	if($('.input-ship_days').val() != ship_days) {
+		$('.input-ship_days').val(ship_days);
+	}
 	
 	// $('.input-total,.input-total_amount').val(total_amount + ship_amount);
 	$('.input-total,.input-total_amount').val(total_amount);

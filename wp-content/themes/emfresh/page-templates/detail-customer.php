@@ -357,7 +357,8 @@ get_header();
 								</div>
 								<div class="d-f jc-b pt-8">
 									<span>Số phần ăn:</span>
-									<span>60</span>
+									<?php $total_quantity = array_sum(array_column($response_order['data'], 'total_quantity')); ?>
+									<span><?php echo $total_quantity; ?></span>
 								</div>
 								<div class="d-f jc-b pt-8">
 									<span>Tổng tiền đã chi:</span>
@@ -376,10 +377,14 @@ get_header();
 									<span><?php echo date('d/m/Y', strtotime($max_date)) ?></span>
 								</div>
 								<hr>
+								<?php if ($response_customer['data']['note_cook']) { ?>
 								<div class="d-f jc-b pt-8">
 									<span>Ghi chú dụng cụ ăn:</span>
 									<span><?php echo $response_customer['data']['note_cook']; ?></span>
 								</div>
+								<?php }
+								if (count($customer_tags) > 0) {
+								 ?>
 								<div class="pt-8 d-f">
 									<span class="nowrap pt-4">Tag phân loại:</span>
 									<div class="list-tag text-right jc-end col-item-right">
@@ -388,6 +393,7 @@ get_header();
 										<?php endforeach; ?>
 									</div>
 								</div>
+								<?php } ?>
 								<!-- /.card-body -->
 							</div>
 							<!-- /.card -->

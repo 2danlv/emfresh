@@ -70,7 +70,7 @@ class EM_Order_Item extends EF_Default
             'order_id'      => 'required',
             'type'          => 'required',
             'days'          => 'required',
-            'date_start'    => 'required',
+            // 'date_start'    => 'required',
             'quantity'      => 'required',
             'amount'        => 'required',
         );
