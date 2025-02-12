@@ -454,7 +454,7 @@ $(document).on("click", ".status-pay-menu .status-pay-item span", function () {
 	}
 	});
 	
-$(document).on('blur', '.js-order-item [name]', function () {
+$(document).on('blur', '.js-order-item [name]:not(.input-note_values)', function () {
 	let p = $(this),
 	order_item = p.closest('.js-order-item'),
 	dateNumber = parseInt(order_item.find(".input-days").val()) || 0,
@@ -465,10 +465,9 @@ $(document).on('blur', '.js-order-item [name]', function () {
     // } 
 	if (order_item.length > 0) {
 		let calendarInput = order_item.find('.js-calendar.date');
+		
 		if (calendarInput.val() !== undefined && calendarInput.val() !== '') {
 			update_order_item_info(order_item);
-			
-			update_order_item_note(order_item);
 			
 			update_order_info();
 			
@@ -479,10 +478,15 @@ $(document).on('blur', '.js-order-item [name]', function () {
 					$(this).val('');
 				}
 			});
-		}			
+		}	
+		
 	}
 });
-
+$(document).on('change', '.js-order-item .input-note_values', function () {
+	let p = $(this),
+	order_item = p.closest('.js-order-item');
+	update_order_item_note(order_item);		
+});
 $(document).on('click', '.js-search-customer', function () {
 	let search = $('.input-customer_search').val();
 
@@ -580,40 +584,43 @@ $('.js-order-item:not(.removed)').each(function () {
 		note_add_row(order_item, note_list);
 	}
 });
-
 $(document).on('click', '.js-add-note', function () {
-	let order_item = $(this).closest('.js-order-item');
-	if (order_item.length > 0) {
-		note_add_row(order_item);
-		initializeTagify('input.input-note_values');
-	}
+    let order_item = $(this).closest('.js-order-item');
+    if (order_item.length > 0) {
+        note_add_row(order_item);
+        initializeTagify('input.input-note_values');
+    }
 });
-
-function note_add_row(order_item, note_list) {
-	// select2
-	let html = $('#note_template').html();
-	if (typeof html != 'string') return;
-
-	if (typeof note_list == 'object') {
-		Object.keys(note_list).forEach(name => {
-			let item = note_list[name];
-
-			if (item.values.length > 0) {
-				let note_row = $(html),
-					input = note_get_input(em_notes[name]);
-
-				note_row.find('.input-note_name').val(name);
-
-				input.val(item.values);
-
-				note_row.find('.col-note_values').html(input);
-
-				order_item.find('.js-note-list').append(note_row);
-			}
-		});
-	} else {
-		order_item.find('.js-note-list').append(html);
-	}
+function note_add_row(order_item) {
+    let html = $('#note_template').html();
+    if (typeof html !== 'string') return;
+    let tempElement = $('<div>').html(html);
+    let optionCount = tempElement.find('select[name="note_name"] option').length;
+    let existingCategories = [];
+    order_item.find('.input-note_name').each(function () {
+        existingCategories.push($(this).val());
+    });
+    if (existingCategories.length >= optionCount) {
+        order_item.find('.js-add-note').hide();
+        return;
+    } else {
+        order_item.find('.js-add-note').show();
+    }
+    let note_row = $(html);
+    let select = note_row.find('.input-note_name');
+    select.find('option').each(function () {
+        if (existingCategories.includes($(this).val())) {
+            $(this).remove();
+        }
+    });
+    if (select.find('option').length > 0) {
+        order_item.find('.js-note-list').append(note_row);
+    }
+    if (order_item.find('.row-note').length >= optionCount) {
+        order_item.find('.js-add-note').hide();
+    } else {
+        order_item.find('.js-add-note').show();
+    }
 }
 
 $('.input-ship_amount, .input-discount, .paymented .input-preorder').each(function() {

@@ -179,7 +179,7 @@ get_header();
 		</select>
 	</div>
 	<div class="col-8 col-note_values tag-container">
-		<input type="text" name="note_values" class="form-control input-note_values" />
+		<input type="hidden" name="note_values" class="form-control input-note_values" />
 	</div>
 </div>
 </script>

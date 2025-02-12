@@ -979,7 +979,10 @@ tags.tagify.form-control {
         cursor: pointer;
     }
 }
-
+body .tagify+input, body .tagify+textarea {
+    transform:none !important;
+    position: static !important;
+}
 .order .history-order {
 
     max-height: calc(62vh - 136px);

@@ -181,6 +181,7 @@ get_header();
 <div class="row row-note mb-16">
 	<div class="col-4">
 		<select name="note_name" class="form-control input-note_name">
+            <option value="" disable selected>Select list</option>
 			<?php
 				foreach ($list_notes as $name => $note_item) {
 					printf('<option value="%s">%s</option>', $name, $note_item['name']);
@@ -189,11 +190,15 @@ get_header();
 		</select>
 	</div>
 	<div class="col-8 col-note_values tag-container">
-		<input type="text" name="note_values" class="form-control input-note_values" />
+		<input type="hidden" name="note_values" value="" class="form-control input-note_values" />
 	</div>
 </div>
 </script>
 <?php
+$list_notes = array_merge(
+    ["Select" => ["name" => "-", "values" => []]], // Mục rỗng
+    $list_notes // Danh sách cũ
+);
 $categoriesJSON = json_encode($list_notes, JSON_UNESCAPED_UNICODE);
 // endwhile;
 get_footer('customer');

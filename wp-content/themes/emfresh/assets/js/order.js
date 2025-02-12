@@ -118,23 +118,22 @@ $(document).ready(function() {
         let index = parseInt($('.order_item_total').val()),
             id = index + 1,
             new_item = $(html.replace(/(\[0\])/g, '[' + index + ']')).show();
+            new_item.find('.text-amount').text('0');
+            new_item.attr('id', 'order_item_' + id);
+            new_item.find('input, select, textarea').val('');
+            new_item.find('.special-request').html('');
+            new_item.find('.js-add-note').show();
+            $('.js-order-item').hide();
+            $('.js-order-items').append(new_item);
+            $('.btn-add_order').removeClass('active');
+            new_item.find('.group-type input').prop('disabled', false);
+            $(this).before(`<span class="btn btn-add_order active tab-button js-show-order-item" data-tab="order_item_${id}" data-id="order_item_${id}">Sản phẩm ${id}<span class="remove-tab"></span></span>`);
 
-
-        new_item.find('.text-amount').text('0');
-        new_item.attr('id', 'order_item_' + id);
-        new_item.find('input, select, textarea').val('');
-        new_item.find('.special-request').html('');
-        $('.js-order-item').hide();
-        $('.js-order-items').append(new_item);
-        $('.btn-add_order').removeClass('active');
-        new_item.find('.group-type input').prop('disabled', false);
-        $(this).before(`<span class="btn btn-add_order active tab-button js-show-order-item" data-tab="order_item_${id}" data-id="order_item_${id}">Sản phẩm ${id}<span class="remove-tab"></span></span>`);
-
-        $('.order_item_total').val(id);
-        new_item.find('.js-calendar.date').each(function() {
-          initializeDatePicker($(this), today_calendar,false,showMinDate);
-        });
-        new_item.find('.js-calendar.date').val('');
+            $('.order_item_total').val(id);
+            new_item.find('.js-calendar.date').each(function() {
+                initializeDatePicker($(this), today_calendar,false,showMinDate);
+            });
+            new_item.find('.js-calendar.date').val('');
         $('.order-details').find('.order-wapper').append(generateInfoProduct('order_item_' + id));
     });
 

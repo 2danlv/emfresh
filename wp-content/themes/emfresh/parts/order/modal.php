@@ -100,6 +100,7 @@
 		</div>
 	</div>
 </div>
+<?php if($order_id > 0) { ?>
 <div class="modal fade modal-warning" id="modal-end">
 	<div class="overlay"></div>
 	<div class="modal-dialog">
@@ -119,6 +120,7 @@
 		</div>
 	</div>
 </div>
+<?php } ?>
 <div class="modal fade" id="modal-continue">
 	<div class="overlay"></div>
 	<div class="modal-dialog">
