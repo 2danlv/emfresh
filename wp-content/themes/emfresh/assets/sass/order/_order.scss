@@ -116,7 +116,14 @@
 .txt-green {
     color: var(--color-primary-900, #208046);
 }
-
+.disabled {
+    .tag-container * {
+        pointer-events: none !important;
+    }
+}
+.is-disabled {
+    pointer-events: none;
+}
 .order {
     input[type="number"] {
         text-align: right;
@@ -298,10 +305,10 @@
     .note-w-shipper {
         display: none;
     }
-tags.tagify.form-control {
-    margin: 0;
-    padding: 0;
-}
+    tags.tagify.form-control {
+        margin: 0;
+        padding: 0;
+    }
     .card-primary input[type="text"],
     .card-primary input[type="number"],
     .card-primary input[type="tel"],
@@ -325,10 +332,6 @@ tags.tagify.form-control {
                 border: 1px solid var(--input-border-focus, #4ba66f);
                 background: url(../img/icon/search.svg) left 8px center #fff no-repeat;
             }
-        }
-
-        &.is-disabled {
-            pointer-events: none;
         }
 
         &.tag-input {

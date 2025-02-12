@@ -613,36 +613,65 @@ $('.js-order-item:not(.removed)').each(function () {
 });
 $(document).on('click', '.js-add-note', function () {
     let order_item = $(this).closest('.js-order-item');
-    if (order_item.length > 0) {
+
+    
+    let hasEmptySelect = false;
+    order_item.find('select.input-note_name').each(function () {
+        if ($(this).val().trim() === '') {
+            hasEmptySelect = true;
+            return false; 
+        }
+    });
+
+    
+    if (hasEmptySelect) {
+        console.log("Có ít nhất một select rỗng, không thêm hàng mới.");
+        return;
+    }
+
+    
+    if (order_item.length > 0) { 
         note_add_row(order_item);
         initializeTagify('input.input-note_values');
     }
 });
+
 function note_add_row(order_item) {
     let html = $('#note_template').html();
     if (typeof html !== 'string') return;
+
     let tempElement = $('<div>').html(html);
-    let optionCount = tempElement.find('select[name="note_name"] option').length;
+    let optionCount = tempElement.find('select[name="note_name"] option').length - 1; // Trừ đi option rỗng
+
     let existingCategories = [];
     order_item.find('.input-note_name').each(function () {
         existingCategories.push($(this).val());
     });
+
     if (existingCategories.length >= optionCount) {
         order_item.find('.js-add-note').hide();
         return;
     } else {
         order_item.find('.js-add-note').show();
     }
+
     let note_row = $(html);
     let select = note_row.find('.input-note_name');
+
+    // Xóa option rỗng khỏi select trước khi hiển thị
+    //select.find('option[value=""]').remove();
+
+    // Loại bỏ các category đã chọn khỏi dropdown mới
     select.find('option').each(function () {
         if (existingCategories.includes($(this).val())) {
             $(this).remove();
         }
     });
+
     if (select.find('option').length > 0) {
         order_item.find('.js-note-list').append(note_row);
     }
+
     if (order_item.find('.row-note').length >= optionCount) {
         order_item.find('.js-add-note').hide();
     } else {
