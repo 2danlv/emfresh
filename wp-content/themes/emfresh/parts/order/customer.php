@@ -5,7 +5,7 @@ $js_duplicate_url = add_query_arg(['dupnonce' => wp_create_nonce('dupnonce')], g
 ?>
 <div class="card card-no_border">
     <div class="box-search">
-        <input class="search-cus mb-16" id="search" placeholder="Tìm khách hàng bằng tên / SĐT" type="text">
+        <input class="search-cus mb-16" id="search" value="<?php echo $response_customer['data']['customer_name']; ?>" placeholder="Tìm khách hàng bằng tên / SĐT" type="text">
         <div class="search-result">
             <div class="no-results active">
                 <img class="pt-18 pb-8" src="<?php site_the_assets(); ?>/img/icon/no-results.svg" alt="">
@@ -20,10 +20,10 @@ $js_duplicate_url = add_query_arg(['dupnonce' => wp_create_nonce('dupnonce')], g
     </div>
     <div class="row input-order">
         <div class="col-8 pb-16">
-            <input type="text" name="nickname" class="fullname is-disabled form-control" placeholder="Tên khách hàng">
+            <input type="text" name="nickname" value="<?php echo $response_customer['data']['customer_name'] ?>" class="fullname is-disabled form-control" placeholder="Tên khách hàng">
         </div>
         <div class="col-4 pb-16">
-            <input type="text" name="phone" class="phone is-disabled form-control" placeholder="SĐT">
+            <input type="text" name="phone" class="phone is-disabled form-control" value="<?php echo $response_customer['data']['phone']; ?>" placeholder="SĐT">
         </div>
         <div class="col-12 pb-16">
             <input type="text" class="name_2nd form-control" placeholder="Tên người nhận">
@@ -35,7 +35,35 @@ $js_duplicate_url = add_query_arg(['dupnonce' => wp_create_nonce('dupnonce')], g
             <p class="fs-14 fw-regular note-shipper hidden color-gray pt-4 pl-8">Note với shipper: <span class="note_shiper"></span></p>
             <p class="fs-14 fw-regular note-admin hidden color-gray pt-4 pl-8">Note với admin: <span class="note_admin"></span></p>
             <div class="dropdown-menu">
-                <div class="locations-container"></div>
+                <div class="locations-container">
+                     <?php
+                        foreach ($response_get_location['data'] as $index => $record) {
+                        ?>
+                        <div class="item <?php echo $record['active']; ?>" data-location_id="<?php echo $record['id'] ?>">
+                            <p class="fs-16 color-black other-address"><?php echo $record['location_name'] ?></p>
+                            <div class="group-management-link d-f jc-b ai-center pt-8">
+                                <div class="tooltip d-f ai-center">
+                                    <p class="fs-14 fw-regular color-gray">(Đã đăng ký chung nhóm ship: Thien Phuong Bui)</p>
+                                    <p class="note_shiper hidden"><?php echo $record['note_shipper'] ?></p>
+                                    <p class="note_admin hidden"><?php echo $record['note_admin'] ?></p>
+                                    <span class="fas tooltip-icon fa-info-gray"></span>
+                                    <div class="tooltip-content">
+                                        <div class="close fas fa-trash"></div>
+                                        <ul>
+                                            <li>Thien Phuong Bui</li>
+                                            <li>Dieu Linh (zalo)</li>
+                                            <li>Nguyen Hai Minh Thi</li>
+                                            <li>Dinh Thi Hien Ly</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <a class="management-link" href="#">Đi đến Quản lý nhóm</a>
+                            </div>
+                        </div>
+                        <?php
+                        }
+                    ?>
+                </div>
                 <div data-target="#modal-add-address" class="btn-add-address modal-button d-f ai-center pb-16 pt-8 pl-8">
                     <span class="fas fa-plus mr-8"></span>Thêm địa chỉ mới
                 </div>
@@ -47,7 +75,15 @@ $js_duplicate_url = add_query_arg(['dupnonce' => wp_create_nonce('dupnonce')], g
 </div>
 <script>
 $(document).ready(function() {
-
+    var name = $('.order .input-order .fullname').val();
+    var phone = $('.order .input-order .phone').val();
+    var add_active = $('.order .input-order .dropdown-menu .item.1 .other-address').text();
+    $('.info-customer').show();
+    $('.info-customer .customer-name').text(name);
+    $('.info-customer .customer-phone').text(phone);
+    $('.info-customer .customer-address').text(add_active);
+    $('.order .input-order .address_delivery').val(add_active);
+    
     $('.js-show-order-item:first .remove-tab').addClass("hidden");
     $('.input-order .name_2nd').keyup(function() {
         var input_name_2nd = $(this).val();

@@ -121,6 +121,22 @@ $order_ships = $em_order->get_ships($order_detail);
                     <p class="fs-14 fw-regular note-shipper hidden color-gray pt-4 pl-8">Note với shipper: <span class="note_shiper"></span></p>
                     <div class="dropdown-menu">
                         <div class="locations-container">
+                        <?php
+                        foreach ($response_get_location['data'] as $index => $record) {
+                        ?>
+                        <div class="item <?php echo $record['active']; ?>" data-location_id="<?php echo $record['id'] ?>">
+                            <p class="fs-16 color-black other-address"><?php echo $record['location_name'] ?></p>
+                            <div class="group-management-link d-f jc-b ai-center pt-8">
+                                <div class="tooltip d-f ai-center">
+                                    <p class="fs-14 fw-regular color-gray">(Đã đăng ký chung nhóm ship: Thien Phuong Bui)</p>
+                                    <p class="note_shiper hidden"><?php echo $record['note_shipper'] ?></p>
+                                    <p class="note_admin hidden"><?php echo $record['note_admin'] ?></p>
+                                </div>
+                            </div>
+                        </div>
+                        <?php
+                        }
+                    ?>
                         </div>
                         <div data-target="#modal-add-address" class="btn-add-address modal-button d-f ai-center pb-8 pt-8 pl-8">
                             <span class="fas fa-plus mr-8"></span>Thêm địa chỉ mới

@@ -46,6 +46,30 @@ if($order_id > 0) {
 }
 $order_item_total = count($order_items);
 extract($order_detail);
+$customer_id = isset($_GET['customer_id']) ? intval($_GET['customer_id']) : 0;
+
+
+// lấy 1 customer
+$customer_filter = [
+	'id' => $customer_id
+];
+$response_customer = em_api_request('customer/item', $customer_filter);
+
+// lấy danh sách location
+$location_filter = [
+	'customer_id' => $customer_id,
+	'limit' => -1,
+	'orderby' => 'active DESC, id DESC',
+];
+
+$response_get_location = em_api_request('location/list', $location_filter);
+
+$response_order = em_api_request('order/list', [
+	'paged' => 1,
+	'customer_id' => $customer_id,
+	'limit' => -1,
+  ]);
+// var_dump($response_order);
 get_header();
 // Start the Loop.
 // while ( have_posts() ) : the_post();

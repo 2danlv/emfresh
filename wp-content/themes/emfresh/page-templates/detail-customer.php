@@ -17,7 +17,7 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : 'info';
 
 $list_customer_url 		= home_url('customer');
 $detail_customer_url 	= add_query_arg(['customer_id' => $customer_id], get_permalink());
-
+$add_order_url = site_order_add_link();
 $list_gender = $em_customer->get_genders();
 $list_tags = $em_customer->get_tags();
 $list_actives = $em_customer->get_actives();
@@ -307,7 +307,7 @@ get_header();
 								</span>
 						<?php }
 						} ?>
-						<a class="btn btn-primary btn-add_order" href="#"><span class="d-f ai-center"><i class="fas mr-4"><img src="<?php echo site_get_template_directory_assets(); ?>img/icon-hover/plus-svgrepo-com_white.svg" alt=""></i>Tạo đơn mới</span></a>
+						<a class="btn btn-primary btn-add_order" href="<?php echo $add_order_url; ?>?customer_id=<?php echo $customer_id; ?>"><span class="d-f ai-center"><i class="fas mr-4"><img src="<?php echo site_get_template_directory_assets(); ?>img/icon-hover/plus-svgrepo-com_white.svg" alt=""></i>Tạo đơn mới</span></a>
 						<span class="btn btn-primary btn-disable btn-save_edit hidden">Lưu thay đổi</span>
 					</div>
 				</div>
@@ -465,10 +465,10 @@ get_header();
 															echo "Không tìm thấy dữ liệu!\n";
 														}
 													}
-												}
 												?>
 												</tbody>
 											</table>
+											<?php } ?>
 										</div>
 										<div class="d-f ai-center jc-b pt-16">
 											<div class="btn btn-export d-f ai-center">
