@@ -63,6 +63,7 @@ function update_order_item_info(order_item) {
 
 			input_quantity.attr('min', 1);
 			if(quantity < 1) {
+				quantity = 1;
 				input_quantity.val(1);
 			}
 
@@ -82,6 +83,7 @@ function update_order_item_info(order_item) {
 		} else if (type == 'w') {
 			input_quantity.attr('min', 1);
 			if(quantity < 1) {
+				quantity = 1;
 				input_quantity.val(1);
 			}
 			
@@ -109,10 +111,7 @@ function update_order_item_info(order_item) {
 				}
 			} else {
 				// Gia goi an = gia goi co so bua/ngay tuong ung tuan/5 * so ngay khach dat
-				meal_number = parseInt(quantity / days);
-				if(quantity % days > 0) {
-					meal_number++;
-				}
+				meal_number = roundup(quantity, days);
 				if(meal_number > 3) {
 					meal_number = 3;
 				}
@@ -133,6 +132,7 @@ function update_order_item_info(order_item) {
 		} else if (type == 'm') {
 			input_quantity.attr('min', 15);
 			if(quantity < 15) {
+				quantity = 15;
 				input_quantity.val(15);
 			}
 
@@ -287,7 +287,7 @@ function update_order_info() {
 				item_name[text] = 0;
 			}
 
-			item_name[text] += parseInt(quantity / days);
+			item_name[text] += roundup(quantity, days);
 		}
 
 		text = p.find('.input-location_id option:selected').text() || '';
@@ -310,7 +310,7 @@ function update_order_info() {
 				type_name[text] = 0;
 			}
 
-			type_name[text] += parseInt(quantity / days);
+			type_name[text] += roundup(quantity, days);
 		}
 
 		if(ship_days < days) {
@@ -330,9 +330,7 @@ function update_order_info() {
 	$('.input-order_note').val(order_note);
 	counts_type();
 	
-	if($('.input-ship_days').val() != ship_days) {
-		$('.input-ship_days').val(ship_days);
-	}
+	$('.input-ship_days').val(ship_days);
 	
 	// $('.input-total,.input-total_amount').val(total_amount + ship_amount);
 	$('.input-total,.input-total_amount').val(total_amount);
@@ -751,4 +749,14 @@ function counts_type() {
 		result.push(`D`);
 	}
 	$(".info-order .type-total").text(result.join(', '));
+}
+
+function roundup(a, b) {
+	let c = parseInt(a/b);
+
+	if(a % b > 0) {
+		c++;
+	}
+
+	return c;
 }

@@ -141,8 +141,10 @@ function site_order_submit()
                             $log_content = [];
 
                             foreach ($item_labels as $key => $label) {
-                                if (isset($before[$key]) && isset($order_item[$key]) && $order_item[$key] != $before[$key]) {
-                                    $value = $order_item[$key];
+                                $before_value = isset($before[$key]) ? $before[$key] : '';
+                                $value = isset($order_item[$key]) ? $order_item[$key] : '';
+                                
+                                if ($value != $before_value) {
 
                                     if ($key == 'product_id') {
                                         $value = $em_order_item->get_product($value, 'name');
@@ -330,9 +332,10 @@ function site_order_log($before = [], $after = [])
     ];
 
     foreach ($payment_labels as $key => $label) {
-        if (isset($before[$key]) && isset($after[$key]) && $after[$key] != $before[$key]) {
-            $value = $after[$key];
-
+        $before_value = isset($before[$key]) ? $before[$key] : '';
+        $value = isset($after[$key]) ? $after[$key] : '';
+        
+        if ($value != $before_value) {
             if ($key == 'payment_method') {
                 $value = $em_order->get_payment_methods($value);
             } else if ($key == 'payment_status') {
@@ -496,6 +499,107 @@ function site_order_get_date_next($date_start = '')
     }
 
     return '';
+}
+
+function site_order_get_meal_plans($args = [])
+{
+    global $em_order, $em_order_item;
+
+    $args = wp_unslash($args);
+
+    $customer_id = isset($args['customer_id']) ? intval($args['customer_id']) : 0;
+
+    $order_detail = [];
+
+    $data = [];
+
+    $order_id = isset($args['order_id']) ? intval($args['order_id']) : 0;
+    if($order_id > 0) {
+        $order_detail = $em_order->get_item($order_id);
+
+        if($customer_id == 0) {
+            $customer_id = $order_detail['customer_id'];
+        }
+
+        $orders = [ $order_detail ];
+    } else {
+        $q_args = ['limit' => -1];
+
+        if($customer_id > 0) {
+            $q_args['customer_id'] = $customer_id;
+        }
+
+        $orders = $em_order->get_items($q_args);
+    }
+
+    if(count($orders) > 0) {
+        $date_start = '';
+        $date_stop = '';
+
+        foreach($orders as &$order) {
+            $q_args = [
+                'limit' => -1,
+                'order_id' => $order['id'],
+            ];
+
+            $order_items = $em_order_item->get_items($q_args);
+
+            $order_date_stop = $order['date_stop'];
+
+            $order_meal_plan_items = [];
+
+            foreach($order_items as &$order_item) {
+                $order_item['meal_plan_items'] = $em_order_item->get_meal_plan($order_item);
+
+                if(count($order_item['meal_plan_items']) > 0) {
+                    $keys = array_keys($order_item['meal_plan_items']);
+                    $order_item_date_stop = end($keys);
+
+                    if ($order_date_stop < $order_item_date_stop) {
+                        $order_date_stop = $order_item_date_stop;
+                    }
+
+                    foreach($order_item['meal_plan_items'] as $day => $value) {
+                        if(empty($order_meal_plan_items[$day])) {
+                            $order_meal_plan_items[$day] = 0;
+                        }
+
+                        $order_meal_plan_items[$day] += $value;
+                    }
+                }
+            }
+
+            $order['order_items'] = $order_items;
+            $order['meal_plan_items'] = $order_meal_plan_items;
+
+            if ($date_start == '' || $date_start > $order['date_start']) {
+                $date_start = $order['date_start'];
+            }
+
+            if ($date_stop == '' || $date_stop < $order_date_stop) {
+                $date_stop = $order_date_stop;
+            }
+        }
+
+        $list = [$date_start];
+        
+        while ($date_start < $date_stop) {
+            $time_next = strtotime($date_start) + DAY_IN_SECONDS;
+
+            $date_start = date('Y-m-d', $time_next);
+
+            if (in_array(date('D', $time_next), ['Sun', 'Sat'])) {
+                continue;
+            }
+
+            $list[] = $date_start;
+        }
+
+        $data['schedule'] = $list;
+        $data['orders'] = $orders;
+    }
+
+    return $data;
 }
 
 function site_order_list_link()

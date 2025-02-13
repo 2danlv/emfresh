@@ -201,7 +201,7 @@ class EM_Order extends EF_Default
         return substr($prefix, 0, $max - $n) . substr($number, 0, $n);
     }
 
-    function get_params($id = 0, $field = '')
+    function get_params($id = 0)
     {
         $params = [];
 
