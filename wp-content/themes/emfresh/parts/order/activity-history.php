@@ -12,7 +12,7 @@ $order_logs = $em_log->get_items([
         <table class="regular">
             <thead>
                 <tr>
-                    <th>Ngày thực hiện</th>
+                    <th>Người thực hiện</th>
                     <th>Hành động</th>
                     <th>Trường</th>
                     <th>Mô tả</th>

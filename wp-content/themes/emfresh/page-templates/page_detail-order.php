@@ -108,15 +108,19 @@ get_header();
 								if ($min_date_start === null || strtotime($item['date_start']) < strtotime($min_date_start)) {
 									$min_date_start = $item['date_start'];
 								}
-							} ?>
-							<?php $today = date('Y-m-d');
+							} 
+							$today = date('Y-m-d');
 							$user = $current_user->roles;
+							$status = $order_detail['status'];
+							if ($status != 2) {
 							if ($today < $min_date_start || $user[0] === 'administrator') {
 							 ?>
 							<div class="btn btn-danger remove-customer modal-button" data-target="#modal-end">
 								Xoá đơn này
 							</div>
-							<?php } ?>
+							<?php }
+							}
+							?>
 						</div>
 					</div>
 				</div>
