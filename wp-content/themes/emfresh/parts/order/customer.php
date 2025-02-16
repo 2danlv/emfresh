@@ -117,12 +117,13 @@ $(document).ready(function() {
         var input_name_2nd = $(this).val();
         var input_fullname = $('.input-order .fullname').val();
         var split_fullname = input_fullname.match(/\((.*?)\)/);
-        if (split_fullname && input_name_2nd !='') {
-            $('.info-customer .customer-name_2nd').show();
+        $('.info-customer .customer-name_2nd').show();
+        if (split_fullname != null && input_name_2nd !='') {
+            
             $('.form-add-order .input-customer_name_2nd').val(input_name_2nd + " " + split_fullname[0]);
             $('.info-customer .customer-name_2nd span').text(input_name_2nd + " " + split_fullname[0]);
         } else {
-            $('.info-customer .customer-name_2nd').hide();
+            // $('.info-customer .customer-name_2nd').hide();
             $('.form-add-order .input-customer_name_2nd').val(input_name_2nd);
             $('.info-customer .customer-name_2nd span').text(input_name_2nd);
         }

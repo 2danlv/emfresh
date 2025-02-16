@@ -358,6 +358,10 @@ function initializeDatePicker(selector, minDate = null,maxDate = false, showMinD
       minDate: minDate,
       maxDate: maxDate || false,
       opens: 'left',
+      isInvalidDate: function(date) {
+            // Disable Saturdays (6) and Sundays (0)
+            return date.day() === 0 || date.day() === 6;
+        },
       locale: {
           format: "DD/MM/YYYY",
           daysOfWeek: ["CN", "T2", "T3", "T4", "T5", "T6", "T7"],

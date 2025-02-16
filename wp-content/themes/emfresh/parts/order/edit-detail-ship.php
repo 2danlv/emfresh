@@ -255,6 +255,20 @@ $('.modal-add-address .add-address').on('click', function (e) {
                 $('.input-order .locations-container').append(customer_newLocationHTML);
                 $('.modal').removeClass('is-active');
 		        $('body').removeClass('overflow');
+                if(locations_active) {
+                    $('.order .input-order .address_delivery,.form-add-order .input-location_name').val(`${address}, ${ward}, ${district}`);
+                    if(noteShipper.length != 0) {
+                        $('.input-order .note-shipper').removeClass('hidden');
+                        $(".input-order .note-shipper .note_shiper").text(noteShipper);
+                        $('.form-add-order .note_shiper').val(noteShipper);
+                    }
+                    if(noteAdmin.length != 0) {
+                        $('.input-order .note-admin').removeClass('hidden');
+                        $(".input-order .note-admin .note_admin").text(noteAdmin);
+                        $('.form-add-order .note_admin').val(noteAdmin);
+                    }
+                    $('.order .dropdown-menu,.overlay-drop-menu').hide();
+                }
             } else {
                 alert("Lỗi: " + res.message);
             }
