@@ -52,11 +52,13 @@ $order_ships = $em_order->get_ships($order_detail);
                     <p class="fs-14 fw-regular note-shipper hidden color-gray pt-4 pl-8">Note với shipper: <span class="note_shiper"></span></p>
                     <div class="dropdown-menu">
                         <div class="locations-container">
+                        <?php if ($customer_id != 0) { ?>
                             <?php foreach ($list_locations as $location) : ?>
                             <div class="item" data-location_id="<?php echo $location['id']; ?>">
                                 <p class="fs-16 color-black other-address"><?php echo $location['location_name']; ?></p>
                             </div>
                             <?php endforeach ?>
+                            <?php } ?>
                         </div>
                         <div data-target="#modal-add-address" class="btn-add-address modal-button d-f ai-center pb-8 pt-8 pl-8">
                             <span class="fas fa-plus mr-8"></span>Thêm địa chỉ mới
