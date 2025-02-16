@@ -8,6 +8,7 @@
         <div class="pt-8 color-gray fs-12 fw-regular">Chưa có lịch sử mua hàng</div>
     </div>
     <div id="order-container" class="history">
+    <?php if ($customer_id != 0) { ?>
     <?php if (isset($response_order['data']) && is_array($response_order['data'])) { ?>
         <style>
             #order-container {
@@ -75,6 +76,7 @@
                 echo "Không tìm thấy dữ liệu!\n";
             }
         }
-    } ?>
+    }
+ } ?>
     </div>
 </div>

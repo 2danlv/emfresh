@@ -1,11 +1,11 @@
 <?php
 
 $js_duplicate_url = add_query_arg(['dupnonce' => wp_create_nonce('dupnonce')], get_permalink());
-
+// var_dump($response_customer);
 ?>
 <div class="card card-no_border">
     <div class="box-search">
-        <input class="search-cus mb-16" id="search" value="<?php echo $response_customer['data']['customer_name']; ?>" placeholder="Tìm khách hàng bằng tên / SĐT" type="text">
+        <input class="search-cus mb-16" id="search" value="" placeholder="Tìm khách hàng bằng tên / SĐT" type="text">
         <div class="search-result">
             <div class="no-results active">
                 <img class="pt-18 pb-8" src="<?php site_the_assets(); ?>/img/icon/no-results.svg" alt="">
@@ -20,10 +20,10 @@ $js_duplicate_url = add_query_arg(['dupnonce' => wp_create_nonce('dupnonce')], g
     </div>
     <div class="row input-order">
         <div class="col-8 pb-16">
-            <input type="text" name="nickname" value="<?php echo $response_customer['data']['customer_name'] ?>" class="fullname is-disabled form-control" placeholder="Tên khách hàng">
+            <input type="text" name="nickname" value="" class="fullname is-disabled form-control" placeholder="Tên khách hàng">
         </div>
         <div class="col-4 pb-16">
-            <input type="text" name="phone" class="phone is-disabled form-control" value="<?php echo $response_customer['data']['phone']; ?>" placeholder="SĐT">
+            <input type="text" name="phone" class="phone is-disabled form-control" value="" placeholder="SĐT">
         </div>
         <div class="col-12 pb-16">
             <input type="text" class="name_2nd form-control" placeholder="Tên người nhận">
@@ -37,6 +37,7 @@ $js_duplicate_url = add_query_arg(['dupnonce' => wp_create_nonce('dupnonce')], g
             <div class="dropdown-menu">
                 <div class="locations-container">
                      <?php
+                     if ($customer_id != 0) {
                         foreach ($response_get_location['data'] as $index => $record) {
                         ?>
                         <div class="item <?php echo $record['active']; ?>" data-location_id="<?php echo $record['id'] ?>">
@@ -62,6 +63,7 @@ $js_duplicate_url = add_query_arg(['dupnonce' => wp_create_nonce('dupnonce')], g
                         </div>
                         <?php
                         }
+                    }
                     ?>
                 </div>
                 <div data-target="#modal-add-address" class="btn-add-address modal-button d-f ai-center pb-16 pt-8 pl-8">
@@ -75,15 +77,40 @@ $js_duplicate_url = add_query_arg(['dupnonce' => wp_create_nonce('dupnonce')], g
 </div>
 <script>
 $(document).ready(function() {
-    var name = $('.order .input-order .fullname').val();
-    var phone = $('.order .input-order .phone').val();
+    <?php if ($customer_id != 0) { ?>
+        $('.order .dropdown').css('pointer-events', 'auto');
+    var name = '<?php echo $response_customer['data']['customer_name']; ?>';
+    var phone = '<?php echo $response_customer['data']['phone']; ?>';
     var add_active = $('.order .input-order .dropdown-menu .item.1 .other-address').text();
+    var note_shiper = $('.order .input-order .dropdown-menu .item.1 ').find('.note_shiper').text();
+    var note_admin = $('.order .input-order .dropdown-menu .item.1').find('.note_admin').text();
+    var location_id = $('.order .input-order .dropdown-menu .item.1').data('location_id');
     $('.info-customer').show();
+    $('.form-add-order .input-customer_id').val(<?php echo $customer_id; ?>);
+    $('.box-search .search-cus, .order .input-order .fullname').val(name);
+    $('.order .input-order .phone').val(phone);
     $('.info-customer .customer-name').text(name);
     $('.info-customer .customer-phone').text(phone);
     $('.info-customer .customer-address').text(add_active);
-    $('.order .input-order .address_delivery').val(add_active);
-    
+    $('.order .input-order .address_delivery,.form-add-order .input-location_name').val(add_active);
+    $('.form-add-order .input-location_id').val(location_id);
+    if(note_shiper.length != 0) {
+        $('.input-order .note-shipper').removeClass('hidden');
+        $(".input-order .note-shipper .note_shiper").text(note_shiper);
+        $('.form-add-order .note_shiper').val(note_shiper);
+    } else {
+        $('.input-order .note-shipper').addClass('hidden');
+        $('.form-add-order .note_shiper').val('');
+    }
+    if(note_admin.length != 0) {
+        $('.input-order .note-admin').removeClass('hidden');
+        $(".input-order .note-admin .note_admin").text(note_admin);
+        $('.form-add-order .note_admin').val(note_admin);
+    } else {
+        $('.input-order .note-admin').addClass('hidden');
+        $('.form-add-order .note_admin').val('');
+    }
+    <?php } ?>
     $('.js-show-order-item:first .remove-tab').addClass("hidden");
     $('.input-order .name_2nd').keyup(function() {
         var input_name_2nd = $(this).val();
@@ -183,8 +210,8 @@ $(document).ready(function() {
         $('.result,.info-customer').show(); 
         $('#autocomplete-results,.no-result').hide();
         
-        $('.input-customer_id').val(customer_id);
-        $('.input-location_name').val(address);
+        $('.form-add-order .input-customer_id').val(customer_id);
+        $('.form-add-order .input-location_name').val(address);
 
         if(customer_id > 0) {
             getLocation(customer_id,location_id);
