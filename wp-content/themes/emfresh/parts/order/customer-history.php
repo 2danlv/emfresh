@@ -10,14 +10,6 @@
     <div id="order-container" class="history">
     <?php if ($customer_id != 0) { ?>
     <?php if (isset($response_order['data']) && is_array($response_order['data'])) { ?>
-        <style>
-            #order-container {
-                display: block;
-            }
-            .order .history-order .no-history.show {
-                display: none;
-            }
-        </style>
         <?php
         foreach ($response_order['data'] as $record_order) {
             //var_dump($record_order);
@@ -50,8 +42,8 @@
                             <span class="txt-green fw-bold"><?php echo $record_order['total'] > 0 ? number_format($record_order['total']) : 0 ?></span>
                         </div>
                     </div>
-                    
                     <div class="note-group">
+                        <?php if($record_order['note'] !='') { ?>
                         <div class="note-item d-f jc-b ai-center gap-10 pt-8">
                             <div class="d-f ai-center gap-10">
                                 <span class="fas fa-note"></span>
@@ -59,6 +51,9 @@
                             </div>
                             <span class="txt"><?php echo $record_order['note'] ?></span>
                         </div>
+                        <?php }
+                        if ($record_order['note_shipper'] != '') {
+                        ?>
                         <div class="note">
                             <div class="note-item d-f jc-b ai-center gap-10 pt-8">
                                 <div class="d-f ai-center gap-10">
@@ -68,6 +63,7 @@
                                 <span class="txt"><?php echo $record_order['note_shipper'] ?></span>
                             </div>
                         </div>
+                        <?php } ?>
                     </div>
                 </div>
             </details>
@@ -76,7 +72,16 @@
                 echo "Không tìm thấy dữ liệu!\n";
             }
         }
-    }
+    } ?>
+    <style>
+        #order-container {
+            display: block;
+        }
+        .order .history-order .no-history.show {
+            display: none;
+        }
+    </style>
+    <?php
  } ?>
     </div>
 </div>

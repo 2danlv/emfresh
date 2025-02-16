@@ -2,9 +2,8 @@
     <div class="pl-16 pr-16 tab-products">
         <div class="tab-add-product" id="tabNav">
             <?php
-            $current_date = new DateTime("now", new DateTimeZone("Asia/Ho_Chi_Minh"));
-            $current_date_format = $current_date->format('Y-m-d');
-             foreach ($order_items as $i => $order_item) : extract($order_item); ?>
+                $current_date_format = current_time('Y-m-d');
+                foreach ($order_items as $i => $order_item) : extract($order_item); ?>
                 <span class="btn <?php echo $i > 0 ? '' : 'active' ?> d-f jc-b ai-center gap-8 btn btn-add_order tab-button js-show-order-item" data-tab="order_item_<?php echo $i + 1 ?>" data-id="order_item_<?php echo $i + 1 ?>">
                     Sản phẩm <?php echo $i + 1 ?>
                     <?php 
@@ -98,7 +97,7 @@
                                     <p class="console-product pl-8 pt-4"></p>
                                     <div class="d-f gap-12 ai-center">
                                         <label class="auto-fill-checkbox mt-16 mb-16">
-                                            <input class="form-check-input" type="checkbox" value="1" name="order_item[<?php echo $i ?>][auto_choose]" id="auto_choose" <?php echo $auto_choose == 1 ? 'selected' : '' ?>>
+                                            <input class="form-check-input" type="checkbox" value="1" name="order_item[<?php echo $i ?>][auto_choose]" id="auto_choose" <?php echo $auto_choose == 1 ? 'checked' : '' ?>>
                                             <span class="slider"></span>
                                         </label>
                                         Tự chọn món

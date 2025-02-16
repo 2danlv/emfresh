@@ -94,6 +94,7 @@ $(document).ready(function() {
     $('.info-customer .customer-address').text(add_active);
     $('.order .input-order .address_delivery,.form-add-order .input-location_name').val(add_active);
     $('.form-add-order .input-location_id').val(location_id);
+    $('details.history-item').slice(0, 4).attr('open', true);
     if(note_shiper.length != 0) {
         $('.input-order .note-shipper').removeClass('hidden');
         $(".input-order .note-shipper .note_shiper").text(note_shiper);
@@ -232,7 +233,7 @@ $(document).ready(function() {
                     response.data.forEach((order, index) => {
                         let locationName = order.location_name;
                         let locationInParams = locationName;
-                        let schedule = "Không có thông tin";
+                        let schedule = "";
 
                         try {
                             
@@ -240,7 +241,6 @@ $(document).ready(function() {
                             if (locationInParamsMatch && locationInParamsMatch.length > 1) {
                                 locationInParams = locationInParamsMatch[1]; 
                             }
-
                             
                             let daysMatch = order.params.match(/s:\d+:"days";a:\d+:\{(.*?)\}/);
                             let calendarMatch = order.params.match(/s:\d+:"calendar";s:\d+:"(.*?)";/);
@@ -324,7 +324,7 @@ $(document).ready(function() {
                                             <span class="fas fa-note"></span>
                                             <span class="txt">Giao hàng:</span>
                                         </div>
-                                        <span class="txt">${schedule} - ${locationInParams}</span>
+                                        <span class="txt">${schedule} : ${locationInParams}</span>
                                     </div>
                                 </div>`;
                         }

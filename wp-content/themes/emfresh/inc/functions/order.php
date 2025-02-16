@@ -4,25 +4,26 @@ function site_order_submit()
 {
     global $em_order, $em_order_item, $em_log;
 
-    $order_default = [
-        'customer_name_2nd' => '',
-        'ship_days' => 0,
-        'ship_amount' => 0,
-        'total_amount' => 0,
-        'discount' => 0,
-        'item_name' => '',
-        'type_name' => '',
-        'location_id' => 0,
-        'order_type' => '',
-        'payment_status' => 0,
-        'payment_method' => '',
-        'payment_amount' => 0,
-        'remaining_amount' => 0,
-        'paid' => 0,
-        'note' => '',
-    ];
-
     if (!empty($_POST['save_order'])) {
+
+        $order_default = [
+            'customer_name_2nd' => '',
+            'ship_days' => 0,
+            'ship_amount' => 0,
+            'total_amount' => 0,
+            'discount' => 0,
+            'item_name' => '',
+            'type_name' => '',
+            'location_id' => 0,
+            'order_type' => '',
+            'payment_status' => 0,
+            'payment_method' => '',
+            'payment_amount' => 0,
+            'remaining_amount' => 0,
+            'paid' => 0,
+            'note' => '',
+        ];
+
         $_POST = wp_unslash($_POST);
 
         $errors = [];
@@ -36,6 +37,10 @@ function site_order_submit()
 
         $order_id = isset($_POST['order_id']) ? intval($_POST['order_id']) : 0;
 
+        // if($order_id > 0) {
+        //     file_put_contents(ABSPATH . "/wp-content/uploads/order-{$order_id}.json", json_encode($_POST, JSON_UNESCAPED_UNICODE));
+        // }
+
         $order_data = shortcode_atts($order_default, $_POST);
 
         // if(isset($_POST['order_note'])) {
@@ -44,7 +49,7 @@ function site_order_submit()
 
         $order_data['total'] = intval($order_data['ship_amount'] + $order_data['total_amount']);
 
-        if ($order_data['payment_status'] == 3 && $order_data['paid'] > 0) {
+        if ($order_data['payment_status'] == 3) {
             // 1 phan
             $order_data['remaining_amount'] = $order_data['total'] - $order_data['paid'];
         } else if ($order_data['payment_status'] != 1) {
@@ -314,6 +319,54 @@ function site_order_submit()
         wp_redirect(add_query_arg($query_args, site_order_list_link()));
         exit();
     }
+    
+    if (!empty($_POST['save_meal_plan'])) {
+        $_POST = wp_unslash($_POST);
+
+        $errors = [];
+
+        $list = isset($_POST['list_meal']) ? $_POST['list_meal'] : [];
+
+        if(is_array($list) && count($list) > 0) {
+            foreach($list as $item) {
+                $order_id = !empty($item['order_id']) ? (int) $item['order_id'] : 0;
+                $order_item_id = !empty($item['order_item_id']) ? (int) $item['order_item_id'] : 0;
+                $meal_plan = !empty($item['meal_plan']) ? $item['meal_plan'] : [];
+                
+                if($order_id == 0 || $order_item_id == 0 || count($meal_plan) == 0) continue;
+                                
+                $order_item = $em_order_item->get_item($order_item_id);
+                $my_meal_plan = json_decode($order_item['meal_plan'], true);
+
+                if(
+                    count($meal_plan) != count($my_meal_plan) ||
+                    array_sum($meal_plan) != array_sum($my_meal_plan) 
+                ) {
+                    $errors[] = "Order $order_id - Item $order_item_id - Error.";
+
+                    continue;
+                }
+
+                $em_order_item->update([
+                    'meal_plan' => json_encode($meal_plan)
+                ], ['id' => $order_item_id]);
+            }
+        }
+
+        $query_args = [
+            'code' => count($errors) > 0 ? 500 : 200,
+            'expires' => time() + 3,
+            'message' => count($errors) > 0 ? implode(' ', $errors) : 'Update+success'
+        ];
+
+        if(!empty($_POST['ajax'])) {
+            echo json_encode($query_args);
+            die();
+        }
+
+        wp_redirect(add_query_arg($query_args, site_order_list_link()));
+        exit();
+    }
 }
 add_action('wp', 'site_order_submit');
 
@@ -330,6 +383,8 @@ function site_order_log($before = [], $after = [])
         'payment_method' => 'Trạng thái thanh toán',
         'paid' => 'Đã thanh toán',
     ];
+
+    $log_content = [];
 
     foreach ($payment_labels as $key => $label) {
         $before_value = isset($before[$key]) ? $before[$key] : '';
