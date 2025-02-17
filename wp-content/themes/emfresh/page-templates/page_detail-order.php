@@ -172,7 +172,7 @@ get_header();
 <!-- /.card-body -->
 <?php include get_template_directory() . '/parts/order/modal.php'; ?>
 <script id="note_template" type="text/template">
-<div class="row row-note mb-16 disabled">
+<div class="row row-note mb-16">
 	<div class="col-4">
 		<select name="note_name" class="form-control input-note_name">
             <option value="" disable selected>-</option>
@@ -206,7 +206,21 @@ get_footer('customer');
 <script src="<?php site_the_assets(); ?>js/order-detail.js?t=<?php echo time() ?>"></script>
 <script type="text/javascript">
 $(document).ready(function () {
-	initializeTagify('input.input-note_values');
+	initializeTagify('.row-note input.input-note_values');
+	let $selects = $(".row-note select.input-note_name");
+
+    // Kiểm tra xem có bao nhiêu select box
+    if ($selects.length === 1) {
+        // Nếu chỉ có 1 select box, giữ nguyên các option
+    } else {
+        // Nếu có nhiều select box, cập nhật danh sách option cho mỗi select
+        $selects.each(function() {
+            let selectedValue = $(this).val(); // Lấy giá trị được chọn
+            $(this).html(`
+                <option value="${selectedValue}" selected>${selectedValue}</option>
+            `);
+        });
+    }
 	$(".status-pay-menu .status-pay-item span[selected]").each(function() {
     var status = $(this).data('status');
     $(".status-pay").html($(this).closest('.status-pay-item').html());
@@ -223,17 +237,16 @@ $(document).ready(function () {
 		$('.js-group-btn').show();
 	});
 });
-
-
-	
 });
 function initializeTagify(selector) {
 	const categories = <?php echo $categoriesJSON ?>;
 	const keys = Object.keys(categories);
 	$(selector).each(function () {
 		if (!$(this).data('tagify')) {
+			var selectedCategory = $(this).closest(".row-note").find(".input-note_name").val();
+			var whitelistData = categories[selectedCategory] ? categories[selectedCategory].values : [];
 			var tagifyInstance = new Tagify(this, {
-				whitelist: categories[keys[0]].values,
+				whitelist: whitelistData,
 				placeholder: "...",
 				dropdown: {
 					enabled: 0,
@@ -255,7 +268,6 @@ $(document).on('change', '.input-note_name', function () {
     rowNote.find('.input-note_values').val('');
 
     if (selectedCategory !== '') {
-        rowNote.removeClass('disabled');
         let inputTagify = rowNote.find('.input-note_values');
 
         inputTagify.each(function () {
@@ -265,8 +277,6 @@ $(document).on('change', '.input-note_name', function () {
                 tagifyInstance.dropdown.hide();
             }
         });
-    } else {
-        rowNote.addClass('disabled');
-    }
+    } 
 });
 </script>

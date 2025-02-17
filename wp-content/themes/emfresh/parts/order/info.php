@@ -46,12 +46,15 @@
                         </div>
                         <div class="product-body">
                             <?php
+                            if (!empty($note_list) && is_array($note_list)) {
                                 foreach ($note_list as $note) {
-                                    foreach ($note['values'] as $value) {
-                                        printf('<div class="note-txt"><span class="note">Note %s</span>:&nbsp;<span class="value">%s</span></div>', $note['name'], $value);
-                                    }
+                                    printf('<div class="note-txt"><span class="note">Note %s</span>:&nbsp;', $note['name']);
+                                    $values_string = implode(', ', $note['values']);
+                                    printf('<span class="value">%s</span>', htmlspecialchars($values_string, ENT_QUOTES, 'UTF-8'));
+                                    printf('</div>');
                                 }
-                                ?>
+                            }
+                            ?>
                         </div>
                     </div>
                 <?php endforeach ?>

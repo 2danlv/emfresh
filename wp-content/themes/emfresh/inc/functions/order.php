@@ -37,9 +37,9 @@ function site_order_submit()
 
         $order_id = isset($_POST['order_id']) ? intval($_POST['order_id']) : 0;
 
-        // if($order_id > 0) {
-        //     file_put_contents(ABSPATH . "/wp-content/uploads/order-{$order_id}.json", json_encode($_POST, JSON_UNESCAPED_UNICODE));
-        // }
+        if($order_id > 0) {
+            file_put_contents(ABSPATH . "/wp-content/uploads/order-{$order_id}.json", json_encode($_POST, JSON_UNESCAPED_UNICODE));
+        }
 
         $order_data = shortcode_atts($order_default, $_POST);
 
@@ -108,6 +108,8 @@ function site_order_submit()
             foreach ($_POST['order_item'] as $i => $order_item) {
                 $order_item['order_id'] = $order_id;
 
+                $order_item['auto_choose'] = isset($order_item['auto_choose']) ? $order_item['auto_choose'] : 0;
+
                 $item_title = 'Sản phẩm ' . ($i + 1);
 
                 if ($date_start == '' || $date_start > $order_item['date_start']) {
@@ -121,7 +123,7 @@ function site_order_submit()
                 $note = !empty($order_item['note']) ? $order_item['note'] : '';
 
                 if (!empty($order_item['id'])) {
-                    if (!empty($order_item['remove'])) {
+                    if (isset($order_item['remove']) && $order_item['remove'] == 1) {
                         $note = '';
                         $date_start = '';
                         $date_stop = '';
@@ -149,20 +151,29 @@ function site_order_submit()
                                 $before_value = isset($before[$key]) ? $before[$key] : '';
                                 $value = isset($order_item[$key]) ? $order_item[$key] : '';
                                 
-                                if ($value != $before_value) {
+                                if ($value != '' && $value != $before_value) {
 
                                     if ($key == 'product_id') {
                                         $value = $em_order_item->get_product($value, 'name');
+                                        if($value == '') {
+                                            $label = '';
+                                        }
                                     } else if ($key == 'type') {
                                         $value = strtoupper($value);
                                     } else if ($key == 'date_start') {
-                                        $value = date('d/m/Y', strtotime($value));
+                                        if($value == '') {
+                                            $label = '';
+                                        } else {
+                                            $value = date('d/m/Y', strtotime($value));
+                                        }
                                     } else if ($key == 'auto_choose') {
                                         $label = ($value == 1 ? 'Bật' : 'Tắt') . ' ' . $label;
                                         $value = '';
                                     }
 
-                                    $log_content[] = $label . ' ' . $value;
+                                    if($label != '') {
+                                        $log_content[] = $label . ' ' . $value;
+                                    }
                                 }
                             }
 
@@ -390,16 +401,22 @@ function site_order_log($before = [], $after = [])
         $before_value = isset($before[$key]) ? $before[$key] : '';
         $value = isset($after[$key]) ? $after[$key] : '';
         
-        if ($value != $before_value) {
+        if ($value != $before_value && $value > 0) {
             if ($key == 'payment_method') {
                 $value = $em_order->get_payment_methods($value);
+                if(is_string($value)) {
+                    $log_content[] = $label . ' ' . $value;
+                }
             } else if ($key == 'payment_status') {
                 $value = $em_order->get_payment_statuses($value);
+                if(is_string($value)) {
+                    $log_content[] = $label . ' ' . $value;
+                }
             } else if ($key == 'discount') {
                 $value = number_format($value);
-            }
 
-            $log_content[] = $label . ' ' . $value;
+                $log_content[] = $label . ' ' . $value;
+            }
         }
     }
 
@@ -438,13 +455,16 @@ function site_order_log($before = [], $after = [])
                 $before_value = isset($before_ship[$key]) ? $before_ship[$key] : '';
                 $value = isset($ship[$key]) ? $ship[$key] : '';
 
-                if ($value != $before_value) {
+                if ($value != '' && $value != $before_value) {
                     $log_content[] = $label . ' ' . $value;
                 }
             }
 
-            if(empty($ship['calendar']) && !empty($ship['days'])) {
-                $log_content[] = 'Đặt lịch ' . implode(', ', $ship['days']);
+            $before_value = implode(', ', isset($before_ship['days']) ? (array) $before_ship['days'] : []);
+            $value = implode(', ', isset($ship['days']) ? (array) $ship['days'] : []);
+
+            if ($value != '' && $value != $before_value) {
+                $log_content[] = 'Đặt lịch ' . $value;
             }
 
             if (count($log_content) > 0) {

@@ -202,7 +202,7 @@ get_header();
 <!-- /.card-body -->
 <?php include get_template_directory() . '/parts/order/modal.php'; ?>
 <script id="note_template" type="text/template">
-<div class="row row-note mb-16 disabled">
+<div class="row row-note mb-16">
 	<div class="col-4">
 		<select name="note_name" class="form-control input-note_name">
             <option value="" disable selected>-</option>
@@ -235,82 +235,81 @@ get_footer('customer');
 <script>var orderDetailSettings = <?php echo json_encode($orderDetailSettings, JSON_UNESCAPED_UNICODE) ?>;</script>
 <script src="<?php site_the_assets(); ?>js/order-detail.js"></script>
 <script type="text/javascript">
-    function switch_tabs_add_order(obj) {
-            $('.tab-pane').stop().fadeOut(1);
-            $('ul.tab-order li').removeClass('selected');
-            var id_order = obj.attr('rel');
-            jQuery('#' + id_order).stop().fadeIn(300);
-            obj.addClass('selected');
-            updateNavigationButtons();
-        }
-        function navigateTabs(direction) {
-            const currentTab = $('ul.tab-order li.selected');
-            let newTab;
-            if (direction === 'next') {
-                newTab = currentTab.next('li');
-            } else {
-                newTab = currentTab.prev('li');
-            }
-            if (newTab.length > 0) {
-                switch_tabs_add_order(newTab);
-            }
-        }
-        function updateNavigationButtons() {
-            const firstTab = $('ul.tab-order li').first();
-            const lastTab1 = $('ul.tab-order li:nth-last-child(2)');
-            const lastTab2 = $('ul.tab-order li').last();
-            const currentTab = $('ul.tab-order li.selected');
-            if (currentTab.is(firstTab)) {
-                $('.js-btn-prev').addClass('btn-disable');
-                //$('.js-btn-prev').removeClass('btn-primary');
-            } else {
-                $('.js-btn-prev').removeClass('btn-disable');
-                //$('.js-btn-prev').addClass('btn-primary');
-            }
-            if (currentTab.is(lastTab1) || currentTab.is(lastTab2)) {
-                $('.js-next-tab').addClass('hidden');
-                $('.js-create-order').removeClass('hidden');
-                $('.order-details .info-pay').show();
-            } else {
-                $('.js-next-tab').removeClass('hidden');
-                $('.js-create-order').addClass('hidden');
-            }
-        }
-        $(document).ready(function () {
-            $('ul.tab-order.tab-nav li').click(function () {
-                switch_tabs_add_order($(this));
-            });
-            $('.js-next-tab').click(function () {
-                navigateTabs('next');
-            });
-            $('.js-btn-prev').click(function () {
-                navigateTabs('prev');
-            });
-            switch_tabs_add_order($('.defaulttab'));
-        });
-    $(document).ready(function () {
-        $('.js-calendar.date').val('');
-        initializeTagify('input.input-note_values');
-    });
-	function initializeTagify(selector) {
-        const categories = <?php echo $categoriesJSON ?>;
-        const keys = Object.keys(categories);
-        $(selector).each(function () {
-            if (!$(this).data('tagify')) {
-                var tagifyInstance = new Tagify(this, {
-                    whitelist: categories[keys[0]].values,
-                    placeholder: "...",
-                    dropdown: {
-                        enabled: 0,
-                        maxItems: 10,
-                        position: "all"
-                    },
-                    originalInputValueFormat: valuesArr => valuesArr.map(item => item.value).join(', ')
-                });
-                $(this).data('tagify', tagifyInstance);
-            }
-        });
+function switch_tabs_add_order(obj) {
+    $('.tab-pane').stop().fadeOut(1);
+    $('ul.tab-order li').removeClass('selected');
+    var id_order = obj.attr('rel');
+    jQuery('#' + id_order).stop().fadeIn(300);
+    obj.addClass('selected');
+    updateNavigationButtons();
+}
+function navigateTabs(direction) {
+    const currentTab = $('ul.tab-order li.selected');
+    let newTab;
+    if (direction === 'next') {
+        newTab = currentTab.next('li');
+    } else {
+        newTab = currentTab.prev('li');
     }
+    if (newTab.length > 0) {
+        switch_tabs_add_order(newTab);
+    }
+}
+function updateNavigationButtons() {
+    const firstTab = $('ul.tab-order li').first();
+    const lastTab1 = $('ul.tab-order li:nth-last-child(2)');
+    const lastTab2 = $('ul.tab-order li').last();
+    const currentTab = $('ul.tab-order li.selected');
+    if (currentTab.is(firstTab)) {
+        $('.js-btn-prev').addClass('btn-disable');
+        //$('.js-btn-prev').removeClass('btn-primary');
+    } else {
+        $('.js-btn-prev').removeClass('btn-disable');
+        //$('.js-btn-prev').addClass('btn-primary');
+    }
+    if (currentTab.is(lastTab1) || currentTab.is(lastTab2)) {
+        $('.js-next-tab').addClass('hidden');
+        $('.js-create-order').removeClass('hidden');
+        $('.order-details .info-pay').show();
+    } else {
+        $('.js-next-tab').removeClass('hidden');
+        $('.js-create-order').addClass('hidden');
+    }
+}
+$(document).ready(function () {
+    $('ul.tab-order.tab-nav li').click(function () {
+        switch_tabs_add_order($(this));
+    });
+    $('.js-next-tab').click(function () {
+        navigateTabs('next');
+    });
+    $('.js-btn-prev').click(function () {
+        navigateTabs('prev');
+    });
+    switch_tabs_add_order($('.defaulttab'));
+    
+    $('.js-calendar.date').val('');
+    initializeTagify('input.input-note_values');
+});
+function initializeTagify(selector) {
+    const categories = <?php echo $categoriesJSON ?>;
+    const keys = Object.keys(categories);
+    $(selector).each(function () {
+        if (!$(this).data('tagify')) {
+            var tagifyInstance = new Tagify(this, {
+                whitelist: categories[keys[0]].values,
+                placeholder: "...",
+                dropdown: {
+                    enabled: 0,
+                    maxItems: 10,
+                    position: "all"
+                },
+                originalInputValueFormat: valuesArr => valuesArr.map(item => item.value).join(', ')
+            });
+            $(this).data('tagify', tagifyInstance);
+        }
+    });
+}
 $(document).on('change', '.input-note_name', function () {
     let rowNote = $(this).closest('.row-note');
     let selectedCategory = $(this).val();
@@ -320,7 +319,6 @@ $(document).on('change', '.input-note_name', function () {
     rowNote.find('.input-note_values').val('');
 
     if (selectedCategory !== '') {
-        rowNote.removeClass('disabled');
         let inputTagify = rowNote.find('.input-note_values');
 
         inputTagify.each(function () {
@@ -330,9 +328,7 @@ $(document).on('change', '.input-note_name', function () {
                 tagifyInstance.dropdown.hide();
             }
         });
-    } else {
-        rowNote.addClass('disabled');
-    }
+    } 
 });
 
 </script>

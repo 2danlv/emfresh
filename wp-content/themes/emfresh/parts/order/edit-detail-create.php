@@ -113,6 +113,32 @@
                             </div>
                         </div>
                         <div class="special-request js-note-list pt-16">
+                            <?php
+                            if (!empty($note_list) && is_array($note_list)) {
+                                foreach ($note_list as $note) {
+                                    $selectedCategory = $note['name']; 
+                                     ?>
+                                    <div class="row row-note mb-16">
+                                        <div class="col-4">
+                                            <select name="note_name" class="form-control input-note_name">
+                                            <?php foreach ($list_notes as $key => $note_select) { ?>
+                                                <option value="<?php echo htmlspecialchars($key, ENT_QUOTES, 'UTF-8'); ?>" 
+                                                    <?php echo ($key === $selectedCategory) ? 'selected' : ''; ?>>
+                                                    <?php echo htmlspecialchars($note_select['name'], ENT_QUOTES, 'UTF-8'); ?>
+                                                </option>
+                                            <?php } ?>		
+                                            </select>
+                                        </div>
+                                        <div class="col-8 col-note_values tag-container">
+                                            <?php
+                                            // Convert array to comma-separated string
+                                            $values_string = implode(', ', $note['values']);
+                                            ?>
+                                            <input type="hidden" name="note_values" value="<?php echo htmlspecialchars($values_string, ENT_QUOTES, 'UTF-8'); ?>" class="form-control input-note_values">
+                                        </div>
+                                    </div>
+                                <?php }
+                            } ?>
                         </div>
                         <div class="d-f ai-center pt-20 clone-note js-add-note fw-bold">
                             <span class="fas fa-plus mr-8"></span>Thêm yêu cầu phần ăn đặc biệt

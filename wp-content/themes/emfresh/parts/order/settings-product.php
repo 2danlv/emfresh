@@ -47,13 +47,16 @@
                                     <div class="price"><?php echo $amount > 0 ? number_format($amount) : 0 ?></div>
                                 </div>
                                 <div class="note-box pb-20">
-                                    <?php
-                                        foreach ($note_list as $note) {
-                                            foreach ($note['values'] as $value) {
-                                                printf('<p><span class="note">Note %s</span>:&nbsp;<span class="value">%s</span></p>', $note['name'], $value);
-                                            }
-                                        }
-                                        ?>
+                                <?php
+                                if (!empty($note_list) && is_array($note_list)) {
+                                    foreach ($note_list as $note) {
+                                        printf('<p><span class="note">Note %s</span>:&nbsp;', $note['name']);
+                                        $values_string = implode(', ', $note['values']);
+                                        printf('<span class="value">%s</span>', htmlspecialchars($values_string, ENT_QUOTES, 'UTF-8'));
+                                        printf('</p>');
+                                    }
+                                }
+                                ?>
                                 </div>
                             </div>
                         </div>

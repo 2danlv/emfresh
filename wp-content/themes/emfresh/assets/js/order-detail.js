@@ -166,7 +166,7 @@ function update_order_item_info(order_item) {
 	// 	amount += days * meal_number * ship_price;
 	// }
 
-	order_item.find('.console-product').html(debug.join("<br>"));
+	// order_item.find('.console-product').html(debug.join("<br>"));
 
 	order_item.find('.input-product_price').val(price);
 	order_item.find('.text-amount').text(format_money(amount));
@@ -330,7 +330,7 @@ function update_order_info() {
 	$('.input-order_note').val(order_note);
 	counts_type();
 
-	$('.input-ship_days').val(ship_days).trigger('change');
+	$('.input-ship_days').val(ship_days).trigger('change'); // update ship_amount
 
 	// $('.input-total,.input-total_amount').val(total_amount + ship_amount);
 	$('.input-total,.input-total_amount').val(total_amount);
@@ -607,7 +607,7 @@ $('.js-order-item:not(.removed)').each(function () {
 	if (note_list != '') {
 		note_list = JSON.parse(window.atob(note_list));
 
-		note_add_row(order_item, note_list);
+		// note_add_row(order_item, note_list);
 	}
 });
 $(document).on('click', '.js-add-note', function () {
