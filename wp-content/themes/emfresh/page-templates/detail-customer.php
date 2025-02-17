@@ -341,11 +341,26 @@ get_header();
 									<span>Giới tính:</span>
 									<span><?php echo $response_customer['data']['gender_name']; ?></span>
 								</div>
+								<?php //var_dump($response_order['data']); ?>
 								<div class="d-f jc-b pt-8">
 									<span>Trạng thái khách hàng:</span>
-									<span><?php echo $response_customer['data']['status_name'] ?></span>
+									<?php 
+									$statuses = array_column($response_order['data'], 'status_name');
+									$allCompleted = true;
+									foreach ($statuses as $value) {
+										if ($value !== 'Hoàn tất') {
+											$allCompleted = false;
+											break;
+										}
+									}
+									if ($allCompleted) {
+										echo "<span>Hết dùng</span>";
+									} else {
+										echo "<span>Đang dùng</span>";
+									}
+									?>
 								</div>
-								<?php //var_dump($response_order['data']); ?>
+								
 								<div class="d-f jc-b pt-8">
 									<span>Số đơn:</span>
 									<span><?php echo count($response_order['data']); ?></span>

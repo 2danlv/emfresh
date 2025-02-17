@@ -224,7 +224,24 @@ get_header();
                     <td data-number="4" class="text-capitalize">
                       <?php echo $record['district']; ?>
                     </td>
-                    <td data-number="5"><span class="tag btn btn-sm status_<?php echo $record['status']; ?>"><?php echo $record['status_name']; ?></span></td>
+                    <td data-number="5">
+                    <?php 
+                      $statuses = array_column($response_order['data'], 'status_name');
+                      $allCompleted = true;
+                      foreach ($statuses as $value) {
+                        if ($value !== 'Hoàn tất') {
+                          $allCompleted = false;
+                          break;
+                        }
+                      }
+                      if ($allCompleted) {?>
+                        <span class="tag btn btn-sm status_2">Hết dùng</span>
+                      <?php } else { ?>
+                        <span class="tag btn btn-sm status_1">Đang dùng</span>
+                      <?php }
+                      ?>  
+                    
+                  </td>
                     <?php
                       $customer_tags = $em_customer_tag->get_items(['customer_id' => $record['id']]);
                       $html = [];
