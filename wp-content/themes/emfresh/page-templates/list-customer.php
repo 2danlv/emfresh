@@ -191,11 +191,29 @@ get_header();
               'paged' => 1,
               'limit' => -1,
             ]);
+            
           if (isset($response['data']) && is_array($response['data'])) {
             // Loop through the data array and print each entry
             foreach ($response['data'] as $record) {
               if (is_array($record)) { // Check if each record is an array
-                if ($record['active'] != '0') { ?>
+                if ($record['active'] != '0') { 
+                  $response_order = em_api_request('order/list', [
+                    'paged' => 1,
+                    'customer_id' => $record['id'],
+                    'limit' => -1,
+                    ]);
+                    $total_order_days = array_sum(array_column($response_order['data'], 'ship_days'));
+                    $total_quantity = array_sum(array_column($response_order['data'], 'total_quantity')); 
+                    $total_order_money = array_sum(array_column($response_order['data'], 'total_amount'));
+                    $dateStarts = array_column($response_order['data'], 'date_start');
+                    
+                    if (!empty($dateStarts)) {
+                      $max_date = date('d/m/Y', strtotime(max($dateStarts)));
+                    } else {
+                      // Xử lý khi không có giá trị date_start nào (ví dụ: gán giá trị mặc định hoặc thông báo lỗi)
+                      $max_date = null; // Hoặc giá trị phù hợp khác
+                    }
+                  ?>
                   <tr>
                     <td data-number="0" class="text-center"><input type="checkbox" class="checkbox-element" data-number="<?php echo $record['phone']; ?>" value="<?php echo $record['id'] ?>"></td>
                     <td data-number="1" class="text-capitalize nowrap wrap-td"><div class="ellipsis"><a href="detail-customer/?customer_id=<?php echo $record['id'] ?>"><?php echo $record['customer_name']; ?></a></div></td>
@@ -250,12 +268,12 @@ get_header();
 
                     <td data-number="8" class="text-center"><?php echo $record['gender_name']; ?></td>
                     <td data-number="9" class="text-center"><?php echo $record['note_cook']; ?></td>
-                    <td data-number="10" class="text-left"></td>
-                    <td data-number="11" class="text-left"></td>
-                    <td data-number="12" class="text-left"></td>
-                    <td data-number="13" class="text-left"></td>
+                    <td data-number="10" class="text-left"><?php echo count($response_order['data']); ?></td>
+                    <td data-number="11" class="text-left"><?php echo $total_order_days; ?></td>
+                    <td data-number="12" class="text-left"><?php echo $total_quantity; ?></td>
+                    <td data-number="13" class="text-left"><?php echo number_format($total_order_money); ?></td>
                     <td data-number="14" class="text-left"><?php echo $record['point'] > 0 ? $record['point'] : ''; ?></td>
-                    <td data-number="15"></td>
+                    <td data-number="15"><?php echo $max_date; ?></td>
                     <td data-number="16" class="text-right"><span class="avatar"><img src="<?php echo get_avatar_url($record['modified_at']); ?>" width="24" alt="<?php echo get_the_author_meta('display_name', $record['modified_at']); ?>"></span></td>
                     <td data-number="17"><?php echo get_the_author_meta('display_name', $record['modified_at']); ?></td>
                     <td data-number="18" style="min-width: 146px;"><?php echo date('H:i d/m/Y', strtotime($record['modified'])); ?></td>

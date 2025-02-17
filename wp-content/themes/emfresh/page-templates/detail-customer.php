@@ -372,9 +372,16 @@ get_header();
 								<div class="d-f jc-b pt-8 pb-4">
 									<span>Lịch sử đặt gần nhất:</span>
 									<?php 
-									$max_date = max(array_column($response_order['data'], 'date_start'));
+									$dateStarts = array_column($response_order['data'], 'date_start');
+                    
+									if (!empty($dateStarts)) {
+									  $max_date = date('d/m/Y', strtotime(max($dateStarts)));
+									} else {
+									  // Xử lý khi không có giá trị date_start nào (ví dụ: gán giá trị mặc định hoặc thông báo lỗi)
+									  $max_date = null; // Hoặc giá trị phù hợp khác
+									}
 									?>
-									<span><?php echo date('d/m/Y', strtotime($max_date)) ?></span>
+									<span><?php echo $max_date; ?></span>
 								</div>
 								<hr>
 								<?php if ($response_customer['data']['note_cook']) { ?>

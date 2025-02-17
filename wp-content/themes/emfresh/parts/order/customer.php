@@ -124,8 +124,8 @@ $(document).ready(function() {
             $('.info-customer .customer-name_2nd span').text(input_name_2nd + " " + split_fullname[0]);
         } else {
             // $('.info-customer .customer-name_2nd').hide();
-            $('.form-add-order .input-customer_name_2nd').val(input_name_2nd);
-            $('.info-customer .customer-name_2nd span').text(input_name_2nd);
+            $('.form-add-order .input-customer_name_2nd').val(input_name_2nd + " ("+input_fullname+")");
+            $('.info-customer .customer-name_2nd span').text(input_name_2nd + " ("+input_fullname+")");
         }
     });
     $('.search-cus').keyup(function() {
