@@ -245,7 +245,7 @@ function update_order_item_note(order_item) {
 				}
 			})
 		}
-
+console.log('log',value);
 		// console.log('tag', row.find('tag').attr('title'));
 
 		if (name != '' && value) {
@@ -511,7 +511,10 @@ $(document).on('blur', '.js-order-item [name]:not(.input-note_values)', function
 $(document).on('change', '.js-order-item .input-note_values', function () {
 	let p = $(this),
 		order_item = p.closest('.js-order-item');
-	update_order_item_note(order_item);
+		setTimeout(() => {
+			update_order_item_note(order_item);
+		}, 200);
+	
 });
 $(document).on('click', '.js-search-customer', function () {
 	let search = $('.input-customer_search').val();
