@@ -49,14 +49,6 @@ function site_order_submit()
 
         $order_data['total'] = intval($order_data['ship_amount'] + $order_data['total_amount']);
 
-        if ($order_data['payment_status'] == 3) {
-            // 1 phan
-            $order_data['remaining_amount'] = $order_data['total'] - $order_data['paid'];
-        } else if ($order_data['payment_status'] != 1) {
-            // chua va 1 phan
-            $order_data['remaining_amount'] = $order_data['total'];
-        }
-
         $params = [];
         if (!empty($_POST['ship'])) {
             $list_ships = [];
@@ -220,8 +212,17 @@ function site_order_submit()
             $before = $em_order->get_item($order_id);
 
             // doi tinh trang thanh toan thanh 1 phan
-            if ($order_data['total'] > $before['total']) {
+            if ($update && $order_data['total'] > $before['total']) {
                 $order_data['payment_status'] = 3;
+            }
+            
+            if ($order_data['payment_status'] == 3) {
+                // 1 phan
+                $order_data['remaining_amount'] = $order_data['total'] - $order_data['paid'] - $order_data['discount'];
+            } else if ($order_data['payment_status'] == 1) {
+                // roi
+                $order_data['remaining_amount'] = 0;
+                $order_data['paid'] = $order_data['total'] - $order_data['discount'];
             }
 
             $response = em_api_request('order/update', $order_data);
@@ -495,7 +496,11 @@ function site_order_payment_log($before = [], $after = [])
     if (empty($before['id'])) {
         $action = 'Tạo đơn hàng';
 
-        if ($after['payment_status'] == 2) {
+        if ($after['payment_status'] == 1) {
+            // roi
+            $log_content[] = '-' . number_format($after['total']);
+            $log_content[] = 0;
+        } else if ($after['payment_status'] == 2) {
             // chua
             $log_content[] = '+' . number_format($after['total']);
             $log_content[] = '+' . number_format($after['total']);
@@ -504,23 +509,28 @@ function site_order_payment_log($before = [], $after = [])
             $log_content[] = $after['paid'] > 0 ? '-' . number_format($after['paid']) : 0;
             $log_content[] = $after['remaining_amount'] > 0 ? '+' . number_format($after['remaining_amount']) : 0;
         }
+    } else if ($before['total'] != $after['total']) {
+        $action = 'Bổ sung đơn hàng';
+
+        $total = $after['total'] - $before['total'];
+        if($total > 0) {
+            $log_content[] = '+' . number_format($total);
+            $log_content[] = $after['remaining_amount'] > 0 ? '+' . number_format($after['remaining_amount']) : 0;    
+        }
     } else if ($before['remaining_amount'] != $after['remaining_amount']) {
         $action = $em_order->get_payment_methods($after['payment_method']);
 
         if ($after['payment_status'] == 1) {
             // roi
-            $log_content[] = '+' . number_format($after['total']);
+            $log_content[] = '-' . number_format($after['total']);
             $log_content[] = 0;
         } else if ($after['payment_status'] == 3) {
+            $paid = $after['paid'] - $before['paid'];
+            
             // 1 phan
-            $log_content[] = $after['paid'] > 0 ? '-' . number_format($after['paid']) : 0;
+            $log_content[] = $paid > 0 ? '-' . number_format($paid) : 0;
             $log_content[] = $after['remaining_amount'] > 0 ? '+' . number_format($after['remaining_amount']) : 0;
         }
-    } else if ($before['total'] < $after['total']) {
-        $action = 'Bổ sung đơn hàng';
-
-        $log_content[] = $after['remaining_amount'] > 0 ? '+' . number_format($after['remaining_amount']) : 0;
-        $log_content[] = '+' . number_format($after['total'] - $before['total']);
     }
 
     if ($action != '' && count($log_content) > 0) {

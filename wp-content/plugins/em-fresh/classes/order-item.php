@@ -70,11 +70,11 @@ class EM_Order_Item extends EF_Default
     {
         $rules = array(
             'order_id'      => 'required',
-            'type'          => 'required',
-            'days'          => 'required',
+            // 'type'          => 'required',
+            // 'days'          => 'required',
             // 'date_start'    => 'required',
-            'quantity'      => 'required',
-            'amount'        => 'required',
+            // 'quantity'      => 'required',
+            // 'amount'        => 'required',
         );
 
         return $rules;

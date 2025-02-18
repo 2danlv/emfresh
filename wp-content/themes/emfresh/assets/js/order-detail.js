@@ -422,7 +422,7 @@ function check_order_item(type, order_item) {
 }
 
 function update_pay() {
-	let total = 0;
+	let total = +$('.input-total_amount').val();
 	let ship = parseFloat($('.info-pay').find('.ship').text().replace(/[^0-9.-]+/g, '')) || 0;
 	let discount = parseFloat($('.info-pay').find('.discount').text().replace(/[^0-9.-]+/g, '')) || 0;
 	let ip_preorder = parseFloat($('.paymented').find('.ip_preorder').val().replace(/[^0-9.-]+/g, '')) || 0;
@@ -430,27 +430,21 @@ function update_pay() {
 	if ($('.paymented .input-preorder').val() == '') {
 		$('.paymented .input-preorder').val(0)
 	}
-	$('.info-order:not(.hidden)').find('.price').each(function () {
-		let value = parseFloat($(this).text().replace(/[^0-9.-]+/g, ''));
 
-		if (!isNaN(value)) {
-			total += value;
-		}
-	});
-	total_1 = total + ship - discount;
-	total_2 = total + ship - discount - ip_preorder;
-	if ($('.input-total_amount').val() != 0) {
+	let total_1 = total + ship - discount;
+	let total_2 = total + ship - discount - ip_preorder;
+
+	if (total != 0) {
 		$('.info-pay .total-price,.total-pay .price-order').text(format_money(total_1));
 		$('.order-payment .payment-required,.total-cost .cost-txt').text(format_money(total_2));
 	}
 	$('.total-pay .price-product').text(format_money(total));
-	$('.input-total,.input-total_amount').val(total_2);
+	$('.input-total').val(total_2);
 	if ($('.input_status-payment').val() == 1) {
 		$('.order-payment .payment-required,.total-cost .cost-txt').text(0);
 	} else if ($('.input_status-payment').val() == 0) {
 		$('.order-payment .payment-required,.total-cost .cost-txt').text(format_money(total_2));
 	}
-
 }
 
 update_pay();
@@ -469,7 +463,6 @@ $(document).on("click", ".status-pay-menu .status-pay-item span", function () {
 	} else if (status == 1) {
 		$(".payment-required").text("0");
 		$('.payment-required,.total-cost .cost-txt').text(0);
-		$(".input-total_amount").val(0);
 		$(".paymented").css("display", "none");
 	} else if (status == 2) {
 		$(".ip_preorder,.input-preorder").val(0);
