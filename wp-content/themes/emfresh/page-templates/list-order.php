@@ -130,7 +130,7 @@ get_header();
           if (isset($response['data']) && is_array($response['data'])) {
             // Loop through the data array and print each entry
             foreach ($response['data'] as $record) {
-              //var_dump($record);
+              // var_dump($record);
               if (is_array($record)) {
                   $link = add_query_arg(['order_id' => $record['id']], $detail_order_url);
                   $location_list = explode(',', $record['location_name']);
@@ -172,7 +172,11 @@ get_header();
                     <td data-number="12"><span class="status_order status_order-<?php echo $record['status']; ?>"><?php echo $record['status_name'] ?></span></td>
                     <td data-number="13"><?php echo $record['payment_method_name'] ?></td>
                     <td data-number="14"><span class="status_order status_pay-<?php echo $record['payment_status']; ?>"><?php echo $record['payment_status_name'] ?></span></td>
-                    <td data-number="15"><?php echo $record['total'] > 0 ? number_format($record['total']) : 0 ?></td>
+                    <td data-number="15">
+                      <?php
+                      $total_money = $record['total_amount'] +  $record['ship_amount'];
+                      echo $total_money > 0 ? number_format($total_money) : 0 ?>
+                    </td>
                     <td data-number="16"><?php echo $record['remaining_amount'] > 0 ? number_format($record['remaining_amount']) : 0 ?></td>
                     <td data-number="17"><?php echo $record['used_value'] > 0 ? number_format($record['used_value']) : 0 ?></td>
                     <td data-number="18"><?php echo $record['remaining_value'] > 0 ? number_format($record['remaining_value']) : 0 ?></td>
@@ -231,20 +235,20 @@ get_header();
               <li><label><input type="checkbox" data-column="7" value="7" checked>Mã gói sản phẩm</label></li>
               <li><label><input type="checkbox" data-column="8" value="8">Ngày bắt đầu</label></li>
               <li><label><input type="checkbox" data-column="9" value="9">Ngày kết thúc</label></li>
-              <li><label><input type="checkbox" data-column="10" value="7">Yêu cầu đặc biệt</label></li>
+              <li><label><input type="checkbox" data-column="10" value="10">Yêu cầu đặc biệt</label></li>
             </ul>
           </div>
           <div class="col-6">
             <ul class="filter list-unstyled">
               <li><label><input type="checkbox" data-column="11" value="11">Giao hàng</label></li>
-              <li><label><input type="checkbox" data-column="12" value="13"checked >Trạng thái đơn hàng</label></li>
+              <li><label><input type="checkbox" data-column="12" value="12"checked >Trạng thái đơn hàng</label></li>
               <li><label><input type="checkbox" data-column="13" value="13">Hình thức thanh toán</label></li>
               <li><label><input type="checkbox" data-column="14" value="14">Trạng thái thanh toán</label></li>
               <li><label><input type="checkbox" data-column="15" value="15">Tổng tiền đơn hàng</label></li>
               <li><label><input type="checkbox" data-column="16" value="16">Số tiền còn lại</label></li>
               <li><label><input type="checkbox" data-column="17" value="17">Giá trị đã dùng <!-- (admin only) --></label></li>
               <li><label><input type="checkbox" data-column="18" value="18">Giá trị chưa dùng <!-- (admin only) --></label></li>
-              <li class="check_2"><label><input type="checkbox" value="16" data-column="19,21" checked>Nhân viên + Lần cập nhật cuối</label></li>
+              <li class="check_2"><label><input type="checkbox" value="19" data-column="19,21" checked>Nhân viên + Lần cập nhật cuối</label></li>
             </ul>
           </div>
         </div>
@@ -393,12 +397,33 @@ get_footer('customer');
 
 <script>
   
-  
+  // Function to save checkbox states to localStorage
+  function saveCheckboxState() {
+    $('.filter input[type="checkbox"]').each(function() {
+      const columnKey_order = 'column_order_' + $(this).val(); // Create key like "column_1", "column_2"
+      localStorage.setItem(columnKey_order, $(this).is(':checked'));
+    });
+  }
+  // Function to load checkbox states from localStorage
+  function loadCheckboxState() {
+    $('.filter input[type="checkbox"]').each(function() {
+      const columnKey_order = 'column_order_' + $(this).val();
+      const savedState = localStorage.getItem(columnKey_order);
+      if (savedState === null) {
+        if (['7', '12','19'].includes($(this).val())) {
+          $(this).prop('checked', true);
+        }
+      } else {
+        $(this).prop('checked', savedState === 'true');
+        //$('.btn-column').addClass('active');
+      }
+    });
+  }
 
   $(document).ready(function() {
-    localStorage.setItem('DataTables_list-customer_/customer/', '');
-		for (let i = 1; i <= 16; i++) {
-			localStorage.removeItem('column_' + i);
-		}    
+    // Load checkbox states when the page loads
+    // console.log('log',localStorage);
+    loadCheckboxState();
+    $('.filter input[type="checkbox"]').on('change', saveCheckboxState);   
   });
 </script>

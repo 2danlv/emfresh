@@ -22,9 +22,13 @@
 <script>
     $(document).ready(function () {
         localStorage.setItem('DataTables_list-customer_/customer/', '');
-		for (let i = 1; i <= 16; i++) {
+		for (let i = 1; i <= 18; i++) {
 			localStorage.removeItem('column_' + i);
 		}
+        localStorage.setItem('DataTables_list-order_/list-order/', '');
+		for (let i = 1; i <= 23; i++) {
+			localStorage.removeItem('column_order_' + i);
+		} 
     });
 </script>
 </body>

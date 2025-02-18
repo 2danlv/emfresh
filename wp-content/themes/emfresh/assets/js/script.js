@@ -2,12 +2,16 @@ jQuery(document).ready(function () {
 	setTimeout( function() {
 		$('.alert.alert-success,.alert.alert-warning').fadeOut();
 	},4000);
-	$('.main-menu .nav-menu li a').click(function (e) {
+	$('.main-menu .nav-menu li a,.em-importer ul li.add a').click(function (e) {
 		//e.preventDefault();
 		localStorage.setItem('DataTables_list-customer_/customer/', '');
-		for (let i = 1; i <= 16; i++) {
+		for (let i = 1; i <= 18; i++) {
 			localStorage.removeItem('column_' + i);
 		}
+		localStorage.setItem('DataTables_list-order_/list-order/', '');
+		for (let i = 1; i <= 23; i++) {
+			localStorage.removeItem('column_order_' + i);
+		} 
 	});
 	$('.select2').select2({
 		templateSelection: function (data, container) {
@@ -705,13 +709,7 @@ jQuery(document).ready(function () {
 		scrollY: '50vh',
 		dom: 'Bfrtip<"bottom"pl>',
 		//order: [[0, 'asc'], [1, 'asc']], // date, time
-		columnDefs: [
-			{
-				type: 'natural',
-				targets: [0,1,2,3,4, 5],
-				orderable: false,
-			},
-		],
+		ordering: false,
 		language: {
 			paginate: {
 				previous: '<i class="fas fa-left"></i>',
@@ -859,6 +857,7 @@ jQuery(document).ready(function () {
 		fixedColumns: {
 			start: 3
 		},
+		"stateSave": true,
 		searchBuilder: {
             // Tắt bộ lọc tự động (disable the default behavior)
             preDefined: [] // Không xác định bộ lọc mặc định nào

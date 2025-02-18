@@ -204,7 +204,9 @@ get_header();
                     ]);
                     $total_order_days = array_sum(array_column($response_order['data'], 'ship_days'));
                     $total_quantity = array_sum(array_column($response_order['data'], 'total_quantity')); 
-                    $total_order_money = array_sum(array_column($response_order['data'], 'total_amount'));
+                    $total_ship = array_sum(array_column($response_order['data'], 'ship_amount'));
+                    $total_amount = array_sum(array_column($response_order['data'], 'total_amount'));
+                    $total_order_money = $total_amount + $total_ship;
                     $dateStarts = array_column($response_order['data'], 'date_start');
                     
                     if (!empty($dateStarts)) {
@@ -289,7 +291,7 @@ get_header();
                     <td data-number="11" class="text-left"><?php echo $total_order_days; ?></td>
                     <td data-number="12" class="text-left"><?php echo $total_quantity; ?></td>
                     <td data-number="13" class="text-left"><?php echo number_format($total_order_money); ?></td>
-                    <td data-number="14" class="text-left"><?php echo $record['point'] > 0 ? $record['point'] : ''; ?></td>
+                    <td data-number="14" class="text-left"><?php echo $total_order_days; ?></td>
                     <td data-number="15"><?php echo $max_date; ?></td>
                     <td data-number="16" class="text-right"><span class="avatar"><img src="<?php echo get_avatar_url($record['modified_at']); ?>" width="24" alt="<?php echo get_the_author_meta('display_name', $record['modified_at']); ?>"></span></td>
                     <td data-number="17"><?php echo get_the_author_meta('display_name', $record['modified_at']); ?></td>

@@ -94,7 +94,7 @@
                 <div class="d-f ai-center jc-b mt-4">
                     <p class="txt black fw-bold">Số tiền còn lại:</p>
                     <p class="cost-txt red">
-                        <?php echo ($total = $order_detail['total_amount'] ) > 0 ? number_format($total) : 0; ?>
+                        <?php echo ($total = $order_detail['total_amount'] - $order_detail['paid'] ) > 0 ? number_format($total) : 0; ?>
                     </p>
                 </div>
             </div>

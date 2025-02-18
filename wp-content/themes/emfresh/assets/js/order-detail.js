@@ -447,7 +447,7 @@ function update_pay() {
 	}
 }
 
-update_pay();
+// update_pay();
 
 $(document).on("click", ".status-pay-menu .status-pay-item span", function () {
 

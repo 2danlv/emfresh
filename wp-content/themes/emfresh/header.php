@@ -44,7 +44,14 @@ $(document).ready(function() {
 		for (let i = 1; i <= 16; i++) {
 			localStorage.removeItem('column_' + i);
 		}
-	<?php }  ?>
+	<?php } 
+	if ( is_page_template( 'page-templates/list-order.php' ) || is_page_template( 'page-templates/page_detail-order.php' ) ) { ?>
+		<?php } else { ?>
+			localStorage.setItem('DataTables_list-order_/list-order/', '');
+			for (let i = 1; i <= 23; i++) {
+				localStorage.removeItem('column_order_' + i);
+			} 
+		<?php } ?>
 });
 </script>
 </head>

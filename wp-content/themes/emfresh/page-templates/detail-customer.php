@@ -377,12 +377,16 @@ get_header();
 								</div>
 								<div class="d-f jc-b pt-8">
 									<span>Tổng tiền đã chi:</span>
-									<?php $total_order_money = array_sum(array_column($response_order['data'], 'total_amount')); ?>
+									<?php 
+									$total_ship = array_sum(array_column($response_order['data'], 'ship_amount'));
+									$total_amount = array_sum(array_column($response_order['data'], 'total_amount'));
+									$total_order_money = $total_amount + $total_ship; 
+									?>
 									<span class="total_order_money"><?php echo number_format($total_order_money); ?></span>
 								</div>
 								<div class="d-f jc-b pt-8">
 									<span>Điểm tích luỹ:</span>
-									<span><?php echo $response_customer['data']['point'] ?></span>
+									<span><?php echo $total_order_days; ?></span>
 								</div>
 								<div class="d-f jc-b pt-8 pb-4">
 									<span>Lịch sử đặt gần nhất:</span>
@@ -454,7 +458,7 @@ get_header();
 										</div>
 										<div class="history-order" style="margin: 0;">
 											<?php if (isset($response_order['data']) && is_array($response_order['data'])) { ?>
-											<table class="nowrap-bak regular">
+											<table class="nowrap-bak regular_pay">
 												<thead>
 													<tr>
 														<th>Mã đơn</th>
@@ -472,13 +476,16 @@ get_header();
 														// var_dump($response_order);
 														if (is_array($record_order)) {
 															$link = add_query_arg(['order_id' => $record_order['id']], $detail_order_url);
+															$total_ship = $record_order['ship_amount'];
+															$total_amount = $record_order['total_amount'];
+															$total_order_money = $total_amount + $total_ship;
 														?>
 														<tr>
 															<td><a href="<?php echo $link ?>"><?php echo $record_order['order_number'] ?></a></td>
 															<td><a href="<?php echo $link ?>"><?php echo strtoupper($record_order['item_name']) ?></a></td>
 															<td><?php echo date('d/m/Y', strtotime($record_order['date_start'])) ?></td>
 															<td align="center"><?php echo date('d/m/Y', strtotime($record_order['date_stop'])) ?></td>
-															<td><?php echo $record_order['total'] > 0 ? number_format($record_order['total']) : 0 ?></td>
+															<td><?php echo $total_order_money > 0 ? number_format($total_order_money) : 0 ?></td>
 															<td align="center"><span class="status_pay"><?php echo $record_order['payment_status_name'] ?></span></td>
 															<td align="center" class="status-order"><span class="status_order"><?php echo $record_order['status_name'] ?></span></td>
 														</tr>
