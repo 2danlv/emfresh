@@ -13,10 +13,10 @@ $order_logs = $em_log->get_items([
             <thead>
                 <tr>
                     <th>Người thực hiện</th>
-                    <th>Hành động</th>
+                    <th class="nowrap">Hành động</th>
                     <th>Trường</th>
                     <th>Mô tả</th>
-                    <th>Thời gian</th>
+                    <th class="nowrap">Thời gian</th>
                     <th>Ngày</th>
                 </tr>
             </thead>
@@ -34,8 +34,8 @@ $order_logs = $em_log->get_items([
                         <?php echo $item['created_author'] ?>
                     </td>
                     <td><?php echo $actions[0] ?></td>
-                    <td><?php echo $actions[1] ?></td>
-                    <td class="ellipsis"><?php echo $content ?></td>
+                    <td style="min-width: 140px;"><?php echo $actions[1] ?></td>
+                    <td class="wrap-td" style="max-width: 300px;"><div class="nowrap ellipsis"><?php echo $content ?></div></td>
                     <td><?php echo date('H:i', $item_time) ?></td>
                     <td><?php echo date('d/m/Y', $item_time) ?></td>
                 </tr>

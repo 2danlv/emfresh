@@ -367,6 +367,14 @@ table.table {
         }
     } 
 }
+table {
+    td.wrap-td {
+        .ellipsis {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+}
 div.dt-container select.dt-input {
     height: 30px;
 }

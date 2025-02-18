@@ -662,6 +662,7 @@ jQuery(document).ready(function () {
 			table.columns.adjust();
 			table_list_order.columns.adjust();
 			table_regular.columns.adjust();
+			table_regular_pay.columns.adjust();
 		}, 50);
 		if ($(this).hasClass('active')) {
 			$('.sidebar .resize').removeClass('active');
@@ -698,11 +699,35 @@ jQuery(document).ready(function () {
 			},
 		}
 	});
+	var table_regular_pay = $('table.regular_pay').DataTable({
+		autoWidth: true,
+		scrollX: true,
+		scrollY: '50vh',
+		dom: 'Bfrtip<"bottom"pl>',
+		//order: [[0, 'asc'], [1, 'asc']], // date, time
+		columnDefs: [
+			{
+				type: 'natural',
+				targets: [0,1,2,3,4, 5],
+				orderable: false,
+			},
+		],
+		language: {
+			paginate: {
+				previous: '<i class="fas fa-left"></i>',
+				next: '<i class="fas fa-right"></i>',
+			},
+		}
+	});
 	jQuery('ul.tabNavigation li').click(function() {
 		switch_tabs(jQuery(this));
 		$('.card-primary').removeClass('width-100');
 		$('.scroll-menu .btn-save_edit').hide();
 		$('.scroll-menu .btn-add_order').show();
+		setTimeout(() => {
+			table_regular.columns.adjust();
+			table_regular_pay.columns.adjust();
+		}, 50);
 	});
 	switch_tabs(jQuery('.defaulttab'));
 	jQuery('ul.tabNavigation li[rel="settings"]').click(function() {
@@ -716,6 +741,7 @@ jQuery(document).ready(function () {
 	jQuery('ul.tabNavigation li[rel="settings"],ul.tabNavigation li[rel="history"]').click(function() {
 		$('.card-primary').addClass('width-100');
 		table_regular.columns.adjust();
+		table_regular_pay.columns.adjust();
 	});
 	$(document).on('click','.show-group-note', function name(params) {
 		$(this).hide();

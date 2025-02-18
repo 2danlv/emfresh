@@ -61,7 +61,11 @@ if($order_id > 0) {
 $order_item_total = count($order_items);
 
 extract($order_detail);
+$tab_active = isset($_GET['tab']) ? $_GET['tab'] : 'info';
 
+if($tab_active != '') {
+	$query_arg['tab'] = $tab_active;
+}
 get_header();
 
 // Start the Loop.
@@ -208,7 +212,11 @@ get_footer('customer');
 $(document).ready(function () {
 	initializeTagify('.row-note input.input-note_values');
 	let $selects = $(".row-note select.input-note_name");
-
+	<?php
+		if($tab_active != '') {
+			echo '$(".tabNavigation [rel='.$tab_active.']").trigger("click");';
+		}
+	?>
     // Kiểm tra xem có bao nhiêu select box
     if ($selects.length === 1) {
         // Nếu chỉ có 1 select box, giữ nguyên các option

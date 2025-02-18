@@ -8,7 +8,7 @@ $order_payment_logs = $em_log->get_items([
 
 ?>
 <div class="card history-action">
-        <table class="regular">
+        <table class="regular_pay">
             <thead>
                 <tr>
                     <th>Thời gian</th>
