@@ -9,10 +9,10 @@ $order_logs = $em_log->get_items([
 
 ?>
 <div class="card history-action">
-        <table class="regular">
+        <table class="regular_pay">
             <thead>
                 <tr>
-                    <th>Người thực hiện</th>
+                    <th class="nowrap">Người thực hiện</th>
                     <th class="nowrap">Hành động</th>
                     <th>Trường</th>
                     <th>Mô tả</th>
@@ -29,9 +29,10 @@ $order_logs = $em_log->get_items([
                     $content = str_replace(["\n", '  '], ' ', $item['content']);
                 ?>
                 <tr>
-                    <td>
-                        <img class="mr-8" src="<?php echo get_avatar_url($item['created_at']) ?>" width="24" alt="">
+                    <td class="wrap-td" style="max-width: 160px;">
+                        <div class="nowrap ellipsis"><img class="mr-8" src="<?php echo get_avatar_url($item['created_at']) ?>" width="24" alt="">
                         <?php echo $item['created_author'] ?>
+                        </div>
                     </td>
                     <td><?php echo $actions[0] ?></td>
                     <td style="min-width: 140px;"><?php echo $actions[1] ?></td>

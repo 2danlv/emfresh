@@ -663,7 +663,7 @@ jQuery(document).ready(function () {
 			table_list_order.columns.adjust();
 			table_regular.columns.adjust();
 			table_regular_pay.columns.adjust();
-		}, 50);
+		}, 100);
 		if ($(this).hasClass('active')) {
 			$('.sidebar .resize').removeClass('active');
 		} else {
@@ -727,7 +727,7 @@ jQuery(document).ready(function () {
 		setTimeout(() => {
 			table_regular.columns.adjust();
 			table_regular_pay.columns.adjust();
-		}, 50);
+		}, 100);
 	});
 	switch_tabs(jQuery('.defaulttab'));
 	jQuery('ul.tabNavigation li[rel="settings"]').click(function() {
@@ -740,8 +740,6 @@ jQuery(document).ready(function () {
 	});
 	jQuery('ul.tabNavigation li[rel="settings"],ul.tabNavigation li[rel="history"]').click(function() {
 		$('.card-primary').addClass('width-100');
-		table_regular.columns.adjust();
-		table_regular_pay.columns.adjust();
 	});
 	$(document).on('click','.show-group-note', function name(params) {
 		$(this).hide();
