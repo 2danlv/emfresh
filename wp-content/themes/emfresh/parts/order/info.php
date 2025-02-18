@@ -74,7 +74,9 @@
                 </div>
                 <div class="d-f ai-center jc-b mt-4">
                     <p class="txt black fw-bold">Tổng tiền đơn hàng:</p>
-                    <p class="cost-txt"><?php echo number_format($order_detail['total_amount'])?></p>
+                    <p class="cost-txt"><?php
+                    $total_money = $order_detail['total_amount'] + $order_detail['ship_amount'] - $order_detail['discount'];
+                    echo number_format($total_money)?></p>
                 </div>
             </div>
         </div>
@@ -83,7 +85,7 @@
             <div class="section-content">
                 <div class="d-f ai-center jc-b">
                     <p class="txt">Cần thanh toán:</p>
-                    <p class="txt"><?php echo number_format($order_detail['total_amount'])?></p>
+                    <p class="txt"><?php echo number_format($total_money)?></p>
                 </div>
                 <div class="d-f ai-center jc-b">
                     <p class="txt">Đã thanh toán:</p>
@@ -94,7 +96,7 @@
                 <div class="d-f ai-center jc-b mt-4">
                     <p class="txt black fw-bold">Số tiền còn lại:</p>
                     <p class="cost-txt red">
-                        <?php echo ($total = $order_detail['total_amount'] - $order_detail['paid'] ) > 0 ? number_format($total) : 0; ?>
+                        <?php echo ($total_money - $order_detail['paid'] ) > 0 ? number_format($total_money - $order_detail['paid'] ) : 0; ?>
                     </p>
                 </div>
             </div>

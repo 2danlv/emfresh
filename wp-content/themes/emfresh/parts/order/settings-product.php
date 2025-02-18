@@ -74,7 +74,7 @@
                         </div>
                         <div class="d-f jc-b pt-8 pb-8">
                             <span class="tlt fw-bold ">Tổng tiền đơn hàng:</span>
-                            <span class="total total-price"><?php echo ($total = $order_detail['total_amount'] ) > 0 ? number_format($total) : 0; ?></span>
+                            <span class="total total-price"><?php echo ($total_money) > 0 ? number_format($total_money) : 0; ?></span>
                         </div>
                     </div>
                 </div>

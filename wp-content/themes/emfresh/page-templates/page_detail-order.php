@@ -167,7 +167,7 @@ get_header();
 		</div>
 </div><!-- /.container-fluid -->
 <div class="navigation-bottom d-f jc-b ai-center pl-16 pr-16">
-	<div class="total-cost txt d-f gap-16 ai-center fw-bold">Cần thanh toán: <span class="cost-txt red fw-bold"><?php echo ($total = $order_detail['total_amount'] - $order_detail['paid']) > 0 ? number_format($total) : 0; ?></span></div>
+	<div class="total-cost txt d-f gap-16 ai-center fw-bold">Cần thanh toán: <span class="cost-txt red fw-bold"><?php echo ($total_money - $order_detail['paid']) > 0 ? number_format($total_money - $order_detail['paid']) : 0; ?></span></div>
 	<span class="btn btn-primary btn-next">Đi đến Meal Plan chi tiết</span>
 </div>
 </section>

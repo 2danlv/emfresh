@@ -22,7 +22,7 @@
     </div>
     <div class="total-pay d-f jc-b ai-center">
         <p>Tổng tiền đơn hàng:</p>
-        <p class="price-order fw-bold"><?php echo ($total = $order_detail['total_amount'] + $order_detail['ship_amount']) > 0 ? number_format($total) : 0; ?></p>
+        <p class="price-order fw-bold"><?php echo ($total_money) > 0 ? number_format($total_money) : 0; ?></p>
     </div>
     <div class="order-payment">
         <div class="payment-item d-f jc-b ai-center">
@@ -56,7 +56,7 @@
         </div>
         <div class="payment-item d-f jc-b ai-center pt-8">
             <p>Cần thanh toán:</p>
-            <div class="payment-required fw-bold"><?php echo ($total = $order_detail['total_amount'] - $order_detail['paid']) > 0 ? number_format($total) : 0; ?></div>
+            <div class="payment-required fw-bold"><?php echo ($total_money - $order_detail['paid']) > 0 ? number_format($total_money - $order_detail['paid']) : 0; ?></div>
         </div>
     </div>
 </div>
