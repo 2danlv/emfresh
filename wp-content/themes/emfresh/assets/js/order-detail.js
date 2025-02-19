@@ -472,7 +472,41 @@ $(document).on("click", ".status-pay-menu .status-pay-item span", function () {
 		update_pay();
 	}
 });
+$(document).on("blur", ".input-days", function () {
+    let $input = $(this);
+    let $deliveryItem = $input.closest('.js-order-item');
+    let type = $deliveryItem.find('.input-type').val();
+    let value = parseInt($input.val(), 10);
 
+    if (isNaN(value)) return; // Nếu không phải số thì bỏ qua
+
+    if (type === 'd') {
+        if (value !== 1 && value !== 2) {
+            $input.val(1);
+			$('#modal-alert').addClass('is-active');
+            $('body').addClass('overflow');
+			$('.modal-alert .modal-body p span.txt_append').text('Chỉ cho phép nhập 1 hoặc 2');
+        }
+    } else if (type === 'w') {
+        if (value < 1 || value > 19) {
+            $input.val(""); //  
+			$('#modal-alert').addClass('is-active');
+            $('body').addClass('overflow');
+			$('.modal-alert .modal-body p span.txt_append').text('Chỉ cho phép nhập từ 1 đến 19');
+        } else if (value === 1 || value === 2) {
+			$('#modal-alert').addClass('is-active');
+            $('body').addClass('overflow');
+			$('.modal-alert .modal-body p span.txt_append').text('Bạn nhập số ngày ăn quá nhỏ');
+        }
+    } else if (type === 'm') {
+        if (value < 15) {
+            $input.val("");
+			$('#modal-alert').addClass('is-active');
+            $('body').addClass('overflow');
+			$('.modal-alert .modal-body p span.txt_append').text('Chỉ cho phép nhập từ 15 trở lên');
+        }
+    }
+});
 $(document).on('blur', '.js-order-item [name]:not(.input-note_values)', function () {
 	let p = $(this),
 		order_item = p.closest('.js-order-item'),
@@ -720,7 +754,6 @@ $(document).on("change", ".input-type", function () {
 		$deliveryItem.find('.input-days').val(1);
 	} else {
 		$deliveryItem.find('.input-days').val("");
-		$deliveryItem.find('.input-days').prop('readonly', false);
 	}
 });
 

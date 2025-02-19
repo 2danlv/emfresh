@@ -64,80 +64,95 @@
     <div class="overlay"></div>
     <div class="modal-dialog">
         <div class="modal-content">
-                <div class="modal-body pt-8 pb-16">
-                    <input type="hidden" class="customer_id" name="customer_id" value="">
-                    <div class="d-f">
-                        <i class="fas fa-warning mr-4"></i>
-                        <p>Bạn có chắc muốn xoá sản phẩm đang thực hiện trên đơn hàng này không?</p>
-                    </div>
+            <div class="modal-body pt-8 pb-16">
+                <input type="hidden" class="customer_id" name="customer_id" value="">
+                <div class="d-f">
+                    <i class="fas fa-warning mr-4"></i>
+                    <p>Bạn có chắc muốn xoá sản phẩm đang thực hiện trên đơn hàng này không?</p>
                 </div>
-                <div class="modal-footer d-f jc-b pb-8">
-                    <button type="button" class="btn btn-secondary modal-close">Đóng</button>
-                    <button type="button" name="remove" class="btn btn-danger js-remove-order-item modal-close">Xóa</button>
-                </div>
+            </div>
+            <div class="modal-footer d-f jc-b pb-8">
+                <button type="button" class="btn btn-secondary modal-close">Đóng</button>
+                <button type="button" name="remove" class="btn btn-danger js-remove-order-item modal-close">Xóa</button>
+            </div>
         </div>
     </div>
 </div>
-
+<div class="modal fade modal-warning modal-alert" id="modal-alert">
+    <div class="overlay"></div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body pt-8 pb-16">
+                <div class="d-f">
+                    <i class="fas fa-warning mr-8"></i>
+                    <p><span class="txt_append"></span></p>
+                </div>
+            </div>
+            <div class="modal-footer text-center pb-8 pt-16">
+                <span class="btn btn-secondary modal-close">Đóng</span>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="modal fade modal-warning" id="modal-cancel">
-	<div class="overlay"></div>
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<form method="post" id="list-customer" action="">
-				<div class="modal-body pt-8 pb-16">
-					<input type="hidden" class="customer_id" name="customer_id" value="">
-					<div class="d-f">
-						<i class="fas fa-warning mr-8"></i>
-						<p>Bạn có chắc chắn muốn huỷ phần bảo lưu này và giảm giá cho đơn hàng mới? </p>
-					</div>
+    <div class="overlay"></div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" id="list-customer" action="">
+                <div class="modal-body pt-8 pb-16">
+                    <input type="hidden" class="customer_id" name="customer_id" value="">
+                    <div class="d-f">
+                        <i class="fas fa-warning mr-8"></i>
+                        <p>Bạn có chắc chắn muốn huỷ phần bảo lưu này và giảm giá cho đơn hàng mới? </p>
+                    </div>
 
-				</div>
-				<div class="modal-footer d-f jc-b pb-8 pt-16">
-					<button type="button" class="btn btn-secondary modal-close">Đóng</button>
-					<button type="submit" name="remove" class="btn btn-danger modal-close">Xóa</button>
-				</div>
-			</form>
-		</div>
-	</div>
+                </div>
+                <div class="modal-footer d-f jc-b pb-8 pt-16">
+                    <button type="button" class="btn btn-secondary modal-close">Đóng</button>
+                    <button type="submit" name="remove" class="btn btn-danger modal-close">Xóa</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
-<?php if($order_id > 0) { ?>
-<div class="modal fade modal-warning" id="modal-end">
-	<div class="overlay"></div>
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<form method="post" class="form-remove-note" action="">
-				<div class="modal-body pt-8 pb-16">
-					<div class="d-f ai-center">
-						<i class="fas fa-warning mr-4"></i>
-						<p>Bạn có chắc chắn muốn xóa đơn hàng này ?</p>
-					</div>
-				</div>
-				<div class="modal-footer d-f jc-b pb-8 pt-16">
-					<button type="button" class="btn btn-secondary modal-close">Đóng</button>
-					<a href="<?php echo $delete_url; ?>" class="btn btn-danger modal-close">Xóa</a>
-				</div>
-			</form>
-		</div>
-	</div>
-</div>
+<?php if ($order_id > 0) { ?>
+    <div class="modal fade modal-warning" id="modal-end">
+        <div class="overlay"></div>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="post" class="form-remove-note" action="">
+                    <div class="modal-body pt-8 pb-16">
+                        <div class="d-f ai-center">
+                            <i class="fas fa-warning mr-4"></i>
+                            <p>Bạn có chắc chắn muốn xóa đơn hàng này ?</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer d-f jc-b pb-8 pt-16">
+                        <button type="button" class="btn btn-secondary modal-close">Đóng</button>
+                        <a href="<?php echo $delete_url; ?>" class="btn btn-danger modal-close">Xóa</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 <?php } ?>
 <div class="modal fade" id="modal-continue">
-	<div class="overlay"></div>
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<form method="post" class="form-remove-note" action="">
-				<div class="modal-body pb-16">
-					<div class="tlt pt-16">Sản phẩm</div>
-					<p class="pt-16">Vui lòng chọn ngày bắt đầu tiếp diễn cho đơn hàng</p>
-					<div class="calendar pt-16">
-						<input type="text" value="" name="calendar" placeholder="DD/MM/YYYY" class="form-control start-day js-calendar">
-					</div>
-				</div>
-				<div class="modal-footer d-f jc-end pb-8 pt-16 gap-16">
-					<button type="button" class="btn btn-secondary modal-close">Hủy</button>
-					<button type="submit" class="btn btn-primary modal-close">Xác nhận</button>
-				</div>
-			</form>
-		</div>
-	</div>
+    <div class="overlay"></div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" class="form-remove-note" action="">
+                <div class="modal-body pb-16">
+                    <div class="tlt pt-16">Sản phẩm</div>
+                    <p class="pt-16">Vui lòng chọn ngày bắt đầu tiếp diễn cho đơn hàng</p>
+                    <div class="calendar pt-16">
+                        <input type="text" value="" name="calendar" placeholder="DD/MM/YYYY" class="form-control start-day js-calendar">
+                    </div>
+                </div>
+                <div class="modal-footer d-f jc-end pb-8 pt-16 gap-16">
+                    <button type="button" class="btn btn-secondary modal-close">Hủy</button>
+                    <button type="submit" class="btn btn-primary modal-close">Xác nhận</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
