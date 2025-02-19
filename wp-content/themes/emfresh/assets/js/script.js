@@ -158,8 +158,8 @@ jQuery(document).ready(function () {
 		layout: {},
 		columnDefs: [
 			{
-				type: 'string',
-				targets: [0,16],
+				//type: 'string',
+				targets: [0,5,9,16],
 				orderable: false,
 			},
 			{

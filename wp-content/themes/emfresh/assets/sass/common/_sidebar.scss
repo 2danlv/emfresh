@@ -55,6 +55,11 @@
     justify-content: space-between;
     ul.nav-menu {
         padding-top: 24px;
+        .wp-menu-img-before img {
+            width: auto;
+            height: auto;
+            max-width: 25px;
+        }
             li {
                 width: 100%;
                 overflow: hidden;
@@ -71,12 +76,23 @@
                     > a {
                         color: #4BA66F;
                         background-image: url(../img/icon/CaretUp.svg);
+                        background-repeat: no-repeat;
                         background-color: #DDF6E7;
                         img {
                             filter: brightness(0) saturate(100%) invert(56%) sepia(64%) saturate(316%) hue-rotate(91deg) brightness(89%) contrast(94%);
                         }
                     }
                 }
+                &.current-page-ancestor {
+                    > a {
+                        color: #4BA66F;
+                        background-color: #DDF6E7;
+                        img {
+                            filter: brightness(0) saturate(100%) invert(56%) sepia(64%) saturate(316%) hue-rotate(91deg) brightness(89%) contrast(94%);
+                        }
+                    }
+                }
+                
                 a {
                     display: flex;
                     align-items: center;

@@ -171,9 +171,9 @@ get_header();
             <th data-number="7" class="dt-orderable-none">Tag phân loại</th>
             <th data-number="8" class="text-center">Giới tính</th>
             <th data-number="9" class="text-center">Note <span class="nowrap">dụng cụ ăn</span></th>
-            <th data-number="10"><span class="nowrap">Số </span>đơn</th>
-            <th data-number="11">Số <span class="nowrap">ngày ăn</span></th>
-            <th data-number="12">Số <span class="nowrap">phần ăn</span></th>
+            <th data-number="10" class="text-left"><span class="nowrap">Số </span>đơn</th>
+            <th data-number="11" class="text-left">Số <span class="nowrap">ngày ăn</span></th>
+            <th data-number="12" class="text-left">Số <span class="nowrap">phần ăn</span></th>
             <th data-number="13"><span class="nowrap">Tổng tiền </span><span class="nowrap">đã chi</span></th>
             <th data-number="14" class="text-left">Điểm <span class="nowrap">tích lũy</span></th>
             <th data-number="15">Lịch sử <span class="nowrap">đặt gần nhất</span></th>
