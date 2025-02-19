@@ -19,7 +19,7 @@
         <div id="tabContents" class="js-order-items">
             <?php foreach ($order_items as $i => $order_item) : extract($order_item); ?>
             <?php
-                if (!empty($date_start) && $date_start <= $current_date_format) {
+                if (!empty($date_start) && $date_start <= $current_date_format && $date_start !='0000-00-00') {
                     //echo "Ngày " . $min_date->format('Y-m-d') . " đã bắt đầu";
                     $day_start = $date_start ;
                     $class_disable ="disable_edit";
@@ -57,10 +57,11 @@
                             </div>
                             <div class="col-4">
                                 <div class="label mb-4">Ngày bắt đầu:</div>
-                                <input type="hidden" class="form-control input-date_start" name="order_item[<?php echo $i ?>][date_start]" value="<?php echo $date_start;?>" />
-                                <?php if ($date_start !='') { ?>
+                                <?php if ($date_start !='' && $date_start !='0000-00-00') { ?>
+                                    <input type="hidden" class="form-control input-date_start" name="order_item[<?php echo $i ?>][date_start]" value="<?php echo $date_start;?>" />
                                     <input type="text" class="form-control js-calendar date"  name="startday" value="<?php echo date("d/m/Y", strtotime($date_start));  ?>" placeholder="Ngày bắt đầu" required />
                                 <?php } else { ?>
+                                    <input type="hidden" class="form-control input-date_start" name="order_item[<?php echo $i ?>][date_start]" value="" />
                                     <input type="text" class="form-control js-calendar date" name="startday" value="" placeholder="Ngày bắt đầu" required />
                                <?php }
                                 ?>

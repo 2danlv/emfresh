@@ -718,7 +718,6 @@ $(document).on("change", ".input-type", function () {
 	counts_type();
 	if ($(this).val() == 'd') {
 		$deliveryItem.find('.input-days').val(1);
-		$deliveryItem.find('.input-days').prop('readonly', true);
 	} else {
 		$deliveryItem.find('.input-days').val("");
 		$deliveryItem.find('.input-days').prop('readonly', false);

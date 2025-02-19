@@ -108,9 +108,15 @@ get_header();
 						<div class="d-f gap-8 ai-center">
 							<div class="print btn btn-secondary d-f gap-8 ai-center"><span class="fas fas-print"></span>In đơn</div>
 							<?php $min_date_start = null;
+							
 							foreach ($order_items as $item) {
-								if ($min_date_start === null || strtotime($item['date_start']) < strtotime($min_date_start)) {
-									$min_date_start = $item['date_start'];
+								// 
+								if ($item['date_start'] !='0000-00-00') {
+									if ($min_date_start === null || strtotime($item['date_start']) < strtotime($min_date_start)) {
+										$min_date_start = $item['date_start'];
+									}
+								} else {
+									$min_date_start = '1970-01-01';
 								}
 							} 
 							$today = date('Y-m-d');

@@ -13,7 +13,11 @@
                 </div>
                 <div class="d-f ai-center jc-b">
                     <p class="txt">Ngày bắt đầu:</p>
-                    <p class="txt"><?php echo date("d/m/Y", strtotime($min_date_start)); ?></p>
+                    <p class="txt">
+                    <?php if ($min_date_start !='1970-01-01') { ?>
+                        <?php echo date("d/m/Y", strtotime($min_date_start)); ?>
+                    <?php } ?>
+                    </p>
                 </div>
                 <div class="d-f ai-center jc-b">
                     <p class="txt">Ngày kết thúc:</p>
@@ -22,10 +26,15 @@
                         if ($max_date_stop === null || strtotime($item['date_stop']) > strtotime($max_date_stop)) {
                             $max_date_stop = $item['date_stop'];
                         }
-                    } ?>
-                    
-                    <p class="txt"><?php echo date("d/m/Y", strtotime($max_date_stop)); ?></p>
+                    } 
+                    ?>
+                    <p class="txt">
+                    <?php if ($min_date_start !='1970-01-01') { ?>
+                        <?php echo date("d/m/Y", strtotime($max_date_stop)); ?>
+                    <?php } ?>
+                    </p>
                 </div>
+                
             </div>
         </div>
         <?php //var_dump($order_detail); ?>
