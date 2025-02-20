@@ -12,6 +12,7 @@ global $em_customer, $em_order, $em_customer_tag, $em_log;
 
 $list_order_status = $em_order->get_statuses();
 $list_tags = $em_customer->get_tags();
+$list_orders = [];
 
 // cập nhật data cho customer
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
@@ -191,6 +192,9 @@ get_header();
               'paged' => 1,
               'limit' => -1,
             ]);
+
+            $order_date_from = isset($_GET['order_date_from']) ? trim($_GET['order_date_from']) : '';
+            $order_date_to = isset($_GET['order_date_to']) ? trim($_GET['order_date_to']) : '';
             
           if (isset($response['data']) && is_array($response['data'])) {
             // Loop through the data array and print each entry
@@ -200,8 +204,17 @@ get_header();
                   $response_order = em_api_request('order/list', [
                     'paged' => 1,
                     'customer_id' => $record['id'],
+                    'date_from' => $order_date_from,
+                    'date_to' => $order_date_to,
                     'limit' => -1,
                     ]);
+                  
+                    if(count($response_order['data']) > 0) {
+                      $list_orders = array_merge($list_orders,$response_order['data']);
+                    } else {
+                      continue;
+                    }
+
                     $total_order_days = array_sum(array_column($response_order['data'], 'ship_days'));
                     $total_quantity = array_sum(array_column($response_order['data'], 'total_quantity')); 
                     $total_ship = array_sum(array_column($response_order['data'], 'ship_amount'));
@@ -429,8 +442,8 @@ foreach ($list_tags as $key => $value) {
 } ?>
 <script>
   let list_tags = [<?php echo implode(',', $html); ?>];
+  let list_orders = <?php echo json_encode($list_orders, JSON_UNESCAPED_UNICODE); ?>;
 </script>
-
 <?php
 // endwhile;
 

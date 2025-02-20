@@ -70,6 +70,9 @@ $response_order = em_api_request('order/list', [
 	'limit' => -1,
   ]);
 // var_dump($response_order);
+
+$total_money = 0;
+
 get_header();
 // Start the Loop.
 // while ( have_posts() ) : the_post();

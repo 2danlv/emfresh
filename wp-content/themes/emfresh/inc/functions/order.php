@@ -184,6 +184,16 @@ function site_order_submit()
                     unset($order_item['id']);
 
                     $response = em_api_request('order_item/add', $order_item);
+
+                    if ($response['code'] == 200) {
+                        // Log update
+                        $em_log->insert([
+                            'action'        => 'Thêm - Sản phẩm',
+                            'module'        => 'em_order',
+                            'module_id'     => $order_id,
+                            'content'       => $item_title
+                        ]);
+                    }
                 }
 
                 if ($note != '' && $order_data['note'] == '') {
@@ -260,13 +270,15 @@ function site_order_submit()
         if (!empty($order_data['id'])) {
             unset($order_data['id']);
 
+            $order_data['status'] = 1;
             $order_data['ship_days'] = 0;
             $order_data['ship_amount'] = 0;
             $order_data['payment_status'] = 2;
             $order_data['paid'] = 0;
             $order_data['remaining_amount'] = 0;
             $order_data['discount'] = 0;
-            $order_data['total'] = $order_data['total_amount'];
+            $order_data['total'] = 0;
+            $order_data['total_amount'] = 0;
             $order_data['params'] = '';
 
             $response = em_api_request('order/add', $order_data);
@@ -275,18 +287,14 @@ function site_order_submit()
 
                 $order_items = $em_order_item->get_items(['order_id' => $duplicate_order]);
 
-                $today = current_time('Y-m-d');
+                // $today = current_time('Y-m-d');
 
                 foreach ($order_items as $order_item) {
                     unset($order_item['id']);
 
-                    $date_stop = $order_item['date_stop'];
-                    if ($date_stop < $today) {
-                        $date_stop = $today;
-                    }
-
-                    $order_item['date_start'] = site_order_get_date_next($date_stop);
-                    $order_item['date_stop'] = site_order_get_date_value($order_item['date_start'], $order_item['days']);
+                    $order_item['date_start'] = '';
+                    $order_item['date_stop'] = '';
+                    $order_data['meal_plan'] = '';
                     $order_item['order_id'] = $order_id;
 
                     $response = em_api_request('order_item/add', $order_item);
@@ -299,6 +307,7 @@ function site_order_submit()
         $query_args = [
             'order_id' => $order_id,
             'expires' => time() + 3,
+            'tab' => 'settings-product',
         ];
 
         if (count($errors) > 0) {
@@ -413,9 +422,11 @@ function site_order_log($before = [], $after = [])
                 if(is_string($value)) {
                     $log_content[] = $label . ' ' . $value;
                 }
-            } else if ($key == 'discount') {
+            } else if ($key == 'discount' || $key == 'paid') {
                 $value = number_format($value);
 
+                $log_content[] = $label . ' ' . $value;
+            } else {
                 $log_content[] = $label . ' ' . $value;
             }
         }

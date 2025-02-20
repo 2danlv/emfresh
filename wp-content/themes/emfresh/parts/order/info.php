@@ -14,9 +14,9 @@
                 <div class="d-f ai-center jc-b">
                     <p class="txt">Ngày bắt đầu:</p>
                     <p class="txt">
-                        <?php if ($min_date_start != '1970-01-01') { ?>
-                            <?php echo date("d/m/Y", strtotime($min_date_start)); ?>
-                        <?php } ?>
+                    <?php if ($min_date_start !='1970-01-01') { ?>
+                        <?php echo date("d/m/Y", strtotime($min_date_start)); ?>
+                    <?php } ?>
                     </p>
                 </div>
                 <div class="d-f ai-center jc-b">
@@ -26,19 +26,18 @@
                         if ($max_date_stop === null || strtotime($item['date_stop']) > strtotime($max_date_stop)) {
                             $max_date_stop = $item['date_stop'];
                         }
-                    }
+                    } 
                     ?>
                     <p class="txt">
-                        <?php if ($min_date_start != '1970-01-01') { ?>
-                            <?php echo date("d/m/Y", strtotime($max_date_stop)); ?>
-                        <?php } ?>
+                    <?php if ($min_date_start !='1970-01-01') { ?>
+                        <?php echo date("d/m/Y", strtotime($max_date_stop)); ?>
+                    <?php } ?>
                     </p>
                 </div>
-
+                
             </div>
         </div>
-        <?php //var_dump($order_detail); 
-        ?>
+        <?php //var_dump($order_detail); ?>
         <div class="section-wapper">
             <div class="tlt-section">Sản phẩm</div>
             <div class="section-content">
@@ -47,10 +46,10 @@
                         <div class="product-head d-f jc-b ai-center">
                             <div class="txt fw-bold">
                                 <?php
-                                foreach ($list_products as $product) {
-                                    echo $product['id'] == $product_id ? $product['name'] : '';
-                                }
-                                ?>
+                                    foreach ($list_products as $product) {
+                                        echo $product['id'] == $product_id ? $product['name'] : '';
+                                    }
+                                    ?>
                                 &nbsp;x&nbsp;<span class="quantity"><?php echo $quantity > 0 ? number_format($quantity) : 1 ?></span></div>
                             <div class="txt"><?php echo $amount > 0 ? number_format($amount) : 0 ?></div>
                         </div>
@@ -85,8 +84,8 @@
                 <div class="d-f ai-center jc-b mt-4">
                     <p class="txt black fw-bold">Tổng tiền đơn hàng:</p>
                     <p class="cost-txt"><?php
-                                        $total_money = $order_detail['total_amount'] + $order_detail['ship_amount'] - $order_detail['discount'];
-                                        echo number_format($total_money) ?></p>
+                    $total_money = $order_detail['total_amount'] + $order_detail['ship_amount'] - $order_detail['discount'];
+                    echo number_format($total_money)?></p>
                 </div>
             </div>
         </div>
@@ -95,7 +94,7 @@
             <div class="section-content">
                 <div class="d-f ai-center jc-b">
                     <p class="txt">Cần thanh toán:</p>
-                    <p class="txt"><?php echo number_format($total_money) ?></p>
+                    <p class="txt"><?php echo number_format($total_money)?></p>
                 </div>
                 <div class="d-f ai-center jc-b">
                     <p class="txt">Đã thanh toán:</p>
@@ -106,7 +105,7 @@
                 <div class="d-f ai-center jc-b mt-4">
                     <p class="txt black fw-bold">Số tiền còn lại:</p>
                     <p class="cost-txt red">
-                        <?php echo ($total_money - $order_detail['paid']) > 0 ? number_format($total_money - $order_detail['paid']) : 0; ?>
+                        <?php echo ($total_money - $order_detail['paid'] ) > 0 ? number_format($total_money - $order_detail['paid'] ) : 0; ?>
                     </p>
                 </div>
             </div>
@@ -120,15 +119,15 @@
                 <?php
                 //preg_match('/\((.*?)\)/', $order_detail['customer_name'], $matches);
                 if ($order_detail['customer_name_2nd'] != '') { ?>
-                    <p class="txt">Người nhận: <?php echo $order_detail['customer_name_2nd']; ?></p>
+                <p class="txt">Người nhận: <?php echo $order_detail['customer_name_2nd']; ?></p>
                 <?php } ?>
                 <p class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $order_detail['phone'] ?>"><?php echo $order_detail['phone'] ?></p>
                 <p class="txt ellipsis"><?php echo $order_detail['location_name']; ?></p>
                 <?php if (!empty($order_detail['note_shipper'])) { ?>
-                    <p class="txt ellipsis">Note shipper: <?php echo $order_detail['note_shipper'] ?></p>
+                <p class="txt ellipsis">Note shipper: <?php echo $order_detail['note_shipper'] ?></p>
                 <?php }
                 if (!empty($order_detail['note_admin'])) { ?>
-                    <p class="txt ellipsis">Note admin: <?php echo $order_detail['note_admin'] ?></p>
+                <p class="txt ellipsis">Note admin: <?php echo $order_detail['note_admin'] ?></p>
                 <?php } ?>
                 <p class="note-txt italic">(Đã đăng ký chung nhóm ship: Thien Phuong Bui)</p>
             </div>
@@ -158,44 +157,44 @@
         //var_dump($params);
         if (!empty($params['ship'][0]) && array_filter($params['ship'][0])) {
         ?>
-            <div class="section-wapper">
-                <div class="tlt-section">Giao hàng</div>
-                <div class="section-content">
-                    <?php
-                    foreach ($params['ship'] as $ship) {
+        <div class="section-wapper">
+            <div class="tlt-section">Giao hàng</div>
+            <div class="section-content">
+                <?php 
+                    foreach ($params['ship'] as $ship) {  
                         if (!empty($ship['location_name'])) { ?>
-                            <div class="item-section">
-                                <p class="txt black ellipsis">
-                                    <?php
-                                    if (!empty($ship['days']) && is_array($ship['days'])) {
-                                        echo implode(", ", $ship['days']);
-                                        echo "<br>";
-                                    } else {
-                                        echo  date("d/m/Y", strtotime($ship['calendar']));
-                                        echo "<br>";
-                                    }
-                                    ?>
-                                    <?php echo $ship['location_name']; ?>
-                                </p>
-                                <ul>
-                                    <?php if (!empty($ship['note_shipper'])) { ?>
-                                        <li class="txt black">
-                                            Note shipper theo ngày: <br><?php echo $ship['note_shipper'];  ?>
-                                        </li>
-                                    <?php }
-                                    if (!empty($ship['note_admin'])) { ?>
-                                        <li class="txt black">
-                                            Note admin theo ngày: <br><?php echo $ship['note_admin'];  ?>
-                                        </li>
-                                    <?php  } ?>
-                                </ul>
-                            </div>
+                        <div class="item-section">
+                            <p class="txt black ellipsis">
+                            <?php
+                            if (!empty($ship['days']) && is_array($ship['days'])) { 
+                                echo implode(", ", $ship['days']);
+                                echo "<br>";
+                            } else { 
+                                echo  date("d/m/Y", strtotime($ship['calendar']));
+                                echo "<br>";
+                            }
+                                ?>
+                            <?php echo $ship['location_name']; ?>
+                            </p>
+                            <ul>
+                                <?php if (!empty($ship['note_shipper'])) { ?>
+                                <li class="txt black">
+                                    Note shipper theo ngày: <br><?php echo $ship['note_shipper'];  ?>
+                                </li>
+                                <?php } 
+                                if (!empty($ship['note_admin'])) { ?>
+                                    <li class="txt black">
+                                        Note admin theo ngày: <br><?php echo $ship['note_admin'];  ?>
+                                    </li>
+                                <?php  } ?>
+                            </ul>
+                        </div>
                     <?php    }
                     }
-                    ?>
-                    <p class="note-txt italic">(Đã đăng ký chung nhóm ship: Thien Phuong Bui)</p>
-                </div>
+                ?>
+                <p class="note-txt italic">(Đã đăng ký chung nhóm ship: Thien Phuong Bui)</p>
             </div>
+        </div>
         <?php } ?>
     </div>
 </div>

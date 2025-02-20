@@ -66,6 +66,9 @@ $tab_active = isset($_GET['tab']) ? $_GET['tab'] : 'info';
 if($tab_active != '') {
 	$query_arg['tab'] = $tab_active;
 }
+
+$total_money = 0;
+
 get_header();
 
 // Start the Loop.
