@@ -1,0 +1,49 @@
+table.table-list-meal-plan {
+    thead tr {
+        th {
+            border-bottom: none;
+            .date-group {
+                li {
+                    padding: 8px 5px;
+                    border: 1px solid transparent;
+                    border-left: none;
+                    width: 32px;
+                    text-align: center;
+                    cursor: pointer;
+                    &:hover,&.active {
+                        background-color: #000;
+                        color: #fff;
+                    }
+                }
+                
+            }
+        }
+    } 
+    tbody {
+        tr {
+            border-bottom: none;
+            td.wrap-date {
+                padding: 0 10px;
+                .date-group {
+                    color: #fff;
+                    li {
+                        border: 1px solid #fff;
+                        border-left: none;
+                        border-top: none;
+                        padding: 11px 5px;
+                        background-color: #208046;
+                        width: 32px;
+                        text-align: center;
+                        &.orange {
+                            background-color: #FF6F00;
+                        }
+                        &.white {
+                            background-color: #fff;
+                        }
+                    }
+                }
+            }
+        } 
+        
+    } 
+}

@@ -76,85 +76,87 @@ jQuery(document).ready(function () {
 		},
 	};
 	$.fn.dataTable.moment( 'DD/MM/YYYY' );
-	var table = $('.table-list-customer').on('init.dt', function () {
-		//console.log(this, 'init.dt');
-    }).DataTable({
-		language: {
-			paginate: {
-				previous: '<i class="fas fa-left"></i>',
-				next: '<i class="fas fa-right"></i>',
+	var table_languageConfig = {
+		paginate: {
+			previous: '<i class="fas fa-left"></i>',
+			next: '<i class="fas fa-right"></i>',
+		},
+		searchBuilder: {
+			button: {
+				0: '<i class="fas fa-filter"></i> Bộ lọc',
+				_: '<i class="fas fa-filter"></i> Bộ lọc (%d)',
 			},
-			searchBuilder: {
-				button: {
-					0: '<i class="fas fa-filter"></i> Bộ lọc',
-					_: '<i class="fas fa-filter"></i> Bộ lọc (%d)',
+			add: '<i class="fas fa-plus mr-8"></i> Thêm điều kiện',
+			condition: 'Chọn biểu thức',
+			clearAll: 'Xóa tất cả bộ lọc',
+			delete: '<i class="fas fa-trash"></i>',
+			deleteTitle: 'Xóa lọc',
+			data: 'Chọn cột',
+			//left: 'Left',
+			//leftTitle: 'Left Title',
+			logicAnd: 'Và',
+			logicOr: 'Hoặc',
+			//right: 'Right',
+			//rightTitle: 'Right Title',
+			title: {
+				0: 'Điều kiện lọc',
+				//_: 'Điều kiện lọc (%d)',
+			},
+			value: 'Giá trị',
+			valueJoiner: '-',
+			conditions: {
+				date: {
+					between: 'Trong khoảng',
+					empty: 'Rỗng',
+					equals: 'Bằng',
+					after: 'Sau ngày',
+					before: 'Trước ngày',
+					gt: 'Lớn hơn',
+					gte: 'Lớn hơn bằng',
+					lt: 'Nhỏ hơn',
+					lte: 'Nhỏ hơn bằng',
+					not: 'Khác',
+					notBetween: 'Ngoài khoảng',
+					notEmpty: 'Không rỗng',
 				},
-				add: '<i class="fas fa-plus mr-8"></i> Thêm điều kiện',
-				condition: 'Chọn biểu thức',
-				clearAll: 'Xóa tất cả bộ lọc',
-				delete: '<i class="fas fa-trash"></i>',
-				deleteTitle: 'Xóa lọc',
-				data: 'Chọn cột',
-				//left: 'Left',
-				//leftTitle: 'Left Title',
-				logicAnd: 'Và',
-				logicOr: 'Hoặc',
-				//right: 'Right',
-				//rightTitle: 'Right Title',
-				title: {
-					0: 'Điều kiện lọc',
-					//_: 'Điều kiện lọc (%d)',
+				number: {
+					between: 'Trong khoảng',
+					empty: 'Rỗng',
+					equals: 'Bằng',
+					gt: 'Lớn hơn',
+					gte: 'Lớn hơn bằng',
+					lt: 'Nhỏ hơn',
+					lte: 'Nhỏ hơn bằng',
+					not: 'Khác',
+					notBetween: 'Ngoài khoảng',
+					notEmpty: 'Không rỗng',
 				},
-				value: 'Giá trị',
-				valueJoiner: '-',
-				conditions: {
-					date: {
-						between: 'Trong khoảng',
-						empty: 'Rỗng',
-						equals: 'Bằng',
-						after: 'Sau ngày',
-						before: 'Trước ngày',
-						gt: 'Lớn hơn',
-						gte: 'Lớn hơn bằng',
-						lt: 'Nhỏ hơn',
-						lte: 'Nhỏ hơn bằng',
-						not: 'Khác',
-						notBetween: 'Ngoài khoảng',
-						notEmpty: 'Không rỗng',
-					},
-					number: {
-						between: 'Trong khoảng',
-						empty: 'Rỗng',
-						equals: 'Bằng',
-						gt: 'Lớn hơn',
-						gte: 'Lớn hơn bằng',
-						lt: 'Nhỏ hơn',
-						lte: 'Nhỏ hơn bằng',
-						not: 'Khác',
-						notBetween: 'Ngoài khoảng',
-						notEmpty: 'Không rỗng',
-					},
-					string: {
-						between: 'Trong khoảng',
-						empty: 'Rỗng',
-						equals: 'Bằng',
-						gt: 'Lớn hơn',
-						gte: 'Lớn hơn bằng',
-						lt: 'Nhỏ hơn',
-						lte: 'Nhỏ hơn bằng',
-						not: 'Khác',
-						notBetween: 'Ngoài khoảng',
-						notEmpty: 'Không rỗng',
-						contains: 'Chứa',
-						endsWith: 'Kết thúc với',
-						notContains: 'Không chứa',
-						notEndsWith: 'Không kết thúc với',
-						notStartsWith: 'Không bắt đầu với',
-						startsWith: 'Bắt đầu với',
-					},
+				string: {
+					between: 'Trong khoảng',
+					empty: 'Rỗng',
+					equals: 'Bằng',
+					gt: 'Lớn hơn',
+					gte: 'Lớn hơn bằng',
+					lt: 'Nhỏ hơn',
+					lte: 'Nhỏ hơn bằng',
+					not: 'Khác',
+					notBetween: 'Ngoài khoảng',
+					notEmpty: 'Không rỗng',
+					contains: 'Chứa',
+					endsWith: 'Kết thúc với',
+					notContains: 'Không chứa',
+					notEndsWith: 'Không kết thúc với',
+					notStartsWith: 'Không bắt đầu với',
+					startsWith: 'Bắt đầu với',
 				},
 			},
 		},
+		
+	};
+	var table = $('.table-list-customer').on('init.dt', function () {
+		//console.log(this, 'init.dt');
+    }).DataTable({
+		language: table_languageConfig,
 		layout: {},
 		columnDefs: [
 			{
@@ -665,6 +667,7 @@ jQuery(document).ready(function () {
 		setTimeout(() => {
 			table.columns.adjust();
 			table_list_order.columns.adjust();
+			table_list_mealplan.columns.adjust();
 			table_regular.columns.adjust();
 			table_regular_pay.columns.adjust();
 		}, 100);
@@ -862,95 +865,83 @@ jQuery(document).ready(function () {
             // Tắt bộ lọc tự động (disable the default behavior)
             preDefined: [] // Không xác định bộ lọc mặc định nào
         },
-		language: {
-			paginate: {
-				previous: '<i class="fas fa-left"></i>',
-				next: '<i class="fas fa-right"></i>',
-			},
-			searchBuilder: {
-				button: {
-					0: '<i class="fas fa-filter"></i> Bộ lọc',
-					_: '<i class="fas fa-filter"></i> Bộ lọc (%d)',
-				},
-				add: '<i class="fas fa-plus mr-8"></i> Thêm điều kiện',
-				condition: 'Chọn biểu thức',
-				clearAll: 'Xóa tất cả bộ lọc',
-				delete: '<i class="fas fa-trash"></i>',
-				deleteTitle: 'Xóa lọc',
-				data: 'Chọn cột',
-				//left: 'Left',
-				//leftTitle: 'Left Title',
-				logicAnd: 'Và',
-				logicOr: 'Hoặc',
-				//right: 'Right',
-				//rightTitle: 'Right Title',
-				title: {
-					0: 'Điều kiện lọc',
-					//_: 'Điều kiện lọc (%d)',
-				},
-				value: 'Giá trị',
-				valueJoiner: '-',
-				conditions: {
-					date: {
-						between: 'Trong khoảng',
-						empty: 'Rỗng',
-						equals: 'Bằng',
-						after: 'Sau ngày',
-						before: 'Trước ngày',
-						gt: 'Lớn hơn',
-						gte: 'Lớn hơn bằng',
-						lt: 'Nhỏ hơn',
-						lte: 'Nhỏ hơn bằng',
-						not: 'Khác',
-						notBetween: 'Ngoài khoảng',
-						notEmpty: 'Không rỗng',
-					},
-					number: {
-						between: 'Trong khoảng',
-						empty: 'Rỗng',
-						equals: 'Bằng',
-						gt: 'Lớn hơn',
-						gte: 'Lớn hơn bằng',
-						lt: 'Nhỏ hơn',
-						lte: 'Nhỏ hơn bằng',
-						not: 'Khác',
-						notBetween: 'Ngoài khoảng',
-						notEmpty: 'Không rỗng',
-					},
-					string: {
-						between: 'Trong khoảng',
-						empty: 'Rỗng',
-						equals: 'Bằng',
-						gt: 'Lớn hơn',
-						gte: 'Lớn hơn bằng',
-						lt: 'Nhỏ hơn',
-						lte: 'Nhỏ hơn bằng',
-						not: 'Khác',
-						notBetween: 'Ngoài khoảng',
-						notEmpty: 'Không rỗng',
-						contains: 'Chứa',
-						endsWith: 'Kết thúc với',
-						notContains: 'Không chứa',
-						notEndsWith: 'Không kết thúc với',
-						notStartsWith: 'Không bắt đầu với',
-						startsWith: 'Bắt đầu với',
-					},
-				},
-			},
-		},
+		language: table_languageConfig,
 	});
+	var table_list_mealplan = $('.table-list-meal-plan').on('init.dt', function () {
+		//console.log(this, 'init.dt');
+    }).DataTable({
+		autoWidth: true,
+		scrollX: true,
+		scrollY:  $(window).height() - 227,
+		dom: 'Bfrtip<"bottom"pl>',
+		ordering: false,
+		iDisplayLength: 50,
+		lengthChange: true,
+		lengthMenu: [
+			[15,50, 100, 200],
+			['15 / trang','50 / trang', '100 / trang', '200 / trang'],
+		],
+		columnDefs: [
+			{  
+				targets: [0,2,3,4,7,8,9,10],
+				orderable: false,
+			},
+			{
+			 type: 'string', targets: [0,4,5,6,7,10]
+			},
+			{ visible: false, targets: [] },
+			
+		],
+		buttons: [
+			{
+				extend: 'searchBuilder',
+				attr: {
+					id: 'searchBuilder',
+				},
+				config: {
+					conditions:{
+                        html: tagCondition,
+                    },
+					depthLimit: 0,
+					columns: [ 5, 6,7, 8, 9],
+					filterChanged: function (count) {
+						if (count == 0 || count == 1) {
+							$('.btn-fillter').removeClass('current-filter');
+							$('.btn-fillter').text('Bộ lọc');
+							$('.dtsb-title').html(`Điều kiện lọc`);
+							$('.custom-btn.revert').css('display','none');
+						}
+						if (count > 1) {
+							$('.btn-fillter').addClass('current-filter');
+							$('.btn-fillter').html(`Bộ lọc <small>${count - 1}</small>`);
+							$('.dtsb-title').html(`Điều kiện lọc (${count - 1})`);
+							$('.custom-btn.revert').css('display','block');
+						}
+					}
+				}
+			},
+		],
+		dom: 'Bfrtip<"bottom"pl>',
+		responsive: true,
+		autoWidth: true,
+		fixedColumns: {
+			start: 3
+		},
+		"stateSave": true,
+		searchBuilder: {
+            // Tắt bộ lọc tự động (disable the default behavior)
+            preDefined: [] // Không xác định bộ lọc mặc định nào
+        },
+		language: table_languageConfig,
+	});
+	
 	var table_print = $('table.table-print').DataTable({
 		scrollX: true,
 		scrollY: '20vh',
 		dom: 'Bfrtip<"bottom"pl>',
 		order: [[0, 'desc']],
 		paging: false,
-		columnDefs: [
-			{
-				targets: [1, 2,3,4],
-				orderable: false,
-			},
-		]
+		ordering: false,
 	});
 });
 function stringToSlug(str) {
