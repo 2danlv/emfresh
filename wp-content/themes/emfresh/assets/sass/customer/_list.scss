@@ -6,11 +6,15 @@
         display: none !important;
     }
     .em-importer {
-        .col-8 {
-            ul li {
+        ul {
+            li {
                 padding-left: 8px;
             }
-        }
+            &.p-r li {
+                padding-left: 0;
+                padding-right: 8px;
+            }
+        } 
         ul {
             li {
                 span.btn {

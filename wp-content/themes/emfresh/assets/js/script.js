@@ -655,6 +655,10 @@ jQuery(document).ready(function () {
 			table_print.columns.adjust();
 		}, 50);
 	}
+	$('.openmodal').click(function () {
+		open_modal(this);
+		table_regular_pay.columns.adjust();
+	});
 	var status = localStorage.getItem('sidebar');
 	if (status =="active") {
 		$('.site').addClass('mini_sidebar');
@@ -668,6 +672,7 @@ jQuery(document).ready(function () {
 			table.columns.adjust();
 			table_list_order.columns.adjust();
 			table_list_mealplan.columns.adjust();
+			table_select_meal.columns.adjust();
 			table_regular.columns.adjust();
 			table_regular_pay.columns.adjust();
 		}, 100);
@@ -927,14 +932,80 @@ jQuery(document).ready(function () {
 		fixedColumns: {
 			start: 3
 		},
-		"stateSave": true,
+		"stateSave": false,
 		searchBuilder: {
             // Tắt bộ lọc tự động (disable the default behavior)
             preDefined: [] // Không xác định bộ lọc mặc định nào
         },
 		language: table_languageConfig,
 	});
-	
+	var table_select_meal = $('.table-select-meal').on('init.dt', function () {
+		//console.log(this, 'init.dt');
+    }).DataTable({
+		autoWidth: true,
+		scrollX: true,
+		scrollY:  $(window).height() - 227,
+		dom: 'Bfrtip<"bottom"pl>',
+		ordering: false,
+		iDisplayLength: 50,
+		lengthChange: true,
+		lengthMenu: [
+			[15,50, 100, 200],
+			['15 / trang','50 / trang', '100 / trang', '200 / trang'],
+		],
+		columnDefs: [
+			{  
+				targets: [0,2,3,4,7,8],
+				orderable: false,
+			},
+			{
+			 type: 'string', targets: [0,4,5,6,7]
+			},
+			{ visible: false, targets: [] },
+			
+		],
+		buttons: [
+			{
+				extend: 'searchBuilder',
+				attr: {
+					id: 'searchBuilder',
+				},
+				config: {
+					conditions:{
+                        html: tagCondition,
+                    },
+					depthLimit: 0,
+					columns: [ 1,2,3,4,5, 6,7, 8],
+					filterChanged: function (count) {
+						if (count == 0 || count == 1) {
+							$('.btn-fillter').removeClass('current-filter');
+							$('.btn-fillter').text('Bộ lọc');
+							$('.dtsb-title').html(`Điều kiện lọc`);
+							$('.custom-btn.revert').css('display','none');
+						}
+						if (count > 1) {
+							$('.btn-fillter').addClass('current-filter');
+							$('.btn-fillter').html(`Bộ lọc <small>${count - 1}</small>`);
+							$('.dtsb-title').html(`Điều kiện lọc (${count - 1})`);
+							$('.custom-btn.revert').css('display','block');
+						}
+					}
+				}
+			},
+		],
+		dom: 'Bfrtip<"bottom"pl>',
+		responsive: true,
+		autoWidth: true,
+		fixedColumns: {
+			start: 3
+		},
+		"stateSave": false,
+		searchBuilder: {
+            // Tắt bộ lọc tự động (disable the default behavior)
+            preDefined: [] // Không xác định bộ lọc mặc định nào
+        },
+		language: table_languageConfig,
+	});
 	var table_print = $('table.table-print').DataTable({
 		scrollX: true,
 		scrollY: '20vh',

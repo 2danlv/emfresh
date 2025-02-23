@@ -79,7 +79,11 @@ $(document).ready(function() {
 							<h1><?php the_title(); ?></h1>
 							<input class="input-search" placeholder="Tên khách hàng / SĐT / Địa chỉ" type="text">
 							<?php 
-							if ( !is_page_template( 'page-templates/list-customer.php' ) && !is_page_template( 'page-templates/list-order.php' ) ) { ?>
+							if ( !is_page_template( 'page-templates/list-customer.php' ) &&
+							 !is_page_template( 'page-templates/list-order.php' ) &&
+							 !is_page_template( 'page-templates/list-meal-plan.php' ) &&
+							 !is_page_template( 'page-templates/page-select.php' )
+							  ) { ?>
 							<style>
 								.content-header .input-search {
 									width: 0;
