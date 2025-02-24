@@ -86,17 +86,6 @@
                                     }
                                 }
                             }
-                            span.copyAllphone {
-                                padding-top: 2px;
-                                padding-bottom: 2px;
-                                padding-left: 36px;
-                                cursor: pointer;
-                                background: url(../img/icon/copy.svg) left 1px center no-repeat;
-                                background-size: 17px 20px;
-                                &:hover {
-                                    background: url(../img/icon-hover/copy.svg) left 1.2px center no-repeat;
-                                }
-                            }
                             button {
                                 padding-top: 2px;
                                 padding-bottom: 2px;
@@ -132,11 +121,34 @@
                     &.active {
                         ul {
                             opacity: 1;
-                        visibility: visible;
-                        z-index: 10;
+                            visibility: visible;
+                            z-index: 10;
                         }
                     }
                 }
+            }
+        }
+        span.copyAllphone, .btn-compare,.btn-copy,.btn-split {
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-left: 36px;
+            cursor: pointer;
+            background: url(../img/icon/copy.svg) left 1px center no-repeat;
+            background-size: 17px 20px;
+            &:hover {
+                background: url(../img/icon-hover/copy.svg) left 1.2px center no-repeat;
+            }
+        }
+        .btn-compare {
+            background: url(../img/icon/compare.svg) left center no-repeat;
+            &:hover {
+                background: url(../img/icon/compare.svg) left center no-repeat;
+            }
+        }
+        .btn-split {
+            background: url(../img/icon/split.svg) left center no-repeat;
+            &:hover {
+                background: url(../img/icon/split.svg) left center no-repeat;
             }
         }
         .btn {
@@ -190,7 +202,6 @@
             &.btn-action {
                 background: url(../img/icon/CaretDown.svg) right 24px center #fff no-repeat;
                 padding-right: 48px;
-                
             }
             &.btn-status {
                 background: url(../img/icon/delete-svgrepo-com.svg) right 24px center #fff no-repeat;
@@ -224,6 +235,23 @@
                     background-image: url(../img/icon-hover/table-add-svgrepo-com_white.svg);
                 }
             }
+            &.btn-alert {
+                background: url(../img/icon/alert.svg) right 24px center #FFDCA8 no-repeat;
+                padding-right: 48px;
+                border-color: #FFDCA8;
+                &:hover {
+                    border-color: #FF7A00;
+                    background: url(../img/icon-hover/alert.svg) right 24px center #FF7A00 no-repeat;
+                }
+            }
+        }
+        .row-revert {
+            ul {
+                li.has-child ul {
+                    left: auto;
+                    right: 0;
+                }
+            } 
         }
     }
     .dt-container {

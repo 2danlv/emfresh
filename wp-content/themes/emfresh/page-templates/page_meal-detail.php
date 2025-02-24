@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Template Name: Page select
+ * Template Name: Page select meal
  *
  * @package WordPress
  * @subpackage Twenty_Twelve
@@ -34,22 +34,46 @@ get_header();
   ?>
 
   <!-- Default box -->
-  <div class="card list-customer list-order">
+  <div class="card list-customer list-select-meal">
     <div class="card-body">
       <form class="em-importer" data-name="customer" action="<?php the_permalink() ?>" method="post">
+        <div class="row ai-center pb-16">
+          <div class="col-6 ai-center">
+            <ul class="d-f pr-16">
+              <li class="pr-16">
+                <select name="" id="">
+                  <option value="">Tuần 02/01 - 06/01</option>
+                  <option value="">Tuần 02/01 - 06/01</option>
+                  <option value="">Tuần 02/01 - 06/01</option>
+                </select>
+              </li>
+              <li>
+                <span class="btn btn-default">Đặt làm tuần mặc định</span>
+              </li>
+            </ul>
+          </div>
+          <div class="col-6">
+            <ul class="d-f jc-end right-action ai-center">
+              <li class="mr-16"><span class="btn btn-fillter">&nbsp;</span></li>
+              <li class="mr-16"><span class="btn btn-copy">&nbsp;</span></li>
+              <li class="mr-16"><span class="btn btn-alert">&nbsp;</span></li>
+              <li><span class="btn btn-primary disable">Lưu chọn món</span></li>
+            </ul>
+          </div>
+        </div>
         <div class="row ai-center row-revert">
           <div class="col-6">
             <ul class="d-f jc-end ai-center">
-              <li><span class="btn btn-fillter">Bộ lọc</span></li>
-              <li class="status"><span class="btn btn-status"><span class="count-checked"></span> đã chọn</span></li>
+              
+              <li class="status mr-16"><span class="btn btn-status"><span class="count-checked"></span> đã chọn</span></li>
               <li class="has-child">
                 <span class="btn btn-action">Thao tác</span>
                 <ul>
                   <li>
-                    <span class="copyAllphone" data-target="#modal-copy">So sánh nhập liệu</span>
+                    <span class="openmodal btn-compare" data-target="#modal-compare">So sánh nhập liệu</span>
                   </li>
                   <li>
-                    <a href="/import/" class="upload">Tách đơn khẩn</a>
+                    <span class="openmodal btn-split" data-target="#modal-split-order">Tách đơn khẩn</span>
                   </li>
                   <li><button type="button" name="action" value="export" class="js-export">Xuất dữ liệu</button></li>
                 </ul>
@@ -57,12 +81,12 @@ get_header();
             </ul>
           </div>
           <div class="col-6">
-            <ul class="d-f p-r">
-              <li>
-                <span class="btn btn-primary openmodal" data-target="#modal-compare">So sánh nhập liệu</span>
+            <ul class="d-f">
+              <li class="mr-16">
+                <span class="btn btn-primary">Danh sách chính</span>
               </li>
-              <li>
-                <span class="btn openmodal" data-target="#modal-compare">Bản sao 1</span>
+              <li class="mr-16">
+                <span class="btn">Bản sao 1</span>
               </li>
               <li>
                 <span class="btn openmodal" data-target="#modal-plan-history">modal-plan-history</span>
@@ -381,13 +405,12 @@ get_header();
         </table>
       </div>
     </div>
-    <div class="modal-footer text-right pt-16">
-        <button type="button" class="button btn-default modal-close">Huỷ</button>
-        <button type="button" class="button btn-primary modal-close">Lưu và đóng</button>
-      </div>
+    <div class="modal-footer text-right pt-16 pr-16">
+      <button type="button" class="button btn-default modal-close">Huỷ</button>
+      <button type="button" class="button btn-primary modal-close">Lưu và đóng</button>
+    </div>
   </div>
 </div>
-
 <div class="modal fade modal-plan-history" id="modal-plan-history">
   <div class="overlay"></div>
   <div class="modal-dialog modal-wide">
@@ -539,9 +562,111 @@ get_header();
     </div>
   </div>
 </div>
-  <script>
-    //let list_tags = ['1 phần','Chưa','Rồi'];
-  </script>
+<div class="modal fade modal-split-order" id="modal-split-order">
+  <div class="overlay"></div>
+  <div class="modal-dialog">
+    <div class="modal-header">
+        <h4 class="modal-title">Tách đơn khẩn</h4>
+      </div>
+    <div class="modal-content">
+      <div class="modal-body pb-16 pt-16">
+        <div class="order">
+        <div class="card-primary">
+          <div class="dropdown-address  pb-16">
+            <p>Chọn địa chỉ giao đến</p>
+              <div class="dropdown active pt-16" style="pointer-events: all;">  
+                  <input type="hidden" name="ship_location_id" class="ship_location_id">                  
+                  <input type="text" name="address_delivery" class="address_delivery is-disabled form-control" value="" placeholder="Vui lòng chọn">
+              </div>
+              <p class="fs-14 fw-regular note-shipper hidden color-gray pt-4 pl-8">Note với shipper: <span class="note_shiper"></span></p>
+              <p class="fs-14 fw-regular note-admin hidden color-gray pt-4 pl-8">Note với admin: <span class="note_admin"></span></p>
+              <div class="overlay-drop-menu"></div>
+              <div class="dropdown-menu">
+                  <div class="locations-container">
+                      <div class="item" data-location_id="1">
+                          <p class="fs-16 color-black other-address">45 Hoa Lan, Phường 3, Quận Phú Nhuận</p>
+                      </div>
+                  </div>
+                  <div  class="btn-add-address d-f ai-center pb-8 pt-8 pl-8">
+                      <span class="fas fa-plus mr-8"></span>Thêm địa chỉ mới
+                  </div>
+              </div>
+          </div>
+          <form method="post" class="hidden meal-add-location" id="meal-add-location" action="">
+            <p>Nhập địa chỉ mới</p>
+            <div class="row address-group location_0 address_active pt-16">
+                <div class="city col-4 pb-16">
+                    <select id="province" name="locations_province" class="province-select form-control" disabled="">
+                        <option value="">Select Tỉnh/Thành phố</option>
+                        <option value="Thành phố Hồ Chí Minh" selected="">Thành phố Hồ Chí Minh</option>
+                    </select>
+                </div>
+                <div class="col-4 pb-16">
+                    <select id="district" name="" class="district-select form-control text-capitalize">
+                        <option value="" selected="">Quận/Huyện*</option>
+                    </select>
+                </div>
+                <div class="col-4 pb-16">
+                    <select id="ward" name="locations_ward" class="ward-select form-control" disabled>
+                        <option selected="">Phường/Xã*</option>
+                    </select>
+                </div>
+                <div class="col-12 pb-16">
+                    <input id="address" type="text" class="form-control address" placeholder="Địa chỉ cụ thể*" name="locations[0][address]">
+                </div>
+                <div class="group-note col-12">
+                    <div class="note_shiper hidden pb-16">
+                        <input type="text" name="locations_note_shipper" class="locations_note_shipper" placeholder="Note với shipper">
+                    </div>
+                    <div class="note_admin hidden pb-16">
+                        <input type="text" name="locations_note_admin" class="locations_note_admin" placeholder="Note với admin">
+                    </div>
+                </div>
+                <div class="show-group-note d-f ai-center pb-16 pt-8 pl-8">
+                    <span class="fas fa-plus mr-8"></span> Thêm ghi chú giao hàng
+                </div>
+            </div>
+        </form>
+        <div class="row pb-8">
+          <div class="col-6">
+            Danh sách phần ăn được tách
+          </div>
+          <div class="col-6 text-right">
+            1 đã chọn
+          </div>
+        </div>
+        <hr>
+        <div class="pt-16">
+          <table class="table table-split-order" style="width: 100%;">
+              <thead class="text-left">
+                <tr>
+                  <th>Tên khách hàng</th>
+                  <th>SĐT</th>
+                  <th class="text-center">Mã</th>
+                  <th class="text-center">Thứ 3 <br>(03/01)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="text-left">Khách hàng 1</td>
+                  <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0123456789">0123456789</span></td>
+                  <td class="text-center">SM</td>
+                  <td>1 - Sườn non chay chua ngọt</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer text-right pt-16 pr-16">
+      <button type="button" class="button btn-default modal-close">Huỷ</button>
+      <button type="button" class="button btn-primary modal-close">Lưu và đóng</button>
+    </div>
+  </div>
+</div>
 
   <?php
   // endwhile;
@@ -554,7 +679,7 @@ get_header();
 
   get_footer('customer');
   ?>
-
+  <script src="<?php site_the_assets(); ?>js/order.js"></script>
   <script>
     // Function to save checkbox states to localStorage
     function saveCheckboxState() {

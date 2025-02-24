@@ -88,6 +88,7 @@ select {
 }
 
 hr {
+	border: none;
 	border-top: 1px solid $cl-border;
 }
 h1 {
@@ -294,6 +295,12 @@ table {
 }
 .ml-8 {
 	margin-left: 8px;
+}
+.mr-16 {
+	margin-right: 16px;
+}
+.ml-16 {
+	margin-left: 16px;
 }
 .pl-4 {
 	padding-left: 4px;

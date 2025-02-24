@@ -40,7 +40,18 @@ $(document).ready(function() {
         $deliveryItem.find('.ship_location_id').val($(this).data('location_id'));
 
     });
+    $(document).on('click', '.modal-split-order .order .dropdown-menu .item', function(e) {
+        let $deliveryItem = $(this).closest('.dropdown-address');
 
+        var other_address = $(this).find(".other-address").text();
+        var note_shiper = $(this).find(".note_shiper").text();
+        $deliveryItem.find(".dropdown input.address_delivery").val(other_address);
+        $deliveryItem.find('.ship_location_id').val($(this).data('location_id'));
+    });
+    $(document).on('click', '.modal-split-order .order .dropdown-menu .btn-add-address', function(e) {
+        $('.overlay-drop-menu,.dropdown-menu,.dropdown-address').hide();
+        $('.modal-split-order .meal-add-location').show();
+    });
     $(document).on('click', '.order .input-order .dropdown-menu .item', function(e) {
         let $order_wrap = $(this).closest('.locations-container');
         var location_id = $(this).data('location_id')

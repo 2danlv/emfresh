@@ -46,7 +46,10 @@
 .btn.tag_5 {
     background-color: orange;
 }
-
+.btn.disable{
+    opacity: 0.24;
+    pointer-events: none;
+}
 .select2-results ul li {
     &::first-letter {
         text-transform: uppercase;
