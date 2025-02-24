@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Template Name: Page detail meal
+ * Template Name: Page static meal
  *
  * @package WordPress
  * @subpackage Twenty_Twelve
@@ -34,119 +34,167 @@ get_header();
   ?>
 
   <!-- Default box -->
-  <div class="card list-customer list-select-meal">
+  <div class="card list-customer static-meal">
     <div class="card-body">
       <form class="em-importer" data-name="customer" action="<?php the_permalink() ?>" method="post">
         
-        <div class="row ai-center row-revert">
+        <div class="row ai-center">
           <div class="col-6">
-            <ul class="d-f jc-end ai-center">
+            <ul class="d-f ai-center">
               
               <li class="status mr-16"><span class="btn btn-status"><span class="count-checked"></span> đã chọn</span></li>
               <li class="has-child">
-                <span class="btn btn-action">Thao tác</span>
-                <ul>
-                  <li>
-                    <span class="openmodal btn-compare" data-target="#modal-compare">So sánh nhập liệu</span>
-                  </li>
-                  <li>
-                    <span class="openmodal btn-split" data-target="#modal-split-order">Tách đơn khẩn</span>
-                  </li>
-                  <li><button type="button" name="action" value="export" class="js-export">Xuất dữ liệu</button></li>
-                </ul>
+                <span class="btn btn-default">Công cụ tính phần dự trù</span>
               </li>
             </ul>
           </div>
-          <div class="col-6">
-            <ul class="d-f">
-              <li class="mr-16">
-                <span class="btn btn-primary">Danh sách chính</span>
-              </li>
-              <li class="mr-16">
-                <span class="btn">Bản sao 1</span>
-              </li>
-              <li>
-                <span class="btn openmodal" data-target="#modal-plan-history">modal-plan-history</span>
-            </ul>
-          </div>
+          
         </div>
         <?php wp_nonce_field('importoken', 'importoken', false); ?>
       </form>
-      <table id="list-select-meal" class="table table-select-meal" style="width:100%">
-        <thead>
-          <tr class="nowrap">
-            <th data-number="0" class="text-center"><input type="checkbox" name="checkall" id="checkall" /></th>
-            <th data-number="1"><span class="nowrap">Tên người nhận</span></th>
-            <th data-number="2" class="text-left">SĐT</th>
-            <th data-number="3">Mã</th>
-            <th class="text-center" data-number="4">
+      <div class="section-wapper mt-16">
+        <table class="table table-static" style="width: 100%;">
+          <thead>
+            <tr>
+              <th colspan="2"></th>
+              <th>SL</th>
+              <th>SM</th>
+              <th>EM</th>
+              <th>EL</th>
+              <th>PM</th>
+              <th>PL</th>
+              <th>Số <br> đạm</th>
+              <th>Số <br>hộp</th>
+              <th>Tinh <br>bột</th>
+              <th>Tổng <br>phần</th>
+              <th>Tổng hợp <br>mã khác</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td rowspan="3" class="text-center">
               Thứ 2 <br>
-              (02/01)
-            </th>
-            <th class="text-center" data-number="5">
-              Thứ 3 <br>
-              (02/01)
-            </th>
-            <th class="text-center" data-number="6">
-              Thứ 4 <br>
-              (02/01)
-            </th>
-            <th class="text-center" data-number="7">
-              Thứ 5 <br>
-              (02/01)
-            </th>
-            <th class="text-center" data-number="8">
-              Thứ 6 <br>
-              (02/01)
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php
-          $response = em_api_request('order/list', [
-            'paged' => 1,
-            'limit' => 3,
-          ]);
-          if (isset($response['data']) && is_array($response['data'])) {
-            // Loop through the data array and print each entry
-            foreach ($response['data'] as $record) {
-              // var_dump($record);
-              if (is_array($record)) {
-                $link = add_query_arg(['order_id' => $record['id']], $detail_order_url);
-                $location_list = explode(',', $record['location_name']);
-          ?>
-                <tr class="nowrap">
-                  <td data-number="0" class="text-center"><input type="checkbox" class="checkbox-element" data-number="<?php echo $record['phone']; ?>" value="<?php echo $record['id'] ?>"></td>
-                  <td data-number="1" class="text-capitalize nowrap wrap-td">
-                    <div class="ellipsis"><a href="<?php echo $link ?>"><?php echo $record['customer_name']; ?></a></div>
-                  </td>
-                  <td data-number="2" class="text-left"><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $record['phone']; ?>"><?php echo $record['phone']; ?></span></td>
-                  <td data-number="3"><?php echo $record['item_name'] ?></td>
-                  <td data-number="4" class="wrap-td" style="min-width: 140px;">
-                    <div class="nowrap ellipsis">1 - Sườn non chay chua ngọt</div>
-                  </td>
-                  <td data-number="5" class="wrap-td" style="min-width: 140px;">
-                    <div class="nowrap ellipsis">1 - Sườn non chay chua ngọt</div>
-                  </td>
-                  <td data-number="6" class="wrap-td" style="min-width: 140px;">
-                    <div class="nowrap ellipsis">1 - Sườn non chay chua ngọt</div>
-                  </td>
-                  <td data-number="7" class="wrap-td" style="min-width: 140px;">
-                    <div class="nowrap ellipsis">1 - Sườn non chay chua ngọt</div>
-                  </td>
-                  <td data-number="8" class="wrap-td" style="min-width: 140px;">
-                    <div class="nowrap ellipsis">1 - Sườn non chay chua ngọt</div>
-                  </td>
-                </tr>
-          <?php
-              } else {
-                echo "Không tìm thấy dữ liệu!\n";
-              }
-            }
-          }
-          ?>
-        </tbody>
-      </table>
+              (02/01)</td>
+              <td class="text-left">
+                1 - Salad bò sốt mè wasabi <br>
+                Khoai tây nướng</td>
+              <td>40</td>
+              <td>40</td>
+              <td>40</td>
+              <td>40</td>
+              <td>40</td>
+              <td>40</td>
+              <td>111/113</td>
+              <td>160</td>
+              <td>4.366</td>
+              <td rowspan="3">300</td>
+              <td rowspan="3" class="text-left" style="align-content:normal">
+                <p>CT: 0 
+                  EP: 9
+                </p>
+                <p>
+                  BT: 0 
+                  TA: 3
+                </p>
+                <p>
+                  RT: 0 
+                  SO: 0 
+                </p>
+                KT: 0
+              </td>
+            </tr>
+            <tr>
+              <td class="text-left">
+                1 - Salad bò sốt mè wasabi <br>
+                Khoai tây nướng</td>
+              <td>40</td>
+              <td>40</td>
+              <td>40</td>
+              <td>40</td>
+              <td>40</td>
+              <td>40</td>
+              <td>111/113</td>
+              <td>160</td>
+              <td>4.366</td>
+            </tr>
+            <tr>
+              <td>
+                1 - Salad bò sốt mè wasabi <br>
+                Khoai tây nướng</td>
+              <td>40</td>
+              <td>40</td>
+              <td>40</td>
+              <td>40</td>
+              <td>40</td>
+              <td>40</td>
+              <td>111/113</td>
+              <td>160</td>
+              <td>4.366</td>
+            </tr>
+            <tr class="blank"><td colspan="13"></td></tr>
+            <tr>
+              <td rowspan="3" class="text-center">
+              Thứ 2 <br>
+              (02/01)</td>
+              <td class="text-left">
+                1 - Salad bò sốt mè wasabi <br>
+                Khoai tây nướng</td>
+              <td>40</td>
+              <td>40</td>
+              <td>40</td>
+              <td>40</td>
+              <td>40</td>
+              <td>40</td>
+              <td>111/113</td>
+              <td>160</td>
+              <td>4.366</td>
+              <td rowspan="3">300</td>
+              <td rowspan="3"  class="text-left" style="align-content:normal">
+                <p>CT: 0 
+                  EP: 9
+                </p>
+                <p>
+                  BT: 0 
+                  TA: 3
+                </p>
+                <p>
+                  RT: 0 
+                  SO: 0 
+                </p>
+                KT: 0
+              </td>
+            </tr>
+            <tr>
+              <td>
+                1 - Salad bò sốt mè wasabi <br>
+                Khoai tây nướng</td>
+              <td>40</td>
+              <td>40</td>
+              <td>40</td>
+              <td>40</td>
+              <td>40</td>
+              <td>40</td>
+              <td>111/113</td>
+              <td>160</td>
+              <td>4.366</td>
+            </tr>
+            <tr>
+              <td>
+                1 - Salad bò sốt mè wasabi <br>
+                Khoai tây nướng</td>
+              <td>40</td>
+              <td>40</td>
+              <td>40</td>
+              <td>40</td>
+              <td>40</td>
+              <td>40</td>
+              <td>111/113</td>
+              <td>160</td>
+              <td>4.366</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
   <!-- /.card-body -->

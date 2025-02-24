@@ -82,7 +82,9 @@ $(document).ready(function() {
 							if ( !is_page_template( 'page-templates/list-customer.php' ) &&
 							 !is_page_template( 'page-templates/list-order.php' ) &&
 							 !is_page_template( 'page-templates/list-meal-plan.php' ) &&
-							 !is_page_template( 'page-templates/page-select.php' )
+							 !is_page_template( 'page-templates/page_meal-select.php' ) &&
+							 !is_page_template( 'page-templates/page_meal-detail.php' ) &&
+							 !is_page_template( 'page-templates/page_meal-static.php' )
 							  ) { ?>
 							<style>
 								.content-header .input-search {
