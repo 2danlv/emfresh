@@ -34,117 +34,232 @@ get_header();
   ?>
 
   <!-- Default box -->
-  <div class="card list-customer list-select-meal">
+  <div class="card list-customer detail-meal">
     <div class="card-body">
       <form class="em-importer" data-name="customer" action="<?php the_permalink() ?>" method="post">
         
-        <div class="row ai-center row-revert">
+        <div class="row ai-center">
           <div class="col-6">
-            <ul class="d-f jc-end ai-center">
-              
-              <li class="status mr-16"><span class="btn btn-status"><span class="count-checked"></span> đã chọn</span></li>
-              <li class="has-child">
-                <span class="btn btn-action">Thao tác</span>
-                <ul>
-                  <li>
-                    <span class="openmodal btn-compare" data-target="#modal-compare">So sánh nhập liệu</span>
-                  </li>
-                  <li>
-                    <span class="openmodal btn-split" data-target="#modal-split-order">Tách đơn khẩn</span>
-                  </li>
-                  <li><button type="button" name="action" value="export" class="js-export">Xuất dữ liệu</button></li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-          <div class="col-6">
-            <ul class="d-f">
-              <li class="mr-16">
-                <span class="btn btn-primary">Danh sách chính</span>
-              </li>
-              <li class="mr-16">
-                <span class="btn">Bản sao 1</span>
-              </li>
+            <ul class="d-f  ai-center">
               <li>
-                <span class="btn openmodal" data-target="#modal-plan-history">modal-plan-history</span>
+                <span class="btn">Bộ đếm</span>
+              </li>
             </ul>
           </div>
+          
         </div>
         <?php wp_nonce_field('importoken', 'importoken', false); ?>
       </form>
-      <table id="list-select-meal" class="table table-select-meal" style="width:100%">
+      <table id="list-select-meal" class="table table-detail-meal mt-16">
         <thead>
           <tr class="nowrap">
-            <th data-number="0" class="text-center"><input type="checkbox" name="checkall" id="checkall" /></th>
-            <th data-number="1"><span class="nowrap">Tên người nhận</span></th>
-            <th data-number="2" class="text-left">SĐT</th>
-            <th data-number="3">Mã</th>
-            <th class="text-center" data-number="4">
-              Thứ 2 <br>
-              (02/01)
-            </th>
-            <th class="text-center" data-number="5">
-              Thứ 3 <br>
-              (02/01)
-            </th>
-            <th class="text-center" data-number="6">
-              Thứ 4 <br>
-              (02/01)
-            </th>
-            <th class="text-center" data-number="7">
-              Thứ 5 <br>
-              (02/01)
-            </th>
-            <th class="text-center" data-number="8">
-              Thứ 6 <br>
-              (02/01)
+            <th data-number="1"><span class="nowrap">Tên khách hàng</span></th>
+            <th data-number="2" class="text-left">Mã <br>sản phẩm</th>
+            <th data-number="3">Phân <br>loại</th>
+            <th data-number="3">Trạng thái <br>đặt đơn</th>
+            <th>
+              <ul class="d-f date-group">
+                <li>
+                  1
+                </li>
+                <li>
+                  2
+                </li>
+                <li>
+                  3
+                </li>
+                <li>
+                  4
+                </li>
+                <li>
+                  5
+                </li>
+                <li>
+                  6
+                </li>
+                <li>
+                  7
+                </li>
+                <li>
+                  8
+                </li>
+                <li>
+                  9
+                </li>
+                <li>
+                  10
+                </li>
+                <li>
+                  11
+                </li>
+                <li>
+                  12
+                </li>
+                <li>
+                  13
+                </li>
+                <li>
+                  14
+                </li>
+                <li>
+                  15
+                </li>
+                <li>
+                  16
+                </li>
+                <li>
+                  17
+                </li>
+                <li>
+                  18
+                </li>
+                <li>
+                  19
+                </li>
+                <li>
+                  20
+                </li>
+                <li>
+                  21
+                </li>
+                <li>
+                  22
+                </li>
+                <li>
+                  23
+                </li>
+                <li>
+                  24
+                </li>
+                <li>
+                  25
+                </li>
+                <li>
+                  26
+                </li>
+                <li>
+                  27
+                </li>
+                <li>
+                  28
+                </li>
+                <li>
+                  29
+                </li>
+                <li>
+                  30
+                </li>
+                <li>
+                  31
+                </li>
+              </ul>
             </th>
           </tr>
         </thead>
         <tbody>
-          <?php
-          $response = em_api_request('order/list', [
-            'paged' => 1,
-            'limit' => 3,
-          ]);
-          if (isset($response['data']) && is_array($response['data'])) {
-            // Loop through the data array and print each entry
-            foreach ($response['data'] as $record) {
-              // var_dump($record);
-              if (is_array($record)) {
-                $link = add_query_arg(['order_id' => $record['id']], $detail_order_url);
-                $location_list = explode(',', $record['location_name']);
-          ?>
-                <tr class="nowrap">
-                  <td data-number="0" class="text-center"><input type="checkbox" class="checkbox-element" data-number="<?php echo $record['phone']; ?>" value="<?php echo $record['id'] ?>"></td>
-                  <td data-number="1" class="text-capitalize nowrap wrap-td">
-                    <div class="ellipsis"><a href="<?php echo $link ?>"><?php echo $record['customer_name']; ?></a></div>
-                  </td>
-                  <td data-number="2" class="text-left"><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $record['phone']; ?>"><?php echo $record['phone']; ?></span></td>
-                  <td data-number="3"><?php echo $record['item_name'] ?></td>
-                  <td data-number="4" class="wrap-td" style="min-width: 140px;">
-                    <div class="nowrap ellipsis">1 - Sườn non chay chua ngọt</div>
-                  </td>
-                  <td data-number="5" class="wrap-td" style="min-width: 140px;">
-                    <div class="nowrap ellipsis">1 - Sườn non chay chua ngọt</div>
-                  </td>
-                  <td data-number="6" class="wrap-td" style="min-width: 140px;">
-                    <div class="nowrap ellipsis">1 - Sườn non chay chua ngọt</div>
-                  </td>
-                  <td data-number="7" class="wrap-td" style="min-width: 140px;">
-                    <div class="nowrap ellipsis">1 - Sườn non chay chua ngọt</div>
-                  </td>
-                  <td data-number="8" class="wrap-td" style="min-width: 140px;">
-                    <div class="nowrap ellipsis">1 - Sườn non chay chua ngọt</div>
-                  </td>
-                </tr>
-          <?php
-              } else {
-                echo "Không tìm thấy dữ liệu!\n";
-              }
-            }
-          }
-          ?>
+          <tr>
+            <td>Vy (Vy Vy)</td>
+            <td>5SM+1EP</td>
+            <td>M,W</td>
+            <td>Đặt đơn</td>
+            <td class="wrap-date">
+              <ul class="d-f date-group">
+                <li>
+                  1
+                </li>
+                <li>
+                  2
+                </li>
+                <li>
+                  3
+                </li>
+                <li>
+                  4
+                </li>
+                <li>
+                  5
+                </li>
+                <li>
+                  6
+                </li>
+                <li>
+                  7
+                </li>
+                <li>
+                  8
+                </li>
+                <li>
+                  9
+                </li>
+                <li>
+                  10
+                </li>
+                <li>
+                  11
+                </li>
+                <li>
+                  12
+                </li>
+                <li>
+                  13
+                </li>
+                <li>
+                  14
+                </li>
+                <li>
+                  15
+                </li>
+                <li>
+                  16
+                </li>
+                <li>
+                  17
+                </li>
+                <li>
+                  18
+                </li>
+                <li>
+                  19
+                </li>
+                <li>
+                  20
+                </li>
+                <li>
+                  21
+                </li>
+                <li>
+                  22
+                </li>
+                <li>
+                  23
+                </li>
+                <li>
+                  24
+                </li>
+                <li>
+                  25
+                </li>
+                <li>
+                  26
+                </li>
+                <li>
+                  27
+                </li>
+                <li>
+                  28
+                </li>
+                <li>
+                  29
+                </li>
+                <li>
+                  30
+                </li>
+                <li>
+                  31
+                </li>
+              </ul>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>

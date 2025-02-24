@@ -1,0 +1,26 @@
+.detail-meal {
+    table.table-detail-meal {
+        thead {
+            th {
+                border: none;
+                &:first-child {
+                    border: none;
+                    span{
+                        font-size: inherit;
+                        width: 200px;
+                    }
+                }
+                &:last-child {
+                    border: none;
+                }
+            }
+        }
+        tbody {
+            tr {
+                td {
+                    border: none !important;
+                }
+            }
+        }
+    }
+}

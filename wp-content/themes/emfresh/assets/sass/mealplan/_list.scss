@@ -1,7 +1,6 @@
-table.table-list-meal-plan {
+table.table {
     thead tr {
         th {
-            border-bottom: none;
             .date-group {
                 li {
                     padding: 8px 5px;
@@ -18,7 +17,7 @@ table.table-list-meal-plan {
                 
             }
         }
-    } 
+    }
     tbody {
         tr {
             border-bottom: none;
@@ -45,5 +44,13 @@ table.table-list-meal-plan {
             }
         } 
         
+    }
+}
+table.table-list-meal-plan {
+    thead tr {
+        th {
+            border-bottom: none;
+        }
     } 
+     
 }

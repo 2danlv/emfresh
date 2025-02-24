@@ -672,6 +672,7 @@ jQuery(document).ready(function () {
 			table.columns.adjust();
 			table_list_order.columns.adjust();
 			table_list_mealplan.columns.adjust();
+			table_detail_meal.columns.adjust();
 			table_select_meal.columns.adjust();
 			table_regular.columns.adjust();
 			table_regular_pay.columns.adjust();
@@ -938,6 +939,34 @@ jQuery(document).ready(function () {
             preDefined: [] // Không xác định bộ lọc mặc định nào
         },
 		language: table_languageConfig,
+	});
+	var table_detail_meal = $('.table-detail-meal').on('init.dt', function () {
+		//console.log(this, 'init.dt');
+    }).DataTable({
+		autoWidth: true,
+		scrollX: true,
+		scrollY:  $(window).height() - 227,
+		dom: 'Bfrtip<"bottom"pl>',
+		ordering: false,
+		paging: false,
+		columnDefs: [
+			{  
+				targets: [0,2,3,4],
+				orderable: false,
+			},
+			{
+			 type: 'string', targets: [0,4]
+			},
+			{ visible: false, targets: [] },
+			
+		],
+		dom: 'Bfrtip<"bottom"pl>',
+		responsive: true,
+		autoWidth: true,
+		fixedColumns: {
+			start: 0
+		},
+		"stateSave": false
 	});
 	var table_select_meal = $('.table-select-meal').on('init.dt', function () {
 		//console.log(this, 'init.dt');
