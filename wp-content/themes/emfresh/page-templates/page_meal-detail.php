@@ -54,9 +54,10 @@ get_header();
         <thead>
           <tr class="nowrap">
             <th data-number="1"><span class="nowrap">Tên khách hàng</span></th>
-            <th data-number="2" class="text-left">Mã <br>sản phẩm</th>
-            <th data-number="3">Phân <br>loại</th>
-            <th data-number="3">Trạng thái <br>đặt đơn</th>
+            <th data-number="2"><span class="nowrap">Địa chỉ</span></th>
+            <th data-number="3" class="text-left">Mã <br>sản phẩm</th>
+            <th data-number="4">Phân <br>loại</th>
+            <th data-number="5">Trạng thái <br>đặt đơn</th>
             <th>
               <ul class="d-f date-group">
                 <li>
@@ -157,11 +158,452 @@ get_header();
           </tr>
         </thead>
         <tbody>
+          <tr class="blank">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
           <tr>
             <td>Vy (Vy Vy)</td>
+            <td class="nowrap">Vy (Vy Vy)</td>
             <td>5SM+1EP</td>
             <td>M,W</td>
-            <td>Đặt đơn</td>
+            <td class="text-center">Đặt đơn</td>
+            <td class="wrap-date">
+              <ul class="d-f date-group">
+                <li>
+                  1
+                </li>
+                <li>
+                  2
+                </li>
+                <li>
+                  3
+                </li>
+                <li>
+                  4
+                </li>
+                <li>
+                  5
+                </li>
+                <li>
+                  6
+                </li>
+                <li>
+                  7
+                </li>
+                <li>
+                  8
+                </li>
+                <li>
+                  9
+                </li>
+                <li>
+                  10
+                </li>
+                <li>
+                  11
+                </li>
+                <li>
+                  12
+                </li>
+                <li>
+                  13
+                </li>
+                <li>
+                  14
+                </li>
+                <li>
+                  15
+                </li>
+                <li>
+                  16
+                </li>
+                <li>
+                  17
+                </li>
+                <li>
+                  18
+                </li>
+                <li>
+                  19
+                </li>
+                <li>
+                  20
+                </li>
+                <li>
+                  21
+                </li>
+                <li>
+                  22
+                </li>
+                <li>
+                  23
+                </li>
+                <li>
+                  24
+                </li>
+                <li>
+                  25
+                </li>
+                <li>
+                  26
+                </li>
+                <li>
+                  27
+                </li>
+                <li>
+                  28
+                </li>
+                <li>
+                  29
+                </li>
+                <li>
+                  30
+                </li>
+                <li>
+                  31
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr class="blank">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr class="accordion-tit_table">
+            <td>#0001</td>
+            <td></td>
+            <td>1SM</td>
+            <td>M</td>
+            <td class="text-center">Đặt đơn</td>
+            <td class="wrap-date">
+              <ul class="d-f date-group">
+                <li>
+                  1
+                </li>
+                <li>
+                  2
+                </li>
+                <li>
+                  3
+                </li>
+                <li>
+                  4
+                </li>
+                <li>
+                  5
+                </li>
+                <li>
+                  6
+                </li>
+                <li>
+                  7
+                </li>
+                <li>
+                  8
+                </li>
+                <li>
+                  9
+                </li>
+                <li>
+                  10
+                </li>
+                <li>
+                  11
+                </li>
+                <li>
+                  12
+                </li>
+                <li>
+                  13
+                </li>
+                <li>
+                  14
+                </li>
+                <li>
+                  15
+                </li>
+                <li>
+                  16
+                </li>
+                <li>
+                  17
+                </li>
+                <li>
+                  18
+                </li>
+                <li>
+                  19
+                </li>
+                <li>
+                  20
+                </li>
+                <li>
+                  21
+                </li>
+                <li>
+                  22
+                </li>
+                <li>
+                  23
+                </li>
+                <li>
+                  24
+                </li>
+                <li>
+                  25
+                </li>
+                <li>
+                  26
+                </li>
+                <li>
+                  27
+                </li>
+                <li>
+                  28
+                </li>
+                <li>
+                  29
+                </li>
+                <li>
+                  30
+                </li>
+                <li>
+                  31
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr class="accordion-content_table">
+            <td>Vy (Vy Vy)</td>
+            <td></td>
+            <td>5SM</td>
+            <td>M</td>
+            <td></td>
+            <td class="wrap-date">
+              <ul class="d-f date-group">
+                <li>
+                  1
+                </li>
+                <li>
+                  2
+                </li>
+                <li>
+                  3
+                </li>
+                <li>
+                  4
+                </li>
+                <li>
+                  5
+                </li>
+                <li>
+                  6
+                </li>
+                <li>
+                  7
+                </li>
+                <li>
+                  8
+                </li>
+                <li>
+                  9
+                </li>
+                <li>
+                  10
+                </li>
+                <li>
+                  11
+                </li>
+                <li>
+                  12
+                </li>
+                <li>
+                  13
+                </li>
+                <li>
+                  14
+                </li>
+                <li>
+                  15
+                </li>
+                <li>
+                  16
+                </li>
+                <li>
+                  17
+                </li>
+                <li>
+                  18
+                </li>
+                <li>
+                  19
+                </li>
+                <li>
+                  20
+                </li>
+                <li>
+                  21
+                </li>
+                <li>
+                  22
+                </li>
+                <li>
+                  23
+                </li>
+                <li>
+                  24
+                </li>
+                <li>
+                  25
+                </li>
+                <li>
+                  26
+                </li>
+                <li>
+                  27
+                </li>
+                <li>
+                  28
+                </li>
+                <li>
+                  29
+                </li>
+                <li>
+                  30
+                </li>
+                <li>
+                  31
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr class="blank">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr class="accordion-tit_table">
+            <td>#0001</td>
+            <td></td>
+            <td>1SM</td>
+            <td>M</td>
+            <td class="text-center">Đặt đơn</td>
+            <td class="wrap-date">
+              <ul class="d-f date-group">
+                <li>
+                  1
+                </li>
+                <li>
+                  2
+                </li>
+                <li>
+                  3
+                </li>
+                <li>
+                  4
+                </li>
+                <li>
+                  5
+                </li>
+                <li>
+                  6
+                </li>
+                <li>
+                  7
+                </li>
+                <li>
+                  8
+                </li>
+                <li>
+                  9
+                </li>
+                <li>
+                  10
+                </li>
+                <li>
+                  11
+                </li>
+                <li>
+                  12
+                </li>
+                <li>
+                  13
+                </li>
+                <li>
+                  14
+                </li>
+                <li>
+                  15
+                </li>
+                <li>
+                  16
+                </li>
+                <li>
+                  17
+                </li>
+                <li>
+                  18
+                </li>
+                <li>
+                  19
+                </li>
+                <li>
+                  20
+                </li>
+                <li>
+                  21
+                </li>
+                <li>
+                  22
+                </li>
+                <li>
+                  23
+                </li>
+                <li>
+                  24
+                </li>
+                <li>
+                  25
+                </li>
+                <li>
+                  26
+                </li>
+                <li>
+                  27
+                </li>
+                <li>
+                  28
+                </li>
+                <li>
+                  29
+                </li>
+                <li>
+                  30
+                </li>
+                <li>
+                  31
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr class="accordion-content_table">
+            <td>Vy (Vy Vy)</td>
+            <td></td>
+            <td>5SM</td>
+            <td>M</td>
+            <td></td>
             <td class="wrap-date">
               <ul class="d-f date-group">
                 <li>
@@ -264,250 +706,68 @@ get_header();
       </table>
     </div>
   </div>
+  <div class="count-group">
+    <div class="row">
+      <div class="col-10">
+        <div class="ttl pb-8">
+          Bộ đếm
+        </div>
+      </div>
+      <div class="col-2 text-right">
+        <span class="modal-close"><img src="<?php echo site_get_template_directory_assets();?>/img/icon/delete-svgrepo-com.svg" alt=""></span>
+      </div>
+    </div>
+    
+    <hr>
+    <div class="card-primary pt-16">
+      <div class="row">
+        <div class="col-5">
+          <div class="row pb-16">
+            <div class="col-6">
+              <input type="text" placeholder="Tên người nhận (chọn ô ở trên)">
+            </div>
+            <div class="col-6">
+              <div class="row">
+                <div class="col-6"><input type="text" placeholder="Mã đơn hàng"></div>
+                <div class="col-6"><input type="text" placeholder="Mã sản phẩm"></div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <input type="text" placeholder="Ngày bắt đầu (chọn ô ở trên)">
+            </div>
+            <div class="col-6">
+              <input type="text" placeholder="Ngày kết thúc">
+            </div>
+          </div>
+        </div>
+        <div class="col-2 col-btn ai-end d-f">
+          <div class="btn btn-primary">Xác nhận</div>
+        </div>
+        <div class="col-5 d-f col-txt text-right">
+          <p>Tổng ngày ăn: <span>-</span></p>
+          <p>Tổng phần ăn: <span>-</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bottom row">
+    <div class="col-6">
+      <span class="btn btn-secondary openmodal" data-target="#modal-plan-history">Lịch sử thao tác</span>
+    </div>
+    <div class="col-6 text-right">
+      <span class="btn btn-primary">Đi đến chọn món</span>
+      </div>
+    </div>
   <!-- /.card-body -->
 </section>
 
-<div class="modal fade modal-warning" id="modal-warning-edit">
-  <div class="overlay"></div>
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-body pt-8 pb-16">
-        <div class="d-f ai-center">
-          <i class="fas fa-warning mr-8"></i>
-          <p>Hãy chọn đơn hàng để <span class="txt_append">in</span>!</p>
-        </div>
-      </div>
-      <div class="modal-footer text-center pt-16 pb-8">
-        <button type="button" class="btn btn-secondary modal-close">Đóng</button>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="modal fade modal-compare" id="modal-compare">
-  <div class="overlay"></div>
-  <div class="modal-dialog modal-wide">
-    <div class="modal-header">
-      <h4 class="modal-title">So sánh nhập liệu</h4>
-    </div>
-    <div class="modal-content">
-      <div class="modal-body pt-16">
-        <div class="ttl mb-16">Thứ 2 (02/01)</div>
-        <table>
-          <thead>
-            <tr>
-              <th>Tên khách hàng</th>
-              <th>SĐT</th>
-              <th>Mã</th>
-              <th>Danh sách chính</th>
-              <th>Bản sao 1</th>
-              <th>Bản sao 2</th>
-              <th>-</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Khách hàng 1</td>
-              <td>0123456789</td>
-              <td>SM</td>
-              <td>
-                <select name="" id="">
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                </select>
-              </td>
-              <td>2 - Bắp bò sốt tiêu đen</td>
-              <td>-</td>
-              <td>-</td>
-            </tr>
-            <tr>
-              <td>Khách hàng 2</td>
-              <td>0123456789</td>
-              <td>SM</td>
-              <td>1 - Sườn non chay chua ngọt</td>
-              <td>2 - Bắp bò sốt tiêu đen</td>
-              <td>1 - Sườn non chay chua ngọt</td>
-              <td>-</td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="ttl">Thứ 3 (02/01)</div>
-        <div class="text-center pt-16 pb-16">
-          Không tìm thấy sai lệch nào
-        </div>
-        <div class="ttl mb-16">Thứ 3 (02/01)</div>
-        <table>
-          <thead>
-            <tr>
-              <th>Tên khách hàng</th>
-              <th>SĐT</th>
-              <th>Mã</th>
-              <th>Danh sách chính</th>
-              <th>Bản sao 1</th>
-              <th>Bản sao 2</th>
-              <th>-</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Khách hàng 1</td>
-              <td>0123456789</td>
-              <td>SM</td>
-              <td>
-                <select name="" id="">
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                </select>
-              </td>
-              <td>2 - Bắp bò sốt tiêu đen</td>
-              <td>-</td>
-              <td>-</td>
-            </tr>
-            <tr>
-              <td>Khách hàng 2</td>
-              <td>0123456789</td>
-              <td>SM</td>
-              <td>1 - Sườn non chay chua ngọt</td>
-              <td>2 - Bắp bò sốt tiêu đen</td>
-              <td>1 - Sườn non chay chua ngọt</td>
-              <td>-</td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="ttl mb-16">Thứ 4 (02/01)</div>
-        <table>
-          <thead>
-            <tr>
-              <th>Tên khách hàng</th>
-              <th>SĐT</th>
-              <th>Mã</th>
-              <th>Danh sách chính</th>
-              <th>Bản sao 1</th>
-              <th>Bản sao 2</th>
-              <th>-</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Khách hàng 1</td>
-              <td>0123456789</td>
-              <td>SM</td>
-              <td>
-                <select name="" id="">
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                </select>
-              </td>
-              <td>2 - Bắp bò sốt tiêu đen</td>
-              <td>-</td>
-              <td>-</td>
-            </tr>
-            <tr>
-              <td>Khách hàng 2</td>
-              <td>0123456789</td>
-              <td>SM</td>
-              <td>1 - Sườn non chay chua ngọt</td>
-              <td>2 - Bắp bò sốt tiêu đen</td>
-              <td>1 - Sườn non chay chua ngọt</td>
-              <td>-</td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="ttl mb-16">Thứ 5 (02/01)</div>
-        <table>
-          <thead>
-            <tr>
-              <th>Tên khách hàng</th>
-              <th>SĐT</th>
-              <th>Mã</th>
-              <th>Danh sách chính</th>
-              <th>Bản sao 1</th>
-              <th>Bản sao 2</th>
-              <th>-</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Khách hàng 1</td>
-              <td>0123456789</td>
-              <td>SM</td>
-              <td>
-                <select name="" id="">
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                </select>
-              </td>
-              <td>2 - Bắp bò sốt tiêu đen</td>
-              <td>-</td>
-              <td>-</td>
-            </tr>
-            <tr>
-              <td>Khách hàng 2</td>
-              <td>0123456789</td>
-              <td>SM</td>
-              <td>1 - Sườn non chay chua ngọt</td>
-              <td>2 - Bắp bò sốt tiêu đen</td>
-              <td>1 - Sườn non chay chua ngọt</td>
-              <td>-</td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="ttl mb-16">Thứ 6 (02/01)</div>
-        <table>
-          <thead>
-            <tr>
-              <th>Tên khách hàng</th>
-              <th>SĐT</th>
-              <th>Mã</th>
-              <th>Danh sách chính</th>
-              <th>Bản sao 1</th>
-              <th>Bản sao 2</th>
-              <th>-</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Khách hàng 1</td>
-              <td>0123456789</td>
-              <td>SM</td>
-              <td>
-                <select name="" id="">
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                </select>
-              </td>
-              <td>2 - Bắp bò sốt tiêu đen</td>
-              <td>-</td>
-              <td>-</td>
-            </tr>
-            <tr>
-              <td>Khách hàng 2</td>
-              <td>0123456789</td>
-              <td>SM</td>
-              <td>1 - Sườn non chay chua ngọt</td>
-              <td>2 - Bắp bò sốt tiêu đen</td>
-              <td>1 - Sườn non chay chua ngọt</td>
-              <td>-</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div class="modal-footer text-right pt-16 pr-16">
-      <button type="button" class="button btn-default modal-close">Huỷ</button>
-      <button type="button" class="button btn-primary modal-close">Lưu và đóng</button>
-    </div>
-  </div>
-</div>
 <div class="modal fade modal-plan-history" id="modal-plan-history">
   <div class="overlay"></div>
   <div class="modal-dialog modal-wide">
     <div class="modal-header">
-        <h4 class="modal-title">Tuần 02/01 - 06/01</h4>
+        <h4 class="modal-title">Vy (Vy Vy)</h4>
         <span class="modal-close"><img src="<?php echo site_get_template_directory_assets();?>/img/icon/delete-svgrepo-com.svg" alt=""></span>
       </div>
     <div class="modal-content">
@@ -530,122 +790,122 @@ get_header();
               <th>
                 Mô tả
               </th>
-              <th>
+              <th class="text-center">
                 Thời gian
               </th>
-              <th>
+              <th class="text-center">
                 Ngày
               </th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
+              <td class="text-left"><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
               <td>Chọn món</td>
               <td>cập nhật</td>
-              <td>Thien Phuong Bui - #0001 - SM</td>
+              <td>#0001 - SM</td>
               <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-              <td>01:00</td>
-              <td>29/10/24</td>
+              <td class="text-center">01:00</td>
+              <td class="text-center">29/10/24</td>
             </tr>
             <tr>
-              <td><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
+              <td class="text-left"><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
               <td>Chọn món</td>
               <td>cập nhật</td>
-              <td>Thien Phuong Bui - #0001 - SM</td>
+              <td>#0001 - SM</td>
               <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-              <td>01:00</td>
-              <td>29/10/24</td>
+              <td class="text-center">01:00</td>
+              <td class="text-center">29/10/24</td>
             </tr>
             <tr>
-              <td><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
+              <td class="text-left"><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
               <td>Chọn món</td>
               <td>cập nhật</td>
-              <td>Thien Phuong Bui - #0001 - SM</td>
+              <td>#0001 - SM</td>
               <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-              <td>01:00</td>
-              <td>29/10/24</td>
+              <td class="text-center">01:00</td>
+              <td class="text-center">29/10/24</td>
             </tr>
             <tr>
-              <td><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
+              <td class="text-left"><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
               <td>Chọn món</td>
               <td>cập nhật</td>
-              <td>Thien Phuong Bui - #0001 - SM</td>
+              <td>#0001 - SM</td>
               <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-              <td>01:00</td>
-              <td>29/10/24</td>
+              <td class="text-center">01:00</td>
+              <td class="text-center">29/10/24</td>
             </tr>
             <tr>
-              <td><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
+              <td class="text-left"><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
               <td>Chọn món</td>
               <td>cập nhật</td>
-              <td>Thien Phuong Bui - #0001 - SM</td>
+              <td>#0001 - SM</td>
               <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-              <td>01:00</td>
-              <td>29/10/24</td>
+              <td class="text-center">01:00</td>
+              <td class="text-center">29/10/24</td>
             </tr>
             <tr>
-              <td><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
+              <td class="text-left"><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
               <td>Chọn món</td>
               <td>cập nhật</td>
-              <td>Thien Phuong Bui - #0001 - SM</td>
+              <td>#0001 - SM</td>
               <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-              <td>01:00</td>
-              <td>29/10/24</td>
+              <td class="text-center">01:00</td>
+              <td class="text-center">29/10/24</td>
             </tr>
             <tr>
-              <td><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
+              <td class="text-left"><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
               <td>Chọn món</td>
               <td>cập nhật</td>
-              <td>Thien Phuong Bui - #0001 - SM</td>
+              <td>#0001 - SM</td>
               <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-              <td>01:00</td>
-              <td>29/10/24</td>
+              <td class="text-center">01:00</td>
+              <td class="text-center">29/10/24</td>
             </tr>
             <tr>
-              <td><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
+              <td class="text-left"><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
               <td>Chọn món</td>
               <td>cập nhật</td>
-              <td>Thien Phuong Bui - #0001 - SM</td>
+              <td>#0001 - SM</td>
               <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-              <td>01:00</td>
-              <td>29/10/24</td>
+              <td class="text-center">01:00</td>
+              <td class="text-center">29/10/24</td>
             </tr>
             <tr>
-              <td><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
+              <td class="text-left"><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
               <td>Chọn món</td>
               <td>cập nhật</td>
-              <td>Thien Phuong Bui - #0001 - SM</td>
+              <td>#0001 - SM</td>
               <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-              <td>01:00</td>
-              <td>29/10/24</td>
+              <td class="text-center">01:00</td>
+              <td class="text-center">29/10/24</td>
             </tr>
             <tr>
-              <td><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
+              <td class="text-left"><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
               <td>Chọn món</td>
               <td>cập nhật</td>
-              <td>Thien Phuong Bui - #0001 - SM</td>
+              <td>#0001 - SM</td>
               <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-              <td>01:00</td>
-              <td>29/10/24</td>
+              <td class="text-center">01:00</td>
+              <td class="text-center">29/10/24</td>
             </tr>
             <tr>
-              <td><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
+              <td class="text-left"><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
               <td>Chọn món</td>
               <td>cập nhật</td>
-              <td>Thien Phuong Bui - #0001 - SM</td>
+              <td>#0001 - SM</td>
               <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-              <td>01:00</td>
-              <td>29/10/24</td>
+              <td class="text-center">01:00</td>
+              <td class="text-center">29/10/24</td>
             </tr>
             <tr>
-              <td><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
+              <td class="text-left"><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
               <td>Chọn món</td>
               <td>cập nhật</td>
-              <td>Thien Phuong Bui - #0001 - SM</td>
+              <td>#0001 - SM</td>
               <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-              <td>01:00</td>
-              <td>29/10/24</td>
+              <td class="text-center">01:00</td>
+              <td class="text-center">29/10/24</td>
             </tr>
             
           </tbody>
@@ -654,111 +914,7 @@ get_header();
     </div>
   </div>
 </div>
-<div class="modal fade modal-split-order" id="modal-split-order">
-  <div class="overlay"></div>
-  <div class="modal-dialog">
-    <div class="modal-header">
-        <h4 class="modal-title">Tách đơn khẩn</h4>
-      </div>
-    <div class="modal-content">
-      <div class="modal-body pb-16 pt-16">
-        <div class="order">
-        <div class="card-primary">
-          <div class="dropdown-address  pb-16">
-            <p>Chọn địa chỉ giao đến</p>
-              <div class="dropdown active pt-16" style="pointer-events: all;">  
-                  <input type="hidden" name="ship_location_id" class="ship_location_id">                  
-                  <input type="text" name="address_delivery" class="address_delivery is-disabled form-control" value="" placeholder="Vui lòng chọn">
-              </div>
-              <p class="fs-14 fw-regular note-shipper hidden color-gray pt-4 pl-8">Note với shipper: <span class="note_shiper"></span></p>
-              <p class="fs-14 fw-regular note-admin hidden color-gray pt-4 pl-8">Note với admin: <span class="note_admin"></span></p>
-              <div class="overlay-drop-menu"></div>
-              <div class="dropdown-menu">
-                  <div class="locations-container">
-                      <div class="item" data-location_id="1">
-                          <p class="fs-16 color-black other-address">45 Hoa Lan, Phường 3, Quận Phú Nhuận</p>
-                      </div>
-                  </div>
-                  <div  class="btn-add-address d-f ai-center pb-8 pt-8 pl-8">
-                      <span class="fas fa-plus mr-8"></span>Thêm địa chỉ mới
-                  </div>
-              </div>
-          </div>
-          <form method="post" class="hidden meal-add-location" id="meal-add-location" action="">
-            <p>Nhập địa chỉ mới</p>
-            <div class="row address-group location_0 address_active pt-16">
-                <div class="city col-4 pb-16">
-                    <select id="province" name="locations_province" class="province-select form-control" disabled="">
-                        <option value="">Select Tỉnh/Thành phố</option>
-                        <option value="Thành phố Hồ Chí Minh" selected="">Thành phố Hồ Chí Minh</option>
-                    </select>
-                </div>
-                <div class="col-4 pb-16">
-                    <select id="district" name="" class="district-select form-control text-capitalize">
-                        <option value="" selected="">Quận/Huyện*</option>
-                    </select>
-                </div>
-                <div class="col-4 pb-16">
-                    <select id="ward" name="locations_ward" class="ward-select form-control" disabled>
-                        <option selected="">Phường/Xã*</option>
-                    </select>
-                </div>
-                <div class="col-12 pb-16">
-                    <input id="address" type="text" class="form-control address" placeholder="Địa chỉ cụ thể*" name="locations[0][address]">
-                </div>
-                <div class="group-note col-12">
-                    <div class="note_shiper hidden pb-16">
-                        <input type="text" name="locations_note_shipper" class="locations_note_shipper" placeholder="Note với shipper">
-                    </div>
-                    <div class="note_admin hidden pb-16">
-                        <input type="text" name="locations_note_admin" class="locations_note_admin" placeholder="Note với admin">
-                    </div>
-                </div>
-                <div class="show-group-note d-f ai-center pb-16 pt-8 pl-8">
-                    <span class="fas fa-plus mr-8"></span> Thêm ghi chú giao hàng
-                </div>
-            </div>
-        </form>
-        <div class="row pb-8">
-          <div class="col-6">
-            Danh sách phần ăn được tách
-          </div>
-          <div class="col-6 text-right">
-            1 đã chọn
-          </div>
-        </div>
-        <hr>
-        <div class="pt-16">
-          <table class="table table-split-order" style="width: 100%;">
-              <thead class="text-left">
-                <tr>
-                  <th>Tên khách hàng</th>
-                  <th>SĐT</th>
-                  <th class="text-center">Mã</th>
-                  <th class="text-center">Thứ 3 <br>(03/01)</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="text-left">Khách hàng 1</td>
-                  <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0123456789">0123456789</span></td>
-                  <td class="text-center">SM</td>
-                  <td>1 - Sườn non chay chua ngọt</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          </div>
-        </div>
-        
-      </div>
-    </div>
-    <div class="modal-footer text-right pt-16 pr-16">
-      <button type="button" class="button btn-default modal-close">Huỷ</button>
-      <button type="button" class="button btn-primary modal-close">Lưu và đóng</button>
-    </div>
-  </div>
-</div>
+
 
   <?php
   // endwhile;
@@ -795,11 +951,34 @@ get_header();
         }
       });
     }
-
+    function accordion_table() {
+      $('table .accordion-tit_table')
+      .off()
+      .on('click', function () {
+        var item = $(this).toggleClass('on')
+        while (item.next().hasClass('accordion-content_table')) {
+          item = item.next()
+          
+          item.toggleClass('is-active').find('td > div').slideToggle(400)
+        }
+      })
+      
+      $('table .accordion-content_table')
+      .addClass('d-table-row')
+      .find('td')
+      .each(function () {
+        let td = $(this)
+        
+        if (td.find('> div').length == 0) {
+          td.html('<div>' + td.html() + '</div>')
+        }
+      })
+    }
     $(document).ready(function() {
       // Load checkbox states when the page loads
       // console.log('log',localStorage);
       loadCheckboxState();
       $('.filter input[type="checkbox"]').on('change', saveCheckboxState);
+      accordion_table();
     });
   </script>

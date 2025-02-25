@@ -19,8 +19,85 @@
             tr {
                 td {
                     border: none !important;
+                    &:first-child {
+                        text-align: left;
+                        padding: 6px 10px;
+                    }
                 }
             }
         }
     }
+    
+}
+.content {
+        position: relative;
+    }
+.count-group {
+    padding: 24px;
+    background-color: #fff;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    position: relative;
+    z-index: 99;
+    .ttl {
+        font-size: 20px;
+        font-weight: 600;
+    }
+    input {
+        padding: 9px;
+        border-radius: var(--input-radiusCorner, 8px);
+        border: 1px solid var(--input-border-default, #DEDFE0);
+        background: var(--input-background-default, #FFF);
+        width: 100%;
+    }
+    .col-btn {
+        height: 88px;
+    }
+    .btn {
+        padding: 6px 24px;
+    }
+    .col-txt {
+        flex-wrap: wrap;
+        height: 88px;
+        p {
+            width: 100%;
+        }
+        
+    }
+}
+table.table  tbody tr.blank  td {
+    padding-top: 0;
+    min-height: 0;
+}
+table.table tr.accordion-tit_table {
+    cursor: pointer;
+    background: var(--color-grey-100, #DEDFE0);
+    font-weight: 600;
+}
+table.table.dataTable tr.accordion-tit_table td:first-child {
+    padding-left: 32px;
+    background: url(../img/icon/toggle2.svg) left 8px center #DEDFE0 no-repeat;
+}
+table.table.dataTable tr.accordion-tit_table td.wrap-date {
+    background: #fff;
+    font-weight: normal;
+}
+table.table.dataTable tr.accordion-tit_table.on td:first-child {
+    background-image: url(../img/icon/toggle.svg);
+}
+.accordion-content_table ,
+table.table tr.accordion-content_table td>div {
+    display: none;
+}
+table.table tr.accordion-content_table.d-table-row {
+    display: table-row;
+}
+table.table tr.accordion-content_table.d-table-row td {
+    transition: .4s padding;
+    padding: 0px 10px !important;
+}
+table.table tr.accordion-content_table.d-table-row.is-active td{
+    padding: 0px 10px !important;
+}
+table.table tr.accordion-content_table.d-table-row td:first-child div{
+    padding-left: 24px;
 }

@@ -90,6 +90,7 @@ get_header();
               </li>
               <li>
                 <span class="btn openmodal" data-target="#modal-plan-history">modal-plan-history</span>
+              </li>
             </ul>
           </div>
         </div>
