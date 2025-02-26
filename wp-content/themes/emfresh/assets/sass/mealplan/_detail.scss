@@ -29,15 +29,29 @@
     }
     
 }
-.content {
-        position: relative;
+.group-btn-bottom {
+    position: fixed;
+    bottom: 0px;
+    padding-left: 206px;
+    left: 0;
+    width: 100%;
+    z-index: 3;
+    .btn {
+        padding: 6px 24px;
+        display: inline-block;
     }
+    .bottom-btn {
+        padding: 12px 16px;
+    }
+}
 .count-group {
     padding: 24px;
     background-color: #fff;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    position: relative;
-    z-index: 99;
+    display: none;
+    right: 16px;
+    width: 100%;
+    
     .ttl {
         font-size: 20px;
         font-weight: 600;
@@ -52,8 +66,8 @@
     .col-btn {
         height: 88px;
     }
-    .btn {
-        padding: 6px 24px;
+    .count-close {
+        cursor: pointer;
     }
     .col-txt {
         flex-wrap: wrap;
@@ -63,6 +77,9 @@
         }
         
     }
+}
+.mini_sidebar .group-btn-bottom{
+    padding-left: 62px;
 }
 table.table  tbody tr.blank  td {
     padding-top: 0;

@@ -42,7 +42,7 @@ get_header();
           <div class="col-6">
             <ul class="d-f  ai-center">
               <li>
-                <span class="btn">Bộ đếm</span>
+                <span class="btn btn-show-count">Bộ đếm</span>
               </li>
             </ul>
           </div>
@@ -706,6 +706,7 @@ get_header();
       </table>
     </div>
   </div>
+  <div class="group-btn-bottom">
   <div class="count-group">
     <div class="row">
       <div class="col-10">
@@ -714,10 +715,9 @@ get_header();
         </div>
       </div>
       <div class="col-2 text-right">
-        <span class="modal-close"><img src="<?php echo site_get_template_directory_assets();?>/img/icon/delete-svgrepo-com.svg" alt=""></span>
+        <span class="count-close"><img src="<?php echo site_get_template_directory_assets();?>/img/icon/delete-svgrepo-com.svg" alt=""></span>
       </div>
     </div>
-    
     <hr>
     <div class="card-primary pt-16">
       <div class="row">
@@ -751,8 +751,9 @@ get_header();
         </div>
       </div>
     </div>
+    
   </div>
-  <div class="bottom row">
+  <div class="bottom-btn row ">
     <div class="col-6">
       <span class="btn btn-secondary openmodal" data-target="#modal-plan-history">Lịch sử thao tác</span>
     </div>
@@ -760,6 +761,7 @@ get_header();
       <span class="btn btn-primary">Đi đến chọn món</span>
       </div>
     </div>
+  </div>
   <!-- /.card-body -->
 </section>
 
@@ -980,5 +982,13 @@ get_header();
       loadCheckboxState();
       $('.filter input[type="checkbox"]').on('change', saveCheckboxState);
       accordion_table();
+      $('.btn-show-count').click(function (e) { 
+        e.preventDefault();
+        $('.count-group').show();
+      });
+      $('.count-group .count-close').click(function (e) { 
+        e.preventDefault();
+        $('.count-group').hide();
+      });
     });
   </script>
