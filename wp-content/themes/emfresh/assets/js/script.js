@@ -312,14 +312,17 @@ jQuery(document).ready(function () {
 	$('.filter input[type="checkbox"]').on('change', function (e) {
 		var column = table.columns([$(this).attr('data-column')]);
 		var column_order = table_list_order.columns([$(this).attr('data-column')]);
+		var column_group_plan = table_group_plan.columns([$(this).attr('data-column')]);
 		// if checked hide else show
 		if ($(this).is(":checked")) {
 			column.visible(true);
 			column_order.visible(true);
+			column_group_plan.visible(true);
 			//$('.btn-column').addClass('active');
 		} else {
 			column.visible(false);
 			column_order.visible(false);
+			column_group_plan.visible(false);
 			//$('.btn-column').removeClass('active');
 		}
 	});
@@ -910,6 +913,73 @@ jQuery(document).ready(function () {
                     },
 					depthLimit: 0,
 					columns: [ 5, 6,7, 8, 9],
+					filterChanged: function (count) {
+						if (count == 0 || count == 1) {
+							$('.btn-fillter').removeClass('current-filter');
+							$('.btn-fillter').text('Bộ lọc');
+							$('.dtsb-title').html(`Điều kiện lọc`);
+							$('.custom-btn.revert').css('display','none');
+						}
+						if (count > 1) {
+							$('.btn-fillter').addClass('current-filter');
+							$('.btn-fillter').html(`Bộ lọc <small>${count - 1}</small>`);
+							$('.dtsb-title').html(`Điều kiện lọc (${count - 1})`);
+							$('.custom-btn.revert').css('display','block');
+						}
+					}
+				}
+			},
+		],
+		dom: 'Bfrtip<"bottom"pl>',
+		responsive: true,
+		autoWidth: true,
+		fixedColumns: {
+			start: 3
+		},
+		"stateSave": false,
+		searchBuilder: {
+            // Tắt bộ lọc tự động (disable the default behavior)
+            preDefined: [] // Không xác định bộ lọc mặc định nào
+        },
+		language: table_languageConfig,
+	});
+	var table_group_plan = $('.table-group-plan').on('init.dt', function () {
+		//console.log(this, 'init.dt');
+    }).DataTable({
+		autoWidth: true,
+		scrollX: true,
+		scrollY:  $(window).height() - 227,
+		dom: 'Bfrtip<"bottom"pl>',
+		ordering: false,
+		iDisplayLength: 50,
+		lengthChange: true,
+		lengthMenu: [
+			[15,50, 100, 200],
+			['15 / trang','50 / trang', '100 / trang', '200 / trang'],
+		],
+		columnDefs: [
+			{  
+				targets: [0,2,3,4,7,8,9,10],
+				orderable: false,
+			},
+			{
+			 type: 'string', targets: [0,4,5,6,7,10]
+			},
+			{ visible: false, targets: [4,5,7,9,11,12] },
+			
+		],
+		buttons: [
+			{
+				extend: 'searchBuilder',
+				attr: {
+					id: 'searchBuilder',
+				},
+				config: {
+					conditions:{
+                        html: tagCondition,
+                    },
+					depthLimit: 0,
+					columns: [ 1, 2,3, 6, 7,9,12],
 					filterChanged: function (count) {
 						if (count == 0 || count == 1) {
 							$('.btn-fillter').removeClass('current-filter');
