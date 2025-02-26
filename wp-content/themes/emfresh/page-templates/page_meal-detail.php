@@ -743,7 +743,7 @@ get_header();
           </div>
         </div>
         <div class="col-2 col-btn ai-end d-f">
-          <div class="btn btn-primary">Xác nhận</div>
+          <div class="btn btn-primary  openmodal" data-target="#modal-warning-input">Xác nhận</div>
         </div>
         <div class="col-5 d-f col-txt text-right">
           <p>Tổng ngày ăn: <span>-</span></p>
@@ -764,7 +764,30 @@ get_header();
   </div>
   <!-- /.card-body -->
 </section>
-
+<div class="modal fade modal-warning-input" id="modal-warning-input">
+  <div class="overlay"></div>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body pt-8 pb-16">
+        <div class="d-f">
+          <i class="fas fa-warning mr-8"></i>
+          <div>
+            <p class="pb-4"><b>Cảnh báo</b></p>
+          <p>Bạn nhập thiếu phần ăn: 02 <br>
+          Vui lòng kiểm tra lại.</p>
+          </div>
+          
+        </div>
+        
+      </div>
+      <div class="modal-footer text-center pt-16 pb-8">
+        <p class="pb-16"><button type="button" class="btn btn-primary modal-close">Quay lại chỉnh sửa</button></p>
+        <p class="pb-16"><button type="button" class="btn btn-secondary modal-close">Tạo đơn mới & giảm giá</button></p>
+        <p><button type="button" class="btn btn-secondary modal-close">Chuyển sang bảo lưu</button></p>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="modal fade modal-plan-history" id="modal-plan-history">
   <div class="overlay"></div>
   <div class="modal-dialog modal-wide">
@@ -984,11 +1007,13 @@ get_header();
       accordion_table();
       $('.btn-show-count').click(function (e) { 
         e.preventDefault();
+        $(this).addClass('selected');
         $('.count-group').show();
       });
       $('.count-group .count-close').click(function (e) { 
         e.preventDefault();
         $('.count-group').hide();
+        $('.btn-show-count').removeClass('selected');
       });
     });
   </script>

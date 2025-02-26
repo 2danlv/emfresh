@@ -52,9 +52,15 @@
     width: 100%;
   }
 }
-.modal-result_update {
+.modal-warning-input {
   .modal-dialog {
-  
+    min-width: 0;
+    .btn {
+      width: 264px;
+      &.btn-secondary {
+        background-color: #fff;
+      }
+    }
   }
 }
 .modal-body {

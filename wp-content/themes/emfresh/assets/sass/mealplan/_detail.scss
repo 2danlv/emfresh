@@ -27,7 +27,14 @@
             }
         }
     }
-    
+    .btn-show-count {
+        background-color: #FFF;
+        &.selected {
+            color: #208046;
+            border: 1px solid var(--button-outline-border-hover, #208046);
+            background: var(--color-primary-100, #DDF6E7);
+        }
+    }
 }
 .group-btn-bottom {
     position: fixed;
