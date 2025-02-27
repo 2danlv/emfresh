@@ -309,42 +309,7 @@
         margin: 0;
         padding: 0;
     }
-    .card-primary input[type="text"],
-    .card-primary input[type="number"],
-    .card-primary input[type="tel"],
-    .card-primary input[type="date"],
-    .card-primary select ,.tagify.form-control{
-        border-radius: var(--input-radiusCorner, 8px);
-        border: 1px solid var(--input-border-default, #dedfe0);
-        padding: 10px;
-        width: 100%;
-        background: var(--input-background-default, #F6F6F6);
-
-        &.search-cus {
-            width: 100%;
-            border-radius: 8px;
-            border: 1px solid #dedfe0;
-            padding: 10px;
-            padding-left: 42px;
-            background: url(../img/icon/search.svg) left 8px center #f6f6f6 no-repeat;
-
-            &:focus {
-                border: 1px solid var(--input-border-focus, #4ba66f);
-                background: url(../img/icon/search.svg) left 8px center #fff no-repeat;
-            }
-        }
-
-        &.tag-input {
-            width: auto;
-            border: none;
-            background: none;
-            padding: 3px 5px;
-        }
-    }
-
-    .card-primary input[type="date"] {
-        text-transform: uppercase;
-    }
+    
 
     .address-select {
         color: var(--input-text-unfill, #747475);

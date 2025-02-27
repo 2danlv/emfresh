@@ -90,6 +90,9 @@ select {
 hr {
 	border: none;
 	border-top: 1px solid $cl-border;
+	&.dashed {
+		border-top: 1px dashed #DEDFE0;
+	}
 }
 h1 {
 	font-weight: 600;
@@ -101,8 +104,53 @@ select {
 		border: 1px solid #208046;
 	}
 }
+textarea {
+	width: 100%;
+	resize: none;
+	display: flex;
+	padding: var(--space-inset-8px, 8px);
+	border-radius: var(--input-radiusCorner, 8px);
+	border: 1px solid var(--input-border-default, #DEDFE0);
+	background: var(--input-background-default, #FFF);
+}
 table {
 	border-collapse: collapse;
+}
+.card-primary input[type="text"],
+.card-primary input[type="number"],
+.card-primary input[type="tel"],
+.card-primary input[type="date"],
+.card-primary select ,.tagify.form-control{
+	border-radius: var(--input-radiusCorner, 8px);
+	border: 1px solid var(--input-border-default, #dedfe0);
+	padding: 10px;
+	width: 100%;
+	background: var(--input-background-default, #F6F6F6);
+	
+	&.search-cus {
+		width: 100%;
+		border-radius: 8px;
+		border: 1px solid #dedfe0;
+		padding: 10px;
+		padding-left: 42px;
+		background: url(../img/icon/search.svg) left 8px center #f6f6f6 no-repeat;
+		
+		&:focus {
+			border: 1px solid var(--input-border-focus, #4ba66f);
+			background: url(../img/icon/search.svg) left 8px center #fff no-repeat;
+		}
+	}
+	
+	&.tag-input {
+		width: auto;
+		border: none;
+		background: none;
+		padding: 3px 5px;
+	}
+}
+
+.card-primary input[type="date"] {
+	text-transform: uppercase;
 }
 .text-capitalize {
 	text-transform: capitalize;
@@ -236,96 +284,37 @@ table {
 .text-right {
 	text-align: right !important;
 }
-.pb-2 {
-	padding-bottom: 2px;
+@for $i from 1 through 28 {
+  $size: $i * 2;
+  .pb-#{$size} {
+    padding-bottom: #{$size}px;
+  }
+  .pt-#{$size} {
+	padding-top: #{$size}px;
+  }
+  .pl-#{$size} {
+	padding-left: #{$size}px;
+  }
+  .pr-#{$size} {
+	padding-right: #{$size}px;
+  }
+  .mb-#{$size} {
+	margin-bottom: #{$size}px;
+  }
+  .mt-#{$size} {
+	margin-top: #{$size}px;
+  }
+  .mr-#{$size} {
+	margin-right: #{$size}px;
+  }
+  .ml-#{$size} {
+	margin-left: #{$size}px;
+  }
+  .mb-#{$size} {
+	margin-bottom: #{$size}px;
+  }
 }
-.pb-4 {
-	padding-bottom: 4px;
-}
-.pb-8 {
-	padding-bottom: 8px;
-}
-.pb-16 {
-	padding-bottom: 16px;
-}
-.pb-32 {
-	padding-bottom: 32px;
-}
-.pb-54 {
-	padding-bottom: 54px;
-}
-.pt-4 {
-	padding-top: 4px;
-}
-.pt-8 {
-	padding-top: 8px;
-}
-.pt-16 {
-	padding-top: 16px;
-}
-.pd-16{
-	padding: 16px;
-}
-.pt-18 {
-	padding-top: 18px;
-}
-.pt-20{
-	padding-top: 20px;
-}
-.pt-24{
-	padding-top: 24px;
-}
-.pb-20{
-	padding-bottom: 20px;
-}
-.mb-4 {
-	margin-bottom: 4px;
-}
-.mb-16{
-	margin-bottom: 16px;
-}
-.mb-16 {
-	margin-bottom: 16px;
-}
-.mt-16{
-	margin-top: 16px;
-}
-.mr-4 {
-	margin-right: 4px;
-}
-.mr-8 {
-	margin-right: 8px;
-}
-.ml-8 {
-	margin-left: 8px;
-}
-.mr-16 {
-	margin-right: 16px;
-}
-.ml-16 {
-	margin-left: 16px;
-}
-.pl-4 {
-	padding-left: 4px;
-}
-.pl-8 {
-	padding-left: 8px;
-}
-.pr-8 {
-	padding-right: 8px;
-}
-.pl-12{
-	padding-left: 12px;
-}
-.pl-16 {
-	padding-left: 16px;
-}
-.pl-26 {
-	padding-left: 26px;
-}
-.pr-16 {
-	padding-right: 16px;
-}
+
 .hidden,
 .hidden-pc,
 img[alt="1px.png"] {

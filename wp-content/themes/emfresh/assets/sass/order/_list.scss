@@ -1,9 +1,11 @@
 .list-order {
-    .status_order{
+    
+}
+.status_order{
         color: #fff;
         padding: 4px 13px;
         font-weight: bold;
-        display: block;
+        display: inline-block;
         text-align: center;
         width: 110px;
         &-1 {
@@ -36,4 +38,3 @@
             color: #0F0F0F;
         }
     }
-}

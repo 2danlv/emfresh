@@ -1,0 +1,44 @@
+.create-group {
+    .card-primary {
+        .form-control,input.search-cus  {
+            background-color: #fff;
+        }
+    }
+    table.table {
+        border: 1px solid var(--table-border, #DEDFE0);
+        border-bottom: none;
+        thead th {
+            &:first-child,&:last-child {
+                border-radius: 0;
+            }
+        }
+        tbody tr {
+            td {
+               border-bottom: 1px solid var(--table-border, #DEDFE0);
+               &:first-child {
+                   padding-bottom: 6px;
+               }
+            }
+        }
+    } 
+    .add-new-member {
+        color: #4BA66F;
+        cursor: pointer;
+        .fa-plus {
+            background-image: url(../img/icon-hover/plus-svgrepo-com.svg);
+        }
+    }
+    .openmodal {
+        cursor: pointer;
+    }
+}
+.modal {
+    .card-primary {
+        .form-control,input.search-cus  {
+            background-color: #fff;
+        }
+    }
+}
+.visible-collapse {
+    visibility: collapse;
+}

@@ -157,10 +157,6 @@ get_header();
         <div class="row">
           <div class="col-6">
             <ul class="filter list-unstyled">
-              
-
-
-
               <li><label><input type="checkbox" data-column="0" value="" disabled checked>Tên nhóm</label></li>
               <li><label><input type="checkbox" data-column="1" value="" disabled checked>SĐT trưởng nhóm</label></li>
               <li><label><input type="checkbox" data-column="2" value="" disabled checked> Địa chỉ nhóm</label></li>
@@ -169,9 +165,6 @@ get_header();
           </div>
           <div class="col-6">
             <ul class="filter list-unstyled">
-              
-
-
               <li><label><input type="checkbox" data-column="4" value="4">Thành viên</label></li>
               <li><label><input type="checkbox" data-column="5" value="5">Số đơn</label></li>
               <li><label><input type="checkbox" data-column="7" value="7">Ghi chú</label></li>
