@@ -1,4 +1,4 @@
-.list-customer.list-select-meal {
+.list-customer {
     .em-importer ul {
         li {
             padding-left: 0;
@@ -13,31 +13,33 @@
                 height: 100%;
                 border: 1.5px solid #DEDFE0;
             }
-        }
-        &.right-action {
-            li:not(:last-child) .btn{
+           &.group-icon {
                 font-size: 0;
-            }
-            .btn {
-                background-color: #fff;
-                background-position: center;
-                background-repeat: no-repeat;
-                padding: 4px 24px;
-            }
-            .btn-primary {
-                background: var(--button-solid-background-default, #208046);
-                border-color: var(--button-solid-background-default, #208046);
-            }
-            .btn-alert {
-                background-color: #FFDCA8;
-                &:hover {
-                    border-color: #FF7A00;
-                    background-color: #FF7A00 ;
+                .btn {
+                    background-color: #fff;
+                    background-position: center center;
+                    background-repeat: no-repeat;
+                    padding: 7px 24px;
+                    &.btn-primary {
+                        background: var(--button-solid-background-default, #208046);
+                        border-color: var(--button-solid-background-default, #208046);
+                    }
+                    &.btn-alert {
+                        background-color: #FFDCA8;
+                        &:hover {
+                            border-color: #FF7A00;
+                            background-color: #FF7A00 ;
+                            background-position: center center;
+                        }
+                    }
                 }
-            }
+                
+                
+            } 
         }
     } 
 }
+
 table.table-select-meal,table.table-split-order,table.table-detail-meal {
     thead tr {
         th {

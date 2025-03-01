@@ -20,6 +20,11 @@ jQuery(document).ready(function () {
 			return $result;
 		}
 	});
+	$('.em-importer ul li.has-child ul li').on('mouseover', function (e) {
+		e.stopPropagation();
+		$('.em-importer ul li.has-child ul li .fas').removeClass('hover');
+		$(this).find('.fas').addClass('hover');
+	});
 	let tagCondition = {
 		"=": {
 			conditionName: 'Bằng',
@@ -313,16 +318,19 @@ jQuery(document).ready(function () {
 		var column = table.columns([$(this).attr('data-column')]);
 		var column_order = table_list_order.columns([$(this).attr('data-column')]);
 		var column_group_plan = table_group_plan.columns([$(this).attr('data-column')]);
+		var column_list_mealplan = table_list_mealplan.columns([$(this).attr('data-column')]);
 		// if checked hide else show
 		if ($(this).is(":checked")) {
 			column.visible(true);
 			column_order.visible(true);
 			column_group_plan.visible(true);
+			column_list_mealplan.visible(true);
 			//$('.btn-column').addClass('active');
 		} else {
 			column.visible(false);
 			column_order.visible(false);
 			column_group_plan.visible(false);
+			column_list_mealplan.visible(false);
 			//$('.btn-column').removeClass('active');
 		}
 	});
@@ -898,7 +906,7 @@ jQuery(document).ready(function () {
 			{
 			 type: 'string', targets: [0,4,5,6,7,10]
 			},
-			{ visible: false, targets: [] },
+			{ visible: false, targets: [5,6,7,8,9] },
 			
 		],
 		buttons: [

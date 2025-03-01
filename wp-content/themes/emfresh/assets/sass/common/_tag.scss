@@ -216,7 +216,6 @@
     width: 24px;
     height: 24px;
     display: inline-block;
-
     img {
         vertical-align: top;
     }
@@ -258,7 +257,6 @@
 
 .fa-right {
     background: url(../img/icon/CaretRight.svg) center center no-repeat;
-
     &:hover {
         background-image: url(../img/icon-hover/Forward.svg);
     }
@@ -267,7 +265,24 @@
 .fa-export {
     background: url(../img/icon/download-svgrepo-com.svg) center center no-repeat;
 }
-
+.fa-eye {
+    background: url(../img/icon/eye.svg) center center no-repeat;
+    &.hover,&:hover {
+        background-image: url(../img/icon-hover/eye.svg);
+    }
+}
+.fa-layer {
+    background: url(../img/icon/layer-svgrepo-com.svg) center center no-repeat;
+    &.hover,&:hover {
+        background-image: url(../img/icon-hover/layer-svgrepo-com.svg);
+    }
+}
+.fa-chart-horizontal {
+    background: url(../img/icon/chart-simple-horizontal-svgrepo-com.svg) center center no-repeat;
+    &.hover,&:hover {
+        background-image: url(../img/icon-hover/chart-simple-horizontal-svgrepo-com.svg);
+    }
+}
 .fa-info {
     background: url(../img/icon/contact-svgrepo-com.svg) center center no-repeat;
 }

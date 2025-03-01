@@ -16,10 +16,23 @@
             background: var(--color-red-500, #AB2222);
             border: 1px solid var(--tag-border-hover, #AB2222);
         }
-        &-2 {
+        &-meal-2 {
             border: 1px solid var(--tag-border-hover, #A7A7A8);
             background: var(--tag-background-default, #F2F3F5);
             color: #0F0F0F;
+        }
+        &-meal-1 {
+            background: var(--color-primary-900, #208046);
+            border: 1px solid var(--tag-border-hover, #208046);
+        }
+        &-meal-2 {
+            background: var(--color-red-500, #E0AFFF);
+            border: 1px solid var(--tag-border-hover, #E0AFFF);
+        }
+        &-meal-3 {
+            border: 1px solid var(--tag-border-hover, #FFA300);
+            background: var(--tag-background-default, #FFA300);
+            color: #000;
         }
     }
     .status_pay {
