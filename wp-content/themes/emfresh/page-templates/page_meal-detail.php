@@ -760,8 +760,8 @@ get_header();
     <div class="col-6 text-right">
       <span class="btn btn-primary">Đi đến chọn món</span>
       </div>
-    </div>
   </div>
+</div>
   <!-- /.card-body -->
 </section>
 <div class="modal fade modal-warning-input" id="modal-warning-input">

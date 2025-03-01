@@ -26,6 +26,10 @@
     font-weight: 600;
     padding-bottom: 10px;
     border-bottom: var(--number-1px, 1px) solid var(--modal-divider, #DEDFE0);
+    .edit-group {
+      color: #2A8C51;
+      font-size: 14px;
+    }
   }
   .list-tag {
     .tag.btn {

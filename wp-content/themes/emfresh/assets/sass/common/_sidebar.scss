@@ -53,6 +53,10 @@
     height: 100%;
     flex-direction: column;
     justify-content: space-between;
+    nav.main-menu {
+            overflow: auto;
+            height: 70vh;
+        }
     ul.nav-menu {
         padding-top: 24px;
         .wp-menu-img-before img {

@@ -89,7 +89,7 @@ get_header();
                 <span class="btn">Bản sao 1</span>
               </li>
               <li>
-                <span class="btn openmodal" data-target="#modal-plan-history">modal-plan-history</span>
+                <span class="btn">Bản sao 2</span>
               </li>
             </ul>
           </div>
@@ -172,7 +172,10 @@ get_header();
         </tbody>
       </table>
     </div>
-  </div>
+  <div class="navigation-bottom d-f jc-b ai-center pl-16 pr-16">
+	<span class="btn btn-secondary openmodal" data-target="#modal-plan-history">Lịch sử thao tác</span>
+</div>
+</div>
   <!-- /.card-body -->
 </section>
 

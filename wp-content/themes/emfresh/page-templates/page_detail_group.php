@@ -80,15 +80,17 @@ get_header();
 ?>
 <div class="detail-customer order create-group  pt-16">
     <style>
-    .content-header{display: none;}
+        .content-header {
+            display: none;
+        }
     </style>
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-					<div class="col-6 backtolist d-f ai-center">
-						<a href="/list-order/" class="d-f ai-center"><span class="mr-4"><img src="<?php echo site_get_template_directory_assets(); ?>img/icon/caretup.svg" alt=""></span><span> Quay lại danh sách nhóm</span></a>
-					</div>
-				</div>
+                <div class="col-6 backtolist d-f ai-center">
+                    <a href="/list-order/" class="d-f ai-center"><span class="mr-4"><img src="<?php echo site_get_template_directory_assets(); ?>img/icon/caretup.svg" alt=""></span><span> Quay lại danh sách nhóm</span></a>
+                </div>
+            </div>
             <div class="card-header">
                 <ul class="nav tab-nav tab-nav-detail tabNavigation pt-16">
                     <li class="nav-item defaulttab" rel="info">Thông tin nhóm</li>
@@ -96,28 +98,41 @@ get_header();
                 </ul>
             </div>
             <div class="card-primary">
+                <h1 class="pt-8 pb-16">Nhóm Thien Phuong Bui</h1>
                 <div class="row row32 tab-pane" id="info">
                     <div class="col-8">
                         <div class="card">
                             <div class="card-body">
-                                <div class="ttl mb-16">
-                                    Thông tin trưởng nhóm
+                                <div class="ttl mb-16 d-f jc-b ai-center">
+                                    <span>Thông tin trưởng nhóm</span>
+                                    <a href="#" class="edit-group  d-f ai-center"><i class="fas fa-edit-2"></i>Chỉnh sửa</a>
                                 </div>
-                                <div class="box-search">
-                                    <input class="search-cus mb-16 form-control" id="search" value="" placeholder="Tìm khách hàng bằng tên / SĐT" type="text">
-                                </div>
-                                <div class="row">
-                                    <div class="col-8 pb-16">
-                                        <input type="text" name="nickname" value="" class="fullname form-control" placeholder="Tên khách hàng">
+                                <div class="row jc-b">
+                                    <div class="col-3 pb-16">
+                                        Trạng thái nhóm: 
                                     </div>
-                                    <div class="col-4 pb-16">
-                                        <input type="text" name="phone" class="phone form-control" value="" placeholder="SĐT">
+                                    <div class="col-9 pb-16 text-right">
+                                        <span class="status_order status_order-1">Đang dùng</span>
                                     </div>
-                                    <div class="col-12 pb-16">
-                                        <select name="" id="" class="form-control">
-                                            <option value="">Địa chỉ nhóm</option>
-                                        </select>
+                                    <div class="col-3 pb-16">
+                                        Tên trưởng nhóm:
                                     </div>
+                                    <div class="col-9 pb-16 text-right">
+                                        Thien Phuong Bui
+                                    </div>
+                                    <div class="col-3 pb-16">
+                                        SĐT trưởng nhóm:
+                                    </div>
+                                    <div class="col-9 pb-16 text-right">
+                                        0123456789
+                                    </div>
+                                    <div class="col-3 pb-16">
+                                        Địa chỉ nhóm:
+                                    </div>
+                                    <div class="col-9 pb-16 text-right">
+                                        Saigon Centrer, 92-94 Nam Kỳ Khởi Nghĩa, Phường Bến Nghé, Quận 1
+                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -128,8 +143,9 @@ get_header();
                         <!-- About Me Box -->
                         <div class="card">
                             <div class="card-body">
-                                <div class="ttl">
+                                <div class="ttl d-f jc-b">
                                     Ghi chú nhóm
+                                    <a href="#" class="edit-group  d-f ai-center"><i class="fas fa-edit-2"></i>Chỉnh sửa</a>
                                 </div>
                                 <div class="pt-16">
                                     <textarea name="" id="" class="form-control" rows="9"></textarea>
@@ -319,13 +335,13 @@ get_header();
                                     <td>01:00</td>
                                     <td>29/10/24</td>
                                 </tr>
-                                
+
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-        <!-- /.row -->
+            <!-- /.row -->
     </section>
 </div><!-- /.container-fluid -->
 <div class="navigation-bottom d-f jc-b ai-center">
