@@ -1114,7 +1114,11 @@ body .tagify+input, body .tagify+textarea {
         visibility: visible;
     }
 }
-
+.page-template-page_detail_group {
+    .navigation-bottom {
+        visibility: visible;
+    }
+}
 .modal-add-address {
     align-items: center;
     justify-content: center;

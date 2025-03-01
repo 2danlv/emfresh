@@ -8,13 +8,7 @@
  * @since Twenty Twelve 1.0
  */
 
-global $em_customer, $em_order, $em_customer_tag, $em_log, $em_location;
-
-$list_order_status = $em_order->get_statuses();
-$list_tags = $em_customer->get_tags();
-$detail_order_url = site_order_edit_link();
-
-
+$data = site_order_get_meal_plans($_GET);
 get_header();
 // Start the Loop.
 // while ( have_posts() ) : the_post();
@@ -36,8 +30,7 @@ get_header();
   <!-- Default box -->
   <div class="card list-customer detail-meal">
     <div class="card-body">
-      <form class="em-importer" data-name="customer" action="<?php the_permalink() ?>" method="post">
-        
+      <div class="em-importer" data-name="customer">
         <div class="row ai-center">
           <div class="col-6">
             <ul class="d-f  ai-center">
@@ -46,120 +39,33 @@ get_header();
               </li>
             </ul>
           </div>
-          
         </div>
         <?php wp_nonce_field('importoken', 'importoken', false); ?>
-      </form>
-      <table id="list-select-meal" class="table table-detail-meal mt-16">
+      </div>
+      <table id="list-select-meal" class="table table-detail-meal js-meal-plan mt-16">
         <thead>
           <tr class="nowrap">
-            <th data-number="1"><span class="nowrap">Tên khách hàng</span></th>
-            <th data-number="2"><span class="nowrap">Địa chỉ</span></th>
-            <th data-number="3" class="text-left">Mã <br>sản phẩm</th>
-            <th data-number="4">Phân <br>loại</th>
-            <th data-number="5">Trạng thái <br>đặt đơn</th>
-            <th>
+            <th data-number="1" class="text-left"><span>Tên khách hàng</span></th>
+            <th data-number="2" class="text-center">Mã <br>sản phẩm</th>
+            <th data-number="3" class="text-center">Phân <br>loại</th>
+            <th data-number="4" class="text-center">Trạng thái <br>đặt đơn</th>
+            <th data-number="5">
               <ul class="d-f date-group">
-                <li>
-                  1
-                </li>
-                <li>
-                  2
-                </li>
-                <li>
-                  3
-                </li>
-                <li>
-                  4
-                </li>
-                <li>
-                  5
-                </li>
-                <li>
-                  6
-                </li>
-                <li>
-                  7
-                </li>
-                <li>
-                  8
-                </li>
-                <li>
-                  9
-                </li>
-                <li>
-                  10
-                </li>
-                <li>
-                  11
-                </li>
-                <li>
-                  12
-                </li>
-                <li>
-                  13
-                </li>
-                <li>
-                  14
-                </li>
-                <li>
-                  15
-                </li>
-                <li>
-                  16
-                </li>
-                <li>
-                  17
-                </li>
-                <li>
-                  18
-                </li>
-                <li>
-                  19
-                </li>
-                <li>
-                  20
-                </li>
-                <li>
-                  21
-                </li>
-                <li>
-                  22
-                </li>
-                <li>
-                  23
-                </li>
-                <li>
-                  24
-                </li>
-                <li>
-                  25
-                </li>
-                <li>
-                  26
-                </li>
-                <li>
-                  27
-                </li>
-                <li>
-                  28
-                </li>
-                <li>
-                  29
-                </li>
-                <li>
-                  30
-                </li>
-                <li>
-                  31
-                </li>
+              <?php
+                foreach($data['schedule'] as $date) : ?>
+                  <li data-date="<?php echo $date ?>"><?php echo date('d', strtotime($date)) ?></li>
+                <?php endforeach; ?>
               </ul>
             </th>
           </tr>
         </thead>
         <tbody>
+          <?php 
+                foreach($data['orders'] as $order) : 
+                    $meal_plan_items = $order['meal_plan_items'];
+                    // var_dump($order);
+            ?>
           <tr class="blank">
-            <td></td>
             <td></td>
             <td></td>
             <td></td>
@@ -167,541 +73,84 @@ get_header();
             <td></td>
           </tr>
           <tr>
-            <td>Vy (Vy Vy)</td>
-            <td class="nowrap">Vy (Vy Vy)</td>
-            <td>5SM+1EP</td>
-            <td>M,W</td>
-            <td class="text-center">Đặt đơn</td>
+            <td><?php echo $order['customer_name'] ?></td>
+            <td class="text-center"><?php echo $order['item_name'] ?></td>
+            <td class="text-center"><?php echo $order['type_name'] ?></td>
+            <td class="text-center"><span class="status_order status_order-meal-<?php echo $order['order_status'] ?>"><?php echo $order['order_status_name'] ?></span></td>
             <td class="wrap-date">
               <ul class="d-f date-group">
-                <li>
-                  1
-                </li>
-                <li>
-                  2
-                </li>
-                <li>
-                  3
-                </li>
-                <li>
-                  4
-                </li>
-                <li>
-                  5
-                </li>
-                <li>
-                  6
-                </li>
-                <li>
-                  7
-                </li>
-                <li>
-                  8
-                </li>
-                <li>
-                  9
-                </li>
-                <li>
-                  10
-                </li>
-                <li>
-                  11
-                </li>
-                <li>
-                  12
-                </li>
-                <li>
-                  13
-                </li>
-                <li>
-                  14
-                </li>
-                <li>
-                  15
-                </li>
-                <li>
-                  16
-                </li>
-                <li>
-                  17
-                </li>
-                <li>
-                  18
-                </li>
-                <li>
-                  19
-                </li>
-                <li>
-                  20
-                </li>
-                <li>
-                  21
-                </li>
-                <li>
-                  22
-                </li>
-                <li>
-                  23
-                </li>
-                <li>
-                  24
-                </li>
-                <li>
-                  25
-                </li>
-                <li>
-                  26
-                </li>
-                <li>
-                  27
-                </li>
-                <li>
-                  28
-                </li>
-                <li>
-                  29
-                </li>
-                <li>
-                  30
-                </li>
-                <li>
-                  31
-                </li>
+              <?php
+                foreach($data['schedule'] as $date) : 
+                  $value = isset($meal_plan_items[$date]) ? $meal_plan_items[$date] : '';
+                  if($value != ''){
+                    $class_date  = '';
+                  } else {
+                    $class_date = 'empty';
+                  }
+              ?>
+                <li data-date="<?php echo $date ?>" class="<?php echo $class_date; ?>"><span><?php echo $value ?></span></li>
+              <?php endforeach; ?>
               </ul>
             </td>
           </tr>
+          <?php foreach($order['order_items'] as $i => $order_item) : 
+                $meal_plan_items = $order_item['meal_plan_items'];
+                $total = array_sum($meal_plan_items);
+            ?>
           <tr class="blank">
             <td></td>
             <td></td>
             <td></td>
             <td></td>
             <td></td>
-            <td></td>
           </tr>
-          <tr class="accordion-tit_table">
-            <td>#0001</td>
-            <td></td>
-            <td>1SM</td>
-            <td>M</td>
-            <td class="text-center">Đặt đơn</td>
+          <tr class="accordion-tit_table order-<?php echo $order['id'] ?>" data-order_id="<?php echo $order['id'] ?>">
+            <td class="nowrap"><?php echo $order['order_number'] ?></td>
+            <td class="nowrap"><?php echo $order_item['product_name'] ?></td>
+            <td class="text-center"><?php echo strtoupper($order_item['type']) ?></td>
+            <td class="text-center"><span class="status_order status_order-meal-<?php echo $order['order_status'] ?>"><?php echo $order['order_status_name'] ?></span></td>
             <td class="wrap-date">
               <ul class="d-f date-group">
-                <li>
-                  1
-                </li>
-                <li>
-                  2
-                </li>
-                <li>
-                  3
-                </li>
-                <li>
-                  4
-                </li>
-                <li>
-                  5
-                </li>
-                <li>
-                  6
-                </li>
-                <li>
-                  7
-                </li>
-                <li>
-                  8
-                </li>
-                <li>
-                  9
-                </li>
-                <li>
-                  10
-                </li>
-                <li>
-                  11
-                </li>
-                <li>
-                  12
-                </li>
-                <li>
-                  13
-                </li>
-                <li>
-                  14
-                </li>
-                <li>
-                  15
-                </li>
-                <li>
-                  16
-                </li>
-                <li>
-                  17
-                </li>
-                <li>
-                  18
-                </li>
-                <li>
-                  19
-                </li>
-                <li>
-                  20
-                </li>
-                <li>
-                  21
-                </li>
-                <li>
-                  22
-                </li>
-                <li>
-                  23
-                </li>
-                <li>
-                  24
-                </li>
-                <li>
-                  25
-                </li>
-                <li>
-                  26
-                </li>
-                <li>
-                  27
-                </li>
-                <li>
-                  28
-                </li>
-                <li>
-                  29
-                </li>
-                <li>
-                  30
-                </li>
-                <li>
-                  31
-                </li>
+                <?php foreach($data['schedule'] as $date) : 
+                    $value = isset($meal_plan_items[$date]) ? $meal_plan_items[$date] : ''; 
+                    if($value != ''){
+                      $class_date  = '';
+                    } else {
+                      $class_date = 'empty';
+                    }
+                ?>
+                <li class="<?php echo $class_date; ?>"><span><?php echo $value ?></span</li>
+                <?php endforeach; ?>
               </ul>
             </td>
           </tr>
-          <tr class="accordion-content_table">
+          <tr class="accordion-content_table order-<?php echo $order['id'] ?> order-item" >
             <td>Vy (Vy Vy)</td>
-            <td></td>
-            <td>5SM</td>
-            <td>M</td>
-            <td></td>
-            <td class="wrap-date">
-              <ul class="d-f date-group">
-                <li>
-                  1
-                </li>
-                <li>
-                  2
-                </li>
-                <li>
-                  3
-                </li>
-                <li>
-                  4
-                </li>
-                <li>
-                  5
-                </li>
-                <li>
-                  6
-                </li>
-                <li>
-                  7
-                </li>
-                <li>
-                  8
-                </li>
-                <li>
-                  9
-                </li>
-                <li>
-                  10
-                </li>
-                <li>
-                  11
-                </li>
-                <li>
-                  12
-                </li>
-                <li>
-                  13
-                </li>
-                <li>
-                  14
-                </li>
-                <li>
-                  15
-                </li>
-                <li>
-                  16
-                </li>
-                <li>
-                  17
-                </li>
-                <li>
-                  18
-                </li>
-                <li>
-                  19
-                </li>
-                <li>
-                  20
-                </li>
-                <li>
-                  21
-                </li>
-                <li>
-                  22
-                </li>
-                <li>
-                  23
-                </li>
-                <li>
-                  24
-                </li>
-                <li>
-                  25
-                </li>
-                <li>
-                  26
-                </li>
-                <li>
-                  27
-                </li>
-                <li>
-                  28
-                </li>
-                <li>
-                  29
-                </li>
-                <li>
-                  30
-                </li>
-                <li>
-                  31
-                </li>
-              </ul>
-            </td>
-          </tr>
-          <tr class="blank">
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr class="accordion-tit_table">
-            <td>#0001</td>
-            <td></td>
-            <td>1SM</td>
-            <td>M</td>
-            <td class="text-center">Đặt đơn</td>
-            <td class="wrap-date">
-              <ul class="d-f date-group">
-                <li>
-                  1
-                </li>
-                <li>
-                  2
-                </li>
-                <li>
-                  3
-                </li>
-                <li>
-                  4
-                </li>
-                <li>
-                  5
-                </li>
-                <li>
-                  6
-                </li>
-                <li>
-                  7
-                </li>
-                <li>
-                  8
-                </li>
-                <li>
-                  9
-                </li>
-                <li>
-                  10
-                </li>
-                <li>
-                  11
-                </li>
-                <li>
-                  12
-                </li>
-                <li>
-                  13
-                </li>
-                <li>
-                  14
-                </li>
-                <li>
-                  15
-                </li>
-                <li>
-                  16
-                </li>
-                <li>
-                  17
-                </li>
-                <li>
-                  18
-                </li>
-                <li>
-                  19
-                </li>
-                <li>
-                  20
-                </li>
-                <li>
-                  21
-                </li>
-                <li>
-                  22
-                </li>
-                <li>
-                  23
-                </li>
-                <li>
-                  24
-                </li>
-                <li>
-                  25
-                </li>
-                <li>
-                  26
-                </li>
-                <li>
-                  27
-                </li>
-                <li>
-                  28
-                </li>
-                <li>
-                  29
-                </li>
-                <li>
-                  30
-                </li>
-                <li>
-                  31
-                </li>
-              </ul>
-            </td>
-          </tr>
-          <tr class="accordion-content_table">
-            <td>Vy (Vy Vy)</td>
-            <td></td>
-            <td>5SM</td>
-            <td>M</td>
+            <td class="text-center">5SM</td>
+            <td class="text-center">M</td>
             <td></td>
             <td class="wrap-date">
               <ul class="d-f date-group">
-                <li>
-                  1
-                </li>
-                <li>
-                  2
-                </li>
-                <li>
-                  3
-                </li>
-                <li>
-                  4
-                </li>
-                <li>
-                  5
-                </li>
-                <li>
-                  6
-                </li>
-                <li>
-                  7
-                </li>
-                <li>
-                  8
-                </li>
-                <li>
-                  9
-                </li>
-                <li>
-                  10
-                </li>
-                <li>
-                  11
-                </li>
-                <li>
-                  12
-                </li>
-                <li>
-                  13
-                </li>
-                <li>
-                  14
-                </li>
-                <li>
-                  15
-                </li>
-                <li>
-                  16
-                </li>
-                <li>
-                  17
-                </li>
-                <li>
-                  18
-                </li>
-                <li>
-                  19
-                </li>
-                <li>
-                  20
-                </li>
-                <li>
-                  21
-                </li>
-                <li>
-                  22
-                </li>
-                <li>
-                  23
-                </li>
-                <li>
-                  24
-                </li>
-                <li>
-                  25
-                </li>
-                <li>
-                  26
-                </li>
-                <li>
-                  27
-                </li>
-                <li>
-                  28
-                </li>
-                <li>
-                  29
-                </li>
-                <li>
-                  30
-                </li>
-                <li>
-                  31
-                </li>
+                <?php foreach($data['schedule'] as $date) : 
+                    $value = isset($meal_plan_items[$date]) ? $meal_plan_items[$date] : ''; 
+                    if($value != ''){
+                      $class_date  = '';
+                    } else {
+                      $class_date = 'empty';
+                    }
+                ?>
+                <li class="<?php echo $class_date; ?>"><span><input type="text" 
+                        class="input-meal_plan<?php echo $value == '' ? ' empty' : '' ?>" 
+                        value="<?php echo $value ?>" 
+                        data-date="<?php echo $date ?>" 
+                        data-old="<?php echo $value ?>" 
+                    /></span></li>
+                <?php endforeach; ?>
               </ul>
             </td>
           </tr>
+          <?php endforeach; ?>
+          <?php endforeach; ?>
         </tbody>
       </table>
     </div>
@@ -721,7 +170,7 @@ get_header();
     <hr>
     <div class="card-primary pt-16">
       <div class="row">
-        <div class="col-5">
+        <div class="col-6">
           <div class="row pb-16">
             <div class="col-6">
               <input type="text" placeholder="Tên người nhận (chọn ô ở trên)">
@@ -745,7 +194,7 @@ get_header();
         <div class="col-2 col-btn ai-end d-f">
           <div class="btn btn-primary  openmodal" data-target="#modal-warning-input">Xác nhận</div>
         </div>
-        <div class="col-5 d-f col-txt text-right">
+        <div class="col-4 d-f col-txt text-right">
           <p>Tổng ngày ăn: <span>-</span></p>
           <p>Tổng phần ăn: <span>-</span></p>
         </div>
@@ -954,28 +403,7 @@ get_header();
   ?>
   <script src="<?php site_the_assets(); ?>js/order.js"></script>
   <script>
-    // Function to save checkbox states to localStorage
-    function saveCheckboxState() {
-      $('.filter input[type="checkbox"]').each(function() {
-        const columnKey_order = 'column_order_' + $(this).val(); // Create key like "column_1", "column_2"
-        localStorage.setItem(columnKey_order, $(this).is(':checked'));
-      });
-    }
-    // Function to load checkbox states from localStorage
-    function loadCheckboxState() {
-      $('.filter input[type="checkbox"]').each(function() {
-        const columnKey_order = 'column_order_' + $(this).val();
-        const savedState = localStorage.getItem(columnKey_order);
-        if (savedState === null) {
-          if (['7', '12', '19'].includes($(this).val())) {
-            $(this).prop('checked', true);
-          }
-        } else {
-          $(this).prop('checked', savedState === 'true');
-          //$('.btn-column').addClass('active');
-        }
-      });
-    }
+    
     function accordion_table() {
       $('table .accordion-tit_table')
       .off()
@@ -1000,10 +428,60 @@ get_header();
       })
     }
     $(document).ready(function() {
-      // Load checkbox states when the page loads
-      // console.log('log',localStorage);
-      loadCheckboxState();
-      $('.filter input[type="checkbox"]').on('change', saveCheckboxState);
+      $('.input-meal_plan').on('blur', function(){
+        let input = $(this), value = input.val();
+
+        input.closest('.order-item').toggleClass('changed', value != input.data('old'));
+
+        e.preventDefault();
+
+        let list_meal = [], errors = [];
+
+        $('.js-meal-plan .order-item.changed').each(function(){
+            let p = $(this), meal_plan = {}, 
+                total = parseInt(p.data('count')),
+                count = 0;
+                
+            p.find('.input-meal_plan').each(function(){
+                let input = $(this)
+
+                if(input.val() > 0) {
+                    meal_plan[input.data('date')] = input.val();
+
+                    count += input.val();
+                }
+            })
+            
+            if(total == count) {
+                list_meal.push({
+                    order_id : p.data('order_id'),
+                    order_item_id : p.data('order_item_id'),
+                    meal_plan : meal_plan
+                });
+            } else {
+                errors.push(p.find('.title').text());
+            }
+        });
+
+        if(errors.length > 0) return alert('Vui lòng kiểm tra số ngày: ' + errors.join(", ") + '.');
+
+        if(list_meal.length == 0) return ;
+
+        $.post('?', {
+            ajax: 1,
+            save_meal_plan: 1,
+            list_meal: list_meal
+        }, function(res){
+
+            console.log('res', res);
+
+            if(res.code == 200) {
+                alert('Lưu thành công! ');
+            } else {
+                alert('Lưu không thành công! ');
+            }
+        }, 'JSON');
+    })
       accordion_table();
       $('.btn-show-count').click(function (e) { 
         e.preventDefault();

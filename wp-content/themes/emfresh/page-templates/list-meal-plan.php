@@ -97,8 +97,9 @@ $data = site_order_get_meal_plans($_GET);
                 <td data-number="0"><input type="checkbox" class="checkbox-element" data-number="<?php echo $order['order_number']; ?>" value="<?php echo $order['order_number'] ?>"></td>
                 <td data-number="1" class=" nowrap wrap-td">
                   <div class="ellipsis">
-                  <?php
+                  <a href="/meal-detail/?order_id=<?php echo $order['id'] ?>"> <?php
                   echo $order['customer_name'] ?>
+                  </a>
                   </div>
                  </td>
                 <td data-number="2"><?php echo $order['phone'] ?></td>
