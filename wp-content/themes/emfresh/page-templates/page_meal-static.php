@@ -44,7 +44,7 @@ get_header();
               
               <li class="status mr-16"><span class="btn btn-status"><span class="count-checked"></span> đã chọn</span></li>
               <li class="has-child">
-                <span class="btn btn-default">Công cụ tính phần dự trù</span>
+                <span class="btn btn-default openmodal" data-target="#modal-calc">Công cụ tính phần dự trù</span>
               </li>
             </ul>
           </div>
@@ -57,12 +57,12 @@ get_header();
           <thead>
             <tr>
               <th colspan="2"></th>
-              <th>SL</th>
-              <th>SM</th>
-              <th>EM</th>
-              <th>EL</th>
-              <th>PM</th>
-              <th>PL</th>
+              <th class="ttl-orange">SL</th>
+              <th class="ttl-orange">SM</th>
+              <th class="ttl-green">EM</th>
+              <th class="ttl-green">EL</th>
+              <th class="ttl-red">PM</th>
+              <th class="ttl-red">PL</th>
               <th>Số <br> đạm</th>
               <th>Số <br>hộp</th>
               <th>Tinh <br>bột</th>
@@ -78,12 +78,12 @@ get_header();
               <td class="text-left">
                 1 - Salad bò sốt mè wasabi <br>
                 Khoai tây nướng</td>
-              <td>40</td>
-              <td>40</td>
-              <td>40</td>
-              <td>40</td>
-              <td>40</td>
-              <td>40</td>
+              <td class="cl-orange">40</td>
+              <td class="cl-orange">40</td>
+              <td class="cl-green">40</td>
+              <td class="cl-green">40</td>
+              <td class="cl-red">40</td>
+              <td class="cl-red">40</td>
               <td>111/113</td>
               <td>160</td>
               <td>4.366</td>
@@ -107,12 +107,12 @@ get_header();
               <td class="text-left">
                 1 - Salad bò sốt mè wasabi <br>
                 Khoai tây nướng</td>
-              <td>40</td>
-              <td>40</td>
-              <td>40</td>
-              <td>40</td>
-              <td>40</td>
-              <td>40</td>
+              <td class="cl-orange">40</td>
+              <td class="cl-orange">40</td>
+              <td class="cl-green">40</td>
+              <td class="cl-green">40</td>
+              <td class="cl-red">40</td>
+              <td class="cl-red">40</td>
               <td>111/113</td>
               <td>160</td>
               <td>4.366</td>
@@ -121,12 +121,12 @@ get_header();
               <td>
                 1 - Salad bò sốt mè wasabi <br>
                 Khoai tây nướng</td>
-              <td>40</td>
-              <td>40</td>
-              <td>40</td>
-              <td>40</td>
-              <td>40</td>
-              <td>40</td>
+              <td class="cl-orange">40</td>
+              <td class="cl-orange">40</td>
+              <td class="cl-green">40</td>
+              <td class="cl-green">40</td>
+              <td class="cl-red">40</td>
+              <td class="cl-red">40</td>
               <td>111/113</td>
               <td>160</td>
               <td>4.366</td>
@@ -139,12 +139,12 @@ get_header();
               <td class="text-left">
                 1 - Salad bò sốt mè wasabi <br>
                 Khoai tây nướng</td>
-              <td>40</td>
-              <td>40</td>
-              <td>40</td>
-              <td>40</td>
-              <td>40</td>
-              <td>40</td>
+              <td class="cl-orange">40</td>
+              <td class="cl-orange">40</td>
+              <td class="cl-green">40</td>
+              <td class="cl-green">40</td>
+              <td class="cl-red">40</td>
+              <td class="cl-red">40</td>
               <td>111/113</td>
               <td>160</td>
               <td>4.366</td>
@@ -168,12 +168,12 @@ get_header();
               <td>
                 1 - Salad bò sốt mè wasabi <br>
                 Khoai tây nướng</td>
-              <td>40</td>
-              <td>40</td>
-              <td>40</td>
-              <td>40</td>
-              <td>40</td>
-              <td>40</td>
+              <td class="cl-orange">40</td>
+              <td class="cl-orange">40</td>
+              <td class="cl-green">40</td>
+              <td class="cl-green">40</td>
+              <td class="cl-red">40</td>
+              <td class="cl-red">40</td>
               <td>111/113</td>
               <td>160</td>
               <td>4.366</td>
@@ -182,12 +182,12 @@ get_header();
               <td>
                 1 - Salad bò sốt mè wasabi <br>
                 Khoai tây nướng</td>
-              <td>40</td>
-              <td>40</td>
-              <td>40</td>
-              <td>40</td>
-              <td>40</td>
-              <td>40</td>
+              <td class="cl-orange">40</td>
+              <td class="cl-orange">40</td>
+              <td class="cl-green">40</td>
+              <td class="cl-green">40</td>
+              <td class="cl-red">40</td>
+              <td class="cl-red">40</td>
               <td>111/113</td>
               <td>160</td>
               <td>4.366</td>
@@ -200,498 +200,75 @@ get_header();
   <!-- /.card-body -->
 </section>
 
-<div class="modal fade modal-warning" id="modal-warning-edit">
+<div class="modal fade modal-calc" id="modal-calc">
   <div class="overlay"></div>
   <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-body pt-8 pb-16">
-        <div class="d-f ai-center">
-          <i class="fas fa-warning mr-8"></i>
-          <p>Hãy chọn đơn hàng để <span class="txt_append">in</span>!</p>
-        </div>
-      </div>
-      <div class="modal-footer text-center pt-16 pb-8">
-        <button type="button" class="btn btn-secondary modal-close">Đóng</button>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="modal fade modal-compare" id="modal-compare">
-  <div class="overlay"></div>
-  <div class="modal-dialog modal-wide">
-    <div class="modal-header">
-      <h4 class="modal-title">So sánh nhập liệu</h4>
+    <div class="modal-header d-f jc-b">
+      <h4 class="modal-title pl-16 ">Tính toán phần ăn dự trù</h4>
+      <span class="modal-close pr-16"><img src="<?php echo site_get_template_directory_assets();?>/img/icon/delete-svgrepo-com.svg" alt=""></span>
     </div>
     <div class="modal-content">
       <div class="modal-body pt-16">
-        <div class="ttl mb-16">Thứ 2 (02/01)</div>
-        <table>
-          <thead>
-            <tr>
-              <th>Tên khách hàng</th>
-              <th>SĐT</th>
-              <th>Mã</th>
-              <th>Danh sách chính</th>
-              <th>Bản sao 1</th>
-              <th>Bản sao 2</th>
-              <th>-</th>
-            </tr>
-          </thead>
+        <table class="table tb-horizontal">
           <tbody>
-            <tr>
-              <td>Khách hàng 1</td>
-              <td>0123456789</td>
-              <td>SM</td>
-              <td>
-                <select name="" id="">
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                </select>
-              </td>
-              <td>2 - Bắp bò sốt tiêu đen</td>
-              <td>-</td>
-              <td>-</td>
+            <tr class="purple">
+              <td>Dí món</td>
+              <td>40/34/6</td>
+              <td>40/34/6</td>
+              <td>40/34/6</td>
+              <td>40/34/6</td>
+              <td>40/34/6</td>
             </tr>
-            <tr>
-              <td>Khách hàng 2</td>
-              <td>0123456789</td>
-              <td>SM</td>
-              <td>1 - Sườn non chay chua ngọt</td>
-              <td>2 - Bắp bò sốt tiêu đen</td>
-              <td>1 - Sườn non chay chua ngọt</td>
-              <td>-</td>
+            <tr class="orange">
+              <td>Chưa rõ</td>
+              <td>68</td>
+              <td>68</td>
+              <td>68</td>
+              <td>68</td>
+              <td>68</td>
             </tr>
           </tbody>
         </table>
-        <div class="ttl">Thứ 3 (02/01)</div>
-        <div class="text-center pt-16 pb-16">
-          Không tìm thấy sai lệch nào
+        <div class="container card-primary pt-20 pb-20">
+          <div class="row">
+            <div class="col-8 mb-8">Số phần ăn dí món đang chờ:</div>
+            <div class="col-4 mb-8"><input type="text" placeholder="-" class="form-control"></div>
+            <div class="col-8">Số phần ăn dí món đang chờ:</div>
+            <div class="col-4"><input type="text" placeholder="-" class="form-control"></div>
+            <hr class="col-12 mt-16 pb-16">
+            <div class="col-8 ttl-total">Tổng phần ăn dự trù:</div>
+            <div class="col-4">-</div>
+          </div>
         </div>
-        <div class="ttl mb-16">Thứ 3 (02/01)</div>
-        <table>
+        <table class="table tb-vertical">
           <thead>
             <tr>
-              <th>Tên khách hàng</th>
-              <th>SĐT</th>
-              <th>Mã</th>
-              <th>Danh sách chính</th>
-              <th>Bản sao 1</th>
-              <th>Bản sao 2</th>
-              <th>-</th>
+              <th>Món</th>
+              <th>Đã đặt</th>
+              <th>Dự trù</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>Khách hàng 1</td>
-              <td>0123456789</td>
-              <td>SM</td>
-              <td>
-                <select name="" id="">
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                </select>
-              </td>
-              <td>2 - Bắp bò sốt tiêu đen</td>
-              <td>-</td>
+              <td>1 - Salad bò sốt mè wasabi <br>
+              Khoai tây nướng</td>
+              <td>113</td>
               <td>-</td>
             </tr>
             <tr>
-              <td>Khách hàng 2</td>
-              <td>0123456789</td>
-              <td>SM</td>
-              <td>1 - Sườn non chay chua ngọt</td>
-              <td>2 - Bắp bò sốt tiêu đen</td>
-              <td>1 - Sườn non chay chua ngọt</td>
+              <td>1 - Salad bò sốt mè wasabi <br>
+              Khoai tây nướng</td>
+              <td>113</td>
               <td>-</td>
             </tr>
-          </tbody>
-        </table>
-        <div class="ttl mb-16">Thứ 4 (02/01)</div>
-        <table>
-          <thead>
-            <tr>
-              <th>Tên khách hàng</th>
-              <th>SĐT</th>
-              <th>Mã</th>
-              <th>Danh sách chính</th>
-              <th>Bản sao 1</th>
-              <th>Bản sao 2</th>
-              <th>-</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Khách hàng 1</td>
-              <td>0123456789</td>
-              <td>SM</td>
-              <td>
-                <select name="" id="">
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                </select>
-              </td>
-              <td>2 - Bắp bò sốt tiêu đen</td>
-              <td>-</td>
-              <td>-</td>
-            </tr>
-            <tr>
-              <td>Khách hàng 2</td>
-              <td>0123456789</td>
-              <td>SM</td>
-              <td>1 - Sườn non chay chua ngọt</td>
-              <td>2 - Bắp bò sốt tiêu đen</td>
-              <td>1 - Sườn non chay chua ngọt</td>
-              <td>-</td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="ttl mb-16">Thứ 5 (02/01)</div>
-        <table>
-          <thead>
-            <tr>
-              <th>Tên khách hàng</th>
-              <th>SĐT</th>
-              <th>Mã</th>
-              <th>Danh sách chính</th>
-              <th>Bản sao 1</th>
-              <th>Bản sao 2</th>
-              <th>-</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Khách hàng 1</td>
-              <td>0123456789</td>
-              <td>SM</td>
-              <td>
-                <select name="" id="">
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                </select>
-              </td>
-              <td>2 - Bắp bò sốt tiêu đen</td>
-              <td>-</td>
-              <td>-</td>
-            </tr>
-            <tr>
-              <td>Khách hàng 2</td>
-              <td>0123456789</td>
-              <td>SM</td>
-              <td>1 - Sườn non chay chua ngọt</td>
-              <td>2 - Bắp bò sốt tiêu đen</td>
-              <td>1 - Sườn non chay chua ngọt</td>
-              <td>-</td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="ttl mb-16">Thứ 6 (02/01)</div>
-        <table>
-          <thead>
-            <tr>
-              <th>Tên khách hàng</th>
-              <th>SĐT</th>
-              <th>Mã</th>
-              <th>Danh sách chính</th>
-              <th>Bản sao 1</th>
-              <th>Bản sao 2</th>
-              <th>-</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Khách hàng 1</td>
-              <td>0123456789</td>
-              <td>SM</td>
-              <td>
-                <select name="" id="">
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                </select>
-              </td>
-              <td>2 - Bắp bò sốt tiêu đen</td>
-              <td>-</td>
-              <td>-</td>
-            </tr>
-            <tr>
-              <td>Khách hàng 2</td>
-              <td>0123456789</td>
-              <td>SM</td>
-              <td>1 - Sườn non chay chua ngọt</td>
-              <td>2 - Bắp bò sốt tiêu đen</td>
-              <td>1 - Sườn non chay chua ngọt</td>
-              <td>-</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div class="modal-footer text-right pt-16 pr-16">
-      <button type="button" class="button btn-default modal-close">Huỷ</button>
-      <button type="button" class="button btn-primary modal-close">Lưu và đóng</button>
-    </div>
-  </div>
-</div>
-<div class="modal fade modal-plan-history" id="modal-plan-history">
-  <div class="overlay"></div>
-  <div class="modal-dialog modal-wide">
-    <div class="modal-header">
-        <h4 class="modal-title">Tuần 02/01 - 06/01</h4>
-        <span class="modal-close"><img src="<?php echo site_get_template_directory_assets();?>/img/icon/delete-svgrepo-com.svg" alt=""></span>
-      </div>
-    <div class="modal-content">
-      <div class="modal-body pb-16">
-        <table class="table regular_pay">
-          <thead class="text-left">
-            <tr>
-              <th>
-                Người thực hiện
-              </th>
-              <th>
-                Trang
-              </th>
-              <th>
-                Hành động
-              </th>
-              <th>
-                Đối tượng
-              </th>
-              <th>
-                Mô tả
-              </th>
-              <th>
-                Thời gian
-              </th>
-              <th>
-                Ngày
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
-              <td>Chọn món</td>
-              <td>cập nhật</td>
-              <td>Thien Phuong Bui - #0001 - SM</td>
-              <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-              <td>01:00</td>
-              <td>29/10/24</td>
-            </tr>
-            <tr>
-              <td><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
-              <td>Chọn món</td>
-              <td>cập nhật</td>
-              <td>Thien Phuong Bui - #0001 - SM</td>
-              <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-              <td>01:00</td>
-              <td>29/10/24</td>
-            </tr>
-            <tr>
-              <td><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
-              <td>Chọn món</td>
-              <td>cập nhật</td>
-              <td>Thien Phuong Bui - #0001 - SM</td>
-              <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-              <td>01:00</td>
-              <td>29/10/24</td>
-            </tr>
-            <tr>
-              <td><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
-              <td>Chọn món</td>
-              <td>cập nhật</td>
-              <td>Thien Phuong Bui - #0001 - SM</td>
-              <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-              <td>01:00</td>
-              <td>29/10/24</td>
-            </tr>
-            <tr>
-              <td><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
-              <td>Chọn món</td>
-              <td>cập nhật</td>
-              <td>Thien Phuong Bui - #0001 - SM</td>
-              <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-              <td>01:00</td>
-              <td>29/10/24</td>
-            </tr>
-            <tr>
-              <td><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
-              <td>Chọn món</td>
-              <td>cập nhật</td>
-              <td>Thien Phuong Bui - #0001 - SM</td>
-              <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-              <td>01:00</td>
-              <td>29/10/24</td>
-            </tr>
-            <tr>
-              <td><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
-              <td>Chọn món</td>
-              <td>cập nhật</td>
-              <td>Thien Phuong Bui - #0001 - SM</td>
-              <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-              <td>01:00</td>
-              <td>29/10/24</td>
-            </tr>
-            <tr>
-              <td><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
-              <td>Chọn món</td>
-              <td>cập nhật</td>
-              <td>Thien Phuong Bui - #0001 - SM</td>
-              <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-              <td>01:00</td>
-              <td>29/10/24</td>
-            </tr>
-            <tr>
-              <td><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
-              <td>Chọn món</td>
-              <td>cập nhật</td>
-              <td>Thien Phuong Bui - #0001 - SM</td>
-              <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-              <td>01:00</td>
-              <td>29/10/24</td>
-            </tr>
-            <tr>
-              <td><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
-              <td>Chọn món</td>
-              <td>cập nhật</td>
-              <td>Thien Phuong Bui - #0001 - SM</td>
-              <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-              <td>01:00</td>
-              <td>29/10/24</td>
-            </tr>
-            <tr>
-              <td><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
-              <td>Chọn món</td>
-              <td>cập nhật</td>
-              <td>Thien Phuong Bui - #0001 - SM</td>
-              <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-              <td>01:00</td>
-              <td>29/10/24</td>
-            </tr>
-            <tr>
-              <td><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
-              <td>Chọn món</td>
-              <td>cập nhật</td>
-              <td>Thien Phuong Bui - #0001 - SM</td>
-              <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-              <td>01:00</td>
-              <td>29/10/24</td>
-            </tr>
-            
           </tbody>
         </table>
       </div>
     </div>
   </div>
 </div>
-<div class="modal fade modal-split-order" id="modal-split-order">
-  <div class="overlay"></div>
-  <div class="modal-dialog">
-    <div class="modal-header">
-        <h4 class="modal-title">Tách đơn khẩn</h4>
-      </div>
-    <div class="modal-content">
-      <div class="modal-body pb-16 pt-16">
-        <div class="order">
-        <div class="card-primary">
-          <div class="dropdown-address  pb-16">
-            <p>Chọn địa chỉ giao đến</p>
-              <div class="dropdown active pt-16" style="pointer-events: all;">  
-                  <input type="hidden" name="ship_location_id" class="ship_location_id">                  
-                  <input type="text" name="address_delivery" class="address_delivery is-disabled form-control" value="" placeholder="Vui lòng chọn">
-              </div>
-              <p class="fs-14 fw-regular note-shipper hidden color-gray pt-4 pl-8">Note với shipper: <span class="note_shiper"></span></p>
-              <p class="fs-14 fw-regular note-admin hidden color-gray pt-4 pl-8">Note với admin: <span class="note_admin"></span></p>
-              <div class="overlay-drop-menu"></div>
-              <div class="dropdown-menu">
-                  <div class="locations-container">
-                      <div class="item" data-location_id="1">
-                          <p class="fs-16 color-black other-address">45 Hoa Lan, Phường 3, Quận Phú Nhuận</p>
-                      </div>
-                  </div>
-                  <div  class="btn-add-address d-f ai-center pb-8 pt-8 pl-8">
-                      <span class="fas fa-plus mr-8"></span>Thêm địa chỉ mới
-                  </div>
-              </div>
-          </div>
-          <form method="post" class="hidden meal-add-location" id="meal-add-location" action="">
-            <p>Nhập địa chỉ mới</p>
-            <div class="row address-group location_0 address_active pt-16">
-                <div class="city col-4 pb-16">
-                    <select id="province" name="locations_province" class="province-select form-control" disabled="">
-                        <option value="">Select Tỉnh/Thành phố</option>
-                        <option value="Thành phố Hồ Chí Minh" selected="">Thành phố Hồ Chí Minh</option>
-                    </select>
-                </div>
-                <div class="col-4 pb-16">
-                    <select id="district" name="" class="district-select form-control text-capitalize">
-                        <option value="" selected="">Quận/Huyện*</option>
-                    </select>
-                </div>
-                <div class="col-4 pb-16">
-                    <select id="ward" name="locations_ward" class="ward-select form-control" disabled>
-                        <option selected="">Phường/Xã*</option>
-                    </select>
-                </div>
-                <div class="col-12 pb-16">
-                    <input id="address" type="text" class="form-control address" placeholder="Địa chỉ cụ thể*" name="locations[0][address]">
-                </div>
-                <div class="group-note col-12">
-                    <div class="note_shiper hidden pb-16">
-                        <input type="text" name="locations_note_shipper" class="locations_note_shipper" placeholder="Note với shipper">
-                    </div>
-                    <div class="note_admin hidden pb-16">
-                        <input type="text" name="locations_note_admin" class="locations_note_admin" placeholder="Note với admin">
-                    </div>
-                </div>
-                <div class="show-group-note d-f ai-center pb-16 pt-8 pl-8">
-                    <span class="fas fa-plus mr-8"></span> Thêm ghi chú giao hàng
-                </div>
-            </div>
-        </form>
-        <div class="row pb-8">
-          <div class="col-6">
-            Danh sách phần ăn được tách
-          </div>
-          <div class="col-6 text-right">
-            1 đã chọn
-          </div>
-        </div>
-        <hr>
-        <div class="pt-16">
-          <table class="table table-split-order" style="width: 100%;">
-              <thead class="text-left">
-                <tr>
-                  <th>Tên khách hàng</th>
-                  <th>SĐT</th>
-                  <th class="text-center">Mã</th>
-                  <th class="text-center">Thứ 3 <br>(03/01)</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="text-left">Khách hàng 1</td>
-                  <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0123456789">0123456789</span></td>
-                  <td class="text-center">SM</td>
-                  <td>1 - Sườn non chay chua ngọt</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          </div>
-        </div>
-        
-      </div>
-    </div>
-    <div class="modal-footer text-right pt-16 pr-16">
-      <button type="button" class="button btn-default modal-close">Huỷ</button>
-      <button type="button" class="button btn-primary modal-close">Lưu và đóng</button>
-    </div>
-  </div>
-</div>
+
+
 
   <?php
   // endwhile;
@@ -704,35 +281,8 @@ get_header();
 
   get_footer('customer');
   ?>
-  <script src="<?php site_the_assets(); ?>js/order.js"></script>
   <script>
-    // Function to save checkbox states to localStorage
-    function saveCheckboxState() {
-      $('.filter input[type="checkbox"]').each(function() {
-        const columnKey_order = 'column_order_' + $(this).val(); // Create key like "column_1", "column_2"
-        localStorage.setItem(columnKey_order, $(this).is(':checked'));
-      });
-    }
-    // Function to load checkbox states from localStorage
-    function loadCheckboxState() {
-      $('.filter input[type="checkbox"]').each(function() {
-        const columnKey_order = 'column_order_' + $(this).val();
-        const savedState = localStorage.getItem(columnKey_order);
-        if (savedState === null) {
-          if (['7', '12', '19'].includes($(this).val())) {
-            $(this).prop('checked', true);
-          }
-        } else {
-          $(this).prop('checked', savedState === 'true');
-          //$('.btn-column').addClass('active');
-        }
-      });
-    }
-
     $(document).ready(function() {
-      // Load checkbox states when the page loads
-      // console.log('log',localStorage);
-      loadCheckboxState();
-      $('.filter input[type="checkbox"]').on('change', saveCheckboxState);
+      
     });
   </script>

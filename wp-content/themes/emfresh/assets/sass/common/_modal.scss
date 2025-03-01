@@ -206,3 +206,86 @@
     }
   }
 }
+.modal-calc {
+  table {
+    width: 100%;
+    
+    &.table {
+      tr {
+        td,th {
+          text-align: left;
+          border: 1px solid var(--color-grey-400, #8D8E8F);
+          border-top: none;
+          &:first-child {
+            text-align: left;
+            border-radius: 0;
+            padding: 6px 10px;
+          }
+          &:last-child {
+            border-radius: 0;
+          }
+        }
+        th {
+          border-top: 1px solid var(--color-grey-400, #8D8E8F);
+        }
+      }
+    }
+    &.tb-horizontal {
+      tr td {
+        border: none;
+        text-align: center;
+      }
+      tr.purple {
+        td {
+          border-top: 2px solid var(--color-purple-100, #E0AFFF);
+          border-bottom: 2px solid var(--color-purple-100, #E0AFFF);
+          font-weight: 600;
+          &:first-child {
+            background-color: var(--color-purple-100, #E0AFFF);
+            text-align: left;
+          }
+          &:last-child {
+            border-right: 2px solid var(--color-purple-100, #E0AFFF);
+          }
+        }
+      }
+      tr.orange {
+        td {
+          border-top: 2px solid var(--color-orange-100, #FFD8A0);
+          border-bottom: 2px solid var(--color-orange-100, #FFD8A0);
+          &:first-child {
+            background-color: var(--color-orange-100, #FFD8A0);
+            text-align: left;
+            font-weight: 600;
+          }
+          &:last-child {
+            border-right: 2px solid var(--color-orange-100, #FFD8A0);
+          }
+        }
+      }
+    }
+    &.tb-vertical {
+      tr {
+        td,th {
+          text-align: center;
+          &:first-child {
+              text-align: left;
+            }
+        }
+      } 
+    }
+  }
+  .ttl-total {
+      font-weight: 600;
+      font-size: 20px;
+      color: #208046;
+    }
+}
+.tb-vertical {
+  border-spacing: 8px 0;
+  border-collapse: separate !important;
+}
+.tb-horizontal {
+  border-spacing: 0 8px;
+  border-collapse: separate !important;
+}

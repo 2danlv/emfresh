@@ -55,7 +55,7 @@
     justify-content: space-between;
     nav.main-menu {
             overflow: auto;
-            height: 70vh;
+            height: calc(70vh - 60px);
         }
     ul.nav-menu {
         padding-top: 24px;
