@@ -232,12 +232,12 @@ get_header();
         <div class="container card-primary pt-20 pb-20">
           <div class="row">
             <div class="col-8 mb-8">Số phần ăn dí món đang chờ:</div>
-            <div class="col-4 mb-8"><input type="text" placeholder="-" class="form-control"></div>
+            <div class="col-4 mb-8"><input type="text" placeholder="-" class="text-center form-control"></div>
             <div class="col-8">Số phần ăn dí món đang chờ:</div>
-            <div class="col-4"><input type="text" placeholder="-" class="form-control"></div>
+            <div class="col-4"><input type="text" placeholder="-" class="text-center form-control"></div>
             <hr class="col-12 mt-16 pb-16">
             <div class="col-8 ttl-total">Tổng phần ăn dự trù:</div>
-            <div class="col-4">-</div>
+            <div class="col-4 text-center">-</div>
           </div>
         </div>
         <table class="table tb-vertical">
@@ -256,7 +256,13 @@ get_header();
               <td>-</td>
             </tr>
             <tr>
-              <td>1 - Salad bò sốt mè wasabi <br>
+              <td>2 - Salad bò sốt mè wasabi <br>
+              Khoai tây nướng</td>
+              <td>113</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>3 - Salad bò sốt mè wasabi <br>
               Khoai tây nướng</td>
               <td>113</td>
               <td>-</td>
