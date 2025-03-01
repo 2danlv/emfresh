@@ -211,8 +211,6 @@ get_header();
                   
                     if(count($response_order['data']) > 0) {
                       $list_orders = array_merge($list_orders,$response_order['data']);
-                    } else {
-                      continue;
                     }
 
                     $total_order_days = array_sum(array_column($response_order['data'], 'ship_days'));
