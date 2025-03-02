@@ -35,6 +35,13 @@ table.table {
                         text-align: center;
                         &.empty {
                             background-color: #fff;
+                            input {
+                                cursor: auto;
+                                pointer-events: none;
+                                &:hover,&:focus {
+                                box-shadow: none;
+                            }
+                            }
                         }
                         &.orange {
                             background-color: #FF6F00;
@@ -48,6 +55,10 @@ table.table {
                             border: none;
                             background-color: transparent;
                             color: #fff;
+                            cursor: pointer;
+                            &:hover,&:focus {
+                                box-shadow: 1px 1px 1px 1px #ccc;
+                            }
                         }
                     }
                 }

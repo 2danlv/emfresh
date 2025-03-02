@@ -416,6 +416,14 @@ class EM_Order extends EF_Default
             $wheres[] = "`date_stop` <> '0000-00-00'";
         }
 
+        if(!empty($args['date_from'])) {
+            $wheres[] =  "DATE_FORMAT(`created`, '%Y-%m-%d') >= '{$args['date_from']}'";
+        }
+
+        if(!empty($args['date_to'])) {
+            $wheres[] =  "DATE_FORMAT(`created`, '%Y-%m-%d') <= '{$args['date_to']}'";
+        }
+
         return $wheres;
     }
 
@@ -432,7 +440,8 @@ class EM_Order extends EF_Default
 
             $date_start = date('Y-m-d', $time_next);
 
-            if (in_array(date('D', $time_next), ['Sun', 'Sat'])) {
+            // 'Sun', 'Sat'
+            if (in_array(date('w', $time_next), [0, 6])) {
                 continue;
             }
 

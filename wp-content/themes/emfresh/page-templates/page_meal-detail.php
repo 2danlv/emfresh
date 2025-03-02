@@ -152,7 +152,8 @@ get_header();
                 ?>
                 <li class="<?php echo $class_date; ?>"><span><input type="text" 
                         class="input-meal_plan<?php echo $value == '' ? ' empty' : '' ?>" 
-                        value="<?php echo $value ?>" 
+                        value="<?php echo $value ?>"
+                        max="<?php echo $order_item['meal_number'] ?>" 
                         data-date="<?php echo $date ?>" 
                         data-old="<?php echo $value ?>" 
                     /></span></li>

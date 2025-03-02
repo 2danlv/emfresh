@@ -150,24 +150,40 @@ class EM_Order_Item extends EF_Default
                 $date_start = $item['date_start'];
                 $date_stop  = $item['date_stop'];
                 $meal_number = $item['meal_number'];
+                $quantity = $item['quantity'];
+                $count = 0;
 
-                $list[$date_start] = $meal_number;
-
-                while ($date_start < $date_stop) {
-                    $time_next = strtotime($date_start) + DAY_IN_SECONDS;
-
-                    $date_start = date('Y-m-d', $time_next);
-
-                    if (in_array(date('D', $time_next), ['Sun', 'Sat'])) {
-                        continue;
+                while ($date_start <= $date_stop) {
+                    $time = strtotime($date_start);
+                
+                    // 'Sun', 'Sat'
+                    if (!in_array(date('w', $time), [0, 6])) {
+                        $value = $meal_number;
+                
+                        /*
+                            if($count + $value > $quantity) {
+                                $value = $quantity - $count;
+                                $count = $quantity;
+                            } else {
+                                $count += $value;
+                            }
+                    
+                            if($count <= $quantity) {
+                                $list[$date_start] = $value;
+                            }
+                        */
+                        
+                        $list[$date_start] = $value;
                     }
-
-                    $list[$date_start] = $meal_number;
+                
+                    $date_start = date('Y-m-d', $time + DAY_IN_SECONDS);
                 }
 
-                $this->update([
-                    'meal_plan' => json_encode($list)
-                ], ['id' => $item['id']]);
+                if(count($list) > 0) {
+                    $this->update([
+                        'meal_plan' => json_encode($list)
+                    ], ['id' => $item['id']]);    
+                }
             }
         }
 

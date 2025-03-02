@@ -35,6 +35,7 @@ require_once(__DIR__ . '/classes/order-item.php');
 require_once(__DIR__ . '/classes/product.php');
 require_once(__DIR__ . '/classes/log.php');
 require_once(__DIR__ . '/classes/ship-fee.php');
+require_once(__DIR__ . '/classes/menu.php');
 
 
 // require_once(__DIR__ . '/template/load.php');
