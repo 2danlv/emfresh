@@ -131,7 +131,11 @@ get_header();
               </ul>
             </td>
           </tr>
-          <tr class="accordion-content_table order-<?php echo $order['id'] ?> order-item" >
+          <tr class="accordion-content_table order-<?php echo $order['id'] ?> order-item" 
+              data-order_id="<?php echo $order['id'] ?>" 
+              data-order_item_id="<?php echo $order_item['id'] ?>"
+              data-total="<?php echo $total ?>"
+          >
             <td><span class="hidden title">Sản phẩm <?php echo $i + 1 ?></span>Vy (Vy Vy)</td>
             <td class="text-center"><?php echo $order_item['product_name'] ?></td>
             <td class="text-center"><?php echo strtoupper($order_item['type']) ?></td>
@@ -461,7 +465,7 @@ get_header();
 
         $('.js-meal-plan .order-item.changed').each(function(){
             let p = $(this), meal_plan = {}, 
-                total = parseInt(p.data('count')),
+                total = parseInt(p.data('total')),
                 count = 0;
                 
             p.find('.input-meal_plan').each(function(){
