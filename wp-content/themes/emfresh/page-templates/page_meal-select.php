@@ -64,7 +64,6 @@ get_header();
         <div class="row ai-center row-revert">
           <div class="col-6">
             <ul class="d-f jc-end ai-center">
-              
               <li class="status mr-16"><span class="btn btn-status"><span class="count-checked"></span> đã chọn</span></li>
               <li class="has-child">
                 <span class="btn btn-action">Thao tác</span>
@@ -129,14 +128,14 @@ get_header();
           <?php
           $response = em_api_request('order/list', [
             'paged' => 1,
-            'limit' => 3,
+            'limit' => -1,
           ]);
           if (isset($response['data']) && is_array($response['data'])) {
             // Loop through the data array and print each entry
             foreach ($response['data'] as $record) {
               // var_dump($record);
               if (is_array($record)) {
-                $link = add_query_arg(['order_id' => $record['id']], $detail_order_url);
+                $link = '#';
                 $location_list = explode(',', $record['location_name']);
           ?>
                 <tr class="nowrap">

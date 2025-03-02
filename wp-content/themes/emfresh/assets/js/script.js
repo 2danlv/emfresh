@@ -1051,7 +1051,7 @@ jQuery(document).ready(function () {
     }).DataTable({
 		autoWidth: true,
 		scrollX: true,
-		scrollY:  $(window).height() - 227,
+		scrollY:  $(window).height() - 297,
 		dom: 'Bfrtip<"bottom"pl>',
 		ordering: false,
 		iDisplayLength: 50,

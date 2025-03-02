@@ -40,19 +40,9 @@ get_header();
         <div class="row ai-center">
           <div class="col-8">
             <ul class="d-f ai-center">
-              <li><span class="btn btn-fillter">Bộ lọc</span></li>
-              <li class="has-child">
-                <span class="btn btn-action">Thao tác</span>
-                <ul>
-                  <li>
-                    <span class="copyAllphone" data-target="#modal-copy">Sao chép nhanh SĐT</span>
-                  </li>
-                  <li>
-                    <a href="/import/" class="upload">Nhập dữ liệu</a>
-                  </li>
-                  <li><button type="button" name="action" value="export" class="js-export">Xuất dữ liệu</button></li>
-                </ul>
-              </li>
+              <li class="add"><a href="<?php echo home_url('/add-group') ?>"><img src="<?php echo site_get_template_directory_assets(); ?>/img/icon/plus-svgrepo-com.svg" alt=""></a></li>
+              <li class="group-icon ml-8 mr-8"><span class="btn btn-fillter">Bộ lọc</span></li>
+              <li class="group-icon mr-8"><span class="btn btn-export">Bộ lọc</span></li>
               <li class="status"><span class="btn btn-status"><span class="count-checked"></span> đã chọn</span></li>
             </ul>
           </div>
@@ -94,7 +84,7 @@ get_header();
             foreach ($response['data'] as $record) {
               // var_dump($record);
               if (is_array($record)) {
-                  $link = add_query_arg(['order_id' => $record['id']], $detail_order_url);
+                  $link = "detail-group";
                   $location_list = explode(',', $record['location_name']);
                 ?>
                   <tr class="nowrap">

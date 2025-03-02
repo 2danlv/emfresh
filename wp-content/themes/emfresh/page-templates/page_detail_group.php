@@ -88,7 +88,7 @@ get_header();
         <div class="container-fluid">
             <div class="row">
                 <div class="col-6 backtolist d-f ai-center">
-                    <a href="/list-order/" class="d-f ai-center"><span class="mr-4"><img src="<?php echo site_get_template_directory_assets(); ?>img/icon/caretup.svg" alt=""></span><span> Quay lại danh sách nhóm</span></a>
+                    <a href="../" class="d-f ai-center"><span class="mr-4"><img src="<?php echo site_get_template_directory_assets(); ?>img/icon/caretup.svg" alt=""></span><span> Quay lại danh sách nhóm</span></a>
                 </div>
             </div>
             <div class="card-header">

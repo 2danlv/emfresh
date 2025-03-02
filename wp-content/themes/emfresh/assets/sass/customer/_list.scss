@@ -245,6 +245,12 @@
                     background: url(../img/icon-hover/alert.svg) right 24px center #FF7A00 no-repeat;
                 }
             }
+            &.btn-export {
+                background-image: url(../img/icon/download-svgrepo-com.svg) ;
+                &:hover {
+                    background-image: url(../img/icon-hover/download-svgrepo-com.svg) ;
+                }
+            }
         }
         .row-revert {
             ul {

@@ -39,6 +39,13 @@ get_header();
               </li>
             </ul>
           </div>
+          <div class="col-6">
+            <ul class="d-f ai-center jc-end">
+              <li class="hidden save-meal-plan">
+                <span class="btn btn-primary js-save-meal-plan">Lưu</span>
+              </li>
+            </ul>
+          </div>
         </div>
         <?php wp_nonce_field('importoken', 'importoken', false); ?>
       </div>
@@ -105,7 +112,7 @@ get_header();
             <td></td>
           </tr>
           <tr class="accordion-tit_table order-<?php echo $order['id'] ?>" data-order_id="<?php echo $order['id'] ?>">
-            <td class="nowrap"><?php echo $order['order_number'] ?></td>
+            <td class="nowrap">Sản phẩm <?php echo $i + 1 ?></td>
             <td class="nowrap"><?php echo $order_item['product_name'] ?></td>
             <td class="text-center"><?php echo strtoupper($order_item['type']) ?></td>
             <td class="text-center"><span class="status_order status_order-meal-<?php echo $order['order_status'] ?>"><?php echo $order['order_status_name'] ?></span></td>
@@ -125,9 +132,9 @@ get_header();
             </td>
           </tr>
           <tr class="accordion-content_table order-<?php echo $order['id'] ?> order-item" >
-            <td>Vy (Vy Vy)</td>
-            <td class="text-center">5SM</td>
-            <td class="text-center">M</td>
+            <td><span class="hidden title">Sản phẩm <?php echo $i + 1 ?></span>Vy (Vy Vy)</td>
+            <td class="text-center"><?php echo $order_item['product_name'] ?></td>
+            <td class="text-center"><?php echo strtoupper($order_item['type']) ?></td>
             <td></td>
             <td class="wrap-date">
               <ul class="d-f date-group">
@@ -388,7 +395,22 @@ get_header();
     </div>
   </div>
 </div>
-
+<div class="modal fade modal-warning" id="modal-alert">
+    <div class="overlay"></div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body pt-8 pb-16">
+                <div class="d-f">
+                    <i class="fas fa-warning mr-8"></i>
+                    <p>Vui lòng kiểm tra số bữa ăn:<span class="txt_append"></span></p>
+                </div>
+            </div>
+            <div class="modal-footer text-center pb-8 pt-16">
+                <button type="button" class="btn btn-secondary modal-close">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
 
   <?php
   // endwhile;
@@ -401,7 +423,6 @@ get_header();
 
   get_footer('customer');
   ?>
-  <script src="<?php site_the_assets(); ?>js/order.js"></script>
   <script>
     
     function accordion_table() {
@@ -427,12 +448,13 @@ get_header();
         }
       })
     }
-    $(document).ready(function() {
-      $('.input-meal_plan').on('blur', function(){
+    jQuery(function($){
+      $(document).on('change','.input-meal_plan', function(){
         let input = $(this), value = input.val();
-
+        $('.save-meal-plan').removeClass('hidden');
         input.closest('.order-item').toggleClass('changed', value != input.data('old'));
-
+      });
+      $('.js-save-meal-plan').on('click', function(e){
         e.preventDefault();
 
         let list_meal = [], errors = [];
@@ -463,7 +485,13 @@ get_header();
             }
         });
 
-        if(errors.length > 0) return alert('Vui lòng kiểm tra số ngày: ' + errors.join(", ") + '.');
+        if(errors.length > 0) {
+          $('#modal-alert').addClass('is-active'); 
+          $('body').addClass('overflow');
+          $('.modal-warning .modal-body p span.txt_append').text(errors.join(", "));
+          return;
+      }
+
 
         if(list_meal.length == 0) return ;
 
@@ -476,9 +504,13 @@ get_header();
             console.log('res', res);
 
             if(res.code == 200) {
-                alert('Lưu thành công! ');
+                $('#modal-alert').addClass('is-active');
+                $('body').addClass('overflow');
+                $('.modal-warning .modal-body p span.txt_append').text('Lưu thành công!');
             } else {
-                alert('Lưu không thành công! ');
+              $('#modal-alert').addClass('is-active'); 
+              $('body').addClass('overflow');
+              $('.modal-warning .modal-body p span.txt_append').text("Lưu không thành công!");
             }
         }, 'JSON');
     })

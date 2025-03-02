@@ -73,11 +73,13 @@ $data = site_order_get_meal_plans($_GET);
 <script>
 jQuery(function($){
 
-    $('.input-meal_plan').on('blur', function(){
+    $('.input-meal_plan').on('change', function(){
         let input = $(this), value = input.val();
 
         input.closest('.order-item').toggleClass('changed', value != input.data('old'));
-   
+    })
+
+    $('.js-save-meal-plan').on('click', function(e){
         e.preventDefault();
 
         let list_meal = [], errors = [];

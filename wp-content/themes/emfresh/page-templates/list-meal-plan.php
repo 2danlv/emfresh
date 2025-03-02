@@ -102,7 +102,7 @@ $data = site_order_get_meal_plans($_GET);
                   </a>
                   </div>
                  </td>
-                <td data-number="2"><?php echo $order['phone'] ?></td>
+                <td data-number="2"><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $order['phone']; ?>"><?php echo $order['phone']; ?></span></td>
                 <td data-number="3"><?php echo $order['total_quantity'] ?></td>
                 <td data-number="4"><?php echo $order['type_name'] ?></td>
                 <td data-number="5"><?php echo $order['item_name'] ?></td>
