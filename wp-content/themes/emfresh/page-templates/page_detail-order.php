@@ -177,7 +177,7 @@ get_header();
 </div><!-- /.container-fluid -->
 <div class="navigation-bottom d-f jc-b ai-center pl-16 pr-16">
 	<div class="total-cost txt d-f gap-16 ai-center fw-bold">Cần thanh toán: <span class="cost-txt red fw-bold"><?php echo ($total_money - $order_detail['paid']) > 0 ? number_format($total_money - $order_detail['paid']) : 0; ?></span></div>
-	<span class="btn btn-primary btn-next">Đi đến Meal Plan chi tiết</span>
+	<a href="<?php echo add_query_arg(['order_id' => $order_id], site_meal_plan_detail_link()) ?>" class="btn btn-primary btn-next">Đi đến Meal Plan chi tiết</a>
 </div>
 </section>
 <!-- /.content -->

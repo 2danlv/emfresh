@@ -570,7 +570,8 @@ function site_order_get_date_value($date_start = '', $days = 0)
 
         $date_start = date('Y-m-d', $time_next);
 
-        if (in_array(date('D', $time_next), ['Sat', 'Sun'])) {
+        // 'Sun', 'Sat'
+        if (in_array(date('w', $time_next), [0, 6])) {
             continue;
         }
 
@@ -587,7 +588,8 @@ function site_order_get_date_next($date_start = '')
 
         $date_start = date('Y-m-d', $time_next);
 
-        if (in_array(date('D', $time_next), ['Sat', 'Sun'])) {
+        // 'Sun', 'Sat'
+        if (in_array(date('w', $time_next), [0, 6])) {
             continue;
         }
 
@@ -629,8 +631,10 @@ function site_order_get_meal_plans($args = [])
     }
 
     if(count($orders) > 0) {
-        $date_start = '';
-        $date_stop = '';
+        $date_start = '0000-00-00';
+        $date_stop = '0000-00-00';
+
+        $schedule_meal_plan_items = [];
 
         foreach($orders as &$order) {
             $q_args = [
@@ -661,6 +665,12 @@ function site_order_get_meal_plans($args = [])
                         }
 
                         $order_meal_plan_items[$day] += $value;
+
+                        if(empty($schedule_meal_plan_items[$day])) {
+                            $schedule_meal_plan_items[$day] = 0;
+                        }
+
+                        $schedule_meal_plan_items[$day] += $value;
                     }
                 }
             }
@@ -668,30 +678,38 @@ function site_order_get_meal_plans($args = [])
             $order['order_items'] = $order_items;
             $order['meal_plan_items'] = $order_meal_plan_items;
 
-            if ($date_start == '' || $date_start > $order['date_start']) {
+            if ($date_start == '0000-00-00' || $date_start > $order['date_start']) {
                 $date_start = $order['date_start'];
             }
 
-            if ($date_stop == '' || $date_stop < $order_date_stop) {
+            if ($date_stop == '0000-00-00' || $date_stop < $order_date_stop) {
                 $date_stop = $order_date_stop;
             }
         }
 
-        $list = [$date_start];
-        
-        while ($date_start < $date_stop) {
-            $time_next = strtotime($date_start) + DAY_IN_SECONDS;
+        $list = [];
 
-            $date_start = date('Y-m-d', $time_next);
-
-            if (in_array(date('D', $time_next), ['Sun', 'Sat'])) {
-                continue;
-            }
-
+        if($date_start != '0000-00-00' && $date_stop != '0000-00-00' && $date_start < $date_stop) {
             $list[] = $date_start;
+
+            while ($date_start < $date_stop) {
+                $time_next = strtotime($date_start) + DAY_IN_SECONDS;
+    
+                $date_start = date('Y-m-d', $time_next);
+    
+                // 'Sun', 'Sat'
+                if (in_array(date('w', $time_next), [0, 6])) {
+                    continue;
+                }
+    
+                $list[] = $date_start;
+            }
         }
 
+        $data['date_start'] = $date_start;
+        $data['date_stop'] = $date_stop;
         $data['schedule'] = $list;
+        $data['meal_plan_items'] = $schedule_meal_plan_items;
         $data['orders'] = $orders;
     }
 
@@ -701,6 +719,16 @@ function site_order_get_meal_plans($args = [])
 function site_order_list_link()
 {
     return get_permalink(134);
+}
+
+function site_meal_plan_list_link()
+{
+    return get_permalink(147);
+}
+
+function site_meal_plan_detail_link()
+{
+    return get_permalink(149);
 }
 
 function site_order_add_link()

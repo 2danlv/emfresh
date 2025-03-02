@@ -8,11 +8,29 @@
  * @since Twenty Twelve 1.0
  */
 
-$data = site_order_get_meal_plans($_GET);
+$customer_id = isset($_GET['customer_id']) ? intval($_GET['customer_id']) : 0;
+$order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
+
+$args = [];
+
+if($order_id > 0) {
+  $args['order_id'] = $order_id;
+}
+
+if($customer_id > 0) {
+  $args['customer_id'] = $customer_id;
+}
+
+$data = site_order_get_meal_plans($args);
+
 get_header();
 // Start the Loop.
-// while ( have_posts() ) : the_post();
 
+if(count($data) > 0 && isset($data['orders'])) :
+  
+  $first_order = $data['orders'][0];
+  $schedule_meal_plan_items = $data['meal_plan_items'];
+   
 ?>
 <!-- Main content -->
 <section class="content">
@@ -67,11 +85,6 @@ get_header();
           </tr>
         </thead>
         <tbody>
-          <?php 
-                foreach($data['orders'] as $order) : 
-                    $meal_plan_items = $order['meal_plan_items'];
-                    // var_dump($order);
-            ?>
           <tr class="blank">
             <td></td>
             <td></td>
@@ -80,15 +93,15 @@ get_header();
             <td></td>
           </tr>
           <tr>
-            <td><?php echo $order['customer_name'] ?></td>
-            <td class="text-center"><?php echo $order['item_name'] ?></td>
-            <td class="text-center"><?php echo $order['type_name'] ?></td>
-            <td class="text-center"><span class="status_order status_order-meal-<?php echo $order['order_status'] ?>"><?php echo $order['order_status_name'] ?></span></td>
+            <td><?php echo $first_order['customer_name'] ?></td>
+            <td class="text-center"><?php echo $first_order['item_name'] ?></td>
+            <td class="text-center"><?php echo $first_order['type_name'] ?></td>
+            <td class="text-center"><span class="status_order status_order-meal-<?php echo $first_order['order_status'] ?>"><?php echo $first_order['order_status_name'] ?></span></td>
             <td class="wrap-date">
-              <ul class="d-f date-group">
+              <ul class="d-f date-group group-date-top">
               <?php
                 foreach($data['schedule'] as $date) : 
-                  $value = isset($meal_plan_items[$date]) ? $meal_plan_items[$date] : '';
+                  $value = isset($schedule_meal_plan_items[$date]) ? $schedule_meal_plan_items[$date] : '';
                   if($value != ''){
                     $class_date  = '';
                   } else {
@@ -100,10 +113,10 @@ get_header();
               </ul>
             </td>
           </tr>
-          <?php foreach($order['order_items'] as $i => $order_item) : 
-                $meal_plan_items = $order_item['meal_plan_items'];
-                $total = array_sum($meal_plan_items);
-            ?>
+          <?php
+            foreach($data['orders'] as $order) :
+              $meal_plan_items = $order['meal_plan_items'];
+          ?>
           <tr class="blank">
             <td></td>
             <td></td>
@@ -112,9 +125,9 @@ get_header();
             <td></td>
           </tr>
           <tr class="accordion-tit_table order-<?php echo $order['id'] ?>" data-order_id="<?php echo $order['id'] ?>">
-            <td class="nowrap">Sản phẩm <?php echo $i + 1 ?></td>
-            <td class="nowrap"><?php echo $order_item['product_name'] ?></td>
-            <td class="text-center"><?php echo strtoupper($order_item['type']) ?></td>
+            <td class="nowrap"><?php echo $order['order_number'] ?></td>
+            <td class="nowrap text-center"><?php echo $order['item_name'] ?></td>
+            <td class="text-center"><?php echo $order['type_name'] ?></td>
             <td class="text-center"><span class="status_order status_order-meal-<?php echo $order['order_status'] ?>"><?php echo $order['order_status_name'] ?></span></td>
             <td class="wrap-date">
               <ul class="d-f date-group">
@@ -131,12 +144,19 @@ get_header();
               </ul>
             </td>
           </tr>
-          <tr class="accordion-content_table order-<?php echo $order['id'] ?> order-item" 
+          <?php
+            $customer_name_2nd = !empty($first_order['customer_name_2nd']) ? $first_order['customer_name_2nd'] : $first_order['customer_name'];
+
+            foreach($order['order_items'] as $i => $order_item) : 
+              $meal_plan_items = $order_item['meal_plan_items'];
+              $total = array_sum($meal_plan_items);
+          ?>
+          <tr class="accordion-content_table order-<?php echo $order['id'] ?> order-item order-item-<?php echo $i + 1 ?>" 
               data-order_id="<?php echo $order['id'] ?>" 
               data-order_item_id="<?php echo $order_item['id'] ?>"
               data-total="<?php echo $total ?>"
-          >
-            <td><span class="hidden title">Sản phẩm <?php echo $i + 1 ?></span>Vy (Vy Vy)</td>
+            >
+            <td><span class="hidden-tmp title"><?php echo $customer_name_2nd ?></span></td>
             <td class="text-center"><?php echo $order_item['product_name'] ?></td>
             <td class="text-center"><?php echo strtoupper($order_item['type']) ?></td>
             <td></td>
@@ -151,12 +171,12 @@ get_header();
                     }
                 ?>
                 <li class="<?php echo $class_date; ?>"><span><input type="text" 
-                        class="input-meal_plan<?php echo $value == '' ? ' empty' : '' ?>" 
-                        value="<?php echo $value ?>"
-                        max="<?php echo $order_item['meal_number'] ?>" 
-                        data-date="<?php echo $date ?>" 
-                        data-old="<?php echo $value ?>" 
-                    /></span></li>
+                    class="input-meal_plan<?php echo $value == '' ? ' empty' : '' ?>" 
+                    value="<?php echo $value ?>"
+                    max="<?php echo $order_item['meal_number'] ?>" 
+                    data-date="<?php echo $date ?>" 
+                    data-old="<?php echo $value ?>" 
+                /></span></li>
                 <?php endforeach; ?>
               </ul>
             </td>
@@ -416,119 +436,123 @@ get_header();
         </div>
     </div>
 </div>
+<?php
+endif;
 
-  <?php
-  // endwhile;
+global $site_scripts;
 
-  global $site_scripts;
-
-  if (empty($site_scripts)) $site_scripts = [];
-  $site_scripts[] = "https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js";
-  $site_scripts[] = get_template_directory_uri() . '/assets/js/importer.js';
-
-  get_footer('customer');
-  ?>
-  <script>
-    
-    function accordion_table() {
-      $('table .accordion-tit_table')
-      .off()
-      .on('click', function () {
-        var item = $(this).toggleClass('on')
-        while (item.next().hasClass('accordion-content_table')) {
-          item = item.next()
-          
-          item.toggleClass('is-active').find('td > div').slideToggle(400)
-        }
-      })
-      
-      $('table .accordion-content_table')
-      .addClass('d-table-row')
-      .find('td')
-      .each(function () {
-        let td = $(this)
+if (empty($site_scripts)) $site_scripts = [];
+get_footer('customer');
+?>
+<script>
+  
+  function accordion_table() {
+    $('table .accordion-tit_table')
+    .off()
+    .on('click', function () {
+      var item = $(this).toggleClass('on')
+      while (item.next().hasClass('accordion-content_table')) {
+        item = item.next()
         
-        if (td.find('> div').length == 0) {
-          td.html('<div>' + td.html() + '</div>')
-        }
-      })
-    }
-    jQuery(function($){
-      $(document).on('change','.input-meal_plan', function(){
-        let input = $(this), value = input.val();
-        $('.save-meal-plan').removeClass('hidden');
-        input.closest('.order-item').toggleClass('changed', value != input.data('old'));
-      });
-      $('.js-save-meal-plan').on('click', function(e){
-        e.preventDefault();
-
-        let list_meal = [], errors = [];
-
-        $('.js-meal-plan .order-item.changed').each(function(){
-            let p = $(this), meal_plan = {}, 
-                total = parseInt(p.data('total')),
-                count = 0;
-                
-            p.find('.input-meal_plan').each(function(){
-                let input = $(this)
-
-                if(input.val() > 0) {
-                    meal_plan[input.data('date')] = input.val();
-
-                    count += input.val();
-                }
-            })
-            
-            if(total == count) {
-                list_meal.push({
-                    order_id : p.data('order_id'),
-                    order_item_id : p.data('order_item_id'),
-                    meal_plan : meal_plan
-                });
-            } else {
-                errors.push(p.find('.title').text());
-            }
-        });
-
-        if(errors.length > 0) {
-          $('#modal-alert').addClass('is-active'); 
-          $('body').addClass('overflow');
-          $('.modal-warning .modal-body p span.txt_append').text(errors.join(", "));
-          return;
+        item.toggleClass('is-active').find('td > div').slideToggle(400)
       }
-
-
-        if(list_meal.length == 0) return ;
-
-        $.post('?', {
-            ajax: 1,
-            save_meal_plan: 1,
-            list_meal: list_meal
-        }, function(res){
-
-            console.log('res', res);
-
-            if(res.code == 200) {
-                $('#modal-alert').addClass('is-active');
-                $('body').addClass('overflow');
-                $('.modal-warning .modal-body p span.txt_append').text('Lưu thành công!');
-            } else {
-              $('#modal-alert').addClass('is-active'); 
-              $('body').addClass('overflow');
-              $('.modal-warning .modal-body p span.txt_append').text("Lưu không thành công!");
-            }
-        }, 'JSON');
     })
-      accordion_table();
-      $('.btn-show-count').click(function (e) { 
-        e.preventDefault();
-        $(this).addClass('selected');
-        $('.count-group').show();
-      });
-      $('.count-group .count-close').click(function (e) { 
-        e.preventDefault();
-        $('.count-group').hide();
-        $('.btn-show-count').removeClass('selected');
-      });
+    
+    $('table .accordion-content_table')
+    .addClass('d-table-row')
+    .find('td')
+    .each(function () {
+      let td = $(this)
+      
+      if (td.find('> div').length == 0) {
+        td.html('<div>' + td.html() + '</div>')
+      }
+    })
+  }
+  jQuery(function($){
+    $('.group-date-top li').each(function() {
+        var mealDate = $(this).data('date'); // Get the data-date from the li element
+        var count = $('.order-item .date-group li:not([class="empty"]) .input-meal_plan[data-date="'+mealDate+'"]').length;
+        if (count > 1) {
+            $(this).addClass('purple');
+        }
     });
-  </script>
+    
+    $(document).on('change','.input-meal_plan', function(){
+      let input = $(this), value = input.val();
+      $('.save-meal-plan').removeClass('hidden');
+      input.closest('.order-item').toggleClass('changed', value != input.data('old'));
+    });
+    $('.js-save-meal-plan').on('click', function(e){
+      e.preventDefault();
+
+      let list_meal = [], errors = [];
+
+      $('.js-meal-plan .order-item.changed').each(function(){
+          let p = $(this), meal_plan = {}, 
+              total = parseInt(p.data('total')),
+              count = 0;
+              
+          p.find('.input-meal_plan').each(function(){
+              let input = $(this)
+
+              if(input.val() > 0) {
+                  meal_plan[input.data('date')] = input.val();
+
+                  count += input.val();
+              }
+          })
+          
+          if(total == count) {
+              list_meal.push({
+                  order_id : p.data('order_id'),
+                  order_item_id : p.data('order_item_id'),
+                  meal_plan : meal_plan
+              });
+          } else {
+              errors.push(p.find('.title').text());
+          }
+      });
+
+      if(errors.length > 0) {
+        $('#modal-alert').addClass('is-active'); 
+        $('body').addClass('overflow');
+        $('.modal-warning .modal-body p span.txt_append').text(errors.join(", "));
+        return;
+    }
+
+
+      if(list_meal.length == 0) return ;
+
+      $.post('?', {
+          ajax: 1,
+          save_meal_plan: 1,
+          list_meal: list_meal
+      }, function(res){
+
+          console.log('res', res);
+
+          if(res.code == 200) {
+              $('#modal-alert').addClass('is-active');
+              $('body').addClass('overflow');
+              $('.modal-warning .modal-body p span.txt_append').text('Lưu thành công!');
+          } else {
+            $('#modal-alert').addClass('is-active'); 
+            $('body').addClass('overflow');
+            $('.modal-warning .modal-body p span.txt_append').text("Lưu không thành công!");
+          }
+      }, 'JSON');
+  })
+    accordion_table();
+    $('.btn-show-count').click(function (e) { 
+      e.preventDefault();
+      $(this).addClass('selected');
+      $('.count-group').show();
+    });
+    $('.count-group .count-close').click(function (e) { 
+      e.preventDefault();
+      $('.count-group').hide();
+      $('.btn-show-count').removeClass('selected');
+    });
+  });
+</script>

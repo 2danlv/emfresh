@@ -43,6 +43,9 @@ table.table {
                             }
                             }
                         }
+                        &.purple {
+                            background-color: var(--color-purple-300, #C6B1F6);
+                        }
                         &.orange {
                             background-color: #FF6F00;
                         }

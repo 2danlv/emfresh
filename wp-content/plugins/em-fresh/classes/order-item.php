@@ -144,11 +144,16 @@ class EM_Order_Item extends EF_Default
         $list = [];
 
         if (!empty($item['id'])) {
+            $date_start = $item['date_start'];
+            $date_stop  = $item['date_stop'];
+
+            if($date_start == '0000-00-00' | $date_start == '0000-00-00') {
+                return [];
+            }
+
             if($item['meal_plan'] != '') {
                 $list = json_decode($item['meal_plan'], true);
             } else {
-                $date_start = $item['date_start'];
-                $date_stop  = $item['date_stop'];
                 $meal_number = $item['meal_number'];
                 $quantity = $item['quantity'];
                 $count = 0;
