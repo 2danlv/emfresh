@@ -103,7 +103,7 @@ $data = site_order_get_meal_plans($_GET);
                   </div>
                  </td>
                 <td data-number="2"><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $order['phone']; ?>"><?php echo $order['phone']; ?></span></td>
-                <td data-number="3"><?php echo $order['total_quantity'] ?></td>
+                <td data-number="3"><?php echo $order['order_number'] ?></td>
                 <td data-number="4"><?php echo $order['type_name'] ?></td>
                 <td data-number="5"><?php echo $order['item_name'] ?></td>
                 <td data-number="6"><span class="status_order status_order-meal-<?php echo $order['order_status'] ?>"><?php echo $order['order_status_name'] ?></span></td>
@@ -205,9 +205,45 @@ get_footer('customer');
 ?>
 
 <script>
-  $(document).ready(function() {
-    // Load checkbox states when the page loads
-    // console.log('log',localStorage);
-    
+  $(document).ready(function () {
+    $('.content-header .input-search').attr('placeholder','Tên khách hàng / SĐT');
   });
+  $('.input-search').keyup(function() {
+        var query = $(this).val();
+        //$('.no-results .btn-add-customer').attr('href', '/customer/add-customer/?phone='+query);
+        if (query.length > 2) {  
+            $.ajax({
+                url: '<?php echo home_url('em-api/customer/list/?limit=-1'); ?>',  
+                method: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    //console.log('customer', response.data);
+                    var suggestions = '';
+                    var results = response.data.filter(function(customer) {
+                        return customer.customer_name.toLowerCase().includes(query.toLowerCase()) ||
+                               customer.phone.includes(query)
+                    });
+
+                    if (results.length > 0) {
+                        suggestions = results.map(customer => 
+                            `<div class="result-item pb-4 pt-4" data-id="${customer.id}">
+                                <p class="name"><a href="/meal-detail/?customer_id=${customer.id}" >${customer.customer_name}: ${customer.phone}</a></p>
+                            </div>`
+                        ).join("\n");
+                        
+                        $('.top-results').show();
+                        $('.top-results #top-autocomplete-results').html(suggestions);
+                    } else {
+                        $('.top-results').hide();
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching data from API');
+                    $('#autocomplete-results').hide();
+                }
+            });
+        } else {
+            $('.top-results').hide();  
+        }
+    });
 </script>

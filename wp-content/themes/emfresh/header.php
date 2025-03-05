@@ -77,14 +77,20 @@ $(document).ready(function() {
 					<div class="row ai-center">
 						<div class="col-9 d-f ai-center nowrap">
 							<h1><?php the_title(); ?></h1>
-							<input class="input-search" placeholder="Tên khách hàng / SĐT / Địa chỉ" type="text">
+							<div class="wrap-search">
+								<input class="input-search" placeholder="Tên khách hàng / SĐT / Địa chỉ" type="text">
+								<div class="top-results">
+									 <div id="top-autocomplete-results" class="autocomplete-results"></div>
+								</div>
+							</div>
 							<?php 
 							if ( !is_page_template( 'page-templates/list-customer.php' ) &&
 							 !is_page_template( 'page-templates/list-order.php' ) &&
 							 !is_page_template( 'page-templates/list-meal-plan.php' ) &&
 							 !is_page_template( 'page-templates/page_meal-select.php' ) &&
 							 !is_page_template( 'page-templates/page_meal-detail.php' ) &&
-							 !is_page_template( 'page-templates/page_meal-static.php' )
+							 !is_page_template( 'page-templates/page_meal-static.php' ) &&
+							 !is_page_template( 'page-templates/page_meal-search.php' )
 							  ) { ?>
 							<style>
 								.content-header .input-search {

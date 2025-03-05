@@ -61,8 +61,8 @@ get_header();
           <div class="col-8">
             <ul class="d-f ai-center">
               <li class="add"><a href="<?php echo $add_order_url ?>"><img src="<?php echo site_get_assets(); ?>/img/icon/plus-svgrepo-com.svg" alt=""></a></li>
-              <li><span class="btn btn-fillter">Bộ lọc</span></li>
-              <li class="has-child">
+              <li class="ml-8"><span class="btn btn-fillter">Bộ lọc</span></li>
+              <li class="has-child ml-8">
                 <span class="btn btn-action">Thao tác</span>
                 <ul>
                   <li>
@@ -74,7 +74,7 @@ get_header();
                   <li><button type="button" name="action" value="export" class="js-export">Xuất dữ liệu</button></li>
                 </ul>
               </li>
-              <li><span class="btn quick-print" data-target="#modal-print">In đơn</span></li>
+              <li class="ml-8"><span class="btn quick-print" data-target="#modal-print">In đơn</span></li>
               <li class="status"><span class="btn btn-status"><span class="count-checked"></span> đã chọn</span></li>
             </ul>
           </div>

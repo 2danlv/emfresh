@@ -1027,23 +1027,12 @@ jQuery(document).ready(function () {
 		dom: 'Bfrtip<"bottom"pl>',
 		ordering: false,
 		paging: false,
-		columnDefs: [
-			{  
-				targets: [0,2,3,4],
-				orderable: false,
-			},
-			{
-			 type: 'string', targets: [0,4]
-			},
-			{ visible: false, targets: [] },
-			
-		],
+		fixedColumns: {
+			start: 4
+		},
 		dom: 'Bfrtip<"bottom"pl>',
 		responsive: true,
 		autoWidth: true,
-		fixedColumns: {
-			start: 0
-		},
 		"stateSave": false
 	});
 	var table_select_meal = $('.table-select-meal').on('init.dt', function () {

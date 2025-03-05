@@ -7,6 +7,26 @@
         font-weight: 600;
         padding-left: 16px;
     }
+    .wrap-search {
+        width: 100%;
+        position: relative;
+        .top-results {
+            display: none;
+            position: absolute;
+            width: 100%;
+            top: calc(100% + 2px) ;
+            left: 42px;
+            background-color: var(--background-dim-green, #F6F6F6);
+            padding: 16px 8px 16px 16px;
+            border-radius: 16px 16px;
+            z-index: 10;
+            .autocomplete-results {
+                max-height: 80vh;
+                overflow: auto;
+                padding-right: 8px;
+            }
+        }
+    }
     .input-search {
         margin-left: 40px;
         width: 100%;

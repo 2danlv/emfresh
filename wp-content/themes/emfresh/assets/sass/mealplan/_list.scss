@@ -34,20 +34,30 @@ table.table {
                         width: 32px;
                         text-align: center;
                         &.empty {
-                            background-color: #fff;
+                            background: none !important;
                             input {
-                                cursor: auto;
                                 pointer-events: none;
-                                &:hover,&:focus {
-                                box-shadow: none;
                             }
+                            &.edit {
+                                border: 0.5px solid var(--color-grey-50, #F2F3F5);
+                                input {
+                                    color: #000;
+                                    pointer-events: auto;
+                                }
                             }
                         }
-                        &.purple {
-                            background-color: var(--color-purple-300, #C6B1F6);
-                        }
+                        
                         &.orange {
                             background-color: #FF6F00;
+                        }
+                        &.green {
+                            background-color: #208046;
+                        }
+                        &.purple {
+                            background-color: #AB86C2;
+                        }
+                        &.payment {
+                            opacity: 0.5;
                         }
                         &.white {
                             background-color: #fff;
