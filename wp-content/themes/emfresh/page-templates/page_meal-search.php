@@ -61,7 +61,7 @@ get_footer('customer');
   $(document).ready(function () {
     $('.content-header .input-search').attr('placeholder','Tên khách hàng / SĐT');
   });
-  $('.input-search').keyup(function() {
+  $('.content-header .wrap-search .input-search').keyup(function() {
         var query = $(this).val();
         //$('.no-results .btn-add-customer').attr('href', '/customer/add-customer/?phone='+query);
         if (query.length > 2) {  
@@ -84,19 +84,19 @@ get_footer('customer');
                             </div>`
                         ).join("\n");
                         
-                        $('.top-results').show();
-                        $('.top-results #top-autocomplete-results').html(suggestions);
+                        $('.content-header .top-results').show();
+                        $('.content-header .top-results #top-autocomplete-results').html(suggestions);
                     } else {
-                        $('.top-results').hide();
+                        $('.content-header .top-results').hide();
                     }
                 },
                 error: function(xhr, status, error) {
                     console.error('Error fetching data from API');
-                    $('#autocomplete-results').hide();
+                    $('.content-header .wrap-search #autocomplete-results').hide();
                 }
             });
         } else {
-            $('.top-results').hide();  
+            $('.content-header .top-results').hide();  
         }
     });
 </script>
