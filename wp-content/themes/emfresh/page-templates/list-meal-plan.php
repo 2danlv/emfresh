@@ -89,8 +89,9 @@ $data = site_order_get_meal_plans($_GET);
         </thead>
         <tbody>
             <?php 
-                foreach($data['orders'] as $order) : 
+                foreach($data['orders'] as $index =>  $order) : 
                     $meal_plan_items = $order['meal_plan_items'];
+                    $class = ($index % 2 == 0) ? 'green' : 'orange';
                     // var_dump($order);
             ?>
             <tr class="order-<?php echo $order['id'] ?>" data-order_id="<?php echo $order['id'] ?>">
@@ -125,7 +126,7 @@ $data = site_order_get_meal_plans($_GET);
                         $class_date = 'empty';
                       }
                   ?>
-                    <li data-date="<?php echo $date ?>" class="<?php echo $class_date; ?>"><span><?php echo $value ?></span></li>
+                    <li data-date="<?php echo $date ?>" class="<?php echo $class_date; ?> <?php echo $class; ?>"><span><?php echo $value ?></span></li>
                   <?php endforeach; ?>
                   </ul>
                 </td>

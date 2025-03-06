@@ -70,11 +70,24 @@
                 margin-bottom: 8px;
                 &.menu-item-has-children {
                     margin-bottom: 0;
-                > a {
-                        background-image: url(../img/icon/CaretDown.svg);
-                        background-position: right 8px center;
-                        background-repeat: no-repeat;
-                    }
+                    > a {
+                            background-image: url(../img/icon/CaretDown.svg);
+                            background-position: right 8px center;
+                            background-repeat: no-repeat;
+                        }
+                        &:hover {
+                            color: #4BA66F;
+                            > a {
+                                background-image: url(../img/icon/CaretUp.svg);
+                                background-color: #DDF6E7;
+                                img {
+                                    filter: brightness(0) saturate(100%) invert(56%) sepia(64%) saturate(316%) hue-rotate(91deg) brightness(89%) contrast(94%);
+                                }
+                            }
+                            .sub-menu {
+                                color: #000;
+                            }
+                        }
                 }
                 &.current-menu-parent {
                     > a {
@@ -85,6 +98,14 @@
                         img {
                             filter: brightness(0) saturate(100%) invert(56%) sepia(64%) saturate(316%) hue-rotate(91deg) brightness(89%) contrast(94%);
                         }
+                    }
+                    .sub-menu {
+                        display: block;
+                    }
+                }
+                &:hover {
+                    .sub-menu {
+                        display: block;
                     }
                 }
                 &.current-page-ancestor {
@@ -131,10 +152,14 @@
                         color: #4BA66F;
                         background-color: #DDF6E7;
                     }
+                    .sub-menu {
+                        display: block;
+                    }
                 }
                 .sub-menu {
                     padding-top: 8px;
                     padding-left: 16px;
+                    display: none;
                     li {
                         a {
                             font-weight: normal;
