@@ -75,7 +75,7 @@
                             background-position: right 8px center;
                             background-repeat: no-repeat;
                         }
-                        &:hover {
+                        &:hover,&.current-menu-item {
                             color: #4BA66F;
                             > a {
                                 background-image: url(../img/icon/CaretUp.svg);
