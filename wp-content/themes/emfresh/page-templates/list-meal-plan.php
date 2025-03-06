@@ -78,10 +78,10 @@ $data = site_order_get_meal_plans($_GET);
             <th data-number="8">Trạng thái <br>thanh toán</th>
             <th data-number="9">Số tiền <br>còn lại</th>
             <th data-number="10">
-              <ul class="d-f date-group">
+              <ul class="d-f date-group date-ttl">
               <?php
                 foreach($data['schedule'] as $date) : ?>
-                  <li data-date="<?php echo $date ?>"><?php echo date('d', strtotime($date)) ?></li>
+                    <li data-date="<?php echo $date ?>"><?php echo date('d', strtotime($date)) ?> <span class="hidden"><?php echo date('m', strtotime($date)) ?>/<?php echo date('Y', strtotime($date)) ?></span></li>
                 <?php endforeach; ?>
               </ul>
             </th>

@@ -1023,7 +1023,7 @@ jQuery(document).ready(function () {
     }).DataTable({
 		autoWidth: true,
 		scrollX: true,
-		scrollY:  $(window).height() - 227,
+		scrollY:  $(window).height() - 247,
 		dom: 'Bfrtip<"bottom"pl>',
 		ordering: false,
 		paging: false,
@@ -1110,6 +1110,22 @@ jQuery(document).ready(function () {
 		paging: false,
 		ordering: false,
 	});
+	$('.date-ttl li').each(function () {
+        var activeDateAttr = $(this).attr('data-date'); // Get active date
+        var activeDate = new Date(activeDateAttr); // Convert to Date object
+        
+        $('.date-ttl li').each(function () {
+            var dateAttr = $(this).attr('data-date'); // Get data-date of each <li>
+            if (dateAttr) {
+                var dateObj = new Date(dateAttr); // Convert to Date object
+                
+                if (dateObj > activeDate && dateObj.getDay() === 1) { // Find the next Monday
+                    $(this).addClass('first-day'); // Add 'first-day' class
+                    return false; // Stop after finding the first Monday
+                }
+            }
+        });
+    });
 });
 function stringToSlug(str) {
 	// remove accents

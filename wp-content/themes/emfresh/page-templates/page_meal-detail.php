@@ -75,10 +75,10 @@ if (count($data) > 0 && isset($data['orders'])) :
               <th data-number="3" class="text-center">Phân <br>loại</th>
               <th data-number="4" class="text-center">Trạng thái <br>đặt đơn</th>
               <th data-number="5">
-                <ul class="d-f date-group">
+                <ul class="d-f date-group date-ttl">
                   <?php
                   foreach ($data['schedule'] as $date) : ?>
-                    <li data-date="<?php echo $date ?>"><?php echo date('d', strtotime($date)) ?></li>
+                    <li data-date="<?php echo $date ?>"><?php echo date('d', strtotime($date)) ?> <span class="hidden"><?php echo date('m', strtotime($date)) ?>/<?php echo date('Y', strtotime($date)) ?></span></li>
                   <?php endforeach; ?>
                 </ul>
               </th>
@@ -161,7 +161,7 @@ if (count($data) > 0 && isset($data['orders'])) :
                   data-order_item_id="<?php echo $order_item['id'] ?>"
                   data-total="<?php echo $total ?>">
                   <td><span class="hidden-tmp title"><?php echo $customer_name_2nd ?></span></td>
-                  <td class="text-center nowrap"><?php echo $order_item['product_name'] ?></td>
+                  <td class="text-center nowrap wrap-td" style="width: 87px;"><div class="ellipsis"><?php echo $order_item['product_name'] ?></div></td>
                   <td class="text-center"><?php echo strtoupper($order_item['type']) ?></td>
                   <td></td>
                   <td class="wrap-date">

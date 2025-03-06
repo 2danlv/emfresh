@@ -3,15 +3,28 @@ table.table {
         th {
             .date-group {
                 li {
-                    padding: 8px 5px;
+                    padding: 8px 0px;
                     border: 1px solid transparent;
                     border-left: none;
-                    width: 32px;
+                    width: 38px;
                     text-align: center;
+                    position: relative;
                     cursor: pointer;
                     &:hover,&.active {
                         background-color: #000;
                         color: #fff;
+                    }
+                    &:first-child, &.first-day {
+                        // background-color: #000;
+                        // color: #fff;
+                        span {
+                            display: block;
+                            font-size: 9px;
+                            position: absolute;
+                            bottom: -1px;
+                            left: 0;
+                            width: 100%;
+                        }
                     }
                 }
                 
@@ -31,7 +44,7 @@ table.table {
                         border-top: none;
                         padding: 11px 5px;
                         background-color: #208046;
-                        width: 32px;
+                        width: 38px;
                         text-align: center;
                         &.empty {
                             background: none !important;
