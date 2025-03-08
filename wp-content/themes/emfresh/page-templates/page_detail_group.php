@@ -168,7 +168,6 @@ get_header();
                                             <th class="text-center">Thứ tự</th>
                                             <th>Tên khách hàng</th>
                                             <th>SĐT</th>
-                                            <th>Địa chỉ đăng ký</th>
                                             <th class="text-center">TT đơn hàng</th>
                                             <th class="text-center">Túi riêng</th>
                                             <th></th>
@@ -179,9 +178,6 @@ get_header();
                                             <td class="text-center">01</td>
                                             <td>Thien Phuong Bui</td>
                                             <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0123456789">0123456789</span></td>
-                                            <td data-number="3" class="text-capitalize wrap-td" style="min-width: 360px;">
-                                                <div class="nowrap ellipsis">Saigon Centrer, 92-94 Nam Kỳ Khởi Nghĩa, Phường Bến Nghé, Quận 1</div>
-                                            </td>
                                             <td class="text-center"><span class="status_order status_order-1">Đang dùng</span></td>
                                             <td class="text-center">
                                                 <input type="checkbox" class="mt-4">
@@ -192,9 +188,6 @@ get_header();
                                             <td class="text-center">01</td>
                                             <td>Thien Phuong Bui</td>
                                             <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0123456789">0123456789</span></td>
-                                            <td data-number="3" class="text-capitalize wrap-td" style="min-width: 360px;">
-                                                <div class="nowrap ellipsis">Saigon Centrer, 92-94 Nam Kỳ Khởi Nghĩa, Phường Bến Nghé, Quận 1</div>
-                                            </td>
                                             <td class="text-center"><span class="status_order status_order-1">Đang dùng</span></td>
                                             <td class="text-center">
                                                 <input type="checkbox" class="mt-4">
@@ -205,9 +198,6 @@ get_header();
                                             <td class="text-center">01</td>
                                             <td>Thien Phuong Bui</td>
                                             <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0123456789">0123456789</span></td>
-                                            <td data-number="3" class="text-capitalize wrap-td" style="min-width: 360px;">
-                                                <div class="nowrap ellipsis">Saigon Centrer, 92-94 Nam Kỳ Khởi Nghĩa, Phường Bến Nghé, Quận 1</div>
-                                            </td>
                                             <td class="text-center"><span class="status_order status_order-1">Đang dùng</span></td>
                                             <td class="text-center">
                                                 <input type="checkbox" class="mt-4">
@@ -226,7 +216,6 @@ get_header();
                                             <th class="text-center">Thứ tự</th>
                                             <th>Tên khách hàng</th>
                                             <th>SĐT</th>
-                                            <th>Địa chỉ đăng ký</th>
                                             <th class="text-center">TT đơn hàng</th>
                                             <th class="text-center">Túi riêng</th>
                                             <th></th>
@@ -237,9 +226,6 @@ get_header();
                                             <td class="text-center"></td>
                                             <td>Thien Phuong Bui</td>
                                             <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0123456789">0123456789</span></td>
-                                            <td data-number="3" class="text-capitalize wrap-td" style="min-width: 360px;">
-                                                <div class="nowrap ellipsis">Saigon Centrer, 92-94 Nam Kỳ Khởi Nghĩa, Phường Bến Nghé, Quận 1</div>
-                                            </td>
                                             <td class="text-center"><span class="status_order status_order-2">Hoàn tất</span></td>
                                             <td class="text-center">
                                                 <input type="checkbox" class="mt-4">
@@ -250,9 +236,6 @@ get_header();
                                             <td class="text-center"></td>
                                             <td>Thien Phuong Bui</td>
                                             <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0123456789">0123456789</span></td>
-                                            <td data-number="3" class="text-capitalize wrap-td" style="min-width: 360px;">
-                                                <div class="nowrap ellipsis">Saigon Centrer, 92-94 Nam Kỳ Khởi Nghĩa, Phường Bến Nghé, Quận 1</div>
-                                            </td>
                                             <td class="text-center"><span class="status_order status_order-2">Hoàn tất</span></td>
                                             <td class="text-center">
                                                 <input type="checkbox" class="mt-4">
@@ -263,9 +246,6 @@ get_header();
                                             <td class="text-center"></td>
                                             <td>Thien Phuong Bui</td>
                                             <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0123456789">0123456789</span></td>
-                                            <td data-number="3" class="text-capitalize wrap-td" style="min-width: 360px;">
-                                                <div class="nowrap ellipsis">Saigon Centrer, 92-94 Nam Kỳ Khởi Nghĩa, Phường Bến Nghé, Quận 1</div>
-                                            </td>
                                             <td class="text-center"><span class="status_order status_order-2">Hoàn tất</span></td>
                                             <td class="text-center">
                                                 <input type="checkbox" class="mt-4">
@@ -372,12 +352,6 @@ get_header();
                             <div class="col-4 pb-16">
                                 <input type="text" name="phone" class="phone form-control" value="" placeholder="SĐT">
                             </div>
-                            <div class="col-12 pb-16">
-                                <select name="" id="" class="form-control">
-                                    <option value="">Địa chỉ nhóm</option>
-                                </select>
-                            </div>
-
                             <div class="col-12">
                                 <hr class="dashed pb-16">
                                 <p class="mb-4">Thứ tự</p>

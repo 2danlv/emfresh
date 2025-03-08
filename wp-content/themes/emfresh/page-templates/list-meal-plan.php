@@ -81,7 +81,7 @@ $data = site_order_get_meal_plans($_GET);
               <ul class="d-f date-group date-ttl">
               <?php
                 foreach($data['schedule'] as $date) : ?>
-                    <li data-date="<?php echo $date ?>"><?php echo date('d', strtotime($date)) ?> <span class="hidden"><?php echo date('m', strtotime($date)) ?>/<?php echo date('Y', strtotime($date)) ?></span></li>
+                    <li data-date="<?php echo $date ?>"><?php echo date('d', strtotime($date)) ?> <span class="hidden"><?php echo date('m', strtotime($date)) ?></span></li>
                 <?php endforeach; ?>
               </ul>
             </th>
