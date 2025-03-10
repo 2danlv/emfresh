@@ -500,7 +500,19 @@ jQuery(document).ready(function () {
 		return false;
 	});
 	var today = moment().date();
+	var date_today = moment().format("YYYY-MM-DD");
 	var yestoday = moment().subtract(1, "days").format("DD");
+	
+	$('table.table thead tr th .date-group li').each(function() {
+		
+		var data_date = $(this).attr('data-date');
+		if (date_today == data_date) {
+			$(this).addClass('active');
+			return false;
+		}
+	})
+	
+	
 	function adjustDateForOverflow(date) {
 		if (!date.isValid()) {
 			date = date.endOf('month');
