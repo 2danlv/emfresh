@@ -59,7 +59,7 @@ $data = site_order_get_meal_plans($_GET);
             </ul>
           </div>
           <div class="col-4 text-right">
-            <div class="date-txt">Tháng 10, 2024</div>
+
           </div>
         </div>
         <?php wp_nonce_field('importoken', 'importoken', false); ?>
@@ -208,6 +208,33 @@ get_footer('customer');
 <script>
   $(document).ready(function () {
     $('.content-header .input-search').attr('placeholder','Tên khách hàng / SĐT');
+    setTimeout(() => {
+      var targetOffset = $('#target').offset().left; 
+      var offsetWithMargin = targetOffset - 490;
+          $(".dt-scroll-body").animate({scrollLeft: offsetWithMargin }, 1000);
+    }, 300);
+    
+    // let $activeElement = $("table.table tr .date-group li.active");
+
+    // if ($activeElement.length) {
+    //     let $weekElements = $();
+    //     let $firstDayElement = $activeElement;
+
+    //     // Find the start of the week (element with class "first-day")
+    //     while ($firstDayElement.prev().length && !$firstDayElement.hasClass("first-day")) {
+    //         $firstDayElement = $firstDayElement.prev();
+    //     }
+
+    //     // Collect all elements for the current week
+    //     let $currentElement = $firstDayElement;
+    //     while ($currentElement.length && (!$currentElement.hasClass("first-day") || $currentElement.is($firstDayElement))) {
+    //         $weekElements = $weekElements.add($currentElement);
+    //         $currentElement = $currentElement.next();
+    //     }
+
+    //     // Hide all other elements
+    //     $(".date-group li").not($weekElements).hide();
+    // }
   });
   $('.input-search').keyup(function() {
         var query = $(this).val();

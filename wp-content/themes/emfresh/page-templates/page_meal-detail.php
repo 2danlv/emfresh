@@ -165,7 +165,7 @@ if (count($data) > 0 && isset($data['orders'])) :
                   <td class="text-center"><?php echo strtoupper($order_item['type']) ?></td>
                   <td></td>
                   <td class="wrap-date">
-                    <ul class="d-f date-group">
+                    <ul class="d-f date-group" data-date_stop ="<?php echo $order_item['date_stop'] ?>">
                       <?php foreach ($data['schedule'] as $date) :
                         $value = isset($meal_plan_items[$date]) ? $meal_plan_items[$date] : '';
 
@@ -479,7 +479,19 @@ get_footer('customer');
       })
   }
   jQuery(function($) {
-
+    setTimeout(() => {
+      var targetOffset = $('#target').offset().left; 
+      var offsetWithMargin = targetOffset - 736;
+          $(".dt-scroll-body").animate({scrollLeft: offsetWithMargin }, 1000);
+    }, 300);
+    $('.accordion-content_table .wrap-date li').each(function() {
+      var emptyDate = new Date($(this).find('.input-meal_plan').attr('data-date'));
+      var data_date_stop = $(this).closest('ul.date-group').attr('data-date_stop');
+      var dateStop = new Date(data_date_stop);
+      if ($(this).find('.input-meal_plan').val() !='' && dateStop < emptyDate ) {
+        $(this).addClass('just-edit');
+      }
+    });
     $('.accordion-content_table .wrap-date li.empty').each(function() {
       var emptyDate = new Date($(this).find('.input-meal_plan').attr('data-date'));
       var shouldEdit = false;

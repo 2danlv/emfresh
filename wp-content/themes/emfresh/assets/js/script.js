@@ -508,6 +508,7 @@ jQuery(document).ready(function () {
 		var data_date = $(this).attr('data-date');
 		if (date_today == data_date) {
 			$(this).addClass('active');
+			$(this).attr('id',"target");
 			return false;
 		}
 	})
