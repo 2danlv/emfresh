@@ -37,9 +37,9 @@ function site_order_submit()
 
         $order_id = isset($_POST['order_id']) ? intval($_POST['order_id']) : 0;
 
-        if($order_id > 0) {
-            file_put_contents(ABSPATH . "/wp-content/uploads/order-{$order_id}.json", json_encode($_POST, JSON_UNESCAPED_UNICODE));
-        }
+        // if($order_id > 0) {
+        //     file_put_contents(ABSPATH . "/wp-content/uploads/order-{$order_id}.json", json_encode($_POST, JSON_UNESCAPED_UNICODE));
+        // }
 
         $order_data = shortcode_atts($order_default, $_POST);
 
@@ -263,6 +263,7 @@ function site_order_submit()
     $duplicate_order = !empty($_GET['duplicate_order']) ? (int) $_GET['duplicate_order'] : 0;
     $dupnonce = !empty($_GET['dupnonce']) ? trim($_GET['dupnonce']) : '';
     if ($duplicate_order > 0 && wp_verify_nonce($dupnonce, "dupnonce")) {
+        /*
         $order_id = 0;
         $errors = [];
 
@@ -318,6 +319,7 @@ function site_order_submit()
 
         wp_redirect(add_query_arg($query_args, site_order_edit_link()));
         exit();
+        */
     }
 
     // Delete order

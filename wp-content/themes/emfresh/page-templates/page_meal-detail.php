@@ -119,6 +119,7 @@ if (count($data) > 0 && isset($data['orders'])) :
               $meal_plan_items = $order['meal_plan_items'];
               $class = ($index % 2 == 0) ? 'green' : 'orange';
               $class_payment = ($order['payment_status'] == '2') ? 'payment' : '';
+              $customer_name_2nd = !empty($first_order['customer_name_2nd']) ? $first_order['customer_name_2nd'] : $first_order['customer_name'];
             ?>
               <tr class="blank">
                 <td></td>
@@ -127,11 +128,11 @@ if (count($data) > 0 && isset($data['orders'])) :
                 <td></td>
                 <td></td>
               </tr>
-              <tr class="accordion-tit_table order-<?php echo $order['id']; ?>" data-order_id="<?php echo $order['id'] ?>">
-                <td class="nowrap"><?php echo $order['order_number'] ?></td>
-                <td class="nowrap text-center"><?php echo $order['item_name'] ?></td>
-                <td class="text-center nowrap"><?php echo $order['type_name'] ?></td>
-                <td class="text-center"><span class="status_order status_order-meal-<?php echo $order['order_status'] ?>"><?php echo $order['order_status_name'] ?></span></td>
+              <tr class="accordion-tit_table order-<?php echo $order['id']; ?>" data-customer_name="<?php echo $customer_name_2nd ;?>" data-order_id="<?php echo $order['id'] ?>">
+                <td class="nowrap td-calc order-number"><?php echo $order['order_number'] ?></td>
+                <td class="nowrap text-center td-calc order-prod"><?php echo $order['item_name'] ?></td>
+                <td class="text-center nowrap td-calc"><?php echo $order['type_name'] ?></td>
+                <td class="text-center td-calc"><span class="status_order status_order-meal-<?php echo $order['order_status'] ?>"><?php echo $order['order_status_name'] ?></span></td>
                 <td class="wrap-date">
                   <ul class="d-f date-group">
                     <?php foreach ($data['schedule'] as $date) :
@@ -150,7 +151,6 @@ if (count($data) > 0 && isset($data['orders'])) :
                 </td>
               </tr>
               <?php
-              $customer_name_2nd = !empty($first_order['customer_name_2nd']) ? $first_order['customer_name_2nd'] : $first_order['customer_name'];
 
               foreach ($order['order_items'] as $i => $order_item) :
                 $meal_plan_items = $order_item['meal_plan_items'];
@@ -215,30 +215,30 @@ if (count($data) > 0 && isset($data['orders'])) :
             <div class="col-6">
               <div class="row pb-16">
                 <div class="col-6">
-                  <input type="text" placeholder="Tên người nhận (chọn ô ở trên)">
+                  <input type="text" class="customer_name" placeholder="Tên người nhận (chọn ô ở trên)">
                 </div>
                 <div class="col-6">
                   <div class="row">
-                    <div class="col-6"><input type="text" placeholder="Mã đơn hàng"></div>
-                    <div class="col-6"><input type="text" placeholder="Mã sản phẩm"></div>
+                    <div class="col-6"><input type="text" class="count-number" placeholder="Mã đơn hàng"></div>
+                    <div class="col-6"><input type="text" class="count-prod_name" placeholder="Mã sản phẩm"></div>
                   </div>
                 </div>
               </div>
               <div class="row">
                 <div class="col-6">
-                  <input type="text" placeholder="Ngày bắt đầu (chọn ô ở trên)">
+                  <input type="text" class="count-start_day" placeholder="Ngày bắt đầu (chọn ô ở trên)">
                 </div>
                 <div class="col-6">
-                  <input type="text" placeholder="Ngày kết thúc">
+                  <input type="text" class="count-end_day" placeholder="Ngày kết thúc">
                 </div>
               </div>
             </div>
             <div class="col-2 col-btn ai-end d-f">
-              <div class="btn btn-primary  openmodal" data-target="#modal-warning-input">Xác nhận</div>
+              <div class="btn btn-primary confirm-calc">Xác nhận</div>
             </div>
-            <div class="col-4 d-f col-txt text-right">
-              <p>Tổng ngày ăn: <span>-</span></p>
-              <p>Tổng phần ăn: <span>-</span></p>
+            <div class="col-4 d-f col-txt count-result text-right">
+              <p>Tổng ngày ăn: <span class="date-use">-</span></p>
+              <p>Tổng phần ăn: <span class="number-use">-</span></p>
             </div>
           </div>
         </div>
@@ -617,12 +617,69 @@ get_footer('customer');
     $('.btn-show-count').click(function(e) {
       e.preventDefault();
       $(this).addClass('selected');
+      $('.count-group input').val('');
       $('.count-group').show();
+      $('table.table tbody tr td.wrap-date .date-group li input').addClass('is-disabled');
     });
     $('.count-group .count-close').click(function(e) {
       e.preventDefault();
       $('.count-group').hide();
       $('.btn-show-count').removeClass('selected');
+      $('.count-group .count-result').removeClass('have-result');
+      $('table.table tbody tr td.wrap-date .date-group li input').removeClass('is-disabled');
+      $('.count-group .count-result span').text('-');
+    });
+    $(document).on('click', '.accordion-tit_table td.td-calc', function(e){
+      e.preventDefault();
+      var row = $(this).closest('.accordion-tit_table');
+      var customer_name = row.attr('data-customer_name');
+      var order_number = row.find('.order-number').text();
+      var order_name = row.find('.order-prod').text();
+      $('.count-group .customer_name').val(customer_name);
+      $('.count-group .count-number').val(order_number);
+      $('.count-group .count-prod_name').val(order_name);
+      $('.accordion-tit_table').removeClass('select');
+      row.addClass('select');
+      $('.count-group .count-start_day,.count-group .count-end_day').val('');
+      $('.count-group .count-result').removeClass('have-result');
+      $('.count-group .count-result span').text('-');
+    });
+
+    $(document).on('click', '.accordion-tit_table.select .wrap-date li:not(.empty) span', function(e){
+      e.preventDefault();
+      var day = $(this).attr('data-date');
+      if ($('.count-group .count-start_day').val() == '') {
+        $('.count-group .count-start_day').val(day);
+      } else {
+        $('.count-group .count-end_day').val(day);
+      }
+    });
+    $('.count-group .confirm-calc').click(function (e) {
+      e.preventDefault();
+      var startDate = $('.count-group .count-start_day').val();
+      var endDate = $('.count-group .count-end_day').val();
+      if (!startDate || !endDate) {
+        alert('Please select a start and end date!');
+        return;
+      }
+      var start = new Date(startDate);
+      var end = new Date(endDate);
+      if (start > end) {
+        alert('Start date cannot be after end date.');
+        return;
+      }
+      var totalPortions = 0;
+      var totalDays = 0;
+      $('.accordion-tit_table.select .wrap-date li span').each(function() {
+        var date = $(this).data('date');
+        if (new Date(date) >= start && new Date(date) <= end && $(this).text() !== '') {
+          totalDays++;
+          totalPortions += parseInt($(this).text()) || 0;
+        }
+      });
+      $('.count-group .count-result').addClass('have-result');
+      $('.count-group .date-use').text(totalDays);
+      $('.count-group .number-use').text(totalPortions);
     });
   });
 </script>

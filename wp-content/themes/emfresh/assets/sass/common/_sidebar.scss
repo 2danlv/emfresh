@@ -22,15 +22,21 @@
                 }
             }
         } 
-        ul.nav-menu li.menu-item-has-children{
-            margin-bottom: 8px;
-            > a {
-                background: none;
+        ul.nav-menu {
+            li.menu-item-has-children,li.current_page_item.current-menu-item,li.menu-item-has-children:hover {
+                margin-bottom: 8px;
+                > a {
+                    background: none;
+                }
             }
-        }
-        ul.nav-menu li .sub-menu  {
-            display: none;
-        }
+        } 
+        ul.nav-menu {
+            li,li.current-menu-parent,li.current_page_item, li:hover {
+                .sub-menu  {
+                    display: none;
+                }
+            } 
+        } 
     }
     .content-wrapper {
         padding-left: 62px;

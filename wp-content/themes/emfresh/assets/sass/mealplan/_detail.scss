@@ -84,6 +84,19 @@
         }
         
     }
+    .count-result.have-result {
+        p {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+        span {
+            color: #208046;
+            font-size: 32px;
+            font-weight: bold;
+            padding-left: 16px;
+        }
+    }
 }
 .mini_sidebar .group-btn-bottom{
     padding-left: 62px;

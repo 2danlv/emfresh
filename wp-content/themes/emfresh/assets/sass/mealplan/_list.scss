@@ -47,6 +47,7 @@ table.table {
                         width: 38px;
                         height: 38px;
                         text-align: center;
+                        span {display: block;}
                         &:first-child {
                         }
                         &.empty {
@@ -59,8 +60,12 @@ table.table {
                                 input {
                                     color: #000;
                                     pointer-events: auto;
+                                    &.is-disabled {
+                                        pointer-events: none;
+                                    }
                                 }
                             }
+                            
                         }
                         
                         &.orange {
@@ -88,6 +93,7 @@ table.table {
                             &:hover,&:focus {
                                 box-shadow: 1px 1px 1px 1px #ccc;
                             }
+                            
                         }
                     }
                 }
