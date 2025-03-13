@@ -12,133 +12,203 @@
 get_header();
 // Start the Loop.
 // while ( have_posts() ) : the_post();
-$data = site_order_get_meal_plans($_GET);
+
+$args = wp_unslash($_GET);
+
+$args[ 'groupby' ] = 'customer';
+
+$data = site_order_get_meal_plans($args);
+
 ?>
 <!-- Main content -->
 <section class="content">
   <?php
-  if (isset($_GET['message']) && $_GET['message'] == 'Delete Success' && !empty($_GET['expires']) && intval($_GET['expires']) > time()) {
+  if ( isset($_GET[ 'message' ]) && $_GET[ 'message' ] == 'Delete Success' && !empty($_GET[ 'expires' ]) && intval($_GET[ 'expires' ]) > time() ) {
     echo '<div class="alert alert-success mt-3 mb-16" role="alert">Xóa khách hàng thành công</div>';
   }
-    if (!empty($_GET['code']) && !empty($_GET['expires']) && intval($_GET['expires']) > time()) {
-      // echo '<div class="alert alert-success mt-3 mb-16" role="alert">'
-      //     . sprintf('Cập nhật%s thành công', $_GET['code'] != 200 ? ' không' : '')
-      //     .'</div>';
-    }
+  if ( !empty($_GET[ 'code' ]) && !empty($_GET[ 'expires' ]) && intval($_GET[ 'expires' ]) > time() ) {
+    // echo '<div class="alert alert-success mt-3 mb-16" role="alert">'
+    //     . sprintf('Cập nhật%s thành công', $_GET['code'] != 200 ? ' không' : '')
+    //     .'</div>';
+  }
   ?>
-<?php if(count($data) > 0) : ?>
-  <div class="card list-customer list-order">
-    <div class="card-body">
-      <form class="em-importer" data-name="customer" action="<?php the_permalink() ?>" method="post">
-        <div class="row ai-center">
-          <div class="col-8">
-            <ul class="d-f ai-center">
-              <li class="group-icon mr-8"><span class="btn btn-fillter">&nbsp;</span></li>
-              <li class="group-icon mr-8"><span class="btn btn-copy">&nbsp;</span></li>
-              <li class="has-child">
-                <span class="btn btn-action">Thao tác</span>
-                <ul>
-                  <li>
-                    <div class="d-f ai-center">
-                      <i class="fas fa-eye"></i><span class="openmodal pl-10" data-target="#modal-default">Cài đặt hiển thị</span>
-                    </div>
-                  </li>
-                  <li>
-                    <div class="d-f ai-center">
-                      <i class="fas fa-layer"></i><span class="openmodal pl-10" data-target="#modal-warning-edit">Cập nhật nhanh</span>
-                    </div>
-                  <li>
-                    <div class="d-f ai-center">
-                      <i class="fas fa-chart-horizontal"></i><span class="openmodal pl-10" data-target="#modal-default">Thống kê trạng thái</span>
-                    </div>
-                  </li>
-                  <li><button type="button" name="action" value="export" class="js-export">Xuất dữ liệu</button></li>
-                </ul>
-              </li>
-              <li class="status"><span class="btn btn-status"><span class="count-checked"></span> đã chọn</span></li>
-            </ul>
-          </div>
-          <div class="col-4 text-right">
-
-          </div>
-        </div>
-        <?php wp_nonce_field('importoken', 'importoken', false); ?>
-      </form>
-      <table id="list-meal-plan" class="table table-list-meal-plan" style="width:100%">
-        <thead>
-          <tr class="nowrap">
-            <th data-number="0" class="text-center"><input type="checkbox" name="checkall" id="checkall" /></th>
-            <th data-number="1"><span class="nowrap">Tên khách hàng</span></th>
-            <th data-number="2" class="text-left">SĐT</th>
-            <th data-number="3" class="text-center">Số đơn</th>
-            <th data-number="4">Mã sản phẩm</th>
-            <th data-number="5" class="text-center">Phân loại</th>
-            <th data-number="6">Trạng thái <br>đơn hàng</th>
-            <th data-number="7" class="text-center">Hình thức <br>thanh toán</th>
-            <th data-number="8">Trạng thái <br>thanh toán</th>
-            <th data-number="9">Số tiền <br>còn lại</th>
-            <th data-number="10">
-              <ul class="d-f date-group date-ttl">
-              <?php
-                foreach($data['schedule'] as $date) : ?>
-                    <li data-date="<?php echo $date ?>"><?php echo date('d', strtotime($date)) ?> <span class="hidden"><?php echo date('m', strtotime($date)) ?></span></li>
-                <?php endforeach; ?>
+  <?php if ( count($data) > 0 ) : ?>
+    <div class="card list-customer list-order">
+      <div class="card-body">
+        <form class="em-importer" data-name="customer" action="<?php the_permalink() ?>" method="post">
+          <div class="row ai-center">
+            <div class="col-8">
+              <ul class="d-f ai-center">
+                <li class="group-icon mr-8"><span class="btn btn-fillter">&nbsp;</span></li>
+                <li class="group-icon mr-8"><span class="btn btn-copy">&nbsp;</span></li>
+                <li class="has-child">
+                  <span class="btn btn-action">Thao tác</span>
+                  <ul>
+                    <li>
+                      <div class="d-f ai-center">
+                        <i class="fas fa-eye"></i><span class="openmodal pl-10" data-target="#modal-default">Cài đặt hiển
+                          thị</span>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="d-f ai-center">
+                        <i class="fas fa-layer"></i><span class="openmodal pl-10" data-target="#modal-warning-edit">Cập
+                          nhật nhanh</span>
+                      </div>
+                    <li>
+                      <div class="d-f ai-center">
+                        <i class="fas fa-chart-horizontal"></i><span class="openmodal pl-10"
+                          data-target="#modal-default">Thống kê trạng thái</span>
+                      </div>
+                    </li>
+                    <li><button type="button" name="action" value="export" class="js-export">Xuất dữ liệu</button></li>
+                  </ul>
+                </li>
+                <li class="status"><span class="btn btn-status"><span class="count-checked"></span> đã chọn</span></li>
               </ul>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-            <?php 
-                foreach($data['orders'] as $index =>  $order) : 
-                    $meal_plan_items = $order['meal_plan_items'];
-                    $class = ($index % 2 == 0) ? 'green' : 'orange';
-                    // var_dump($order);
-            ?>
-            <tr class="order-<?php echo $order['id'] ?>" data-order_id="<?php echo $order['id'] ?>">
-                <td data-number="0"><input type="checkbox" class="checkbox-element" data-number="<?php echo $order['order_number']; ?>" value="<?php echo $order['order_number'] ?>"></td>
+            </div>
+            <div class="col-4 text-right">
+
+            </div>
+          </div>
+          <?php wp_nonce_field('importoken', 'importoken', false); ?>
+        </form>
+        <table id="list-meal-plan" class="table table-list-meal-plan" style="width:100%">
+          <thead>
+            <tr class="nowrap">
+              <th data-number="0" class="text-center"><input type="checkbox" name="checkall" id="checkall" /></th>
+              <th data-number="1"><span class="nowrap">Tên khách hàng</span></th>
+              <th data-number="2" class="text-left">SĐT</th>
+              <th data-number="3" class="text-center">Số đơn</th>
+              <th data-number="4">Mã sản phẩm</th>
+              <th data-number="5" class="text-center">Phân loại</th>
+              <th data-number="6">Trạng thái <br>đặt đơn</th>
+              <th data-number="7" class="text-center">Hình thức <br>thanh toán</th>
+              <th data-number="8">Trạng thái <br>thanh toán</th>
+              <th data-number="9">Số tiền <br>còn lại</th>
+              <th data-number="10">
+                <ul class="d-f date-group date-ttl">
+                  <?php
+                  foreach ($data[ 'schedule' ] as $date) : ?>
+                    <li data-date="<?php echo $date ?>">
+                      <?php echo date('d', strtotime($date)) ?> <span class="hidden">
+                        <?php echo date('m', strtotime($date)) ?>
+                      </span>
+                    </li>
+                  <?php endforeach; ?>
+                </ul>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php
+            foreach ($data[ 'orders' ] as $index => $order) :
+              $meal_plan_items = $order[ 'meal_plan_items' ];
+              $class           = ($index % 2 == 0) ? 'green' : 'orange';
+              // var_dump($order);
+              ?>
+              <tr class="order-<?php echo $order[ 'id' ] ?>" data-order_id="<?php echo $order[ 'id' ] ?>">
+                <td data-number="0"><input type="checkbox" class="checkbox-element"
+                    data-number="<?php echo $order[ 'order_number' ]; ?>" value="<?php echo $order[ 'order_number' ] ?>"></td>
                 <td data-number="1" class=" nowrap wrap-td">
                   <div class="ellipsis">
-                  <a href="/meal-detail/?order_id=<?php echo $order['id'] ?>"> <?php
-                  echo $order['customer_name'] ?>
-                  </a>
+                    <a href="/meal-detail/?customer_id=<?php echo $order[ 'customer_id' ] ?>">
+                      <?php
+                      echo $order[ 'customer_name' ] ?>
+                    </a>
                   </div>
-                 </td>
-                <td data-number="2"><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $order['phone']; ?>"><?php echo $order['phone']; ?></span></td>
-                <td data-number="3"><?php echo $order['order_number'] ?></td>
-                <td data-number="4"><?php echo $order['type_name'] ?></td>
-                <td data-number="5"><?php echo $order['item_name'] ?></td>
-                <td data-number="6"><span class="status_order status_order-meal-<?php echo $order['order_status'] ?>"><?php echo $order['order_status_name'] ?></span></td>
-                <td data-number="7" class="nowrap text-center"><?php echo $order['payment_method_name'] ?></td>
-                <td data-number="8"><span class="status_order status_pay-<?php echo $order['payment_status'] ?>"><?php echo $order['payment_status_name'] ?></span></td>
+                </td>
+                <td data-number="2"><span class="copy modal-button" data-target="#modal-copy"
+                    title="Copy: <?php echo $order[ 'phone' ]; ?>">
+                    <?php echo $order[ 'phone' ]; ?>
+                  </span></td>
+                <td data-number="3">
+                  <?php echo $order[ 'count_order' ] // $order['order_number'] ?>
+                </td>
+                
+                <td data-number="4" class="nowrap">
+                <?php
+                $itemList = explode(', ', $order['item_name']);
+                $groupedItems = [];
+                foreach ($itemList as $item) {
+                  if (strpos($item, '+') !== false) {
+                    $combinedItems = explode('+', $item);
+                    foreach ($combinedItems as $subItem) {
+                      preg_match('/(\d+)([A-Za-z]+)/', $subItem, $matches);
+                      if ($matches) {
+                        $quantity = (int)$matches[1];
+                        $code = $matches[2];
+                        if (isset($groupedItems[$code])) {
+                          $groupedItems[$code] += $quantity;
+                        } else {
+                          $groupedItems[$code] = $quantity;
+                        }
+                      }
+                    }
+                  } else {
+                    preg_match('/(\d+)([A-Za-z]+)/', $item, $matches);
+                    if ($matches) {
+                      $quantity = (int)$matches[1];
+                      $code = $matches[2];
+                      if (isset($groupedItems[$code])) {
+                        $groupedItems[$code] += $quantity;
+                      } else {
+                        $groupedItems[$code] = $quantity;
+                      }
+                    }
+                  }
+                }
+                $result = [];
+                foreach ($groupedItems as $code => $quantity) {
+                  $result[] = $quantity . $code;
+                }
+                echo implode(', ', $result);
+                ?>
+                </td>
+                <td data-number="5">
+                  <?php echo $order['type_name']; ?>
+                </td>
+                <td data-number="6"><span class="status_order status_order-meal-<?php echo $order[ 'order_status' ] ?>">
+                    <?php echo $order[ 'order_status_name' ] ?>
+                  </span></td>
+                <td data-number="7" class="nowrap text-center">
+                  <?php echo $order[ 'payment_method_name' ] ?>
+                </td>
+                <td data-number="8"><span class="status_order status_pay-<?php echo $order[ 'payment_status' ] ?>">
+                    <?php echo $order[ 'payment_status_name' ] ?>
+                  </span></td>
                 <td data-number="9">
                   <?php
-                  $total_money = $order['total'] - $order['paid'];
-                   echo  $total_money > 0 ? number_format($total_money) : 0 ?>
+                  $total_money = $order[ 'total' ] - $order[ 'paid' ];
+                  echo $total_money > 0 ? number_format($total_money) : 0 ?>
                 </td>
                 <td data-number="10" class="wrap-date">
                   <ul class="d-f date-group">
-                  <?php
-                    foreach($data['schedule'] as $date) : 
-                      $value = isset($meal_plan_items[$date]) ? $meal_plan_items[$date] : '';
-                      if($value != ''){
-                        $class_date  = '';
-                      } else {
+                    <?php
+                    foreach ($data[ 'schedule' ] as $date) :
+                      $value = isset($meal_plan_items[ $date ]) ? $meal_plan_items[ $date ] : '';
+                      if ( $value != '' ) {
+                        $class_date = '';
+                      }
+                      else {
                         $class_date = 'empty';
                       }
-                  ?>
-                    <li data-date="<?php echo $date ?>" class="<?php echo $class_date; ?> <?php echo $class; ?>"><span><?php echo $value ?></span></li>
-                  <?php endforeach; ?>
+                      ?>
+                      <li data-date="<?php echo $date ?>" class="<?php echo $class_date; ?> <?php echo $class; ?>"><span>
+                          <?php echo $value ?>
+                        </span></li>
+                    <?php endforeach; ?>
                   </ul>
                 </td>
-                
-            </tr>
-            
+
+              </tr>
+
             <?php endforeach; ?>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
-<?php endif ?>
+  <?php endif ?>
 </section>
 
 <div class="modal fade modal-warning" id="modal-warning-edit">
@@ -176,11 +246,11 @@ $data = site_order_get_meal_plans($_GET);
           </div>
           <div class="col-6">
             <ul class="filter list-unstyled">
-            <li><label><input type="checkbox" data-column="5" value="5">Phân loại đơn hàng</label></li>
-            <li><label><input type="checkbox" data-column="6" value="6">Trạng thái đặt đơn</label></li>
-            <li><label><input type="checkbox" data-column="7" value="7">Hình thức thanh toán</label></li>
-            <li><label><input type="checkbox" data-column="8" value="8">Trạng thái thanh toán</label></li>
-            <li><label><input type="checkbox" data-column="9" value="9">Số tiền còn lại</label></li>
+              <li><label><input type="checkbox" data-column="5" value="5">Phân loại đơn hàng</label></li>
+              <li><label><input type="checkbox" data-column="6" value="6">Trạng thái đặt đơn</label></li>
+              <li><label><input type="checkbox" data-column="7" value="7">Hình thức thanh toán</label></li>
+              <li><label><input type="checkbox" data-column="8" value="8">Trạng thái thanh toán</label></li>
+              <li><label><input type="checkbox" data-column="9" value="9">Số tiền còn lại</label></li>
             </ul>
           </div>
         </div>
@@ -198,7 +268,7 @@ $data = site_order_get_meal_plans($_GET);
 
 global $site_scripts;
 
-if (empty($site_scripts)) $site_scripts = [];
+if ( empty($site_scripts) ) $site_scripts = [];
 $site_scripts[] = "https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js";
 $site_scripts[] = get_template_directory_uri() . '/assets/js/importer.js';
 
@@ -207,13 +277,17 @@ get_footer('customer');
 
 <script>
   $(document).ready(function () {
-    $('.content-header .input-search').attr('placeholder','Tên khách hàng / SĐT');
+    $('.content-header .input-search').attr('placeholder', 'Tên khách hàng / SĐT');
     setTimeout(() => {
-      var targetOffset = $('#target').offset().left; 
+      var targetOffset = $('#target').offset().left;
       var offsetWithMargin = targetOffset - 490;
-          $(".dt-scroll-body").animate({scrollLeft: offsetWithMargin }, 1000);
+      $(".dt-scroll-body").animate({scrollLeft: offsetWithMargin}, 1000);
     }, 300);
-    
+    $('.content-header .wrap-search .clear-input').click(function (e) {
+      e.preventDefault();
+      $('.content-header .wrap-search .input-search').val('');
+      $('.content-header .top-results,.content-header .wrap-search .clear-input').hide();
+    });
     // let $activeElement = $("table.table tr .date-group li.active");
 
     // if ($activeElement.length) {
@@ -236,42 +310,44 @@ get_footer('customer');
     //     $(".date-group li").not($weekElements).hide();
     // }
   });
-  $('.input-search').keyup(function() {
-        var query = $(this).val();
-        //$('.no-results .btn-add-customer').attr('href', '/customer/add-customer/?phone='+query);
-        if (query.length > 2) {  
-            $.ajax({
-                url: '<?php echo home_url('em-api/customer/list/?limit=-1'); ?>',  
-                method: 'GET',
-                dataType: 'json',
-                success: function(response) {
-                    //console.log('customer', response.data);
-                    var suggestions = '';
-                    var results = response.data.filter(function(customer) {
-                        return customer.customer_name.toLowerCase().includes(query.toLowerCase()) ||
-                               customer.phone.includes(query)
-                    });
+  $('.input-search').keyup(function () {
+    var query = $(this).val();
+    //$('.no-results .btn-add-customer').attr('href', '/customer/add-customer/?phone='+query);
+    $('.content-header .wrap-search .clear-input').show();
+    if (query.length > 2) {
+      $.ajax({
+        url: '<?php echo home_url('em-api/customer/list/?limit=-1'); ?>',
+        method: 'GET',
+        dataType: 'json',
+        success: function (response) {
+          //console.log('customer', response.data);
+          var suggestions = '';
+          var results = response.data.filter(function (customer) {
+            return customer.customer_name.toLowerCase().includes(query.toLowerCase()) ||
+              customer.phone.includes(query)
+          });
 
-                    if (results.length > 0) {
-                        suggestions = results.map(customer => 
-                            `<div class="result-item pb-4 pt-4" data-id="${customer.id}">
-                                <p class="name"><a href="/meal-detail/?customer_id=${customer.id}" >${customer.customer_name}: ${customer.phone}</a></p>
-                            </div>`
-                        ).join("\n");
-                        
-                        $('.top-results').show();
-                        $('.top-results #top-autocomplete-results').html(suggestions);
-                    } else {
-                        $('.top-results').hide();
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error fetching data from API');
-                    $('#autocomplete-results').hide();
-                }
-            });
-        } else {
-            $('.top-results').hide();  
+          if (results.length > 0) {
+            suggestions = results.map(customer =>
+              `<div class="result-item pb-4 pt-4" data-id="${customer.id}">
+                  <p><a href="/meal-detail/?customer_id=${customer.id}" >${customer.customer_name} <br>
+                  ${customer.phone}</a></p>
+              </div>`
+            ).join("\n");
+
+            $('.top-results,.overlay').show();
+            $('.top-results #top-autocomplete-results').html(suggestions);
+          } else {
+            $('.top-results').hide();
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error('Error fetching data from API');
+          $('#autocomplete-results').hide();
         }
-    });
+      });
+    } else {
+      $('.top-results').hide();
+    }
+  });
 </script>

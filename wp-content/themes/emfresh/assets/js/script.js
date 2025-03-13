@@ -933,7 +933,7 @@ jQuery(document).ready(function () {
                         html: tagCondition,
                     },
 					depthLimit: 0,
-					columns: [ 5, 6,7, 8, 9],
+					columns: [ 4, 5, 6,7, 8, 9],
 					filterChanged: function (count) {
 						if (count == 0 || count == 1) {
 							$('.btn-fillter').removeClass('current-filter');
@@ -943,7 +943,7 @@ jQuery(document).ready(function () {
 						}
 						if (count > 1) {
 							$('.btn-fillter').addClass('current-filter');
-							$('.btn-fillter').html(`Bộ lọc <small>${count - 1}</small>`);
+							$('.btn-fillter').html(`Bộ lọc`);
 							$('.dtsb-title').html(`Điều kiện lọc (${count - 1})`);
 							$('.custom-btn.revert').css('display','block');
 						}

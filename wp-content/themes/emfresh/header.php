@@ -79,6 +79,8 @@ $(document).ready(function() {
 							<h1><?php the_title(); ?></h1>
 							<div class="wrap-search">
 								<input class="input-search" placeholder="Tên khách hàng / SĐT / Địa chỉ" type="text">
+								<div class="clear-input"><img
+                src="<?php echo site_get_template_directory_assets(); ?>/img/icon/delete-svgrepo-com.svg" alt=""></div>
 								<div class="top-results">
 									 <div id="top-autocomplete-results" class="autocomplete-results"></div>
 								</div>

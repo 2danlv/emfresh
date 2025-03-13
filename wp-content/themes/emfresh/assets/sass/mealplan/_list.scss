@@ -17,6 +17,7 @@ table.table {
                     &:first-child, &.first-day {
                         // background-color: #000;
                         // color: #fff;
+                        border-left: 1px solid var(--color-grey-700, #424242);
                         span {
                             display: block;
                             font-size: 9px;
