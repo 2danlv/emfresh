@@ -689,6 +689,140 @@ function site_order_get_meal_plans($args = [])
             }
         }
 
+        if(isset($args['groupby']) && $args['groupby'] == 'customer') {
+            $customers = [];
+
+            foreach($orders as $order) {
+                $customer_id = $order['customer_id'];
+
+                if(isset($customers[$customer_id])) {
+                    $customer = $customers[$customer_id];
+                } else {
+                    $customer = $order;
+                    $customer['orders'] = [];
+                    $customer['meal_plan_items'] = [];
+                    $customer['type_name'] = '';
+                    $customer['item_name'] = '';
+                }
+
+                $customer['orders'][] = $order;
+
+                $customer_meal_plan_items = isset($customer['meal_plan_items']) ? $customer['meal_plan_items'] : [];
+
+                foreach($order['meal_plan_items'] as $day => $value) {
+                    if(empty($customer_meal_plan_items[$day])) {
+                        $customer_meal_plan_items[$day] = 0;
+                    }
+
+                    $customer_meal_plan_items[$day] += $value;
+                }
+
+                $customer['meal_plan_items'] = $customer_meal_plan_items;
+
+                if(empty($customer['count_order'])) {
+                    $customer['count_order'] = 0;
+                }
+
+                $customer['count_order'] += 1;
+
+                $order_type_name = isset($order['type_name']) ? array_map('trim', explode(',', $order['type_name'])) : [];
+                $customer_type_name = isset($customer['type_name']) ? array_map('trim', explode(',', $customer['type_name'])) : [];
+
+                foreach($order_type_name as $value) {
+                    if($value != '' && !in_array($value, $customer_type_name)) {
+                        $customer_type_name[] = $value;
+                    }
+                }
+
+                $customer_type_name = site_order_sort_types($customer_type_name);
+                
+                $customer['type_name'] = implode(', ', $customer_type_name);
+
+                $order_item_name = isset($order['item_name']) ? array_map('trim', explode(',', $order['item_name'])) : [];
+                $customer_item_name = isset($customer['item_name']) ? array_map('trim', explode(',', $customer['item_name'])) : [];
+
+                foreach($order_item_name as $value) {
+                    if($value != '' && !in_array($value, $customer_item_name)) {
+                        $customer_item_name[] = $value;
+                    }
+                }
+
+                $customer_item_name = array_filter($customer_item_name, function($value){ return $value != ""; });
+
+                $customer['item_name'] = implode(', ', $customer_item_name);
+
+                // Sort order status [2 => Chưa rõ, 3 => Dí món, 1 => Đặt đơn]
+                if($order['order_status'] == 3) {
+                    $customer['order_status'] = 3;
+                    $customer['order_status_name'] = $order['order_status_name'];
+                }
+
+                // Sort payment status [2 => Chưa, 3 => 1 phần, 1 => Rồi]
+                if($customer['payment_status'] == 2 || $order['payment_status'] == 2) {
+                    $customer['payment_status'] = 2;
+                    $customer['payment_status_name'] = $order['payment_status_name'];
+                } else if($customer['payment_status'] == 3 || $order['payment_status'] == 3) {
+                    $customer['payment_status'] = 2;
+                    $customer['payment_status_name'] = $order['payment_status_name'];
+                }
+
+                $customers[$customer_id] = $customer;
+            }
+
+            // nếu tất cả 
+            foreach($customers as &$customer) {
+                $order_status_count = 0;
+                $payment_status_count = 0;
+                $payment_methods = [];
+
+                foreach($customer['orders'] as $order) {
+                    // 1 => "Đặt đơn",
+                    if($order['order_status'] == 1) {
+                        $order_status_count++;
+                    }
+
+                    // 1 => Rồi
+                    if($order['payment_status'] == 1) {
+                        $payment_status_count++;
+                    }
+
+                    if(!in_array($order['payment_method'], $payment_methods)) {
+                        $payment_methods[] = $order['payment_method'];
+                    }
+                }
+
+                if($order_status_count == count($customer['orders'])) {
+                    $customer['order_status'] = 1;
+                    $customer['order_status_name'] = $order['order_status_name'];
+                } else if($customer['order_status'] != 3) {
+                    $status_count = 0;
+
+                    foreach($customer['orders'] as $order) {
+                        // 2 => "Hoàn tất",
+                        if($order['status'] == 2) {
+                            $status_count++;
+                        }
+                    }
+
+                    if($status_count == count($customer['orders'])) {
+                        $customer['order_status'] = 2; // 2 => "Chưa rõ",
+                        $customer['order_status_name'] = $em_order->get_order_statuses(2);
+                    }
+                }
+                
+                if($payment_status_count == count($customer['orders'])) {
+                    $customer['order_status'] = 1; // 1 => Rồi
+                    $customer['order_status_name'] = $order['order_status_name'];
+                }
+
+                $payment_methods = site_order_sort_payment_methods($payment_methods);
+                $customer['payment_method'] = implode(', ', array_keys($payment_methods));
+                $customer['payment_method_name'] = implode(', ', $payment_methods);
+            }
+
+            $orders = $customers;
+        }
+
         $list = [];
 
         if($date_start != '0000-00-00' && $date_stop != '0000-00-00' && $date_start < $date_stop) {
@@ -716,6 +850,45 @@ function site_order_get_meal_plans($args = [])
     }
 
     return $data;
+}
+
+function site_order_sort_types($types = [])
+{
+    if(count($types) == 0) return $types;
+
+    $sorts = ['M', 'W', 'D'];
+
+    $list = [];
+
+    $types = array_map('strtoupper', $types);
+
+    foreach($sorts as $value) {
+        if(in_array($value, $types)) {
+            $list[] = $value;
+        }
+    }
+
+    return $list;
+}
+
+function site_order_sort_payment_methods($methods = [])
+{
+    if(count($methods) == 0) return $methods;
+
+    $sorts = [
+        2 => "COD",
+        1 => "Chuyển khoản",
+    ];
+
+    $list = [];
+
+    foreach($sorts as $index => $value) {
+        if(in_array($index, $methods)) {
+            $list[$index] = $value;
+        }
+    }
+
+    return $list;
 }
 
 function site_order_list_link()

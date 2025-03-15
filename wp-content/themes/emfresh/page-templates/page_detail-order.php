@@ -26,6 +26,11 @@ $_GET = wp_unslash($_GET);
 
 $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
 
+$duplicate_order = isset($_GET['duplicate_order']) ? intval($_GET['duplicate_order']) : 0; 
+if($duplicate_order > 0) {
+	$order_id = $duplicate_order;
+}
+
 $action_url = add_query_arg(['order_id' => $order_id], get_permalink());
 $duplicate_url = add_query_arg(['duplicate_order' => $order_id, 'dupnonce' => wp_create_nonce('dupnonce')], get_permalink());
 $delete_url = add_query_arg(['delete_order' => $order_id, 'delnonce' => wp_create_nonce('delnonce')], get_permalink());
@@ -47,6 +52,17 @@ if($order_id > 0) {
         $response = em_api_request('order_item/list', ['order_id' => $order_id, 'orderby' => 'id ASC']);
         if($response['code'] == 200 && count($response['data']) > 0) {
             $order_items = $response['data'];
+
+			// duplicate reset data order item
+			if($duplicate_order > 0) {
+				foreach($order_items as &$order_item) {
+					$order_item['order_id'] = 0;
+					$order_item['id'] = 0;
+					$order_item['date_start'] = '';
+                    $order_item['date_stop'] = '';
+                    $order_item['meal_plan'] = '';
+				}
+			}
         }
 
         $response = em_api_request('location/list', ['customer_id' => $order_detail['customer_id']]);
@@ -68,6 +84,22 @@ if($tab_active != '') {
 }
 
 $total_money = 0;
+
+// duplicate reset data order
+if($duplicate_order > 0) {
+	$order_detail['order_number'] = '';
+	$order_detail['id'] = 0;
+	$order_detail['status'] = 1;
+	$order_detail['ship_days'] = 0;
+	$order_detail['ship_amount'] = 0;
+	$order_detail['payment_status'] = 2;
+	$order_detail['paid'] = 0;
+	$order_detail['remaining_amount'] = 0;
+	$order_detail['discount'] = 0;
+	$order_detail['total'] = 0;
+	$order_detail['total_amount'] = 0;
+	$order_detail['params'] = '';
+}
 
 get_header();
 
@@ -106,7 +138,7 @@ get_header();
 			<div class="card-primary">
 				<!-- Content Header (Page header) -->
 				<div class="head-section d-f jc-b pb-16 ai-center">
-					<div class="order-code pl-16">#<?php echo $order_detail['order_number'] ?></div>
+					<div class="order-code pl-16"><?php echo $order_detail['order_number'] != '' ? '#' . $order_detail['order_number'] : '' ?></div>
 					<div class="js-group-btn">
 						<div class="d-f gap-8 ai-center">
 							<div class="print btn btn-secondary d-f gap-8 ai-center"><span class="fas fas-print"></span>In đơn</div>
