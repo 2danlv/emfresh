@@ -85,6 +85,5 @@ Thumbs.db
 *.mov
 *.wmv
 
-*_bak
-*_dan
-*.dan
+*.*bak
+*.*dan
