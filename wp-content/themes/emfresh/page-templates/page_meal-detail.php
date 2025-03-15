@@ -215,8 +215,10 @@ if ( count($data) > 0 && isset($data[ 'orders' ]) ) :
                     </ul>
                   </td>
                 </tr>
-              <?php endforeach; ?>
-            <?php endforeach; ?>
+              <?php
+              endforeach; ?>
+            <?php
+            endforeach; ?>
           </tbody>
         </table>
       </div>

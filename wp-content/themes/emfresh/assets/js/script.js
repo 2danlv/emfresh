@@ -502,7 +502,14 @@ jQuery(document).ready(function () {
 	var today = moment().date();
 	var date_today = moment().format("YYYY-MM-DD");
 	var yestoday = moment().subtract(1, "days").format("DD");
-	
+
+	var dayOfWeek  = moment().day(); 
+	if (dayOfWeek === 6) {
+		date_today = moment().add(2, 'days').format("YYYY-MM-DD");
+	}
+	else if (dayOfWeek === 0) {
+		date_today = moment().add(1, 'days').format("YYYY-MM-DD");
+	}
 	$('table.table thead tr th .date-group li').each(function() {
 		
 		var data_date = $(this).attr('data-date');
