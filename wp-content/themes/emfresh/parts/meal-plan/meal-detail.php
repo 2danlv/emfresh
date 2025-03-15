@@ -75,8 +75,6 @@
         }
       });
       $(this).find('.wrap-date li:not(.empty)').each(function () {
-        var classAttrValue = $(this).attr('class'); // Get all class names
-
         if ($(this).hasClass('payment')) { // Check if "payment" is one of the classes
           var dateAttrValue = $(this).find('span').attr('data-date'); // Get the data-date
           $('tr.top .wrap-date li[data-date="' + dateAttrValue + '"]').addClass('payment');
@@ -135,12 +133,14 @@
           $('#modal-warning-input').addClass('is-active');
           $('body').addClass('overflow');
           $('.modal-warning-input .modal-body p.notice_warning').text('Bạn nhập thiếu phần ăn: ' + (total - count));
+          $('.modal-warning-input .modal-footer a.link_order_detail').attr('href', '/list-order/chi-tiet-don-hang/?order_id='+ p.data('order_id'));
           return;
         }
         if (total < count) {
           $('#modal-warning-input').addClass('is-active');
           $('body').addClass('overflow');
           $('.modal-warning-input .modal-body p.notice_warning').text('Bạn nhập dư phần ăn: ' + (count - total));
+          $('.modal-warning-input .modal-footer a.link_order_detail').attr('href', '/list-order/chi-tiet-don-hang/?order_id='+ p.data('order_id'));
           return;
         }
       });

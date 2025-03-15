@@ -110,9 +110,7 @@ if ( count($data) > 0 && isset($data[ 'orders' ]) ) :
                 <?php echo $first_order[ 'type_name' ] ?>
               </td>
               <td class="text-center"><span
-                  class="status_order status_order-meal-<?php echo $first_order[ 'order_status' ] ?>">
-                  <?php echo $first_order[ 'order_status_name' ] ?>
-                </span></td>
+                  class="status_order status_order-meal-<?php echo $first_order[ 'order_status' ] ?>"><?php echo $first_order[ 'order_status_name' ] ?></span></td>
               <td class="wrap-date">
                 <ul class="d-f date-group group-date-top">
                   <?php
@@ -125,9 +123,7 @@ if ( count($data) > 0 && isset($data[ 'orders' ]) ) :
                       $class_date = 'empty';
                     }
                     ?>
-                    <li data-date="<?php echo $date ?>" class="<?php echo $class_date; ?>"><span>
-                        <?php echo $value ?>
-                      </span></li>
+                    <li data-date="<?php echo $date ?>" class="<?php echo $class_date; ?>"><span><?php echo $value ?></span></li>
                   <?php endforeach; ?>
                 </ul>
               </td>
@@ -138,7 +134,7 @@ if ( count($data) > 0 && isset($data[ 'orders' ]) ) :
               $meal_plan_items   = $order[ 'meal_plan_items' ];
               $class             = ($index % 2 == 0) ? 'green' : 'orange';
               $class_payment     = ($order[ 'payment_status' ] == '2') ? 'payment' : '';
-              $customer_name_2nd = !empty($first_order[ 'customer_name_2nd' ]) ? $first_order[ 'customer_name_2nd' ] : $first_order[ 'customer_name' ];
+              $customer_name_2nd = !empty($order[ 'customer_name_2nd' ]) ? $order[ 'customer_name_2nd' ] : $order[ 'customer_name' ];
               ?>
               <tr class="blank">
                 <td></td>
@@ -302,7 +298,7 @@ if ( count($data) > 0 && isset($data[ 'orders' ]) ) :
         </div>
         <div class="modal-footer text-center pt-16 pb-8">
           <p class="pb-16"><button type="button" class="btn btn-primary modal-close">Quay lại chỉnh sửa</button></p>
-          <p><button type="button" class="btn btn-secondary modal-close nowrap">Chỉnh sửa số lượng đơn hàng này</button></p>
+          <p><a href="#" class="btn btn-secondary link_order_detail modal-close nowrap">Chỉnh sửa số lượng đơn hàng này</a></p>
         </div>
       </div>
     </div>

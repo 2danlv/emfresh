@@ -79,7 +79,12 @@ table.table {
                             background-color: #AB86C2;
                         }
                         &.payment,&.just-edit {
-                            opacity: 0.5;
+                            &.orange {
+                                background-color: rgba($color: #FF6F00, $alpha: 0.5) ;
+                            }
+                            &.green {
+                                background-color:rgba($color: #208046, $alpha: 0.5) ;
+                            }
                         }
                         &.white {
                             background-color: #fff;
