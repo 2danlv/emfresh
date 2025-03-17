@@ -163,7 +163,7 @@ $data = site_order_get_meal_plans($args);
                 foreach ($groupedItems as $code => $quantity) {
                   $result[] = $quantity . $code;
                 }
-                echo implode(', ', $result);
+                echo implode('+', $result);
                 ?>
                 </td>
                 <td data-number="5">

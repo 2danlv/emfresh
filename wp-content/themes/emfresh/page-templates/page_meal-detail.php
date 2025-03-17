@@ -70,6 +70,14 @@ if ( count($data) > 0 && isset($data[ 'orders' ]) ) :
           </div>
           <?php wp_nonce_field('importoken', 'importoken', false); ?>
         </div>
+        <div class="list-item_name hidden">
+        <?php
+        foreach ($data['orders'] as $order) {
+          $groupedItems = []; // Reset the groupedItems array for each order
+          echo ('<p>'.$order['item_name'].'</p>' );
+        }
+        ?>
+        </div>
         <table class="table table-detail-meal js-meal-plan mt-16">
           <thead>
             <tr class="nowrap">
@@ -104,7 +112,9 @@ if ( count($data) > 0 && isset($data[ 'orders' ]) ) :
                 <?php echo $first_order[ 'customer_name' ] ?>
               </td>
               <td class="text-center">
-                <?php echo $first_order[ 'item_name' ] ?>
+                <div class="list-item_name">
+                  <div class="item_name"></div>
+                </div>
               </td>
               <td class="text-center">
                 <?php echo $first_order[ 'type_name' ] ?>

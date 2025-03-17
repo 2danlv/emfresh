@@ -25,6 +25,7 @@
       })
   }
   jQuery(function ($) {
+    var itemCounts = {};
     $('.content-header .input-search').attr('placeholder', 'Tên khách hàng / SĐT');
     setTimeout(() => {
       if ($('#target').length > 0) {
@@ -33,6 +34,24 @@
         $(".dt-scroll-body").animate({scrollLeft: offsetWithMargin}, 1000);
       }
     }, 300);
+      $('.list-item_name p').each(function() {
+        var itemText = $(this).text().trim();
+        var items = itemText.split('+');
+        items.forEach(function(item) {
+          var quantity = parseInt(item.match(/\d+/)[0]);
+          var code = item.match(/[A-Za-z]+/)[0];
+          if (itemCounts[code]) {
+            itemCounts[code] += quantity;
+          } else {
+            itemCounts[code] = quantity;
+          }
+        });
+      });
+      var result = [];
+      for (var code in itemCounts) {
+        result.push(itemCounts[code] + code); // Format as "count+code"
+      }
+      $('.list-item_name .item_name').text(result.join('+'));
     $('.accordion-content_table .wrap-date li').each(function () {
       var emptyDate = new Date($(this).find('.input-meal_plan').attr('data-date'));
       var data_date_stop = $(this).closest('ul.date-group').attr('data-date_stop');
@@ -67,9 +86,9 @@
         var dateAttrValue = $(this).attr('data-date');
         if (dateAttrValue) {
 
-          var count = $('.accordion-tit_table .wrap-date li:not(.empty) span[data-date="' + dateAttrValue + '"]').length;
-
-          if (count > 1) {
+          var count_green = $('.accordion-tit_table .wrap-date li.green span[data-date="' + dateAttrValue + '"]').length;
+          var count_orange = $('.accordion-tit_table .wrap-date li.orange span[data-date="' + dateAttrValue + '"]').length;
+          if (count_green > 0 && count_orange > 0) {
             $('tr.top .wrap-date li[data-date="' + dateAttrValue + '"]').addClass('purple');
           }
         }
@@ -167,7 +186,7 @@
           $('#modal-alert').addClass('is-active');
           $('body').addClass('overflow');
           $('.modal-warning .modal-body p span.txt_append').text('Lưu thành công!');
-          $('#modal-alert .modal-close, #modal-alert .overlay').click(function (e) { 
+          $('#modal-alert .modal-close, #modal-alert .overlay').click(function (e) {
             e.preventDefault();
             location.reload();
           });
@@ -286,7 +305,7 @@
       var totalPortions = 0;
       var totalDays = 0;
       if ($('.accordion-tit_table.select .wrap-date').hasClass('tit-count')) {
-        $('.accordion-tit_table.select .wrap-date li span').each(function () {
+        $('.accordion-tit_table.select .wrap-date li:not(.empty) span').each(function () {
           var date = $(this).data('date');
           if (new Date(date) >= start && new Date(date) <= end && $(this).text() !== '') {
             totalDays++;
@@ -295,7 +314,7 @@
         });
       }
       if ($('.accordion-content_table.sub_select .wrap-date').hasClass('sub_tit-count')) {
-        $('.accordion-content_table.sub_select .wrap-date li').each(function () {
+        $('.accordion-content_table.sub_select .wrap-date li:not(.empty)').each(function () {
           var date = $(this).find('.input-meal_plan').data('date');
           if (new Date(date) >= start && new Date(date) <= end && $(this).text() !== '') {
             totalDays++;
@@ -308,7 +327,7 @@
       $('.count-group .number-use').text(totalPortions);
     });
     accordion_table();
-    $('.content-header .wrap-search .clear-input').click(function (e) { 
+    $('.content-header .wrap-search .clear-input').click(function (e) {
       e.preventDefault();
       $('.content-header .wrap-search .input-search').val('');
       $('.content-header .top-results,.content-header .wrap-search .clear-input').hide();
