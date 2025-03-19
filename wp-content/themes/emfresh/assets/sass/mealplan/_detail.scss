@@ -151,12 +151,13 @@ table.table  tbody tr.blank  td {
     min-height: 0;
 }
 table.table tr.accordion-tit_table {
-    cursor: pointer;
     background: var(--color-grey-100, #DEDFE0);
     font-weight: 600;
+    .fas {
+        cursor: pointer;
+    }
 }
 table.table.dataTable tr.accordion-tit_table td:first-child {
-    padding-left: 32px;
     background: url(../img/icon/toggle2.svg) left 8px center #DEDFE0 no-repeat;
 }
 table.table-detail-meal tbody tr.accordion-tit_table > .dtfc-fixed-start, 

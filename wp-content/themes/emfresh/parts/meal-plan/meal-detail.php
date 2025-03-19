@@ -1,10 +1,10 @@
 <script>
   function accordion_table() {
-    $('table .accordion-tit_table')
+    $('table .accordion-tit_table .show-detail')
       .off()
       .on('click', function () {
         if (!$('.count-group').hasClass('is-show')) {
-          var item = $(this).toggleClass('on');
+          var item = $(this).closest('.accordion-tit_table').toggleClass('on');
           while (item.next().hasClass('accordion-content_table')) {
             item = item.next()
             item.toggleClass('is-active').find('td > div').slideToggle(400)
@@ -26,6 +26,8 @@
   }
   jQuery(function ($) {
     var itemCounts = {};
+    date_is_today = moment().format("YYYY-MM-DD");
+    console.log('log',date_is_today);
     $('.content-header .input-search').attr('placeholder', 'Tên khách hàng / SĐT');
     setTimeout(() => {
       if ($('#target').length > 0) {
@@ -54,10 +56,18 @@
       $('.list-item_name .item_name').text(result.join('+'));
     $('.accordion-content_table .wrap-date li').each(function () {
       var emptyDate = new Date($(this).find('.input-meal_plan').attr('data-date'));
+      var data_date_start = $(this).closest('ul.date-group').attr('data-date_start');
       var data_date_stop = $(this).closest('ul.date-group').attr('data-date_stop');
       var dateStop = new Date(data_date_stop);
+      //console.log('log',moment(dateStop).format("YYYY-MM-DD"));
       if ($(this).find('.input-meal_plan').val() != '' && dateStop < emptyDate) {
         $(this).addClass('just-edit');
+      }
+      if (date_is_today > moment(emptyDate).format("YYYY-MM-DD")) {
+        $(this).find('input').addClass('is-disabled');
+      }
+      if (date_is_today > data_date_start &&  $(this).hasClass('empty') ) {
+        $(this).find('input').addClass('is-disabled');
       }
     });
     $('.accordion-content_table .wrap-date li.empty').each(function () {
@@ -152,13 +162,16 @@
           $('#modal-warning-input').addClass('is-active');
           $('body').addClass('overflow');
           $('.modal-warning-input .modal-body p.notice_warning').text('Bạn nhập thiếu phần ăn: ' + (total - count));
-          $('.modal-warning-input .modal-footer a.link_order_detail').attr('href', '/list-order/chi-tiet-don-hang/?order_id='+ p.data('order_id'));
+          $('.modal-warning-input .modal-footer .create_discount').show();
+          $('.modal-warning-input .modal-footer .link_order').hide();
           return;
         }
         if (total < count) {
           $('#modal-warning-input').addClass('is-active');
           $('body').addClass('overflow');
           $('.modal-warning-input .modal-body p.notice_warning').text('Bạn nhập dư phần ăn: ' + (count - total));
+          $('.modal-warning-input .modal-footer .create_discount').hide();
+          $('.modal-warning-input .modal-footer .link_order').show();
           $('.modal-warning-input .modal-footer a.link_order_detail').attr('href', '/list-order/chi-tiet-don-hang/?order_id='+ p.data('order_id'));
           return;
         }

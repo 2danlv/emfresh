@@ -155,7 +155,9 @@ if ( count($data) > 0 && isset($data[ 'orders' ]) ) :
               </tr>
               <tr class="accordion-tit_table order-<?php echo $order[ 'id' ]; ?>"
                 data-customer_name="<?php echo $customer_name_2nd; ?>" data-order_id="<?php echo $order[ 'id' ] ?>">
-                <td class="nowrap td-calc order-number"><?php echo $order[ 'order_number' ] ?></td>
+                <td class="nowrap order-number">
+                  <div class="d-f ai-center"><i class="fas show-detail"></i><a href="/list-order/chi-tiet-don-hang/?order_id=<?php echo $order[ 'id' ] ?>"><?php echo $order[ 'order_number' ] ?></a></div>
+                  </td>
                 <td class="nowrap text-center td-calc order-prod"><?php echo $order[ 'item_name' ] ?></td>
                 <td class="text-center nowrap td-calc"><?php echo $order[ 'type_name' ] ?></td>
                 <td class="text-center td-calc order_status"><span
@@ -186,7 +188,8 @@ if ( count($data) > 0 && isset($data[ 'orders' ]) ) :
 
               foreach ($order[ 'order_items' ] as $i => $order_item) :
                 $meal_plan_items = $order_item[ 'meal_plan_items' ];
-                $total           = array_sum($meal_plan_items);
+                // $total = array_sum($meal_plan_items);
+                $total = $order_item['meal_number'] * $order_item['days'];
                 ?>
                 <tr
                   class="accordion-content_table order-<?php echo $order[ 'id' ]; ?> order-item order-item-<?php echo $i + 1 ?>"
@@ -201,7 +204,7 @@ if ( count($data) > 0 && isset($data[ 'orders' ]) ) :
                   </td>
                   <td></td>
                   <td class="wrap-date">
-                    <ul class="d-f date-group" data-date_stop="<?php echo $order_item[ 'date_stop' ] ?>">
+                    <ul class="d-f date-group" data-date_start="<?php echo $order_item[ 'date_start' ] ?>" data-date_stop="<?php echo $order_item[ 'date_stop' ] ?>">
                       <?php foreach ($data[ 'schedule' ] as $date) :
                         $value = isset($meal_plan_items[ $date ]) ? $meal_plan_items[ $date ] : '';
 
@@ -304,13 +307,16 @@ if ( count($data) > 0 && isset($data[ 'orders' ]) ) :
               <p class="notice_warning">Bạn nhập thiếu phần ăn: 02</p>
               <p>Vui lòng kiểm tra lại.</p>
             </div>
-
           </div>
-
         </div>
         <div class="modal-footer text-center pt-16 pb-8">
-          <p class="pb-16"><button type="button" class="btn btn-primary modal-close">Quay lại chỉnh sửa</button></p>
-          <p><a href="#" class="btn btn-secondary link_order_detail modal-close nowrap">Chỉnh sửa số lượng đơn hàng này</a></p>
+          <p class="pb-16"><button type="button" class="btn db btn-primary modal-close">Quay lại chỉnh sửa</button></p>
+          <div class="create_discount dn">
+            <p class="pb-16"><a href="#" class="btn db btn-secondary modal-close nowrap">Tạo đơn mới & giảm giá</a></p>
+            <p class="pb-16"><a href="#" class="btn db btn-secondary modal-close nowrap">Chuyển sang bảo lưu</a></p>
+          </div>
+          <p class="link_order"><a href="#" class="btn btn-secondary db link_order_detail modal-close nowrap">Chỉnh sửa số lượng đơn hàng này</a></p>
+          
         </div>
       </div>
     </div>
