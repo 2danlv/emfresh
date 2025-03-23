@@ -35,6 +35,8 @@ function site_order_submit()
 
         $update = true;
 
+        $today = current_time('Y-m-d');
+
         $order_id = isset($_POST['order_id']) ? intval($_POST['order_id']) : 0;
 
         // if($order_id > 0) {
@@ -139,6 +141,8 @@ function site_order_submit()
                         if ($response['code'] == 200) {
                             $log_content = [];
 
+                            $clear_meal_plan = false;
+
                             foreach ($item_labels as $key => $label) {
                                 $before_value = isset($before[$key]) ? $before[$key] : '';
                                 $value = isset($order_item[$key]) ? $order_item[$key] : '';
@@ -166,7 +170,16 @@ function site_order_submit()
                                     if($label != '') {
                                         $log_content[] = $label . ' ' . $value;
                                     }
+
+                                    // kiem tra cap nhat co lien quan toi meal plan
+                                    if($before_value != '' && in_array($key, ['days',  'quantity'])) {
+                                        $clear_meal_plan = true;
+                                    }
                                 }
+                            }
+
+                            if($clear_meal_plan && $before['date_start'] > $today) {
+                                $em_order_item->update(['meal_plan' => ''], ['id' => $order_item['id']]);
                             }
 
                             if (count($log_content) > 0) {

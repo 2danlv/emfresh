@@ -7,72 +7,30 @@
  * @subpackage Twenty_Twelve
  * @since Twenty Twelve 1.0
  */
-global $em_product, $em_ship_fee, $em_order, $em_order_item, $site_scripts, $site_script_settings;
-$list_ship_fees = $em_ship_fee->get_items(['orderby' => 'id ASC']);
-$list_products  = $em_product->get_items(['orderby' => 'id ASC']);
-$list_notes = em_admin_get_setting('em_notes');
-$list_types = ['d', 'w', 'm'];
-$list_locations = [];
-$orderDetailSettings = [
-    'em_api_url'     => home_url('em-api/customer/list/'),
-    'em_ship_fees'     => $list_ship_fees,
-    'em_products'     => $list_products,
-    'em_notes'         => $list_notes,
-];
+global $em_customer_group, $em_group, $em_location;
+
 $_GET = wp_unslash($_GET);
-$order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
-$action_url = add_query_arg(['order_id' => $order_id], get_permalink());
-$duplicate_url = add_query_arg(['duplicate_order' => $order_id, 'dupnonce' => wp_create_nonce('dupnonce')], get_permalink());
-$order_detail = $em_order->get_fields();
-$list_payment_statuses = $em_order->get_payment_statuses();
-$list_payment_methods = $em_order->get_payment_methods();
-$order_item_default = $em_order_item->get_fields();
-$order_item_default['id'] = 0;
-$order_items = [$order_item_default];
-if ($order_id > 0) {
-    $response = em_api_request('order/item', ['id' => $order_id]);
+
+$group_id = isset($_GET['group_id']) ? intval($_GET['group_id']) : 0;
+$action_url = add_query_arg(['group_id' => $group_id], get_permalink());
+
+$group_detail = $em_group->get_fields();
+$list = [];
+
+if ($group_id > 0) {
+    $response = em_api_request('group/item', ['id' => $group_id]);
+    
     if ($response['code'] == 200) {
-        $order_detail = $response['data'];
-        $response = em_api_request('order_item/list', ['order_id' => $order_id, 'orderby' => 'id ASC']);
-        if ($response['code'] == 200 && count($response['data']) > 0) {
-            $order_items = $response['data'];
-        }
-        $response = em_api_request('location/list', ['customer_id' => $order_detail['customer_id']]);
-        if ($response['code'] == 200 && count($response['data']) > 0) {
-            $list_locations = $response['data'];
-        }
+        $group_detail = $response['data'];
+        
+        $list = $em_customer_group->get_items(['group_id' => $group_id]);
     }
 } else {
-    $order_detail = $em_order->filter_item($order_detail);
+    wp_redirect(site_group_list_link());
+    exit();
 }
-$order_item_total = count($order_items);
-extract($order_detail);
-$customer_id = isset($_GET['customer_id']) ? intval($_GET['customer_id']) : 0;
 
-
-// lấy 1 customer
-$customer_filter = [
-    'id' => $customer_id
-];
-$response_customer = em_api_request('customer/item', $customer_filter);
-
-// lấy danh sách location
-$location_filter = [
-    'customer_id' => $customer_id,
-    'limit' => -1,
-    'orderby' => 'active DESC, id DESC',
-];
-
-$response_get_location = em_api_request('location/list', $location_filter);
-
-$response_order = em_api_request('order/list', [
-    'paged' => 1,
-    'customer_id' => $customer_id,
-    'limit' => -1,
-]);
-// var_dump($response_order);
-
-$total_money = 0;
+extract($group_detail);
 
 get_header();
 // Start the Loop.
@@ -98,6 +56,8 @@ get_header();
                 </ul>
             </div>
             <div class="card-primary">
+                <form method="post" action="">
+                <input type="hidden" name="save_group" value="<?php echo uniqid() ?>" />
                 <h1 class="pt-8 pb-16">Nhóm Thien Phuong Bui</h1>
                 <div class="row row32 tab-pane" id="info">
                     <div class="col-8">
@@ -118,25 +78,23 @@ get_header();
                                         Tên trưởng nhóm:
                                     </div>
                                     <div class="col-9 pb-16 text-right">
-                                        Thien Phuong Bui
+                                        <?php echo $name ?>
                                     </div>
                                     <div class="col-3 pb-16">
                                         SĐT trưởng nhóm:
                                     </div>
                                     <div class="col-9 pb-16 text-right">
-                                        0123456789
+                                        <?php echo $phone ?>
                                     </div>
                                     <div class="col-3 pb-16">
                                         Địa chỉ nhóm:
                                     </div>
                                     <div class="col-9 pb-16 text-right">
-                                        Saigon Centrer, 92-94 Nam Kỳ Khởi Nghĩa, Phường Bến Nghé, Quận 1
+                                        <?php echo $location_name ?>
                                     </div>
-                                    
                                 </div>
                             </div>
                         </div>
-
                         <!-- /.tab-content -->
                     </div><!-- /.card-body -->
                     <div class="col-4">
@@ -148,9 +106,8 @@ get_header();
                                     <a href="#" class="edit-group  d-f ai-center"><i class="fas fa-edit-2"></i>Chỉnh sửa</a>
                                 </div>
                                 <div class="pt-16">
-                                    <textarea name="" id="" class="form-control" rows="9"></textarea>
+                                    <textarea name="note" id="" class="form-control" rows="9"><?php echo $note ?></textarea>
                                 </div>
-
                                 <!-- /.card-body -->
                             </div>
                             <!-- /.card -->
@@ -174,43 +131,27 @@ get_header();
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <?php foreach($list as $i => $item) : $customer = $item['customer']; ?>
                                         <tr>
-                                            <td class="text-center">01</td>
-                                            <td>Thien Phuong Bui</td>
-                                            <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0123456789">0123456789</span></td>
+                                            <td class="text-center"><?php echo $i + 1 ?></td>
+                                            <td>
+                                                <?php echo $customer['customer_name'] ?>
+                                                <input type="hidden" name="customers[]" value="<?php echo $item['customer_id'] ?>" />
+                                            </td>
+                                            <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $customer['phone'] ?>"><?php echo $customer['phone'] ?></span></td>
                                             <td class="text-center"><span class="status_order status_order-1">Đang dùng</span></td>
                                             <td class="text-center">
                                                 <input type="checkbox" class="mt-4">
                                             </td>
-                                            <td class="text-center"><img src="<?php site_the_assets(); ?>/img/icon/delete-svgrepo-com-red.svg" class="openmodal mt-2" data-target="#modal-delete-member" alt=""></td>
+                                            <td class="text-center"><img src="<?php site_the_assets('img/icon/delete-svgrepo-com-red.svg'); ?>" class="openmodal mt-2" data-target="#modal-delete-member" alt=""></td>
                                         </tr>
-                                        <tr>
-                                            <td class="text-center">01</td>
-                                            <td>Thien Phuong Bui</td>
-                                            <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0123456789">0123456789</span></td>
-                                            <td class="text-center"><span class="status_order status_order-1">Đang dùng</span></td>
-                                            <td class="text-center">
-                                                <input type="checkbox" class="mt-4">
-                                            </td>
-                                            <td class="text-center"><img src="<?php site_the_assets(); ?>/img/icon/delete-svgrepo-com-red.svg" class="openmodal mt-2" data-target="#modal-delete-member" alt=""></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center">01</td>
-                                            <td>Thien Phuong Bui</td>
-                                            <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0123456789">0123456789</span></td>
-                                            <td class="text-center"><span class="status_order status_order-1">Đang dùng</span></td>
-                                            <td class="text-center">
-                                                <input type="checkbox" class="mt-4">
-                                            </td>
-                                            <td class="text-center"><img src="<?php site_the_assets(); ?>/img/icon/delete-svgrepo-com-red.svg" class="openmodal mt-2" data-target="#modal-delete-member" alt=""></td>
-                                        </tr>
-
+                                        <?php endforeach ?>
                                     </tbody>
                                 </table>
                                 <div class="d-f ai-center pb-54 pt-16 add-new-member openmodal" data-target="#modal-addnew_member">
                                     <span class="fas fa-plus mr-8"></span> Thêm thành viên
                                 </div>
-                                <table class="table table-member text-left">
+                                <!-- <table class="table table-member text-left">
                                     <thead class="visible-collapse">
                                         <tr>
                                             <th class="text-center">Thứ tự</th>
@@ -254,7 +195,7 @@ get_header();
                                         </tr>
 
                                     </tbody>
-                                </table>
+                                </table> -->
                             </div>
                         </div>
                     </div>
@@ -320,6 +261,7 @@ get_header();
                         </table>
                     </div>
                 </div>
+                </form>
             </div>
             <!-- /.row -->
     </section>

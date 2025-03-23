@@ -7,74 +7,20 @@
  * @subpackage Twenty_Twelve
  * @since Twenty Twelve 1.0
  */
-global $em_product, $em_ship_fee, $em_order, $em_order_item, $site_scripts, $site_script_settings;
-$list_ship_fees = $em_ship_fee->get_items(['orderby' => 'id ASC']);
-$list_products  = $em_product->get_items(['orderby' => 'id ASC']);
-$list_notes = em_admin_get_setting('em_notes');
-$list_types = ['d', 'w', 'm'];
-$list_locations = [];
-$orderDetailSettings = [
-    'em_api_url'     => home_url('em-api/customer/list/'),
-    'em_ship_fees'     => $list_ship_fees,
-    'em_products'     => $list_products,
-    'em_notes'         => $list_notes,
-];
+global $em_customer, $em_group, $em_location;
+
 $_GET = wp_unslash($_GET);
-$order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
-$action_url = add_query_arg(['order_id' => $order_id], get_permalink());
-$duplicate_url = add_query_arg(['duplicate_order' => $order_id, 'dupnonce' => wp_create_nonce('dupnonce')], get_permalink());
-$order_detail = $em_order->get_fields();
-$list_payment_statuses = $em_order->get_payment_statuses();
-$list_payment_methods = $em_order->get_payment_methods();
-$order_item_default = $em_order_item->get_fields();
-$order_item_default['id'] = 0;
-$order_items = [$order_item_default];
-if ($order_id > 0) {
-    $response = em_api_request('order/item', ['id' => $order_id]);
-    if ($response['code'] == 200) {
-        $order_detail = $response['data'];
-        $response = em_api_request('order_item/list', ['order_id' => $order_id, 'orderby' => 'id ASC']);
-        if ($response['code'] == 200 && count($response['data']) > 0) {
-            $order_items = $response['data'];
-        }
-        $response = em_api_request('location/list', ['customer_id' => $order_detail['customer_id']]);
-        if ($response['code'] == 200 && count($response['data']) > 0) {
-            $list_locations = $response['data'];
-        }
-    }
-} else {
-    $order_detail = $em_order->filter_item($order_detail);
-}
-$order_item_total = count($order_items);
-extract($order_detail);
-$customer_id = isset($_GET['customer_id']) ? intval($_GET['customer_id']) : 0;
 
+// $group_id = isset($_GET['group_id']) ? intval($_GET['group_id']) : 0;
+// $action_url = add_query_arg(['group_id' => $group_id], get_permalink());
 
-// lấy 1 customer
-$customer_filter = [
-    'id' => $customer_id
-];
-$response_customer = em_api_request('customer/item', $customer_filter);
+$group_detail = $em_group->get_fields();
+$group_detail = $em_group->filter_item($group_detail);
 
-// lấy danh sách location
-$location_filter = [
-    'customer_id' => $customer_id,
-    'limit' => -1,
-    'orderby' => 'active DESC, id DESC',
-];
-
-$response_get_location = em_api_request('location/list', $location_filter);
-
-$response_order = em_api_request('order/list', [
-    'paged' => 1,
-    'customer_id' => $customer_id,
-    'limit' => -1,
-]);
-// var_dump($response_order);
-
-$total_money = 0;
+extract($group_detail);
 
 get_header();
+
 // Start the Loop.
 // while ( have_posts() ) : the_post();
 ?>
@@ -82,174 +28,153 @@ get_header();
     <section class="content">
         <div class="container-fluid">
             <div class="card-primary">
-                <div class="row row32">
-                    <!-- /.col -->
-                    <div class="col-8">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="ttl mb-16">
-                                    Thông tin trưởng nhóm
-                                </div>
-                                <div class="box-search">
-                                    <input class="search-cus mb-16 form-control" id="search" value="" placeholder="Tìm khách hàng bằng tên / SĐT" type="text">
-                                </div>
-                                <div class="row">
-                                    <div class="col-8 pb-16">
-                                        <input type="text" name="nickname" value="" class="fullname form-control" placeholder="Tên khách hàng">
+                <form method="post" action="">
+                    <input type="hidden" name="save_group" value="<?php echo uniqid() ?>" />
+                    <div class="row row32">
+                        <!-- /.col -->
+                        <div class="col-8">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="ttl mb-16">
+                                        Thông tin trưởng nhóm
                                     </div>
-                                    <div class="col-4 pb-16">
-                                        <input type="text" name="phone" class="phone form-control" value="" placeholder="SĐT">
+                                    <div class="box-search">
+                                        <input class="search-cus mb-16 form-control" id="search" value="" placeholder="Tìm khách hàng bằng tên / SĐT" type="text">
                                     </div>
-                                    <div class="col-12 pb-16">
-                                        <select name="" id="" class="form-control">
-                                            <option value="">Địa chỉ nhóm</option>
-                                        </select>
+                                    <div class="row">
+                                        <div class="col-8 pb-16">
+                                            <input type="text" name="name" value="" class="fullname form-control" placeholder="Tên khách hàng">
+                                        </div>
+                                        <div class="col-4 pb-16">
+                                            <input type="text" name="phone" class="phone form-control" value="" placeholder="SĐT">
+                                        </div>
+                                        <div class="col-12 pb-16">
+                                            <select name="location_id" class="form-control location_id">
+                                                <option value="1">Địa chỉ nhóm</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                            <!-- /.tab-content -->
+                        </div><!-- /.card-body -->
+                        <div class="col-4">
+                            <!-- About Me Box -->
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="ttl">
+                                        Ghi chú nhóm
+                                    </div>
+                                    <div class="pt-16">
+                                        <textarea name="note" id="" class="form-control note" rows="9"></textarea>
+                                    </div>
 
-                        <!-- /.tab-content -->
-                    </div><!-- /.card-body -->
-                    <div class="col-4">
-                        <!-- About Me Box -->
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="ttl">
-                                    Ghi chú nhóm
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                    <!-- /.card-body -->
                                 </div>
-                                <div class="pt-16">
-                                    <textarea name="" id="" class="form-control" rows="9"></textarea>
-                                </div>
-
-                                <!-- /.card-body -->
+                                <!-- /.card -->
                             </div>
-                            <!-- /.card -->
                         </div>
-                    </div>
-                    <div class="col-12 pt-32">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="ttl mb-16">
-                                    Danh sách thành viên
+                        <div class="col-12 pt-32">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="ttl mb-16">
+                                        Danh sách thành viên
+                                    </div>
+                                    <table class="table table-member text-left">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">Thứ tự</th>
+                                                <th>Tên khách hàng</th>
+                                                <th>SĐT</th>
+                                                <th>Địa chỉ đăng ký</th>
+                                                <th class="text-center">TT đơn hàng</th>
+                                                <th class="text-center">Túi riêng</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="text-center">01</td>
+                                                <td>
+                                                    Thien Phuong Bui
+                                                    <input type="hidden" name="customers[]" value="1" />
+                                                </td>
+                                                <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0123456789">0123456789</span></td>
+                                                <td data-number="3" class="text-capitalize wrap-td" style="min-width: 360px;">
+                                                    <div class="nowrap ellipsis">Saigon Centrer, 92-94 Nam Kỳ Khởi Nghĩa, Phường Bến Nghé, Quận 1</div>
+                                                </td>
+                                                <td class="text-center"><span class="status_order status_order-1">Đang dùng</span></td>
+                                                <td class="text-center">
+                                                    <input type="checkbox" class="mt-4">
+                                                </td>
+                                                <td class="text-center"><img src="<?php site_the_assets('img/icon/delete-svgrepo-com-red.svg'); ?>" class="openmodal mt-2"  data-target="#modal-delete-member" alt=""></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="d-f ai-center pb-54 pt-16 add-new-member openmodal" data-target="#modal-addnew_member">
+                                        <span class="fas fa-plus mr-8"></span> Thêm thành viên
+                                    </div>
+                                    <!-- <table class="table table-member text-left">
+                                        <thead class="visible-collapse">
+                                            <tr>
+                                                <th class="text-center">Thứ tự</th>
+                                                <th>Tên khách hàng</th>
+                                                <th>SĐT</th>
+                                                <th>Địa chỉ đăng ký</th>
+                                                <th class="text-center">TT đơn hàng</th>
+                                                <th class="text-center">Túi riêng</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="text-center"></td>
+                                                <td>Thien Phuong Bui</td>
+                                                <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0123456789">0123456789</span></td>
+                                                <td data-number="3" class="text-capitalize wrap-td" style="min-width: 360px;">
+                                                    <div class="nowrap ellipsis">Saigon Centrer, 92-94 Nam Kỳ Khởi Nghĩa, Phường Bến Nghé, Quận 1</div>
+                                                </td>
+                                                <td class="text-center"><span class="status_order status_order-2">Hoàn tất</span></td>
+                                                <td class="text-center">
+                                                    <input type="checkbox" class="mt-4">
+                                                </td>
+                                                <td class="text-center"><img src="<?php site_the_assets(); ?>/img/icon/delete-svgrepo-com-red.svg" class="openmodal mt-2"  data-target="#modal-delete-member" alt=""></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center"></td>
+                                                <td>Thien Phuong Bui</td>
+                                                <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0123456789">0123456789</span></td>
+                                                <td data-number="3" class="text-capitalize wrap-td" style="min-width: 360px;">
+                                                    <div class="nowrap ellipsis">Saigon Centrer, 92-94 Nam Kỳ Khởi Nghĩa, Phường Bến Nghé, Quận 1</div>
+                                                </td>
+                                                <td class="text-center"><span class="status_order status_order-2">Hoàn tất</span></td>
+                                                <td class="text-center">
+                                                    <input type="checkbox" class="mt-4">
+                                                </td>
+                                                <td class="text-center"><img src="<?php site_the_assets(); ?>/img/icon/delete-svgrepo-com-red.svg" class="openmodal mt-2"  data-target="#modal-delete-member" alt=""></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center"></td>
+                                                <td>Thien Phuong Bui</td>
+                                                <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0123456789">0123456789</span></td>
+                                                <td data-number="3" class="text-capitalize wrap-td" style="min-width: 360px;">
+                                                    <div class="nowrap ellipsis">Saigon Centrer, 92-94 Nam Kỳ Khởi Nghĩa, Phường Bến Nghé, Quận 1</div>
+                                                </td>
+                                                <td class="text-center"><span class="status_order status_order-2">Hoàn tất</span></td>
+                                                <td class="text-center">
+                                                    <input type="checkbox" class="mt-4">
+                                                </td>
+                                                <td class="text-center"><img src="<?php site_the_assets(); ?>/img/icon/delete-svgrepo-com-red.svg" class="openmodal mt-2"  data-target="#modal-delete-member" alt=""></td>
+                                            </tr>
+                                            
+                                        </tbody>
+                                    </table> -->
                                 </div>
-                                <table class="table table-member text-left">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center">Thứ tự</th>
-                                            <th>Tên khách hàng</th>
-                                            <th>SĐT</th>
-                                            <th>Địa chỉ đăng ký</th>
-                                            <th class="text-center">TT đơn hàng</th>
-                                            <th class="text-center">Túi riêng</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td class="text-center">01</td>
-                                            <td>Thien Phuong Bui</td>
-                                            <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0123456789">0123456789</span></td>
-                                            <td data-number="3" class="text-capitalize wrap-td" style="min-width: 360px;">
-                                                <div class="nowrap ellipsis">Saigon Centrer, 92-94 Nam Kỳ Khởi Nghĩa, Phường Bến Nghé, Quận 1</div>
-                                            </td>
-                                            <td class="text-center"><span class="status_order status_order-1">Đang dùng</span></td>
-                                            <td class="text-center">
-                                                <input type="checkbox" class="mt-4">
-                                            </td>
-                                            <td class="text-center"><img src="<?php site_the_assets(); ?>/img/icon/delete-svgrepo-com-red.svg" class="openmodal mt-2"  data-target="#modal-delete-member" alt=""></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center">01</td>
-                                            <td>Thien Phuong Bui</td>
-                                            <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0123456789">0123456789</span></td>
-                                            <td data-number="3" class="text-capitalize wrap-td" style="min-width: 360px;">
-                                                <div class="nowrap ellipsis">Saigon Centrer, 92-94 Nam Kỳ Khởi Nghĩa, Phường Bến Nghé, Quận 1</div>
-                                            </td>
-                                            <td class="text-center"><span class="status_order status_order-1">Đang dùng</span></td>
-                                            <td class="text-center">
-                                                <input type="checkbox" class="mt-4">
-                                            </td>
-                                            <td class="text-center"><img src="<?php site_the_assets(); ?>/img/icon/delete-svgrepo-com-red.svg" class="openmodal mt-2"  data-target="#modal-delete-member" alt=""></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center">01</td>
-                                            <td>Thien Phuong Bui</td>
-                                            <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0123456789">0123456789</span></td>
-                                            <td data-number="3" class="text-capitalize wrap-td" style="min-width: 360px;">
-                                                <div class="nowrap ellipsis">Saigon Centrer, 92-94 Nam Kỳ Khởi Nghĩa, Phường Bến Nghé, Quận 1</div>
-                                            </td>
-                                            <td class="text-center"><span class="status_order status_order-1">Đang dùng</span></td>
-                                            <td class="text-center">
-                                                <input type="checkbox" class="mt-4">
-                                            </td>
-                                            <td class="text-center"><img src="<?php site_the_assets(); ?>/img/icon/delete-svgrepo-com-red.svg" class="openmodal mt-2"  data-target="#modal-delete-member" alt=""></td>
-                                        </tr>
-                                        
-                                    </tbody>
-                                </table>
-                                <div class="d-f ai-center pb-54 pt-16 add-new-member openmodal" data-target="#modal-addnew_member">
-                                    <span class="fas fa-plus mr-8"></span> Thêm thành viên
-                                </div>
-                                <table class="table table-member text-left">
-                                    <thead class="visible-collapse">
-                                        <tr>
-                                            <th class="text-center">Thứ tự</th>
-                                            <th>Tên khách hàng</th>
-                                            <th>SĐT</th>
-                                            <th>Địa chỉ đăng ký</th>
-                                            <th class="text-center">TT đơn hàng</th>
-                                            <th class="text-center">Túi riêng</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td class="text-center"></td>
-                                            <td>Thien Phuong Bui</td>
-                                            <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0123456789">0123456789</span></td>
-                                            <td data-number="3" class="text-capitalize wrap-td" style="min-width: 360px;">
-                                                <div class="nowrap ellipsis">Saigon Centrer, 92-94 Nam Kỳ Khởi Nghĩa, Phường Bến Nghé, Quận 1</div>
-                                            </td>
-                                            <td class="text-center"><span class="status_order status_order-2">Hoàn tất</span></td>
-                                            <td class="text-center">
-                                                <input type="checkbox" class="mt-4">
-                                            </td>
-                                            <td class="text-center"><img src="<?php site_the_assets(); ?>/img/icon/delete-svgrepo-com-red.svg" class="openmodal mt-2"  data-target="#modal-delete-member" alt=""></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center"></td>
-                                            <td>Thien Phuong Bui</td>
-                                            <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0123456789">0123456789</span></td>
-                                            <td data-number="3" class="text-capitalize wrap-td" style="min-width: 360px;">
-                                                <div class="nowrap ellipsis">Saigon Centrer, 92-94 Nam Kỳ Khởi Nghĩa, Phường Bến Nghé, Quận 1</div>
-                                            </td>
-                                            <td class="text-center"><span class="status_order status_order-2">Hoàn tất</span></td>
-                                            <td class="text-center">
-                                                <input type="checkbox" class="mt-4">
-                                            </td>
-                                            <td class="text-center"><img src="<?php site_the_assets(); ?>/img/icon/delete-svgrepo-com-red.svg" class="openmodal mt-2"  data-target="#modal-delete-member" alt=""></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center"></td>
-                                            <td>Thien Phuong Bui</td>
-                                            <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0123456789">0123456789</span></td>
-                                            <td data-number="3" class="text-capitalize wrap-td" style="min-width: 360px;">
-                                                <div class="nowrap ellipsis">Saigon Centrer, 92-94 Nam Kỳ Khởi Nghĩa, Phường Bến Nghé, Quận 1</div>
-                                            </td>
-                                            <td class="text-center"><span class="status_order status_order-2">Hoàn tất</span></td>
-                                            <td class="text-center">
-                                                <input type="checkbox" class="mt-4">
-                                            </td>
-                                            <td class="text-center"><img src="<?php site_the_assets(); ?>/img/icon/delete-svgrepo-com-red.svg" class="openmodal mt-2"  data-target="#modal-delete-member" alt=""></td>
-                                        </tr>
-                                        
-                                    </tbody>
-                                </table>
                             </div>
                         </div>
                     </div>
-                </div>
+                </form>
                 <!-- /.card -->
             </div>
             <!-- /.col -->

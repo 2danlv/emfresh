@@ -20,6 +20,7 @@ require get_theme_file_path( '/inc/functions/importer.php' );
 require get_theme_file_path( '/inc/functions/statistic.php' );
 require get_theme_file_path( '/inc/functions/comment.php' );
 require get_theme_file_path( '/inc/functions/order.php' );
+require get_theme_file_path( '/inc/functions/group.php' );
 
 // Custom type
 // require get_theme_file_path( '/inc/post_types/customer.php' );

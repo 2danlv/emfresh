@@ -8,11 +8,9 @@
  * @since Twenty Twelve 1.0
  */
 
-global $em_customer, $em_order, $em_customer_tag, $em_log, $em_location;
+global $em_customer, $em_group, $em_location;
 
-$list_order_status = $em_order->get_statuses();
-$list_tags = $em_customer->get_tags();
-$detail_order_url = site_order_edit_link();
+$detail_group_url = site_group_edit_link();
 
 
 get_header();
@@ -75,7 +73,7 @@ get_header();
         </thead>
         <tbody>
           <?php
-            $response = em_api_request('order/list', [
+            $response = em_api_request('group/list', [
               'paged' => 1,
               'limit' => -1,
             ]);
@@ -84,22 +82,23 @@ get_header();
             foreach ($response['data'] as $record) {
               // var_dump($record);
               if (is_array($record)) {
-                  $link = "detail-group";
+                  // $link = "detail-group";
+                  $link = add_query_arg(['group_id' => $record["id"]], $detail_group_url);
                   $location_list = explode(',', $record['location_name']);
                 ?>
                   <tr class="nowrap">
                     <td data-number="0" class="text-center"><input type="checkbox" class="checkbox-element" data-number="<?php echo $record['phone']; ?>" value="<?php echo $record['id'] ?>"></td>
-                    <td data-number="1" class="text-capitalize nowrap wrap-td"><div class="ellipsis"><a href="<?php echo $link ?>"><?php echo $record['customer_name']; ?></a></div></td>
+                    <td data-number="1" class="text-capitalize nowrap wrap-td"><div class="ellipsis"><a href="<?php echo $link ?>"><?php echo $record['name']; ?></a></div></td>
                     <td data-number="2" class="text-left"><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $record['phone']; ?>"><?php echo $record['phone']; ?></span></td>
                     <td data-number="3" class="text-capitalize wrap-td" style="min-width: 300px;">
                       <div class="nowrap ellipsis"><?php echo $record['location_name'] ?></div>
                     </td>
                     <td data-number="4" class="text-center">
-                      <?php echo $record['total_quantity'] ?>
+                      <?php ?>
                     </td>
-                    <td data-number="5"><?php echo $record['item_name'] ?></td>
-                    <td data-number="6"><span class="status_order status_order-<?php echo $record['status']; ?>"><?php echo $record['status_name'] ?></span></td>
-                    <td data-number="7"><?php echo $record['payment_method_name'] ?></td>
+                    <td data-number="5"><?php ?></td>
+                    <td data-number="6"><span><?php ?></span></td>
+                    <td data-number="7"><?php  ?></td>
                     <td data-number="8" class="text-right"><span class="avatar"><img src="<?php echo get_avatar_url($record['modified_at']); ?>" width="24" alt="<?php echo get_the_author_meta('display_name', $record['modified_at']); ?>"></span></td>
                     <td data-number="9"><?php echo get_the_author_meta('display_name', $record['modified_at']); ?></td>
                     <td data-number="10" style="min-width: 146px;"><?php echo date('H:i d/m/Y', strtotime($record['modified'])); ?></td>
