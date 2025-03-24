@@ -69,7 +69,7 @@ get_header();
                                         <textarea name="note" id="" class="form-control note" rows="9"></textarea>
                                     </div>
 
-                                    <button type="submit" class="btn btn-primary">Save</button>
+                                    <button type="submit" class="btn btn-primary d-none">Save</button>
                                     <!-- /.card-body -->
                                 </div>
                                 <!-- /.card -->
@@ -98,7 +98,7 @@ get_header();
                                                 <td class="text-center">01</td>
                                                 <td>
                                                     Thien Phuong Bui
-                                                    <input type="hidden" name="customers[]" value="1" />
+                                                    <input type="hidden" name="customers[0][id]" value="1" />
                                                 </td>
                                                 <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0123456789">0123456789</span></td>
                                                 <td data-number="3" class="text-capitalize wrap-td" style="min-width: 360px;">
@@ -106,7 +106,7 @@ get_header();
                                                 </td>
                                                 <td class="text-center"><span class="status_order status_order-1">Đang dùng</span></td>
                                                 <td class="text-center">
-                                                    <input type="checkbox" class="mt-4">
+                                                    <input type="checkbox" name="customers[0][bag]" value="1" class="mt-4">
                                                 </td>
                                                 <td class="text-center"><img src="<?php site_the_assets('img/icon/delete-svgrepo-com-red.svg'); ?>" class="openmodal mt-2"  data-target="#modal-delete-member" alt=""></td>
                                             </tr>

@@ -58,6 +58,7 @@ get_header();
             <div class="card-primary">
                 <form method="post" action="">
                 <input type="hidden" name="save_group" value="<?php echo uniqid() ?>" />
+                <input type="hidden" name="group_id" value="<?php echo $group_id ?>" />
                 <h1 class="pt-8 pb-16">Nhóm Thien Phuong Bui</h1>
                 <div class="row row32 tab-pane" id="info">
                     <div class="col-8">
@@ -78,19 +79,24 @@ get_header();
                                         Tên trưởng nhóm:
                                     </div>
                                     <div class="col-9 pb-16 text-right">
-                                        <?php echo $name ?>
+                                        <span><?php echo $name ?></span>
+                                        <input type="text" name="name" value="<?php echo $name ?>" class="d-none fullname form-control" placeholder="Tên khách hàng">
                                     </div>
                                     <div class="col-3 pb-16">
                                         SĐT trưởng nhóm:
                                     </div>
                                     <div class="col-9 pb-16 text-right">
-                                        <?php echo $phone ?>
+                                        <span><?php echo $phone ?></span>
+                                        <input type="text" name="phone" class="d-none phone form-control" value="<?php echo $phone ?>" placeholder="SĐT">
                                     </div>
                                     <div class="col-3 pb-16">
                                         Địa chỉ nhóm:
                                     </div>
                                     <div class="col-9 pb-16 text-right">
-                                        <?php echo $location_name ?>
+                                        <span><?php echo $location_name ?></span>
+                                        <select name="location_id" class="d-none form-control location_id">
+                                            <option value="1" <?php echo $location_id == 1 ? "selected" : '' ?>>Địa chỉ nhóm</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -108,6 +114,8 @@ get_header();
                                 <div class="pt-16">
                                     <textarea name="note" id="" class="form-control" rows="9"><?php echo $note ?></textarea>
                                 </div>
+
+                                <button type="submit" class="btn btn-primary d-none">Save</button>
                                 <!-- /.card-body -->
                             </div>
                             <!-- /.card -->
@@ -131,17 +139,18 @@ get_header();
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach($list as $i => $item) : $customer = $item['customer']; ?>
+                                        <?php foreach($list as $i => $item) : ?>
                                         <tr>
                                             <td class="text-center"><?php echo $i + 1 ?></td>
                                             <td>
-                                                <?php echo $customer['customer_name'] ?>
-                                                <input type="hidden" name="customers[]" value="<?php echo $item['customer_id'] ?>" />
+                                                <?php echo $item['customer_name'] ?>
+                                                <input type="hidden" name="customers[<?php echo $i ?>][id]" value="<?php echo $item['id'] ?>" />
                                             </td>
-                                            <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $customer['phone'] ?>"><?php echo $customer['phone'] ?></span></td>
+                                            <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $item['phone'] ?>"><?php echo $item['phone'] ?></span></td>
                                             <td class="text-center"><span class="status_order status_order-1">Đang dùng</span></td>
                                             <td class="text-center">
-                                                <input type="checkbox" class="mt-4">
+                                                <input type="checkbox" name="customers[<?php echo $i?>][bag]" value="1" class="mt-4" 
+                                                    <?php echo !empty($item['bag']) ? "checked" : '' ?> />
                                             </td>
                                             <td class="text-center"><img src="<?php site_the_assets('img/icon/delete-svgrepo-com-red.svg'); ?>" class="openmodal mt-2" data-target="#modal-delete-member" alt=""></td>
                                         </tr>
