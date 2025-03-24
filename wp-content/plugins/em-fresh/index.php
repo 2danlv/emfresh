@@ -29,6 +29,7 @@ require_once(__DIR__ . '/functions/test.php');
 
 require_once(__DIR__ . '/classes/customer.php');
 require_once(__DIR__ . '/classes/customer-tag.php');
+require_once(__DIR__ . '/classes/customer-group.php');
 require_once(__DIR__ . '/classes/location.php');
 require_once(__DIR__ . '/classes/order.php');
 require_once(__DIR__ . '/classes/order-item.php');
@@ -36,6 +37,7 @@ require_once(__DIR__ . '/classes/product.php');
 require_once(__DIR__ . '/classes/log.php');
 require_once(__DIR__ . '/classes/ship-fee.php');
 require_once(__DIR__ . '/classes/menu.php');
+require_once(__DIR__ . '/classes/group.php');
 
 
 // require_once(__DIR__ . '/template/load.php');

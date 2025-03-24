@@ -151,20 +151,24 @@ class EM_Order_Item extends EF_Default
                 return [];
             }
 
-            if($item['meal_plan'] != '') {
-                $list = json_decode($item['meal_plan'], true);
-            } else {
+            $list = [];
+
+            if ($item['meal_plan'] != '') {
+                $list = (array) json_decode($item['meal_plan'], true);
+            }
+
+            if (count($list) == 0) {
                 $meal_number = $item['meal_number'];
-                $quantity = $item['quantity'];
-                $count = 0;
+                // $quantity = $item['quantity'];
+                // $count = 0;
 
                 while ($date_start <= $date_stop) {
                     $time = strtotime($date_start);
-                
+
                     // 'Sun', 'Sat'
                     if (!in_array(date('w', $time), [0, 6])) {
                         $value = $meal_number;
-                
+
                         /*
                             if($count + $value > $quantity) {
                                 $value = $quantity - $count;
@@ -177,18 +181,18 @@ class EM_Order_Item extends EF_Default
                                 $list[$date_start] = $value;
                             }
                         */
-                        
+
                         $list[$date_start] = $value;
                     }
-                
+
                     $date_start = date('Y-m-d', $time + DAY_IN_SECONDS);
                 }
 
-                if(count($list) > 0) {
-                    $this->update([
-                        'meal_plan' => json_encode($list)
-                    ], ['id' => $item['id']]);    
-                }
+                // if (count($list) > 0) {
+                //     $this->update([
+                //         'meal_plan' => json_encode($list)
+                //     ], ['id' => $item['id']]);
+                // }
             }
         }
 
