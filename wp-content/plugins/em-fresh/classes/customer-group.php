@@ -52,6 +52,7 @@ class EM_Customer_Group extends EF_Default
         $fields = array(
             'group_id' => 0,
             'customer_id' => 0,
+            'bag' => 0,
         );
 
         return $fields;
@@ -64,6 +65,7 @@ class EM_Customer_Group extends EF_Default
         $filters = [
             'group_id' => '=',
             'customer_id' => '=',
+            'bag' => '=',
         ];
 
         foreach ($filters as $name => $rule) {
@@ -87,34 +89,37 @@ class EM_Customer_Group extends EF_Default
 
         if (is_array($data)) {
             global $em_customer;
-
-            $item = $data;
-
-            $item['customer'] = $em_customer->get_item($item['customer_id']);
+            
+            $customer = $em_customer->get_item($data['customer_id']);
+            
+            $item = array_merge($customer, $data);
         }
 
         return parent::filter_item($item, $type);
     }
 
-    function update_list($group_id = 0, $customer_ids = [])
+    function update_list($group_id = 0, $customers = [])
     {
         $count = 0;
 
         $customer_groups = $this->get_items(['group_id' => $group_id]);
 
-        foreach ($customer_ids as $i => $customer_id) {
-            $customer_id = (int) $customer_id;
-            if ($customer_id == 0) continue;
+        foreach ($customers as $customer) {
+            if (empty($customer['id'])) continue;
 
-            if (!empty($customer_groups[$i])) {
+            $bag = !empty($customer['bag']) ? 1 : 0;
+
+            if (!empty($customer_groups[$count])) {
                 $this->update([
-                    'customer_id' => $customer_id,
-                    'id' => $customer_groups[$i]['id']
+                    'customer_id' => $customer['id'],
+                    'bag' => $bag,
+                    'id' => $customer_groups[$count]['id']
                 ]);
             } else {
-                $insert = $this->insert([
+                $this->insert([
                     'group_id' => $group_id,
-                    'customer_id' => $customer_id
+                    'bag' => $bag,
+                    'customer_id' => $customer['id']
                 ]);
             }
 

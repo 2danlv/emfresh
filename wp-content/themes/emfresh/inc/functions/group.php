@@ -14,6 +14,8 @@ function site_group_submit()
         ];
 
         $data = wp_unslash($_POST);
+
+        $customers = isset($data['customers']) ? (array) $data['customers'] : [];
         
         $errors = [];
 
