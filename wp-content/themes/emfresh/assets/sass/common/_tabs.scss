@@ -1,0 +1,32 @@
+.tab{
+	width: 100%;
+	background-color: #ffffff;
+	border: 1px solid #E5E5E5;
+	border-radius: 10px;
+	ul.tab-nav{
+		width: 100%;
+		display: flex;
+		
+		li.nav-item{
+			flex: 1;
+			padding: 10px 20px;
+			text-align: center;
+			font-weight: 500;
+			
+			border-bottom: 2px solid #E5E5E5;
+			cursor: pointer;
+			&:not(:last-child){
+				border-right: 1px solid #E5E5E5;
+			}
+			&.selected{
+				color:#217A44;
+				border-bottom-color: #217A44;
+			}
+			&.disabled{
+				color:#E5E5E5;
+				cursor: auto;
+				pointer-events: none;
+			}
+		}
+	}
+}

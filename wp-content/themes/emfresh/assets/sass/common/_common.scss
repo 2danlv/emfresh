@@ -410,3 +410,79 @@ img[alt="1px.png"] {
 		display: block;
 	}
 }
+
+.absolute{
+	position: absolute;
+}
+.relative{
+	position: relative;
+}
+.block{
+	display: block;
+}
+.inline{
+	display: inline;
+}
+.grid{
+	display: grid;
+}
+.grid-col-3{
+	grid-template-columns: repeat(3, 1fr)
+}
+.flex{
+	display: flex;
+}
+.flex-col{
+	flex-direction: column;
+}
+.flex-1{
+	flex:1;
+}
+.w-full{
+	width: 100%;
+}
+.h-full{
+	height: 100%;
+}
+.justify-between{
+	justify-content: space-between;
+}
+.justify-center{
+	justify-content: center;
+}
+.items-stretch{
+	align-items: stretch;
+}
+.align-center,.items-center{
+	align-items: center;
+}
+.items-start{
+	align-items: start;
+}
+.items-end{
+	align-items: end;
+}
+.invisible {
+	position: relative;
+	// visibility: hidden;
+	opacity: 0;
+	z-index: -1;
+}
+.top-0{
+	top:0;
+}
+.right-0{
+	right:0
+}
+.left-0{
+	left:0
+}
+.bottom-0{
+	bottom:0;
+}
+.rounded-md {
+	border-radius: 10px!important;
+}
+.cursor-pointer{
+	cursor: pointer;
+}
