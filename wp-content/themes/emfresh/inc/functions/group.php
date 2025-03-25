@@ -26,6 +26,10 @@ function site_group_submit()
             if ($response['code'] == 200) {
                 $group_id = $response['data']['insert_id'];
             }
+        } else {
+            $group_data['id'] = $group_id;
+
+            $response = em_api_request('group/update', $group_data);
         }
 
         if($group_id > 0) {

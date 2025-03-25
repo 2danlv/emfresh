@@ -66,7 +66,7 @@ get_header();
                             <div class="card-body">
                                 <div class="ttl mb-16 d-f jc-b ai-center">
                                     <span>Thông tin trưởng nhóm</span>
-                                    <a href="#" class="edit-group  d-f ai-center"><i class="fas fa-edit-2"></i>Chỉnh sửa</a>
+                                    <span class="edit-group  d-f ai-center"><i class="fas fa-edit-2"></i>Chỉnh sửa</span>
                                 </div>
                                 <div class="row jc-b">
                                     <div class="col-3 pb-16">
@@ -92,12 +92,16 @@ get_header();
                                     <div class="col-3 pb-16">
                                         Địa chỉ nhóm:
                                     </div>
-                                    <div class="col-9 pb-16 text-right">
-                                        <span><?php echo $location_name ?></span>
-                                        <select name="location_id" class="d-none form-control location_id">
-                                            <option value="1" <?php echo $location_id == 1 ? "selected" : '' ?>>Địa chỉ nhóm</option>
-                                        </select>
-                                    </div>
+                                    <div class="col-9 pb-16 group-locations">
+                                        <div class="text-right">
+                                            <span><?php echo $location_name ?></span>
+                                        </div>
+                                            <input type="text" class="location_id"  name="location_id" value="<?php echo $location_name ?>">
+                                            <div class="group-locations-container">
+                                                <div class="autocomplete-results"></div>
+                                            </div>
+                                            <div class="overlay-drop-menu"></div>
+                                        </div>
                                 </div>
                             </div>
                         </div>
@@ -109,7 +113,7 @@ get_header();
                             <div class="card-body">
                                 <div class="ttl d-f jc-b">
                                     Ghi chú nhóm
-                                    <a href="#" class="edit-group  d-f ai-center"><i class="fas fa-edit-2"></i>Chỉnh sửa</a>
+                                    <span class="edit-group  d-f ai-center"><i class="fas fa-edit-2"></i>Chỉnh sửa</span>
                                 </div>
                                 <div class="pt-16">
                                     <textarea name="note" id="" class="form-control" rows="9"><?php echo $note ?></textarea>
@@ -274,16 +278,7 @@ get_header();
             </div>
             <!-- /.row -->
     </section>
-</div><!-- /.container-fluid -->
-<div class="navigation-bottom d-f jc-b ai-center">
-    <span class="btn btn-secondary js-btn-prev btn-disable">Hủy</span>
-    <span class="btn btn-primary">Tạo nhóm mới</span>
-</div>
-</section>
-<!-- /.content -->
-</div>
-<!-- /.card-body -->
-<div class="modal fade modal-addnew_member" id="modal-addnew_member">
+    <div class="modal fade modal-addnew_member" id="modal-addnew_member">
     <div class="overlay"></div>
     <div class="modal-dialog">
         <div class="modal-content">
@@ -295,6 +290,9 @@ get_header();
                     <div class="card-body">
                         <div class="box-search">
                             <input class="search-cus mb-16 form-control" id="search" value="" placeholder="Tìm khách hàng bằng tên / SĐT" type="text">
+                            <div class="group-search-results">
+                                <div class="group-search-autocomplete-results autocomplete-results"></div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-8 pb-16">
@@ -331,6 +329,16 @@ get_header();
         </div>
     </div>
 </div>
+</div><!-- /.container-fluid -->
+<div class="navigation-bottom d-f jc-b ai-center">
+    <span class="btn btn-secondary js-btn-prev btn-disable">Hủy</span>
+    <span class="btn btn-primary">Lưu</span>
+</div>
+</section>
+<!-- /.content -->
+</div>
+<!-- /.card-body -->
+
 <div class="modal fade modal-warning" id="modal-delete-member">
     <div class="overlay"></div>
     <div class="modal-dialog">
@@ -352,9 +360,5 @@ get_header();
 <?php
 
 get_footer('customer');
+include(get_template_directory() . '/parts/meal-plan/group-detail.php');
 ?>
-<script type="text/javascript">
-    $(document).ready(function() {
-
-    });
-</script>
