@@ -372,12 +372,10 @@ function site_order_submit()
                 if($order_id == 0 || $order_item_id == 0 || count($meal_plan) == 0) continue;
                                 
                 $order_item = $em_order_item->get_item($order_item_id);
-                $my_meal_plan = json_decode($order_item['meal_plan'], true);
+                // $my_meal_plan = json_decode($order_item['meal_plan'], true);
+                $total = $order_item['meal_number'] * $order_item['days'];
 
-                if(
-                    count($meal_plan) != count($my_meal_plan) ||
-                    array_sum($meal_plan) != array_sum($my_meal_plan) 
-                ) {
+                if(array_sum($meal_plan) != $total) {
                     $errors[] = "Order $order_id - Item $order_item_id - Error.";
 
                     continue;

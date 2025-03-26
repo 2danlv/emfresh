@@ -52,7 +52,7 @@ get_header();
                                             <input type="tel" name="phone" required class="phone form-control" value="" placeholder="SĐT">
                                         </div>
                                         <div class="col-12 pb-16 group-locations">
-                                            <input type="text" class="location_id" name="location_id">
+                                            <input type="hidden" class="location_id" name="location_id">
                                             <input type="text" class="location_field form-control" readonly >
                                             <div class="group-locations-container">
                                                 <div class="autocomplete-results"></div>
@@ -212,7 +212,7 @@ get_header();
                                     <input type="text" name="phone" class="phone form-control" value="" placeholder="SĐT">
                                 </div>
                                 <div class="col-12 pb-16 group-locations">
-                                    <input type="text" class="location_id" name="location_id">
+                                    <input type="hidden" class="location_id" name="location_id">
                                     <input type="text" class="location_field form-control" readonly >
                                     <div class="group-locations-container">
                                         <div class="autocomplete-results"></div>

@@ -96,9 +96,11 @@ get_header();
                                         <div class="text-right">
                                             <span><?php echo $location_name ?></span>
                                         </div>
-                                            <input type="text" class="location_id"  name="location_id" value="<?php echo $location_name ?>">
+                                            <input type="text" class="location_id"  name="location_id" value="<?php echo $location_id ?>">
                                             <div class="group-locations-container">
-                                                <div class="autocomplete-results"></div>
+                                                <div class="autocomplete-results">
+                                                    <option value="1" <?php echo $location_id == 1 ? "selected" : '' ?>>Địa chỉ nhóm</option>
+                                                </div>
                                             </div>
                                             <div class="overlay-drop-menu"></div>
                                         </div>

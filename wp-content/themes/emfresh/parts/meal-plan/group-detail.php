@@ -25,7 +25,8 @@
     $(document).on('click', '.group-locations .group-locations-container .result-item', function (e) {
       var location_id = $(this).data('location_id');
       var other_address = $(this).find(".other-address").text();
-      $(this).closest('.card-body').find('.group-locations .location_id,.group-locations .location_field').val(other_address);
+      $(this).closest('.card-body').find('.group-locations .location_id').val(location_id);
+      $(this).closest('.card-body').find('.group-locations .location_field').val(other_address);
       $(".overlay-drop-menu,.group-locations-container").hide();
     });
     $(".overlay-drop-menu").on("click", function () {
@@ -85,13 +86,13 @@
     var location_id = 0;
     $(this).closest('.card-body').find('.form-control.fullname,.box-search .search-cus').val(name);
     $(this).closest('.card-body').find('.form-control.phone').val(phone);
-    $(this).closest('.card-body').find('.group-locations .location_id,.group-locations .location_field').val(address);
+    $(this).closest('.card-body').find('.group-locations .location_field').val(address);
 
     $('.group-search-results').hide();
     $('.form-add-order .input-customer_id').val(customer_id);
 
     if (customer_id > 0) {
-      getLocation(customer_id, location_id);
+      getLocation(customer_id, 0);
     }
   });
   function getLocation(customer_id, location_id) {
@@ -106,7 +107,7 @@
         response.data.forEach(location => {
           if (location.active == 1 && location_id == 0) {
             location_id = location.id;
-            $('.input-location_id').val(location_id);
+            container.closest('.group-locations').find('.location_id').val(location_id);
           }
 
           const template = `
