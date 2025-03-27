@@ -67,7 +67,7 @@
         $(this).find('input').addClass('is-disabled');
       }
       if (date_is_today > data_date_start &&  $(this).hasClass('empty') ) {
-        $(this).find('input').addClass('is-disabled');
+        //$(this).find('input').addClass('is-disabled');
       }
     });
     $('.accordion-content_table .wrap-date li.empty').each(function () {

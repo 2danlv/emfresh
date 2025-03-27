@@ -686,7 +686,7 @@ jQuery(document).ready(function () {
 			table_print.columns.adjust();
 		}, 50);
 	}
-	$('.openmodal').click(function () {
+	$(document).on('click', '.openmodal',function () {
 		open_modal(this);
 		table_regular_pay.columns.adjust();
 	});

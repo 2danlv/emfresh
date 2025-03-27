@@ -86,7 +86,7 @@ get_header();
                                         SĐT trưởng nhóm:
                                     </div>
                                     <div class="col-9 pb-16 text-right">
-                                        <span><?php echo $phone ?></span>
+                                        <span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $phone ?>"><?php echo $phone ?></span>
                                         <input type="text" name="phone" class="d-none phone form-control" value="<?php echo $phone ?>" placeholder="SĐT">
                                     </div>
                                     <div class="col-3 pb-16">
@@ -139,26 +139,49 @@ get_header();
                                             <th class="text-center">Thứ tự</th>
                                             <th>Tên khách hàng</th>
                                             <th>SĐT</th>
+                                            <th>Địa chỉ đăng ký</th>
                                             <th class="text-center">TT đơn hàng</th>
                                             <th class="text-center">Túi riêng</th>
+                                            <th></th>
                                             <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach($list as $i => $item) : ?>
                                         <tr>
+                                            <td class="text-center">1</td>
+                                            <td>
+                                                <div class="nameMember"><?php echo $name ?></div>
+                                                <input type="hidden" name="customers[0][bag]" class="input-bag" value="" />
+                                            </td>
+                                            <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $phone ?>"><?php echo $phone ?></span></td>
+                                            <td data-number="3" class="text-capitalize wrap-td" style="min-width: 360px;">
+                                                <div class="nowrap ellipsis"><?php echo $location_name ?></div>
+                                            </td>
+                                            <td class="text-center"><span class="status_order status_order-1">Đang dùng</span></td>
+                                            <td class="text-center">
+                                                <input type="checkbox" name="customers[0][bag]" value="1" class="mt-4" 
+                                                    <?php echo !empty($item['bag']) ? "checked" : '' ?> />
+                                            </td>
+                                            <td class="text-center"></td>
+                                        </tr>
+                                        <?php foreach($list as $i => $item) : ?>
+                                        <tr data-member="<?php echo $item['id'] ?>">
                                             <td class="text-center"><?php echo $i + 1 ?></td>
                                             <td>
-                                                <?php echo $item['customer_name'] ?>
-                                                <input type="hidden" name="customers[<?php echo $i ?>][id]" value="<?php echo $item['id'] ?>" />
+                                                <div class="nameMember"><?php echo $item['customer_name'] ?></div>
+                                                <input type="hidden" name="customers[<?php echo $i ?>][id]" value="<?php echo $item['customer_id'] ?>" />
                                             </td>
                                             <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $item['phone'] ?>"><?php echo $item['phone'] ?></span></td>
+                                            <td data-number="3" class="text-capitalize wrap-td" style="min-width: 360px;">
+                                                <?php //var_dump($item); ?>
+                                                <div class="nowrap ellipsis"></div>
+                                            </td>
                                             <td class="text-center"><span class="status_order status_order-1">Đang dùng</span></td>
                                             <td class="text-center">
                                                 <input type="checkbox" name="customers[<?php echo $i?>][bag]" value="1" class="mt-4" 
                                                     <?php echo !empty($item['bag']) ? "checked" : '' ?> />
                                             </td>
-                                            <td class="text-center"><img src="<?php site_the_assets('img/icon/delete-svgrepo-com-red.svg'); ?>" class="openmodal mt-2" data-target="#modal-delete-member" alt=""></td>
+                                            <td class="text-center"><img src="<?php site_the_assets('img/icon/delete-svgrepo-com-red.svg'); ?>" class="openmodal remove-member mt-2" data-target="#modal-delete-member" alt=""></td>
                                         </tr>
                                         <?php endforeach ?>
                                     </tbody>
@@ -280,84 +303,16 @@ get_header();
             </div>
             <!-- /.row -->
     </section>
-    <div class="modal fade modal-addnew_member" id="modal-addnew_member">
-    <div class="overlay"></div>
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Thêm thành viên</h4>
-            </div>
-            <div class="modal-body pt-16 pb-16">
-                <div class="card-primary">
-                    <div class="card-body">
-                        <div class="box-search">
-                            <input class="search-cus mb-16 form-control" id="search" value="" placeholder="Tìm khách hàng bằng tên / SĐT" type="text">
-                            <div class="group-search-results">
-                                <div class="group-search-autocomplete-results autocomplete-results"></div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8 pb-16">
-                                <input type="text" name="nickname" value="" class="fullname form-control" placeholder="Tên khách hàng">
-                            </div>
-                            <div class="col-4 pb-16">
-                                <input type="text" name="phone" class="phone form-control" value="" placeholder="SĐT">
-                            </div>
-                            <div class="col-12">
-                                <hr class="dashed pb-16">
-                                <p class="mb-4">Thứ tự</p>
-                            </div>
-                        </div>
-                        <div class="row ai-center jc-b">
-                            <div class="col-2">
-                                <p><input type="text" class="form-control"></p>
-                            </div>
-                            <div class="col-8 text-right">
-                                <div class="d-f ai-center jc-end">
-                                    <span class="pt-6 mr-10"><input type="checkbox"></span>
-                                    <span>Yêu cầu túi riêng</span>
-                                </div>
-
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer text-right pt-16 pb-8 pr-12">
-            <button type="button" class="btn btn-secondary modal-close">Huỷ</button>
-            <button type="button" class="btn btn-primary modal-close">Lưu</button>
-        </div>
-    </div>
-</div>
+        <?php include(get_template_directory() . '/parts/meal-plan/modal.php'); ?>
 </div><!-- /.container-fluid -->
 <div class="navigation-bottom d-f jc-b ai-center">
-    <span class="btn btn-secondary js-btn-prev btn-disable">Hủy</span>
+    <span class="btn btn-secondary js-btn-prev btn-reload">Hủy</span>
     <span class="btn btn-primary">Lưu</span>
 </div>
 </section>
 <!-- /.content -->
 </div>
 <!-- /.card-body -->
-
-<div class="modal fade modal-warning" id="modal-delete-member">
-    <div class="overlay"></div>
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body pt-8 pb-16">
-                <div class="d-f">
-                    <i class="fas fa-warning mr-8"></i>
-                    <p>Bạn có chắc muốn xoá khách hàng Dieu Linh (zalo) ra <br> khỏi nhóm này không?</p>
-                </div>
-            </div>
-            <div class="modal-footer d-f jc-b pb-8 pt-16">
-                <button type="button" class="btn btn-secondary modal-close">Đóng</button>
-                <button type="submit" name="remove" class="btn btn-danger modal-close">Xóa</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <?php
 

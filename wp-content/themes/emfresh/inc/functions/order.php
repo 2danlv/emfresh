@@ -364,6 +364,8 @@ function site_order_submit()
         $list = isset($_POST['list_meal']) ? $_POST['list_meal'] : [];
 
         if(is_array($list) && count($list) > 0) {
+            // $today = current_time('Y-m-d');
+
             foreach($list as $item) {
                 $order_id = !empty($item['order_id']) ? (int) $item['order_id'] : 0;
                 $order_item_id = !empty($item['order_item_id']) ? (int) $item['order_item_id'] : 0;
@@ -375,15 +377,34 @@ function site_order_submit()
                 // $my_meal_plan = json_decode($order_item['meal_plan'], true);
                 $total = $order_item['meal_number'] * $order_item['days'];
 
-                if(array_sum($meal_plan) != $total) {
+                if(array_sum($meal_plan) != $total || count($meal_plan) == 0) {
                     $errors[] = "Order $order_id - Item $order_item_id - Error.";
 
                     continue;
                 }
 
-                $em_order_item->update([
+                $em_order_data = [
                     'meal_plan' => json_encode($meal_plan)
-                ], ['id' => $order_item_id]);
+                ];
+
+                $keys = array_keys($meal_plan);
+                $date_stop = end($keys);
+                
+                if($date_stop > $order_item['date_stop']) {
+                    $em_order_data['date_stop'] = $date_stop;
+                }
+
+                $updated = $em_order_item->update($em_order_data, ['id' => $order_item_id]);
+
+                if($updated && isset($em_order_data['date_stop'])) {
+                    $order = $em_order->get_item($order_id);
+
+                    if($date_stop > $order['date_stop']) {
+                        $em_order->update([
+                            'date_stop' => $date_stop
+                        ], ['id' => $order_id]);
+                    }
+                }
             }
         }
 
