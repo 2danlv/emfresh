@@ -35,17 +35,17 @@ $js_duplicate_url = add_query_arg(['dupnonce' => wp_create_nonce('dupnonce')], g
 							for ($i = 0; $i < 5; $i++) {
 								?>
 								<tr class="group">
-									<td class="align-center"><input type="text" value="Lá chuối"></td>
-									<td class="align-left"><input type="text" value="lót"></td>
-									<td class="align-right"><input type="text" value="50" style="text-align:right"></td>
+									<td class="align-left"><p class="cell">Lá chuối</p></td>
+									<td class="align-left"><p class="cell">Lót</p></td>
+									<td class="align-right"><p class="cell">50</p></td>
 								</tr>
 								<?php
 							}
 							?>
 							<tr class="group">
-								<td class="align-center"><input class="editable-input" type="text" value=""></td>
-								<td class="align-left"><input class="editable-input" type="text" value=""></td>
-								<td class="align-right"><input class="editable-input" type="text" value="" style="text-align:right"></td>
+								<td class="align-center"><p class="cell"></p></td>
+								<td class="align-left"><p class="cell"></p></td>
+								<td class="align-right"><p class="cell"></p></td>
 							</tr>
 						</tbody>
 					</table>
