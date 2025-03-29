@@ -139,7 +139,6 @@ get_header();
                                             <th class="text-center">Thứ tự</th>
                                             <th>Tên khách hàng</th>
                                             <th>SĐT</th>
-                                            <th>Địa chỉ đăng ký</th>
                                             <th class="text-center">TT đơn hàng</th>
                                             <th class="text-center">Túi riêng</th>
                                             <th></th>
@@ -169,10 +168,6 @@ get_header();
                                                 <input type="hidden" name="customers[<?php echo $i ?>][id]" value="<?php echo $item['customer_id'] ?>" />
                                             </td>
                                             <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $item['phone'] ?>"><?php echo $item['phone'] ?></span></td>
-                                            <td data-number="3" class="text-capitalize wrap-td" style="min-width: 360px;">
-                                                <?php //var_dump($item); ?>
-                                                <div class="nowrap ellipsis"></div>
-                                            </td>
                                             <td class="text-center"><span class="status_order status_order-1">Đang dùng</span></td>
                                             <td class="text-center">
                                                 <input type="checkbox" name="customers[<?php echo $i?>][bag]" value="1" class="mt-4" 

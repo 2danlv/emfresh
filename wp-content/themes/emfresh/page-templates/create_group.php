@@ -94,7 +94,6 @@ get_header();
                                                 <th class="text-center">Thứ tự</th>
                                                 <th>Tên khách hàng</th>
                                                 <th>SĐT</th>
-                                                <th>Địa chỉ đăng ký</th>
                                                 <th class="text-center">TT đơn hàng</th>
                                                 <th class="text-center">Túi riêng</th>
                                                 <th></th>

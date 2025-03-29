@@ -43,7 +43,6 @@
                               <input type="hidden" name="customers[${index}][orderMember]" value="${orderMember}" />
                               <input type="hidden" name="customers[${index}][id]" value="${idMember}" />
                               <input type="hidden" name="customers[${index}][phone]" value="${phoneMember}" />
-                              <input type="hidden" name="customers[${index}][idAddressMember]" value="${idAddressMember}" />
                               <input type="hidden" name="customers[${index}][bag]" class="input-bag" value="${bagMember}" />
                           </td>
                           <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: ${phoneMember}">${phoneMember}</span></td>
