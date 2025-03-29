@@ -119,7 +119,7 @@ get_header();
 	?>
 
 	<!-- Default box -->
-	<div class="card datatable meal-list">
+	<div class="card datatable datatable-v2 meal-list">
 		<div class="card-body">
 			<div class="toolbar">
 				<form class="em-importer" data-name="customer" action="<?php the_permalink() ?>" method="post">

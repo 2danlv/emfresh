@@ -5,11 +5,12 @@ label.input-label{
 }
 select.input-control{
 	border-color: #E5E5E5;
+	background-color: transparent;
 	&.input-line{
-		border:none !important;
-		border-bottom: 1px solid #E5E5E5 !important;
-		background-color: transparent !important;
-		border-radius: 0px !important;
+		border:none;
+		border-bottom: 1px solid #E5E5E5;
+		background-color: transparent;
+		border-radius: 0px;
 	}
 }
 .upload-drop-zone{
@@ -107,26 +108,23 @@ select.input-control{
 		}
 	}
 }
-
 input.input-control{
 	&.input-line{
-		border:none !important;
-		border-bottom: 1px solid #E5E5E5 !important;
-		background-color: transparent !important;
-		border-radius: 0px !important;
+		border:none;
+		border-bottom: 1px solid #E5E5E5;
+		background-color: transparent;
+		border-radius: 0px;
 	}
 	&.input-ghost{
-		border:none !important;
-		background-color: transparent !important;
-		border-radius: 0px !important;
+		border:none;
+		background-color: transparent;
+		border-radius: 0px;
 	}
 	&.input-highlight{
-		color: #EF4444 !important;
-		border:none !important;
+		color: #EF4444;
+		border:none;
 	}
 }
-
-
 .tag-container {
 	display: flex;
 	flex-wrap: wrap;
@@ -158,7 +156,6 @@ input.input-control{
 		flex: 1;
 	}
 }
-
 .input-control.select2{
 	& ~ .select2-container--default .select2-selection--multiple{
 		.select2-selection__choice{
