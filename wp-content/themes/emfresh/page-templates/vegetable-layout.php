@@ -33,7 +33,7 @@ get_header();
 													<p class="text-tertiary text-md font-semibold">Cơm lứt Séng Cù</p>
 												</div>
 												<span class="btn-edit-item btn btn-v2 btn-icon btn-secondary "
-													style="background:##F5F5F5!important;border:none!important;margin:3px"><img
+													style="background:##F5F5F5 !important;border:none !important;margin:3px"><img
 														src="<?php echo site_get_template_directory_assets(); ?>/img/icon/pencil-gray.svg" /></span>
 											</div>
 											<table class="w-full table-input table-simple">

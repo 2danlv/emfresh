@@ -6,10 +6,10 @@ label.input-label{
 select.input-control{
 	border-color: #E5E5E5;
 	&.input-line{
-		border:none!important;
-		border-bottom: 1px solid #E5E5E5!important;
-		background-color: transparent!important;
-		border-radius: 0px!important;
+		border:none !important;
+		border-bottom: 1px solid #E5E5E5 !important;
+		background-color: transparent !important;
+		border-radius: 0px !important;
 	}
 }
 .upload-drop-zone{
@@ -110,19 +110,19 @@ select.input-control{
 
 input.input-control{
 	&.input-line{
-		border:none!important;
-		border-bottom: 1px solid #E5E5E5!important;
-		background-color: transparent!important;
-		border-radius: 0px!important;
+		border:none !important;
+		border-bottom: 1px solid #E5E5E5 !important;
+		background-color: transparent !important;
+		border-radius: 0px !important;
 	}
 	&.input-ghost{
-		border:none!important;
-		background-color: transparent!important;
-		border-radius: 0px!important;
+		border:none !important;
+		background-color: transparent !important;
+		border-radius: 0px !important;
 	}
 	&.input-highlight{
-		color: #EF4444!important;
-		border:none!important;
+		color: #EF4444 !important;
+		border:none !important;
 	}
 }
 

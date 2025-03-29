@@ -35,7 +35,7 @@ $js_duplicate_url = add_query_arg(['dupnonce' => wp_create_nonce('dupnonce')], g
 									<div class="tb detail-mode relative">
 										<span data-target="#modal-nf"
 											class="detail-input detail-input-hide modal-button btn btn-v2 btn-icon btn-secondary absolute top-0 right-0"
-											style="background:#E5E5E5!important;border:none!important;margin:3px;display:none"><img
+											style="background:#E5E5E5 !important;border:none !important;margin:3px;display:none"><img
 												src="<?php echo site_get_template_directory_assets(); ?>/img/icon/pen-square.svg" /></span>
 										<table class="w-full table-input table-grid" style="margin-top:10px">
 											<tbody>
@@ -173,7 +173,7 @@ $js_duplicate_url = add_query_arg(['dupnonce' => wp_create_nonce('dupnonce')], g
 						</table>
 					</div>
 					<span class="btn btn-v2 btn-secondary"
-						style="background:#f5f5f5!important;border:none!important;margin:20px 0">Tính kết quả</span>
+						style="background:#f5f5f5 !important;border:none !important;margin:20px 0">Tính kết quả</span>
 					<table class="w-full table-simple">
 						<thead>
 							<th class="align-left" style="width:50px">Mã</th>

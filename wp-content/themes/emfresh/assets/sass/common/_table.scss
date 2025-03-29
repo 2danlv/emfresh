@@ -97,7 +97,7 @@
 .dt-container{
 	border: 1px solid #E5E5E5;
 	border-radius: 10px;
-	padding:0px!important;
+	padding:0px !important;
 	overflow: auto;
 	.bottom { 
 		position: fixed;
@@ -112,7 +112,7 @@
 		}
 	}
 	table.table.table-v2{
-		width: 100%!important;		
+		width: 100% !important;		
 		border-collapse: collapse;
 		thead tr th {
 			background: #FAFAFA;
@@ -288,7 +288,7 @@ table{
 				color:#737373;
 			}
 			.select2-container--default .select2-selection--multiple{
-				border:none!important;
+				border:none !important;
 			}
 		}
 	}
@@ -325,12 +325,12 @@ table{
 	}
 	td.destructive{
 		background-color: #FEE2E2;
-		color:#991B1B!important;
+		color:#991B1B !important;
 	}
 	td a{
-		color: #262626!important;
+		color: #262626 !important;
 		&:hover{
-			color: #217A44!important;
+			color: #217A44 !important;
 		}
 	}
 	tr {
