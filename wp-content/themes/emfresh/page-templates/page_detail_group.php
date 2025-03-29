@@ -154,9 +154,6 @@ get_header();
                                                 <input type="hidden" name="customers[0][bag]" class="input-bag" value="" />
                                             </td>
                                             <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $phone ?>"><?php echo $phone ?></span></td>
-                                            <td data-number="3" class="text-capitalize wrap-td" style="min-width: 360px;">
-                                                <div class="nowrap ellipsis"><?php echo $location_name ?></div>
-                                            </td>
                                             <td class="text-center"><span class="status_order status_order-1">Đang dùng</span></td>
                                             <td class="text-center">
                                                 <input type="checkbox" name="customers[0][bag]" value="1" class="mt-4" 

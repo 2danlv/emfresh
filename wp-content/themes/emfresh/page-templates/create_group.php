@@ -109,9 +109,6 @@ get_header();
                                                     <input type="hidden" name="customers[0][id]" value="1" />
                                                 </td>
                                                 <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0123456789">0123456789</span></td>
-                                                <td data-number="3" class="text-capitalize wrap-td" style="min-width: 360px;">
-                                                    <div class="nowrap ellipsis">Saigon Centrer, 92-94 Nam Kỳ Khởi Nghĩa, Phường Bến Nghé, Quận 1</div>
-                                                </td>
                                                 <td class="text-center"><span class="status_order status_order-1">Đang dùng</span></td>
                                                 <td class="text-center">
                                                     <input type="checkbox" name="customers[0][bag]" value="1" class="mt-4">

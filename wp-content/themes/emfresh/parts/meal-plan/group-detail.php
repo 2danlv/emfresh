@@ -28,8 +28,6 @@
       var idMember = $(this).closest('.modal-dialog').find('.input-customer_id').val();
       var nameMember = $(this).closest('.modal-dialog').find('.fullname').val();
       var phoneMember = $(this).closest('.modal-dialog').find('.phone.form-control').val();
-      var addressMember = $(this).closest('.modal-dialog').find('.location_field').val();
-      var idAddressMember = $(this).closest('.modal-dialog').find('.location_id').val();
       var orderMember = $(this).closest('.modal-dialog').find('.no_order').val();
       if ($(this).closest('.modal-dialog').find('.bag').prop('checked')) {
         var bagMember = 1;
@@ -49,9 +47,6 @@
                               <input type="hidden" name="customers[${index}][bag]" class="input-bag" value="${bagMember}" />
                           </td>
                           <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: ${phoneMember}">${phoneMember}</span></td>
-                          <td data-number="3" class="text-capitalize wrap-td" style="min-width: 360px;">
-                              <div class="nowrap ellipsis">${addressMember}</div>
-                          </td>
                           <td class="text-center"><span class="status_order status_order-1">Đang dùng</span></td>
                           <td class="text-center">
                               ${checkbox}
