@@ -77,7 +77,6 @@ get_header();
                             <div class="card-body">
                                 <div class="ttl mb-16 d-f jc-b ai-center">
                                     <span>Thông tin trưởng nhóm</span>
-                                    <span class="edit-group  d-f ai-center"><i class="fas fa-edit-2"></i>Chỉnh sửa</span>
                                 </div>
                                 <div class="row jc-b">
                                     <div class="col-3 pb-16">
@@ -105,17 +104,9 @@ get_header();
                                     </div>
                                     <div class="col-9 pb-16 group-locations">
                                         <!-- <input type="text" class="location_id"  name="location_id" value="<?php echo $location_id ?>"> -->
-                                        <?php // ?>
-                                        <select name="location_id" class="location_id text-right">
-                                        <?php  
-                                            foreach($locations as $location) {
-                                                echo '<option value="'.$location['id'].'" '
-                                                    .($location['id'] == $location_id ? 'selected' : '')
-                                                    .'>' . $location['location_name'] . '</option>';
-                                            }
-                                        ?>
-                                        </select>
-                                        <?php // ?>
+                                        <div class="text-right">
+                                            <span><?php echo $location_name ?></span>
+                                        </div>
                                         <div class="group-locations-container">
                                             <div class="autocomplete-results">
                                                 <option value="1" <?php echo $location_id == 1 ? "selected" : '' ?>>Địa chỉ nhóm</option>
