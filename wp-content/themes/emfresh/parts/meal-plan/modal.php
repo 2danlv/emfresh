@@ -40,13 +40,6 @@
                                 <div class="col-4 pb-16">
                                     <input type="tel" name="phone" class="phone form-control" value="" placeholder="SĐT">
                                 </div>
-                                <div class="col-12 pb-16 group-locations d-none">
-                                    <input type="hidden" class="location_id" name="location_id">
-                                    <input type="text" class="location_field form-control" readonly >
-                                    <div class="group-locations-container">
-                                        <div class="autocomplete-results"></div>
-                                    </div>
-                                </div>
                                 <div class="col-12">
                                     <hr class="dashed pb-16">
                                     <p class="mb-4">Thứ tự</p>

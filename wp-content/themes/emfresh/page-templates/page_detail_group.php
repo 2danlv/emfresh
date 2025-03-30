@@ -7,7 +7,7 @@
  * @subpackage Twenty_Twelve
  * @since Twenty Twelve 1.0
  */
-global $em_customer_group, $em_group, $em_location;
+global $em_customer_group, $em_group, $em_location, $em_log;
 
 $_GET = wp_unslash($_GET);
 
@@ -16,6 +16,8 @@ $action_url = add_query_arg(['group_id' => $group_id], get_permalink());
 
 $group_detail = $em_group->get_fields();
 $list = [];
+$leader = [];
+$locations = [];
 
 if ($group_id > 0) {
     $response = em_api_request('group/item', ['id' => $group_id]);
@@ -24,6 +26,12 @@ if ($group_id > 0) {
         $group_detail = $response['data'];
         
         $list = $em_customer_group->get_items(['group_id' => $group_id]);
+
+        if(count($list) > 0) {
+            $leader = $list[0];
+
+            // $locations = $em_location->get_items(['customer_id' => $leader['customer_id']]);
+        }
     }
 } else {
     wp_redirect(site_group_list_link());
@@ -59,7 +67,7 @@ get_header();
                 <form method="post" action="">
                 <input type="hidden" name="save_group" value="<?php echo uniqid() ?>" />
                 <input type="hidden" name="group_id" value="<?php echo $group_id ?>" />
-                <h1 class="pt-8 pb-16">Nhóm Thien Phuong Bui</h1>
+                <h1 class="pt-8 pb-16">Nhóm <?php echo $name ?></h1>
                 <div class="row row32 tab-pane" id="info">
                     <div class="col-8">
                         <div class="card">
@@ -96,14 +104,25 @@ get_header();
                                         <div class="text-right">
                                             <span><?php echo $location_name ?></span>
                                         </div>
-                                            <input type="text" class="location_id"  name="location_id" value="<?php echo $location_id ?>">
-                                            <div class="group-locations-container">
-                                                <div class="autocomplete-results">
-                                                    <option value="1" <?php echo $location_id == 1 ? "selected" : '' ?>>Địa chỉ nhóm</option>
-                                                </div>
+                                        <input type="text" class="location_id"  name="location_id" value="<?php echo $location_id ?>">
+                                        <?php /*/ ?>
+                                        <select name="location_id" class="location_id">
+                                        <?php  
+                                            foreach($locations as $location) {
+                                                echo '<option value="'.$location['id'].'" '
+                                                    .($location['id'] == $location_id ? 'selected' : '')
+                                                    .'>' . $location['location_name'] . '</option>';
+                                            }
+                                        ?>
+                                        </select>
+                                        <?php /*/ ?>
+                                        <div class="group-locations-container">
+                                            <div class="autocomplete-results">
+                                                <option value="1" <?php echo $location_id == 1 ? "selected" : '' ?>>Địa chỉ nhóm</option>
                                             </div>
-                                            <div class="overlay-drop-menu"></div>
                                         </div>
+                                        <div class="overlay-drop-menu"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -146,11 +165,12 @@ get_header();
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
+                                        <!-- <tr>
                                             <td class="text-center">1</td>
                                             <td>
                                                 <div class="nameMember"><?php echo $name ?></div>
-                                                <input type="hidden" name="customers[0][bag]" class="input-bag" value="" />
+                                                <input type="hidden" name="customers[0][order]" class="input-bag" value="1" />
+                                                <input type="hidden" name="customers[0][bag]" class="input-bag" value="1" />
                                             </td>
                                             <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $phone ?>"><?php echo $phone ?></span></td>
                                             <td class="text-center"><span class="status_order status_order-1">Đang dùng</span></td>
@@ -159,10 +179,12 @@ get_header();
                                                     <?php echo !empty($item['bag']) ? "checked" : '' ?> />
                                             </td>
                                             <td class="text-center"></td>
-                                        </tr>
+                                        </tr> -->
                                         <?php foreach($list as $i => $item) : ?>
                                         <tr data-member="<?php echo $item['id'] ?>">
-                                            <td class="text-center"><?php echo $i + 1 ?></td>
+                                            <td class="text-center" width="80">
+                                                <input type="number" name="customers[<?php echo $i ?>][order]" class="input-order text-center" value="<?php echo $i + 1 ?>" <?php echo $i == 0 ? 'readonly' : 'min="2"' ?> />
+                                            </td>
                                             <td>
                                                 <div class="nameMember"><?php echo $item['customer_name'] ?></div>
                                                 <input type="hidden" name="customers[<?php echo $i ?>][id]" value="<?php echo $item['customer_id'] ?>" />
@@ -173,7 +195,11 @@ get_header();
                                                 <input type="checkbox" name="customers[<?php echo $i?>][bag]" value="1" class="mt-4" 
                                                     <?php echo !empty($item['bag']) ? "checked" : '' ?> />
                                             </td>
-                                            <td class="text-center"><img src="<?php site_the_assets('img/icon/delete-svgrepo-com-red.svg'); ?>" class="openmodal remove-member mt-2" data-target="#modal-delete-member" alt=""></td>
+                                            <td class="text-center">
+                                                <?php if($i > 0) : ?>
+                                                <img src="<?php site_the_assets('img/icon/delete-svgrepo-com-red.svg'); ?>" class="openmodal remove-member mt-2" data-target="#modal-delete-member" alt="">
+                                                <?php endif; ?>
+                                            </td>
                                         </tr>
                                         <?php endforeach ?>
                                     </tbody>
@@ -286,7 +312,6 @@ get_header();
                                     <td>01:00</td>
                                     <td>29/10/24</td>
                                 </tr>
-
                             </tbody>
                         </table>
                     </div>
