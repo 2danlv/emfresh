@@ -104,12 +104,9 @@ get_header();
                                         Địa chỉ nhóm:
                                     </div>
                                     <div class="col-9 pb-16 group-locations">
-                                        <div class="text-right">
-                                            <span><?php echo $location_name ?></span>
-                                        </div>
                                         <!-- <input type="text" class="location_id"  name="location_id" value="<?php echo $location_id ?>"> -->
                                         <?php // ?>
-                                        <select name="location_id" class="location_id">
+                                        <select name="location_id" class="location_id text-right">
                                         <?php  
                                             foreach($locations as $location) {
                                                 echo '<option value="'.$location['id'].'" '
@@ -168,21 +165,7 @@ get_header();
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <!-- <tr>
-                                            <td class="text-center">1</td>
-                                            <td>
-                                                <div class="nameMember"><?php echo $name ?></div>
-                                                <input type="hidden" name="customers[0][order]" class="input-bag" value="1" />
-                                                <input type="hidden" name="customers[0][bag]" class="input-bag" value="1" />
-                                            </td>
-                                            <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $phone ?>"><?php echo $phone ?></span></td>
-                                            <td class="text-center"><span class="status_order status_order-1">Đang dùng</span></td>
-                                            <td class="text-center">
-                                                <input type="checkbox" name="customers[0][bag]" value="1" class="mt-4" 
-                                                    <?php echo !empty($item['bag']) ? "checked" : '' ?> />
-                                            </td>
-                                            <td class="text-center"></td>
-                                        </tr> -->
+                                        
                                         <?php foreach($list as $i => $item) : ?>
                                         <tr data-member="<?php echo $item['id'] ?>" data-customer_id="<?php echo $item['customer_id'] ?>">
                                             <td class="text-center" width="80">
@@ -210,51 +193,6 @@ get_header();
                                 <div class="d-f ai-center pb-54 pt-16 add-new-member openmodal" data-target="#modal-addnew_member">
                                     <span class="fas fa-plus mr-8"></span> Thêm thành viên
                                 </div>
-                                <!-- <table class="table table-member text-left">
-                                    <thead class="visible-collapse">
-                                        <tr>
-                                            <th class="text-center">Thứ tự</th>
-                                            <th>Tên khách hàng</th>
-                                            <th>SĐT</th>
-                                            <th class="text-center">TT đơn hàng</th>
-                                            <th class="text-center">Túi riêng</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td class="text-center"></td>
-                                            <td>Thien Phuong Bui</td>
-                                            <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0123456789">0123456789</span></td>
-                                            <td class="text-center"><span class="status_order status_order-2">Hoàn tất</span></td>
-                                            <td class="text-center">
-                                                <input type="checkbox" class="mt-4">
-                                            </td>
-                                            <td class="text-center"><img src="<?php site_the_assets(); ?>/img/icon/delete-svgrepo-com-red.svg" class="openmodal mt-2" data-target="#modal-delete-member" alt=""></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center"></td>
-                                            <td>Thien Phuong Bui</td>
-                                            <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0123456789">0123456789</span></td>
-                                            <td class="text-center"><span class="status_order status_order-2">Hoàn tất</span></td>
-                                            <td class="text-center">
-                                                <input type="checkbox" class="mt-4">
-                                            </td>
-                                            <td class="text-center"><img src="<?php site_the_assets(); ?>/img/icon/delete-svgrepo-com-red.svg" class="openmodal mt-2" data-target="#modal-delete-member" alt=""></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center"></td>
-                                            <td>Thien Phuong Bui</td>
-                                            <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0123456789">0123456789</span></td>
-                                            <td class="text-center"><span class="status_order status_order-2">Hoàn tất</span></td>
-                                            <td class="text-center">
-                                                <input type="checkbox" class="mt-4">
-                                            </td>
-                                            <td class="text-center"><img src="<?php site_the_assets(); ?>/img/icon/delete-svgrepo-com-red.svg" class="openmodal mt-2" data-target="#modal-delete-member" alt=""></td>
-                                        </tr>
-
-                                    </tbody>
-                                </table> -->
                             </div>
                         </div>
                     </div>
