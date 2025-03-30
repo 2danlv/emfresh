@@ -82,7 +82,7 @@ get_header();
                                 <!-- /.card -->
                             </div>
                         </div>
-                        <div class="col-12 pt-32">
+                        <div class="col-12 pt-32 group_list-member d-none">
                             <div class="card">
                                 <div class="card-body">
                                     <div class="ttl mb-16">
@@ -91,23 +91,22 @@ get_header();
                                     <table class="table table-member text-left">
                                         <thead>
                                             <tr>
-                                                <th class="text-center">Thứ tự</th>
+                                                <th class="text-center" width="80">Thứ tự</th>
                                                 <th>Tên khách hàng</th>
                                                 <th>SĐT</th>
                                                 <th class="text-center">TT đơn hàng</th>
                                                 <th class="text-center">Túi riêng</th>
                                                 <th></th>
-                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
+                                            <tr class="first_item_group">
                                                 <td class="text-center">1</td>
                                                 <td>
                                                     <div class="nameMember">Thien Phuong Bui</div>
-                                                    <input type="hidden" name="customers[0][id]" value="1" />
+                                                    <input type="hidden" name="customers[0][id]" class="input-customer_id" value="1" />
                                                 </td>
-                                                <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: 0123456789">0123456789</span></td>
+                                                <td><span class="copy modal-button" data-target="#modal-copy" title="Copy">0123456789</span></td>
                                                 <td class="text-center"><span class="status_order status_order-1">Đang dùng</span></td>
                                                 <td class="text-center">
                                                     <input type="checkbox" name="customers[0][bag]" value="1" class="mt-4">

@@ -30,21 +30,7 @@ class EM_Customer_Group extends EF_Default
 
     function create_table()
     {
-        global $wpdb;
-
-        $table_name = $this->get_tbl_name();
-
-        $sql = "DROP TABLE IF EXISTS `{$table_name}`;
-        CREATE TABLE `{$table_name}` (
-            `id` bigint NOT NULL AUTO_INCREMENT,
-            `customer_id` bigint NOT NULL,
-            `group_id` tinyint(1) NOT NULL DEFAULT '1',
-            PRIMARY KEY (`id`)
-        ) ENGINE=InnoDB;";
-
-        update_option($this->option_name, $this->table_ver);
-
-        return $wpdb->query($sql);
+        return;
     }
 
     function get_fields()
@@ -53,34 +39,21 @@ class EM_Customer_Group extends EF_Default
             'group_id' => 0,
             'customer_id' => 0,
             'bag' => 0,
+            'order' => 0,
         );
 
         return $fields;
     }
 
-    function get_where($args = [])
+    function get_filters()
     {
-        $wheres = [];
-
         $filters = [
             'group_id' => '=',
             'customer_id' => '=',
             'bag' => '=',
         ];
 
-        foreach ($filters as $name => $rule) {
-            if (!empty($args[$name])) {
-                $value = sanitize_text_field($args[$name]);
-
-                if ($rule == 'LIKE') {
-                    $wheres[] = "`$name` LIKE '%{$value}%'";
-                } else {
-                    $wheres[] = "`$name` = '$value'";
-                }
-            }
-        }
-
-        return $wheres;
+        return $filters;
     }
 
     function filter_item($data = [], $type = '')
@@ -102,25 +75,41 @@ class EM_Customer_Group extends EF_Default
     {
         $count = 0;
 
-        $customer_groups = $this->get_items(['group_id' => $group_id]);
+        // Sort by order
+        $n = count($customers);
+        for($i = 1; $i < $n - 1; $i++) {
+            for($j = 2; $j < $n; $j++) {
+                if($customers[$j]['order'] < $customers[$i]['order']) {
+                    $tmp = $customers[$j];
+                    $customers[$j] = $customers[$i];
+                    $customers[$i] = $tmp;
+                }
+            }
+        }
+
+        $customer_groups = $this->get_items([
+            'group_id' => $group_id,
+            'orderby' => 'id ASC',
+        ]);
 
         foreach ($customers as $customer) {
             if (empty($customer['id'])) continue;
 
-            $bag = !empty($customer['bag']) ? 1 : 0;
+            $group_data = shortcode_atts([
+                'bag' => 0,
+                'order' => $count + 1
+            ], $customer);
+
+            $group_data['customer_id'] = $customer['id'];
 
             if (!empty($customer_groups[$count])) {
-                $this->update([
-                    'customer_id' => $customer['id'],
-                    'bag' => $bag,
-                    'id' => $customer_groups[$count]['id']
-                ]);
+                $group_data['id'] = $customer_groups[$count]['id'];
+
+                $this->update($group_data);
             } else {
-                $this->insert([
-                    'group_id' => $group_id,
-                    'bag' => $bag,
-                    'customer_id' => $customer['id']
-                ]);
+                $group_data['group_id'] = $group_id;
+                
+                $this->insert($group_data);
             }
 
             $count++;

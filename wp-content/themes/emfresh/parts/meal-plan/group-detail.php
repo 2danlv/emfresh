@@ -1,5 +1,12 @@
 <script>
   $(document).ready(function () {
+    var numberOfRows = $('.table-member tbody tr').length;
+    let index;
+    if (numberOfRows > 0) {
+      index = numberOfRows;
+    } else {
+      index = 1;
+    }
     $('.navigation-bottom .btn-primary').click(function (e) {
       e.preventDefault();
       $('.card-body button.btn-primary').trigger('click');
@@ -12,23 +19,40 @@
     });
     $('.add-new-member.openmodal').click(function (e) { 
       e.preventDefault();
+      $(".modal-addnew_member .card-primary .alert").hide();
       $('.modal-addnew_member .card-primary .group-locations-container').text('');
       $('.modal-addnew_member .card-primary input').val('');
       $('.modal-addnew_member .card-primary input.bag').prop('checked', false);
+      $('.modal-addnew_member .card-primary input.no_order').val(index + 1);
+      $(".modal-addnew_member .card-primary input.no_order").attr({
+        "min" : index + 1
+      });
     });
-    var numberOfRows = $('.table-member tbody tr').length;
-    let index;
-    if (numberOfRows > 0) {
-        index = numberOfRows;
-    } else {
-        index = 1;
-    }
+    $(document).on("blur", ".modal-addnew_member .card-primary input.no_order", function () {
+      let $input = $(this).val();
+      let $input_min = $(this).attr('min');
+      if ($input < $input_min) {
+        $(".modal-addnew_member .card-primary input.no_order").val($input_min);
+        $(".modal-addnew_member .card-primary .alert").text('Số thứ tự phải lớn hơn số ' + $input_min);
+        $(".modal-addnew_member .card-primary .alert").show();
+      }
+    });
     $('.modal-addnew_member .btn-primary').click(function (e) { 
       e.preventDefault();
       var idMember = $(this).closest('.modal-dialog').find('.input-customer_id').val();
       var nameMember = $(this).closest('.modal-dialog').find('.fullname').val();
       var phoneMember = $(this).closest('.modal-dialog').find('.phone.form-control').val();
       var orderMember = $(this).closest('.modal-dialog').find('.no_order').val();
+      if (nameMember == "" ) {
+        $(".modal-addnew_member .card-primary .alert").text('Hãy chọn tên khách hàng để thêm');
+        $(".modal-addnew_member .card-primary .alert").show();
+        return false;
+      }
+      if (orderMember == '') {
+        var order = index + 1;
+      } else {
+        var order = orderMember;
+      }
       if ($(this).closest('.modal-dialog').find('.bag').prop('checked')) {
         var bagMember = 1;
         var checkbox = `<input type="checkbox" checked class="mt-4">`;
@@ -37,15 +61,15 @@
         var checkbox = `<input type="checkbox" class="mt-4">`;
       }
       let newInput = `<tr data-member="${idMember}">
-                          <td class="text-center">${orderMember}</td>
+                          <td class="text-center"><input type="number" name="customers[${index}][orderMember]" value="${order}" /></td>
                           <td>
                               <div class="nameMember">${nameMember}</div>
-                              <input type="hidden" name="customers[${index}][orderMember]" value="${orderMember}" />
+                              <input type="hidden" name="customers[${index}][orderMember]" value="${order}" />
                               <input type="hidden" name="customers[${index}][id]" value="${idMember}" />
                               <input type="hidden" name="customers[${index}][phone]" value="${phoneMember}" />
                               <input type="hidden" name="customers[${index}][bag]" class="input-bag" value="${bagMember}" />
                           </td>
-                          <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: ${phoneMember}">${phoneMember}</span></td>
+                          <td><span class="copy modal-button" data-target="#modal-copy" title="Copy">${phoneMember}</span></td>
                           <td class="text-center"><span class="status_order status_order-1">Đang dùng</span></td>
                           <td class="text-center">
                               ${checkbox}
@@ -56,6 +80,8 @@
       // Append the new input field to the container
       $('.table-member tbody').append(newInput);
       // Increment the index for the next input field
+      $('.modal').removeClass('is-active');
+      $('body').removeClass('overflow');
       index++;
     });
     $(document).on('click', '.table-member tbody td .remove-member', function (e) {
@@ -141,25 +167,43 @@
       $('.group-search-results').hide();
     }
   });
-  $(document).on('click', '.autocomplete-results .result-item', function () {
+  $(document).on('click', 'form .autocomplete-results .result-item', function () {
     $('.overlay-drop-menu,.group-locations-container,.group-search-results').hide();
     var name = $(this).find('.name').text();
     var phone = $(this).find('.phone').text();
     var address = $(this).find('.address').text();
-    var note_shiper = $(this).find('.note_shiper').text();
-    var note_admin = $(this).find('.note_admin').text();
     var customer_id = $(this).data('id') || 0;
     var location_id = 0;
     $(this).closest('.card-body').find('.form-control.fullname,.box-search .search-cus').val(name);
     $(this).closest('.card-body').find('.form-control.phone').val(phone);
     $(this).closest('.card-body').find('.group-locations .location_field').val(address);
     $(this).closest('.card-body').find('.input-customer_id').val(customer_id);
+    
+    $(this).closest('.card-primary form').find('.first_item_group .nameMember').text(name);
+    $(this).closest('.card-primary form').find('.first_item_group .copy').text(phone);
+    $(this).closest('.card-primary form').find('.first_item_group .input-customer_id').val(customer_id);
+    
     $('.group-search-results').hide();
-
+    $('.group_list-member').show();
+    
     if (customer_id > 0) {
       getLocation(customer_id, 0);
     }
   });
+  $(document).on('click', '.modal-body .autocomplete-results .result-item', function () {
+    $('.overlay-drop-menu,.group-locations-container,.group-search-results').hide();
+    var name = $(this).find('.name').text();
+    var phone = $(this).find('.phone').text();
+    var customer_id = $(this).data('id') || 0;
+    $(this).closest('.card-body').find('.form-control.fullname,.box-search .search-cus').val(name);
+    $(this).closest('.card-body').find('.form-control.phone').val(phone);
+    $(this).closest('.card-body').find('.input-customer_id').val(customer_id);
+    
+    $('.group-search-results').hide();
+    $('.group_list-member').show();
+    
+  });
+  
   function getLocation(customer_id, location_id) {
     $.ajax({
       url: '<?php echo home_url('em-api/location/list/'); ?>?customer_id=' + customer_id,

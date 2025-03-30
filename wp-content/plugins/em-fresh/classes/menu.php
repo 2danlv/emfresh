@@ -24,6 +24,8 @@ class EM_Menu extends EF_Default
     {
         $fields = array(
             'name'  => '',
+            'type'  => 1,
+            'note'  => '',
         );
 
         return $fields;
@@ -33,6 +35,8 @@ class EM_Menu extends EF_Default
     {
         $filters = array(
             'name'  => 'LIKE',
+            'type'  => '=',
+            'note'  => 'LIKE',
         );
 
         return $filters;

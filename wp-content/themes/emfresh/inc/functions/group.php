@@ -24,6 +24,8 @@ function site_group_submit()
         $group_id = isset($data['group_id']) ? intval($data['group_id']) : 0;
 
         if($group_id == 0) {
+            //var_dump($group_data);
+            //exit();
             $response = em_api_request('group/add', $group_data);
             if ($response['code'] == 200) {
                 $group_id = $response['data']['insert_id'];

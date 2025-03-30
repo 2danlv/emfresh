@@ -63,7 +63,11 @@ class EM_Location extends EF_Default
         ];
 
         $filters = [
-            'active' => '=',
+            'active'    => '',
+            'address'   => 'LIKE',
+            'ward'      => '',
+            'district'  => '',
+            'city'      => '',
         ];
 
         foreach ($filters as $name => $rule) {

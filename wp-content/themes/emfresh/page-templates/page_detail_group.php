@@ -25,12 +25,15 @@ if ($group_id > 0) {
     if ($response['code'] == 200) {
         $group_detail = $response['data'];
         
-        $list = $em_customer_group->get_items(['group_id' => $group_id]);
+        $list = $em_customer_group->get_items([
+            'group_id' => $group_id,
+            'orderby' => 'id ASC',
+        ]);
 
         if(count($list) > 0) {
             $leader = $list[0];
 
-            // $locations = $em_location->get_items(['customer_id' => $leader['customer_id']]);
+            $locations = $em_location->get_items(['customer_id' => $leader['customer_id']]);
         }
     }
 } else {
@@ -104,8 +107,8 @@ get_header();
                                         <div class="text-right">
                                             <span><?php echo $location_name ?></span>
                                         </div>
-                                        <input type="text" class="location_id"  name="location_id" value="<?php echo $location_id ?>">
-                                        <?php /*/ ?>
+                                        <!-- <input type="text" class="location_id"  name="location_id" value="<?php echo $location_id ?>"> -->
+                                        <?php // ?>
                                         <select name="location_id" class="location_id">
                                         <?php  
                                             foreach($locations as $location) {
@@ -115,7 +118,7 @@ get_header();
                                             }
                                         ?>
                                         </select>
-                                        <?php /*/ ?>
+                                        <?php // ?>
                                         <div class="group-locations-container">
                                             <div class="autocomplete-results">
                                                 <option value="1" <?php echo $location_id == 1 ? "selected" : '' ?>>Địa chỉ nhóm</option>
@@ -155,7 +158,7 @@ get_header();
                                 <table class="table table-member text-left">
                                     <thead>
                                         <tr>
-                                            <th class="text-center">Thứ tự</th>
+                                            <th class="text-center" width="80">Thứ tự</th>
                                             <th>Tên khách hàng</th>
                                             <th>SĐT</th>
                                             <th class="text-center">TT đơn hàng</th>
@@ -181,9 +184,9 @@ get_header();
                                             <td class="text-center"></td>
                                         </tr> -->
                                         <?php foreach($list as $i => $item) : ?>
-                                        <tr data-member="<?php echo $item['id'] ?>">
+                                        <tr data-member="<?php echo $item['id'] ?>" data-customer_id="<?php echo $item['customer_id'] ?>">
                                             <td class="text-center" width="80">
-                                                <input type="number" name="customers[<?php echo $i ?>][order]" class="input-order text-center" value="<?php echo $i + 1 ?>" <?php echo $i == 0 ? 'readonly' : 'min="2"' ?> />
+                                                <input type="number" name="customers[<?php echo $i ?>][order]" class="input-order text-center" value="<?php echo $item['order']?>" <?php echo $i == 0 ? 'readonly' : 'min="2"' ?> />
                                             </td>
                                             <td>
                                                 <div class="nameMember"><?php echo $item['customer_name'] ?></div>

@@ -25,6 +25,7 @@
                 </div>
                 <div class="modal-body pt-16 pb-16">
                     <div class="card-primary">
+                        <p class="col-12 d-none alert alert-warning mb-16 "></p>
                         <div class="card-body">
                             <div class="box-search">
                                 <input class="search-cus mb-16 form-control" id="search" value="" placeholder="Tìm khách hàng bằng tên / SĐT" type="text">
@@ -35,10 +36,10 @@
                             <div class="row">
                                 <div class="col-8 pb-16">
                                     <input type="hidden" value="" class="input-customer_id">
-                                    <input type="text" name="nickname" value="" class="fullname form-control" placeholder="Tên khách hàng">
+                                    <input type="text" name="nickname" value="" class="fullname is-disabled form-control" placeholder="Tên khách hàng">
                                 </div>
                                 <div class="col-4 pb-16">
-                                    <input type="tel" name="phone" class="phone form-control" value="" placeholder="SĐT">
+                                    <input type="tel" name="phone" class="phone is-disabled form-control" value="" placeholder="SĐT">
                                 </div>
                                 <div class="col-12">
                                     <hr class="dashed pb-16">
@@ -47,14 +48,13 @@
                             </div>
                             <div class="row ai-center jc-b">
                                 <div class="col-2">
-                                    <p><input type="tel" class="form-control no_order"></p>
+                                    <p><input type="number" class="form-control no_order"></p>
                                 </div>
                                 <div class="col-8 text-right">
                                     <div class="d-f ai-center jc-end">
                                         <span class="pt-6 mr-10"><input type="checkbox" class="bag"></span>
                                         <span>Yêu cầu túi riêng</span>
                                     </div>
-
                                 </div>
                             </div>
 
@@ -64,7 +64,7 @@
             </div>
             <div class="modal-footer text-right pt-16 pb-8 pr-12">
                 <button type="button" class="btn btn-secondary modal-close">Huỷ</button>
-                <button type="button" class="btn btn-primary modal-close">Lưu</button>
+                <button type="button" class="btn btn-primary">Lưu</button>
             </div>
         </div>
     </div>
