@@ -61,7 +61,7 @@
         var checkbox = `<input type="checkbox" class="mt-4">`;
       }
       let newInput = `<tr data-member="${idMember}">
-                          <td class="text-center"><input type="number" name="customers[${index}][orderMember]" value="${order}" /></td>
+                          <td class="text-center"><input type="number" name="customers[${index}][orderMember]" class="input-order text-center" value="${order}" /></td>
                           <td>
                               <div class="nameMember">${nameMember}</div>
                               <input type="hidden" name="customers[${index}][orderMember]" value="${order}" />
@@ -83,12 +83,14 @@
       $('.modal').removeClass('is-active');
       $('body').removeClass('overflow');
       index++;
+      $('.navigation-bottom .btn-primary').show();
     });
     $(document).on('click', '.table-member tbody td .remove-member', function (e) {
       var nameMember = $(this).closest('.table-member tbody tr').find('.nameMember').text();
       var idMember = $(this).closest('.table-member tbody tr').attr('data-member');
       $('#modal-delete-member .modal-body p span').text(nameMember);
       $('#modal-delete-member .modal-body .idMember').val(idMember);
+      
     });
     $(document).on('click', '.table-member tbody td input', function (e) {
        if ($(this).prop('checked')) {
@@ -102,6 +104,13 @@
       $('.table-member tbody tr').filter(function() {
         return $(this).attr('data-member') == removeMember;
       }).remove();
+      index = index - 1 ;
+      console.log('log',index);
+      if (index < 2) {
+        $('.navigation-bottom .btn-primary').hide();
+      } else {
+        $('.navigation-bottom .btn-primary').show();
+      }
     });
     $(document).on('click', '.group-locations .location_field', function (e) {
       var resultItem_length = $(this).closest('.group-locations').find(".location_id");

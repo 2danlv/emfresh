@@ -272,69 +272,6 @@ function site_order_submit()
         exit();
     }
 
-    // Duplicate order
-    $duplicate_order = !empty($_GET['duplicate_order']) ? (int) $_GET['duplicate_order'] : 0;
-    $dupnonce = !empty($_GET['dupnonce']) ? trim($_GET['dupnonce']) : '';
-    if ($duplicate_order > 0 && wp_verify_nonce($dupnonce, "dupnonce")) {
-        /*
-        $order_id = 0;
-        $errors = [];
-
-        $order_data = $em_order->get_item($duplicate_order);
-        if (!empty($order_data['id'])) {
-            unset($order_data['id']);
-
-            $order_data['status'] = 1;
-            $order_data['ship_days'] = 0;
-            $order_data['ship_amount'] = 0;
-            $order_data['payment_status'] = 2;
-            $order_data['paid'] = 0;
-            $order_data['remaining_amount'] = 0;
-            $order_data['discount'] = 0;
-            $order_data['total'] = 0;
-            $order_data['total_amount'] = 0;
-            $order_data['params'] = '';
-
-            $response = em_api_request('order/add', $order_data);
-            if ($response['code'] == 200) {
-                $order_id = $response['data']['insert_id'];
-
-                $order_items = $em_order_item->get_items(['order_id' => $duplicate_order]);
-
-                // $today = current_time('Y-m-d');
-
-                foreach ($order_items as $order_item) {
-                    unset($order_item['id']);
-
-                    $order_item['date_start'] = '';
-                    $order_item['date_stop'] = '';
-                    $order_data['meal_plan'] = '';
-                    $order_item['order_id'] = $order_id;
-
-                    $response = em_api_request('order_item/add', $order_item);
-                }
-            } else {
-                $errors = $response['errors'];
-            }
-        }
-
-        $query_args = [
-            'order_id' => $order_id,
-            'expires' => time() + 3,
-            'tab' => 'settings-product',
-        ];
-
-        if (count($errors) > 0) {
-            $query_args['message'] = 'Errors';
-        } else {
-            $query_args['message'] = 'Success';
-        }
-
-        wp_redirect(add_query_arg($query_args, site_order_edit_link()));
-        exit();
-        */
-    }
-
     // Delete order
     $delete_order = !empty($_GET['delete_order']) ? (int) $_GET['delete_order'] : 0;
     $delnonce = !empty($_GET['delnonce']) ? trim($_GET['delnonce']) : '';
@@ -355,13 +292,79 @@ function site_order_submit()
         wp_redirect(add_query_arg($query_args, site_order_list_link()));
         exit();
     }
+}
+add_action('wp', 'site_order_submit');
+
+function site_order_save_meal_select()
+{
+    global $em_order, $em_order_item, $em_log;
     
-    if (!empty($_POST['save_meal_plan'])) {
-        $_POST = wp_unslash($_POST);
+    if (!empty($_POST['save_meal_select'])) {
+        $data = wp_unslash($_POST);
 
         $errors = [];
 
-        $list = isset($_POST['list_meal']) ? $_POST['list_meal'] : [];
+        $list = isset($data['list_meal_select']) ? $data['list_meal_select'] : [];
+
+        if(is_array($list) && count($list) > 0) {
+            $number = isset($data['meal_select_number']) ? $data['meal_select_number'] : 0;
+
+            $meal_select_key = 'meal_select' . ($number > 0 ? '_' . $number : '');
+
+            foreach($list as $item) {
+                $order_id = !empty($item['order_id']) ? (int) $item['order_id'] : 0;
+                $order_item_id = !empty($item['order_item_id']) ? (int) $item['order_item_id'] : 0;
+                $meal_select = !empty($item['meal_select']) ? $item['meal_select'] : [];
+                
+                if($order_id == 0 || $order_item_id == 0 || count($meal_select) == 0) continue;
+
+                $meal_plan = $em_order_item->get_meal_plan($order_item_id);
+
+                $total = 0;
+
+                foreach($meal_select as $item) {
+                    $total += count($item);
+                }
+
+                if(array_sum($meal_plan) != $total) {
+                    $errors[] = "Order $order_id - Item $order_item_id - Error.";
+
+                    continue;
+                }
+
+                $em_order_item->update([
+                    $meal_select_key => json_encode($meal_select)
+                ], ['id' => $order_item_id]);
+            }
+        }
+
+        $query_args = [
+            'code' => count($errors) > 0 ? 500 : 200,
+            'expires' => time() + 3,
+            'message' => count($errors) > 0 ? implode(' ', $errors) : 'Update+success'
+        ];
+
+        if(!empty($_POST['ajax'])) {
+            echo json_encode($query_args);
+            die();
+        }
+
+        wp_redirect(add_query_arg($query_args, site_order_list_link()));
+        exit();
+    }
+}
+add_action('wp', 'site_order_save_meal_select');
+
+function site_order_save_meal_plan()
+{
+    global $em_order, $em_order_item, $em_log;
+    
+    if (!empty($_POST['save_meal_plan'])) {
+        $data = wp_unslash($_POST);
+
+        $errors = [];
+
+        $list = isset($data['list_meal']) ? $data['list_meal'] : [];
 
         if(is_array($list) && count($list) > 0) {
             // $today = current_time('Y-m-d');
@@ -377,7 +380,7 @@ function site_order_submit()
                 // $my_meal_plan = json_decode($order_item['meal_plan'], true);
                 $total = $order_item['meal_number'] * $order_item['days'];
 
-                if(array_sum($meal_plan) != $total || count($meal_plan) == 0) {
+                if(array_sum($meal_plan) != $total) {
                     $errors[] = "Order $order_id - Item $order_item_id - Error.";
 
                     continue;
@@ -423,7 +426,7 @@ function site_order_submit()
         exit();
     }
 }
-add_action('wp', 'site_order_submit');
+add_action('wp', 'site_order_save_meal_plan');
 
 function site_order_log($before = [], $after = [])
 {

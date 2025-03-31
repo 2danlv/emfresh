@@ -70,7 +70,7 @@ get_header();
                 <form method="post" action="">
                 <input type="hidden" name="save_group" value="<?php echo uniqid() ?>" />
                 <input type="hidden" name="group_id" value="<?php echo $group_id ?>" />
-                <h1 class="pt-8 pb-16">Nhóm <?php echo $name ?></h1>
+                <h1 class="pt-8 pb-16 d-f jc-b ai-center">Nhóm <?php echo $name ?><span class="btn btn-danger">Xóa nhóm</span></h1>
                 <div class="row row32 tab-pane" id="info">
                     <div class="col-8">
                         <div class="card">
@@ -103,16 +103,10 @@ get_header();
                                         Địa chỉ nhóm:
                                     </div>
                                     <div class="col-9 pb-16 group-locations">
-                                        <!-- <input type="text" class="location_id"  name="location_id" value="<?php echo $location_id ?>"> -->
+                                        <input type="hidden" class="location_id"  name="location_id" value="<?php echo $location_id ?>">
                                         <div class="text-right">
                                             <span><?php echo $location_name ?></span>
                                         </div>
-                                        <div class="group-locations-container">
-                                            <div class="autocomplete-results">
-                                                <option value="1" <?php echo $location_id == 1 ? "selected" : '' ?>>Địa chỉ nhóm</option>
-                                            </div>
-                                        </div>
-                                        <div class="overlay-drop-menu"></div>
                                     </div>
                                 </div>
                             </div>

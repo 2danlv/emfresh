@@ -23,7 +23,34 @@ if ( $customer_id > 0 ) {
   wp_redirect('/meal-plan/');
   exit();
 }
-
+function generate_weekdays_list($start_date, $days_to_add = 35, $type = 1) {
+  $today = new DateTime($start_date);
+  $today->modify('+1 day');
+  $end_data_date = (clone $today)->modify('+' . $days_to_add . ' days');
+  $list_items = '';
+  while ($today <= $end_data_date) {
+    if ($today->format('N') < 6) {
+      $date = $today->format('Y-m-d');
+      if ($type == 1) {
+        $list_items .= '<li data-date="' . $date . '" class="empty">';
+        $list_items .= $today->format('d') . ' <span class="hidden">' . $today->format('m') . '</span>';
+        $list_items .= '</li>';
+      } elseif ($type == 2) {
+        $list_items .= '<li class="empty">';
+        $list_items .= '<span data-date="' . $date . '"></span>';
+        $list_items .= '</li>';
+      } elseif ($type == 3) {
+        $list_items .= '<li class="empty edit">';
+        $list_items .= '<span>';
+        $list_items .= '<input type="text" class="input-meal_plan empty" value="" data-date="' . $date . '" />';
+        $list_items .= '</span>';
+        $list_items .= '</li>';
+      }
+    }
+    $today->modify('+1 day');
+  }
+  return $list_items;
+}
 $data = site_order_get_meal_plans($args);
 
 get_header();
@@ -95,6 +122,10 @@ if ( count($data) > 0 && isset($data[ 'orders' ]) ) :
                       </span>
                     </li>
                   <?php endforeach; ?>
+                  <?php
+                    echo generate_weekdays_list(end($data['schedule']));
+                  ?>
+
                 </ul>
               </th>
             </tr>
@@ -135,6 +166,9 @@ if ( count($data) > 0 && isset($data[ 'orders' ]) ) :
                     ?>
                     <li data-date="<?php echo $date ?>" class="<?php echo $class_date; ?>"><span><?php echo $value ?></span></li>
                   <?php endforeach; ?>
+                  <?php
+                  echo generate_weekdays_list(end($data['schedule']),35,2);
+                   ?>
                 </ul>
               </td>
             </tr>
@@ -177,10 +211,13 @@ if ( count($data) > 0 && isset($data[ 'orders' ]) ) :
                         $class_cl   = '';
                       }
                       ?>
-                      <li class="<?php echo $class_date; ?> <?php echo $class_cl; ?> <?php echo $class_payment; ?>"><span
-                          data-date="<?php echo $date; ?>"><?php echo $value ?></span>
-                        </li>
+                      <li class="<?php echo $class_date; ?> <?php echo $class_cl; ?> <?php echo $class_payment; ?>">
+                        <span data-date="<?php echo $date; ?>"><?php echo $value ?></span>
+                      </li>
                         <?php endforeach; ?>
+                        <?php
+                        echo generate_weekdays_list(end($data['schedule']),35,2);
+                         ?>
                   </ul>
                 </td>
               </tr>
@@ -224,7 +261,7 @@ if ( count($data) > 0 && isset($data[ 'orders' ]) ) :
                           </span>
                         </li>
                       <?php endforeach; ?>
-
+                      <?php echo generate_weekdays_list(end($data['schedule']),35,3); ?>
                     </ul>
                   </td>
                 </tr>

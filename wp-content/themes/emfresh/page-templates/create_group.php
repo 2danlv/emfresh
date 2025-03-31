@@ -133,7 +133,7 @@ get_header();
 </div><!-- /.container-fluid -->
 <div class="navigation-bottom d-f jc-b ai-center">
     <a href="../" class="btn btn-secondary">Hủy</a>
-    <span class="btn btn-primary">Tạo nhóm mới</span>
+    <span class="btn btn-primary d-none">Tạo nhóm mới</span>
 </div>
 </section>
 <!-- /.content -->
