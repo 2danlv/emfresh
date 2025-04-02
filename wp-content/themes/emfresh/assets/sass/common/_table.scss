@@ -326,14 +326,16 @@ table{
 			}
 		}
 	}
-	td.destructive{
-		background-color: #FEE2E2;
-		color:#991B1B;
-	}
-	td a{
-		color: #262626;
-		&:hover{
-			color: #217A44;
+	tbody{
+		td.destructive{
+			background-color: #FEE2E2;
+			color:#991B1B;
+		}
+		td a{
+			color: #262626;
+			&:hover{
+				color: #217A44;
+			}
 		}
 	}
 	tr {

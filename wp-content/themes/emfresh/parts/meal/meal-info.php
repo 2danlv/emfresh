@@ -111,23 +111,23 @@ $js_duplicate_url = add_query_arg(['dupnonce' => wp_create_nonce('dupnonce')], g
 					<tbody>
 						<tr>
 							<td class="label" style="width:150px">Protein</td>
-							<td colspan="3"><input class="editable-input" type="text"></td>
+							<td colspan="3"><input id="input_protein" class="editable-input" type="text"></td>
 						</tr>
 						<tr>
 							<td class="label" style="width:150px">Liqid</td>
-							<td colspan="3"><input class="editable-input" type="text"></td>
+							<td colspan="3"><input id="input_liqid" class="editable-input" type="text"></td>
 						</tr>
 						<tr>
 							<td class="label" style="width:150px">Glucid</td>
-							<td colspan="3"><input class="editable-input" type="text"></td>
+							<td colspan="3"><input id="input_glucid" class="editable-input" type="text"></td>
 						</tr>
 					</tbody>
 				</table>
-				<button class="btn btn-secondary"><span class="font-semibold">Tính kết quả</span></button>
+				<button id="btn_calculate" class="btn btn-secondary"><span class="font-semibold">Tính kết quả</span></button>
 			</div>
 			<div style="flex:1">
 				<div class="w-full" style="padding:10px 0px">
-					<table class="w-full table-simple">
+					<table id="table_nutrition" class="w-full table-simple">
 						<thead>
 							<th class="align-left" style="width:50px">Mã</th>
 							<th class="align-center" style="width:80px">C.Range</th>
@@ -141,63 +141,63 @@ $js_duplicate_url = add_query_arg(['dupnonce' => wp_create_nonce('dupnonce')], g
 						<tbody>
 							<tr>
 								<td class="align-left">EM</td>
-								<td class="align-center">480-530</td>
-								<td class="align-center">30-40</td>
-								<td class="align-center"></td>
-								<td class="align-center"></td>
-								<td class="align-center"></td>
-								<td class="align-center"></td>
-								<td class="align-left"></td>
+								<td class="c_range align-center">480-530</td>
+								<td class="p_range align-center">30-40</td>
+								<td class="c align-center"></td>
+								<td class="p align-center"></td>
+								<td class="l align-center"></td>
+								<td class="g align-center"></td>
+								<td class="result align-left"></td>
 							</tr>
 							<tr>
-								<td class="align-left">EM</td>
-								<td class="align-center">660-720</td>
-								<td class="align-center">40-55</td>
-								<td class="align-center"></td>
-								<td class="align-center"></td>
-								<td class="align-center"></td>
-								<td class="align-center"></td>
-								<td class="align-left"></td>
+								<td class="align-left">EL</td>
+								<td class="c_range align-center">660-720</td>
+								<td class="p_range align-center">40-55</td>
+								<td class="c align-center"></td>
+								<td class="p align-center"></td>
+								<td class="l align-center"></td>
+								<td class="g align-center"></td>
+								<td class="result align-left"></td>
 							</tr>
 							<tr>
-								<td class="align-left">EM</td>
-								<td class="align-center">400-450</td>
-								<td class="align-center">30-40</td>
-								<td class="align-center"></td>
-								<td class="align-center"></td>
-								<td class="align-center"></td>
-								<td class="align-center"></td>
-								<td class="align-left"></td>
+								<td class="align-left">SM</td>
+								<td class="c_range align-center">400-450</td>
+								<td class="p_range align-center">30-40</td>
+								<td class="c align-center"></td>
+								<td class="p align-center"></td>
+								<td class="l align-center"></td>
+								<td class="g align-center"></td>
+								<td class="result align-left"></td>
 							</tr>
 							<tr>
-								<td class="align-left">EM</td>
-								<td class="align-center">500-570</td>
-								<td class="align-center">40-55</td>
-								<td class="align-center"></td>
-								<td class="align-center"></td>
-								<td class="align-center"></td>
-								<td class="align-center"></td>
-								<td class="align-left"></td>
+								<td class="align-left">SL</td>
+								<td class="c_range align-center">500-570</td>
+								<td class="p_range align-center">40-55</td>
+								<td class="c align-center"></td>
+								<td class="p align-center"></td>
+								<td class="l align-center"></td>
+								<td class="g align-center"></td>
+								<td class="result align-left"></td>
 							</tr>
 							<tr>
-								<td class="align-left">EM</td>
-								<td class="align-center">620-720</td>
-								<td class="align-center">55-70</td>
-								<td class="align-center"></td>
-								<td class="align-center"></td>
-								<td class="align-center"></td>
-								<td class="align-center"></td>
-								<td class="align-left"></td>
+								<td class="align-left">PM</td>
+								<td class="c_range align-center">620-720</td>
+								<td class="p_range align-center">55-70</td>
+								<td class="c align-center"></td>
+								<td class="p align-center"></td>
+								<td class="l align-center"></td>
+								<td class="g align-center"></td>
+								<td class="result align-left"></td>
 							</tr>
 							<tr>
-								<td class="align-left">EM</td>
-								<td class="align-center">800-900</td>
-								<td class="align-center">67-80</td>
-								<td class="align-center"></td>
-								<td class="align-center"></td>
-								<td class="align-center"></td>
-								<td class="align-center"></td>
-								<td class="align-left"></td>
+								<td class="align-left">PL</td>
+								<td class="c_range align-center">800-900</td>
+								<td class="p_range align-center">67-80</td>
+								<td class="c align-center"></td>
+								<td class="p align-center"></td>
+								<td class="l align-center"></td>
+								<td class="g align-center"></td>
+								<td class="result align-left"></td>
 							</tr>
 						</tbody>
 					</table>
@@ -207,6 +207,7 @@ $js_duplicate_url = add_query_arg(['dupnonce' => wp_create_nonce('dupnonce')], g
 	</div>
 </div>
 <script src="<?php site_the_assets(); ?>js/tag-input/tag-input.js"></script>
+<script src="<?php site_the_assets(); ?>js/meal.js"></script>
 <script>
 	var previewNode = document.querySelector("#template");
 	previewNode.id = "";
