@@ -7,7 +7,7 @@
  * @subpackage Twenty_Twelve
  * @since Twenty Twelve 1.0
  */
-global $em_customer_group, $em_group, $em_location, $em_log;
+global $em_customer_group, $em_group, $em_location, $em_log, $em_order;
 
 $_GET = wp_unslash($_GET);
 
@@ -15,16 +15,20 @@ $group_id = isset($_GET['group_id']) ? intval($_GET['group_id']) : 0;
 $action_url = add_query_arg(['group_id' => $group_id], get_permalink());
 
 $group_detail = $em_group->get_fields();
+$group_order_status = "0";
+
 $list = [];
 $leader = [];
 $locations = [];
+
+$today = current_time('Y-m-d');
 
 if ($group_id > 0) {
     $response = em_api_request('group/item', ['id' => $group_id]);
     
     if ($response['code'] == 200) {
         $group_detail = $response['data'];
-        
+
         $list = $em_customer_group->get_items([
             'group_id' => $group_id,
             'orderby' => 'id ASC',
@@ -32,6 +36,21 @@ if ($group_id > 0) {
 
         if(count($list) > 0) {
             $leader = $list[0];
+
+            foreach($list as &$item) {
+                $args = [
+                    'customer_id' => $item['customer_id'],
+                    'check_date_start' => $today,
+                    'check_date_stop' => $today
+                ];
+
+                $item['order_status'] = $em_order->count($args) > 0 ? "1" : "0";
+                $item['order_status_name'] = $em_order->get_statuses($item['order_status']);
+
+                if($item['order_status'] > 0) {
+                    $group_order_status = 1;
+                }
+            }
 
             $locations = $em_location->get_items(['customer_id' => $leader['customer_id']]);
         }
@@ -71,6 +90,7 @@ get_header();
                 <input type="hidden" name="save_group" value="<?php echo uniqid() ?>" />
                 <input type="hidden" name="group_id" value="<?php echo $group_id ?>" />
                 <h1 class="pt-8 pb-16 d-f jc-b ai-center">Nhóm <?php echo $name ?><span class="btn btn-danger">Xóa nhóm</span></h1>
+                
                 <div class="row row32 tab-pane" id="info">
                     <div class="col-8">
                         <div class="card">
@@ -83,7 +103,7 @@ get_header();
                                         Trạng thái nhóm: 
                                     </div>
                                     <div class="col-9 pb-16 text-right">
-                                        <span class="status_order status_order-1">Đang dùng</span>
+                                        <span class="status_order status_order-<?php echo $group_order_status ?>"><?php echo $em_order->get_statuses($group_order_status) ?></span>
                                     </div>
                                     <div class="col-3 pb-16">
                                         Tên trưởng nhóm:
@@ -161,7 +181,7 @@ get_header();
                                                 <input type="hidden" name="customers[<?php echo $i ?>][id]" value="<?php echo $item['customer_id'] ?>" />
                                             </td>
                                             <td><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $item['phone'] ?>"><?php echo $item['phone'] ?></span></td>
-                                            <td class="text-center"><span class="status_order status_order-1">Đang dùng</span></td>
+                                            <td class="text-center"><span class="status_order status_order-<?php echo $item['order_status'] ?>"><?php echo $item['order_status_name'] ?></span></td>
                                             <td class="text-center">
                                                 <input type="checkbox" name="customers[<?php echo $i?>][bag]" value="1" class="mt-4" 
                                                     <?php echo !empty($item['bag']) ? "checked" : '' ?> />

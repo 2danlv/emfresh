@@ -54,3 +54,39 @@ function site_statistic_get_customer($column = '', $where = [])
 
     return $list;
 }
+
+function site_statistic_get_group($group_id = 0)
+{
+    global $em_customer_group, $em_order;
+
+    $today = current_time('Y-m-d');
+
+    $statistics = [];
+
+    $customers = $em_customer_group->get_items(['group_id' => $group_id]);
+
+    $statistics['member_total'] = count($customers);
+
+    $order_total = 0;
+    $order_status = "0";
+
+    foreach($customers as $customer) {
+        $order_total += $em_order->count(['customer_id' => $customer['id']]);
+
+        $args = [
+            'customer_id' => $customer['id'],
+            'check_date_start' => $today,
+            'check_date_stop' => $today
+        ];
+
+        if($order_status == 0 && $em_order->count($args) > 0) {
+            $order_status = 1;
+        }
+    }
+
+    $statistics['order_total'] = $order_total;
+    $statistics['order_status'] = $order_status;
+    $statistics['order_status_name'] = $em_order->get_statuses($order_status);
+
+    return $statistics;
+}

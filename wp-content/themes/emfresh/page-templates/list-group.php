@@ -8,7 +8,7 @@
  * @since Twenty Twelve 1.0
  */
 
-global $em_customer, $em_group, $em_location;
+global $em_customer, $em_group, $em_location, $em_customer_group;
 
 $detail_group_url = site_group_edit_link();
 
@@ -85,6 +85,8 @@ get_header();
                   // $link = "detail-group";
                   $link = add_query_arg(['group_id' => $record["id"]], $detail_group_url);
                   $location_list = explode(',', $record['location_name']);
+
+                  $statistics = site_statistic_get_group($record["id"]);
                 ?>
                   <tr class="nowrap">
                     <td data-number="0" class="text-center"><input type="checkbox" class="checkbox-element" data-number="<?php echo $record['phone']; ?>" value="<?php echo $record['id'] ?>"></td>
@@ -93,12 +95,10 @@ get_header();
                     <td data-number="3" class="text-capitalize wrap-td" style="min-width: 300px;">
                       <div class="nowrap ellipsis"><?php echo $record['location_name'] ?></div>
                     </td>
-                    <td data-number="4" class="text-center">
-                      <?php ?>
-                    </td>
-                    <td data-number="5"><?php ?></td>
-                    <td data-number="6"><span><?php ?></span></td>
-                    <td data-number="7"><?php  ?></td>
+                    <td data-number="4" class="text-center"><?php echo $statistics['member_total'] ?></td>
+                    <td data-number="5"><?php echo $statistics['order_total'] ?></td>
+                    <td data-number="6"><span class="status_order status_order-<?php echo $statistics['order_status'] ?>"><?php echo $statistics['order_status_name'] ?></span></td>
+                    <td data-number="7"><?php echo wp_trim_words($record["note"], 10) ?></td>
                     <td data-number="8" class="text-right"><span class="avatar"><img src="<?php echo get_avatar_url($record['modified_at']); ?>" width="24" alt="<?php echo get_the_author_meta('display_name', $record['modified_at']); ?>"></span></td>
                     <td data-number="9"><?php echo get_the_author_meta('display_name', $record['modified_at']); ?></td>
                     <td data-number="10" style="min-width: 146px;"><?php echo date('H:i d/m/Y', strtotime($record['modified'])); ?></td>

@@ -353,7 +353,7 @@ if ( count($data) > 0 && isset($data[ 'orders' ]) ) :
             <p class="pb-16"><a href="#" class="btn db btn-secondary modal-close nowrap">Chuyển sang bảo lưu</a></p>
           </div>
           <p class="link_order"><a href="#" class="btn btn-secondary db link_order_detail modal-close nowrap">Chỉnh sửa số lượng đơn hàng này</a></p>
-          
+
         </div>
       </div>
     </div>
