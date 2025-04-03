@@ -95,20 +95,18 @@ class EM_Customer_Group extends EF_Default
         foreach ($customers as $customer) {
             if (empty($customer['id'])) continue;
 
-            $group_data = shortcode_atts([
-                'bag' => 0,
+            $group_data = [
+                'group_id' => $group_id,
+                'bag' => !empty($customer['bag']) ? 1 : 0,
+                'customer_id' => $customer['id'],
                 'order' => $count + 1
-            ], $customer);
-
-            $group_data['customer_id'] = $customer['id'];
+            ];
 
             if (!empty($customer_groups[$count])) {
                 $group_data['id'] = $customer_groups[$count]['id'];
 
                 $this->update($group_data);
             } else {
-                $group_data['group_id'] = $group_id;
-                
                 $this->insert($group_data);
             }
 

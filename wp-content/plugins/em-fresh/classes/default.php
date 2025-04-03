@@ -158,6 +158,12 @@ class EF_Default
 
     function update($data = [], $where = [])
     {
+        if ($this->can_update() == false) {
+            return false;
+        }
+
+        global $wpdb;
+
         $id = isset($data['id']) ? intval($data['id']) : 0;
         if (count($where) > 0) {
             $where_type = array_map(function () {
@@ -169,12 +175,6 @@ class EF_Default
         } else {
             return false;
         }
-
-        if ($this->can_update() == false) {
-            return false;
-        }
-
-        global $wpdb;
 
         $fields = $this->get_fields();
 
@@ -442,12 +442,20 @@ class EF_Default
 
         foreach ($filters as $name => $rule) {
             if (isset($args[$name])) {
-                $value = sanitize_text_field($args[$name]);
+                if (is_array($args[$name])) {
+                    $value = implode("','", $args[$name]);
+                } else {
+                    $value = sanitize_text_field($args[$name]);
+                }
 
                 if ($rule == 'LIKE') {
                     $wheres[] = "`$name` LIKE '%{$value}%'";
                 } else if(str_contains($rule, '%')){
                     $wheres[] =  "DATE_FORMAT(`created`, '$rule') = '$value'";
+                } else if(in_array($rule, ['IN', 'NOT IN'])){
+                    $wheres[] = "`$name` $rule ('$value')";
+                } else if(in_array($rule, ['>', '<', '!='])){
+                    $wheres[] = "`$name` $rule '$value'";
                 } else {
                     $wheres[] = "`$name` = '$value'";
                 }
