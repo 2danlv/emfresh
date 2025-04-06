@@ -16,30 +16,32 @@ $detail_menu_select_url = get_permalink();
 $args = wp_unslash($_GET);
 
 $meal_select_number = isset($args['meal_select_number']) ? intval($args['meal_select_number']) : 0;
-$week = isset($args['week']) ? trim($args['week']) : '';
+$order_id = isset($args['order_id']) ? intval($args['order_id']) : 0;
 
-$args['groupby'] = 'customer';
+$week = isset($args['week']) ? trim($args['week']) : date('Y-m-d');
+
+// $args['groupby'] = 'customer';
 
 $data = site_order_get_meal_plans($args);
 
-if($week != '') {
-  $today = $week;
-} else {
-  $today = date('Y-m-d');
-}
-
-$days = site_get_days_week_by($today);
+$days = site_get_days_week_by($week);
 
 $weeks = [];
 
-for($i = 0; $i < 3; $i++) {
-  $values = site_get_days_week_by("+$i week");
+foreach(['-1 week', 'today', '+1 week'] as $text) {
+  $values = site_get_days_week_by($text);
 
   $start = date('d/m', strtotime($values[0]));
   $end = date('d/m', strtotime(end($values)));
 
   $weeks[$values[0]] = "Tuần $start - $end";
 }
+
+$list_copy = [
+  'Danh sách chính',
+  'Bản sao 1',
+  'Bản sao 2',
+];
 
 get_header();
 // Start the Loop.
@@ -53,9 +55,9 @@ get_header();
     echo '<div class="alert alert-success mt-3 mb-16" role="alert">Xóa khách hàng thành công</div>';
   }
   if (!empty($_GET['code']) && !empty($_GET['expires']) && intval($_GET['expires']) > time()) {
-    // echo '<div class="alert alert-success mt-3 mb-16" role="alert">'
-    //     . sprintf('Cập nhật%s thành công', $_GET['code'] != 200 ? ' không' : '')
-    //     .'</div>';
+    echo '<div class="alert alert-success mt-3 mb-16" role="alert">'
+        . sprintf('Cập nhật%s thành công', $_GET['code'] != 200 ? ' không' : '')
+        .'</div>';
   }
   ?>
 
@@ -85,7 +87,7 @@ get_header();
               <li class="mr-16 group-icon"><span class="btn btn-fillter">&nbsp;</span></li>
               <li class="mr-16 group-icon"><span class="btn btn-copy">&nbsp;</span></li>
               <li class="mr-16 group-icon"><span class="btn btn-alert">&nbsp;</span></li>
-              <li><span class="btn btn-primary disable">Lưu chọn món</span></li>
+              <li><span class="btn btn-primary disable js-save-meal-select">Lưu chọn món</span></li>
             </ul>
           </div>
         </div>
@@ -109,72 +111,96 @@ get_header();
           </div>
           <div class="col-6">
             <ul class="d-f">
+              <?php foreach($list_copy as $number => $name) :?>
               <li class="mr-16">
-                <a href="<?php the_permalink() ?>" class="btn<?php echo $meal_select_number == 0 ? ' btn-primary' : '' ?>">Danh sách chính</a>
+                <a href="<?php echo add_query_arg(['order_id' => $order_id,'meal_select_number' => $number,'week' => $week,
+                ], $detail_menu_select_url) ?>" class="btn<?php echo $meal_select_number == $number ? ' btn-primary' : '' ?>"><?php echo $name ?></a>
               </li>
-              <li class="mr-16">
-                <a href="<?php echo add_query_arg(['meal_select_number' => 1], get_permalink()) ?>" class="btn<?php echo $meal_select_number == 1 ? ' btn-primary' : '' ?>">Bản sao 1</a>
-              </li>
-              <li>
-                <a href="<?php echo add_query_arg(['meal_select_number' => 2], get_permalink()) ?>" class="btn<?php echo $meal_select_number == 2 ? ' btn-primary' : '' ?>">Bản sao 2</a>
-              </li>
+              <?php endforeach ?>
             </ul>
           </div>
         </div>
         <?php wp_nonce_field('importoken', 'importoken', false); ?>
       </form>
-      <table id="list-select-meal" class="table table-select-meal" style="width:100%">
-        <thead>
-          <tr class="nowrap">
-            <th data-number="0" class="text-center"><input type="checkbox" name="checkall" id="checkall" /></th>
-            <th data-number="1"><span class="nowrap">Tên người nhận</span></th>
-            <th data-number="2" class="text-left">SĐT</th>
-            <th data-number="3">Mã</th>
-            <?php foreach($days as $i => $day) : $time = strtotime($day); ?>
-            <th class="text-center" data-number="<?php echo $i + 4 ?>">
-              Thứ <?php echo $i + 2 ?> <br>
-              (<?php echo date('d/m', $time) ?>)
-            </th>
-            <?php endforeach ?>
-          </tr>
-        </thead>
-        <tbody>
-          <?php
-            foreach ($data[ 'orders' ] as $i => $order) :
-              $link = add_query_arg(['order_id' => $order['id']], $detail_menu_select_url);
-              $result = site_order_group_item_name($order['item_name']);
-              $item_name = implode('+', $result);
-              $meal_select_items = $order['meal_select_items'];
-          ?>
+      <form id="meal_select_form" action="<?php the_permalink() ?>" method="post">
+        <input type="hidden" name="save_meal_select" value="1"/>
+        <input type="hidden" name="meal_select_number" value="<?php echo $meal_select_number ?>"/>
+        <input type="hidden" name="order_id" value="<?php echo $order_id ?>"/>
+        <input type="hidden" name="week" value="<?php echo $week ?>"/>
+        <table id="list-select-meal" class="table table-select-meal" style="width:100%">
+          <thead>
             <tr class="nowrap">
-              <td data-number="0" class="text-center"><input type="checkbox" class="checkbox-element" data-number="<?php echo $order['phone']; ?>" value="<?php echo $order['id'] ?>"></td>
-              <td data-number="1" class="text-capitalize nowrap wrap-td">
-                <div class="ellipsis"><a href="<?php echo $link ?>"><?php echo $order[ 'customer_name' ] ?></a></div>
-              </td>
-              <td data-number="2" class="text-left"><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $order['phone']; ?>"><?php echo $order['phone']; ?></span></td>
-              <td data-number="3">
-                <?php echo $item_name ?>
-              </td>
-              <?php foreach($days as $i => $day) : 
-                $meal_select = isset($meal_select_items[$day]) ? $meal_select_items[$day] : [];
-              ?>
-              <td data-number="<?php echo $i + 4 ?>" class="wrap-td" style="min-width: 140px;">
-                <div class="nowrap ellipsis"><?php
-                  foreach($meal_select as $menu_id) {
-                    if(!empty($menu_select[$menu_id])) {
-                      echo $menu_select[$menu_id];
-                      break;
-                    }
-                  }
-                ?></div>
-              </td>
+              <th data-number="0" class="text-center"><input type="checkbox" name="checkall" id="checkall" /></th>
+              <th data-number="1"><span class="nowrap">Tên người nhận</span></th>
+              <th data-number="2" class="text-left">SĐT</th>
+              <th data-number="3">Mã</th>
+              <?php foreach($days as $i => $day) : $time = strtotime($day); ?>
+              <th class="text-center" data-number="<?php echo $i + 4 ?>">
+                Thứ <?php echo $i + 2 ?> <br>
+                (<?php echo date('d/m', $time) ?>)
+              </th>
               <?php endforeach ?>
             </tr>
-          <?php
-            endforeach;
-          ?>
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            <?php
+              foreach ($data['orders'] as $i => $order) :
+                $link = add_query_arg([
+                  'order_id' => $order['id'],
+                  'meal_select_number' => $meal_select_number,
+                  'week' => $week,
+                ], $detail_menu_select_url);
+
+                // $result = site_order_group_item_name($order['item_name']);
+                // $item_name = implode('+', $result);
+
+                foreach($order['order_items'] as $order_item) :
+                  if(empty($order_item['meal_select_items']) || count($order_item['meal_select_items']) == 0) continue;
+
+                  $meal_select_items = $order_item['meal_select_items'];
+                  $count = 0;
+                  foreach($days as $i => $day) {
+                    if(isset($meal_select_items[$day])) {
+                      $count++;
+                    }
+                  }
+
+                  if($count==0) continue;
+
+                  $product_name = explode('-', $order_item['product_name']);
+            ?>
+              <tr class="nowrap" data-order-id="<?php echo $order['id'] ?>" data-order-item-id="<?php echo $order_item['id'] ?>">
+                <td data-number="0" class="text-center"><input type="checkbox" class="checkbox-element" data-number="<?php echo $order['phone']; ?>" value="<?php echo $order['id'] ?>"></td>
+                <td data-number="1" class="text-capitalize nowrap wrap-td">
+                  <div class="ellipsis"><a href="<?php echo $link ?>"><?php echo $order[ 'customer_name' ] ?></a></div>
+                </td>
+                <td data-number="2" class="text-left"><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $order['phone']; ?>"><?php echo $order['phone']; ?></span></td>
+                <td data-number="3"><?php echo trim($product_name[0]) ?></td>
+                <?php foreach($days as $i => $day) : 
+                  $meal_select = empty($meal_select_items[$day]) ? [] : $meal_select_items[$day];
+                ?>
+                <td data-number="<?php echo $i + 4 ?>" class="wrap-td" style="min-width: 140px;">
+                  <?php foreach($meal_select as $k => $menu_id) : ?>
+                  <div class="mb-6">
+                    <select name="list_meal_select[<?php echo $order_item['id'] ?>][<?php echo $day ?>][<?php echo $k ?>]" 
+                      class="meal_select" data-old="<?php echo $menu_id ?>"
+                    >
+                      <?php
+                        foreach($menu_select as $value => $name) {
+                          echo '<option value="'.$value.'"'.($value == $menu_id ? ' selected' :'').'>' . $name . '</option>';
+                        }
+                      ?>
+                    </select>
+                  </div>
+                  <?php endforeach ?>
+                </td>
+                <?php endforeach ?>
+              </tr>
+            <?php endforeach;
+            endforeach; ?>
+          </tbody>
+        </table>
+      </form>
     </div>
   <div class="navigation-bottom d-f jc-b ai-center pl-16 pr-16">
 	<span class="btn btn-secondary openmodal" data-target="#modal-plan-history">Lịch sử thao tác</span>
@@ -676,46 +702,61 @@ get_header();
   </div>
 </div>
 
-  <?php
-  // endwhile;
+<?php
+// endwhile;
 
-  global $site_scripts;
+global $site_scripts;
 
-  if (empty($site_scripts)) $site_scripts = [];
-  $site_scripts[] = "https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js";
-  $site_scripts[] = get_template_directory_uri() . '/assets/js/importer.js';
+if (empty($site_scripts)) $site_scripts = [];
+$site_scripts[] = "https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js";
+$site_scripts[] = get_template_directory_uri() . '/assets/js/importer.js';
 
-  get_footer('customer');
-  ?>
-  <script src="<?php site_the_assets(); ?>js/order.js"></script>
-  <script>
-    // Function to save checkbox states to localStorage
-    function saveCheckboxState() {
-      $('.filter input[type="checkbox"]').each(function() {
-        const columnKey_order = 'column_order_' + $(this).val(); // Create key like "column_1", "column_2"
-        localStorage.setItem(columnKey_order, $(this).is(':checked'));
-      });
-    }
-    // Function to load checkbox states from localStorage
-    function loadCheckboxState() {
-      $('.filter input[type="checkbox"]').each(function() {
-        const columnKey_order = 'column_order_' + $(this).val();
-        const savedState = localStorage.getItem(columnKey_order);
-        if (savedState === null) {
-          if (['7', '12', '19'].includes($(this).val())) {
-            $(this).prop('checked', true);
-          }
-        } else {
-          $(this).prop('checked', savedState === 'true');
-          //$('.btn-column').addClass('active');
-        }
-      });
-    }
+get_footer('customer');
+?>
+<script src="<?php site_the_assets(); ?>js/order.js"></script>
+<script>
 
-    $(document).ready(function() {
-      // Load checkbox states when the page loads
-      // console.log('log',localStorage);
-      loadCheckboxState();
-      $('.filter input[type="checkbox"]').on('change', saveCheckboxState);
+  $('.meal_select').on('change', function(){
+    let input = $(this);
+    
+    input.toggleClass('changed', input.val() != input.data('old'));
+
+    $('.js-save-meal-select').toggleClass('disable', $('.meal_select.changed').length == 0);
+  });
+
+  $('.js-save-meal-select').on('click', function(){
+    if($('.meal_select.changed').length > 0) {
+      document.getElementById('meal_select_form').submit();
+    } 
+  })
+  
+  // Function to save checkbox states to localStorage
+  function saveCheckboxState() {
+    $('.filter input[type="checkbox"]').each(function() {
+      const columnKey_order = 'column_order_' + $(this).val(); // Create key like "column_1", "column_2"
+      localStorage.setItem(columnKey_order, $(this).is(':checked'));
     });
-  </script>
+  }
+  // Function to load checkbox states from localStorage
+  function loadCheckboxState() {
+    $('.filter input[type="checkbox"]').each(function() {
+      const columnKey_order = 'column_order_' + $(this).val();
+      const savedState = localStorage.getItem(columnKey_order);
+      if (savedState === null) {
+        if (['7', '12', '19'].includes($(this).val())) {
+          $(this).prop('checked', true);
+        }
+      } else {
+        $(this).prop('checked', savedState === 'true');
+        //$('.btn-column').addClass('active');
+      }
+    });
+  }
+
+  $(document).ready(function() {
+    // Load checkbox states when the page loads
+    // console.log('log',localStorage);
+    loadCheckboxState();
+    $('.filter input[type="checkbox"]').on('change', saveCheckboxState);
+  });
+</script>

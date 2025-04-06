@@ -69,7 +69,7 @@ class EM_Order_Item extends EF_Default
     function get_rules($action = '')
     {
         $rules = array(
-            'order_id'      => 'required',
+            // 'order_id'      => 'required',
             // 'type'          => 'required',
             // 'days'          => 'required',
             // 'date_start'    => 'required',

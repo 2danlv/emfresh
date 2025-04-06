@@ -337,43 +337,58 @@ function site_order_save_meal_select()
 
         $errors = [];
 
-        $list = isset($data['list_meal_select']) ? $data['list_meal_select'] : [];
-        $number = isset($data['meal_select_number']) ? $data['meal_select_number'] : 0;
+        $list = isset($data['list_meal_select']) ? (array) $data['list_meal_select'] : [];
+        $meal_select_number = isset($data['meal_select_number']) ? (int) $data['meal_select_number'] : 0;
+        $order_id = isset($data['order_id']) ? (int) $data['order_id'] : 0;
+        $week = isset($data['week']) ? $data['week'] : '';
 
-        if(is_array($list) && count($list) > 0) {
-            $meal_select_key = 'meal_select' . ($number > 0 ? '_' . $number : '');
+        $meal_select_key = 'meal_select' . ($meal_select_number > 0 ? '_' . $meal_select_number : '');
 
-            foreach($list as $item) {
-                $order_id = !empty($item['order_id']) ? (int) $item['order_id'] : 0;
-                $order_item_id = !empty($item['order_item_id']) ? (int) $item['order_item_id'] : 0;
-                $meal_select = !empty($item['meal_select']) ? $item['meal_select'] : [];
-                
-                if($order_id == 0 || $order_item_id == 0 || count($meal_select) == 0) continue;
+        if(count($list) > 0) {
+            // site_response_json($list);
 
-                $meal_plan = $em_order_item->get_meal_plan($order_item_id);
+            foreach($list as $order_item_id => $order_item_data) {
+                $order_item = $em_order_item->get_item($order_item_id);
+                if(empty($order_item['id'])) continue;
 
-                $total = 0;
+                $meal_select = $em_order_item->get_meal_select($order_item, $meal_select_number);
+                if(count($meal_select) == 0) continue;
 
-                foreach($meal_select as $item) {
-                    $total += count($item);
+                // site_response_json($meal_select);
+            
+                $update = false;
+
+                foreach($meal_select as $day => &$values) {
+                    if(empty($order_item_data[$day])) continue;
+
+                    $meal_select_data = $order_item_data[$day];
+                    
+                    foreach($values as $i => &$value) {
+                        if(!empty($meal_select_data[$i])) {
+                            $new = (int) $meal_select_data[$i];
+
+                            if($value != $new) {
+                                $update = true;
+                            }
+
+                            $value = $new;
+                        }
+                    }
                 }
 
-                if(array_sum($meal_plan) != $total) {
-                    $errors[] = "Order $order_id - Item $order_item_id - Error.";
-
-                    continue;
+                if($update) {
+                    $em_order_item->update_field($order_item_id, $meal_select_key, json_encode($meal_select));
                 }
-
-                $em_order_item->update([
-                    $meal_select_key => json_encode($meal_select)
-                ], ['id' => $order_item_id]);
             }
         }
 
         $query_args = [
+            'week' => $week,
+            'meal_select_number' => $meal_select_number,
+            'order_id' => $order_id,
             'code' => count($errors) > 0 ? 500 : 200,
             'expires' => time() + 3,
-            'message' => count($errors) > 0 ? implode(' ', $errors) : 'Update+success'
+            'message' => count($errors) > 0 ? implode(' ', $errors) : 'Update+meal+select+success'
         ];
 
         if(!empty($_POST['ajax'])) {
@@ -381,7 +396,7 @@ function site_order_save_meal_select()
             die();
         }
 
-        wp_redirect(add_query_arg($query_args, site_order_list_link()));
+        wp_redirect(add_query_arg($query_args, get_permalink()));
         exit();
     }
 }
@@ -1054,4 +1069,10 @@ function site_order_add_link()
 function site_order_edit_link()
 {
     return get_permalink(143);
+}
+
+function site_response_json($data)
+{
+    header('Content-type: application/json');
+    die(json_encode($data));
 }

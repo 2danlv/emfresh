@@ -44,7 +44,9 @@ class EM_Menu extends EF_Default
 
     function get_select($args = [])
     {
-        $list = [];
+        $list = [
+            'Chọn món'
+        ];
 
         $args['orderby'] = "name ASC";
 

@@ -42,7 +42,7 @@ if ($group_id > 0) {
         if(count($list) > 0) {
             $leader = $list[0];
 
-            foreach($list as &$item) {
+            foreach($list as $i => $item) {
                 $args = [
                     'customer_id' => $item['customer_id'],
                     'check_date_start' => $today,
@@ -55,6 +55,8 @@ if ($group_id > 0) {
                 if($item['order_status'] > 0) {
                     $group_order_status = 1;
                 }
+
+                $list[$i] = $item;
             }
 
             $locations = $em_location->get_items(['customer_id' => $leader['customer_id']]);

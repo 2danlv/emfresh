@@ -40,6 +40,19 @@
     } 
 }
 
+table.table-select-meal {
+    * { 
+    align-content: normal;
+    }
+   > tbody {
+       tr td {
+            .ellipsis {
+                padding-top: 6px;
+            }
+        }
+    }
+
+} 
 table.table-select-meal,table.table-split-order,table.table-detail-meal {
     thead tr {
         th {
