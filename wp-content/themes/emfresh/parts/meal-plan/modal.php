@@ -5,13 +5,23 @@
             <div class="modal-body pt-8 pb-16">
                 <div class="d-f">
                     <i class="fas fa-warning mr-8"></i>
-                    <p>Bạn có chắc muốn xoá khách hàng <span></span> ra <br> khỏi nhóm này không?</p>
-                    <input type="hidden" class="idMember">
+                    <div class="delete_member">
+                        <p>Bạn có chắc muốn xoá khách hàng <span></span> ra <br> khỏi nhóm này không?</p>
+                        <input type="hidden" class="idMember">
+                    </div>
+                    <div class="delete_group d-none">
+                        <p></p>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer d-f jc-b pb-8 pt-16">
                 <button type="button" class="btn btn-secondary modal-close">Đóng</button>
-                <button type="button" class="btn btn-remove btn-danger modal-close">Xóa</button>
+                <div class="delete_member">
+                    <button type="button" class="btn btn-remove btn-danger modal-close">Xóa</button>
+                </div>
+                <div class="delete_group d-none">
+                    <a href="" class="btn btn-remove-group btn-danger modal-close">Xóa</a>
+                </div>
             </div>
         </div>
     </div>

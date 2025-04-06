@@ -88,9 +88,10 @@
     $(document).on('click', '.table-member tbody td .remove-member', function (e) {
       var nameMember = $(this).closest('.table-member tbody tr').find('.nameMember').text();
       var idMember = $(this).closest('.table-member tbody tr').attr('data-member');
+      $('#modal-delete-member .delete_group').hide();
+      $('#modal-delete-member .delete_member').show();
       $('#modal-delete-member .modal-body p span').text(nameMember);
       $('#modal-delete-member .modal-body .idMember').val(idMember);
-      
     });
     $(document).on('click', '.table-member tbody td input', function (e) {
        if ($(this).prop('checked')) {
@@ -105,12 +106,20 @@
         return $(this).attr('data-member') == removeMember;
       }).remove();
       index = index - 1 ;
-      console.log('log',index);
       if (index < 2) {
         $('.navigation-bottom .btn-primary').hide();
       } else {
         $('.navigation-bottom .btn-primary').show();
       }
+    });
+    $(document).on('click', '.btn-remove_group', function (e) {
+      var removeGroup = $(this).attr('data_href');
+      $('#modal-delete-member .delete_member').hide();
+      $('#modal-delete-member .delete_group').show();
+      $('#modal-delete-member .modal-body .delete_group p').text('Bạn có chắc muốn xóa nhóm không?');
+      $('#modal-delete-member .modal-footer .delete_group a').attr('href',removeGroup);
+      
+      
     });
     $(document).on('click', '.group-locations .location_field', function (e) {
       var resultItem_length = $(this).closest('.group-locations').find(".location_id");

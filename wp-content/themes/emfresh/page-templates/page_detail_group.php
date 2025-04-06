@@ -13,7 +13,11 @@ $_GET = wp_unslash($_GET);
 
 $group_id = isset($_GET['group_id']) ? intval($_GET['group_id']) : 0;
 $action_url = add_query_arg(['group_id' => $group_id], get_permalink());
-$delete_url = add_query_arg(['delete_group' => $group_id, 'delnonce' => wp_create_nonce('delnonce')], get_permalink());
+$delete_url = add_query_arg([
+    'delete_group' => $group_id, 
+    'delnonce' => wp_create_nonce('delnonce')], 
+    '../'
+    );
 
 $group_detail = $em_group->get_fields();
 $group_order_status = "0";
@@ -90,7 +94,7 @@ get_header();
                 <form method="post" action="">
                 <input type="hidden" name="save_group" value="<?php echo uniqid() ?>" />
                 <input type="hidden" name="group_id" value="<?php echo $group_id ?>" />
-                <h1 class="pt-8 pb-16 d-f jc-b ai-center">Nhóm <?php echo $name ?><a href="<?php echo $delete_url ?>" class="btn btn-danger" onclick="return confirm('Bạn có chắc muốn xóa nhóm không?')">Xóa nhóm</a></h1>
+                <h1 class="pt-8 pb-16 d-f jc-b ai-center">Nhóm <?php echo $name ?><a data-target="#modal-delete-member" data_href="<?php echo $delete_url ?>" class="btn btn-danger btn-remove_group openmodal" >Xóa nhóm</a></h1>
                 
                 <div class="row row32 tab-pane" id="info">
                     <div class="col-8">
