@@ -271,6 +271,12 @@ function site_order_submit()
         wp_redirect(add_query_arg($query_args, site_order_edit_link()));
         exit();
     }
+}
+add_action('wp', 'site_order_submit');
+
+function site_order_delete_order()
+{
+    global $em_order;
 
     // Delete order
     $delete_order = !empty($_GET['delete_order']) ? (int) $_GET['delete_order'] : 0;
@@ -293,11 +299,38 @@ function site_order_submit()
         exit();
     }
 }
-add_action('wp', 'site_order_submit');
+add_action('wp', 'site_order_delete_order');
+
+function site_order_delete_group()
+{
+    global $em_group;
+
+    // Delete group
+    $delete_group = !empty($_GET['delete_group']) ? (int) $_GET['delete_group'] : 0;
+    $delnonce = !empty($_GET['delnonce']) ? trim($_GET['delnonce']) : '';
+    if ($delete_group > 0 && wp_verify_nonce($delnonce, "delnonce")) {
+        $deleted = $em_group->delete($delete_group);
+
+        $query_args = [
+            'group_id' => $delete_group,
+            'expires' => time() + 3,
+        ];
+
+        if ($deleted) {
+            $query_args['message'] = 'Delete-group-success';
+        } else {
+            $query_args['message'] = 'Delete-group-errors';
+        }
+
+        wp_redirect(add_query_arg($query_args, get_permalink()));
+        exit();
+    }
+}
+add_action('wp', 'site_order_delete_group');
 
 function site_order_save_meal_select()
 {
-    global $em_order, $em_order_item, $em_log;
+    global $em_order_item;
     
     if (!empty($_POST['save_meal_select'])) {
         $data = wp_unslash($_POST);
@@ -305,10 +338,9 @@ function site_order_save_meal_select()
         $errors = [];
 
         $list = isset($data['list_meal_select']) ? $data['list_meal_select'] : [];
+        $number = isset($data['meal_select_number']) ? $data['meal_select_number'] : 0;
 
         if(is_array($list) && count($list) > 0) {
-            $number = isset($data['meal_select_number']) ? $data['meal_select_number'] : 0;
-
             $meal_select_key = 'meal_select' . ($number > 0 ? '_' . $number : '');
 
             foreach($list as $item) {
@@ -644,6 +676,8 @@ function site_order_get_meal_plans($args = [])
 
     $customer_id = isset($args['customer_id']) ? intval($args['customer_id']) : 0;
 
+    $meal_select_number = isset($args['meal_select_number']) ? intval($args['meal_select_number']) : 0;
+
     $order_detail = [];
 
     $data = [];
@@ -672,6 +706,7 @@ function site_order_get_meal_plans($args = [])
         $date_stop = '0000-00-00';
 
         $schedule_meal_plan_items = [];
+        $schedule_meal_select_items = [];
 
         foreach($orders as &$order) {
             $q_args = [
@@ -684,9 +719,11 @@ function site_order_get_meal_plans($args = [])
             $order_date_stop = $order['date_stop'];
 
             $order_meal_plan_items = [];
+            $order_meal_select_items = [];
 
             foreach($order_items as &$order_item) {
                 $order_item['meal_plan_items'] = $em_order_item->get_meal_plan($order_item);
+                $order_item['meal_select_items'] = $em_order_item->get_meal_select($order_item, $meal_select_number);
 
                 if(count($order_item['meal_plan_items']) > 0) {
                     $keys = array_keys($order_item['meal_plan_items']);
@@ -709,11 +746,26 @@ function site_order_get_meal_plans($args = [])
 
                         $schedule_meal_plan_items[$day] += $value;
                     }
+
+                    foreach($order_item['meal_select_items'] as $day => $meal_select) {
+                        if(empty($order_meal_select_items[$day])) {
+                            $order_meal_select_items[$day] = [];
+                        }
+
+                        $order_meal_select_items[$day] = array_merge($order_meal_select_items[$day], $meal_select);
+
+                        if(empty($schedule_meal_select_items[$day])) {
+                            $schedule_meal_select_items[$day] = [];
+                        }
+
+                        $schedule_meal_select_items[$day] = array_merge($schedule_meal_select_items[$day], $meal_select);
+                    }
                 }
             }
 
             $order['order_items'] = $order_items;
             $order['meal_plan_items'] = $order_meal_plan_items;
+            $order['meal_select_items'] = $order_meal_select_items;
 
             if ($date_start == '0000-00-00' || $date_start > $order['date_start']) {
                 $date_start = $order['date_start'];
@@ -736,6 +788,7 @@ function site_order_get_meal_plans($args = [])
                     $customer = $order;
                     $customer['orders'] = [];
                     $customer['meal_plan_items'] = [];
+                    $customer['meal_select_items'] = [];
                     $customer['type_name'] = '';
                     $customer['item_name'] = '';
                 }
@@ -743,6 +796,7 @@ function site_order_get_meal_plans($args = [])
                 $customer['orders'][] = $order;
 
                 $customer_meal_plan_items = isset($customer['meal_plan_items']) ? $customer['meal_plan_items'] : [];
+                $customer_meal_select_items = isset($customer['meal_select_items']) ? $customer['meal_select_items'] : [];
 
                 foreach($order['meal_plan_items'] as $day => $value) {
                     if(empty($customer_meal_plan_items[$day])) {
@@ -752,7 +806,16 @@ function site_order_get_meal_plans($args = [])
                     $customer_meal_plan_items[$day] += $value;
                 }
 
+                foreach($order['meal_select_items'] as $day => $meal_select) {
+                    if(empty($customer_meal_select_items[$day])) {
+                        $customer_meal_select_items[$day] = [];
+                    }
+
+                    $customer_meal_select_items[$day] = array_merge($customer_meal_select_items[$day], $meal_select);
+                }
+
                 $customer['meal_plan_items'] = $customer_meal_plan_items;
+                $customer['meal_select_items'] = $customer_meal_select_items;
 
                 if(empty($customer['count_order'])) {
                     $customer['count_order'] = 0;
@@ -881,6 +944,7 @@ function site_order_get_meal_plans($args = [])
         $data['date_stop'] = $date_stop;
         $data['schedule'] = $list;
         $data['meal_plan_items'] = $schedule_meal_plan_items;
+        $data['meal_select_items'] = $schedule_meal_select_items;
         $data['orders'] = $orders;
     }
 
@@ -924,6 +988,47 @@ function site_order_sort_payment_methods($methods = [])
     }
 
     return $list;
+}
+
+function site_order_group_item_name($item_name = '')
+{
+    $itemList = explode(', ', $item_name);
+    $groupedItems = [];
+    foreach ($itemList as $item) {
+        if (strpos($item, '+') !== false) {
+            $combinedItems = explode('+', $item);
+            foreach ($combinedItems as $subItem) {
+                preg_match('/(\d+)([A-Za-z]+)/', $subItem, $matches);
+                if ($matches) {
+                    $quantity = (int)$matches[1];
+                    $code = $matches[2];
+                    if (isset($groupedItems[$code])) {
+                        $groupedItems[$code] += $quantity;
+                    } else {
+                        $groupedItems[$code] = $quantity;
+                    }
+                }
+            }
+        } else {
+            preg_match('/(\d+)([A-Za-z]+)/', $item, $matches);
+            if ($matches) {
+                $quantity = (int)$matches[1];
+                $code = $matches[2];
+                if (isset($groupedItems[$code])) {
+                    $groupedItems[$code] += $quantity;
+                } else {
+                    $groupedItems[$code] = $quantity;
+                }
+            }
+        }
+    }
+
+    $result = [];
+    foreach ($groupedItems as $code => $quantity) {
+        $result[] = $quantity . $code;
+    }
+
+    return $result;
 }
 
 function site_order_list_link()

@@ -8,12 +8,38 @@
  * @since Twenty Twelve 1.0
  */
 
-global $em_customer, $em_order, $em_customer_tag, $em_log, $em_location;
+global $em_customer, $em_order, $em_customer_tag, $em_log, $em_location, $em_menu;
 
-$list_order_status = $em_order->get_statuses();
-$list_tags = $em_customer->get_tags();
-$detail_order_url = site_order_edit_link();
+$menu_select = $em_menu->get_select();
+$detail_menu_select_url = get_permalink();
 
+$args = wp_unslash($_GET);
+
+$meal_select_number = isset($args['meal_select_number']) ? intval($args['meal_select_number']) : 0;
+$week = isset($args['week']) ? trim($args['week']) : '';
+
+$args['groupby'] = 'customer';
+
+$data = site_order_get_meal_plans($args);
+
+if($week != '') {
+  $today = $week;
+} else {
+  $today = date('Y-m-d');
+}
+
+$days = site_get_days_week_by($today);
+
+$weeks = [];
+
+for($i = 0; $i < 3; $i++) {
+  $values = site_get_days_week_by("+$i week");
+
+  $start = date('d/m', strtotime($values[0]));
+  $end = date('d/m', strtotime(end($values)));
+
+  $weeks[$values[0]] = "Tuần $start - $end";
+}
 
 get_header();
 // Start the Loop.
@@ -41,10 +67,12 @@ get_header();
           <div class="col-6 ai-center">
             <ul class="d-f pr-16">
               <li class="pr-16">
-                <select name="" id="">
-                  <option value="">Tuần 02/01 - 06/01</option>
-                  <option value="">Tuần 02/01 - 06/01</option>
-                  <option value="">Tuần 02/01 - 06/01</option>
+                <select id="" onchange="location.href = '<?php the_permalink() ?>?week=' + this.value">
+                  <?php 
+                    foreach($weeks as $value => $label) {
+                      echo '<option value="'.$value.'"'.($value == $week?' selected':'').'>'.$label.'</option>';
+                    }
+                  ?>
                 </select>
               </li>
               <li>
@@ -82,13 +110,13 @@ get_header();
           <div class="col-6">
             <ul class="d-f">
               <li class="mr-16">
-                <span class="btn btn-primary">Danh sách chính</span>
+                <a href="<?php the_permalink() ?>" class="btn<?php echo $meal_select_number == 0 ? ' btn-primary' : '' ?>">Danh sách chính</a>
               </li>
               <li class="mr-16">
-                <span class="btn">Bản sao 1</span>
+                <a href="<?php echo add_query_arg(['meal_select_number' => 1], get_permalink()) ?>" class="btn<?php echo $meal_select_number == 1 ? ' btn-primary' : '' ?>">Bản sao 1</a>
               </li>
               <li>
-                <span class="btn">Bản sao 2</span>
+                <a href="<?php echo add_query_arg(['meal_select_number' => 2], get_permalink()) ?>" class="btn<?php echo $meal_select_number == 2 ? ' btn-primary' : '' ?>">Bản sao 2</a>
               </li>
             </ul>
           </div>
@@ -102,71 +130,48 @@ get_header();
             <th data-number="1"><span class="nowrap">Tên người nhận</span></th>
             <th data-number="2" class="text-left">SĐT</th>
             <th data-number="3">Mã</th>
-            <th class="text-center" data-number="4">
-              Thứ 2 <br>
-              (02/01)
+            <?php foreach($days as $i => $day) : $time = strtotime($day); ?>
+            <th class="text-center" data-number="<?php echo $i + 4 ?>">
+              Thứ <?php echo $i + 2 ?> <br>
+              (<?php echo date('d/m', $time) ?>)
             </th>
-            <th class="text-center" data-number="5">
-              Thứ 3 <br>
-              (02/01)
-            </th>
-            <th class="text-center" data-number="6">
-              Thứ 4 <br>
-              (02/01)
-            </th>
-            <th class="text-center" data-number="7">
-              Thứ 5 <br>
-              (02/01)
-            </th>
-            <th class="text-center" data-number="8">
-              Thứ 6 <br>
-              (02/01)
-            </th>
+            <?php endforeach ?>
           </tr>
         </thead>
         <tbody>
           <?php
-          $response = em_api_request('order/list', [
-            'paged' => 1,
-            'limit' => -1,
-          ]);
-          if (isset($response['data']) && is_array($response['data'])) {
-            // Loop through the data array and print each entry
-            foreach ($response['data'] as $record) {
-              // var_dump($record);
-              if (is_array($record)) {
-                $link = '#';
-                $location_list = explode(',', $record['location_name']);
+            foreach ($data[ 'orders' ] as $i => $order) :
+              $link = add_query_arg(['order_id' => $order['id']], $detail_menu_select_url);
+              $result = site_order_group_item_name($order['item_name']);
+              $item_name = implode('+', $result);
+              $meal_select_items = $order['meal_select_items'];
           ?>
-                <tr class="nowrap">
-                  <td data-number="0" class="text-center"><input type="checkbox" class="checkbox-element" data-number="<?php echo $record['phone']; ?>" value="<?php echo $record['id'] ?>"></td>
-                  <td data-number="1" class="text-capitalize nowrap wrap-td">
-                    <div class="ellipsis"><a href="<?php echo $link ?>"><?php echo $record['customer_name']; ?></a></div>
-                  </td>
-                  <td data-number="2" class="text-left"><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $record['phone']; ?>"><?php echo $record['phone']; ?></span></td>
-                  <td data-number="3"><?php echo $record['item_name'] ?></td>
-                  <td data-number="4" class="wrap-td" style="min-width: 140px;">
-                    <div class="nowrap ellipsis">1 - Sườn non chay chua ngọt</div>
-                  </td>
-                  <td data-number="5" class="wrap-td" style="min-width: 140px;">
-                    <div class="nowrap ellipsis">1 - Sườn non chay chua ngọt</div>
-                  </td>
-                  <td data-number="6" class="wrap-td" style="min-width: 140px;">
-                    <div class="nowrap ellipsis">1 - Sườn non chay chua ngọt</div>
-                  </td>
-                  <td data-number="7" class="wrap-td" style="min-width: 140px;">
-                    <div class="nowrap ellipsis">1 - Sườn non chay chua ngọt</div>
-                  </td>
-                  <td data-number="8" class="wrap-td" style="min-width: 140px;">
-                    <div class="nowrap ellipsis">1 - Sườn non chay chua ngọt</div>
-                  </td>
-                </tr>
+            <tr class="nowrap">
+              <td data-number="0" class="text-center"><input type="checkbox" class="checkbox-element" data-number="<?php echo $order['phone']; ?>" value="<?php echo $order['id'] ?>"></td>
+              <td data-number="1" class="text-capitalize nowrap wrap-td">
+                <div class="ellipsis"><a href="<?php echo $link ?>"><?php echo $order[ 'customer_name' ] ?></a></div>
+              </td>
+              <td data-number="2" class="text-left"><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $order['phone']; ?>"><?php echo $order['phone']; ?></span></td>
+              <td data-number="3">
+                <?php echo $item_name ?>
+              </td>
+              <?php foreach($days as $i => $day) : 
+                $meal_select = isset($meal_select_items[$day]) ? $meal_select_items[$day] : [];
+              ?>
+              <td data-number="<?php echo $i + 4 ?>" class="wrap-td" style="min-width: 140px;">
+                <div class="nowrap ellipsis"><?php
+                  foreach($meal_select as $menu_id) {
+                    if(!empty($menu_select[$menu_id])) {
+                      echo $menu_select[$menu_id];
+                      break;
+                    }
+                  }
+                ?></div>
+              </td>
+              <?php endforeach ?>
+            </tr>
           <?php
-              } else {
-                echo "Không tìm thấy dữ liệu!\n";
-              }
-            }
-          }
+            endforeach;
           ?>
         </tbody>
       </table>

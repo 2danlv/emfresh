@@ -143,56 +143,98 @@ class EM_Order_Item extends EF_Default
         
         $list = [];
 
-        if (!empty($item['id'])) {
-            $date_start = $item['date_start'];
-            $date_stop  = $item['date_stop'];
+        $date_start = $item['date_start'];
+        $date_stop  = $item['date_stop'];
 
-            if($date_start == '0000-00-00' | $date_start == '0000-00-00') {
-                return [];
-            }
+        if($date_start == '0000-00-00' | $date_start == '0000-00-00') {
+            return [];
+        }
 
-            $list = [];
+        $list = [];
 
-            if ($item['meal_plan'] != '') {
-                $list = (array) json_decode($item['meal_plan'], true);
-            }
+        if ($item['meal_plan'] != '') {
+            $list = (array) json_decode($item['meal_plan'], true);
+        }
 
-            if (count($list) == 0) {
-                $meal_number = $item['meal_number'];
-                // $quantity = $item['quantity'];
-                // $count = 0;
+        if (count($list) == 0) {
+            $meal_number = $item['meal_number'];
+            // $quantity = $item['quantity'];
+            // $count = 0;
 
-                while ($date_start <= $date_stop) {
-                    $time = strtotime($date_start);
+            while ($date_start <= $date_stop) {
+                $time = strtotime($date_start);
 
-                    // 'Sun', 'Sat'
-                    if (!in_array(date('w', $time), [0, 6])) {
-                        $value = $meal_number;
+                // 'Sun', 'Sat'
+                if (!in_array(date('w', $time), [0, 6])) {
+                    $value = $meal_number;
 
-                        /*
-                            if($count + $value > $quantity) {
-                                $value = $quantity - $count;
-                                $count = $quantity;
-                            } else {
-                                $count += $value;
-                            }
-                    
-                            if($count <= $quantity) {
-                                $list[$date_start] = $value;
-                            }
-                        */
+                    /*
+                        if($count + $value > $quantity) {
+                            $value = $quantity - $count;
+                            $count = $quantity;
+                        } else {
+                            $count += $value;
+                        }
+                
+                        if($count <= $quantity) {
+                            $list[$date_start] = $value;
+                        }
+                    */
 
-                        $list[$date_start] = $value;
-                    }
-
-                    $date_start = date('Y-m-d', $time + DAY_IN_SECONDS);
+                    $list[$date_start] = $value;
                 }
 
-                // if (count($list) > 0) {
-                //     $this->update([
-                //         'meal_plan' => json_encode($list)
-                //     ], ['id' => $item['id']]);
-                // }
+                $date_start = date('Y-m-d', $time + DAY_IN_SECONDS);
+            }
+
+            // if (count($list) > 0) {
+            //     $this->update([
+            //         'meal_plan' => json_encode($list)
+            //     ], ['id' => $item['id']]);
+            // }
+        }
+
+        return $list;
+    }
+
+    function get_meal_select($item = [], $number = 0)
+    {
+        if (is_numeric($item)) {
+            $item  = $this->get_item($item);
+        }
+
+        if (empty($item['id']) || $number > 2) {
+            return [];
+        }
+        
+        $meal_plans  = $this->get_meal_plan($item);
+
+        if (count($meal_plans) == 0) {
+            return [];
+        }
+        
+        $list = [];
+
+        $key = 'meal_select' . ($number > 0 ? '_' . $number : '');
+
+        if (!empty($item[$key])) {
+            $list = (array) json_decode($item[$key], true);
+        }
+
+        if(count($list) == 0) {
+            foreach($meal_plans as $day => $meal_number) {
+                $meal_select = [];
+                $value = [];
+
+                if(isset($list[$day])) {
+                    $value = $list[$day];
+                }
+
+                for($i = 0; $i < $meal_number; $i++) {
+                    $meal_select[$i] = isset($value[$i]) ? $value[$i] : 0;
+                }
+
+                $list[$day] = $meal_select;
             }
         }
 

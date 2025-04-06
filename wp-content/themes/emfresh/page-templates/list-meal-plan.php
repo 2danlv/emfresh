@@ -129,7 +129,7 @@ $data = site_order_get_meal_plans($args);
                 
                 <td data-number="4" class="nowrap">
                 <?php
-                $itemList = explode(', ', $order['item_name']);
+                /*$itemList = explode(', ', $order['item_name']);
                 $groupedItems = [];
                 foreach ($itemList as $item) {
                   if (strpos($item, '+') !== false) {
@@ -162,7 +162,8 @@ $data = site_order_get_meal_plans($args);
                 $result = [];
                 foreach ($groupedItems as $code => $quantity) {
                   $result[] = $quantity . $code;
-                }
+                }*/
+                $result = site_order_group_item_name($order['item_name']);
                 echo implode('+', $result);
                 ?>
                 </td>

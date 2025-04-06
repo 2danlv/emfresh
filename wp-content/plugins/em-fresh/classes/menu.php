@@ -41,6 +41,23 @@ class EM_Menu extends EF_Default
 
         return $filters;
     }
+
+    function get_select($args = [])
+    {
+        $list = [];
+
+        $args['orderby'] = "name ASC";
+
+        $items = $this->get_items($args);
+
+        if(count($items) > 0) {
+            foreach($items as $item) {
+                $list[$item['id']] = $item['name'];
+            }
+        }
+
+        return $list;
+    }
 }
 
 global $em_menu;

@@ -26,6 +26,7 @@ class EM_Customer_Group extends EF_Default
         parent::__construct();
 
         add_action('deleted_table_em_customer_item', array($this, 'auto_delete_by_customer'), 10, 2);
+        add_action('deleted_table_em_group_item', array($this, 'auto_delete_by_group'), 10, 2);
     }
 
     function create_table()
@@ -126,6 +127,15 @@ class EM_Customer_Group extends EF_Default
 
         if ($deleted == true && $id > 0) {
             $wpdb->delete($wpdb->prefix . $this->table, ['customer_id' => $id], ['%d']);
+        }
+    }
+
+    function auto_delete_by_group($id = 0, $deleted = false)
+    {
+        global $wpdb;
+
+        if ($deleted == true && $id > 0) {
+            $wpdb->delete($wpdb->prefix . $this->table, ['group_id' => $id], ['%d']);
         }
     }
 }
