@@ -1101,7 +1101,7 @@ jQuery(document).ready(function () {
 						}
 						if (count > 1) {
 							$('.btn-fillter').addClass('current-filter');
-							$('.btn-fillter').html(`Bộ lọc <small>${count - 1}</small>`);
+							//$('.btn-fillter').html(`Bộ lọc <small class="d-none">${count - 1}</small>`);
 							$('.dtsb-title').html(`Điều kiện lọc (${count - 1})`);
 							$('.custom-btn.revert').css('display','block');
 						}

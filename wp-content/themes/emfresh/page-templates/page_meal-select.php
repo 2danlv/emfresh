@@ -16,6 +16,7 @@ $detail_menu_select_url = get_permalink();
 $args = wp_unslash($_GET);
 
 $meal_select_number = isset($args['meal_select_number']) ? intval($args['meal_select_number']) : 0;
+$meal_select_key = 'meal_select' . ($meal_select_number > 0 ? '_' . $meal_select_number : '');
 $order_id = isset($args['order_id']) ? intval($args['order_id']) : 0;
 
 $week = isset($args['week']) ? trim($args['week']) : date('Y-m-d');
@@ -42,6 +43,13 @@ $list_copy = [
   'Bản sao 1',
   'Bản sao 2',
 ];
+
+$list_logs = $em_log->get_items([
+  'module' => $meal_select_key,
+]);
+
+// Tu dong xoa sau 7 ngay
+$time_to_delete = strtotime('-7 days');
 
 get_header();
 // Start the Loop.
@@ -449,7 +457,7 @@ get_header();
   <div class="overlay"></div>
   <div class="modal-dialog modal-wide">
     <div class="modal-header">
-        <h4 class="modal-title">Tuần 02/01 - 06/01</h4>
+        <h4 class="modal-title">Lịch sử thao tác</h4>
         <span class="modal-close"><img src="<?php echo site_get_template_directory_assets();?>/img/icon/delete-svgrepo-com.svg" alt=""></span>
       </div>
     <div class="modal-content">
@@ -457,139 +465,46 @@ get_header();
         <table class="table regular_pay">
           <thead class="text-left">
             <tr>
-              <th>
-                Người thực hiện
-              </th>
-              <th>
-                Trang
-              </th>
-              <th>
-                Hành động
-              </th>
-              <th>
-                Đối tượng
-              </th>
-              <th>
-                Mô tả
-              </th>
-              <th>
-                Thời gian
-              </th>
-              <th>
-                Ngày
-              </th>
+              <th>Người thực hiện</th>
+              <th>Trang</th>
+              <th>Hành động</th>
+              <th>Đối tượng</th>
+              <th>Mô tả</th>
+              <th>Thời gian</th>
+              <th>Ngày</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
-              <td>Chọn món</td>
-              <td>cập nhật</td>
-              <td>Thien Phuong Bui - #0001 - SM</td>
-              <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-              <td>01:00</td>
-              <td>29/10/24</td>
+            <?php 
+              foreach ($list_logs as $item) :
+                $item_time = strtotime($item['created']);
+
+                if($item_time < $time_to_delete) {
+                  $em_log->delete($item['id']);
+
+                  continue;
+                }
+
+                $item_content = explode('|', $item['content']);
+            ?>
+            <tr data-id="<?php echo $item['id'] ?>">
+                <td class="wrap-td" style="max-width: 160px;">
+                    <div class="nowrap ellipsis">
+                        <img class="avatar" src="<?php echo get_avatar_url($item['created_at']) ?>" width="24" alt="">
+                        <?php echo $item['created_author'] ?>
+                    </div>
+                </td>
+                <td><?php echo $list_copy[$meal_select_number] ?></td>
+                <td><?php echo $item['action'] ?></td>
+                <td><?php echo $item_content[0] ?></td>
+                <td>
+                  <?php $brString = nl2br($item_content[1]); ?>
+                  <?php echo str_replace('<br />', '<hr>', $brString) ?>
+                </td>
+                <td><?php echo date('H:i', $item_time) ?></td>
+                <td><?php echo date('d/m/Y', $item_time) ?></td>
             </tr>
-            <tr>
-              <td><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
-              <td>Chọn món</td>
-              <td>cập nhật</td>
-              <td>Thien Phuong Bui - #0001 - SM</td>
-              <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-              <td>01:00</td>
-              <td>29/10/24</td>
-            </tr>
-            <tr>
-              <td><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
-              <td>Chọn món</td>
-              <td>cập nhật</td>
-              <td>Thien Phuong Bui - #0001 - SM</td>
-              <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-              <td>01:00</td>
-              <td>29/10/24</td>
-            </tr>
-            <tr>
-              <td><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
-              <td>Chọn món</td>
-              <td>cập nhật</td>
-              <td>Thien Phuong Bui - #0001 - SM</td>
-              <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-              <td>01:00</td>
-              <td>29/10/24</td>
-            </tr>
-            <tr>
-              <td><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
-              <td>Chọn món</td>
-              <td>cập nhật</td>
-              <td>Thien Phuong Bui - #0001 - SM</td>
-              <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-              <td>01:00</td>
-              <td>29/10/24</td>
-            </tr>
-            <tr>
-              <td><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
-              <td>Chọn món</td>
-              <td>cập nhật</td>
-              <td>Thien Phuong Bui - #0001 - SM</td>
-              <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-              <td>01:00</td>
-              <td>29/10/24</td>
-            </tr>
-            <tr>
-              <td><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
-              <td>Chọn món</td>
-              <td>cập nhật</td>
-              <td>Thien Phuong Bui - #0001 - SM</td>
-              <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-              <td>01:00</td>
-              <td>29/10/24</td>
-            </tr>
-            <tr>
-              <td><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
-              <td>Chọn món</td>
-              <td>cập nhật</td>
-              <td>Thien Phuong Bui - #0001 - SM</td>
-              <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-              <td>01:00</td>
-              <td>29/10/24</td>
-            </tr>
-            <tr>
-              <td><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
-              <td>Chọn món</td>
-              <td>cập nhật</td>
-              <td>Thien Phuong Bui - #0001 - SM</td>
-              <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-              <td>01:00</td>
-              <td>29/10/24</td>
-            </tr>
-            <tr>
-              <td><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
-              <td>Chọn món</td>
-              <td>cập nhật</td>
-              <td>Thien Phuong Bui - #0001 - SM</td>
-              <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-              <td>01:00</td>
-              <td>29/10/24</td>
-            </tr>
-            <tr>
-              <td><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
-              <td>Chọn món</td>
-              <td>cập nhật</td>
-              <td>Thien Phuong Bui - #0001 - SM</td>
-              <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-              <td>01:00</td>
-              <td>29/10/24</td>
-            </tr>
-            <tr>
-              <td><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
-              <td>Chọn món</td>
-              <td>cập nhật</td>
-              <td>Thien Phuong Bui - #0001 - SM</td>
-              <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-              <td>01:00</td>
-              <td>29/10/24</td>
-            </tr>
-            
+            <?php endforeach ?>
           </tbody>
         </table>
       </div>

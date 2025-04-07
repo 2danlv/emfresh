@@ -69,6 +69,14 @@ if ($group_id > 0) {
 
 extract($group_detail);
 
+$list_logs = $em_log->get_items([
+    'module' => 'em_group',
+    'module_id' => $group_id,
+]);
+
+// Tu dong xoa sau 7 ngay
+$time_to_delete = strtotime('-7 days');
+
 get_header();
 // Start the Loop.
 // while ( have_posts() ) : the_post();
@@ -181,7 +189,7 @@ get_header();
                                         <?php foreach($list as $i => $item) : ?>
                                         <tr data-member="<?php echo $item['id'] ?>" data-customer_id="<?php echo $item['customer_id'] ?>">
                                             <td class="text-center" width="80">
-                                                <input type="number" name="customers[<?php echo $i ?>][order]" class="input-order text-center" value="<?php echo $item['order']?>" <?php echo $i == 0 ? 'readonly' : 'min="2"' ?> />
+                                                <input type="number" name="customers[<?php echo $i ?>][order]" class="input-order text-center" value="<?php echo $i + 1 ?>" <?php echo $i == 0 ? 'readonly' : 'min="2"' ?> />
                                             </td>
                                             <td>
                                                 <div class="nameMember"><?php echo $item['customer_name'] ?></div>
@@ -216,55 +224,40 @@ get_header();
                                 <tr>
                                     <th class="nowrap">Người thực hiện</th>
                                     <th class="nowrap">Hành động</th>
-                                    <th>Trường</th>
                                     <th>Mô tả</th>
                                     <th class="nowrap">Thời gian</th>
                                     <th>Ngày</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <?php 
+                                    foreach ($list_logs as $item) :
+                                        $item_time = strtotime($item['created']);
+
+                                        if($item_time < $time_to_delete) {
+                                            $em_log->delete($item['id']);
+
+                                            continue;
+                                        }
+                                ?>
+                                <tr data-id="<?php echo $item['id'] ?>">
                                     <td class="wrap-td" style="max-width: 160px;">
-                                        <div class="nowrap ellipsis"><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="">
-                                            Nhu Quynh
+                                        <div class="nowrap ellipsis">
+                                            <img class="avatar" src="<?php echo get_avatar_url($item['created_at']) ?>" width="24" alt="">
+                                            <?php echo $item['created_author'] ?>
                                         </div>
                                     </td>
-                                    <td>cập nhật</td>
-                                    <td style="min-width: 140px;">địa chỉ nhóm</td>
-                                    <td class="wrap-td" style="max-width: 300px;">
-                                        <div class="nowrap ellipsis">44L đường số 11, KDC Miếu Nổi, Phường 3, Quận Bình Thạnh</div>
-                                    </td>
-                                    <td>01:00</td>
-                                    <td>29/10/24</td>
-                                </tr>
-                                <tr>
-                                    <td class="wrap-td" style="max-width: 160px;">
-                                        <div class="nowrap ellipsis"><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="">
-                                            Nhu Quynh
+                                    <td><?php echo $item['action'] ?></td>
+                                    <td class="wrap-td">
+                                        <div class="descript-note nowrap">
+                                            <?php $brString = nl2br($item['content']); ?>
+                                            <?php echo str_replace('<br />', '<hr>', $brString) ?>
                                         </div>
                                     </td>
-                                    <td>cập nhật</td>
-                                    <td style="min-width: 140px;">địa chỉ nhóm</td>
-                                    <td class="wrap-td" style="max-width: 300px;">
-                                        <div class="nowrap ellipsis">44L đường số 11, KDC Miếu Nổi, Phường 3, Quận Bình Thạnh</div>
-                                    </td>
-                                    <td>01:00</td>
-                                    <td>29/10/24</td>
+                                    <td><?php echo date('H:i', $item_time) ?></td>
+                                    <td><?php echo date('d/m/Y', $item_time) ?></td>
                                 </tr>
-                                <tr>
-                                    <td class="wrap-td" style="max-width: 160px;">
-                                        <div class="nowrap ellipsis"><img class="avatar" src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24" alt="">
-                                            Nhu Quynh
-                                        </div>
-                                    </td>
-                                    <td>cập nhật</td>
-                                    <td style="min-width: 140px;">địa chỉ nhóm</td>
-                                    <td class="wrap-td" style="max-width: 300px;">
-                                        <div class="nowrap ellipsis">44L đường số 11, KDC Miếu Nổi, Phường 3, Quận Bình Thạnh</div>
-                                    </td>
-                                    <td>01:00</td>
-                                    <td>29/10/24</td>
-                                </tr>
+                                <?php endforeach ?>
                             </tbody>
                         </table>
                     </div>
