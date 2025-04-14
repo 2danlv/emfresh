@@ -178,11 +178,11 @@ get_header();
                   $product_name = explode('-', $order_item['product_name']);
             ?>
               <tr class="nowrap" data-order-id="<?php echo $order['id'] ?>" data-order-item-id="<?php echo $order_item['id'] ?>">
-                <td data-number="0" class="text-center"><input type="checkbox" class="checkbox-element" data-number="<?php echo $order['phone']; ?>" value="<?php echo $order['id'] ?>"></td>
+                <td data-number="0" class="text-center"><input type="checkbox" tabindex="-1" class="checkbox-element" data-number="<?php echo $order['phone']; ?>" value="<?php echo $order['id'] ?>"></td>
                 <td data-number="1" class="text-capitalize nowrap wrap-td">
-                  <div class="ellipsis"><a href="<?php echo $link ?>"><?php echo $order[ 'customer_name' ] ?></a></div>
+                  <div class="ellipsis"><a href="<?php echo $link ?>" tabindex="-1"><?php echo $order[ 'customer_name' ] ?></a></div>
                 </td>
-                <td data-number="2" class="text-left"><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $order['phone']; ?>"><?php echo $order['phone']; ?></span></td>
+                <td data-number="2" class="text-left"><span tabindex="-1"class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $order['phone']; ?>"><?php echo $order['phone']; ?></span></td>
                 <td data-number="3"><?php echo trim($product_name[0]) ?></td>
                 <?php foreach($days as $i => $day) : 
                   $meal_select = empty($meal_select_items[$day]) ? [] : $meal_select_items[$day];
