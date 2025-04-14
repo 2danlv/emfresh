@@ -8,9 +8,11 @@
  * @since Twenty Twelve 1.0
  */
 
-global $em_customer, $em_order, $em_customer_tag, $em_log, $em_location, $em_menu;
+global $em_customer, $em_order, $em_order_item, $em_customer_tag, $em_log, $em_location, $em_menu;
 
 $menu_select = $em_menu->get_select();
+$menu_compare = $menu_select;
+$menu_compare[0] = '-';
 $detail_menu_select_url = get_permalink();
 
 $args = wp_unslash($_GET);
@@ -85,16 +87,12 @@ get_header();
                   ?>
                 </select>
               </li>
-              <li>
-                <span class="btn btn-default">Đặt làm tuần mặc định</span>
-              </li>
             </ul>
           </div>
           <div class="col-6">
             <ul class="d-f jc-end right-action ai-center">
               <li class="mr-16 group-icon"><span class="btn btn-fillter">&nbsp;</span></li>
               <li class="mr-16 group-icon"><span class="btn btn-copy">&nbsp;</span></li>
-              <li class="mr-16 group-icon"><span class="btn btn-alert">&nbsp;</span></li>
               <li><span class="btn btn-primary disable js-save-meal-select">Lưu chọn món</span></li>
             </ul>
           </div>
@@ -239,218 +237,116 @@ get_header();
     <div class="modal-header">
       <h4 class="modal-title">So sánh nhập liệu</h4>
     </div>
-    <div class="modal-content">
-      <div class="modal-body pt-16">
-        <div class="ttl mb-16">Thứ 2 (02/01)</div>
-        <table>
-          <thead>
-            <tr>
-              <th>Tên khách hàng</th>
-              <th>SĐT</th>
-              <th>Mã</th>
-              <th>Danh sách chính</th>
-              <th>Bản sao 1</th>
-              <th>Bản sao 2</th>
-              <th>-</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Khách hàng 1</td>
-              <td>0123456789</td>
-              <td>SM</td>
-              <td>
-                <select name="" id="">
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                </select>
-              </td>
-              <td>2 - Bắp bò sốt tiêu đen</td>
-              <td>-</td>
-              <td>-</td>
-            </tr>
-            <tr>
-              <td>Khách hàng 2</td>
-              <td>0123456789</td>
-              <td>SM</td>
-              <td>1 - Sườn non chay chua ngọt</td>
-              <td>2 - Bắp bò sốt tiêu đen</td>
-              <td>1 - Sườn non chay chua ngọt</td>
-              <td>-</td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="ttl">Thứ 3 (02/01)</div>
-        <div class="text-center pt-16 pb-16">
-          Không tìm thấy sai lệch nào
+    <form id="meal_select_form" action="<?php the_permalink() ?>" method="post">
+      <input type="hidden" name="save_meal_select" value="1"/>
+      <input type="hidden" name="order_id" value="<?php echo $order_id ?>"/>
+      <input type="hidden" name="week" value="<?php echo $week ?>"/>
+      <div class="modal-content">
+        <div class="modal-body pt-16">
+          <?php 
+          foreach($days as $day) :
+            
+            $list_compare = [];
+
+            foreach ($data['orders'] as $i => $order) {
+              foreach($order['order_items'] as $order_item) {
+                $meal_select_items = $em_order_item->get_meal_select($order_item);
+                $meal_select_1_items = $em_order_item->get_meal_select($order_item, 1);
+                $meal_select_2_items = $em_order_item->get_meal_select($order_item, 2);
+                
+                if(count($meal_select_items) == 0 || empty($meal_select_items[$day])) continue;
+
+                $product_name = explode('-', $order_item['product_name']);
+
+                $select_1_values = isset($meal_select_1_items[$day]) ? $meal_select_1_items[$day] : [];
+                $select_2_values = isset($meal_select_2_items[$day]) ? $meal_select_2_items[$day] : [];
+
+                foreach($meal_select_items[$day] as $i => $value) {
+                  $value_1 = isset($select_1_values[$i]) ? (int) $select_1_values[$i] : 0;
+                  $value_2 = isset($select_2_values[$i]) ? (int) $select_2_values[$i] : 0;
+
+                  if($value == 0 ||($value_1 == $value && $value_2 == $value)) continue;
+                  
+                  $menu_name = isset($menu_compare[$value]) ? $menu_compare[$value] : '-';
+                  
+                  $compare = [
+                    'index' => $i,
+                    'day' => $day,
+                    'order_item_id' => $order_item['id'],
+                    'customer_name' => $order['customer_name'],
+                    'phone' => $order['phone'],
+                    'product_name' => $product_name[0],
+                    'menu_id' => $value,
+                    'meal_select' => $menu_name,
+                    'meal_select_1' => $value_1 == $value ? '-' : (isset($menu_compare[$value_1]) ? $menu_compare[$value_1] : '-'),
+                    'meal_select_2' => $value_2 == $value ? '-' : (isset($menu_compare[$value_2]) ? $menu_compare[$value_2] : '-'),
+                    'is_diff_1' => $value_1 > 0 && $value_1 != $value,
+                    'is_diff_2' => $value_2 > 0 && $value_2 != $value,
+                  ];
+                  
+                  $list_compare[] = $compare;
+                }
+              }
+            }
+          ?>
+          <div class="ttl mb-16"><?php echo site_get_meal_week($day) ?></div>
+          <?php if(count($list_compare) == 0) : ?>
+          <div class="text-center pt-16 pb-16">
+            Không tìm thấy sai lệch nào
+          </div>
+          <?php else: ?>
+          <table>
+            <thead>
+              <tr>
+                <th>Tên khách hàng</th>
+                <th>SĐT</th>
+                <th>Mã</th>
+                <th>Danh sách chính</th>
+                <th>Bản sao 1</th>
+                <th>Bản sao 2</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach($list_compare as $compare) : ?>
+              <tr>
+                <td><?php echo $compare['customer_name'] ?></td>
+                <td><?php echo $compare['phone'] ?></td>
+                <td><?php echo $compare['product_name'] ?></td>
+                <td>
+                  <select name="list_meal_select[<?php echo $compare['order_item_id'] ?>][<?php echo $compare['day'] ?>][<?php echo $compare['index'] ?>]" 
+                    class="meal_select" data-old="<?php echo $compare['menu_id'] ?>"
+                  >
+                    <?php
+                      foreach($menu_select as $value => $name) {
+                        echo '<option value="'.$value.'"'.($value == $compare['menu_id'] ? ' selected' :'').'>' . $name . '</option>';
+                      }
+                    ?>
+                  </select>
+                  <?php // echo $compare['meal_select'] ?>
+                </td>
+                <td class="text-center">
+                  <div class="<?php echo $compare['is_diff_1'] ? 'is-diff btn-danger' : '' ?>">
+                    <?php echo $compare['meal_select_1'] ?>
+                  </div>
+                </td>
+                <td class="text-center">
+                  <div class="<?php echo $compare['is_diff_2'] ? 'is-diff btn-danger' : '' ?>">
+                    <?php echo $compare['meal_select_2'] ?>
+                  </div>
+                </td>
+              </tr>
+              <?php endforeach ?>
+            </tbody>
+          </table>
+          <?php endif ?>
+          <?php endforeach ?>
         </div>
-        <div class="ttl mb-16">Thứ 3 (02/01)</div>
-        <table>
-          <thead>
-            <tr>
-              <th>Tên khách hàng</th>
-              <th>SĐT</th>
-              <th>Mã</th>
-              <th>Danh sách chính</th>
-              <th>Bản sao 1</th>
-              <th>Bản sao 2</th>
-              <th>-</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Khách hàng 1</td>
-              <td>0123456789</td>
-              <td>SM</td>
-              <td>
-                <select name="" id="">
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                </select>
-              </td>
-              <td>2 - Bắp bò sốt tiêu đen</td>
-              <td>-</td>
-              <td>-</td>
-            </tr>
-            <tr>
-              <td>Khách hàng 2</td>
-              <td>0123456789</td>
-              <td>SM</td>
-              <td>1 - Sườn non chay chua ngọt</td>
-              <td>2 - Bắp bò sốt tiêu đen</td>
-              <td>1 - Sườn non chay chua ngọt</td>
-              <td>-</td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="ttl mb-16">Thứ 4 (02/01)</div>
-        <table>
-          <thead>
-            <tr>
-              <th>Tên khách hàng</th>
-              <th>SĐT</th>
-              <th>Mã</th>
-              <th>Danh sách chính</th>
-              <th>Bản sao 1</th>
-              <th>Bản sao 2</th>
-              <th>-</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Khách hàng 1</td>
-              <td>0123456789</td>
-              <td>SM</td>
-              <td>
-                <select name="" id="">
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                </select>
-              </td>
-              <td>2 - Bắp bò sốt tiêu đen</td>
-              <td>-</td>
-              <td>-</td>
-            </tr>
-            <tr>
-              <td>Khách hàng 2</td>
-              <td>0123456789</td>
-              <td>SM</td>
-              <td>1 - Sườn non chay chua ngọt</td>
-              <td>2 - Bắp bò sốt tiêu đen</td>
-              <td>1 - Sườn non chay chua ngọt</td>
-              <td>-</td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="ttl mb-16">Thứ 5 (02/01)</div>
-        <table>
-          <thead>
-            <tr>
-              <th>Tên khách hàng</th>
-              <th>SĐT</th>
-              <th>Mã</th>
-              <th>Danh sách chính</th>
-              <th>Bản sao 1</th>
-              <th>Bản sao 2</th>
-              <th>-</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Khách hàng 1</td>
-              <td>0123456789</td>
-              <td>SM</td>
-              <td>
-                <select name="" id="">
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                </select>
-              </td>
-              <td>2 - Bắp bò sốt tiêu đen</td>
-              <td>-</td>
-              <td>-</td>
-            </tr>
-            <tr>
-              <td>Khách hàng 2</td>
-              <td>0123456789</td>
-              <td>SM</td>
-              <td>1 - Sườn non chay chua ngọt</td>
-              <td>2 - Bắp bò sốt tiêu đen</td>
-              <td>1 - Sườn non chay chua ngọt</td>
-              <td>-</td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="ttl mb-16">Thứ 6 (02/01)</div>
-        <table>
-          <thead>
-            <tr>
-              <th>Tên khách hàng</th>
-              <th>SĐT</th>
-              <th>Mã</th>
-              <th>Danh sách chính</th>
-              <th>Bản sao 1</th>
-              <th>Bản sao 2</th>
-              <th>-</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Khách hàng 1</td>
-              <td>0123456789</td>
-              <td>SM</td>
-              <td>
-                <select name="" id="">
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                  <option value="1">Bắp bò sốt tiêu đen</option>
-                </select>
-              </td>
-              <td>2 - Bắp bò sốt tiêu đen</td>
-              <td>-</td>
-              <td>-</td>
-            </tr>
-            <tr>
-              <td>Khách hàng 2</td>
-              <td>0123456789</td>
-              <td>SM</td>
-              <td>1 - Sườn non chay chua ngọt</td>
-              <td>2 - Bắp bò sốt tiêu đen</td>
-              <td>1 - Sườn non chay chua ngọt</td>
-              <td>-</td>
-            </tr>
-          </tbody>
-        </table>
       </div>
-    </div>
-    <div class="modal-footer text-right pt-16 pr-16">
-      <button type="button" class="button btn-default modal-close">Huỷ</button>
-      <button type="button" class="button btn-primary modal-close">Lưu và đóng</button>
-    </div>
+      <div class="modal-footer text-right pt-16 pr-16">
+        <button type="button" class="button btn-default modal-close">Huỷ</button>
+        <button type="submit" class="button btn-primary">Lưu và đóng</button>
+      </div>
+    </form>
   </div>
 </div>
 <div class="modal fade modal-plan-history" id="modal-plan-history">

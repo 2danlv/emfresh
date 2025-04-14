@@ -2,6 +2,25 @@
 
 
 if(isset($_GET['abs'])) {
+    $act = trim($_GET['abs']);
+
+    if($act == 'add-menu' && !empty($_GET['menu-name'])) {
+        $response = em_api_request('menu/add', [
+            'name' => $_GET['menu-name'],
+            "type" => "1",
+        ]);
+
+        die(json_encode($response));
+        exit();
+    } else if($act == 'update-menu') {
+        $response = em_api_request('menu/update', [
+            'name' => '4 - Cơm sườn bì chả trứng',
+            "id" => "4",
+        ]);
+
+        die(json_encode($response));
+        exit();
+    }
 
     if(intval($_GET['abs']) > 10000) {
         global $em_order, $em_order_item;

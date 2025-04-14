@@ -731,3 +731,12 @@ function site_get_days_week_by($day = '', $format = 'Y-m-d')
 
     return $days;
 }
+
+function site_get_meal_week($day = '')
+{
+	$time = strtotime($day);
+
+	$i = date('w', $time);
+
+	return 'Thứ ' . ($i + 1) . date(' (d/m)', $time);
+}

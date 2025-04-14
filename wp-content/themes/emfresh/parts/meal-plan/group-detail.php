@@ -42,16 +42,16 @@
       var idMember = $(this).closest('.modal-dialog').find('.input-customer_id').val();
       var nameMember = $(this).closest('.modal-dialog').find('.fullname').val();
       var phoneMember = $(this).closest('.modal-dialog').find('.phone.form-control').val();
-      var orderMember = $(this).closest('.modal-dialog').find('.no_order').val();
+      var order = $(this).closest('.modal-dialog').find('.no_order').val();
       if (nameMember == "" ) {
         $(".modal-addnew_member .card-primary .alert").text('Hãy chọn tên khách hàng để thêm');
         $(".modal-addnew_member .card-primary .alert").show();
         return false;
       }
-      if (orderMember == '') {
+      if (order == '') {
         var order = index + 1;
       } else {
-        var order = orderMember;
+        var order = order;
       }
       if ($(this).closest('.modal-dialog').find('.bag').prop('checked')) {
         var bagMember = 1;
@@ -61,10 +61,10 @@
         var checkbox = `<input type="checkbox" class="mt-4">`;
       }
       let newInput = `<tr data-member="${idMember}">
-                          <td class="text-center"><input type="number" name="customers[${index}][orderMember]" class="input-order text-center" value="${order}" /></td>
+                          <td class="text-center"><input type="number" name="customers[${index}][order]" class="input-order text-center" value="${order}" /></td>
                           <td>
                               <div class="nameMember">${nameMember}</div>
-                              <input type="hidden" name="customers[${index}][orderMember]" value="${order}" />
+                              <input type="hidden" name="customers[${index}][order]" value="${order}" />
                               <input type="hidden" name="customers[${index}][id]" value="${idMember}" />
                               <input type="hidden" name="customers[${index}][phone]" value="${phoneMember}" />
                               <input type="hidden" name="customers[${index}][bag]" class="input-bag" value="${bagMember}" />

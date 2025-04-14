@@ -330,7 +330,7 @@ add_action('wp', 'site_order_delete_group');
 
 function site_order_save_meal_select()
 {
-    global $em_order_item;
+    global $em_order, $em_order_item, $em_log, $em_menu;
     
     if (!empty($_POST['save_meal_select'])) {
         $data = wp_unslash($_POST);
@@ -344,8 +344,10 @@ function site_order_save_meal_select()
 
         $meal_select_key = 'meal_select' . ($meal_select_number > 0 ? '_' . $meal_select_number : '');
 
+        // $change_label = 'Thien Phuong Bui - #0001 - SM';
+
         if(count($list) > 0) {
-            // site_response_json($list);
+            $menu_select = $em_menu->get_select();
 
             foreach($list as $order_item_id => $order_item_data) {
                 $order_item = $em_order_item->get_item($order_item_id);
@@ -354,30 +356,54 @@ function site_order_save_meal_select()
                 $meal_select = $em_order_item->get_meal_select($order_item, $meal_select_number);
                 if(count($meal_select) == 0) continue;
 
-                // site_response_json($meal_select);
-            
+                $log_content = [];
+
                 $update = false;
 
-                foreach($meal_select as $day => &$values) {
+                foreach($meal_select as $day => $values) {
                     if(empty($order_item_data[$day])) continue;
 
                     $meal_select_data = $order_item_data[$day];
                     
-                    foreach($values as $i => &$value) {
-                        if(!empty($meal_select_data[$i])) {
+                    foreach($values as $i => $value) {
+                        if(isset($meal_select_data[$i])) {
                             $new = (int) $meal_select_data[$i];
 
                             if($value != $new) {
                                 $update = true;
+
+                                if($value > 0) {
+                                    $log_content[] = site_get_meal_week($day) . ' ' . $menu_select[$value];
+                                }
                             }
 
                             $value = $new;
                         }
+
+                        $values[$i] = $value;
                     }
+
+                    $meal_select[$day] = $values;
                 }
 
                 if($update) {
                     $em_order_item->update_field($order_item_id, $meal_select_key, json_encode($meal_select));
+                }
+                
+                if(count($log_content) > 0) {
+                    $order = $em_order->get_item($order_item['order_id']);
+                
+                    $product_name = explode('-', $order_item['product_name']);
+
+                    $change_label = $order['customer_name'] . ' - #'. $order['order_number'] .' - ' . $product_name[0];
+                    
+                    // Log update
+                    $em_log->insert([
+                        'action'        => 'Cập nhật',
+                        'module'        => $meal_select_key,
+                        'module_id'     => $order_item_id,
+                        'content'       => $change_label . '|' . implode("\n", $log_content)
+                    ]);
                 }
             }
         }
