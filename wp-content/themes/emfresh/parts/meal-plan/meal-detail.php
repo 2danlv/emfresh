@@ -1,29 +1,5 @@
 <script>
-  function accordion_table() {
-    $('table .accordion-tit_table .show-detail')
-      .off()
-      .on('click', function () {
-        if (!$('.count-group').hasClass('is-show')) {
-          var item = $(this).closest('.accordion-tit_table').toggleClass('on');
-          while (item.next().hasClass('accordion-content_table')) {
-            item = item.next()
-            item.toggleClass('is-active').find('td > div').slideToggle(400)
-          }
-        }
-
-      })
-
-    $('table .accordion-content_table')
-      .addClass('d-table-row')
-      .find('td')
-      .each(function () {
-        let td = $(this)
-
-        if (td.find('> div').length == 0) {
-          td.html('<div>' + td.html() + '</div>')
-        }
-      })
-  }
+  
   jQuery(function ($) {
     var itemCounts = {};
     date_is_today = moment().format("YYYY-MM-DD");
@@ -339,7 +315,7 @@
       $('.count-group .date-use').text(totalDays);
       $('.count-group .number-use').text(totalPortions);
     });
-    accordion_table();
+    
     $('.content-header .wrap-search .clear-input').click(function (e) {
       e.preventDefault();
       $('.content-header .wrap-search .input-search').val('');

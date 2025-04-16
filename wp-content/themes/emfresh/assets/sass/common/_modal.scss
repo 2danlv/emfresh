@@ -290,3 +290,111 @@
   border-spacing: 0 8px;
   border-collapse: separate !important;
 }
+.modal-meal-static {
+  table.table.dataTable {
+    thead > tr > td {
+      text-align: center;
+      font-weight: 600;
+      background-color: #DEDFE0;
+      border-bottom: none;
+      &:first-child {
+        text-align: left;
+      }
+    }
+    tbody {
+      position: relative;
+      text-align: center;
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0;
+        right: 0; bottom: 0;
+        box-shadow: inset 0 0 0 1px #208046; /* như border */
+        pointer-events: none;
+      }
+      &.blank {
+        &::before {
+          content: none;
+        }
+      }
+      tr {
+        td {
+          &:first-child {
+            text-align: left;
+            font-weight: 600;
+          }
+        }
+      }
+      &.dimon {
+        &:before {
+          box-shadow: inset 0 0 0 1px #E0AFFF; /* như border */
+        }
+        tr.accordion-tit_table {
+          td:first-child {
+            background-color: #E0AFFF;
+          }
+          &.on {
+            td {
+              background-color: #E8E2F6;
+              &:first-child {
+                background-color: #E0AFFF;
+              }
+            }
+          }
+        }
+      }
+      &.unknown {
+        &:before {
+          box-shadow: inset 0 0 0 1px #FFA300; /* như border */
+        }
+        tr {
+          td:first-child {
+            background-color: #FFA300;
+          }
+        }
+      }
+      &.total {
+        font-weight: 600;
+        &:before {
+          content: none;
+        }
+      }
+    }
+    tr.accordion-tit_table {
+      td {
+        background-color: #fff;
+        &:first-child {
+          background-image: url(../img/icon/down-white.svg);
+          background-color: #208046;
+          color: #fff;
+          padding-right: 8px;
+        }
+      }
+      &.on {
+        td {
+          background-color: var(--color-primary-100, #DDF6E7);
+          &:first-child {
+            background-image: url(../img/icon/toggle2-white.svg);
+            background-color: #208046;
+          }
+        }
+      }
+    }
+    tr.accordion-content_table {
+      &.d-table-row.is-active {
+        td {
+          padding: 8px !important;
+          border-bottom: 1px solid var(--modal-divider, #DEDFE0);
+          &:first-child div {
+            font-weight: 600;
+            text-align: left;
+          }
+          
+        }
+        &:last-child td {
+            border-bottom: none;
+          }
+      }  
+    }
+  }
+}

@@ -13,6 +13,7 @@ jQuery(document).ready(function () {
 			localStorage.removeItem('column_order_' + i);
 		} 
 	});
+	accordion_table();
 	$('.select2').select2({
 		templateSelection: function (data, container) {
 			var $result = $("<span></span>");
@@ -1174,3 +1175,29 @@ function switch_tabs(obj) {
 	//jQuery('#'+id).show();
 	obj.addClass("selected");
 }
+function accordion_table() {
+    $('table .accordion-tit_table .show-detail')
+      .off()
+      .on('click', function () {
+        if (!$('.count-group').hasClass('is-show')) {
+					$(this).closest('tbody').toggleClass('on');
+          var item = $(this).closest('.accordion-tit_table,tbody').toggleClass('on');
+          while (item.next().hasClass('accordion-content_table')) {
+            item = item.next()
+            item.toggleClass('is-active').find('td > div').slideToggle(400)
+          }
+        }
+
+      })
+
+    $('table .accordion-content_table')
+      .addClass('d-table-row')
+      .find('td')
+      .each(function () {
+        let td = $(this)
+
+        if (td.find('> div').length == 0) {
+          td.html('<div>' + td.html() + '</div>')
+        }
+      })
+  }

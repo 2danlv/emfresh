@@ -41,7 +41,7 @@ $data = site_order_get_meal_plans($args);
               <ul class="d-f ai-center">
                 <li class="group-icon mr-8"><span class="btn btn-fillter">&nbsp;</span></li>
                 <li class="group-icon mr-8"><span class="btn btn-copy">&nbsp;</span></li>
-                <li class="has-child">
+                <li class="has-child mr-8">
                   <span class="btn btn-action">Thao tác</span>
                   <ul>
                     <li>
@@ -58,7 +58,7 @@ $data = site_order_get_meal_plans($args);
                     <li>
                       <div class="d-f ai-center">
                         <i class="fas fa-chart-horizontal"></i><span class="openmodal pl-10"
-                          data-target="#modal-default">Thống kê trạng thái</span>
+                          data-target="#modal-static">Thống kê trạng thái</span>
                       </div>
                     </li>
                     <li><button type="button" name="action" value="export" class="js-export">Xuất dữ liệu</button></li>
@@ -266,9 +266,8 @@ $data = site_order_get_meal_plans($args);
     </div>
   </div>
 </div>
-
+<?php include( get_template_directory().'/parts/meal-plan/modal-static.php');?>
 <?php
-// endwhile;
 
 global $site_scripts;
 
