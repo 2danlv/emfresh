@@ -1,232 +1,230 @@
 .list-customer {
-    .em-importer ul {
-        li {
-            padding-left: 0;
-            .btn {
-                background-color: #fff;
+  .em-importer ul {
+    li {
+      padding-left: 0;
+      .btn {
+        background-color: #fff;
+      }
+      .btn-primary {
+        background: var(--button-solid-background-default, #208046);
+        border-color: var(--button-solid-background-default, #208046);
+      }
+      select {
+        height: 100%;
+        border: 1.5px solid #dedfe0;
+      }
+      &.group-icon {
+        font-size: 0;
+        .btn {
+          background-color: #fff;
+          background-position: center center;
+          background-repeat: no-repeat;
+          padding: 7px 24px;
+          &.btn-primary {
+            background: var(--button-solid-background-default, #208046);
+            border-color: var(--button-solid-background-default, #208046);
+          }
+          &.btn-alert {
+            background-color: #ffdca8;
+            &:hover,&.c-red {
+              border-color: #ff7a00;
+              background-color: #ff7a00;
+              background-position: center center;
+              background-image: url(../img/icon-hover/alert.svg);
             }
-            .btn-primary {
-                background: var(--button-solid-background-default, #208046);
-                border-color: var(--button-solid-background-default, #208046);
-            }
-            select {
-                height: 100%;
-                border: 1.5px solid #DEDFE0;
-            }
-           &.group-icon {
-                font-size: 0;
-                .btn {
-                    background-color: #fff;
-                    background-position: center center;
-                    background-repeat: no-repeat;
-                    padding: 7px 24px;
-                    &.btn-primary {
-                        background: var(--button-solid-background-default, #208046);
-                        border-color: var(--button-solid-background-default, #208046);
-                    }
-                    &.btn-alert {
-                        background-color: #FFDCA8;
-                        &:hover {
-                            border-color: #FF7A00;
-                            background-color: #FF7A00 ;
-                            background-position: center center;
-                        }
-                    }
-                }
-                
-                
-            } 
+          }
         }
-    } 
+      }
+    }
+  }
 }
 
 table.table-select-meal {
-    * { 
+  * {
     align-content: normal;
+  }
+  > tbody {
+    tr td {
+      .ellipsis {
+        padding-top: 6px;
+      }
+      *:focus {
+        box-shadow: 0 1px 5px 0px #208046;
+      }
+      .c-red {
+        box-shadow: 0 1px 5px 0px red;
+      }
     }
-   > tbody {
-       tr td {
-            .ellipsis {
-                padding-top: 6px;
-            }
-            *:focus {
-                box-shadow: 0 1px 5px 0px #208046;
-            }
-        }
+  }
+}
+table.table-select-meal,
+table.table-split-order,
+table.table-detail-meal {
+  thead tr {
+    th {
+      border: 1px solid var(--color-grey-400, #8d8e8f);
+      border-bottom: none;
+      border-left: none;
+      &:first-child {
+        border-radius: 0;
+        border-right: none;
+        border-left: 1px solid var(--color-grey-400, #8d8e8f);
+      }
+      &:last-child {
+        border-radius: 0;
+        border-left: none;
+        border-right: 1px solid var(--color-grey-400, #8d8e8f);
+      }
     }
-
-} 
-table.table-select-meal,table.table-split-order,table.table-detail-meal {
-    thead tr {
-        th {
-            border: 1px solid var(--color-grey-400, #8D8E8F);
-            border-bottom: none;
-            border-left: none;
-            &:first-child {
-                border-radius: 0;
-                border-right: none;
-                border-left: 1px solid var(--color-grey-400, #8D8E8F);
-            }
-            &:last-child {
-                border-radius: 0;
-                border-left: none;
-                border-right: 1px solid var(--color-grey-400, #8D8E8F);
-            }
-        }
-    } 
-    tbody {
-        td {
-            border: 1px solid var(--color-grey-400, #8D8E8F) !important;
-            border-left: none !important;
-            &:first-child {
-                border-right: none !important;
-                border-left: 1px solid var(--color-grey-400, #8D8E8F) !important;
-            }
-        } 
-        
+  }
+  tbody {
+    td {
+      border: 1px solid var(--color-grey-400, #8d8e8f) !important;
+      border-left: none !important;
+      &:first-child {
+        border-right: none !important;
+        border-left: 1px solid var(--color-grey-400, #8d8e8f) !important;
+      }
     }
+  }
 }
 .modal-compare {
-    .modal-header {
-        padding: 12px 16px;
-        .modal-title {
-            font-size: 20px;
-            font-weight: 600;
-        }
+  .modal-header {
+    padding: 12px 16px;
+    .modal-title {
+      font-size: 20px;
+      font-weight: 600;
     }
-    .modal-content {
+  }
+  .modal-content {
+    border-radius: 8px;
+
+    .modal-body {
+      .ttl {
+        background: var(--color-primary-900, #208046);
+        padding: var(--space-inline-8px, 8px) 0px;
+        text-align: center;
+        color: #fff;
+      }
+      table {
+        width: 100%;
+        thead {
+          background-color: #dedfe0;
+          tr {
+            th {
+              padding: 8px;
+            }
+          }
+        }
+        tr {
+          td {
+            padding: 8px;
+          }
+        }
+      }
+    }
+    .modal-footer {
+      border-top: 1px solid var(--color-grey-400, #8d8e8f);
+      padding: 16px;
+      .btn {
+        padding: 8px 16px;
         border-radius: 8px;
-        
-        .modal-body {
-            .ttl {
-                background: var(--color-primary-900, #208046);
-                padding: var(--space-inline-8px, 8px) 0px;
-                text-align: center;
-                color: #fff;
-            }
-            table {
-                width: 100%;
-                thead {
-                    background-color: #DEDFE0;
-                    tr {
-                        th {
-                            padding: 8px;
-                        }
-                    }
-                }
-                tr {
-                    td {
-                        padding: 8px;
-                    }
-                }
-            }
+        font-size: 14px;
+        font-weight: 600;
+        &.btn-primary {
+          background: var(--color-primary, #208046);
+          color: #fff;
         }
-        .modal-footer {
-            border-top: 1px solid var(--color-grey-400, #8D8E8F);
-            padding: 16px;
-            .btn {
-                padding: 8px 16px;
-                border-radius: 8px;
-                font-size: 14px;
-                font-weight: 600;
-                &.btn-primary {
-                    background: var(--color-primary, #208046);
-                    color: #FFF;
-                }
-                &.btn-secondary {
-                    background: var(--color-grey-400, #8D8E8F);
-                    color: #FFF;
-                }
-            }
+        &.btn-secondary {
+          background: var(--color-grey-400, #8d8e8f);
+          color: #fff;
         }
+      }
     }
+  }
 }
 .modal-wide {
-    min-width: 0;
-    max-width: 1380px;
+  min-width: 0;
+  max-width: 1380px;
 }
 .modal-plan-history {
-    .modal-wide {
-        min-width: 1300px;
+  .modal-wide {
+    min-width: 1300px;
+  }
+  .modal-header {
+    border-bottom: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 16px;
+    .modal-title {
+      font-size: 20px;
+      font-weight: 600;
     }
-    .modal-header {
+    .modal-close {
+      padding: 5px 12px;
+      cursor: pointer;
+    }
+  }
+  .avatar {
+    border-radius: 50%;
+    margin-right: 8px;
+  }
+
+  table.table {
+    thead {
+      th {
+        background: none;
+        border-bottom: 1px solid var(--color-grey-400, #dedfe0);
+        &:first-child span {
+          font-size: inherit;
+        }
+      }
+    }
+    tbody {
+      tr {
         border-bottom: none;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 16px;
-        .modal-title {
-            font-size: 20px;
-            font-weight: 600;
+        td {
+          &:first-child {
+            padding-left: 0;
+            padding-bottom: 6px;
+          }
         }
-        .modal-close {
-            padding: 5px 12px;
-            cursor: pointer;
-        }
+      }
     }
-    .avatar {
-        border-radius: 50%;
-        margin-right: 8px;
-    }
-    
-    table.table {
-        thead {
-            th {
-                background: none;
-                border-bottom: 1px solid var(--color-grey-400, #DEDFE0);
-                &:first-child span {
-                    font-size: inherit;
-                }
-            }
-        }
-        tbody {
-            tr {
-                border-bottom: none;
-                td {
-                    &:first-child {
-                        padding-left: 0;
-                        padding-bottom: 6px;
-                    }
-                    
-                }
-            }
-            
-        }
-    }
+  }
 }
 .modal-split-order {
-    .modal-header {
-        padding: 12px 16px;
-        .modal-title {
-            font-size: 20px;
-            font-weight: 600;
-        }
+  .modal-header {
+    padding: 12px 16px;
+    .modal-title {
+      font-size: 20px;
+      font-weight: 600;
     }
-    .card-primary {
-        min-height: 0;
-        margin-bottom: 0;
-    }
-    table.table {
-        thead {
-            tr th {
-                &:first-child {
-                    border-right: 1px solid var(--color-grey-400, #8D8E8F);
-                }
-            }
+  }
+  .card-primary {
+    min-height: 0;
+    margin-bottom: 0;
+  }
+  table.table {
+    thead {
+      tr th {
+        &:first-child {
+          border-right: 1px solid var(--color-grey-400, #8d8e8f);
         }
-        tbody {
-            tr {
-                td {
-                    &:first-child {
-                        padding-left: 8px;
-                        padding-right: 8px;
-                        padding-bottom: 6px;
-                        border-right: 1px solid var(--color-grey-400, #8D8E8F) !important;
-                    }
-                    
-                }
-            }
-            
-        }
+      }
     }
+    tbody {
+      tr {
+        td {
+          &:first-child {
+            padding-left: 8px;
+            padding-right: 8px;
+            padding-bottom: 6px;
+            border-right: 1px solid var(--color-grey-400, #8d8e8f) !important;
+          }
+        }
+      }
+    }
+  }
 }

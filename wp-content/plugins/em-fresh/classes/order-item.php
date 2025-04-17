@@ -166,22 +166,22 @@ class EM_Order_Item extends EF_Default
 
                 // 'Sun', 'Sat'
                 if (!in_array(date('w', $time), [0, 6])) {
+                    /*
                     $value = $meal_number;
 
-                    /*
-                        if($count + $value > $quantity) {
-                            $value = $quantity - $count;
-                            $count = $quantity;
-                        } else {
-                            $count += $value;
-                        }
-                
-                        if($count <= $quantity) {
-                            $list[$date_start] = $value;
-                        }
+                    if($count + $value > $quantity) {
+                        $value = $quantity - $count;
+                        $count = $quantity;
+                    } else {
+                        $count += $value;
+                    }
+            
+                    if($count <= $quantity) {
+                        $list[$date_start] = $value;
+                    }
                     */
 
-                    $list[$date_start] = $value;
+                    $list[$date_start] = $meal_number;
                 }
 
                 $date_start = date('Y-m-d', $time + DAY_IN_SECONDS);
@@ -215,10 +215,26 @@ class EM_Order_Item extends EF_Default
         
         $list = [];
 
+        $max_meal_number = 0;
+        
+        foreach($meal_plans as $meal_number) {
+            if($max_meal_number < $meal_number) {
+                $max_meal_number = $meal_number;
+            }
+        }
+
         $key = 'meal_select' . ($number > 0 ? '_' . $number : '');
 
         if (!empty($item[$key])) {
             $list = (array) json_decode($item[$key], true);
+
+            foreach($list as $day => $meal_select) {
+                for($i = count($meal_select); $i < $max_meal_number; $i++) {
+                    $meal_select[$i] = 0;
+                }
+
+                $list[$day] = $meal_select;
+            }
         }
 
         if(count($list) == 0) {
@@ -230,7 +246,7 @@ class EM_Order_Item extends EF_Default
                     $value = $list[$day];
                 }
 
-                for($i = 0; $i < $meal_number; $i++) {
+                for($i = 0; $i < $max_meal_number; $i++) {
                     $meal_select[$i] = isset($value[$i]) ? $value[$i] : 0;
                 }
 

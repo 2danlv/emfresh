@@ -283,7 +283,7 @@ class EF_Default
 
     function get_items($args = [])
     {
-        global $wpdb;
+        global $wpdb, $em_queries;
 
         extract(shortcode_atts(array(
             'orderby'   => 'id DESC',
@@ -310,9 +310,9 @@ class EF_Default
             $query .= sprintf(" LIMIT %d OFFSET %d", $limit, $offset);
         }
 
-        if(isset($_GET['sqdev'])) {
-            die($query);
-        }
+        if(empty($em_queries)) $em_queries = [];
+        
+        $em_queries[] = $query;
 
         $list = $wpdb->get_results($query, ARRAY_A);
 
@@ -376,7 +376,7 @@ class EF_Default
 
         $query .= sprintf(" GROUP BY %s ", $column);
 
-        echo $query = $wpdb->prepare($query, $this->get_tbl_name());
+        $query = $wpdb->prepare($query, $this->get_tbl_name());
         
         $list = $wpdb->get_results($query);
 
@@ -444,6 +444,10 @@ class EF_Default
             if (isset($args[$name])) {
                 if (is_array($args[$name])) {
                     $value = implode("','", $args[$name]);
+
+                    if($rule != 'NOT IN') {
+                        $rule = 'IN';
+                    }
                 } else {
                     $value = sanitize_text_field($args[$name]);
                 }

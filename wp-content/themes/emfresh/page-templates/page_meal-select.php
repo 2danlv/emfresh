@@ -57,9 +57,18 @@ $list_logs = $em_log->get_items([
   'module' => $meal_select_key,
 ]);
 
-// Tu dong xoa sau 7 ngay
 $time_to_delete = strtotime('-7 days');
-
+$lastValue      = '';
+foreach ($weeks as $value => $label) {
+  $lastValue = $value; 
+}
+$now               = new DateTime();
+$isFridayAfterNoon = ($now->format('N') == 5 && $now->format('H') >= 12);
+if ( !isset($_GET[ 'week' ]) && $isFridayAfterNoon ) {
+  $redirectUrl = get_permalink() . '?week=' . $lastValue;
+  header('Location: ' . $redirectUrl);
+  exit;
+}
 get_header();
 // Start the Loop.
 // while ( have_posts() ) : the_post();
@@ -86,11 +95,12 @@ get_header();
           <div class="col-6 ai-center">
             <ul class="d-f pr-16">
               <li class="pr-16">
-                <select id="" onchange="location.href = '<?php the_permalink() ?>?week=' + this.value">
-                  <?php 
-                    foreach($weeks as $value => $label) {
-                      echo '<option value="'.$value.'"'.($value == $week?' selected':'').'>'.$label.'</option>';
-                    }
+                <select id="week-select" onchange="location.href = '<?php the_permalink(); ?>?week=' + this.value">
+                  <?php
+                  foreach ($weeks as $value => $label) {
+                    $selected = (isset($_GET[ 'week' ]) && $_GET[ 'week' ] == $value) ? ' selected' : '';
+                    echo '<option value="' . $value . '"' . $selected . '>' . $label . '</option>';
+                  }
                   ?>
                 </select>
               </li>
@@ -551,35 +561,23 @@ get_footer('customer');
     if($('.meal_select.changed').length > 0) {
       document.getElementById('meal_select_form').submit();
     } 
-  })
-  
-  // Function to save checkbox states to localStorage
-  function saveCheckboxState() {
-    $('.filter input[type="checkbox"]').each(function() {
-      const columnKey_order = 'column_order_' + $(this).val(); // Create key like "column_1", "column_2"
-      localStorage.setItem(columnKey_order, $(this).is(':checked'));
-    });
-  }
-  // Function to load checkbox states from localStorage
-  function loadCheckboxState() {
-    $('.filter input[type="checkbox"]').each(function() {
-      const columnKey_order = 'column_order_' + $(this).val();
-      const savedState = localStorage.getItem(columnKey_order);
-      if (savedState === null) {
-        if (['7', '12', '19'].includes($(this).val())) {
-          $(this).prop('checked', true);
-        }
-      } else {
-        $(this).prop('checked', savedState === 'true');
-        //$('.btn-column').addClass('active');
-      }
-    });
-  }
+  });
 
   $(document).ready(function() {
-    // Load checkbox states when the page loads
-    // console.log('log',localStorage);
-    loadCheckboxState();
-    $('.filter input[type="checkbox"]').on('change', saveCheckboxState);
+    // let now = new Date();
+    // const lastWeekValue = '<?php echo $lastValue ?>';
+    // const params = new URLSearchParams(window.location.search);
+
+    // if (now.getDay() === 4 && now.getHours() >= 21 && params.get('week') !== lastWeekValue) {
+    //     window.location.href = '?week=' + lastWeekValue;
+    // }
+    
+    $('.list-customer .em-importer ul li.group-icon .btn.btn-alert').on('click', function (e) { 
+      e.preventDefault();
+      var $select = $('.meal-plan-waring');
+      $select.prop('disabled', !$select.prop('disabled'));
+      $(this).toggleClass('c-red');
+      $('.meal-plan-waring.changed').toggleClass('c-red');
+    });
   });
 </script>
