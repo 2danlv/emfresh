@@ -21,7 +21,14 @@ $meal_select_number = isset($args['meal_select_number']) ? intval($args['meal_se
 $meal_select_key = 'meal_select' . ($meal_select_number > 0 ? '_' . $meal_select_number : '');
 $order_id = isset($args['order_id']) ? intval($args['order_id']) : 0;
 
-$week = isset($args['week']) ? trim($args['week']) : date('Y-m-d');
+
+$nowtime = time();
+// change Friday to Monday
+if (date('w', $nowtime) == 5 && date('H', $nowtime) >= 12) {
+  $nowtime += 2 * DAY_IN_SECONDS;
+}
+
+$week = isset($args['week']) ? trim($args['week']) : date('Y-m-d', $nowtime);
 
 // $args['groupby'] = 'customer';
 
@@ -31,8 +38,8 @@ $days = site_get_days_week_by($week);
 
 $weeks = [];
 
-foreach(['-1 week', 'today', '+1 week'] as $text) {
-  $values = site_get_days_week_by($text);
+foreach([-7, 0, 7] as $day) {
+  $values = site_get_days_week_by(date('Y-m-d', $nowtime + $day * DAY_IN_SECONDS));
 
   $start = date('d/m', strtotime($values[0]));
   $end = date('d/m', strtotime(end($values)));
@@ -169,10 +176,13 @@ get_header();
                   foreach($days as $i => $day) {
                     if(isset($meal_select_items[$day])) {
                       $count++;
+                      break;
                     }
                   }
 
                   if($count==0) continue;
+
+                  $meal_plan_items = $order_item['meal_plan_items'];
 
                   $product_name = explode('-', $order_item['product_name']);
             ?>
@@ -185,12 +195,13 @@ get_header();
                 <td data-number="3"><?php echo trim($product_name[0]) ?></td>
                 <?php foreach($days as $i => $day) : 
                   $meal_select = empty($meal_select_items[$day]) ? [] : $meal_select_items[$day];
+                  $meal_plan_value = empty($meal_plan_items[$day]) ? 0 : $meal_plan_items[$day];
                 ?>
                 <td data-number="<?php echo $i + 4 ?>" class="wrap-td" style="min-width: 140px;">
                   <?php foreach($meal_select as $k => $menu_id) : ?>
                   <div class="mb-6">
                     <select name="list_meal_select[<?php echo $order_item['id'] ?>][<?php echo $day ?>][<?php echo $k ?>]" 
-                      class="meal_select" data-old="<?php echo $menu_id ?>"
+                      class="meal_select<?php echo $k >= $meal_plan_value ? ' meal-plan-waring' : '' ?>" data-old="<?php echo $menu_id ?>"
                     >
                       <?php
                         foreach($menu_select as $value => $name) {

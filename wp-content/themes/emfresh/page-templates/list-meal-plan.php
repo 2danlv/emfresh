@@ -128,43 +128,9 @@ $data = site_order_get_meal_plans($args);
                 </td>
                 
                 <td data-number="4" class="nowrap">
-                <?php
-                /*$itemList = explode(', ', $order['item_name']);
-                $groupedItems = [];
-                foreach ($itemList as $item) {
-                  if (strpos($item, '+') !== false) {
-                    $combinedItems = explode('+', $item);
-                    foreach ($combinedItems as $subItem) {
-                      preg_match('/(\d+)([A-Za-z]+)/', $subItem, $matches);
-                      if ($matches) {
-                        $quantity = (int)$matches[1];
-                        $code = $matches[2];
-                        if (isset($groupedItems[$code])) {
-                          $groupedItems[$code] += $quantity;
-                        } else {
-                          $groupedItems[$code] = $quantity;
-                        }
-                      }
-                    }
-                  } else {
-                    preg_match('/(\d+)([A-Za-z]+)/', $item, $matches);
-                    if ($matches) {
-                      $quantity = (int)$matches[1];
-                      $code = $matches[2];
-                      if (isset($groupedItems[$code])) {
-                        $groupedItems[$code] += $quantity;
-                      } else {
-                        $groupedItems[$code] = $quantity;
-                      }
-                    }
-                  }
-                }
-                $result = [];
-                foreach ($groupedItems as $code => $quantity) {
-                  $result[] = $quantity . $code;
-                }*/
-                $result = site_order_group_item_name($order['item_name']);
-                echo implode('+', $result);
+                <?php 
+                  $result = site_order_group_item_name($order['item_name']);
+                  echo implode('+', $result);
                 ?>
                 </td>
                 <td data-number="5">

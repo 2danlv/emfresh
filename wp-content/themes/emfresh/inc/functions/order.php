@@ -711,11 +711,13 @@ function site_order_get_date_next($date_start = '')
 
 function site_order_get_meal_plans($args = [])
 {
-    global $em_order, $em_order_item;
+    global $em_order, $em_order_item, $em_customer_group;
 
     $args = wp_unslash($args);
 
     $customer_id = isset($args['customer_id']) ? intval($args['customer_id']) : 0;
+
+    $group_id = isset($args['group_id']) ? intval($args['group_id']) : 0;
 
     $meal_select_number = isset($args['meal_select_number']) ? intval($args['meal_select_number']) : 0;
 
@@ -737,6 +739,20 @@ function site_order_get_meal_plans($args = [])
 
         if($customer_id > 0) {
             $q_args['customer_id'] = $customer_id;
+        } else if($group_id > 0) {
+            $items = $em_customer_group->get_items([
+                'group_id' => $group_id
+            ]);
+
+            if(count($items) > 0) {
+                $customer_ids = [];
+
+                foreach($items as $item) {
+                    $customer_ids[] = $item['customer_id'];
+                }
+
+                $q_args['customer_id'] = $customer_ids;
+            }
         }
 
         $orders = $em_order->get_items($q_args);
@@ -1101,4 +1117,38 @@ function site_response_json($data)
 {
     header('Content-type: application/json');
     die(json_encode($data));
+}
+
+function site_get_days_week_by($day = '', $format = 'Y-m-d')
+{
+	$days = [];
+
+	$time = strtotime($day);
+
+	$w = date('w', $time);
+
+	if ($w == 6) {
+		$time += 2 * DAY_IN_SECONDS;
+	} else if ($w == 0) {
+		$time += DAY_IN_SECONDS;
+	} else {
+		$time -= ($w - 1) * DAY_IN_SECONDS;
+	}
+
+	for ($i = 0; $i < 5; $i++) {
+		$days[] = date($format, $time);
+
+		$time += DAY_IN_SECONDS;
+	}
+
+	return $days;
+}
+
+function site_get_meal_week($day = '')
+{
+	$time = strtotime($day);
+
+	$i = date('w', $time);
+
+	return 'Thứ ' . ($i + 1) . date(' (d/m)', $time);
 }

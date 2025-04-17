@@ -706,37 +706,3 @@ function fix_svg()
 	</style>';
 }
 add_action('admin_head', 'fix_svg');
-
-function site_get_days_week_by($day = '', $format = 'Y-m-d')
-{
-    $days = [];
-
-    $time = strtotime($day);
-
-    $w = date('w', $time);
-
-    if($w == 6) {
-        $time += 2 * DAY_IN_SECONDS;
-    } else if($w == 0){
-        $time += DAY_IN_SECONDS;
-    } else {
-        $time -= ($w - 1) * DAY_IN_SECONDS;
-    }
-
-    for($i = 0; $i < 5; $i++) {
-        $days[] = date($format, $time);
-    
-        $time += DAY_IN_SECONDS;
-    }
-
-    return $days;
-}
-
-function site_get_meal_week($day = '')
-{
-	$time = strtotime($day);
-
-	$i = date('w', $time);
-
-	return 'Thứ ' . ($i + 1) . date(' (d/m)', $time);
-}
