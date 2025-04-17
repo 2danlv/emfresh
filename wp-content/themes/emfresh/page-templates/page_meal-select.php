@@ -57,6 +57,7 @@ $list_logs = $em_log->get_items([
   'module' => $meal_select_key,
 ]);
 
+// Tu dong xoa sau 7 ngay
 $time_to_delete = strtotime('-7 days');
 $lastValue      = '';
 foreach ($weeks as $value => $label) {
@@ -98,8 +99,7 @@ get_header();
                 <select id="week-select" onchange="location.href = '<?php the_permalink(); ?>?week=' + this.value">
                   <?php
                   foreach ($weeks as $value => $label) {
-                    $selected = (isset($_GET[ 'week' ]) && $_GET[ 'week' ] == $value) ? ' selected' : '';
-                    echo '<option value="' . $value . '"' . $selected . '>' . $label . '</option>';
+                    echo '<option value="' . $value . '"' . ($value <= $week ? ' selected' : '') . '>' . $label . '</option>';
                   }
                   ?>
                 </select>
