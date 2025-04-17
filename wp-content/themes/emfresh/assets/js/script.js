@@ -1072,11 +1072,11 @@ jQuery(document).ready(function () {
 		],
 		columnDefs: [
 			{  
-				targets: [0,2,3,4,7,8],
+				targets: [0],
 				orderable: false,
 			},
 			{
-			 type: 'string', targets: [0,4,5,6,7]
+			 type: 'string', targets: [0]
 			},
 			{ visible: false, targets: [] },
 			
@@ -1088,11 +1088,8 @@ jQuery(document).ready(function () {
 					id: 'searchBuilder',
 				},
 				config: {
-					conditions:{
-                        html: tagCondition,
-                    },
 					depthLimit: 0,
-					columns: [ 1,2,3,4,5, 6,7, 8],
+					columns: [ 1,2,3],
 					filterChanged: function (count) {
 						if (count == 0 || count == 1) {
 							$('.btn-fillter').removeClass('current-filter');
