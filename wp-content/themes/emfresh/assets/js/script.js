@@ -907,6 +907,9 @@ jQuery(document).ready(function () {
 	});
 	var table_list_mealplan = $('.table-list-meal-plan').on('init.dt', function () {
 		//console.log(this, 'init.dt');
+		setTimeout(() => {
+			table_list_mealplan.columns.adjust();
+		}, 300);
     }).DataTable({
 		autoWidth: true,
 		scrollX: true,
@@ -1041,6 +1044,10 @@ jQuery(document).ready(function () {
 	});
 	var table_detail_meal = $('.table-detail-meal').on('init.dt', function () {
 		//console.log(this, 'init.dt');
+		setTimeout(() => {
+			table_detail_meal.columns.adjust();
+		}, 300);
+		
     }).DataTable({
 		autoWidth: true,
 		scrollX: true,
@@ -1058,6 +1065,9 @@ jQuery(document).ready(function () {
 	});
 	var table_select_meal = $('.table-select-meal').on('init.dt', function () {
 		//console.log(this, 'init.dt');
+		setTimeout(() => {
+			table_select_meal.adjust();
+		}, 300);
     }).DataTable({
 		autoWidth: true,
 		scrollX: true,
