@@ -1,0 +1,46 @@
+section{
+	&.page-content{
+		padding: 10px;
+		background-color: #fafafa;
+	}
+}
+.page{
+	.card-primary {
+		margin-top: 8px;
+		border-radius: 16px 16px 0px 0px;
+		background: var(--background-dim-green, #F6F6F6);
+		padding: 16px;
+		padding-bottom: 80px;
+		&.width-100 {
+		  .about-box {
+			display: none;
+		  }
+		  .col-8 {
+			width: 100%;
+		  }
+		}
+		& > .card {
+		  padding: 16px;
+		  border-radius: 16px;
+		  background-color: #fff;
+		  &.history-action {
+			padding-top: 0;
+		  }
+		  .tab-pane {
+			display: none;
+		  }
+		  table {
+			width: 100%;
+		  }
+		  
+		  .comment-box {
+			padding: 16px;
+			resize: none;
+			border-radius: var(--input-radiusCorner, 8px);
+			border: 1px solid var(--input-border-default, #DEDFE0);
+			background: var(--input-background-default, #F6F6F6);
+			width: 100%;
+		  }
+		}
+	  }
+}

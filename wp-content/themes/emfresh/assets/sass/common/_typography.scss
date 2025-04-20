@@ -1,0 +1,60 @@
+.text-primary{
+	color: #217A44;
+}
+.text-secondary{
+	color:#A3A3A3;
+}
+.text-tertiary{
+	color:#737373;
+}
+.text-base{
+	color:#262626;
+}
+.text-sm{
+	font-size: 12px;
+}
+.text-md{
+	font-size: 14px;
+}
+.text-lg{
+	font-size: 16px;
+}
+.text-llg{
+	font-size: 18px;
+}
+.text-xl{
+	font-size: 30px;
+}
+.text-link{
+	cursor: pointer;
+	&:hover{
+		color :#217A44
+	}
+}
+.font-base{
+	font-weight: 400;
+}
+.font-medium{
+	font-weight: 500;
+}
+.font-semibold{
+	font-weight: 600;
+}
+.font-bold{
+	font-weight: 700;
+}
+.align-left{
+	text-align: left;
+}
+.align-center{
+	text-align: center;
+}
+.align-right{
+	text-align:right;
+}
+.capitalize{
+	text-transform: capitalize;
+}
+.uppercase{
+	text-transform: uppercase;
+}

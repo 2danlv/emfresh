@@ -35,6 +35,7 @@
 <script src="<?php site_the_assets('js/select2/js/select2.full.min.js');?>"></script>
 
 <!-- DataTables  & Plugins -->
+<script src="<?php site_the_assets('js/variables.js');?>"></script>
 <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.10.16/sorting/natural.js"></script>
 <script src="https://cdn.datatables.net/searchbuilder/1.8.1/js/dataTables.searchBuilder.js"></script>
