@@ -149,7 +149,7 @@
                 </div>
                 <div class="d-f jc-b ai-center">
                     <p class="txt">Trạng thái đơn hàng:</p>
-                    <div class="tag-status green"><?php echo $order_detail['status_name']; ?></div>
+                    <div class="tag-status bg_order<?php echo $order_detail['status']; ?>"><?php echo $order_detail['status_name']; ?></div>
                 </div>
             </div>
         </div>
