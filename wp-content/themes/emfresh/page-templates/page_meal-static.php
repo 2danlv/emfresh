@@ -71,6 +71,8 @@ get_header();
             </tr>
           </thead>
           <tbody>
+            <?php for ($i=0; $i < 2; $i++) { 
+            ?>
             <tr>
               <td rowspan="3" class="text-center">
               Thứ 2 <br>
@@ -131,67 +133,12 @@ get_header();
               <td>160</td>
               <td>4.366</td>
             </tr>
+            <?php
+            if ( $i < 1 ) {
+            ?>
             <tr class="blank"><td colspan="13"></td></tr>
-            <tr>
-              <td rowspan="3" class="text-center">
-              Thứ 2 <br>
-              (02/01)</td>
-              <td class="text-left">
-                1 - Salad bò sốt mè wasabi <br>
-                Khoai tây nướng</td>
-              <td class="cl-orange">40</td>
-              <td class="cl-orange">40</td>
-              <td class="cl-green">40</td>
-              <td class="cl-green">40</td>
-              <td class="cl-red">40</td>
-              <td class="cl-red">40</td>
-              <td>111/113</td>
-              <td>160</td>
-              <td>4.366</td>
-              <td rowspan="3">300</td>
-              <td rowspan="3"  class="text-left" style="align-content:normal">
-                <p>CT: 0 
-                  EP: 9
-                </p>
-                <p>
-                  BT: 0 
-                  TA: 3
-                </p>
-                <p>
-                  RT: 0 
-                  SO: 0 
-                </p>
-                KT: 0
-              </td>
-            </tr>
-            <tr>
-              <td>
-                1 - Salad bò sốt mè wasabi <br>
-                Khoai tây nướng</td>
-              <td class="cl-orange">40</td>
-              <td class="cl-orange">40</td>
-              <td class="cl-green">40</td>
-              <td class="cl-green">40</td>
-              <td class="cl-red">40</td>
-              <td class="cl-red">40</td>
-              <td>111/113</td>
-              <td>160</td>
-              <td>4.366</td>
-            </tr>
-            <tr>
-              <td>
-                1 - Salad bò sốt mè wasabi <br>
-                Khoai tây nướng</td>
-              <td class="cl-orange">40</td>
-              <td class="cl-orange">40</td>
-              <td class="cl-green">40</td>
-              <td class="cl-green">40</td>
-              <td class="cl-red">40</td>
-              <td class="cl-red">40</td>
-              <td>111/113</td>
-              <td>160</td>
-              <td>4.366</td>
-            </tr>
+            <?php } ?>
+            <?php } ?>
           </tbody>
         </table>
       </div>

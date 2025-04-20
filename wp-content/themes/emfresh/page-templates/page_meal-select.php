@@ -432,8 +432,9 @@ get_header();
 <div class="modal fade modal-split-order" id="modal-split-order">
   <div class="overlay"></div>
   <div class="modal-dialog">
-    <div class="modal-header">
+    <div class="modal-header d-f jc-b">
         <h4 class="modal-title">Tách đơn khẩn</h4>
+        <span class="modal-close"><img src="<?php echo site_get_template_directory_assets();?>/img/icon/delete-svgrepo-com.svg" alt=""></span>
       </div>
     <div class="modal-content">
       <div class="modal-body pb-16 pt-16">
