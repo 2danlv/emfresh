@@ -9,16 +9,21 @@
  */
 
 
+$args = wp_unslash($_GET);
+
+$args['groupby'] = 'customer';
+
+// chỉ hiển thị những đơn hàng được tạo từ 45 ngày trước đến hiện tại
+$data = site_order_get_meal_plans($args);
+
+if(isset($_GET['statistics'])) {
+  header('Content-type: application/json');
+  die(json_encode($data['statistics']));
+}
+
 get_header();
 // Start the Loop.
 // while ( have_posts() ) : the_post();
-
-$args = wp_unslash($_GET);
-
-$args[ 'groupby' ] = 'customer';
-
-$data = site_order_get_meal_plans($args);
-
 ?>
 <!-- Main content -->
 <section class="content">
@@ -89,11 +94,10 @@ $data = site_order_get_meal_plans($args);
               <th data-number="10">
                 <ul class="d-f date-group date-ttl">
                   <?php
-                  foreach ($data[ 'schedule' ] as $date) : ?>
+                  foreach ($data['schedule'] as $date) : ?>
                     <li data-date="<?php echo $date ?>">
-                      <?php echo date('d', strtotime($date)) ?> <span class="hidden">
-                        <?php echo date('m', strtotime($date)) ?>
-                      </span>
+                      <?php echo date('d', strtotime($date)) ?> 
+                      <span class="hidden"><?php echo date('m', strtotime($date)) ?></span>
                     </li>
                   <?php endforeach; ?>
                 </ul>
@@ -103,7 +107,7 @@ $data = site_order_get_meal_plans($args);
           <tbody>
             <?php
             $i = 0;
-            foreach ($data[ 'orders' ] as $index => $order) :
+            foreach ($data[ 'customers' ] as $index => $order) :
               $meal_plan_items = $order[ 'meal_plan_items' ];
               $class           = ($i % 2 == 0) ? 'green' : 'orange';
               // var_dump($order);
@@ -168,9 +172,7 @@ $data = site_order_get_meal_plans($args);
                     <?php endforeach; ?>
                   </ul>
                 </td>
-
               </tr>
-
             <?php
             $i++;
              endforeach; ?>
@@ -209,7 +211,7 @@ $data = site_order_get_meal_plans($args);
           <div class="col-6">
             <ul class="filter list-unstyled">
               <li><label><input type="checkbox" data-column="0" value="" disabled checked>Tên khách hàng</label></li>
-              <li><label><input type="checkbox" data-column="2" value="" disabled checked> Số điện thoại</label></li>
+              <li><label><input type="checkbox" data-column="2" value="" disabled checked>Số điện thoại</label></li>
               <li><label><input type="checkbox" data-column="3" value="" disabled checked>Số đơn</label></li>
               <li><label><input type="checkbox" data-column="6" value="" disabled checked>Mã sản phẩm</label></li>
             </ul>

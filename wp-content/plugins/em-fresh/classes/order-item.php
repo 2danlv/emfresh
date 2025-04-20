@@ -50,6 +50,10 @@ class EM_Order_Item extends EF_Default
             'meal_number'   => 0,
             'note'          => '',
             'meal_plan'     => '',
+            'meal_plan_reserve' => '',
+            'meal_select'   => '',
+            'meal_select_1' => '',
+            'meal_select_2' => '',
             'created'       => '',
             'created_at'    => 0,
             'modified'      => '',
@@ -146,7 +150,7 @@ class EM_Order_Item extends EF_Default
         $date_start = $item['date_start'];
         $date_stop  = $item['date_stop'];
 
-        if($date_start == '0000-00-00' | $date_start == '0000-00-00') {
+        if($date_start == '0000-00-00' || $date_stop == '0000-00-00') {
             return [];
         }
 
@@ -158,40 +162,17 @@ class EM_Order_Item extends EF_Default
 
         if (count($list) == 0) {
             $meal_number = $item['meal_number'];
-            // $quantity = $item['quantity'];
-            // $count = 0;
 
             while ($date_start <= $date_stop) {
                 $time = strtotime($date_start);
 
                 // 'Sun', 'Sat'
                 if (!in_array(date('w', $time), [0, 6])) {
-                    /*
-                    $value = $meal_number;
-
-                    if($count + $value > $quantity) {
-                        $value = $quantity - $count;
-                        $count = $quantity;
-                    } else {
-                        $count += $value;
-                    }
-            
-                    if($count <= $quantity) {
-                        $list[$date_start] = $value;
-                    }
-                    */
-
                     $list[$date_start] = $meal_number;
                 }
 
                 $date_start = date('Y-m-d', $time + DAY_IN_SECONDS);
             }
-
-            // if (count($list) > 0) {
-            //     $this->update([
-            //         'meal_plan' => json_encode($list)
-            //     ], ['id' => $item['id']]);
-            // }
         }
 
         return $list;

@@ -23,34 +23,7 @@ if ( $customer_id > 0 ) {
   wp_redirect('/meal-plan/');
   exit();
 }
-function generate_weekdays_list($start_date, $days_to_add = 35, $type = 1) {
-  $today = new DateTime($start_date);
-  $today->modify('+1 day');
-  $end_data_date = (clone $today)->modify('+' . $days_to_add . ' days');
-  $list_items = '';
-  while ($today <= $end_data_date) {
-    if ($today->format('N') < 6) {
-      $date = $today->format('Y-m-d');
-      if ($type == 1) {
-        $list_items .= '<li data-date="' . $date . '" class="empty">';
-        $list_items .= $today->format('d') . ' <span class="hidden">' . $today->format('m') . '</span>';
-        $list_items .= '</li>';
-      } elseif ($type == 2) {
-        $list_items .= '<li class="empty">';
-        $list_items .= '<span data-date="' . $date . '"></span>';
-        $list_items .= '</li>';
-      } elseif ($type == 3) {
-        $list_items .= '<li class="empty edit">';
-        $list_items .= '<span>';
-        $list_items .= '<input type="text" class="input-meal_plan empty" value="" data-date="' . $date . '" />';
-        $list_items .= '</span>';
-        $list_items .= '</li>';
-      }
-    }
-    $today->modify('+1 day');
-  }
-  return $list_items;
-}
+
 $data = site_order_get_meal_plans($args);
 
 get_header();
@@ -123,7 +96,7 @@ if ( count($data) > 0 && isset($data[ 'orders' ]) ) :
                     </li>
                   <?php endforeach; ?>
                   <?php
-                    echo generate_weekdays_list(end($data['schedule']));
+                    echo site_generate_weekdays_list(end($data['schedule']));
                   ?>
 
                 </ul>
@@ -167,7 +140,7 @@ if ( count($data) > 0 && isset($data[ 'orders' ]) ) :
                     <li data-date="<?php echo $date ?>" class="<?php echo $class_date; ?>"><span><?php echo $value ?></span></li>
                   <?php endforeach; ?>
                   <?php
-                  echo generate_weekdays_list(end($data['schedule']),35,2);
+                  echo site_generate_weekdays_list(end($data['schedule']),35,2);
                    ?>
                 </ul>
               </td>
@@ -216,7 +189,7 @@ if ( count($data) > 0 && isset($data[ 'orders' ]) ) :
                       </li>
                         <?php endforeach; ?>
                         <?php
-                        echo generate_weekdays_list(end($data['schedule']),35,2);
+                        echo site_generate_weekdays_list(end($data['schedule']),35,2);
                          ?>
                   </ul>
                 </td>
@@ -261,7 +234,7 @@ if ( count($data) > 0 && isset($data[ 'orders' ]) ) :
                           </span>
                         </li>
                       <?php endforeach; ?>
-                      <?php echo generate_weekdays_list(end($data['schedule']),35,3); ?>
+                      <?php echo site_generate_weekdays_list(end($data['schedule']),35,3); ?>
                     </ul>
                   </td>
                 </tr>
@@ -394,13 +367,10 @@ if ( count($data) > 0 && isset($data[ 'orders' ]) ) :
                 </th>
               </tr>
             </thead>
-            <p>
-              <?php
-              for ( $i = 0; $i < 10; $i++ ) {
-                ?>
+            <tbody>
               <tr>
                 <td class="text-left"><img class="avatar"
-                    src="<?php echo esc_url( get_avatar_url( get_current_user_id() ) ); ?>" width="24"
+                    src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24"
                     alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
                 <td>Chọn món</td>
                 <td>cập nhật</td>
@@ -409,7 +379,128 @@ if ( count($data) > 0 && isset($data[ 'orders' ]) ) :
                 <td class="text-center">01:00</td>
                 <td class="text-center">29/10/24</td>
               </tr>
-              <?php } ?>
+              <tr>
+                <td class="text-left"><img class="avatar"
+                    src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24"
+                    alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
+                <td>Chọn món</td>
+                <td>cập nhật</td>
+                <td>#0001 - SM</td>
+                <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
+                <td class="text-center">01:00</td>
+                <td class="text-center">29/10/24</td>
+              </tr>
+              <tr>
+                <td class="text-left"><img class="avatar"
+                    src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24"
+                    alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
+                <td>Chọn món</td>
+                <td>cập nhật</td>
+                <td>#0001 - SM</td>
+                <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
+                <td class="text-center">01:00</td>
+                <td class="text-center">29/10/24</td>
+              </tr>
+              <tr>
+                <td class="text-left"><img class="avatar"
+                    src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24"
+                    alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
+                <td>Chọn món</td>
+                <td>cập nhật</td>
+                <td>#0001 - SM</td>
+                <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
+                <td class="text-center">01:00</td>
+                <td class="text-center">29/10/24</td>
+              </tr>
+              <tr>
+                <td class="text-left"><img class="avatar"
+                    src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24"
+                    alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
+                <td>Chọn món</td>
+                <td>cập nhật</td>
+                <td>#0001 - SM</td>
+                <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
+                <td class="text-center">01:00</td>
+                <td class="text-center">29/10/24</td>
+              </tr>
+              <tr>
+                <td class="text-left"><img class="avatar"
+                    src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24"
+                    alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
+                <td>Chọn món</td>
+                <td>cập nhật</td>
+                <td>#0001 - SM</td>
+                <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
+                <td class="text-center">01:00</td>
+                <td class="text-center">29/10/24</td>
+              </tr>
+              <tr>
+                <td class="text-left"><img class="avatar"
+                    src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24"
+                    alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
+                <td>Chọn món</td>
+                <td>cập nhật</td>
+                <td>#0001 - SM</td>
+                <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
+                <td class="text-center">01:00</td>
+                <td class="text-center">29/10/24</td>
+              </tr>
+              <tr>
+                <td class="text-left"><img class="avatar"
+                    src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24"
+                    alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
+                <td>Chọn món</td>
+                <td>cập nhật</td>
+                <td>#0001 - SM</td>
+                <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
+                <td class="text-center">01:00</td>
+                <td class="text-center">29/10/24</td>
+              </tr>
+              <tr>
+                <td class="text-left"><img class="avatar"
+                    src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24"
+                    alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
+                <td>Chọn món</td>
+                <td>cập nhật</td>
+                <td>#0001 - SM</td>
+                <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
+                <td class="text-center">01:00</td>
+                <td class="text-center">29/10/24</td>
+              </tr>
+              <tr>
+                <td class="text-left"><img class="avatar"
+                    src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24"
+                    alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
+                <td>Chọn món</td>
+                <td>cập nhật</td>
+                <td>#0001 - SM</td>
+                <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
+                <td class="text-center">01:00</td>
+                <td class="text-center">29/10/24</td>
+              </tr>
+              <tr>
+                <td class="text-left"><img class="avatar"
+                    src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24"
+                    alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
+                <td>Chọn món</td>
+                <td>cập nhật</td>
+                <td>#0001 - SM</td>
+                <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
+                <td class="text-center">01:00</td>
+                <td class="text-center">29/10/24</td>
+              </tr>
+              <tr>
+                <td class="text-left"><img class="avatar"
+                    src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24"
+                    alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
+                <td>Chọn món</td>
+                <td>cập nhật</td>
+                <td>#0001 - SM</td>
+                <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
+                <td class="text-center">01:00</td>
+                <td class="text-center">29/10/24</td>
+              </tr>
+
             </tbody>
           </table>
         </div>

@@ -71,55 +71,6 @@ class EM_Customer_Group extends EF_Default
 
         return parent::filter_item($item, $type);
     }
-
-    function update_list($group_id = 0, $customers = [])
-    {
-        $count = 0;
-
-        // Sort by order
-        $n = count($customers);
-        for($i = 1; $i < $n - 1; $i++) {
-            for($j = 2; $j < $n; $j++) {
-                if($customers[$j]['order'] < $customers[$i]['order']) {
-                    $tmp = $customers[$j];
-                    $customers[$j] = $customers[$i];
-                    $customers[$i] = $tmp;
-                }
-            }
-        }
-
-        $customer_groups = $this->get_items([
-            'group_id' => $group_id,
-            'orderby' => 'id ASC',
-        ]);
-
-        foreach ($customers as $customer) {
-            if (empty($customer['id'])) continue;
-
-            $group_data = [
-                'group_id' => $group_id,
-                'bag' => !empty($customer['bag']) ? 1 : 0,
-                'customer_id' => $customer['id'],
-                'order' => $count + 1
-            ];
-
-            if (!empty($customer_groups[$count])) {
-                $group_data['id'] = $customer_groups[$count]['id'];
-
-                $this->update($group_data);
-            } else {
-                $this->insert($group_data);
-            }
-
-            $count++;
-        }
-
-        for ($i = $count; $i < count($customer_groups); $i++) {
-            $this->delete($customer_groups[$i]['id']);
-        }
-
-        return $count > 0;
-    }
     
     function auto_delete_by_customer($id = 0, $deleted = false)
     {

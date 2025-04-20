@@ -1,3 +1,34 @@
+<?php
+
+$count_phan_an = 0;
+$reserve_days = [];
+$reserve_start = '';
+
+if($order_detail['status'] == 3) {
+    foreach($order_items as $order_item) {
+        if($order_item['meal_plan_reserve'] != '') {
+            $meal_plan_reserve = (array) json_decode($order_item['meal_plan_reserve'], true);
+
+            if(count($meal_plan_reserve) == 0) continue;
+
+            $days = array_keys($meal_plan_reserve);
+
+            $count_phan_an += array_sum($meal_plan_reserve);
+
+            $reserve_days = array_merge($reserve_days, $meal_plan_reserve);
+
+            $value = $days[0];
+
+            if($reserve_start == '' || $reserve_start > $value) {
+                $reserve_start = $value;
+            }
+        }
+    }
+}
+
+$count_days = count($reserve_days);
+
+?>
 <div class="row row32 reserve">
     <div class="col-8">
         <div class="section-wapper">
@@ -9,15 +40,15 @@
                 </div>
                 <div class="d-f ai-center jc-b">
                     <p class="txt">Số phần ăn bảo lưu:</p>
-                    <p class="txt">-</p>
+                    <p class="txt"><?php echo $count_phan_an > 0 ? $count_phan_an : '-' ?></p>
                 </div>
                 <div class="d-f ai-center jc-b">
                     <p class="txt">Số ngày giao hàng bảo lưu:</p>
-                    <p class="txt">-</p>
+                    <p class="txt"><?php echo $count_days > 0 ? $count_days : '-' ?></p>
                 </div>
                 <div class="d-f ai-center jc-b">
                     <p class="txt">Ngày bắt đầu bảo lưu:</p>
-                    <p class="txt">-</p>
+                    <p class="txt"><?php echo $reserve_start != '' ? date('d/m/Y', strtotime($reserve_start)) : '-' ?></p>
                 </div>
             </div>
         </div>

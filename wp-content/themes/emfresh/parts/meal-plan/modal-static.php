@@ -1,3 +1,10 @@
+<?php
+
+$static_days = site_get_days_week_by('this-week');
+
+$statistics = $data['statistics'];
+
+?>
 <div class="modal fade modal-meal-static" id="modal-static">
   <div class="overlay"></div>
   <div class="modal-dialog modal-wide">
@@ -14,29 +21,13 @@
                   <td style="padding-top:0">
                     Trạng thái
                   </td>
-                  <td>
-                    Thứ 2 <br>
-                    (02/01)
+                  <?php foreach($static_days as $day) : ?>
+                  <td data-day="<?php echo $day ?>">
+                    <?php echo site_get_meal_week($day, '<br>') ?>
                   </td>
+                  <?php endforeach ?>
                   <td>
-                    Thứ 3 <br>
-                    (03/01)
-                  </td>
-                  <td>
-                    Thứ 4 <br>
-                    (04/01)
-                  </td>
-                  <td>
-                    Thứ 5 <br>
-                    (05/01)
-                  </td>
-                  <td>
-                    Thứ 6 <br>
-                    (06/01)
-                  </td>
-                  <td>
-                    Tổng <br>
-                    tuần
+                    Tổng <br>tuần
                   </td>
                 </tr>
               </thead>
@@ -50,22 +41,24 @@
                   <td>
                     <div class="d-f show-detail"><i class="fas"></i>Đặt đơn</div>
                   </td>
-                  <td>100</td>
-                  <td>100</td>
-                  <td>100</td>
-                  <td>100</td>
-                  <td>100</td>
-                  <td>100/100</td>
+                  <?php foreach($static_days as $day) : ?>
+                  <td>
+                    <?php 
+                      echo isset($statistics['tong_dat_don'][$day]) ? $statistics['tong_dat_don'][$day] : 0;
+                    ?>
+                  </td>
+                  <?php endforeach ?>
+                  <td><?php echo $statistics['tong_dat_don']['chinh'] . '/' . $statistics['tong_dat_don']['phu'] ?></td>
                 </tr>
-                <?php for ( $i = 0; $i < 3; $i++ ) { ?>
+                <?php foreach ($statistics['dat_don'] as $name => $items) { ?>
                   <tr class="accordion-content_table">
-                    <td>SM</td>
-                    <td>100</td>
-                    <td>100</td>
-                    <td>100</td>
-                    <td>100</td>
-                    <td>100</td>
-                    <td>100/100</td>
+                    <td><?php echo $name ?></td>
+                    <?php 
+                      foreach($items as $value) {
+                        echo "<td>$value</td>";
+                      }
+                    ?>
+                    <td><?php echo array_sum($items) ?></td>
                   </tr>
                 <?php } ?>
               </tbody>
@@ -79,22 +72,26 @@
                   <td>
                     <div class="d-f show-detail"><i class="fas"></i>Dí món</div>
                   </td>
-                  <td>45/54/6</td>
-                  <td>45/54/6</td>
-                  <td>45/54/6</td>
-                  <td>45/54/6</td>
-                  <td>45/54/6</td>
+                  <?php foreach($static_days as $day) : ?>
+                  <td>
+                    <?php 
+                      echo isset($statistics['tong_di_mon_chinh'][$day]) ? $statistics['tong_di_mon_chinh'][$day] : 0;
+                      echo '/'. (isset($statistics['tong_di_mon_dam'][$day]) ? $statistics['tong_di_mon_dam'][$day] : 0);
+                      echo '/'. (isset($statistics['tong_di_mon_nuoc'][$day]) ? $statistics['tong_di_mon_nuoc'][$day] : 0);
+                    ?>
+                  </td>
+                  <?php endforeach ?>
                   <td>-</td>
                 </tr>
-                <?php for ( $i = 0; $i < 3; $i++ ) { ?>
+                <?php foreach ($statistics['di_mon'] as $name => $items) { ?>
                   <tr class="accordion-content_table">
-                    <td>SM</td>
-                    <td>100</td>
-                    <td>100</td>
-                    <td>100</td>
-                    <td>100</td>
-                    <td>100</td>
-                    <td>100/100</td>
+                    <td><?php echo $name ?></td>
+                    <?php 
+                      foreach($items as $value) {
+                        echo "<td>$value</td>";
+                      }
+                    ?>
+                    <td>-</td>
                   </tr>
                 <?php } ?>
               </tbody>
@@ -104,15 +101,28 @@
                 </tr>
               </tbody>
               <tbody class="unknown">
-                <tr>
+                <tr class="accordion-tit_table">
                   <td><div class="d-f show-detail"><i class="fas"></i>Chưa rõ</div></td>
-                  <td>68</td>
-                  <td>68</td>
-                  <td>68</td>
-                  <td>68</td>
-                  <td>68</td>
+                  <?php foreach($static_days as $day) : ?>
+                  <td>
+                    <?php 
+                      echo isset($statistics['tong_chua_ro'][$day]) ? $statistics['tong_chua_ro'][$day] : 0;
+                    ?>
+                  </td>
+                  <?php endforeach ?>
                   <td>-</td>
                 </tr>
+                <?php foreach ($statistics['chua_ro'] as $name => $items) { ?>
+                  <tr class="accordion-content_table">
+                    <td><?php echo $name ?></td>
+                    <?php 
+                      foreach($items as $value) {
+                        echo "<td>$value</td>";
+                      }
+                    ?>
+                    <td>-</td>
+                  </tr>
+                <?php } ?>
               </tbody>
               <tbody class="blank">
                 <tr>
@@ -122,12 +132,14 @@
               <tbody class="total">
                 <tr>
                   <td><div class="d-f show-detail"><i class="fas"></i>TỔNG</div></td>
-                  <td>68</td>
-                  <td>68</td>
-                  <td>68</td>
-                  <td>68</td>
-                  <td>68</td>
-                  <td></td>
+                  <?php foreach($static_days as $day) : ?>
+                  <td>
+                    <?php 
+                      echo isset($statistics['tong'][$day]) ? $statistics['tong'][$day] : 0;
+                    ?>
+                  </td>
+                  <?php endforeach ?>
+                  <td>-</td>
                 </tr>
               </tbody>
             </table>

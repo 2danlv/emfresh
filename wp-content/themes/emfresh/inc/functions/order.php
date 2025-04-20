@@ -1,6 +1,6 @@
 <?php
 
-function site_order_submit()
+function site_order_save_order()
 {
     global $em_order, $em_order_item, $em_log;
 
@@ -272,7 +272,77 @@ function site_order_submit()
         exit();
     }
 }
-add_action('wp', 'site_order_submit');
+add_action('wp', 'site_order_save_order');
+
+function site_order_reserve_order()
+{
+    global $em_order, $em_order_item;
+
+    // Bảo lưu
+    $reserve_order = !empty($_GET['reserve_order']) ? (int) $_GET['reserve_order'] : 0;
+    $resnonce = !empty($_GET['resnonce']) ? trim($_GET['resnonce']) : '';
+    if ($reserve_order > 0 /*& wp_verify_nonce($delnonce, "delnonce")*/) {
+        $order = $em_order->get_item($reserve_order);
+
+        $updated = false;
+
+        if (!empty($order['status']) && $order['status'] == 1) {
+            $order_items = $em_order_item->get_items(['order_id' => $reserve_order, 'orderby' => 'id ASC']);
+
+            $count_reserve = 0;
+
+            if (count($order_items) > 0) {
+                $today = current_time('Y-m-d');
+
+                foreach ($order_items as $order_item) {
+                    $meal_plan_items = $em_order_item->get_meal_plan($order_item);
+
+                    $meal_plan_reserve = [];
+
+                    foreach ($meal_plan_items as $day => $value) {
+                        if ($day > $today) {
+                            $meal_plan_reserve[$day] = $value;
+                        }
+                    }
+
+                    if (count($meal_plan_reserve) > 0) {
+                        $data = ['meal_plan_reserve' => json_encode($meal_plan_reserve)];
+
+                        if($order_item['meal_plan'] == '') {
+                            $data['meal_plan'] = json_encode($meal_plan_items);
+                        }
+
+                        if ($em_order_item->update($data, ['id' => $order_item['id']])) {
+                            $count_reserve++;
+                        }
+                    }
+                }
+            }
+
+            if ($count_reserve > 0) {
+                $updated = $em_order->update(['status' => 3], ['id' => $reserve_order]);
+            }
+        }
+
+        $query_args = [
+            'order_id' => $reserve_order,
+            'tab' => 'reserve',
+            'expires' => time() + 3,
+        ];
+
+        if ($updated) {
+            $query_args['message'] = 'Reserve-order-success';
+        } else {
+            $query_args['message'] = 'Reserve-order-errors';
+        }
+
+        site_response_json($query_args);
+
+        wp_redirect(add_query_arg($query_args, site_order_edit_link()));
+        exit();
+    }
+}
+add_action('wp', 'site_order_reserve_order');
 
 function site_order_delete_order()
 {
@@ -343,8 +413,6 @@ function site_order_save_meal_select()
         $week = isset($data['week']) ? $data['week'] : '';
 
         $meal_select_key = 'meal_select' . ($meal_select_number > 0 ? '_' . $meal_select_number : '');
-
-        // $change_label = 'Thien Phuong Bui - #0001 - SM';
 
         if(count($list) > 0) {
             $menu_select = $em_menu->get_select();
@@ -755,6 +823,8 @@ function site_order_get_meal_plans($args = [])
             }
         }
 
+        // $q_args['date_from'] = date('Y-m-d', strtotime('-45 days'));
+
         $orders = $em_order->get_items($q_args);
     }
 
@@ -765,7 +835,25 @@ function site_order_get_meal_plans($args = [])
         $schedule_meal_plan_items = [];
         $schedule_meal_select_items = [];
 
-        foreach($orders as &$order) {
+        $static_days = site_get_days_week_by('this-week');
+
+        $statistics = [
+            'dat_don' => [],
+            'di_mon' => [],
+            'chua_ro' => [],
+            'tong' => [],
+            'tong_dat_don'  => ['chinh' => 0, 'phu' => 0],
+            'tong_di_mon'   => [],
+            'tong_di_mon_chinh' => [],
+            'tong_di_mon_dam'   => [],
+            'tong_di_mon_nuoc'  => [],
+            'tong_chua_ro'  => [],
+        ];
+        
+        // San pham chinh
+        $product_codes = ['EM','EL','SM','SL','PM','PL'];
+
+        foreach($orders as $i => $order) {
             $q_args = [
                 'limit' => -1,
                 'order_id' => $order['id'],
@@ -778,16 +866,16 @@ function site_order_get_meal_plans($args = [])
             $order_meal_plan_items = [];
             $order_meal_select_items = [];
 
-            foreach($order_items as &$order_item) {
+            foreach($order_items as $j => $order_item) {
                 $order_item['meal_plan_items'] = $em_order_item->get_meal_plan($order_item);
                 $order_item['meal_select_items'] = $em_order_item->get_meal_select($order_item, $meal_select_number);
 
                 if(count($order_item['meal_plan_items']) > 0) {
                     $keys = array_keys($order_item['meal_plan_items']);
-                    $order_item_date_stop = end($keys);
+                    $order_item['date_stop'] = end($keys);
 
-                    if ($order_date_stop < $order_item_date_stop) {
-                        $order_date_stop = $order_item_date_stop;
+                    if ($order_date_stop < $order_item['date_stop']) {
+                        $order_date_stop = $order_item['date_stop'];
                     }
 
                     foreach($order_item['meal_plan_items'] as $day => $value) {
@@ -817,7 +905,86 @@ function site_order_get_meal_plans($args = [])
 
                         $schedule_meal_select_items[$day] = array_merge($schedule_meal_select_items[$day], $meal_select);
                     }
+
+                    $parts = explode('-', $order_item['product_name']);
+                    $code = trim($parts[0]);
+
+                    $type = in_array($code, $product_codes) ? 'chinh' : 'phu';
+
+                    // Dam : SM + EM + SL*1.5 + EL*1.5 + PM*2 + PL*2.5
+                    if(in_array($code, ['SL', 'EL'])) {
+                        $dam_rate = 1.5;
+                    } else if($code == 'PM') {
+                        $dam_rate = 2;
+                    } else if($code == 'PL') {
+                        $dam_rate = 2.5;
+                    } else {
+                        $dam_rate = 1;
+                    }
+
+                    foreach($static_days as $day) {
+                        if($day < $order_item['date_start']) {
+                            $status = 'di_mon';
+                            $count = array_sum($order_item['meal_plan_items']);
+                        } else if($day > $order_item['date_stop']) {
+                            $status = 'chua_ro';
+                            $count = array_sum($order_item['meal_plan_items']);
+                        } else {
+                            $status = 'dat_don';    
+                            $count = isset($order_item['meal_plan_items'][$day]) ? $order_item['meal_plan_items'][$day] : 0;
+                        }
+
+                        $item = $statistics[$status];
+
+                        if(empty($item[$code])) {
+                            $item[$code] = [];
+                        }
+
+                        if(empty($item[$code][$day])) {
+                            $item[$code][$day] = 0;
+                        }
+
+                        $item[$code][$day] += $count;
+
+                        $statistics[$status] = $item;
+
+                        if(empty($statistics['tong'][$day])) {
+                            $statistics['tong'][$day] = 0;
+                        }
+
+                        $statistics['tong'][$day] += $count;
+
+                        $tong_name = 'tong_' . $status;
+
+                        if(empty($statistics[$tong_name][$day])) {
+                            $statistics[$tong_name][$day] = 0;
+
+                            if($status == 'di_mon') {
+                                $statistics[$tong_name . '_chinh'][$day] = 0;
+                                $statistics[$tong_name . '_dam'][$day] = 0;
+                                $statistics[$tong_name . '_nuoc'][$day] = 0;
+                            }
+                        }
+
+                        $statistics[$tong_name][$day] += $count;
+
+                        if($status == 'di_mon') {
+                            if($type == 'chinh') {
+                                $statistics[$tong_name . '_chinh'][$day] += $count;
+                                $statistics[$tong_name . '_dam'][$day] += $dam_rate * $count;
+                            }
+                            if(in_array($code, ['EP','TA'])) {
+                                $statistics[$tong_name . '_nuoc'][$day] += $count;
+                            }
+                        }
+                        
+                        if(isset($statistics[$tong_name][$type])) {
+                            $statistics[$tong_name][$type] += $count;
+                        }
+                    }
                 }
+
+                $order_items[$j] = $order_item;
             }
 
             $order['order_items'] = $order_items;
@@ -831,26 +998,32 @@ function site_order_get_meal_plans($args = [])
             if ($date_stop == '0000-00-00' || $date_stop < $order_date_stop) {
                 $date_stop = $order_date_stop;
             }
+
+            $orders[$i] = $order;
         }
 
-        if(isset($args['groupby']) && $args['groupby'] == 'customer') {
-            $customers = [];
+        $customers = [];
 
-            foreach($orders as $order) {
+        if(isset($args['groupby']) && $args['groupby'] == 'customer') {
+
+            foreach($orders as $i => $order) {
                 $customer_id = $order['customer_id'];
 
                 if(isset($customers[$customer_id])) {
                     $customer = $customers[$customer_id];
+                    
+                    $customer['orders'][] = $order;
                 } else {
                     $customer = $order;
-                    $customer['orders'] = [];
+                    $customer['id'] = $customer_id;
+                    $customer['orders'] = [$order];
                     $customer['meal_plan_items'] = [];
                     $customer['meal_select_items'] = [];
                     $customer['type_name'] = '';
                     $customer['item_name'] = '';
+                    
+                    unset($customer["order_items"]);
                 }
-
-                $customer['orders'][] = $order;
 
                 $customer_meal_plan_items = isset($customer['meal_plan_items']) ? $customer['meal_plan_items'] : [];
                 $customer_meal_select_items = isset($customer['meal_select_items']) ? $customer['meal_select_items'] : [];
@@ -925,7 +1098,7 @@ function site_order_get_meal_plans($args = [])
             }
 
             // nếu tất cả 
-            foreach($customers as &$customer) {
+            foreach($customers as $id => $customer) {
                 $order_status_count = 0;
                 $payment_status_count = 0;
                 $payment_methods = [];
@@ -973,13 +1146,15 @@ function site_order_get_meal_plans($args = [])
                 $payment_methods = site_order_sort_payment_methods($payment_methods);
                 $customer['payment_method'] = implode(', ', array_keys($payment_methods));
                 $customer['payment_method_name'] = implode(', ', $payment_methods);
-            }
 
-            $orders = $customers;
+                $customers[$id] = $customer;
+            }
         }
 
         $list = [];
 
+        $data['date_start'] = $date_start;
+        
         if($date_start != '0000-00-00' && $date_stop != '0000-00-00' && $date_start < $date_stop) {
             $list[] = $date_start;
 
@@ -997,12 +1172,13 @@ function site_order_get_meal_plans($args = [])
             }
         }
 
-        $data['date_start'] = $date_start;
         $data['date_stop'] = $date_stop;
         $data['schedule'] = $list;
         $data['meal_plan_items'] = $schedule_meal_plan_items;
         $data['meal_select_items'] = $schedule_meal_select_items;
         $data['orders'] = $orders;
+        $data['customers'] = $customers;
+        $data['statistics'] = $statistics;
     }
 
     return $data;
@@ -1123,7 +1299,15 @@ function site_get_days_week_by($day = '', $format = 'Y-m-d')
 {
 	$days = [];
 
-	$time = strtotime($day);
+    if($day == 'this-week') {
+        $time = time();
+        // change Friday to Monday
+        if (date('w', $time) == 5 && date('H', $time) >= 12) {
+            $time += 2 * DAY_IN_SECONDS;
+        }
+    } else {
+        $time = strtotime($day);
+    }
 
 	$w = date('w', $time);
 
@@ -1144,11 +1328,43 @@ function site_get_days_week_by($day = '', $format = 'Y-m-d')
 	return $days;
 }
 
-function site_get_meal_week($day = '')
+function site_get_meal_week($day = '', $new_line = ' ')
 {
 	$time = strtotime($day);
 
 	$i = date('w', $time);
 
-	return 'Thứ ' . ($i + 1) . date(' (d/m)', $time);
+	return 'Thứ ' . ($i + 1) . $new_line . date('(d/m)', $time);
+}
+
+function site_generate_weekdays_list($start_date, $days_to_add = 35, $type = 1)
+{
+    $today = new DateTime($start_date);
+    $today->modify('+1 day');
+    $end_data_date = (clone $today)->modify('+' . $days_to_add . ' days');
+    $list_items = '';
+
+    while ($today <= $end_data_date) {
+        if ($today->format('N') < 6) {
+            $date = $today->format('Y-m-d');
+            if ($type == 1) {
+                $list_items .= '<li data-date="' . $date . '" class="empty">';
+                $list_items .= $today->format('d') . ' <span class="hidden">' . $today->format('m') . '</span>';
+                $list_items .= '</li>';
+            } elseif ($type == 2) {
+                $list_items .= '<li class="empty">';
+                $list_items .= '<span data-date="' . $date . '"></span>';
+                $list_items .= '</li>';
+            } elseif ($type == 3) {
+                $list_items .= '<li class="empty edit">';
+                $list_items .= '<span>';
+                $list_items .= '<input type="text" class="input-meal_plan empty" value="" data-date="' . $date . '" />';
+                $list_items .= '</span>';
+                $list_items .= '</li>';
+            }
+        }
+        $today->modify('+1 day');
+    }
+
+    return $list_items;
 }
