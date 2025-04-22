@@ -217,11 +217,22 @@ get_header();
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Cột hiển thị</h4>
+        <h4 class="modal-title">Hiển thị</h4>
       </div>
       <div class="modal-body pt-16">
         <div class="row">
-          <div class="col-6">
+          <div class="col-12 card-primary" style="background: none; padding: 0;">
+          <p>Chế độ hiển thị</p>
+          <p class="pt-8">
+            <select name="" class="" onchange="window.location.href = this.value;">
+              <option value="/meal-plan/" <?php echo (!empty($args[ 'groupby' ]) && $args[ 'groupby' ] === 'customer') ? 'selected' : ''; ?>>Phân nhóm</option>
+              <option value="/meal-plan/?groupby=group" <?php echo (!empty($args[ 'groupby' ]) && $args[ 'groupby' ] === 'group') ? 'selected' : ''; ?>>Phân nhóm gộp tụ ship</option>
+            </select>
+          </p>
+          <p class="pt-24 pb-8">Cột hiển thị</p>
+          <hr>
+          </div>
+          <div class="col-6 pt-16">
             <ul class="filter list-unstyled">
               <li><label><input type="checkbox" data-column="0" value="" disabled checked>Tên khách hàng</label></li>
               <li><label><input type="checkbox" data-column="2" value="" disabled checked>Số điện thoại</label></li>
@@ -229,7 +240,7 @@ get_header();
               <li><label><input type="checkbox" data-column="6" value="" disabled checked>Mã sản phẩm</label></li>
             </ul>
           </div>
-          <div class="col-6">
+          <div class="col-6 pt-16">
             <ul class="filter list-unstyled">
               <li><label><input type="checkbox" data-column="5" value="5">Phân loại đơn hàng</label></li>
               <li><label><input type="checkbox" data-column="6" value="6">Trạng thái đặt đơn</label></li>

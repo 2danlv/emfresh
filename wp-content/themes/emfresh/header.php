@@ -76,7 +76,16 @@ $(document).ready(function() {
 				<section class="content-header">
 					<div class="row ai-center">
 						<div class="col-9 d-f ai-center nowrap">
-							<h1><?php the_title(); ?></h1>
+							<h1>
+							<?php
+							$args = wp_unslash( $_GET );
+							if ( isset($args[ 'groupby' ]) && $args[ 'groupby' ] == 'group' ) {
+								echo "Trang tổng quát Nhóm";
+							} else {
+								the_title();
+							}
+							?>
+							</h1>
 							<div class="wrap-search">
 								<input class="input-search" placeholder="Tên khách hàng / SĐT / Địa chỉ" type="text">
 								<div class="clear-input"><img
