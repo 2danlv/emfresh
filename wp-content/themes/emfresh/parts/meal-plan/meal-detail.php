@@ -105,17 +105,24 @@
     });
     $('.js-save-meal-plan').on('click', function (e) {
       e.preventDefault();
+      if ($('.order-item.changed').length > 1) {
+        $('#modal-warning-input').addClass('is-active');
+          $('body').addClass('overflow');
+          $('.modal-warning-input .modal-body p.notice_warning').text('Bạn đang điều chỉnh nhiều hơn 1 dòng');
+          $('.modal-warning-input .modal-footer .link_order,.modal-warning-input .modal-footer .create_discount').hide();
+          return;
+      } 
 
       let list_meal = [],
         errors = [];
 
       $('.js-meal-plan .order-item.changed').each(function () {
-        let p = $(this),
+        let order_item = $(this),
           meal_plan = {},
-          total = parseInt(p.data('total')),
+          total = parseInt(order_item.data('total')),
           count = 0;
 
-        p.find('.input-meal_plan').each(function () {
+        order_item.find('.input-meal_plan').each(function () {
           let input = $(this), value = +input.val();
 
           if (value > 0) {
@@ -127,28 +134,33 @@
 
         if (total == count) {
           list_meal.push({
-            order_id: p.data('order_id'),
-            order_item_id: p.data('order_item_id'),
+            order_id: order_item.data('order_id'),
+            order_item_id: order_item.data('order_item_id'),
             meal_plan: meal_plan
           });
         } else {
-          errors.push(p.find('.title').text());
+          errors.push(order_item.find('.title').text());
         }
+
         if (total > count) {
           $('#modal-warning-input').addClass('is-active');
           $('body').addClass('overflow');
-          $('.modal-warning-input .modal-body p.notice_warning').text('Bạn nhập thiếu phần ăn: ' + (total - count));
+          $('.modal-warning-input .modal-body p.notice_warning').text('Bạn nhập thiếu '+ (total - count) +' phần ăn của đơn hàng: ' + order_item.data('order_id'));
           $('.modal-warning-input .modal-footer .create_discount').show();
           $('.modal-warning-input .modal-footer .link_order').hide();
+          let link = $('.modal-warning-input .modal-footer .js-order-reserve-link');
+          if(link.length > 0) {
+            link.attr('href', link.data('href') + '=' + order_item.data('order_id'));
+          }
           return;
         }
         if (total < count) {
           $('#modal-warning-input').addClass('is-active');
           $('body').addClass('overflow');
-          $('.modal-warning-input .modal-body p.notice_warning').text('Bạn nhập dư phần ăn: ' + (count - total));
+          $('.modal-warning-input .modal-body p.notice_warning').text('Bạn nhập dư '+ (count - total) +' phần ăn của đơn hàng: ' + order_item.data('order_id'));
           $('.modal-warning-input .modal-footer .create_discount').hide();
           $('.modal-warning-input .modal-footer .link_order').show();
-          $('.modal-warning-input .modal-footer a.link_order_detail').attr('href', '/list-order/chi-tiet-don-hang/?order_id='+ p.data('order_id'));
+          $('.modal-warning-input .modal-footer a.link_order_detail').attr('href', '<?php echo site_order_edit_link() ?>?order_id='+ order_item.data('order_id'));
           return;
         }
       });

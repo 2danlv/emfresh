@@ -65,7 +65,6 @@ get_header();
               <th class="ttl-red">PL</th>
               <th>Số <br> đạm</th>
               <th>Số <br>hộp</th>
-              <th>Tinh <br>bột</th>
               <th>Tổng <br>phần</th>
               <th>Tổng hợp <br>mã khác</th>
             </tr>
@@ -88,7 +87,6 @@ get_header();
               <td class="cl-red">40</td>
               <td>111/113</td>
               <td>160</td>
-              <td>4.366</td>
               <td rowspan="3">300</td>
               <td rowspan="3" class="text-left" style="align-content:normal">
                 <p>CT: 0 
@@ -117,7 +115,6 @@ get_header();
               <td class="cl-red">40</td>
               <td>111/113</td>
               <td>160</td>
-              <td>4.366</td>
             </tr>
             <tr>
               <td>
@@ -131,7 +128,6 @@ get_header();
               <td class="cl-red">40</td>
               <td>111/113</td>
               <td>160</td>
-              <td>4.366</td>
             </tr>
             <?php
             if ( $i < 1 ) {
