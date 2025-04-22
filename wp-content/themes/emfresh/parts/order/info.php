@@ -114,11 +114,27 @@
     <div class="col-4">
         <div class="section-wapper">
             <div class="tlt-section">Khách hàng</div>
+            <?php if(!empty($group['id'])) : ?>
             <div class="section-content">
                 <p class="txt"><a href="/customer/detail-customer/?customer_id=<?php echo $order_detail['customer_id'] ?>"><?php echo $order_detail['customer_name'] ?></a></p>
-                <?php
-                //preg_match('/\((.*?)\)/', $order_detail['customer_name'], $matches);
-                if ($order_detail['customer_name_2nd'] != '') { ?>
+                <p class="txt">Người nhận: <?php echo $group['name']; ?></p>
+                <p class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $group['phone'] ?>"><?php echo $group['phone'] ?></p>
+                <p class="txt ellipsis"><?php echo $group['location_name']; ?></p>
+                <?php if (!empty($group['note'])) { ?>
+                <p class="txt ellipsis">Note nhóm: <?php echo $group['note'] ?></p>
+                <?php } ?>
+                <?php if (!empty($order_detail['note_shipper'])) { ?>
+                <p class="txt ellipsis">Note shipper: <?php echo $order_detail['note_shipper'] ?></p>
+                <?php }
+                if (!empty($order_detail['note_admin'])) { ?>
+                <p class="txt ellipsis">Note admin: <?php echo $order_detail['note_admin'] ?></p>
+                <?php } ?>
+                <p class="note-txt italic">(Đã đăng ký chung nhóm ship: <?php echo $group['name'] ?>)</p>
+            </div>
+            <?php else : ?>
+            <div class="section-content">
+                <p class="txt"><a href="/customer/detail-customer/?customer_id=<?php echo $order_detail['customer_id'] ?>"><?php echo $order_detail['customer_name'] ?></a></p>
+                <?php if ($order_detail['customer_name_2nd'] != '') { ?>
                 <p class="txt">Người nhận: <?php echo $order_detail['customer_name_2nd']; ?></p>
                 <?php } ?>
                 <p class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $order_detail['phone'] ?>"><?php echo $order_detail['phone'] ?></p>
@@ -129,8 +145,8 @@
                 if (!empty($order_detail['note_admin'])) { ?>
                 <p class="txt ellipsis">Note admin: <?php echo $order_detail['note_admin'] ?></p>
                 <?php } ?>
-                <p class="note-txt italic">(Đã đăng ký chung nhóm ship: Thien Phuong Bui)</p>
             </div>
+            <?php endif ?>
         </div>
         <div class="section-wapper">
             <div class="tlt-section">Trạng thái</div>

@@ -3,6 +3,9 @@
 $count_phan_an = 0;
 $reserve_days = [];
 $reserve_start = '';
+$continue_link = '';
+$cancel_link = '';
+$end_link = '';
 
 if($order_detail['status'] == 3) {
     foreach($order_items as $order_item) {
@@ -24,6 +27,10 @@ if($order_detail['status'] == 3) {
             }
         }
     }
+
+    $continue_link = add_query_arg(['continonce' => wp_create_nonce('continonce'), 'continue_order' => $order_id], site_order_edit_link());
+    $cancel_link = add_query_arg(['cancelnonce' => wp_create_nonce('cancelnonce'), 'cancel_order' => $order_id], site_order_edit_link());
+    $end_link = '';
 }
 
 $count_days = count($reserve_days);
@@ -54,9 +61,9 @@ $count_days = count($reserve_days);
         </div>
     </div>
     <div class="col-4">
-        <div class="btn btn-secondary btn-reserve js-continue">Tiếp tục đơn hàng</div>
-        <div class="btn btn-secondary btn-reserve js-cancel">Huỷ phần bảo lưu & Giảm giá đơn mới</div>
-        <div class="btn btn-secondary btn-reserve js-end danger">Kết thúc đơn hàng vì quá hạn<!-- (admin only)--></div> 
+        <a href="<?php echo $continue_link ?>#" class="btn btn-secondary btn-reserve db js-continue">Tiếp tục đơn hàng</a>
+        <a href="<?php echo $cancel_link ?>#" class="btn btn-secondary btn-reserve db js-cancel">Huỷ phần bảo lưu & Giảm giá đơn mới</a>
+        <a href="<?php echo $end_link ?>#" class="btn btn-secondary btn-reserve db js-end danger">Kết thúc đơn hàng vì quá hạn<!-- (admin only)--></a> 
     </div>
 </div>
 <div class="table-container">

@@ -11,10 +11,13 @@
 
 $args = wp_unslash($_GET);
 
-$args['groupby'] = 'customer';
+if(empty($args['groupby'])) {
+  $args['groupby'] = 'customer';
+}
 
-// chỉ hiển thị những đơn hàng được tạo từ 45 ngày trước đến hiện tại
 $data = site_order_get_meal_plans($args);
+
+$group_id = !empty($args['group_id']) ? intval($args['group_id']) : 0;
 
 if(isset($_GET['statistics'])) {
   header('Content-type: application/json');
@@ -109,28 +112,38 @@ get_header();
             $i = 0;
             foreach ($data[ 'customers' ] as $index => $order) :
               $meal_plan_items = $order[ 'meal_plan_items' ];
-              $class           = ($i % 2 == 0) ? 'green' : 'orange';
-              // var_dump($order);
-              ?>
+              $class = ($i % 2 == 0) ? 'green' : 'orange';
+              
+              if(isset($order['group_name'])) {
+                $params = ['group_id' => $order['id']];
+                $phone = $order['group_phone'];
+                $link = add_query_arg($params, site_meal_plan_list_link());
+              } else {
+                $params = ['customer_id' => $order['id']];
+                $phone = $order['phone'];
+                $link = add_query_arg($params, site_meal_plan_detail_link());
+              }
+
+            ?>
               <tr class="order-<?php echo $order[ 'id' ] ?>" data-order_id="<?php echo $order[ 'id' ] ?>">
                 <td data-number="0"><input type="checkbox" class="checkbox-element"
                     data-number="<?php echo $order[ 'order_number' ]; ?>" value="<?php echo $order[ 'order_number' ] ?>"></td>
                 <td data-number="1" class=" nowrap wrap-td">
                   <div class="ellipsis">
-                    <a href="/meal-detail/?customer_id=<?php echo $order[ 'customer_id' ] ?>">
+                    <a href="<?php echo $link ?>" <?php echo $group_id > 0 ? 'target="_blank"' : '' ?>>
                       <?php
-                      echo $order[ 'customer_name' ] ?>
+                        echo isset($order['group_name']) ? $order['group_name'] : $order['customer_name']
+                      ?>
                     </a>
                   </div>
                 </td>
                 <td data-number="2"><span class="copy modal-button" data-target="#modal-copy"
-                    title="Copy: <?php echo $order[ 'phone' ]; ?>">
-                    <?php echo $order[ 'phone' ]; ?>
+                    title="Copy: <?php echo $phone ?>">
+                    <?php echo $phone ?>
                   </span></td>
                 <td data-number="3">
                   <?php echo $order[ 'count_order' ] // $order['order_number'] ?>
                 </td>
-                
                 <td data-number="4" class="nowrap">
                 <?php 
                   $result = site_order_group_item_name($order['item_name']);

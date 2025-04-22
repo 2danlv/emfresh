@@ -43,6 +43,9 @@ $order_item_default = $em_order_item->get_fields();
 $order_item_default['id'] = 0;
 $order_items = [$order_item_default];
 
+$customer_group = [];
+$group = [];
+
 if($order_id > 0) {
     $response = em_api_request('order/item', ['id' => $order_id]);
 
@@ -65,9 +68,21 @@ if($order_id > 0) {
 			}
         }
 
+		// Lay thong tin dia chi
         $response = em_api_request('location/list', ['customer_id' => $order_detail['customer_id']]);
         if($response['code'] == 200 && count($response['data']) > 0) {
             $list_locations = $response['data'];
+        }
+
+		// Lay thong tin nhom
+        $response = em_api_request('customer_group/list', ['customer_id' => $order_detail['customer_id']]);
+        if($response['code'] == 200 && count($response['data']) > 0) {
+            $customer_group = end($response['data']);
+
+			$response = em_api_request('group/item', ['id' => $customer_group['group_id']]);
+			if($response['code'] == 200) {
+				$group = $response['data'];
+			}
         }
     }
 } else {
@@ -209,7 +224,7 @@ get_header();
 </div><!-- /.container-fluid -->
 <div class="navigation-bottom d-f jc-b ai-center pl-16 pr-16">
 	<div class="total-cost txt d-f gap-16 ai-center fw-bold">Cần thanh toán: <span class="cost-txt red fw-bold"><?php echo ($total_money - $order_detail['paid']) > 0 ? number_format($total_money - $order_detail['paid']) : 0; ?></span></div>
-	<a href="<?php echo add_query_arg(['order_id' => $order_id], site_meal_plan_detail_link()) ?>" class="btn btn-primary btn-next">Đi đến Meal Plan chi tiết</a>
+	<a href="<?php echo add_query_arg(['customer_id' => $order_detail['customer_id']], site_meal_plan_detail_link()) ?>" class="btn btn-primary btn-next">Đi đến Meal Plan chi tiết</a>
 </div>
 </section>
 <!-- /.content -->

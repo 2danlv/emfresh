@@ -322,11 +322,10 @@ if ( count($data) > 0 && isset($data[ 'orders' ]) ) :
         <div class="modal-footer text-center pt-16 pb-8">
           <p class="pb-16"><button type="button" class="btn db btn-primary modal-close">Quay lại chỉnh sửa</button></p>
           <div class="create_discount dn">
-            <p class="pb-16"><a href="#" class="btn db btn-secondary modal-close nowrap">Tạo đơn mới & giảm giá</a></p>
-            <p class="pb-16"><a href="#" class="btn db btn-secondary modal-close nowrap">Chuyển sang bảo lưu</a></p>
+            <p class="pb-16"><a href="<?php echo site_order_add_link() ?>" class="btn db btn-secondary modal-close nowrap" target="_blank">Tạo đơn mới & giảm giá</a></p>
+            <p class="pb-16"><a href="#" data-href="<?php echo add_query_arg(['resnonce' => wp_create_nonce('resnonce'), 'reserve_order' => '']); ?>" class="btn db btn-secondary modal-close nowrap js-order-reserve-link">Chuyển sang bảo lưu</a></p>
           </div>
           <p class="link_order"><a href="#" class="btn btn-secondary db link_order_detail modal-close nowrap">Chỉnh sửa số lượng đơn hàng này</a></p>
-
         </div>
       </div>
     </div>

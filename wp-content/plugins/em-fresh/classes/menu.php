@@ -24,8 +24,19 @@ class EM_Menu extends EF_Default
     {
         $fields = array(
             'name'  => '',
-            'type'  => 1,
+            'name_en' => '',
+            'status' => '',
+            'type' => '',
+            'ingredient' => '',
+            'group' => '',
+            'tag' => '',
             'note'  => '',
+            'cooking_times'  => '',
+            'last_used'  => '',
+            'created'       => '',
+            'created_at'    => 0,
+            'modified'      => '',
+            'modified_at'   => 0,
         );
 
         return $fields;
@@ -41,6 +52,41 @@ class EM_Menu extends EF_Default
 
         return $filters;
     }
+    
+    function filter_item($data = [], $type = '')
+    {
+        $item = [];
+
+        if (is_array($data)) {
+            $setting_fields = [
+                'status',
+                'type',
+                'ingredient',
+                'group',
+                'tag',
+            ];
+
+            foreach ($data as $key => $value) {
+                $item[$key] = $value;
+
+                if ($key == 'created_at') {
+                    $item['created_author'] = get_the_author_meta('display_name', $value);
+                } else if ($key == 'modified_at') {
+                    $item['modified_author'] = get_the_author_meta('display_name', $value);
+                } else if (in_array($key, $setting_fields)) {
+                    $labels = $this->get_setting($key);
+
+                    $item[$key . '_name'] = $value !='' && isset($labels[$value]) ? $labels[$value] : '';
+                }
+            }
+        }
+
+        if ($type == 'list') {
+            return $item;
+        }
+
+        return $item;
+    }
 
     function get_select($args = [])
     {
@@ -55,6 +101,25 @@ class EM_Menu extends EF_Default
         if(count($items) > 0) {
             foreach($items as $item) {
                 $list[$item['id']] = $item['name'];
+            }
+        }
+
+        return $list;
+    }
+
+    function get_setting($field = '')
+    {
+        $menu_options = em_admin_get_setting('em_menu_options', 'list_note');
+
+        $list = [];
+        
+        if(isset($menu_options[$field]) && !empty($menu_options[$field]['values'])) {
+            $values = $menu_options[$field]['values'];
+
+            foreach($values as $value) {
+                $key = sanitize_title($value);
+
+                $list[$key] = $value;
             }
         }
 
