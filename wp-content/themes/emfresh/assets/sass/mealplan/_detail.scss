@@ -179,7 +179,11 @@ table.table tr.accordion-content_table td>div {
     display: none;
 }
 table.table tr.accordion-content_table.d-table-row {
+    border: none;
     display: table-row;
+    &.is-active {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
 }
 table.table tr.accordion-content_table.d-table-row td {
     transition: .4s padding;

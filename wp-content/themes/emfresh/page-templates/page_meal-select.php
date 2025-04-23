@@ -287,7 +287,7 @@ get_header();
                   $value_1 = isset($select_1_values[$i]) ? (int) $select_1_values[$i] : 0;
                   $value_2 = isset($select_2_values[$i]) ? (int) $select_2_values[$i] : 0;
 
-                  if($value == 0 ||($value_1 == $value && $value_2 == $value)) continue;
+                  if($value == 0 || ($value_1 == $value && $value_2 == $value)) continue;
                   
                   $menu_name = isset($menu_compare[$value]) ? $menu_compare[$value] : '-';
                   
@@ -300,8 +300,8 @@ get_header();
                     'product_name' => $product_name[0],
                     'menu_id' => $value,
                     'meal_select' => $menu_name,
-                    'meal_select_1' => $value_1 == $value ? '-' : (isset($menu_compare[$value_1]) ? $menu_compare[$value_1] : '-'),
-                    'meal_select_2' => $value_2 == $value ? '-' : (isset($menu_compare[$value_2]) ? $menu_compare[$value_2] : '-'),
+                    'meal_select_1' => isset($menu_compare[$value_1]) ? $menu_compare[$value_1] : '-',
+                    'meal_select_2' => isset($menu_compare[$value_2]) ? $menu_compare[$value_2] : '-',
                     'is_diff_1' => $value_1 > 0 && $value_1 != $value,
                     'is_diff_2' => $value_2 > 0 && $value_2 != $value,
                   ];
@@ -337,22 +337,19 @@ get_header();
                 <td>
                   <select name="list_meal_select[<?php echo $compare['order_item_id'] ?>][<?php echo $compare['day'] ?>][<?php echo $compare['index'] ?>]" 
                     class="meal_select" data-old="<?php echo $compare['menu_id'] ?>"
-                  >
-                    <?php
+                  ><?php
                       foreach($menu_select as $value => $name) {
                         echo '<option value="'.$value.'"'.($value == $compare['menu_id'] ? ' selected' :'').'>' . $name . '</option>';
                       }
-                    ?>
-                  </select>
-                  <?php // echo $compare['meal_select'] ?>
+                  ?></select>
                 </td>
                 <td class="text-center">
-                  <div class="<?php echo $compare['is_diff_1'] ? 'is-diff btn-danger' : '' ?>">
+                  <div class="<?php echo $compare['is_diff_1'] ? 'is-diff btn-danger' : 'btn-secondary' ?>">
                     <?php echo $compare['meal_select_1'] ?>
                   </div>
                 </td>
                 <td class="text-center">
-                  <div class="<?php echo $compare['is_diff_2'] ? 'is-diff btn-danger' : '' ?>">
+                  <div class="<?php echo $compare['is_diff_2'] ? 'is-diff btn-danger' : 'btn-secondary' ?>">
                     <?php echo $compare['meal_select_2'] ?>
                   </div>
                 </td>

@@ -225,7 +225,7 @@ get_header();
           <p>Chế độ hiển thị</p>
           <p class="pt-8">
             <select name="" class="" onchange="window.location.href = this.value;">
-              <option value="/meal-plan/" <?php echo (!empty($args[ 'groupby' ]) && $args[ 'groupby' ] === 'customer') ? 'selected' : ''; ?>>Phân nhóm</option>
+              <option value="/meal-plan/" <?php echo (!empty($args[ 'groupby' ]) && $args[ 'groupby' ] === 'customer') ? 'selected' : ''; ?>>Cá nhân</option>
               <option value="/meal-plan/?groupby=group" <?php echo (!empty($args[ 'groupby' ]) && $args[ 'groupby' ] === 'group') ? 'selected' : ''; ?>>Phân nhóm gộp tụ ship</option>
             </select>
           </p>
