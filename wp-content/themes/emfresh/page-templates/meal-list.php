@@ -119,7 +119,7 @@ get_header();
 	?>
 
 	<!-- Default box -->
-	<div class="card datatable meal-list">
+	<div class="card datatable datatable-v2 meal-list">
 		<div class="card-body">
 			<div class="toolbar">
 				<form class="em-importer" data-name="customer" action="<?php the_permalink() ?>" method="post">
@@ -309,7 +309,7 @@ get_header();
 				<h4 class="modal-title">Thêm vào danh sách chờ</h4>
 			</div>
 			<div class="modal-body pt-16">
-				<table class="table table-v2 table-print nowrap">
+				<table class="table table-v2 table-simple table-print nowrap">
 					<thead>
 						<tr>
 							<th class="text-left">Tên món</th>

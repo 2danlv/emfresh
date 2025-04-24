@@ -32,8 +32,8 @@ get_header();
 													<p class="font-bold text-lg">Cơm tấm sườn trứng eatclean</p>
 													<p class="text-tertiary text-md font-semibold">Cơm lứt Séng Cù</p>
 												</div>
-												<span class="btn-edit-item btn btn-v2 btn-icon btn-secondary "
-													style="background:##F5F5F5 !important;border:none !important;margin:3px"><img
+												<span class="btn-edit-item btn btn-v2 btn-icon btn-secondary"
+													style="margin:3px"><img
 														src="<?php echo site_get_template_directory_assets(); ?>/img/icon/pencil-gray.svg" /></span>
 											</div>
 											<table class="w-full table-input table-simple">
@@ -114,7 +114,8 @@ get_header();
 		<div class="modal-content" style="padding:0">
 			<div style="text-align:right;margin-right:10px">
 				<span class="btn btn-v2 btn-ghost btn-icon modal-close">
-					<img class="icon" src="<?php echo site_get_template_directory_assets(); ?>/img/icon/x-black.svg" alt="">
+					<img class="icon" src="<?php echo site_get_template_directory_assets(); ?>/img/icon/x-black.svg"
+						alt="">
 				</span>
 			</div>
 			<div class="modal-body" style="padding:0 20px 20px 20px;max-width:350px;margin:auto">
@@ -131,7 +132,8 @@ get_header();
 			</div>
 			<div class="modal-footer text-center pb-16 flex justify-center" style="gap:15px">
 				<button type="button" class="btn btn-v2 btn-secondary modal-close" style="padding:0 30px">Huỷ</button>
-				<button type="button" class="btn btn-v2 btn-primary btn-success btn-save modal-close" style="padding:0 30px">Lưu</button>
+				<button type="button" class="btn btn-v2 btn-primary btn-success btn-save modal-close"
+					style="padding:0 30px">Lưu</button>
 			</div>
 		</div>
 	</div>
