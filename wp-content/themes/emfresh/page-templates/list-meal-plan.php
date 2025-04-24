@@ -141,7 +141,7 @@ get_header();
                     title="Copy: <?php echo $phone ?>">
                     <?php echo $phone ?>
                   </span></td>
-                <td data-number="3">
+                <td data-number="3" class="text-center">
                   <?php echo $order[ 'count_order' ] // $order['order_number'] ?>
                 </td>
                 <td data-number="4" class="nowrap">

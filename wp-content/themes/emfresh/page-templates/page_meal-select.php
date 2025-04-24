@@ -435,7 +435,7 @@ get_header();
     <div class="modal-content">
       <div class="modal-body pb-16 pt-16">
         <div class="order">
-        <div class="card-primary">
+        <div class="card-primary" style="background-color: #fff; padding: 0;">
           <div class="dropdown-address  pb-16">
             <p>Chọn địa chỉ giao đến</p>
               <div class="dropdown active pt-16" style="pointer-events: all;">  

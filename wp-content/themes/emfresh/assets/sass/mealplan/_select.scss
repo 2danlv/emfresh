@@ -57,11 +57,9 @@ table.table-select-meal {
     }
   }
 }
-.list-customer {
-  table.table-select-meal,
-  table.table-split-order,
-  table.table-detail-meal {
-    border-collapse: separate !important;
+.list-customer table.table-select-meal,
+table.table-split-order {
+    border-collapse: separate ;
     thead tr {
       border-radius: 0;
       th {
@@ -89,6 +87,16 @@ table.table-select-meal {
           border-left: 1px solid var(--color-grey-400, #8d8e8f) !important;
         }
       }
+    }
+}
+.table.table-split-order {
+  border-collapse: collapse;
+  tr {
+    th,td {
+      padding:0 10px;
+    }
+    th {
+      background-color: #DEDFE0;
     }
   }
 }
