@@ -116,7 +116,7 @@ get_header();
           </div>
         </div>
         <div class="row ai-center row-revert">
-          <div class="col-6">
+          <div class="col-5">
             <ul class="d-f jc-end ai-center">
               <li class="status mr-16"><span class="btn btn-status"><span class="count-checked"></span> đã chọn</span></li>
               <li class="has-child">
@@ -133,14 +133,15 @@ get_header();
               </li>
             </ul>
           </div>
-          <div class="col-6">
+          <div class="col-7">
             <ul class="d-f">
               <?php foreach($list_copy as $number => $name) :?>
-              <li class="mr-16">
+              <li class="mr-16 <?php echo $meal_select_number == $number ? ' ' : ' dn' ?>">
                 <a href="<?php echo add_query_arg(['order_id' => $order_id,'meal_select_number' => $number,'week' => $week,
-                ], $detail_menu_select_url) ?>" class="btn<?php echo $meal_select_number == $number ? ' btn-primary' : '' ?>"><?php echo $name ?></a>
+                ], $detail_menu_select_url) ?>" class="btn<?php echo $meal_select_number == $number ? ' btn-primary ' : '' ?>"><?php echo $name ?></a>
               </li>
               <?php endforeach ?>
+              <li class="add" style="width: 32px; height: 32px; line-height: 32px; cursor: pointer;"><img src="<?php echo site_get_template_directory_assets(); ?>img/icon/plus-svgrepo-com.svg" alt=""></li>
             </ul>
           </div>
         </div>
@@ -568,7 +569,19 @@ get_footer('customer');
     // if (now.getDay() === 4 && now.getHours() >= 21 && params.get('week') !== lastWeekValue) {
     //     window.location.href = '?week=' + lastWeekValue;
     // }
-    
+    $('.list-customer .em-importer ul li.add').click(function(){
+      // Tìm phần tử .hidden đầu tiên và hiện nó
+      let nextHidden = $('.list-customer .em-importer ul li.dn').first();
+      if (nextHidden.length) {
+        nextHidden.removeClass('dn');
+      }
+      
+      // Nếu không còn phần tử .hidden nào nữa thì ẩn nút add
+      if ($('.list-customer .em-importer ul li.dn').length === 0) {
+        $('.list-customer .em-importer ul li.add').hide();
+      }
+    });
+
     $('.list-customer .em-importer ul li.group-icon .btn.btn-alert').on('click', function (e) { 
       e.preventDefault();
       var $select = $('.meal-plan-waring');

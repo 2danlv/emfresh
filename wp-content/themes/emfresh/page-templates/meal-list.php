@@ -127,7 +127,7 @@ get_header();
 						<div class="col-8">
 							<ul class="d-f ai-center">
 								<li><span class="add btn btn-v2 btn-primary btn-icon btn-plus">
-									<a href="<?php echo home_url('/kitchen/meal-list/create-new-meal') ?>"><img
+									<a href="<?php echo home_url('/meal-list/create-new-meal') ?>"><img
 												class="icon"
 												src="<?php echo site_get_template_directory_assets(); ?>/img/icon/plus.svg"
 												alt=""></a></span></li>

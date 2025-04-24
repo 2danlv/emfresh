@@ -7,17 +7,49 @@
  * @since Twenty Twelve 1.0
  */
 
+global $em_menu;
+
+$menu_id = isset($_GET['menu_id']) ? intval($_GET['menu_id']) : 0;
+
+$action_url = add_query_arg(['menu_id' => $menu_id], get_permalink());
+
+$list_tags = $em_menu->get_setting('tag');
+$list_ingredients = $em_menu->get_setting('ingredient');
+$list_groups = $em_menu->get_setting('group');
+$list_types = $em_menu->get_setting('type');
+$list_statuses = $em_menu->get_setting('status');
+
+$meal_detail = $em_menu->get_fields();
+
+if($menu_id > 0) {
+	$meal_detail = $em_menu->get_item($menu_id);
+} else {
+	$meal_detail['id'] = 0;
+
+	$meal_detail = $em_menu->filter_item($meal_detail);
+}
+
 get_header();
 // Start the Loop.
 // while ( have_posts() ) : the_post();
 ?>
 <div class="page">
 	<section class="content">
+		<?php
+			if (!empty($_GET['message']) && !empty($_GET['expires']) && intval($_GET['expires']) > time()) {
+				echo '<div class="alert alert-success mb-16 " role="alert">' . $_GET['message'] . '</div>';
+			}
+		?>
 		<div class="container-fluid">
-
 			<div class="card-primary">
 				<div class="flex justify-between align-center" style="padding-bottom:20px">
-					<h4 class="text-xl font-bold">Cơm tấm sườn trứng eatclean</h4>
+					<h4 class="text-xl font-bold"><?php 
+						if(empty($meal_detail['id'])) {
+							echo 'Thêm món mới';
+						} else {
+							echo $meal_detail['name'];
+						}
+					?></h4>
 					<div class="top-pannel flex" style="gap:10px">
 						<span class="btn btn-v2 btn-secondary modal-button" data-target="#modal-list"><img class="icon"
 								src="<?php echo site_get_template_directory_assets(); ?>/img/icon/file-plus-gray.svg"
@@ -168,26 +200,40 @@ get_header();
 get_footer('customer');
 ?>
 <script>
-	jQuery(document).ready(function () {
-		$(".editable-input").prop("disabled", true);
-		$(".edit-show").hide()
-		$('.navigation-bottom').hide()
-	})
-	$(".btn-edit").click(function () {
-	
+jQuery(function ($) {
+	$(".editable-input").prop("disabled", true);
+	$(".edit-show").hide();
+	$('.navigation-bottom').hide();
+
+	$(".btn-edit").on('click', function () {
 		$(".editable-input").prop("disabled", false);
 		$(".edit-show").show()
 		$(".btn-edit").hide()
 		$('.navigation-bottom').show()
 		$(".top-pannel").hide()
 	});
-	$(".btn-cancel, .btn-save").click(function () {
+
+	$(".btn-cancel").on('click', function () {
 		$(".editable-input").prop("disabled", true)
 		$(".edit-show").hide()
 		$(".btn-edit").show()
 		$('.navigation-bottom').hide()
 		$(".top-pannel").show()
 	});
+
+	$(".btn-save").on('click', function () {
+		let rel = $('.tab-nav .nav-item.selected').attr('rel') || '';
+		if(rel == '') return;
+
+		let item = document.getElementById(rel);
+		if(item) {
+			let form = item.querySelector('form');
+			if(form) {
+				form.submit();
+			}
+		}
+	});
+});
 </script>
 <script src="<?php site_the_assets(); ?>js/common/tab.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet">

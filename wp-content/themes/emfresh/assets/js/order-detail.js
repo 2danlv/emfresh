@@ -198,10 +198,12 @@ function update_order_item_info(order_item) {
 }
 
 function format_money(number) {
-	number = parseFloat(number);
-	if (isNaN(number)) return '0';
-	return number.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,').split('.')[0];
+  number = parseFloat(number);
+  if (isNaN(number)) return '0';
+  number = Math.round(number / 1000) * 1000;
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
+
 
 function show_order_item(btn) {
 	btn = $(btn);

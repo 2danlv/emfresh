@@ -8,7 +8,7 @@
     setTimeout(() => {
       if ($('#target').length > 0) {
         var targetOffset = $('#target').offset().left;
-        var offsetWithMargin = targetOffset - 736;
+        var offsetWithMargin = targetOffset - 790;
         $(".dt-scroll-body").animate({scrollLeft: offsetWithMargin}, 1000);
       }
     }, 300);
