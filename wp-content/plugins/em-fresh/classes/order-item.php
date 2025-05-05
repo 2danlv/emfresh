@@ -91,13 +91,13 @@ class EM_Order_Item extends EF_Default
         if (isset($args['min_date'])) {
             $value = sanitize_text_field($args['min_date']);
 
-            $wheres[] =  "DATE_FORMAT(`date_start`, 'Y-m-d') >= '$value'";
+            $wheres[] = "DATE_FORMAT(`date_start`, '%Y-%m-%d') >= '$value'";
         }
 
         if (isset($args['max_date'])) {
             $value = sanitize_text_field($args['max_date']);
 
-            $wheres[] =  "DATE_FORMAT(`date_stop`, 'Y-m-d') <= '$value'";
+            $wheres[] = "DATE_FORMAT(`date_stop`, '%Y-%m-%d') <= '$value'";
         }
 
         return $wheres;

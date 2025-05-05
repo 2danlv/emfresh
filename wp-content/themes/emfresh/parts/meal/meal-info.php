@@ -1,35 +1,45 @@
 <?php
 
+$meal_tag_values = array_keys($meal_detail['tag_list']);
+
 $js_duplicate_url = add_query_arg(['dupnonce' => wp_create_nonce('dupnonce')], get_permalink());
-// var_dump($response_customer);
+
+// var_dump($em_menu->get_setting('tag'));
+
+$file = '/var/www/shop/html/wp-content/uploads/em-menu/20250424073102-465578788_858497503118215_7455140495729756933_n.jpg';
+if(file_exists($file)) {
+	@unlink($file);
+}
+
 ?>
+<form action="<?php the_permalink() ?>" class="meal-info-form" method="post" enctype="multipart/form-data">
+<input type="hidden" name="save_menu" value="<?php echo wp_create_nonce('menunonce'); ?>">
+<input type="hidden" name="menu_id" value="<?php echo $meal_detail['id']; ?>">
+<input type="file" name="media" id="media" value="" style="display: none;"/>
+<!-- <button>Submit</button> -->
 <div class="flex flex-col">
 	<div style="padding:20px">
 		<div class="flex" style="align-items: stretch;gap:50px">
 			<div class="" style="width:35%;">
-				<form action="/target" style="height:100%;cursor:pointer">
+				<div style="height:100%;cursor:pointer">
 					<div id="dropzone-template" class="fileinput-button dz-clickable upload-drop-zone"
 						style="width:100%;height:100%">
 						<div class="upload-wrapper">
 							<div class="upload-content">
-								<img class="upload-image"
-									src="<?php echo site_get_template_directory_assets(); ?>/img/icon/upload-image.svg"
-									alt="">
-								<p class="text-base font-medium">Drop your files here or <span
-										class="text-primary font-semibold">browse</span></p>
+								<img class="upload-image" src="<?php echo site_get_template_directory_assets(); ?>/img/icon/upload-image.svg" alt="">
+								<p class="text-base font-medium">Drop your files here or <span class="text-primary font-semibold">browse</span></p>
 								<p class="text-secondary font-medium text-small">Maximum size: 50MB</p>
 							</div>
 							<div class="upload-preview">
 								<div id="previews">
 									<div id="template" class="file-row">
-										<img data-dz-thumbnail />
+										<img data-dz-thumbnail <?php echo !empty($meal_detail['image_url']) != '' ? 'src="'. $meal_detail['image_url'] .'"' : '' ?> />
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</form>
-
+				</div>
 			</div>
 			<div style="flex:1">
 				<div class="w-full" style="padding:10px 0px">
@@ -37,64 +47,83 @@ $js_duplicate_url = add_query_arg(['dupnonce' => wp_create_nonce('dupnonce')], g
 						<tbody>
 							<tr>
 								<td class="label" style="width:150px">Tên món</td>
-								<td colspan="3"><input class="editable-input"  type="text"></td>
+								<td colspan="3"><input class="editable-input" name="name" type="text" value="<?php echo $meal_detail['name'] ?>" required></td>
 							</tr>
 							<tr>
 								<td class="label" style="width:150px">Tên Tiếng Anh</td>
-								<td colspan="3"><input class="editable-input" type="text"></td>
+								<td colspan="3"><input class="editable-input" name="name_en" type="text" value="<?php echo $meal_detail['name_en'] ?>"></td>
 							</tr>
 							<tr>
 								<td class="label" style="width:150px">Trạng thái</td>
 								<td>
-									<select class="editable-input" name="" id="">
-										<option value="">Trạng thái 1</option>
-										<option value="">Trạng thái 2</option>
-										<option value="">Trạng thái 3</option>
+									<select class="editable-input" name="status" id="status" required>
+										<?php
+											foreach($list_statuses as $value => $label) {
+												echo '<option value="'.$value.'" '
+													.($value == $meal_detail['status'] ? 'selected' : '' ).'>'
+													.$label.'</option>';
+											}
+										?>
 									</select>
 								</td>
 								<td class="label" style="width:150px">Nhóm</td>
-								<td><select class="editable-input" name="" id="">
-										<option value="">Nhóm 1</option>
-										<option value="">Nhóm 2</option>
-										<option value="">Nhóm 3</option>
+								<td><select class="editable-input" name="group" id="group" required>
+										<?php
+											foreach($list_groups as $value => $label) {
+												echo '<option value="'.$value.'" '
+													.($value == $meal_detail['group'] ? 'selected' : '' ).'>'
+													.$label.'</option>';
+											}
+										?>
 									</select></td>
 							</tr>
 							<tr>
 								<td class="label" style="width:150px">Nguyên liệu</td>
-								<td><select class="editable-input" name="" id="">
-										<option value="">Nguyên liệu 1</option>
-										<option value="">Nguyên liệu 2</option>
-										<option value="">Nguyên liệu 3</option>
+								<td><select class="editable-input" name="ingredient" id="ingredient" required>
+										<?php
+											foreach($list_ingredients as $value => $label) {
+												echo '<option value="'.$value.'" '
+													.($value == $meal_detail['ingredient'] ? 'selected' : '' ).'>'
+													.$label.'</option>';
+											}
+										?>
 									</select></td>
 								<td class="label" style="width:150px">Loại</td>
-								<td><select class="editable-input" name="" id="">
-										<option value="">Loại 1</option>
-										<option value="">Loại 2</option>
-										<option value="">Loại 3</option>
+								<td><select class="editable-input" name="type" id="type" required>
+										<?php
+											foreach($list_types as $value => $label) {
+												echo '<option value="'.$value.'" '
+													.($value == $meal_detail['type'] ? 'selected' : '' ).'>'
+													.$label.'</option>';
+											}
+										?>
 									</select></td>
 							</tr>
 							<tr>
 								<td class="label" style="width:150px">Tag</td>
 								<td colspan="3">
 									<select class="editable-input input-control select2" multiple="multiple"
-										name="tag_ids[]" style="width: 100%;">
-										<option value="Cay">Cay</option>
-										<option value="Cay">Có xương</option>
-										<option value="Cay">Nước tương</option>
+										name="tags[]" style="width: 100%;">
+										<?php
+											foreach($list_tags as $value => $label) {
+												echo '<option value="'.$value.'" '
+													.(in_array($value, $meal_tag_values) ? 'selected' : '' ).'>'
+													.$label.'</option>';
+											}
+										?>
 									</select>
 								</td>
 							</tr>
 							<tr>
 								<td class="label" style="width:150px">Số lần nấu</td>
-								<td><input class="editable-input" type="text"></td>
+								<td><input class="editable-input" type="number" name="cooking_times" value="<?php echo $meal_detail['cooking_times'] ?>"></td>
 								<td class="label" style="width:150px">Lần cuối dùng</td>
-								<td><input class="editable-input" type="text"></td>
+								<td><input class="editable-input" type="date" name="last_used" value="<?php echo $meal_detail['last_used'] ?>"></td>
 							</tr>
 							<tr>
 								<td class="label align-top" style="width:150px">Lưu ý:</td>
 								<td colspan="3">
-									<textarea class="editable-input" id="w3review" name="w3review" rows="4"
-										cols="50"></textarea>
+									<textarea class="editable-input" id="w3review" name="note" rows="4" cols="50"><?php echo $meal_detail['note'] ?></textarea>
 								</td>
 							</tr>
 						</tbody>
@@ -206,6 +235,7 @@ $js_duplicate_url = add_query_arg(['dupnonce' => wp_create_nonce('dupnonce')], g
 		</div>
 	</div>
 </div>
+</form>
 <script src="<?php site_the_assets(); ?>js/tag-input/tag-input.js"></script>
 <script src="<?php site_the_assets(); ?>js/meal.js"></script>
 <script>
@@ -224,15 +254,22 @@ $js_duplicate_url = add_query_arg(['dupnonce' => wp_create_nonce('dupnonce')], g
 		previewTemplate: previewTemplate,
 		autoQueue: false, // Make sure the files aren't queued until manually added
 		previewsContainer: "#previews", // Define the container to display the previews
-		clickable: ".fileinput-button" // Define the element that should be used as click trigger to select files.
+		clickable: ".fileinput-button", // Define the element that should be used as click trigger to select files.
+		accept: function(file, done) {
+			let media = document.getElementById('media');
+			if(media && done) {
+				let container = new DataTransfer(); 
+    			container.items.add(file);
+				media.files = container.files;
+			}
+		}
 	});
-
 
 	myDropzone.on("sending", function (file) {
 		// Show the total progress bar when upload starts
 		// document.querySelector("#total-progress").style.opacity = "1";
 		// // And disable the start button
-		// file.previewElement.querySelector(".start").setAttribute("disabled", "disabled");
+		// file.previewElement.querySelector(".start").setAttribute("disabled", "disabled");		
 	});
 
 	// Hide the total progress bar when nothing's uploading anymore

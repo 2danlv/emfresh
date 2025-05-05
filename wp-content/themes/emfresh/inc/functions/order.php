@@ -125,7 +125,6 @@ function site_order_save_order()
                         $response = em_api_request('order_item/delete', ['id' => $order_item['id']]);
 
                         if ($response['code'] == 200) {
-                            // Log update
                             $em_log->insert([
                                 'action'        => 'Xóa - Sản phẩm',
                                 'module'        => 'em_order',
@@ -183,7 +182,6 @@ function site_order_save_order()
                             }
 
                             if (count($log_content) > 0) {
-                                // Log update
                                 $em_log->insert([
                                     'action'        => 'Cập nhật - Sản phẩm',
                                     'module'        => 'em_order',
@@ -199,7 +197,6 @@ function site_order_save_order()
                     $response = em_api_request('order_item/add', $order_item);
 
                     if ($response['code'] == 200) {
-                        // Log update
                         $em_log->insert([
                             'action'        => 'Thêm - Sản phẩm',
                             'module'        => 'em_order',
@@ -276,20 +273,22 @@ add_action('wp', 'site_order_save_order');
 
 function site_order_reserve_order()
 {
-    global $em_order, $em_order_item;
+    global $em_order, $em_order_item, $em_log;
 
     // Bảo lưu
-    $reserve_order = !empty($_GET['reserve_order']) ? (int) $_GET['reserve_order'] : 0;
+    $order_id = !empty($_GET['reserve_order']) ? (int) $_GET['reserve_order'] : 0;
     $resnonce = !empty($_GET['resnonce']) ? trim($_GET['resnonce']) : '';
-    if ($reserve_order > 0 && wp_verify_nonce($resnonce, "resnonce")) {
-        $order = $em_order->get_item($reserve_order);
+    if ($order_id > 0 && wp_verify_nonce($resnonce, "resnonce")) {
+        $order = $em_order->get_item($order_id);
 
         $updated = false;
 
         if (!empty($order['status']) && $order['status'] == 1) {
-            $order_items = $em_order_item->get_items(['order_id' => $reserve_order, 'orderby' => 'id ASC']);
+            $order_items = $em_order_item->get_items(['order_id' => $order_id, 'orderby' => 'id ASC']);
 
             $count_update = 0;
+
+            $order_meal_plan_reserve = [];
 
             if (count($order_items) > 0) {
                 $today = current_time('Y-m-d');
@@ -302,6 +301,12 @@ function site_order_reserve_order()
                     foreach ($meal_plan_items as $day => $value) {
                         if ($day > $today) {
                             $meal_plan_reserve[$day] = $value;
+
+                            if(empty($order_meal_plan_reserve[$day])) {
+                                $order_meal_plan_reserve[$day] = 0;
+                            }
+
+                            $order_meal_plan_reserve[$day] += $value;
                         }
                     }
 
@@ -322,12 +327,21 @@ function site_order_reserve_order()
             if ($count_update > 0) {
                 $updated = $em_order->update(['status' => 3], ['id' => $order['id']]);
 
-                // meal_plan_reserve
+                $days = array_keys($order_meal_plan_reserve);
+                $log_count_meal = array_sum($order_meal_plan_reserve);
+                $log_count_days = count($days);
+
+                $em_log->insert([
+                    'action'        => 'Bảo lưu',
+                    'module'        => 'em_order_reserve',
+                    'module_id'     => $order_id,
+                    'content'       => $days[0] . "|Số phần ăn bảo lưu: $log_count_meal/ Số ngày giao hàng bảo lưu: $log_count_days"
+                ]);
             }
         }
 
         $query_args = [
-            'order_id' => $reserve_order,
+            'order_id' => $order_id,
             'tab' => 'reserve',
             'expires' => time() + 3,
         ];
@@ -348,28 +362,42 @@ add_action('wp', 'site_order_reserve_order');
 
 function site_order_cancel_order()
 {
-    global $em_order;
+    global $em_order, $em_log;
 
     // Tiếp tục
-    $cancel_order = !empty($_GET['cancel_order']) ? (int) $_GET['cancel_order'] : 0;
+    $order_id = !empty($_GET['cancel_order']) ? (int) $_GET['cancel_order'] : 0;
     $cancelnonce = !empty($_GET['cancelnonce']) ? trim($_GET['cancelnonce']) : '';
-    if ($cancel_order > 0 && wp_verify_nonce($cancelnonce, "cancelnonce")) {
-        $order = $em_order->get_item($cancel_order);
+    if ($order_id > 0 && wp_verify_nonce($cancelnonce, "cancelnonce")) {
+        $new_order = !empty($_GET['new_order']) ? (int) $_GET['new_order'] : 0;
+
+        $order = $em_order->get_item($order_id);
 
         $updated = false;
 
         if (!empty($order['status']) && $order['status'] == 3) {
             $updated = $em_order->update_field($order['id'], 'status', 2);
+
+            $em_log->insert([
+                'action'        => 'Xử lý bảo lưu',
+                'module'        => 'em_order_reserve',
+                'module_id'     => $order_id,
+                'content'       => $new_order ? "Tạo đơn mới #{$order['order_number']} từ phần bảo lưu" : "kết thúc đơn hàng"
+            ]);
         }
 
         $query_args = [
-            'order_id' => $cancel_order,
+            'order_id' => $order_id,
             'tab' => 'reserve',
             'expires' => time() + 3,
         ];
 
         if ($updated) {
             $query_args['message'] = 'Cancel+order+success';
+
+            if($new_order > 0) {
+                wp_redirect(add_query_arg(['reserve_from' => $order_id], site_order_add_link()));
+                exit();
+            }
         } else {
             $query_args['message'] = 'Cancel+order+fail';
         }
@@ -384,25 +412,33 @@ add_action('wp', 'site_order_cancel_order');
 
 function site_order_continue_order()
 {
-    global $em_order, $em_order_item;
+    global $em_order, $em_order_item, $em_log;
     
     // Tiếp tục
-    $continue_order = !empty($_GET['continue_order']) ? (int) $_GET['continue_order'] : 0;
-    $continonce = !empty($_GET['continonce']) ? trim($_GET['continonce']) : '';
-    if ($continue_order > 0 && wp_verify_nonce($continonce, "continonce")) {
-        $order = $em_order->get_item($continue_order);
+    $order_id = !empty($_POST['continue_order']) ? (int) $_POST['continue_order'] : 0;
+    $continonce = !empty($_POST['continonce']) ? trim($_POST['continonce']) : '';
+    if ($order_id > 0 && wp_verify_nonce($continonce, "continonce")) {
+        $order = $em_order->get_item($order_id);
+
+        $date_continue = !empty($_POST['date_continue']) ? trim($_POST['date_continue']) : '';
+
+        $parts = explode('/', $date_continue);
+
+        if(count($parts) == 3) {
+            $date_continue = $parts[2] . '-' . $parts[1] . '-' . $parts[0];
+        }
 
         $updated = false;
 
         if (!empty($order['status']) && $order['status'] == 3) {
-            $order_items = $em_order_item->get_items(['order_id' => $continue_order, 'orderby' => 'id ASC']);
+            $order_items = $em_order_item->get_items(['order_id' => $order_id, 'orderby' => 'id ASC']);
 
             $count_update = 0;
 
             $order_date_stop = $order['date_stop'];
 
             if (count($order_items) > 0) {
-                $today = current_time('Y-m-d');
+                // $today = current_time('Y-m-d');
 
                 foreach ($order_items as $order_item) {
                     $meal_plan_items = json_decode($order_item['meal_plan'], true);
@@ -414,7 +450,8 @@ function site_order_continue_order()
                     $date_stop = $order_item['date_stop'];
 
                     if(count($meal_plan_reserve) > 0) {
-                        $next = site_order_get_date_next($today);
+                        // $next = site_order_get_date_next($today);
+                        $next = date("Y-m-d", strtotime($date_continue));
 
                         foreach ($meal_plan_reserve as $day => $value) {
                             if(isset($meal_plan_items[$day])) {
@@ -455,26 +492,31 @@ function site_order_continue_order()
                     'status' => 1
                 ], ['id' => $order['id']]);
 
-                // meal_plan_reserve
+                $em_log->insert([
+                    'action'        => 'Xử lý bảo lưu',
+                    'module'        => 'em_order_reserve',
+                    'module_id'     => $order_id,
+                    'content'       => "Tiếp tục đơn hàng"
+                ]);
             }
         }
 
         $query_args = [
-            'order_id' => $continue_order,
+            'order_id' => $order_id,
             'tab' => 'reserve',
             'expires' => time() + 3,
         ];
 
         if ($updated) {
-            $query_args['message'] = 'Reserve+order+success';
-            wp_redirect(add_query_arg($query_args, site_meal_plan_detail_link()));
+            $query_args['message'] = 'Continue+order+success';
+            // wp_redirect(add_query_arg($query_args, site_meal_plan_detail_link()));
         } else {
-            $query_args['message'] = 'Reserve+order+fail';
-            wp_redirect(add_query_arg($query_args, site_order_edit_link()));
+            $query_args['message'] = 'Continue+order+fail';
         }
-
+        
         // site_response_json($query_args);
-
+        
+        wp_redirect(add_query_arg($query_args, site_order_edit_link()));
         exit();
     }
 }
@@ -925,7 +967,15 @@ function site_order_get_meal_plans($args = [])
     $meal_select_number = isset($args['meal_select_number']) ? intval($args['meal_select_number']) : 0;
 
     $order_detail = [];
-    $data = [];
+    $data = [
+        'date_stop' => '',
+        'schedule' => [],
+        'meal_plan_items' => [],
+        'meal_select_items' => [],
+        'orders' => [],
+        'customers' => [],
+        'statistics' => [],
+    ];
     $customers_group_ids = [];
 
     $order_id = isset($args['order_id']) ? intval($args['order_id']) : 0;
@@ -1004,7 +1054,7 @@ function site_order_get_meal_plans($args = [])
         ];
         
         // San pham chinh
-        $product_codes = ['EM','EL','SM','SL','PM','PL'];
+        $product_codes = site_get_product_codes();
 
         foreach($orders as $i => $order) {
             $q_args = [
@@ -1064,16 +1114,7 @@ function site_order_get_meal_plans($args = [])
 
                     $type = in_array($code, $product_codes) ? 'chinh' : 'phu';
 
-                    // Dam : SM + EM + SL*1.5 + EL*1.5 + PM*2 + PL*2.5
-                    if(in_array($code, ['SL', 'EL'])) {
-                        $dam_rate = 1.5;
-                    } else if($code == 'PM') {
-                        $dam_rate = 2;
-                    } else if($code == 'PL') {
-                        $dam_rate = 2.5;
-                    } else {
-                        $dam_rate = 1;
-                    }
+                    $dam_rate = site_get_dam_rate($code);
 
                     foreach($static_days as $day) {
                         if($day < $order_item['date_start']) {
@@ -1126,7 +1167,7 @@ function site_order_get_meal_plans($args = [])
                                 $statistics[$tong_name . '_chinh'][$day] += $count;
                                 $statistics[$tong_name . '_dam'][$day] += $dam_rate * $count;
                             }
-                            if(in_array($code, ['EP','TA'])) {
+                            if(in_array($code, site_get_water_codes())) {
                                 $statistics[$tong_name . '_nuoc'][$day] += $count;
                             }
                         }
@@ -1445,6 +1486,11 @@ function site_meal_plan_detail_link()
     return get_permalink(149);
 }
 
+function site_meal_plan_group_link()
+{
+    return get_permalink(181);
+}
+
 function site_order_add_link()
 {
     return get_permalink(140);
@@ -1453,12 +1499,6 @@ function site_order_add_link()
 function site_order_edit_link()
 {
     return get_permalink(143);
-}
-
-function site_response_json($data)
-{
-    header('Content-type: application/json');
-    die(json_encode($data));
 }
 
 function site_get_days_week_by($day = '', $format = 'Y-m-d')
@@ -1533,4 +1573,35 @@ function site_generate_weekdays_list($start_date, $days_to_add = 35, $type = 1)
     }
 
     return $list_items;
+}
+
+// San pham chinh
+function site_get_product_codes()
+{
+    return ['EM','EL','SM','SL','PM','PL'];
+}
+
+function site_get_water_codes()
+{
+    return ['EP','TA'];
+}
+
+function site_get_dam_rate($code)
+{
+    if(!in_array($code, site_get_product_codes())) {
+        return 0;
+    }
+
+    // Dam : SM + EM + SL*1.5 + EL*1.5 + PM*2 + PL*2.5
+    if(in_array($code, ['SL', 'EL'])) {
+        $dam_rate = 1.5;
+    } else if($code == 'PM') {
+        $dam_rate = 2;
+    } else if($code == 'PL') {
+        $dam_rate = 2.5;
+    } else {
+        $dam_rate = 1;
+    }
+
+    return $dam_rate;
 }

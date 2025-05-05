@@ -29,6 +29,10 @@ if ($customer_id > 0) {
 
 $data = site_order_get_meal_plans($args);
 
+if(isset($_GET['abs'])) {
+  site_response_json($data);
+}
+
 get_header();
 // Start the Loop.
 
@@ -148,9 +152,9 @@ if ( count($data) > 0 && isset($data[ 'orders' ]) ) :
                 </ul>
               </td>
             </tr>
-
             <?php
-            foreach ($data[ 'orders' ] as $index => $order) :
+
+            foreach ($data['orders'] as $index => $order) :
               $meal_plan_items   = $order[ 'meal_plan_items' ];
               $class             = ($index % 2 == 0) ? 'green' : 'orange';
               $class_payment     = ($order[ 'payment_status' ] == '2') ? 'payment' : '';

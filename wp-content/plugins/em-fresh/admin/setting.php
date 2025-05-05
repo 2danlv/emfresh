@@ -40,28 +40,12 @@ function em_admin_setting_init()
 }
 add_action('admin_init', 'em_admin_setting_init');
 
-function em_admin_get_setting($field = '', $type = '')
+function em_admin_get_setting($field = '')
 {
     $value = get_option($field);
 
-    if($field == 'em_notes' || $type == 'list_notes') {
+    if($field == 'em_notes' || $field == 'em_menu_options') {
         return em_admin_get_notes($value);
-    }
-
-    if($type == 'options') {
-        $list = [];
-
-        $rows = explode("\n", $value);
-
-        foreach($rows as $row) {
-            if(str_contains($row, ':')) {
-                list($name, $value) = array_map('trim', explode(':', $row));
-
-                $list[$name] = $value;
-            }
-        }
-
-        $value = $list;
     }
 
     return $value;

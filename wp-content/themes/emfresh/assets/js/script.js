@@ -1065,7 +1065,9 @@ jQuery(document).ready(function () {
 	});
 	var table_select_meal = $('.table-select-meal').on('init.dt', function () {
 		//console.log(this, 'init.dt');
-		
+		setTimeout(() => {
+			table_select_meal.adjust();
+		}, 300);
     }).DataTable({
 		autoWidth: true,
 		scrollX: true,
@@ -1073,7 +1075,7 @@ jQuery(document).ready(function () {
 		dom: 'Bfrtip<"bottom"pl>',
 		ordering: false,
 		iDisplayLength: 50,
-		lengthChange: false,
+		lengthChange: true,
 		lengthMenu: [
 			[15,50, 100, 200],
 			['15 / trang','50 / trang', '100 / trang', '200 / trang'],
@@ -1119,7 +1121,7 @@ jQuery(document).ready(function () {
 		responsive: true,
 		autoWidth: true,
 		fixedColumns: {
-			start: 4
+			start: 3
 		},
 		"stateSave": false,
 		searchBuilder: {

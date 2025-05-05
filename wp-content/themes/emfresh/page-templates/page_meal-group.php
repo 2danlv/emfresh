@@ -94,18 +94,17 @@ get_header();
             <td></td>
             <td></td>
             <td></td>
-            <td></td>
           </tr>
           <tr class="top">
             <td>
               <?php echo $customer[ 'customer_name' ] ?>
             </td>
-            <td class="text-center">
+            <td>
               <div class="list-item_name">
                 <div class="item_name"></div> 
               </div>
             </td>
-            <td class="text-center">
+            <td>
               <?php echo $customer[ 'type_name' ] ?>
             </td>
             <td class="text-center"><span
@@ -149,8 +148,8 @@ get_header();
                 <td class="nowrap order-number">
                   <div class="d-f ai-center"><i class="fas show-detail"></i><a href="/list-order/chi-tiet-don-hang/?order_id=<?php echo $order[ 'id' ] ?>"><?php echo $order[ 'order_number' ] ?></a></div>
                   </td>
-                <td class="nowrap text-center td-calc order-prod"><?php echo $order[ 'item_name' ] ?></td>
-                <td class="text-center nowrap td-calc"><?php echo $order[ 'type_name' ] ?></td>
+                <td class="nowrap td-calc order-prod"><?php echo $order[ 'item_name' ] ?></td>
+                <td class="nowrap td-calc"><?php echo $order[ 'type_name' ] ?></td>
                 <td class="text-center td-calc order_status"><span
                     class="status_order status_order-meal-<?php echo $order[ 'order_status' ] ?>">
                     <?php echo $order[ 'order_status_name' ] ?>
@@ -189,10 +188,10 @@ get_header();
                   data-order_id="<?php echo $order[ 'id' ] ?>" data-order_item_id="<?php echo $order_item[ 'id' ] ?>"
                   data-total="<?php echo $total ?>">
                   <td class="sub-td-calc"><span class="title"><?php echo $customer_name_2nd ?></span></td>
-                  <td class="text-center sub-td-calc nowrap wrap-td" style="width: 87px;">
+                  <td class="sub-td-calc nowrap wrap-td" style="width: 87px;">
                     <div class="ellipsis"><?php echo $order_item[ 'product_name' ] ?></div>
                   </td>
-                  <td class="text-center sub-td-calc">
+                  <td class="sub-td-calc">
                     <?php echo strtoupper($order_item[ 'type' ]) ?>
                   </td>
                   <td></td>
@@ -334,3 +333,8 @@ if ( empty($site_scripts) ) $site_scripts = [];
 get_footer('customer');
 ?>
 <?php include( get_template_directory().'/parts/meal-plan/meal-detail.php');?>
+<script>
+  $(document).ready(function () {
+    $('table .accordion-tit_table .show-detail').trigger('click');
+  });
+</script>

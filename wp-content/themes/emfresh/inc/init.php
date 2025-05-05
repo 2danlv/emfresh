@@ -10,9 +10,10 @@ require get_theme_file_path( '/inc/admin/setting.php' );
 require get_theme_file_path( '/inc/functions/custom.php' );
 require get_theme_file_path( '/inc/functions/tinymce-advanced.php' );
 require get_theme_file_path( '/inc/functions/menu.php' );
+require get_theme_file_path( '/inc/functions/media.php' );
 // require get_theme_file_path( '/inc/functions/seo.php' );
 
-// require get_theme_file_path( '/inc/functions/Hoper_Wish_Walker_Nav_Menu.php' );
+require get_theme_file_path( '/inc/functions/Site_Walker_Nav_Menu.php' );
 // require get_theme_file_path( '/inc/functions/template-tags.php' );
 
 require get_theme_file_path( '/inc/functions/user.php' );

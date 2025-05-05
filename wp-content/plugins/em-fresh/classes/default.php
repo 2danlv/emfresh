@@ -259,15 +259,17 @@ class EF_Default
             $where = ['id' => $id];
         }
 
-        do_action("delete_table_{$this->table}_item", $id);
+        $item = $this->get_item($id);
 
-        do_action("delete_em_table_item", $id, $this->table);
+        do_action("delete_table_{$this->table}_item", $id, $item);
+
+        do_action("delete_em_table_item", $id, $this->table, $item);
 
         $deleted = $wpdb->delete($this->get_tbl_name(), $where, $type);
 
-        do_action("deleted_table_{$this->table}_item", $id, $deleted);
+        do_action("deleted_table_{$this->table}_item", $id, $deleted, $item);
 
-        do_action("deleted_em_table_item", $id, $deleted, $this->table);
+        do_action("deleted_em_table_item", $id, $deleted, $this->table, $item);
 
         return $deleted;
     }

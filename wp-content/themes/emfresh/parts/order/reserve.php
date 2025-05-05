@@ -1,4 +1,5 @@
 <?php
+global $em_log;
 
 $count_phan_an = 0;
 $reserve_days = [];
@@ -29,11 +30,17 @@ if($order_detail['status'] == 3) {
     }
 
     $continue_link = add_query_arg(['continonce' => wp_create_nonce('continonce'), 'continue_order' => $order_id], site_order_edit_link());
-    $cancel_link = add_query_arg(['cancelnonce' => wp_create_nonce('cancelnonce'), 'cancel_order' => $order_id], site_order_edit_link());
-    $end_link = '';
+    $cancel_link = add_query_arg(['cancelnonce' => wp_create_nonce('cancelnonce'), 'cancel_order' => $order_id, 'new_order' => 1], site_order_edit_link());
+    $end_link = add_query_arg(['cancelnonce' => wp_create_nonce('cancelnonce'), 'cancel_order' => $order_id], site_order_edit_link());
 }
 
 $count_days = count($reserve_days);
+
+$reserve_logs = $em_log->get_items([
+    'module' => 'em_order_reserve',
+    'module_id' => $order_id,
+    'orderby'   => 'id DESC',
+]);
 
 ?>
 <div class="row row32 reserve">
@@ -61,9 +68,9 @@ $count_days = count($reserve_days);
         </div>
     </div>
     <div class="col-4">
-        <a href="<?php echo $continue_link ?>#" class="btn btn-secondary btn-reserve db js-continue">Tiếp tục đơn hàng</a>
+        <a href="#" data-href="<?php echo $continue_link ?>" class="btn btn-secondary btn-reserve db js-continue">Tiếp tục đơn hàng</a>
         <a href="<?php echo $cancel_link ?>#" class="btn btn-secondary btn-reserve db js-cancel">Huỷ phần bảo lưu & Giảm giá đơn mới</a>
-        <a href="<?php echo $end_link ?>#" class="btn btn-secondary btn-reserve db js-end danger">Kết thúc đơn hàng vì quá hạn<!-- (admin only)--></a> 
+        <a href="<?php echo $end_link ?>#" class="btn btn-secondary btn-reserve db js-end danger">Kết thúc đơn hàng vì quá hạn<!-- (admin only)--></a>
     </div>
 </div>
 <div class="table-container">
@@ -79,13 +86,29 @@ $count_days = count($reserve_days);
                 </tr>
             </thead>
             <tbody>
+                <?php 
+                    foreach($reserve_logs as $item) :
+                        $item_time = strtotime($item['created']);
+                        $contents = explode("|", $item['content']);
+                        $content = $item['content'];
+                        $date_start = '-';
+                        if(count($contents)==2) {
+                            $content = $contents[1];
+                            $date_start = $contents[0];
+                        }
+                ?>
                 <tr>
-                    <td>29/10/24</td>
-                    <td><img class="mr-8" src="<?php echo site_get_template_directory_assets(); ?>img/icon/User-gray.svg" width="24" alt="">Như Quỳnh</td>
-                    <td>xử lý bảo lưu</td>
-                    <td>Tiếp tục đơn hàng</td>
-                    <td>30/10/2024</td>
+                    <td><?php echo date('d/m/y', $item_time) ?></td>
+                    <td>
+                        <img class="mr-8" src="<?php echo get_avatar_url($item['created_at']) ?>" width="24" alt="">
+                        <?php echo $item['created_author'] ?>
+                    </td>
+                    <td><?php echo $item['action'] ?></td>
+                    <td><?php echo $content ?></td>
+                    <td><?php echo date('d/m/y', strtotime($date_start)) ?></td>
                 </tr>
+                <?php endforeach ?>
+                <?php /*/ ?>
                 <tr>
                     <td>29/10/24</td>
                     <td><img class="mr-8" src="<?php echo site_get_template_directory_assets(); ?>img/icon/User-gray.svg" width="24" alt="">Như Quỳnh</td>
@@ -108,7 +131,7 @@ $count_days = count($reserve_days);
                     <td>-</td>
                 </tr>
                 <tr>
-                    <td>29/09/24</td>
+                    <td>29/09/24</td> 
                     <td><img class="mr-8" src="<?php echo site_get_template_directory_assets(); ?>img/icon/User-gray.svg" width="24" alt="">Như Quỳnh</td>
                     <td>bảo lưu</td>
                     <td>Số phần ăn bảo lưu: 15/ Số ngày giao hàng bảo lưu: 5</td>
@@ -122,6 +145,7 @@ $count_days = count($reserve_days);
                     <td>04/10/2024</td>
                 </tr>
                 <!-- Add more rows if needed -->
+                <?php /*/ ?>
             </tbody>
         </table>
     </div>

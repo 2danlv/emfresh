@@ -8,97 +8,11 @@
  * @since Twenty Twelve 1.0
  */
 
-global $em_customer, $em_order, $em_customer_tag, $em_log;
+global $em_menu;
 
-$list_order_status = $em_order->get_statuses();
-$list_tags = $em_customer->get_tags();
-$list_orders = [];
+$list_tags = $em_menu->get_setting('tag');
 
-// cập nhật data cho customer
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
-	$list_id = isset($_POST['list_id']) ? sanitize_textarea_field($_POST['list_id']) : '';
-	$array_id = explode(',', $list_id);
-	//$status_post = isset($_POST['status']) ? intval($_POST['status']) : 0;
-	//$tag_post    = isset($_POST['tag']) ? intval($_POST['tag']) : 0;
-	//$order_payment_status = isset($_POST['order_payment_status']) ? sanitize_textarea_field($_POST['order_payment_status']) : '';
-	//vardump($tag_post);
-
-	$updated = [];
-	if (isset($_POST['tag_ids']) && count($_POST['tag_ids']) > 0) {
-		$tag_radio = isset($_POST['tag_radio']) ? trim($_POST['tag_radio']) : 'add';
-
-		$list_noti = [];
-
-		foreach ($array_id as $key => $id) {
-			$log_change = [];
-
-			$customer_id = intval($id);
-			$customer_tags = $em_customer_tag->get_items(['customer_id' => $customer_id]);
-			$tag_ids = custom_get_list_by_key($customer_tags, 'tag_id');
-
-			if ($tag_radio == 'remove') {
-				foreach ($_POST['tag_ids'] as $tag_id) {
-					$deleted = $em_customer_tag->delete([
-						'tag_id' => $tag_id,
-						'customer_id' => $customer_id
-					]);
-
-					$log_change[] = sprintf('<span class="memo field-tag">Xóa Tag phân loại</span><span class="note-detail text-titlecase">%s</span>', $em_customer->get_tags($tag_id));
-
-					$list_noti[] = ['id' => $customer_id, 'success' => (int) $deleted];
-				}
-			} else {
-				foreach ($_POST['tag_ids'] as $tag_id) {
-					if (in_array($tag_id, $tag_ids) == false) {
-						$inserted = $em_customer_tag->insert([
-							'tag_id' => $tag_id,
-							'customer_id' => $customer_id
-						]);
-
-						$tag_ids[] = $tag_id;
-
-						$log_change[] = sprintf('<span class="memo field-tag">Thêm Tag phân loại</span><span class="note-detail text-titlecase">%s</span>', $em_customer->get_tags($tag_id));
-
-						$list_noti[] = ['id' => $customer_id, 'success' => (int) $inserted];
-					} else {
-						$list_noti[] = ['id' => $customer_id, 'success' => 0];
-					}
-				}
-			}
-
-			// Log update
-			if (count($log_change) > 0) {
-				$em_log->insert([
-					'action' => 'Cập nhật',
-					'module' => 'em_customer',
-					'module_id' => $customer_id,
-					'content' => implode("\n", $log_change)
-				]);
-			}
-		}
-
-		site_user_session_update('list_noti', $list_noti);
-	}
-
-	// if ($order_payment_status != '') {
-	//   $customer_update_data = [
-	//     'id'            => intval($id),
-	//     'order_payment_status' => $order_payment_status
-	//   ];
-	// }
-
-	// $response_update = $em_customer->update($customer_update_data);
-	// if ($response_update) {
-	//   $updated[$id] = 'ok';
-	// }
-
-	wp_redirect(add_query_arg([
-		'code' => 200,
-		'expires' => time() + 3,
-		//'message' => 'Update Success',
-	], get_permalink()));
-	exit();
-}
+$items = $em_menu->get_items();
 
 get_header();
 // Start the Loop.
@@ -117,7 +31,6 @@ get_header();
 		//     .'</div>';
 	}
 	?>
-
 	<!-- Default box -->
 	<div class="card datatable datatable-v2 meal-list">
 		<div class="card-body">
@@ -126,21 +39,23 @@ get_header();
 					<div class="row ai-center">
 						<div class="col-8">
 							<ul class="d-f ai-center">
-								<li><span class="add btn btn-v2 btn-primary btn-icon btn-plus">
-									<a href="<?php echo home_url('/meal-list/create-new-meal') ?>"><img
-												class="icon"
-												src="<?php echo site_get_template_directory_assets(); ?>/img/icon/plus.svg"
-												alt=""></a></span></li>
-								<li><span class="btn btn-v2 btn-icon btn-filter btn-fillter relative"><img class="icon"
-											src="<?php echo site_get_template_directory_assets(); ?>/img/icon/filter.svg"
-											alt="">
+								<li>
+									<a class="add btn btn-v2 btn-primary btn-icon btn-plus" href="<?php echo site_menu_edit_link() ?>">
+										<img class="icon" src="<?php echo site_get_template_directory_assets(); ?>/img/icon/plus.svg" alt="">
+									</a>
+								</li>
+								<li>
+									<span class="btn btn-v2 btn-icon btn-filter btn-fillter relative">
+										<img class="icon" src="<?php echo site_get_template_directory_assets(); ?>/img/icon/filter.svg" alt="">
 										<span class="count tag-number absolute" style="bottom:2px;right:-1px;"></span>
-									</span></li>
-								<li><span class="btn btn-v2 btn-add-file modal-button" data-target="#modal-list"><img
-											class="icon"
-											src="<?php echo site_get_template_directory_assets(); ?>/img/icon/file-plus.svg"
-											alt=""><span>Thêm vào
-											DS chờ</span></span></li>
+									</span>
+								</li>
+								<li>
+									<span class="btn btn-v2 btn-add-file modal-button" data-target="#modal-list">
+										<img class="icon" src="<?php echo site_get_template_directory_assets(); ?>/img/icon/file-plus.svg" alt="">
+										<span>Thêm vào DS chờ</span>
+									</span>
+								</li>
 							</ul>
 						</div>
 						<div class="col-4">
@@ -148,36 +63,30 @@ get_header();
 								<li class="status">
 									<span class="btn btn-v2 btn-status"><span class="count-checked"></span>
 										<span>đã chọn</span>
-										<img class="icon"
-											src="<?php echo site_get_template_directory_assets(); ?>/img/icon/x.svg"
-											alt="">
+										<img class="icon" src="<?php echo site_get_template_directory_assets(); ?>/img/icon/x.svg" alt="">
 									</span>
 								</li>
 								<li>
 									<span class="btn btn-v2 has-child align-right">
-										<span>Thao tác
-											<img class="icon"
-												src="<?php echo site_get_template_directory_assets(); ?>/img/icon/chevron-down.svg"
-												alt="">
+										<span>
+											Thao tác
+											<img class="icon" src="<?php echo site_get_template_directory_assets(); ?>/img/icon/chevron-down.svg" alt="">
 										</span>
 										<ul>
 											<li> <a href="/import/" class="upload"></a>
 												<span class="btn btn-v2 btn-block btn-ghost">
-													<img class="icon"
-														src="<?php echo site_get_template_directory_assets(); ?>/img/icon/upload.svg"
-														alt=""> Nhập dữ liệu
+													<img class="icon" src="<?php echo site_get_template_directory_assets(); ?>/img/icon/upload.svg" alt="">
+													Nhập dữ liệu
 												</span>
 												</a>
 											</li>
 											<li>
-												<button class="btn btn-v2 btn-block btn-ghost" type="button"
-													name="action" value="export" class="js-export"><img class="icon"
-														src="<?php echo site_get_template_directory_assets(); ?>/img/icon/download.svg"
-														alt="">Xuất dữ
-													liệu</button>
+												<button class="btn btn-v2 btn-block btn-ghost" type="button" name="action" value="export" class="js-export">
+													<img class="icon" src="<?php echo site_get_template_directory_assets(); ?>/img/icon/download.svg" alt="">
+													Xuất dữ liệu
+												</button>
 											</li>
 										</ul>
-
 									</span>
 								</li>
 							</ul>
@@ -203,79 +112,45 @@ get_header();
 				</thead>
 				<tbody>
 					<?php
-					$response = em_api_request('customer/list', [
-						'active' => 1,
-						'paged' => 1,
-						'limit' => -1,
-					]);
-
-					$order_date_from = isset($_GET['order_date_from']) ? trim($_GET['order_date_from']) : '';
-					$order_date_to = isset($_GET['order_date_to']) ? trim($_GET['order_date_to']) : '';
-
-					if (isset($response['data']) && is_array($response['data'])) {
-						// Loop through the data array and print each entry
-						foreach ($response['data'] as $record) {
-							if (is_array($record)) { // Check if each record is an array
-								if ($record['active'] != '0') {
-									$response_order = em_api_request('order/list', [
-										'paged' => 1,
-										'customer_id' => $record['id'],
-										'date_from' => $order_date_from,
-										'date_to' => $order_date_to,
-										'limit' => -1,
-									]);
-
-									if (count($response_order['data']) > 0) {
-										$list_orders = array_merge($list_orders, $response_order['data']);
-									}
-
-									$total_order_days = array_sum(array_column($response_order['data'], 'ship_days'));
-									$total_quantity = array_sum(array_column($response_order['data'], 'total_quantity'));
-									$total_ship = array_sum(array_column($response_order['data'], 'ship_amount'));
-									$total_amount = array_sum(array_column($response_order['data'], 'total_amount'));
-									$total_order_money = $total_amount + $total_ship;
-									$dateStarts = array_column($response_order['data'], 'date_start');
-
-									if (!empty($dateStarts)) {
-										$max_date = date('d/m/Y', strtotime(max($dateStarts)));
-									} else {
-										// Xử lý khi không có giá trị date_start nào (ví dụ: gán giá trị mặc định hoặc thông báo lỗi)
-										$max_date = null; // Hoặc giá trị phù hợp khác
-									}
-									?>
-									<tr>
-										<td data-number="0" class="text-center"><input type="checkbox" class="checkbox-element"
-												data-number="<?php echo $record['phone']; ?>" value="<?php echo $record['id'] ?>"></td>
-										<td data-number="1" class="text-capitalize nowrap wrap-td" style="min-width: 300px;">
-											<div class="ellipsis"><a href="detail-meal/?meal_id=<?php echo $record['id'] ?>">Cơm
-													tấm sườn trứng eatlean</a>
-											</div>
-										</td>
-										<td data-number="2" class="text-left">
-											<span>Món mặn</span>
-										</td>
-										<td data-number="3" class="text-capitalize wrap-td">
-											<div class="nowrap ellipsis">Heo</div>
-										</td>
-										<td data-number="4" class="text-capitalize">
-											Cốt lết
-										</td>
-										<td data-number="5" class="text-center">
-											<span class="badge block badge-status-1">Hiện hành</span>
-										</td>
-										<td data-number="6" class="text-right">
-											<span>10</span>
-										</td>
-										<td data-number="7" class="text-right">
-											<span>Tuần 52</span>
-										</td>
-										<td data-number="8" class="text-center">Món này có mỡ hành</td>
-									</tr>
-								<?php }
-							} else {
-								echo "Không tìm thấy dữ liệu!\n";
-							}
+					if (count($items) > 0) {
+						foreach ($items as $item) {
+							$link = add_query_arg(['menu_id' => $item['id']], site_menu_edit_link());
+						?>
+							<tr>
+								<td data-number="0" class="text-center">
+									<input type="checkbox" class="checkbox-element" value="<?php echo $item['id'] ?>">
+								</td>
+								<td data-number="1" class="text-capitalize nowrap wrap-td" style="min-width: 300px;">
+									<div class="ellipsis">
+										<a href="<?php echo $link ?>"><?php echo $item['name'] ?></a>
+									</div>
+								</td>
+								<td data-number="2" class="text-left">
+									<span><?php echo $item['group_name'] ?></span>
+								</td>
+								<td data-number="3" class="text-capitalize wrap-td">
+									<div class="nowrap ellipsis"><?php echo $item['ingredient_name'] ?></div>
+								</td>
+								<td data-number="4" class="text-capitalize">
+									<?php echo $item['type_name'] ?>
+								</td>
+								<td data-number="5" class="text-center">
+									<span class="badge block badge-status-1"><?php echo $item['status_name'] ?></span>
+								</td>
+								<td data-number="6" class="text-right">
+									<span><?php echo $item['cooking_times'] ?></span>
+								</td>
+								<td data-number="7" class="text-right">
+									<?php if(intval($item['last_used']) > 0) : ?>
+									<span>Tuần <?php echo date('W', strtotime($item['last_used'])) ?></span>
+									<?php endif ?>
+								</td>
+								<td data-number="8" class="text-center"><?php echo $item['note'] ?></td>
+							</tr>
+						<?php
 						}
+					} else {
+						echo "<tr><th colspan=100>Không tìm thấy dữ liệu!</td></tr>";
 					}
 					?>
 				</tbody>
@@ -357,58 +232,6 @@ get_header();
 		</div>
 	</div>
 </div>
-<div class="modal fade" id="modal-edit">
-	<div class="overlay"></div>
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title">Cập nhật nhanh</h4>
-			</div>
-			<div class="modal-body pt-16">
-				<?php
-				//$status = $em_customer->get_statuses();
-				//$list_payment_status = custom_get_list_payment_status();
-				$tag = $em_customer->get_tags();
-				?>
-				<div class="alert-form alert alert-warning mb-16 hidden"></div>
-				<form method="POST" action="<?php the_permalink() ?>">
-					<input type="hidden" name="list_id" class="list_id" value="">
-					<div class="form-group row">
-						<div class="col-12">
-							<select class="form-control field">
-								<option value="tag">Tag phân loại</option>
-							</select>
-						</div>
-						<div class="col-12 pt-16">
-							<div class="d-f tag-radio  ai-center pb-2">
-								<input type="radio" name="tag_radio" id="add" value="add" checked> <label for="add"
-									class="pl-4 pr-8">Thêm tag phân loại</label>
-							</div>
-							<div class="d-f tag-radio ai-center deactive">
-								<input type="radio" name="tag_radio" id="remove" value="remove"> <label class="pl-4"
-									for="remove">Gỡ tag phân loại</label>
-							</div>
-
-						</div>
-						<div class="col-12 pt-16">
-							<select class="form-control list-tag" name="tag_ids[]" style="width: 100%;" required>
-								<option value="" selected disabled>Chọn tag cần cập nhật</option>
-								<?php
-								foreach ($tag as $key => $value) { ?>
-									<option value="<?php echo $key; ?>"><?php echo $value; ?></option>
-								<?php } ?>
-							</select>
-						</div>
-					</div>
-					<div class="form-group pt-16 text-right">
-						<button type="button" class="button btn-default modal-close">Huỷ</button>
-						<button type="submit" class="button btn-primary add_post" name="add_post">Áp dụng</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
 <?php
 
 get_template_part('parts/popup/result', 'update');
@@ -419,7 +242,6 @@ foreach ($list_tags as $key => $value) {
 } ?>
 <script>
 	let list_tags = [<?php echo implode(',', $html); ?>];
-	let list_orders = <?php echo json_encode($list_orders, JSON_UNESCAPED_UNICODE); ?>;
 </script>
 <?php
 // endwhile;

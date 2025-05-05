@@ -117,7 +117,7 @@ get_header();
               if(isset($order['group_name'])) {
                 $params = ['group_id' => $order['id']];
                 $phone = $order['group_phone'];
-                $link = add_query_arg($params, site_meal_plan_list_link());
+                $link = add_query_arg($params, site_meal_plan_group_link());
               } else {
                 $params = ['customer_id' => $order['id']];
                 $phone = $order['phone'];

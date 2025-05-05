@@ -706,3 +706,9 @@ function fix_svg()
 	</style>';
 }
 add_action('admin_head', 'fix_svg');
+
+function site_response_json($data)
+{
+    header('Content-type: application/json');
+    die(json_encode($data));
+}

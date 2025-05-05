@@ -140,12 +140,14 @@
     <div class="overlay"></div>
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="post" class="form-remove-note" action="">
+            <form method="post" class="form-remove-note" action="<?php echo $action_url ?>">
+                <input type="hidden" name="continue_order" value="<?php echo $order_id ?>" />
+                <input type="hidden" name="continonce" value="<?php echo wp_create_nonce('continonce') ?>" />
                 <div class="modal-body pb-16">
                     <div class="tlt pt-16">Sản phẩm</div>
                     <p class="pt-16">Vui lòng chọn ngày bắt đầu tiếp diễn cho đơn hàng</p>
                     <div class="calendar pt-16">
-                        <input type="text" value="" name="calendar" placeholder="DD/MM/YYYY" class="form-control start-day js-calendar">
+                        <input type="text" name="date_continue" placeholder="DD/MM/YYYY" class="form-control start-day js-calendar" required min="<?php echo date('Y-m-d') ?>">
                     </div>
                 </div>
                 <div class="modal-footer d-f jc-end pb-8 pt-16 gap-16">

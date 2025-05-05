@@ -1,102 +1,98 @@
 <?php 
 
-/**
- * Custom walker class.
- */
-class Site_Walker_Nav_Menu extends Walker_Nav_Menu {
- 
-    /**
-     * Starts the list before the elements are added.
-     *
-     * Adds classes to the unordered list sub-menus.
-     *
-     * @param string $output Passed by reference. Used to append additional content.
-     * @param int    $depth  Depth of menu item. Used for padding.
-     * @param array  $args   An array of arguments. @see wp_nav_menu()
-     */
-    function start_lvl( &$output, $depth = 0, $args = array() ) {
-        // Depth-dependent classes.
-        $indent = ( $depth > 0  ? str_repeat( "\t", $depth ) : '' ); // code indent
-        $display_depth = ( $depth + 1); // because it counts the first submenu as 0
-        $classes = array(
-            'sub-menu',
-            // ( $display_depth % 2  ? 'menu-odd' : 'menu-even' ),
-            // ( $display_depth >=2 ? 'sub-sub-menu' : '' ),
-            // 'menu-depth-' . $display_depth
-        );
-        $class_names = implode( ' ', $classes );
-        
-        $img = '';
-        if( $display_depth == 1 ) {
-            $img = '<img src="'.site_get_assets('img/common/icon_down.png').'" alt="">';
+function site_menu_save_data()
+{
+    global $em_menu;
+
+    // if (!empty($_POST['save_menu']) && wp_verify_nonce($_POST['save_menu'], "menunonce")) 
+    if (!empty($_POST['save_menu']))
+    {
+        $data = wp_unslash($_POST);
+
+        $menu_default = [
+            'name' => '',
+            'name_en' => '',
+            'image' => '',
+            'status' => '',
+            'type' => '',
+            'ingredient' => '',
+            'group' => '',
+            'tag' => '',
+            'note' => '',
+            'cooking_times' => '',
+            'last_used' => '',
+        ];
+
+        $menu_data = shortcode_atts($menu_default, $data);
+
+        $updated = false;
+
+        $menu_id = isset($data['menu_id']) ? intval($data['menu_id']) : 0;
+
+        if(!empty($data['tags']) && is_array($data['tags'])) {
+            $menu_data['tag'] = implode(',', $data['tags']);
         }
-        
-        // Build HTML for output.
-        $output .= "\n" . $indent . $img . '<ul class="' . $class_names . '">' . "\n";
-    }
- 
-    /**
-     * Start the element output.
-     *
-     * Adds main/sub-classes to the list items and links.
-     *
-     * @param string $output Passed by reference. Used to append additional content.
-     * @param object $item   Menu item data object.
-     * @param int    $depth  Depth of menu item. Used for padding.
-     * @param array  $args   An array of arguments. @see wp_nav_menu()
-     * @param int    $id     Current item ID.
-     */
-    function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
-        global $wp_query;
-        $indent = ( $depth > 0 ? str_repeat( "\t", $depth ) : '' ); // code indent
- 
-        // Depth-dependent classes.
-        $depth_classes = array(
-            ( $depth == 0 ? 'nav_item' : '' ), 'menu-item',
-            // ( $depth == 0 ? 'main-menu-item' : 'sub-menu-item' ),
-            // ( $depth >=2 ? 'sub-sub-menu-item' : '' ),
-            // ( $depth % 2 ? 'menu-item-odd' : 'menu-item-even' ),
-            // 'menu-item-depth-' . $depth
-        );
-        // $depth_class_names = esc_attr( implode( ' ', $depth_classes ) );
- 
-        // Passed classes.
-        $classes = empty( $item->classes ) ? array() : (array) $item->classes;
-        if( in_array('menu-item-has-children', $classes) ) {
-            $classes = array('has-child');
+
+        if($menu_id == 0) {
+            $response = em_api_request('menu/add', $menu_data);
+            if ($response['code'] == 200) {
+                $menu_id = $em_menu->insert($menu_data);
+                $updated = true;
+            }
         } else {
-            $classes = array();
+            $menu_data['id'] = $menu_id;
+
+            $response = em_api_request('menu/update', $menu_data);
+            if ($response['code'] == 200) {
+                $updated = true;
+            }
         }
-        $classes = array_merge($depth_classes,$classes);
-        $class_names = esc_attr( implode( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item ) ) );
-        
-        // Build HTML.
-        $output .= $indent . '<li class="' . $class_names . '">';
-        
-        // Link attributes.
-        $attributes  = ! empty( $item->attr_title ) ? ' title="'  . esc_attr( $item->attr_title ) .'"' : '';
-        $attributes .= ! empty( $item->target )     ? ' target="' . esc_attr( $item->target     ) .'"' : '';
-        $attributes .= ! empty( $item->xfn )        ? ' rel="'    . esc_attr( $item->xfn        ) .'"' : '';
-        $attributes .= ! empty( $item->url )        ? ' href="'   . esc_attr( $item->url        ) .'"' : '';
-        // $attributes .= ' class="nav-link ' . ( $depth > 0 ? 'sub-menu-link' : 'main-menu-link' ) . '"';
-        if( $depth == 0 ) {
-            $attributes .= ' class="nav-link"';
+
+        if($menu_id > 0) {
+            if (!empty($_FILES['media']) && !empty($_FILES['media']['tmp_name'])) {
+                $upload_dir = $em_menu->get_upload_dir();
+
+                $parts = explode('.', $_FILES['media']['name']);
+
+                $filename = $menu_id . '-menu.' . end($parts);
+
+                if (copy($_FILES['media']['tmp_name'], $upload_dir['basedir'] . '/' . $filename)) {
+                    $item = $em_menu->get_item($menu_id);
+                    if(!empty($item['image_path'])) {
+                        @unlink($item['image_path']);
+                    }
+
+                    $em_menu->update_field($menu_id, 'image', $filename);
+                }
+            }
         }
-        
-        $img = '';
-        if( $depth == 1 && has_post_thumbnail( $item->object_id ) ) {
-            $img = '<img src="'.get_the_post_thumbnail_url( $item->object_id, 'thumbnail' ) .'" alt="" />';
+
+        $query_args = [
+            'menu_id' => $menu_id,
+            'expires' => time() + 3,
+        ];
+
+        if ($updated) {
+            $query_args['message'] = 'Menu+success';
+        } else {
+            $query_args['message'] = 'Menu+fail';
         }
- 
-        // Build HTML output and pass through the proper filter.
-        $item_output = sprintf( '%1$s<a%2$s>%3$s%4$s%5$s</a>%6$s',
-            $args->before,
-            $attributes,
-            $img . $args->link_before,
-            apply_filters( 'the_title', $item->title, $item->ID ),
-            $args->link_after,
-            $args->after
-        );
-        $output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
+
+        // site_response_json($query_args);
+
+        wp_redirect(add_query_arg($query_args, site_menu_edit_link()));
+        exit();
     }
+}
+add_action('wp', 'site_menu_save_data');
+
+
+function site_menu_list_link()
+{
+    return get_permalink(186);
+}
+
+function site_menu_edit_link()
+{
+    return get_permalink(188);
 }

@@ -1,7 +1,5 @@
 <?php
 
-$js_duplicate_url = add_query_arg(['dupnonce' => wp_create_nonce('dupnonce')], get_permalink());
-// var_dump($response_customer);
 ?>
 <div class="flex flex-col">
 	<?php

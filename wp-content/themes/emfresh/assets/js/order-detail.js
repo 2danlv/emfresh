@@ -201,7 +201,7 @@ function format_money(number) {
   number = parseFloat(number);
   if (isNaN(number)) return '0';
   number = Math.round(number / 1000) * 1000;
-  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 }
 
 
