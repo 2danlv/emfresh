@@ -964,6 +964,7 @@ function site_order_get_meal_plans($args = [])
     $customer_id = !empty($args['customer_id']) ? intval($args['customer_id']) : 0;
     $group_id = !empty($args['group_id']) ? intval($args['group_id']) : 0;
     $groupby = !empty($args['groupby']) ? sanitize_text_field($args['groupby']) : '';
+    $date_from = !empty($args['date_from']) ? trim($args['date_from']) : '';
     $meal_select_number = isset($args['meal_select_number']) ? intval($args['meal_select_number']) : 0;
 
     $order_detail = [];
@@ -1026,7 +1027,10 @@ function site_order_get_meal_plans($args = [])
             $q_args['customer_id'] = $customer_ids;
         }
 
-        // $q_args['date_from'] = date('Y-m-d', strtotime('-45 days'));
+        if($date_from != '') {
+            // $q_args['date_from'] = date('Y-m-d', strtotime('-45 days'));
+            $q_args['date_from'] = $date_from;
+        }
 
         $orders = $em_order->get_items($q_args);
     }
@@ -1055,6 +1059,8 @@ function site_order_get_meal_plans($args = [])
         
         // San pham chinh
         $product_codes = site_get_product_codes();
+
+        $today = current_time('Y-m-d');
 
         foreach($orders as $i => $order) {
             $q_args = [
@@ -1185,6 +1191,20 @@ function site_order_get_meal_plans($args = [])
             $order['meal_plan_items'] = $order_meal_plan_items;
             $order['meal_select_items'] = $order_meal_select_items;
 
+            // Sort order status [2 => Chưa rõ, 3 => Dí món, 1 => Đặt đơn]
+            if($today < $order['date_start']) {
+                // $status = 'di_mon';
+                $order['order_status'] = 3;
+            } else if($today > $order_date_stop) {
+                // $status = 'chua_ro';
+                $order['order_status'] = 2;
+            } else {
+                // $status = 'dat_don';
+                $order['order_status'] = 1;
+            }
+
+            $order['order_status_name'] = $em_order->get_order_statuses($order['order_status']);
+
             if ($date_start == '0000-00-00' || $date_start > $order['date_start']) {
                 $date_start = $order['date_start'];
             }
@@ -1289,8 +1309,8 @@ function site_order_get_meal_plans($args = [])
                 // Sort order status [2 => Chưa rõ, 3 => Dí món, 1 => Đặt đơn]
                 if($order['order_status'] == 3) {
                     $customer['order_status'] = 3;
-                    $customer['order_status_name'] = $order['order_status_name'];
                 }
+                $customer['order_status_name'] = $em_order->get_order_statuses($customer['order_status']);
 
                 // Sort payment status [2 => Chưa, 3 => 1 phần, 1 => Rồi]
                 if($customer['payment_status'] == 2 || $order['payment_status'] == 2) {
@@ -1300,7 +1320,7 @@ function site_order_get_meal_plans($args = [])
                     $customer['payment_status'] = 2;
                     $customer['payment_status_name'] = $order['payment_status_name'];
                 }
-
+                
                 $customers[$customer_id] = $customer;
             }
 
@@ -1311,14 +1331,20 @@ function site_order_get_meal_plans($args = [])
                 $payment_methods = [];
 
                 foreach($customer['orders'] as $order) {
-                    // 1 => "Đặt đơn",
                     if($order['order_status'] == 1) {
+                        // 1 => "Đặt đơn",
                         $order_status_count++;
+                    } else if($order['order_status'] == 3) {
+                        // 3 => Dí món
+                        $customer['order_status'] = 3;
                     }
 
-                    // 1 => Rồi
                     if($order['payment_status'] == 1) {
+                        // 1 => Rồi
                         $payment_status_count++;
+                    } else if($order['payment_status'] == 2) {
+                        // 2 => Chưa
+                        $customer['payment_status'] = 2;
                     }
 
                     if(!in_array($order['payment_method'], $payment_methods)) {
@@ -1328,27 +1354,17 @@ function site_order_get_meal_plans($args = [])
 
                 if($order_status_count == count($customer['orders'])) {
                     $customer['order_status'] = 1;
-                    $customer['order_status_name'] = $order['order_status_name'];
                 } else if($customer['order_status'] != 3) {
-                    $status_count = 0;
-
-                    foreach($customer['orders'] as $order) {
-                        // 2 => "Hoàn tất",
-                        if($order['status'] == 2) {
-                            $status_count++;
-                        }
-                    }
-
-                    if($status_count == count($customer['orders'])) {
-                        $customer['order_status'] = 2; // 2 => "Chưa rõ",
-                        $customer['order_status_name'] = $em_order->get_order_statuses(2);
-                    }
+                    $customer['order_status'] = 2; // 2 => "Chưa rõ",
                 }
+                $customer['order_status_name'] = $em_order->get_order_statuses($customer['order_status']);
                 
                 if($payment_status_count == count($customer['orders'])) {
-                    $customer['order_status'] = 1; // 1 => Rồi
-                    $customer['order_status_name'] = $order['order_status_name'];
+                    $customer['payment_status'] = 1; // 1 => Rồi
+                } else if($customer['order_status'] != 2) {
+                    $customer['payment_status'] = 3; // 3 => 1 phần
                 }
+                $customer['payment_status_name'] = $em_order->get_payment_statuses($customer['payment_status']);
 
                 $payment_methods = site_order_sort_payment_methods($payment_methods);
                 $customer['payment_method'] = implode(', ', array_keys($payment_methods));
