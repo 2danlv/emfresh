@@ -134,7 +134,7 @@ get_header();
 								danh sách đơn hàng</span></a>
 					</div>
 					<div class="col-6 d-f ai-center jc-end group-button_top">
-						<a class="btn btn-primary js-btn-clone out-line" href="<?php echo $duplicate_url ?>"><span class="d-f ai-center"><i class="fas mr-4"><img
+						<a class="btn btn-primary js-btn-clone out-line" href="<?php echo $duplicate_url ?>&tab=settings-product"><span class="d-f ai-center"><i class="fas mr-4"><img
 										src="<?php echo site_get_template_directory_assets(); ?>img/icon-hover/plus-svgrepo-com.svg" alt=""></i>Tạo bản sao</span></a>
 						<span class="btn btn-primary btn-disable btn-save_edit hidden">Lưu thay đổi</span>
 						<span class="btn btn-primary js-btn-save out-line">Lưu thay đổi</span>

@@ -25,8 +25,11 @@ $js_duplicate_url = add_query_arg(['dupnonce' => wp_create_nonce('dupnonce')], g
         <div class="col-4 pb-16">
             <input type="text" name="phone" class="phone is-disabled form-control" value="" placeholder="SĐT">
         </div>
-        <div class="col-12 pb-16">
+        <div class="col-8 pb-16">
             <input type="text" class="name_2nd form-control" placeholder="Tên người nhận">
+        </div>
+        <div class="col-4 pt-8 d-f ai-center">
+            <input type="checkbox" name="order_type_group" id="order_type_group"> <label for="order_type_group" class="pl-8">Là đơn ăn nhóm</label>
         </div>
         <div class="col-12 pb-32 dropdown-address">
             <div class="dropdown active">
@@ -36,8 +39,8 @@ $js_duplicate_url = add_query_arg(['dupnonce' => wp_create_nonce('dupnonce')], g
             <p class="fs-14 fw-regular note-admin hidden color-gray pt-4 pl-8">Note với admin: <span class="note_admin"></span></p>
             <div class="dropdown-menu">
                 <div class="locations-container">
-                     <?php
-                     if ($customer_id != 0) {
+                    <?php
+                    if ($customer_id != 0) {
                         foreach ($response_get_location['data'] as $index => $record) {
                         ?>
                         <div class="item <?php echo $record['active']; ?>" data-location_id="<?php echo $record['id'] ?>">
@@ -123,7 +126,7 @@ $(document).ready(function() {
             $('.form-add-order .input-customer_name_2nd').val(input_name_2nd + " " + split_fullname[0]);
             $('.info-customer .customer-name_2nd span').text(input_name_2nd + " " + split_fullname[0]);
         } else {
-            // $('.info-customer .customer-name_2nd').hide();
+            $('.info-customer .customer-name_2nd').hide();
             $('.form-add-order .input-customer_name_2nd').val(input_name_2nd + " ("+input_fullname+")");
             $('.info-customer .customer-name_2nd span').text(input_name_2nd + " ("+input_fullname+")");
         }
