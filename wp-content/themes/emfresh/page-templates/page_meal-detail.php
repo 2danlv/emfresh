@@ -79,9 +79,12 @@ if ( count($data) > 0 && isset($data[ 'orders' ]) ) :
         </div>
         <div class="list-item_name hidden">
         <?php
+        // var_dump($data['orders']);
         foreach ($data['orders'] as $order) {
           $groupedItems = []; // Reset the groupedItems array for each order
-          echo ('<p>'.$order['item_name'].'</p>' );
+          if( $order[ 'order_status' ] != 2) {
+            echo ('<p class="order_status">'.$order['item_name'].'</p>' );
+          }
         }
         ?>
         </div>
@@ -148,7 +151,7 @@ if ( count($data) > 0 && isset($data[ 'orders' ]) ) :
                   <?php endforeach; ?>
                   <?php
                   echo site_generate_weekdays_list(end($data['schedule']),35,2);
-                   ?>
+                  ?>
                 </ul>
               </td>
             </tr>
@@ -197,7 +200,7 @@ if ( count($data) > 0 && isset($data[ 'orders' ]) ) :
                         <?php endforeach; ?>
                         <?php
                         echo site_generate_weekdays_list(end($data['schedule']),35,2);
-                         ?>
+                        ?>
                   </ul>
                 </td>
               </tr>
@@ -374,139 +377,22 @@ if ( count($data) > 0 && isset($data[ 'orders' ]) ) :
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td class="text-left"><img class="avatar"
-                    src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24"
-                    alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
-                <td>Chọn món</td>
-                <td>cập nhật</td>
-                <td>#0001 - SM</td>
-                <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-                <td class="text-center">01:00</td>
-                <td class="text-center">29/10/24</td>
-              </tr>
-              <tr>
-                <td class="text-left"><img class="avatar"
-                    src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24"
-                    alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
-                <td>Chọn món</td>
-                <td>cập nhật</td>
-                <td>#0001 - SM</td>
-                <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-                <td class="text-center">01:00</td>
-                <td class="text-center">29/10/24</td>
-              </tr>
-              <tr>
-                <td class="text-left"><img class="avatar"
-                    src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24"
-                    alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
-                <td>Chọn món</td>
-                <td>cập nhật</td>
-                <td>#0001 - SM</td>
-                <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-                <td class="text-center">01:00</td>
-                <td class="text-center">29/10/24</td>
-              </tr>
-              <tr>
-                <td class="text-left"><img class="avatar"
-                    src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24"
-                    alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
-                <td>Chọn món</td>
-                <td>cập nhật</td>
-                <td>#0001 - SM</td>
-                <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-                <td class="text-center">01:00</td>
-                <td class="text-center">29/10/24</td>
-              </tr>
-              <tr>
-                <td class="text-left"><img class="avatar"
-                    src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24"
-                    alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
-                <td>Chọn món</td>
-                <td>cập nhật</td>
-                <td>#0001 - SM</td>
-                <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-                <td class="text-center">01:00</td>
-                <td class="text-center">29/10/24</td>
-              </tr>
-              <tr>
-                <td class="text-left"><img class="avatar"
-                    src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24"
-                    alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
-                <td>Chọn món</td>
-                <td>cập nhật</td>
-                <td>#0001 - SM</td>
-                <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-                <td class="text-center">01:00</td>
-                <td class="text-center">29/10/24</td>
-              </tr>
-              <tr>
-                <td class="text-left"><img class="avatar"
-                    src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24"
-                    alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
-                <td>Chọn món</td>
-                <td>cập nhật</td>
-                <td>#0001 - SM</td>
-                <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-                <td class="text-center">01:00</td>
-                <td class="text-center">29/10/24</td>
-              </tr>
-              <tr>
-                <td class="text-left"><img class="avatar"
-                    src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24"
-                    alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
-                <td>Chọn món</td>
-                <td>cập nhật</td>
-                <td>#0001 - SM</td>
-                <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-                <td class="text-center">01:00</td>
-                <td class="text-center">29/10/24</td>
-              </tr>
-              <tr>
-                <td class="text-left"><img class="avatar"
-                    src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24"
-                    alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
-                <td>Chọn món</td>
-                <td>cập nhật</td>
-                <td>#0001 - SM</td>
-                <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-                <td class="text-center">01:00</td>
-                <td class="text-center">29/10/24</td>
-              </tr>
-              <tr>
-                <td class="text-left"><img class="avatar"
-                    src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24"
-                    alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
-                <td>Chọn món</td>
-                <td>cập nhật</td>
-                <td>#0001 - SM</td>
-                <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-                <td class="text-center">01:00</td>
-                <td class="text-center">29/10/24</td>
-              </tr>
-              <tr>
-                <td class="text-left"><img class="avatar"
-                    src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24"
-                    alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
-                <td>Chọn món</td>
-                <td>cập nhật</td>
-                <td>#0001 - SM</td>
-                <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-                <td class="text-center">01:00</td>
-                <td class="text-center">29/10/24</td>
-              </tr>
-              <tr>
-                <td class="text-left"><img class="avatar"
-                    src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24"
-                    alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
-                <td>Chọn món</td>
-                <td>cập nhật</td>
-                <td>#0001 - SM</td>
-                <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
-                <td class="text-center">01:00</td>
-                <td class="text-center">29/10/24</td>
-              </tr>
-
+              <?php
+                for ($i=0; $i < 10; $i++) { ?>
+                <tr>
+                  <td class="text-left"><img class="avatar"
+                      src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24"
+                      alt="<?php echo $current_user->display_name; ?>"> Nhu Quynh</td>
+                  <td>Chọn món</td>
+                  <td>cập nhật</td>
+                  <td>#0001 - SM</td>
+                  <td>Thứ 2 (02/01) từ Sườn non chay thành Heo xào riềng sả</td>
+                  <td class="text-center">01:00</td>
+                  <td class="text-center">29/10/24</td>
+                </tr>
+              <?php
+                }
+              ?>
             </tbody>
           </table>
         </div>

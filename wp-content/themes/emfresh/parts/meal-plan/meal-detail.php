@@ -3,7 +3,7 @@
   jQuery(function ($) {
     var itemCounts = {};
     date_is_today = moment().format("YYYY-MM-DD");
-    console.log('log',date_is_today);
+    // console.log('log',date_is_today);
     $('.content-header .input-search').attr('placeholder', 'Tên khách hàng / SĐT');
     setTimeout(() => {
       if ($('#target').length > 0) {
@@ -12,7 +12,7 @@
         $(".dt-scroll-body").animate({scrollLeft: offsetWithMargin}, 1000);
       }
     }, 300);
-      $('.list-item_name p').each(function() {
+      $('.list-item_name p.order_status').each(function() {
         var itemText = $(this).text().trim();
         var items = itemText.split('+');
         items.forEach(function(item) {
