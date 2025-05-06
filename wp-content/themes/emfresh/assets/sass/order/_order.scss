@@ -1116,6 +1116,9 @@ body .tagify+input, body .tagify+textarea {
         visibility: visible;
     }
 }
+.mini_sidebar .navigation-bottom {
+    width: calc(100% - 60px);
+}
 .page-template-page_detail_group {
     .navigation-bottom {
         visibility: visible;

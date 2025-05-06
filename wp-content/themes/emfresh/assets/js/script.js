@@ -1063,12 +1063,7 @@ jQuery(document).ready(function () {
 		autoWidth: true,
 		"stateSave": false
 	});
-	var table_select_meal = $('.table-select-meal').on('init.dt', function () {
-		//console.log(this, 'init.dt');
-		setTimeout(() => {
-			table_select_meal.adjust();
-		}, 300);
-    }).DataTable({
+	var table_select_meal = $('.table-select-meal').DataTable({
 		autoWidth: true,
 		scrollX: true,
 		scrollY:  $(window).height() - 297,

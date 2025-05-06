@@ -585,9 +585,13 @@ get_footer('customer');
     $('.list-customer .em-importer ul li.group-icon .btn.btn-alert').on('click', function (e) { 
       e.preventDefault();
       var $select = $('.meal-plan-waring');
-      $select.prop('disabled', !$select.prop('disabled'));
       $(this).toggleClass('c-red');
-      $('.meal-plan-waring.changed').toggleClass('c-red');
+      if($(this).hasClass('c-red')) {
+        $('.meal-plan-waring.changed').addClass('c-red');
+      } else {
+        $('.meal_select.changed').removeClass('c-red');
+      }
     });
+
   });
 </script>
