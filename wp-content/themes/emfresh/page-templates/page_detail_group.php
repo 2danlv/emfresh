@@ -38,7 +38,6 @@ if ($group_id > 0) {
             'group_id' => $group_id,
             'orderby' => 'id ASC',
         ]);
-
         if(count($list) > 0) {
             $leader = $list[0];
 
@@ -81,6 +80,7 @@ get_header();
 // Start the Loop.
 // while ( have_posts() ) : the_post();
 ?>
+</script>
 <div class="detail-customer order create-group  pt-16">
     <style>
         .content-header {
@@ -124,14 +124,20 @@ get_header();
                                         Tên trưởng nhóm:
                                     </div>
                                     <div class="col-9 pb-16 text-right">
-                                        <span><?php echo $name ?></span>
+                                        <select class="select_list-member">
+                                        <?php
+                                        foreach ( $list as $i => $item ) { ?>
+                                            <option value="<?php echo $item[ 'order' ]; ?>" data-customer_id="<?php echo $item[ 'customer_id' ]; ?>" data-customer_name="<?php echo $item[ 'customer_name' ]; ?>" data-phone="<?php echo $item[ 'phone' ]; ?>"><?php echo $item[ 'customer_name' ]; ?></option>
+                                        <?php } ?>
+                                        </select>
                                         <input type="text" name="name" value="<?php echo $name ?>" class="d-none fullname form-control" placeholder="Tên khách hàng">
+                                        <input type="text" name="customer_id" value="<?php echo $name ?>" class="d-none customer_id form-control" placeholder="customer_id">
                                     </div>
                                     <div class="col-3 pb-16">
                                         SĐT trưởng nhóm:
                                     </div>
                                     <div class="col-9 pb-16 text-right">
-                                        <span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $phone ?>"><?php echo $phone ?></span>
+                                        <span class="copy txt_phone modal-button" data-target="#modal-copy" title="Copy: <?php echo $phone ?>"><?php echo $phone ?></span>
                                         <input type="text" name="phone" class="d-none phone form-control" value="<?php echo $phone ?>" placeholder="SĐT">
                                     </div>
                                     <div class="col-3 pb-16">
@@ -154,7 +160,7 @@ get_header();
                             <div class="card-body">
                                 <div class="ttl d-f jc-b">
                                     Ghi chú nhóm
-                                    <span class="edit-group  d-f ai-center"><i class="fas fa-edit-2"></i>Chỉnh sửa</span>
+                                    <!-- <span class="edit-group  d-f ai-center"><i class="fas fa-edit-2"></i>Chỉnh sửa</span> -->
                                 </div>
                                 <div class="pt-16">
                                     <textarea name="note" id="" class="form-control" rows="9"><?php echo $note ?></textarea>
@@ -189,7 +195,9 @@ get_header();
                                         <?php foreach($list as $i => $item) : ?>
                                         <tr data-member="<?php echo $item['id'] ?>" data-customer_id="<?php echo $item['customer_id'] ?>">
                                             <td class="text-center" width="80">
-                                                <input type="number" name="customers[<?php echo $i ?>][order]" class="input-order text-center" value="<?php echo $i + 1 ?>" <?php echo $i == 0 ? 'readonly' : 'min="2"' ?> />
+                                                <div class="pt-8 pl-8 pr-8">
+                                                <input type="number" name="customers[<?php echo $i ?>][order]" class="input-order text-center <?php echo $i == 0 ? 'is-disabled' : 'min="2"' ?>" value="<?php echo $i + 1 ?>"  />
+                                                </div>
                                             </td>
                                             <td>
                                                 <div class="nameMember"><?php echo $item['customer_name'] ?></div>

@@ -141,6 +141,35 @@
     $('.btn-reload').click(function() {
       location.reload();
     });
+    $('.create-group .select_list-member').on('change', function () {
+      var selected = $(this).find('option:selected');
+
+      var order = selected.val(); 
+      var customer_id = selected.data('customer_id');
+      var customer_name = selected.data('customer_name');
+      var phone = selected.data('phone');
+
+      $('.create-group input.fullname').val(customer_name);
+      $('.create-group input.customer_id').val(customer_id);
+      $('.create-group .phone').val(phone);
+      $('.create-group .txt_phone').text(phone);
+
+      var selected_row = $('.table-member tr[data-customer_id="' + customer_id + '"]');
+      var selected_order_input = selected_row.find('.input-order');
+      var selected_old_order = selected_order_input.val();
+
+      var current_first_row = $('.table-member .input-order[value="1"]').closest('tr');
+      var current_first_customer_id = current_first_row.data('customer_id');
+
+      if (parseInt(selected_old_order) !== 1) {
+          selected_order_input.val(1);
+
+          if (current_first_customer_id != customer_id) {
+              current_first_row.find('.input-order').val(selected_old_order);
+          }
+      }
+  });
+
   });
   $('.box-search .search-cus').keyup(function () {
     var query = $(this).val();
