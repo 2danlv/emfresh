@@ -113,6 +113,7 @@ function update_order_item_info(order_item) {
 			} else {
 				// Gia goi an = gia goi co so bua/ngay tuong ung tuan/5 * so ngay khach dat
 				meal_number = roundup(quantity / days);
+				console.log('meal_number', quantity, days, meal_number);
 				if (meal_number > 3) {
 					meal_number = 3;
 				}

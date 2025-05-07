@@ -120,12 +120,20 @@ class EF_Default
 
         $data = shortcode_atts($fields, $data);
 
-        if (isset($data['created']) && $data['created'] == '') {
+        if (isset($fields['created'])) {
             $data['created'] = current_time('mysql');
         }
 
-        if (isset($data['created_at']) && $data['created_at'] == 0) {
+        if (isset($fields['created_at'])) {
             $data['created_at'] = $this->author_id;
+        }
+
+        if (isset($fields['modified'])) {
+            $data['modified'] = current_time('mysql');
+        }
+
+        if (isset($fields['modified_at'])) {
+            $data['modified_at'] = $this->author_id;
         }
 
         $type = array_map(function () {

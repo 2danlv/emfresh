@@ -29,7 +29,8 @@ $js_duplicate_url = add_query_arg(['dupnonce' => wp_create_nonce('dupnonce')], g
             <input type="text" class="name_2nd form-control" placeholder="Tên người nhận">
         </div>
         <div class="col-4 pt-8 d-f ai-center">
-            <input type="checkbox" name="order_type_group" id="order_type_group"> <label for="order_type_group" class="pl-8">Là đơn ăn nhóm</label>
+            <input type="checkbox" name="order_type_group" id="order_type_group" value="group">
+            <label for="order_type_group" class="pl-8">Là đơn ăn nhóm</label>
         </div>
         <div class="col-12 pb-32 dropdown-address">
             <div class="dropdown active">
@@ -131,6 +132,7 @@ $(document).ready(function() {
             $('.info-customer .customer-name_2nd span').text(input_name_2nd + " ("+input_fullname+")");
         }
     });
+
     $('.search-cus').keyup(function() {
         var query = $(this).val();
         $('.no-results .btn-add-customer').attr('href', '/customer/add-customer/?phone='+query);
@@ -361,16 +363,22 @@ $(document).ready(function() {
             });
         }
     });
-function format_money(number) {
-	number = parseFloat(number); 
-	if (isNaN(number)) return '0';
-	return number.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,').split('.')[0];
-}
+
+    function format_money(number) {
+        number = parseFloat(number); 
+        if (isNaN(number)) return '0';
+        return number.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,').split('.')[0];
+    }
+
     $(document).click(function(e) {
         if (!$(e.target).closest('#search').length) {
             $('#autocomplete-results').hide();
         }
     });
+
+    $('#order_type_group').on('change', function() {
+        $('.input-order_type').val(this.checked ? 'group' : '');
+    })
 });
 
 </script>

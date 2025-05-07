@@ -15,13 +15,17 @@ if(empty($args['groupby'])) {
   $args['groupby'] = 'customer';
 }
 
+if(isset($args['days'])) {
+  $args['date_from'] = date('Y-m-d', strtotime($args['days'] . ' days'));
+}
+
 $data = site_order_get_meal_plans($args);
 
 $group_id = !empty($args['group_id']) ? intval($args['group_id']) : 0;
 
-if(isset($_GET['statistics'])) {
+if(isset($_GET['customers'])) {
   header('Content-type: application/json');
-  die(json_encode($data['statistics']));
+  die(json_encode($data['customers']));
 }
 
 get_header();
@@ -96,12 +100,11 @@ get_header();
               <th data-number="9">Số tiền <br>còn lại</th>
               <th data-number="10">
                 <ul class="d-f date-group date-ttl">
-                  <?php
-                  foreach ($data['schedule'] as $date) : ?>
-                    <li data-date="<?php echo $date ?>">
-                      <?php echo date('d', strtotime($date)) ?> 
-                      <span class="hidden"><?php echo date('m', strtotime($date)) ?></span>
-                    </li>
+                  <?php foreach ($data['schedule'] as $date) : ?>
+                  <li data-date="<?php echo $date ?>">
+                    <?php echo date('d', strtotime($date)) ?> 
+                    <span class="hidden"><?php echo date('m', strtotime($date)) ?></span>
+                  </li>
                   <?php endforeach; ?>
                 </ul>
               </th>
