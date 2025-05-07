@@ -160,7 +160,11 @@ table {
 		text-transform: uppercase;
 	}
 }
-
+.card-primary .js-calendar.date {
+	position: relative;
+	cursor: pointer;
+	background: url(../img/icon/CalendarBlank.svg) right 8px center no-repeat #F6F6F6;
+}
 .container {
 	max-width: 1200px;
 	margin-left: auto;

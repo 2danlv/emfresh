@@ -34,7 +34,27 @@
                         <input type="hidden" name="order_item[<?php echo $i ?>][id]" class="input-id" value="<?php echo $id ?>" />
                         <input type="hidden" name="order_item[<?php echo $i ?>][remove]" class="input-remove" />
                         <input type="hidden" name="order_item[<?php echo $i ?>][meal_number]" class="input-meal_number" value="<?php echo isset($meal_number) ? $meal_number : '' ?>" />
-                        <input type="hidden" name="order_item[<?php echo $i ?>][date_stop]" class="input-date_stop" value="<?php echo $date_stop ?>" />
+                        <?php if ( $get_date != "" ) {
+                            $working_days_to_add = $days;
+
+                            $date = new DateTime( $get_date );
+                            // Nếu ngày bắt đầu là ngày làm việc thì trừ 1 luôn
+                            if ( !in_array( $date->format( 'w' ), [ 0, 6 ] ) ) {
+                                $working_days_to_add--;
+                            }
+
+                            // Bắt đầu tăng từng ngày (bỏ qua T7, CN)
+                            while ( $working_days_to_add > 0 ) {
+                                $date->modify( '+1 day' );
+                                if ( !in_array( $date->format( 'w' ), [ 0, 6 ] ) ) {
+                                    $working_days_to_add--;
+                                }
+                            }
+                            ?>
+                            <input type="hidden" name="order_item[<?php echo $i ?>][date_stop]" class="input-date_stop" value="<?php echo $date->format( 'Y-m-d' ); ?>" />
+                        <?php } else { ?>
+                            <input type="hidden" name="order_item[<?php echo $i ?>][date_stop]" class="input-date_stop" value="<?php echo $date_stop ?>" />
+                        <?php } ?>
                         <input type="hidden" name="order_item[<?php echo $i ?>][product_price]" class="input-product_price" value="<?php echo $product_price ?>" />
                         <input type="hidden" name="order_item[<?php echo $i ?>][ship_price]" class="input-ship_price" value="<?php echo $ship_price ?>" />
                         <input type="hidden" name="order_item[<?php echo $i ?>][note]" class="input-note" value="<?php echo $note ?>" />
@@ -61,8 +81,8 @@
                                     <input type="hidden" class="form-control input-date_start" name="order_item[<?php echo $i ?>][date_start]" value="<?php echo $date_start;?>" />
                                     <input type="text" class="form-control js-calendar date"  name="startday" value="<?php echo date("d/m/Y", strtotime($date_start));  ?>" placeholder="Ngày bắt đầu" required />
                                 <?php } else { ?>
-                                    <input type="hidden" class="form-control input-date_start" name="order_item[<?php echo $i ?>][date_start]" value="" />
-                                    <input type="text" class="form-control js-calendar date" name="startday" value="" placeholder="Ngày bắt đầu" required />
+                                    <input type="hidden" class="form-control input-date_start" name="order_item[<?php echo $i ?>][date_start]" value="<?php echo $get_date; ?>" />
+                                    <input type="text" class="form-control js-calendar date" name="startday" value="<?php echo date( "d/m/Y", strtotime( $get_date ) ); ?>" placeholder="Ngày bắt đầu" required />
                                <?php }
                                 ?>
                             </div>

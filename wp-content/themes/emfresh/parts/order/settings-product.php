@@ -26,8 +26,11 @@
                             <div class="d-f jc-b pt-8">
                                 <span class="tlt fw-bold ">Ngày bắt đầu đơn hàng:</span>
                                 <span class="date-start">
-                                <?php if ($min_date_start !='1970-01-01') { ?>
-                                    <?php echo date("d/m/Y", strtotime($min_date_start)); ?>
+                                <?php if ( $min_date_start != '1970-01-01' && $get_date == "" ) { ?>
+                                    <?php echo date( "d/m/Y", strtotime( $min_date_start ) ); ?>
+                                <?php }
+                                elseif ( $get_date != "" ) { ?>
+                                    <?php echo date( "d/m/Y", strtotime( $get_date ) ); ?>
                                 <?php } ?>
                                 </span>
                             </div>

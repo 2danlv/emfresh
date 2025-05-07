@@ -158,3 +158,22 @@
         </div>
     </div>
 </div>
+<div class="modal fade modal-clone_order" id="modal-clone_order">
+    <div class="overlay"></div>
+    <div class="card-primary modal-dialog">
+        <div class="modal-header"><strong class="pl-16">Tạo bản sao</strong></div>
+        <div class="modal-content">
+            <div class="modal-body pb-16">
+                <p class="pt-16">Vui lòng nhập ngày bắt đầu cho đơn hàng</p>
+                <div class="calendar pt-16">
+                    <input type="text" placeholder="DD/MM/YYYY"
+                        class="form-control clone_start-day date js-calendar" required min="<?php echo date( 'Y-m-d' ) ?>">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer d-f jc-end pb-8 pt-16 pr-16 gap-16">
+            <button type="button" class="btn btn-secondary modal-close">Hủy</button>
+            <a href="<?php echo $duplicate_url ?>&tab=settings-product" class="btn btn-primary clone_link modal-close">Xác nhận</a>
+        </div>
+    </div>
+</div>

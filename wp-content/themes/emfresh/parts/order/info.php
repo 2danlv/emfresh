@@ -14,8 +14,10 @@
                 <div class="d-f ai-center jc-b">
                     <p class="txt">Ngày bắt đầu:</p>
                     <p class="txt">
-                    <?php if ($min_date_start !='1970-01-01') { ?>
+                    <?php if ($min_date_start !='1970-01-01' && $get_date == "") { ?>
                         <?php echo date("d/m/Y", strtotime($min_date_start)); ?>
+                    <?php } elseif ( $get_date != "" ) {?>
+                        <?php echo date("d/m/Y", strtotime($get_date)); ?>
                     <?php } ?>
                     </p>
                 </div>
@@ -29,7 +31,7 @@
                     } 
                     ?>
                     <p class="txt">
-                    <?php if ($min_date_start !='1970-01-01') { ?>
+                    <?php if ($min_date_start !='1970-01-01' && $get_date == "") { ?>
                         <?php echo date("d/m/Y", strtotime($max_date_stop)); ?>
                     <?php } ?>
                     </p>

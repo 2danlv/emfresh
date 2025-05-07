@@ -1,15 +1,19 @@
 const SHIP = 5000;
 $(document).ready(function() {
-    if ($('.input-date_create').val() != '') {
-        mindate_start = $(this).closest('.js-order-item').find('.mindate_start').val();
-        today_calendar = moment(mindate_start).format('DD/MM/YYYY')
-      } else {
-          today_calendar = new Date();
-      }
+    if ($('.input-date_start').val() === '') {
+        today_calendar = moment().format('DD/MM/YYYY');
+    } else {
+        mindate_start = $('.input-date_start').closest('.js-order-item').find('.mindate_start').val();
+        today_calendar = moment(mindate_start).format('DD/MM/YYYY');
+    }
+    
     $(document).click(function(event) {
         if (!$(event.target).closest(".search-cus, .results, .no-results").length) {
             $(".results, .no-results").hide();
         }
+        if ($('.input-date_start').val() === '') {
+        today_calendar = moment().format('DD/MM/YYYY');
+    }
     });
     $(".search-result .results").on("click", function() {
         $(this).hide();
@@ -93,15 +97,15 @@ $(document).ready(function() {
         $(".explain-block").removeClass("show");
         $(".overlay-drop-menu").hide();
     });
-    initializeDatePicker('.start-day', today_calendar,false,null);
     
-    $('.js-order-item .js-calendar.date').each(function() {
+    $('.js-calendar.date').each(function() {
         
         initializeDatePicker($(this), today_calendar,false,showMinDate);
         if ($(this).siblings('.input-date_start').val() === '') {
             $(this).val('');
         }
     });
+    initializeDatePicker('.start-day,.clone_start-day', today_calendar, false, null);
     $('.card-ship-item .js-calendar.date').each(function() {
         initializeDatePicker($(this), getMinDate(),getMaxDate(),null);
         if ($(this).siblings('.input-date_start').val() === '') {
@@ -144,7 +148,7 @@ $(document).ready(function() {
 
         $('.order_item_total').val(id);
         new_item.find('.js-calendar.date').each(function() {
-          initializeDatePicker($(this), today_calendar,false,showMinDate);
+            initializeDatePicker($(this), moment().format('DD/MM/YYYY'),false,showMinDate);
         });
         new_item.find('.js-calendar.date').val('');
         $('.order-details').find('.order-wapper').append(generateInfoProduct('order_item_' + id));
@@ -208,11 +212,11 @@ $(document).ready(function() {
         deliveryNewItem.find('.note-shipper').addClass('hidden');
         $(".card-ship-item").last().after(deliveryNewItem);
         deliveryNewItem.find('.js-calendar.date').each(function() {
-          initializeDatePicker($(this), getMinDate(),getMaxDate(),null);
+            initializeDatePicker($(this), getMinDate(),getMaxDate(),null);
         });
         deliveryNewItem.find('.js-calendar.date').val('');
         count_card_ship_item++;
-});
+    });
     $(".js-input-field").on("input", "input, select", function() {
         $(".order-details").fadeIn();
     });
@@ -241,7 +245,50 @@ $(document).ready(function() {
         //calculateParts($deliveryItem);
     });
    
-    
+    $('.js-btn-clone').click(function (e) {
+        var start_day = $('.modal-clone_order .clone_start-day').val();
+        
+        var dateParts = start_day.split('/');
+        var formattedDate = dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0];
+        
+        var linkElement = $('.modal-clone_order a.clone_link');
+        var clone_link = linkElement.attr('href');
+        
+        var url = new URL(clone_link, window.location.origin);
+        
+        if (url.searchParams.has('date')) {
+            url.searchParams.set('date', formattedDate);
+        } else {
+            url.searchParams.append('date', formattedDate);
+        }
+        
+        linkElement.attr('href', url.pathname + '?' + url.searchParams.toString());
+    });
+
+
+
+    $('.modal-clone_order .clone_start-day').on('change', function () {
+        var start_day = $(this).val();
+        
+        var dateParts = start_day.split('/');
+        var formattedDate = dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0]; 
+        
+        var linkElement = $('.modal-clone_order a.clone_link');
+        var href = linkElement.attr('href');
+        
+        var parts = href.split('?');
+        var base = parts[0];
+        var query = parts[1] || '';
+        
+        var params = new URLSearchParams(query);
+        
+        params.set('date', formattedDate);
+        
+        var newHref = base + '?' + params.toString();
+        linkElement.attr('href', newHref);
+    });
+
+
 });
 var original_total_cost = parseFloat(
     $(".price-product").text().replace(/\./g, "")
