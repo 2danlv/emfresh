@@ -177,3 +177,22 @@
         </div>
     </div>
 </div>
+<?php if ( isset($get_date) && $get_date != "" ) { ?>
+    <div class="modal fade modal-warning modal-clone_success is-active" id="modal-clone_success">
+        <div class="overlay"></div>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body pt-8 pb-16">
+                    <input type="hidden" class="customer_id" name="customer_id" value="">
+                    <div class="d-f">
+                        <i class="fas fa-warning mr-4"></i>
+                        <p>Tạo bản sao thành công</p>
+                    </div>
+                </div>
+                <div class="modal-footer text-center pb-8">
+                    <button type="button" class="btn btn-secondary modal-close">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php } ?>

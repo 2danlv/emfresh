@@ -633,7 +633,10 @@ $(document).on('click', '.btn-add_order .remove-tab', function (e) {
 		});
 	}
 });
-
+$(document).on('click', '.modal-clone_success', function () {
+  update_order_info();
+  update_pay();
+});
 $(document).on('click', '.js-show-order-item', function () {
 	show_order_item(this);
 });
