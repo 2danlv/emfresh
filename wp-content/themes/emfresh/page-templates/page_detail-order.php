@@ -158,7 +158,9 @@ get_header();
 					<div class="order-code pl-16"><?php echo $order_detail['order_number'] != '' ? '#' . $order_detail['order_number'] : '' ?></div>
 					<div class="js-group-btn">
 						<div class="d-f gap-8 ai-center">
+							<?php if ( $get_date == "" ) { ?>
 							<div class="print btn btn-secondary d-f gap-8 ai-center"><span class="fas fas-print"></span>In đơn</div>
+							<?php } ?>
 							<?php $min_date_start = null;
 							
 							foreach ($order_items as $item) {
@@ -177,9 +179,11 @@ get_header();
 							if ($status != 2) {
 							if ($today < $min_date_start || $user[0] === 'administrator') {
 							 ?>
-							<div class="btn btn-danger remove-customer modal-button" data-target="#modal-end">
-								Xoá đơn này
-							</div>
+								<?php if ( $get_date == "" ) { ?>
+									<div class="btn btn-danger remove-customer modal-button" data-target="#modal-end">
+										Xoá đơn này
+									</div>
+								<?php } ?>
 							<?php }
 							}
 							?>
