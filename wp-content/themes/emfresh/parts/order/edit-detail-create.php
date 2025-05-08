@@ -34,7 +34,7 @@
                         <input type="hidden" name="order_item[<?php echo $i ?>][id]" class="input-id" value="<?php echo $id ?>" />
                         <input type="hidden" name="order_item[<?php echo $i ?>][remove]" class="input-remove" />
                         <input type="hidden" name="order_item[<?php echo $i ?>][meal_number]" class="input-meal_number" value="<?php echo isset($meal_number) ? $meal_number : '' ?>" />
-                        <?php if ( $get_date != "" ) {
+                        <?php if ( isset($get_date) && $get_date != "" ) {
                             $working_days_to_add = $days;
 
                             $date = new DateTime( $get_date );
@@ -52,7 +52,9 @@
                             }
                             ?>
                             <input type="hidden" name="order_item[<?php echo $i ?>][date_stop]" class="input-date_stop" value="<?php echo $date->format( 'Y-m-d' ); ?>" />
-                        <?php } else { ?>
+                        <?php } else {
+                            $get_date = "";
+                             ?>
                             <input type="hidden" name="order_item[<?php echo $i ?>][date_stop]" class="input-date_stop" value="<?php echo $date_stop ?>" />
                         <?php } ?>
                         <input type="hidden" name="order_item[<?php echo $i ?>][product_price]" class="input-product_price" value="<?php echo $product_price ?>" />
