@@ -116,7 +116,7 @@
     <div class="col-4">
         <div class="section-wapper">
             <div class="tlt-section">Khách hàng</div>
-            <?php if(!empty($group['id'])) : ?>
+            <?php if(!empty($group['id']) && $order_detail['order_type'] == 'group') : ?>
             <div class="section-content">
                 <p class="txt"><a href="/customer/detail-customer/?customer_id=<?php echo $order_detail['customer_id'] ?>"><?php echo $order_detail['customer_name'] ?></a></p>
                 <p class="txt">Người nhận: <?php echo $group['name']; ?></p>
@@ -155,7 +155,8 @@
             <div class="section-content status-content">
                 <div class="d-f jc-b ai-center">
                     <p class="txt">Trạng thái đặt đơn:</p>
-                    <div class="tag-status purple">Dí món</div>
+                    <!-- <div class="tag-status purple">Dí món</div> -->
+                    <div class="status_order status_order-meal-<?php echo $order_detail['order_status']; ?>"><?php echo $order_detail['order_status_name']; ?></div>
                 </div>
                 <div class="d-f jc-b ai-center">
                     <p class="txt">Phương thức thanh toán:</p>
