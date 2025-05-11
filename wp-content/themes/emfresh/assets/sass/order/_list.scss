@@ -12,6 +12,11 @@
             background: var(--color-primary-900, #208046);
             border: 1px solid var(--tag-border-hover, #208046);
         }
+        &-2 {
+            border: 1px solid var(--tag-border-hover, #A7A7A8);
+            background: var(--tag-background-default, #F2F3F5);
+            color: #0F0F0F;
+        }
         &-3 {
             background: var(--color-red-500, #AB2222);
             border: 1px solid var(--tag-border-hover, #AB2222);
@@ -44,6 +49,7 @@
         &-2 {
             background: var(--color-red-500, #AB2222);
             border: 1px solid var(--tag-border-hover, #AB2222);
+            color: #fff;
         }
         &-3 {
             background: var(--color-purple-300, #C6B1F6);

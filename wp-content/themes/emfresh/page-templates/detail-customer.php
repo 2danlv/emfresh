@@ -299,13 +299,12 @@ get_header();
 					<div class="col-6 d-f ai-center jc-end group-button_top">
 						<?php
 						$admin_role = wp_get_current_user()->roles;
-						if (!empty($admin_role)) {
-							if ($admin_role[0] == 'administrator') {
+						if (!empty($admin_role) && $admin_role[0] == 'administrator') {
 						?>
 								<span class="btn btn-danger remove-customer modal-button" data-target="#modal-default">
 									Xoá khách này
 								</span>
-						<?php }
+						<?php 
 						} ?>
 						<a class="btn btn-primary btn-add_order" href="<?php echo $add_order_url; ?>?customer_id=<?php echo $customer_id; ?>"><span class="d-f ai-center"><i class="fas mr-4"><img src="<?php echo site_get_template_directory_assets(); ?>img/icon-hover/plus-svgrepo-com_white.svg" alt=""></i>Tạo đơn mới</span></a>
 						<span class="btn btn-primary btn-disable btn-save_edit hidden">Lưu thay đổi</span>
@@ -486,8 +485,20 @@ get_header();
 															<td><?php echo date('d/m/Y', strtotime($record_order['date_start'])) ?></td>
 															<td align="center"><?php echo date('d/m/Y', strtotime($record_order['date_stop'])) ?></td>
 															<td><?php echo $total_order_money > 0 ? number_format($total_order_money) : 0 ?></td>
-															<td align="center"><span class="status_pay"><?php echo $record_order['payment_status_name'] ?></span></td>
-															<td align="center" class="status-order"><span class="status_order"><?php echo $record_order['status_name'] ?></span></td>
+															<td align="center"><span class="status_pay status_pay-<?php echo $record_order[ 'payment_status' ] ?>"><?php echo $record_order['payment_status_name'] ?></span></td>
+															<td align="center" class="status-order">
+																<?php
+																if ( $record_order[ 'status' ] == 2 ) { 
+																	if ( !empty($admin_role) && $admin_role[ 0 ] == 'administrator' ) { ?>
+																		<span class="status_order status_order-<?php echo $record_order[ 'status' ] ?>"><?php echo $record_order[ 'status_name' ] ?></span>
+																	<?php }
+																	else { ?>
+																		<span class="status_order status_order-1">Đang dùng</span>
+																	<?php }
+																} else { ?>
+																	<span class="status_order status_order-<?php echo $record_order[ 'status' ] ?>"><?php echo $record_order[ 'status_name' ] ?></span>
+																<?php } ?>
+															</td>
 														</tr>
 														<?php
 														} else {

@@ -241,13 +241,14 @@ get_header();
                     <?php 
                       $statuses = array_column($response_order['data'], 'status_name');
                       $allCompleted = true;
+                      $admin_role   = wp_get_current_user()->roles;
                       foreach ($statuses as $value) {
                         if ($value !== 'Hoàn tất') {
                           $allCompleted = false;
                           break;
                         }
                       }
-                      if ($allCompleted) {?>
+                      if ($allCompleted && !empty($admin_role) && $admin_role[ 0 ] == 'administrator') {?>
                         <span class="tag btn btn-sm status_2">Hết dùng</span>
                       <?php } else { ?>
                         <span class="tag btn btn-sm status_1">Đang dùng</span>

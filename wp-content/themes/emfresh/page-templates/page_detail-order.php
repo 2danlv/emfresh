@@ -14,7 +14,7 @@ $list_products  = $em_product->get_items(['orderby' => 'id ASC']);
 $list_notes = em_admin_get_setting('em_notes');
 $list_types = ['d', 'w', 'm'];
 $list_locations = [];
-
+$admin_role          = wp_get_current_user()->roles;
 $orderDetailSettings = [
 	'em_api_url' 	=> home_url('em-api/customer/list/'),
 	'em_ship_fees' 	=> $list_ship_fees,

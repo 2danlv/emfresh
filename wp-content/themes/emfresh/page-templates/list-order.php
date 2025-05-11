@@ -15,7 +15,7 @@ $list_tags = $em_customer->get_tags();
 
 $detail_order_url = site_order_edit_link();
 $add_order_url = site_order_add_link();
-
+$admin_role       = wp_get_current_user()->roles;
 // cập nhật data cho customer
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['remove_post'])) {
   $list_id = isset($_POST['list_id']) ? sanitize_textarea_field($_POST['list_id']) : '';
@@ -56,7 +56,7 @@ get_header();
   <!-- Default box -->
   <div class="card list-customer list-order">
     <div class="card-body">
-      <form class="em-importer" data-name="customer" action="<?php the_permalink() ?>" method="post">
+      <form class="em-importer" data-name="order" action="<?php the_permalink() ?>" method="post">
         <div class="row ai-center">
           <div class="col-8">
             <ul class="d-f ai-center">
@@ -169,7 +169,23 @@ get_header();
                       ?>
                       </div>
                     </td>
-                    <td data-number="12"><span class="status_order status_order-<?php echo $record['status']; ?>"><?php echo $record['status_name'] ?></span></td>
+                    <td data-number="12">
+                      <?php
+                        if ( $record[ 'status' ] == 2 ) {
+                          if ( !empty($admin_role) && $admin_role[ 0 ] == 'administrator' ) { ?>
+                          <span
+                            class="status_order status_order-<?php echo $record[ 'status' ] ?>"><?php echo $record[ 'status_name' ] ?></span>
+                        <?php }
+                          else { ?>
+                          <span class="status_order status_order-1">Đang dùng</span>
+                        <?php }
+                        }
+                        else { ?>
+                        <span
+                          class="status_order status_order-<?php echo $record[ 'status' ] ?>"><?php echo $record[ 'status_name' ] ?></span>
+                      <?php } ?>
+                      
+                    </td>
                     <td data-number="13"><?php echo $record['payment_method_name'] ?></td>
                     <td data-number="14"><span class="status_order status_pay-<?php echo $record['payment_status']; ?>"><?php echo $record['payment_status_name'] ?></span></td>
                     <td data-number="15">

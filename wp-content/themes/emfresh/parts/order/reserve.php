@@ -70,7 +70,9 @@ $reserve_logs = $em_log->get_items([
     <div class="col-4">
         <a href="#" data-href="<?php echo $continue_link ?>" class="btn btn-secondary btn-reserve db js-continue">Tiếp tục đơn hàng</a>
         <a href="<?php echo $cancel_link ?>#" class="btn btn-secondary btn-reserve db js-cancel">Huỷ phần bảo lưu & Giảm giá đơn mới</a>
+        <?php if ( !empty($admin_role) && $admin_role[ 0 ] == 'administrator' ) { ?>
         <a href="<?php echo $end_link ?>#" class="btn btn-secondary btn-reserve db js-end danger">Kết thúc đơn hàng vì quá hạn<!-- (admin only)--></a>
+        <?php } ?>
     </div>
 </div>
 <div class="table-container">

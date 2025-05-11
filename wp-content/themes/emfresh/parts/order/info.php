@@ -168,7 +168,20 @@
                 </div>
                 <div class="d-f jc-b ai-center">
                     <p class="txt">Trạng thái đơn hàng:</p>
-                    <div class="tag-status bg_order<?php echo $order_detail['status']; ?>"><?php echo $order_detail['status_name']; ?></div>
+                    <?php
+                    if ( $order_detail[ 'status' ] == 2 ) {
+                        if ( !empty($admin_role) && $admin_role[ 0 ] == 'administrator' ) { ?>
+                            <span
+                                class="status_order status_order-<?php echo $order_detail[ 'status' ] ?>"><?php echo $order_detail[ 'status_name' ] ?></span>
+                        <?php }
+                        else { ?>
+                            <span class="status_order status_order-1">Đang dùng</span>
+                        <?php }
+                    }
+                    else { ?>
+                        <span
+                            class="status_order status_order-<?php echo $order_detail[ 'status' ] ?>"><?php echo $order_detail[ 'status_name' ] ?></span>
+                    <?php } ?>
                 </div>
             </div>
         </div>

@@ -116,22 +116,20 @@
         }
         .status_{
           &pay {
-            border: 1px solid var(--tag-border-hover, #A7A7A8);
-            background: var(--tag-background-default, #F2F3F5);
+            
             width: 100%;
             font-weight: 600;
             font-size: 14px;
             display: inline-block;
           }
           &order{
-            border: 1px solid var(--tag-border-hover, #208046);
-            background: var(--color-primary-900, #208046);
+            
             width: 100%;
             text-align: center;
             font-weight: 600;
             font-size: 14px;
             display: inline-block;
-            color: #fff;
+            
             padding: 0 8px;
           }
         }
