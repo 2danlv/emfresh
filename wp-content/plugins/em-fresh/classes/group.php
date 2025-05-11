@@ -26,6 +26,7 @@ class EM_Group extends EF_Default
             'name'          => '',
             'phone'         => '',
             'location_id'   => 0,
+            'customer_id'   => 0,
             'note'          => '',
             'created'       => '',
             'created_at'    => 0,

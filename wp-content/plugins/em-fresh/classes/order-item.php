@@ -160,15 +160,26 @@ class EM_Order_Item extends EF_Default
             $list = (array) json_decode($item['meal_plan'], true);
         }
 
-        if (count($list) == 0) {
-            $meal_number = $item['meal_number'];
+        if (count($list) == 0 && $item['quantity'] >= $item['days']) {
+            // $meal_number = $item['meal_number'];
+
+            // tinh theo so phan an va so ngay
+            $meal_number = intval($item['quantity'] / $item['days']);
+            $balance = $item['quantity'] - $meal_number * $item['days'];
 
             while ($date_start <= $date_stop) {
                 $time = strtotime($date_start);
 
                 // 'Sun', 'Sat'
                 if (!in_array(date('w', $time), [0, 6])) {
-                    $list[$date_start] = $meal_number;
+                    $plus = 0;
+
+                    if($balance > 0) {
+                        $plus = 1;
+                        $balance--;
+                    }
+
+                    $list[$date_start] = $meal_number + $plus;
                 }
 
                 $date_start = date('Y-m-d', $time + DAY_IN_SECONDS);

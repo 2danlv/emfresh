@@ -58,14 +58,12 @@ get_header();
                   <ul>
                     <li>
                       <div class="d-f ai-center">
-                        <i class="fas fa-eye"></i><span class="openmodal pl-10" data-target="#modal-default">Cài đặt hiển
-                          thị</span>
+                        <i class="fas fa-eye"></i><span class="openmodal pl-10" data-target="#modal-default">Cài đặt hiển thị</span>
                       </div>
                     </li>
                     <li>
                       <div class="d-f ai-center">
-                        <i class="fas fa-layer"></i><span class="openmodal pl-10" data-target="#modal-warning-edit">Cập
-                          nhật nhanh</span>
+                        <i class="fas fa-layer"></i><span class="openmodal pl-10" data-target="#modal-warning-edit">Cập nhật nhanh</span>
                       </div>
                     <li>
                       <div class="d-f ai-center">
@@ -73,7 +71,7 @@ get_header();
                           data-target="#modal-static">Thống kê trạng thái</span>
                       </div>
                     </li>
-                    <li><button type="button" name="action" value="export" class="js-export">Xuất dữ liệu</button></li>
+                    <li><button type="button" name="action" value="export" class="js-export-table">Xuất dữ liệu</button></li>
                   </ul>
                 </li>
                 <li class="status"><span class="btn btn-status"><span class="count-checked"></span> đã chọn</span></li>
@@ -275,6 +273,61 @@ get_footer('customer');
 
 <script>
   $(document).ready(function () {
+    $('.js-export-table').on('click', function(e){
+      e.preventDefault();
+
+      let table = document.getElementById('list-meal-plan');
+      if(table && typeof XLSX != 'undefined') {
+        var rows = [], cols = [], em_name = 'meal-plan';
+        rows.push('<thead><tr>');
+        table.querySelectorAll('thead [data-number]').forEach(td => {
+          let number = parseInt(td.getAttribute('data-number') || 0);
+          if(number > 0 && number < 10) {
+            cols.push(td.innerText);
+          }
+        })
+        table.querySelectorAll('thead [data-date]').forEach(td => {
+          let date = td.getAttribute('data-date') || '';
+          /* if(date != '') {
+            let d = new Date(date);
+            date = '';
+            if(d.getDay() == 1) {
+              date = d.getMonth() + 1;
+              date = (date > 9 ? '' : '0') + date + '/';
+            }
+            date += (d.getDate() > 9 ? '' : '0') + d.getDate();
+          }*/
+          cols.push(date);
+        })
+        rows.push(cols.map(v => `<th>${ v }</th>`));
+        rows.push('</tr></thead><tbody>');
+
+        table.querySelectorAll('tbody tr').forEach(tr => {
+          cols = [];
+          tr.querySelectorAll('[data-number]').forEach(td => {
+            let number = parseInt(td.getAttribute('data-number') || 0);
+            if(number > 0 && number < 10) {
+              cols.push(td.innerText);
+            }
+          })
+          tr.querySelectorAll('[data-date]').forEach(td => {
+            cols.push(td.innerText);
+          })
+
+          rows.push('<tr>' + cols.map(v => `<td>${ v }</td>`) + '</tr>');
+        })
+
+        rows.push('</tbody>');
+        
+        var item = document.createElement('table');
+        item.innerHTML = rows.join("");
+        var workbook = XLSX.utils.table_to_book(item);
+
+        // /* create an XLSX file and try to save to Donwload.xlsx */
+        XLSX.writeFile(workbook, `${em_name}-${(new Date()).getTime()}.xlsx`, {compression: true});
+      }
+    })
+
     $('.content-header .input-search').attr('placeholder', 'Tên khách hàng / SĐT');
     setTimeout(() => {
       var targetOffset = $('#target').offset().left;
@@ -348,4 +401,12 @@ get_footer('customer');
       $('.top-results').hide();
     }
   });
+
+const createDownloadLinkCSV = (data, name) => {
+  const blob = new Blob([data], { type: 'text/csv;charset=utf-8' })
+  const link = document.createElement('a')
+  link.href = URL.createObjectURL(blob)
+  link.download = name
+  link.click()
+}
 </script>

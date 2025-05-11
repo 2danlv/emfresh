@@ -111,7 +111,7 @@ class EF_Default
     function insert($data = [])
     {
         if ($this->can_insert() == false) {
-            return false;
+            return 0;
         }
 
         global $wpdb;
@@ -161,7 +161,7 @@ class EF_Default
             return true;
         }
 
-        return true;
+        return false;
     }
 
     function update($data = [], $where = [])
@@ -225,6 +225,10 @@ class EF_Default
 
     function update_field($id = 0, $name = '', $value = '')
     {
+        if ($this->can_update() == false) {
+            return false;
+        }
+
         global $wpdb;
     
         return $wpdb->update(
@@ -242,7 +246,7 @@ class EF_Default
             return true;
         }
 
-        return true;
+        return false;
     }
 
     function delete($where = [])
@@ -288,7 +292,7 @@ class EF_Default
             return true;
         }
 
-        return true;
+        return false;
     }
 
     function get_items($args = [])

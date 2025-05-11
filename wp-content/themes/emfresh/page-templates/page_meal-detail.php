@@ -8,9 +8,11 @@
  * @since Twenty Twelve 1.0
  */
 
-$customer_id = isset($_GET['customer_id']) ? intval($_GET['customer_id']) : 0;
-$order_id    = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
-$group_id    = isset($_GET['group_id']) ? intval($_GET['group_id']) : 0;
+global $em_group;
+
+$customer_id = !empty($_GET['customer_id']) ? intval($_GET['customer_id']) : 0;
+$order_id    = !empty($_GET['order_id']) ? intval($_GET['order_id']) : 0;
+$group_id    = !empty($_GET['group_id']) ? intval($_GET['group_id']) : 0;
 
 $args = [];
 
@@ -21,6 +23,11 @@ if ($order_id > 0) {
 if ($customer_id > 0) {
   $args['customer_id'] = $customer_id;
 } else if ($group_id > 0) {
+  $group = $em_group->get_item($group_id);
+  if (empty($group['name'])) {
+    wp_redirect('/meal-plan/');
+    exit();
+  }
   $args['group_id'] = $group_id;
 } else {
   wp_redirect('/meal-plan/');
@@ -36,10 +43,14 @@ if(isset($_GET['abs'])) {
 get_header();
 // Start the Loop.
 
-if ( count($data) > 0 && isset($data[ 'orders' ]) ) :
+if (count($data) > 0 && isset($data['orders'])) :
 
-  $first_order              = $data[ 'orders' ][ 0 ];
-  $schedule_meal_plan_items = $data[ 'meal_plan_items' ];
+  $first_order              = $data['orders'][0];
+  $schedule_meal_plan_items = $data['meal_plan_items'];
+
+  if($group_id > 0) {
+    $first_order['customer_name'] = $group['name'];
+  }
 
   ?>
   <!-- Main content -->
@@ -205,16 +216,14 @@ if ( count($data) > 0 && isset($data[ 'orders' ]) ) :
                 </td>
               </tr>
               <?php
-
-              foreach ($order[ 'order_items' ] as $i => $order_item) :
-                $meal_plan_items = $order_item[ 'meal_plan_items' ];
-                // $total = array_sum($meal_plan_items);
-                $total = $order_item['meal_number'] * $order_item['days'];
-                ?>
+                foreach ($order[ 'order_items' ] as $i => $order_item) :
+                  $meal_plan_items = $order_item['meal_plan_items'];
+                  $old_date_stop = site_order_get_date_value($order_item['date_start'], $order_item['days']);
+              ?>
                 <tr
                   class="accordion-content_table order-<?php echo $order[ 'id' ]; ?> order-item order-item-<?php echo $i + 1 ?>"
                   data-order_id="<?php echo $order[ 'id' ] ?>" data-order_item_id="<?php echo $order_item[ 'id' ] ?>"
-                  data-total="<?php echo $total ?>">
+                  data-total="<?php echo $order_item['quantity'] ?>">
                   <td class="sub-td-calc"><span class="title"><?php echo $customer_name_2nd ?></span></td>
                   <td class="text-center sub-td-calc nowrap wrap-td" style="width: 87px;">
                     <div class="ellipsis"><?php echo $order_item[ 'product_name' ] ?></div>
@@ -226,16 +235,21 @@ if ( count($data) > 0 && isset($data[ 'orders' ]) ) :
                   <td class="wrap-date">
                     <ul class="d-f date-group" data-date_start="<?php echo $order_item[ 'date_start' ] ?>" data-date_stop="<?php echo $order_item[ 'date_stop' ] ?>">
                       <?php foreach ($data[ 'schedule' ] as $date) :
-                        $value = isset($meal_plan_items[ $date ]) ? $meal_plan_items[ $date ] : '';
+                        $value = !empty($meal_plan_items[$date]) ? $meal_plan_items[$date] : '';
 
-                        if ( $value != '' ) {
+                        if ($value != '') {
                           $class_date = '';
                           $class_cl   = $class;
-                        }
-                        else {
+                          
+                          if ($date > $old_date_stop) {
+                            $class_date .= ' date-moved'; // gia tri bi di chuyen vuot qua so ngay
+                          }
+                        } else {
                           $class_date = 'empty';
                           $class_cl   = '';
-                        } ?>
+                        }
+                        
+                      ?>
                         <li class="<?php echo $class_date; ?> <?php echo $class_cl; ?> <?php echo $class_payment; ?>">
                           <span>
                             <input type="text" class="input-meal_plan<?php echo $value == '' ? ' empty' : '' ?>"

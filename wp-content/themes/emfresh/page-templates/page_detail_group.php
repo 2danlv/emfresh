@@ -37,13 +37,16 @@ if ($group_id > 0) {
         $list = $em_customer_group->get_items([
             'group_id' => $group_id,
             'orderby' => 'id ASC',
+            'limit' => -1,
         ]);
+
         if(count($list) > 0) {
             $leader = $list[0];
 
             foreach($list as $i => $item) {
                 $args = [
                     'customer_id' => $item['customer_id'],
+                    'order_type' => 'group',
                     'check_date_start' => $today,
                     'check_date_stop' => $today
                 ];
@@ -127,11 +130,16 @@ get_header();
                                         <select class="select_list-member">
                                         <?php
                                         foreach ( $list as $i => $item ) { ?>
-                                            <option value="<?php echo $item[ 'order' ]; ?>" data-customer_id="<?php echo $item[ 'customer_id' ]; ?>" data-customer_name="<?php echo $item[ 'customer_name' ]; ?>" data-phone="<?php echo $item[ 'phone' ]; ?>"><?php echo $item[ 'customer_name' ]; ?></option>
+                                            <option value="<?php echo $item[ 'order' ]; ?>" 
+                                                <?php echo $leader['customer_id'] == $item['customer_id'] ? 'selected' : ''; ?>
+                                                data-customer_id="<?php echo $item[ 'customer_id' ]; ?>" 
+                                                data-customer_name="<?php echo $item[ 'customer_name' ]; ?>" 
+                                                data-phone="<?php echo $item[ 'phone' ]; ?>"
+                                            ><?php echo $item[ 'customer_name' ]; ?></option>
                                         <?php } ?>
                                         </select>
-                                        <input type="text" name="name" value="<?php echo $name ?>" class="d-none fullname form-control" placeholder="Tên khách hàng">
-                                        <input type="text" name="customer_id" value="<?php echo $name ?>" class="d-none customer_id form-control" placeholder="customer_id">
+                                        <input type="hidden" name="name" value="<?php echo $name ?>" class="fullname form-control" placeholder="Tên khách hàng">
+                                        <input type="hidden" name="customer_id" value="<?php echo $leader['customer_id'] ?>" class="customer_id form-control" placeholder="customer_id">
                                     </div>
                                     <div class="col-3 pb-16">
                                         SĐT trưởng nhóm:

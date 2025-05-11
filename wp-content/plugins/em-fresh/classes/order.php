@@ -105,7 +105,8 @@ class EM_Order extends EF_Default
     function get_filters()
     {
         return [
-            'customer_id' => ''
+            'customer_id' => '',
+            'order_type' => '',
         ];
     }
 
@@ -293,9 +294,14 @@ class EM_Order extends EF_Default
             foreach ($data as $key => $value) {
                 $item[$key] = $value;
 
-                if ($key == 'status') {                    
+                if ($key == 'status') {
                     $item['status_name'] = $this->get_statuses($value);
                 } else if ($key == 'order_status') {
+                    if($value == 0) {
+                        $value = $this->get_current_order_status($item);
+                    }
+
+                    $item['order_status'] = $value;
                     $item['order_status_name'] = $this->get_order_statuses($value);
                 } else if ($key == 'payment_status') {
                     $item['payment_status_name'] = $this->get_payment_statuses($value);
@@ -328,37 +334,33 @@ class EM_Order extends EF_Default
 
                     $item['used_value'] = $used_value;
                     $item['remaining_value'] = $total - $used_value;
-                } else if ($key == 'date_start') {
-                    if ($value == '0000-00-00' && isset($item['id'])) {
-                        $order_items = $em_order_item->get_items([
-                            'order_id' => $item['id'],
-                            'limit' => 1,
-                            'orderby' => 'date_start ASC'
-                        ]);
+                } else if ($key == 'date_start' && $value == '0000-00-00' && isset($item['id'])) {
+                    $order_items = $em_order_item->get_items([
+                        'order_id' => $item['id'],
+                        'limit' => 1,
+                        'orderby' => 'date_start ASC'
+                    ]);
 
-                        if (isset($order_items[0]['date_start'])) {
-                            $value = $item[$key] = $order_items[0]['date_start'];
+                    if (isset($order_items[0]['date_start'])) {
+                        $value = $item[$key] = $order_items[0]['date_start'];
 
-                            $this->update([
-                                'date_start' => $value
-                            ], ['id' => $item['id']]);
-                        }
+                        $this->update([
+                            'date_start' => $value
+                        ], ['id' => $item['id']]);
                     }
-                } else if ($key == 'date_stop') {
-                    if ($value == '0000-00-00' && isset($item['id'])) {
-                        $order_items = $em_order_item->get_items([
-                            'order_id' => $item['id'],
-                            'limit' => 1,
-                            'orderby' => 'date_stop DESC'
-                        ]);
+                } else if ($key == 'date_stop' && $value == '0000-00-00' && isset($item['id'])) {
+                    $order_items = $em_order_item->get_items([
+                        'order_id' => $item['id'],
+                        'limit' => 1,
+                        'orderby' => 'date_stop DESC'
+                    ]);
 
-                        if (isset($order_items[0]['date_stop'])) {
-                            $value = $item[$key] = $order_items[0]['date_stop'];
+                    if (isset($order_items[0]['date_stop'])) {
+                        $value = $item[$key] = $order_items[0]['date_stop'];
 
-                            $this->update([
-                                'date_stop' => $value
-                            ], ['id' => $item['id']]);
-                        }
+                        $this->update([
+                            'date_stop' => $value
+                        ], ['id' => $item['id']]);
                     }
                 } else if ($key == 'location_id') {
                     $location = $em_location->get_item($value);
@@ -400,6 +402,68 @@ class EM_Order extends EF_Default
         }
 
         return parent::filter_item($item, $type);
+    }
+
+    function get_current_order_status($item = [])
+    {
+        if (is_numeric($item)) {
+            $item = $this->get_item($item);
+        }
+
+        if (empty($item['id'])) {
+            return 0;
+        }
+
+        global $em_order_item;
+
+        $order_status = 4;
+
+        $is_dat_don = true;
+
+        $order_items = $em_order_item->get_items([
+            'order_id' => $item['id'],
+            'limit' => -1,
+        ]);
+
+        foreach($order_items as $order_item) {
+            if($order_status == 3){
+                break;
+            }
+
+            $meal_plan_items = $em_order_item->get_meal_plan($order_item);
+            $meal_select_items = $em_order_item->get_meal_select($order_item);
+
+            if(count($meal_plan_items) > 0) {
+                $order_status = 2;
+
+                // check meal select to set order status
+                foreach($meal_select_items as $day => $meal_select) {
+                    $meal_plan_total = $meal_plan_items[$day];
+                    if($meal_plan_total == 0) continue;
+
+                    $meal_select_count = 0;
+
+                    foreach($meal_select as $menu_id) {
+                        if($menu_id > 0) {
+                            $meal_select_count++;
+                        }
+                    }
+
+                    if($meal_select_count < $meal_plan_total) {
+                        $order_status = 3; // Di mon
+    
+                        $is_dat_don = false;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if($is_dat_don) {
+            $order_status = 1;
+        }
+
+        return $order_status;
     }
 
     function get_where($args = [])

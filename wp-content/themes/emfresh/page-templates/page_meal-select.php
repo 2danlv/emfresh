@@ -128,7 +128,7 @@ get_header();
                   <li>
                     <span class="openmodal btn-split" data-target="#modal-split-order">Tách đơn khẩn</span>
                   </li>
-                  <li><button type="button" name="action" value="export" class="js-export">Xuất dữ liệu</button></li>
+                  <li><button type="button" name="action" value="export" class="js-export-table">Xuất dữ liệu</button></li>
                 </ul>
               </li>
             </ul>
@@ -532,7 +532,64 @@ get_header();
     </div>
   </div>
 </div>
+<table id="export-select-meal" class="table table-select-meal" style="display:none">
+  <thead>
+    <tr class="nowrap">
+      <th data-number="1">Tên người nhận</th>
+      <th data-number="2" class="text-left">SĐT</th>
+      <th data-number="3">Mã</th>
+      <?php foreach($days as $i => $day) : $time = strtotime($day); ?>
+      <th class="text-center" data-number="<?php echo $i + 4 ?>">
+        Thứ <?php echo $i + 2 ?> <br>
+        (<?php echo date('d/m', $time) ?>)
+      </th>
+      <?php endforeach ?>
+    </tr>
+  </thead>
+  <tbody>
+    <?php
+      foreach ($data['orders'] as $i => $order) :
+        foreach($order['order_items'] as $order_item) :
+          if(empty($order_item['meal_select_items']) || count($order_item['meal_select_items']) == 0) continue;
 
+          $meal_select_items = $order_item['meal_select_items'];
+          $count = 0;
+          foreach($days as $i => $day) {
+            if(isset($meal_select_items[$day])) {
+              $count++;
+              break;
+            }
+          }
+
+          if($count==0) continue;
+
+          $meal_plan_items = $order_item['meal_plan_items'];
+
+          $product_name = explode('-', $order_item['product_name']);
+    ?>
+      <tr class="nowrap" data-order-id="<?php echo $order['id'] ?>" data-order-item-id="<?php echo $order_item['id'] ?>">
+        <td data-number="1" class="text-capitalize nowrap wrap-td"><?php echo $order[ 'customer_name' ] ?></td>
+        <td data-number="2" class="text-left"><?php echo $order['phone']; ?></td>
+        <td data-number="3"><?php echo trim($product_name[0]) ?></td>
+        <?php foreach($days as $i => $day) :?>
+        <td data-number="<?php echo $i + 4 ?>" class="wrap-td">
+          <?php 
+            $meal_select = empty($meal_select_items[$day]) ? [] : $meal_select_items[$day];
+            $value = [];
+            foreach($meal_select as $menu_id) {
+              if($menu_id > 0 && !empty($menu_select[$menu_id])) {
+                $value[] = $menu_select[$menu_id] . '.';
+              }
+            }
+            echo implode(' ', $value);
+          ?>
+        </td>
+        <?php endforeach ?>
+      </tr>
+    <?php endforeach;
+    endforeach; ?>
+  </tbody>
+</table>
 <?php
 // endwhile;
 
@@ -546,6 +603,16 @@ get_footer('customer');
 ?>
 <script src="<?php site_the_assets(); ?>js/order.js"></script>
 <script>
+
+  $('.js-export-table').on('click', function(e){
+    e.preventDefault();
+
+    var item = document.getElementById('export-select-meal');
+    var workbook = XLSX.utils.table_to_book(item);
+
+    // /* create an XLSX file and try to save to Donwload.xlsx */
+    XLSX.writeFile(workbook, `chon-mon-${(new Date()).getTime()}.xlsx`, {compression: true});
+  })
 
   $('.meal_select').on('change', function(){
     let input = $(this);

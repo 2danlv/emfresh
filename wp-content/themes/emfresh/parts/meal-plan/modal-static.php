@@ -1,6 +1,7 @@
 <?php
 
-$static_days = site_get_days_week_by('this-week');
+$this_day = !empty($_GET['this_day']) ? trim($_GET['this_day']) : 'this-week';
+$static_days = site_get_days_week_by($this_day);
 
 $statistics = $data['statistics'];
 
