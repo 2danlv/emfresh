@@ -74,6 +74,19 @@ get_header();
 // Start the Loop.
 // while ( have_posts() ) : the_post();
 
+$export_rows = [];
+$row = 0;
+
+$default_columns = [
+  'Tên người nhận' => '',
+  'SĐT' => '',
+  'Mã' => '',
+];
+
+foreach($days as $day) {
+  $default_columns[site_get_meal_week($day)] = '';
+}
+
 ?>
 <!-- Main content -->
 <section class="content">
@@ -176,9 +189,6 @@ get_header();
                   'week' => $week,
                 ], $detail_menu_select_url);
 
-                // $result = site_order_group_item_name($order['item_name']);
-                // $item_name = implode('+', $result);
-
                 foreach($order['order_items'] as $order_item) :
                   if(empty($order_item['meal_select_items']) || count($order_item['meal_select_items']) == 0) continue;
 
@@ -194,36 +204,57 @@ get_header();
                   if($count==0) continue;
 
                   $meal_plan_items = $order_item['meal_plan_items'];
-
                   $product_name = explode('-', $order_item['product_name']);
+                  $cell_max = 0;
+
+                  $export_rows[$row] = shortcode_atts($default_columns, [
+                    'Tên người nhận' => $order['customer_name'],
+                    'SĐT' => $order['phone'],
+                    'Mã' => trim($product_name[0]),
+                  ]);
             ?>
               <tr class="nowrap" data-order-id="<?php echo $order['id'] ?>" data-order-item-id="<?php echo $order_item['id'] ?>">
                 <td data-number="0" class="text-center"><input type="checkbox" tabindex="-1" class="checkbox-element" data-number="<?php echo $order['phone']; ?>" value="<?php echo $order['id'] ?>"></td>
                 <td data-number="1" class="text-capitalize nowrap wrap-td">
-                  <div class="ellipsis"><a href="<?php echo $link ?>" tabindex="-1"><?php echo $order[ 'customer_name' ] ?></a></div>
+                  <div class="ellipsis"><a href="<?php echo $link ?>" tabindex="-1"><?php echo $order['customer_name'] ?></a></div>
                 </td>
                 <td data-number="2" class="text-left"><span tabindex="-1"class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $order['phone']; ?>"><?php echo $order['phone']; ?></span></td>
                 <td data-number="3"><?php echo trim($product_name[0]) ?></td>
                 <?php foreach($days as $i => $day) : 
                   $meal_select = empty($meal_select_items[$day]) ? [] : $meal_select_items[$day];
                   $meal_plan_value = empty($meal_plan_items[$day]) ? 0 : $meal_plan_items[$day];
+
+                  $count = count($meal_select);
+                  if($cell_max < $count) {
+                    $cell_max = $count;
+                  }
                 ?>
                 <td data-number="<?php echo $i + 4 ?>" class="wrap-td" style="min-width: 140px;">
-                  <?php foreach($meal_select as $k => $menu_id) : ?>
+                  <?php foreach($meal_select as $k => $menu_id) :
+
+                    $row_k = ($row + $k);
+
+                    $columns = isset($export_rows[$row_k]) ? $export_rows[$row_k] : $default_columns;
+
+                    $columns[site_get_meal_week($day)] = $menu_id > 0 && !empty($menu_select[$menu_id]) ? $menu_select[$menu_id] : '';
+
+                    $export_rows[$row_k] = $columns;
+
+                  ?>
                   <div class="mb-6">
                     <select name="list_meal_select[<?php echo $order_item['id'] ?>][<?php echo $day ?>][<?php echo $k ?>]" 
                       class="meal_select<?php echo $k >= $meal_plan_value ? ' meal-plan-waring' : '' ?>" data-old="<?php echo $menu_id ?>"
-                    >
-                      <?php
-                        foreach($menu_select as $value => $name) {
-                          echo '<option value="'.$value.'"'.($value == $menu_id ? ' selected' :'').'>' . $name . '</option>';
-                        }
-                      ?>
-                    </select>
+                    ><?php
+                      foreach($menu_select as $value => $name) {
+                        echo '<option value="'.$value.'"'.($value == $menu_id ? ' selected' :'').'>' . $name . '</option>';
+                      }
+                    ?></select>
                   </div>
                   <?php endforeach ?>
                 </td>
-                <?php endforeach ?>
+                <?php endforeach;
+                  $row += $cell_max;
+                ?>
               </tr>
             <?php endforeach;
             endforeach; ?>
@@ -235,9 +266,8 @@ get_header();
 	<span class="btn btn-secondary openmodal" data-target="#modal-plan-history">Lịch sử thao tác</span>
 </div>
 </div>
-  <!-- /.card-body -->
+<!-- /.card-body -->
 </section>
-
 <div class="modal fade modal-warning" id="modal-warning-edit">
   <div class="overlay"></div>
   <div class="modal-dialog">
@@ -532,64 +562,6 @@ get_header();
     </div>
   </div>
 </div>
-<table id="export-select-meal" class="table table-select-meal" style="display:none">
-  <thead>
-    <tr class="nowrap">
-      <th data-number="1">Tên người nhận</th>
-      <th data-number="2" class="text-left">SĐT</th>
-      <th data-number="3">Mã</th>
-      <?php foreach($days as $i => $day) : $time = strtotime($day); ?>
-      <th class="text-center" data-number="<?php echo $i + 4 ?>">
-        Thứ <?php echo $i + 2 ?> <br>
-        (<?php echo date('d/m', $time) ?>)
-      </th>
-      <?php endforeach ?>
-    </tr>
-  </thead>
-  <tbody>
-    <?php
-      foreach ($data['orders'] as $i => $order) :
-        foreach($order['order_items'] as $order_item) :
-          if(empty($order_item['meal_select_items']) || count($order_item['meal_select_items']) == 0) continue;
-
-          $meal_select_items = $order_item['meal_select_items'];
-          $count = 0;
-          foreach($days as $i => $day) {
-            if(isset($meal_select_items[$day])) {
-              $count++;
-              break;
-            }
-          }
-
-          if($count==0) continue;
-
-          $meal_plan_items = $order_item['meal_plan_items'];
-
-          $product_name = explode('-', $order_item['product_name']);
-    ?>
-      <tr class="nowrap" data-order-id="<?php echo $order['id'] ?>" data-order-item-id="<?php echo $order_item['id'] ?>">
-        <td data-number="1" class="text-capitalize nowrap wrap-td"><?php echo $order[ 'customer_name' ] ?></td>
-        <td data-number="2" class="text-left"><?php echo $order['phone']; ?></td>
-        <td data-number="3"><?php echo trim($product_name[0]) ?></td>
-        <?php foreach($days as $i => $day) :?>
-        <td data-number="<?php echo $i + 4 ?>" class="wrap-td">
-          <?php 
-            $meal_select = empty($meal_select_items[$day]) ? [] : $meal_select_items[$day];
-            $value = [];
-            foreach($meal_select as $menu_id) {
-              if($menu_id > 0 && !empty($menu_select[$menu_id])) {
-                $value[] = $menu_select[$menu_id] . '.';
-              }
-            }
-            echo implode(' ', $value);
-          ?>
-        </td>
-        <?php endforeach ?>
-      </tr>
-    <?php endforeach;
-    endforeach; ?>
-  </tbody>
-</table>
 <?php
 // endwhile;
 
@@ -600,18 +572,34 @@ $site_scripts[] = "https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.mi
 $site_scripts[] = get_template_directory_uri() . '/assets/js/importer.js';
 
 get_footer('customer');
+
+$rows = [];
+foreach($export_rows as $i => $row) {
+  if(count(array_filter($row, function($v){ return $v != '';})) > 0) {
+    $rows[] = $row;
+  }
+}
+
 ?>
 <script src="<?php site_the_assets(); ?>js/order.js"></script>
 <script>
+  var $rows = <?php echo json_encode($rows, JSON_UNESCAPED_UNICODE) ?>;
 
   $('.js-export-table').on('click', function(e){
     e.preventDefault();
 
-    var item = document.getElementById('export-select-meal');
-    var workbook = XLSX.utils.table_to_book(item);
+    if(typeof $rows == 'undefined' || $rows.length == 0) return;
+
+    console.log('$rows', $rows);
+
+    var em_name = 'chon-mon';
+
+    const worksheet = XLSX.utils.json_to_sheet($rows);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, em_name);
 
     // /* create an XLSX file and try to save to Donwload.xlsx */
-    XLSX.writeFile(workbook, `chon-mon-${(new Date()).getTime()}.xlsx`, {compression: true});
+    XLSX.writeFile(workbook, `${em_name}-${(new Date()).getTime()}.xlsx`, {compression: true});
   })
 
   $('.meal_select').on('change', function(){
