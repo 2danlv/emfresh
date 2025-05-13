@@ -51,6 +51,7 @@ $list_copy = [
   'Danh sách chính',
   'Bản sao 1',
   'Bản sao 2',
+  'Bản sao 3',
 ];
 
 $list_logs = $em_log->get_items([
@@ -148,13 +149,19 @@ foreach($days as $day) {
           </div>
           <div class="col-7">
             <ul class="d-f">
-              <?php foreach($list_copy as $number => $name) :?>
-              <li class="mr-16 <?php echo $meal_select_number == $number ? ' ' : ' dn' ?>">
+              <?php
+              $i = 0;
+              foreach($list_copy as $number => $name) :?>
+              <li class="mr-16 <?php echo $meal_select_number >= $i ? ' ' : 'dn' ?>">
                 <a href="<?php echo add_query_arg(['order_id' => $order_id,'meal_select_number' => $number,'week' => $week,
                 ], $detail_menu_select_url) ?>" class="btn<?php echo $meal_select_number == $number ? ' btn-primary ' : '' ?>"><?php echo $name ?></a>
               </li>
-              <?php endforeach ?>
-              <li class="add" style="width: 32px; height: 32px; line-height: 32px; cursor: pointer;"><img src="<?php echo site_get_template_directory_assets(); ?>img/icon/plus-svgrepo-com.svg" alt=""></li>
+              <?php
+              $i++;
+              endforeach ?>
+              <?php if ( $meal_select_number < 3 ) { ?>
+                <li class="add" style="width: 32px; height: 32px; line-height: 32px; cursor: pointer;"><img src="<?php echo site_get_template_directory_assets(); ?>img/icon/plus-svgrepo-com.svg" alt=""></li>
+              <?php } ?>
             </ul>
           </div>
         </div>

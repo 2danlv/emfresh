@@ -115,6 +115,12 @@ if($duplicate_order > 0) {
 	$order_detail['total_amount'] = 0;
 	$order_detail['params'] = '';
 }
+if ( $order_detail[ 'status' ] == 2 ) {
+	if ( !empty( $admin_role ) && $admin_role[ 0 ] != 'administrator' ) {
+		wp_redirect( home_url( 'list-order' ) );
+		exit();
+	}
+}
 
 get_header();
 

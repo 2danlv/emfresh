@@ -135,79 +135,74 @@ get_header();
                   $link = add_query_arg(['order_id' => $record['id']], $detail_order_url);
                   $location_list = explode(',', $record['location_name']);
                 ?>
-                  <tr class="nowrap">
-                    <td data-number="0" class="text-center"><input type="checkbox" class="checkbox-element" data-number="<?php echo $record['phone']; ?>" value="<?php echo $record['id'] ?>"></td>
-                    <td data-number="1" class="text-left"><a href="<?php echo $link ?>"><?php echo $record['order_number'] ?></a></td>
-                    <td data-number="2" class="text-capitalize nowrap wrap-td"><div class="ellipsis"><a href="<?php echo $link ?>"><?php echo $record['customer_name']; ?></a></div></td>
-                    <td data-number="3" class="text-left"><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $record['phone']; ?>"><?php echo $record['phone']; ?></span></td>
-                    <td data-number="4" class="text-capitalize wrap-td" style="min-width: 300px;">
-                      <div class="nowrap ellipsis"><?php echo $record['location_name'] ?></div>
-                    </td>
-                    <td data-number="5" class="text-center"><?php echo trim(end($location_list)) ?></td>
-                    <td data-number="6" class="text-center"><?php echo strtoupper($record['type_name']) ?></td>
-                    <td data-number="7"><?php echo $record['item_name'] ?></td>
-                    <td data-number="8"><?php echo date('d/m/Y', strtotime($record['date_start'])) ?></td>
-                    <td data-number="9"><?php echo date('d/m/Y', strtotime($record['date_stop'])) ?></td>
-                    <td data-number="10" class="wrap-td" style="min-width: 290px;"><div class="ellipsis"><?php echo $record['note'] ?></div></td>
-                    <?php $params = unserialize($record['params']); ?>
-                    <td data-number="11" class="wrap-td" style="min-width: 440px;">
-                      <div class="ellipsis">
-                      <?php 
-                        $ships = $em_order->get_ships($record);
-                        if (count($ships) > 0) {
-                          foreach ($ships as $ship) {
-                            if (!empty($ship['location_name'])) {
-                              if (!empty($ship['days']) && is_array($ship['days'])) { 
-                                echo implode(", ", $ship['days']);
+                <?php
+                if ( !empty($admin_role) && $admin_role[0] == 'administrator' ) {
+                    $show_row = true;
+                  }
+                  else {
+                    $show_row = ($record['status'] != 2);
+                  }
+                  if ( $show_row ) { ?>
+                    <tr class="nowrap">
+                      <td data-number="0" class="text-center"><input type="checkbox" class="checkbox-element" data-number="<?php echo $record[ 'phone' ]; ?>" value="<?php echo $record[ 'id' ] ?>"></td>
+                      <td data-number="1" class="text-left"><a href="<?php echo $link ?>"><?php echo $record[ 'order_number' ] ?></a></td>
+                      <td data-number="2" class="text-capitalize nowrap wrap-td"><div class="ellipsis"><a href="<?php echo $link ?>"><?php echo $record[ 'customer_name' ]; ?></a></div></td>
+                      <td data-number="3" class="text-left"><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $record[ 'phone' ]; ?>"><?php echo $record[ 'phone' ]; ?></span></td>
+                      <td data-number="4" class="text-capitalize wrap-td" style="min-width: 300px;">
+                        <div class="nowrap ellipsis"><?php echo $record[ 'location_name' ] ?></div>
+                      </td>
+                      <td data-number="5" class="text-center"><?php echo trim( end( $location_list ) ) ?></td>
+                      <td data-number="6" class="text-center"><?php echo strtoupper( $record[ 'type_name' ] ) ?></td>
+                      <td data-number="7"><?php echo $record[ 'item_name' ] ?></td>
+                      <td data-number="8"><?php echo date( 'd/m/Y', strtotime( $record[ 'date_start' ] ) ) ?></td>
+                      <td data-number="9"><?php echo date( 'd/m/Y', strtotime( $record[ 'date_stop' ] ) ) ?></td>
+                      <td data-number="10" class="wrap-td" style="min-width: 290px;"><div class="ellipsis"><?php echo $record[ 'note' ] ?></div></td>
+                      <?php $params = unserialize( $record[ 'params' ] ); ?>
+                      <td data-number="11" class="wrap-td" style="min-width: 440px;">
+                        <div class="ellipsis">
+                        <?php
+                        $ships = $em_order->get_ships( $record );
+                        if ( count( $ships ) > 0 ) {
+                          foreach ( $ships as $ship ) {
+                            if ( !empty( $ship[ 'location_name' ] ) ) {
+                              if ( !empty( $ship[ 'days' ] ) && is_array( $ship[ 'days' ] ) ) {
+                                echo implode( ", ", $ship[ 'days' ] );
                                 echo ": ";
                               }
-                              
-                              echo $ship['location_name']."<br>";
+
+                              echo $ship[ 'location_name' ] . "<br>";
                             }
                           }
                         }
-                      ?>
-                      </div>
-                    </td>
-                    <td data-number="12">
-                      <?php
-                        if ( $record[ 'status' ] == 2 ) {
-                          if ( !empty($admin_role) && $admin_role[ 0 ] == 'administrator' ) { ?>
-                          <span
-                            class="status_order status_order-<?php echo $record[ 'status' ] ?>"><?php echo $record[ 'status_name' ] ?></span>
-                        <?php }
-                          else { ?>
-                          <span class="status_order status_order-1">Đang dùng</span>
-                        <?php }
-                        }
-                        else { ?>
-                        <span
-                          class="status_order status_order-<?php echo $record[ 'status' ] ?>"><?php echo $record[ 'status_name' ] ?></span>
-                      <?php } ?>
-                      
-                    </td>
-                    <td data-number="13"><?php echo $record['payment_method_name'] ?></td>
-                    <td data-number="14"><span class="status_order status_pay-<?php echo $record['payment_status']; ?>"><?php echo $record['payment_status_name'] ?></span></td>
-                    <td data-number="15">
-                      <?php
-                      $total_money = $record['total_amount'] +  $record['ship_amount'];
-                      echo $total_money > 0 ? number_format($total_money) : 0 ?>
-                    </td>
-                    <td data-number="16"><?php echo $record['remaining_amount'] > 0 ? number_format($record['remaining_amount']) : 0 ?></td>
-                    <td data-number="17"><?php echo $record['used_value'] > 0 ? number_format($record['used_value']) : 0 ?></td>
-                    <td data-number="18"><?php echo $record['remaining_value'] > 0 ? number_format($record['remaining_value']) : 0 ?></td>
-                    <td data-number="19" class="text-center"><span class="avatar"><img src="<?php echo get_avatar_url($record['modified_at']); ?>" width="24" alt="<?php echo get_the_author_meta('display_name', $record['modified_at']); ?>"></span></td>
-                    <td data-number="20"><?php echo get_the_author_meta('display_name', $record['modified_at']); ?></td>
-                    <td data-number="21" style="min-width: 140px;"><?php echo date('H:i d/m/Y', strtotime($record['modified'])); ?></td>
-                    <td data-number="22"><?php echo date('Y/m/d', strtotime($record['modified'])); ?></td>
-                    <td data-number="23"><?php echo date('d/m/Y', strtotime($record['modified'])); ?></td>
-                  </tr>
-          <?php
-              } else {
-                echo "Không tìm thấy dữ liệu!\n";
+                        ?>
+                        </div>
+                      </td>
+                      <td data-number="12">
+                        <span class="status_order status_order-<?php echo $record[ 'status' ] ?>"><?php echo $record[ 'status_name' ] ?></span>
+                      </td>
+                      <td data-number="13"><?php echo $record[ 'payment_method_name' ] ?></td>
+                      <td data-number="14"><span class="status_order status_pay-<?php echo $record[ 'payment_status' ]; ?>"><?php echo $record[ 'payment_status_name' ] ?></span></td>
+                      <td data-number="15">
+                        <?php
+                        $total_money = $record[ 'total_amount' ] + $record[ 'ship_amount' ];
+                        echo $total_money > 0 ? number_format( $total_money ) : 0 ?>
+                      </td>
+                      <td data-number="16"><?php echo $record[ 'remaining_amount' ] > 0 ? number_format( $record[ 'remaining_amount' ] ) : 0 ?></td>
+                      <td data-number="17"><?php echo $record[ 'used_value' ] > 0 ? number_format( $record[ 'used_value' ] ) : 0 ?></td>
+                      <td data-number="18"><?php echo $record[ 'remaining_value' ] > 0 ? number_format( $record[ 'remaining_value' ] ) : 0 ?></td>
+                      <td data-number="19" class="text-center"><span class="avatar"><img src="<?php echo get_avatar_url( $record[ 'modified_at' ] ); ?>" width="24" alt="<?php echo get_the_author_meta( 'display_name', $record[ 'modified_at' ] ); ?>"></span></td>
+                      <td data-number="20"><?php echo get_the_author_meta( 'display_name', $record[ 'modified_at' ] ); ?></td>
+                      <td data-number="21" style="min-width: 140px;"><?php echo date( 'H:i d/m/Y', strtotime( $record[ 'modified' ] ) ); ?></td>
+                      <td data-number="22"><?php echo date( 'Y/m/d', strtotime( $record[ 'modified' ] ) ); ?></td>
+                      <td data-number="23"><?php echo date( 'd/m/Y', strtotime( $record[ 'modified' ] ) ); ?></td>
+                    </tr>
+                  <?php }
               }
-            }
+            } 
+          } else {
+            echo "Không tìm thấy dữ liệu!\n";
           }
+            
           ?>
         </tbody>
       </table>

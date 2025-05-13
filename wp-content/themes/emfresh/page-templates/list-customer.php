@@ -226,6 +226,19 @@ get_header();
                       // Xử lý khi không có giá trị date_start nào (ví dụ: gán giá trị mặc định hoặc thông báo lỗi)
                       $max_date = null; // Hoặc giá trị phù hợp khác
                     }
+                  $statuses     = array_column( $response_order[ 'data' ], 'status_name' );
+                  $allCompleted = true;
+                  $admin_role   = wp_get_current_user()->roles;
+                  foreach ( $statuses as $value ) {
+                    if ( $value !== 'Hoàn tất') {
+                      $allCompleted = true;
+                      break;
+                    } else {
+                      $allCompleted = false;
+                      break;
+                    }
+                  }
+                  if ( count( $statuses ) > 0 && $allCompleted ) {
                   ?>
                   <tr>
                     <td data-number="0" class="text-center"><input type="checkbox" class="checkbox-element" data-number="<?php echo $record['phone']; ?>" value="<?php echo $record['id'] ?>"></td>
@@ -239,9 +252,6 @@ get_header();
                     </td>
                     <td data-number="5">
                     <?php 
-                      $statuses = array_column($response_order['data'], 'status_name');
-                      $allCompleted = true;
-                      $admin_role   = wp_get_current_user()->roles;
                       foreach ($statuses as $value) {
                         if ($value !== 'Hoàn tất') {
                           $allCompleted = false;
@@ -312,6 +322,7 @@ get_header();
                     <td data-number="20"><?php echo date('d/m/Y', strtotime($record['modified'])); ?></td>
                   </tr>
           <?php  }
+                }
               } else {
                 echo "Không tìm thấy dữ liệu!\n";
               }

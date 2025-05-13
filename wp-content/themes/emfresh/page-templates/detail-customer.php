@@ -255,6 +255,7 @@ if ($customer_id == 0 || count($response_customer['data']) == 0) {
 	wp_redirect($list_customer_url);
 	exit;
 }
+
 // lấy danh sách location
 $location_filter = [
 	'customer_id' => $customer_id,
@@ -270,6 +271,25 @@ $response_order = em_api_request('order/list', [
 	'customer_id' => $customer_id,
 	'limit' => -1,
   ]);
+$statuses              = array_column( $response_order[ 'data' ], 'status_name' );
+$allCompleted          = true;
+$admin_role            = wp_get_current_user()->roles;
+if ( count( $statuses ) > 0 ) {
+	foreach ( $statuses as $value ) {
+		if ( $value !== 'Hoàn tất' ) {
+			$allCompleted = false;
+			break;
+		} else {
+			if ( $allCompleted && !empty( $admin_role ) && $admin_role[ 0 ] != 'administrator' ) {
+				wp_redirect( home_url( 'customer' ) );
+				exit();
+			}
+		}
+	}
+} else {
+	wp_redirect( home_url( 'customer' ) );
+	exit();
+}
 get_header();
 // Start the Loop.
 // while ( have_posts() ) : the_post();
@@ -393,7 +413,7 @@ get_header();
 									$dateStarts = array_column($response_order['data'], 'date_start');
                     
 									if (!empty($dateStarts)) {
-									  $max_date = date('d/m/Y', strtotime(max($dateStarts)));
+										$max_date = date('d/m/Y', strtotime(max($dateStarts)));
 									} else {
 									  // Xử lý khi không có giá trị date_start nào (ví dụ: gán giá trị mặc định hoặc thông báo lỗi)
 									  $max_date = null; // Hoặc giá trị phù hợp khác
@@ -478,29 +498,29 @@ get_header();
 															$total_ship = $record_order['ship_amount'];
 															$total_amount = $record_order['total_amount'];
 															$total_order_money = $total_amount + $total_ship;
-														?>
-														<tr>
-															<td><a href="<?php echo $link ?>"><?php echo $record_order['order_number'] ?></a></td>
-															<td><a href="<?php echo $link ?>"><?php echo strtoupper($record_order['item_name']) ?></a></td>
-															<td><?php echo date('d/m/Y', strtotime($record_order['date_start'])) ?></td>
-															<td align="center"><?php echo date('d/m/Y', strtotime($record_order['date_stop'])) ?></td>
-															<td><?php echo $total_order_money > 0 ? number_format($total_order_money) : 0 ?></td>
-															<td align="center"><span class="status_pay status_pay-<?php echo $record_order[ 'payment_status' ] ?>"><?php echo $record_order['payment_status_name'] ?></span></td>
-															<td align="center" class="status-order">
-																<?php
-																if ( $record_order[ 'status' ] == 2 ) { 
-																	if ( !empty($admin_role) && $admin_role[ 0 ] == 'administrator' ) { ?>
+															
+															if ( !empty($admin_role) && $admin_role[0] == 'administrator' ) {
+																$show_row = true;
+															}
+															else {
+																$show_row = ($record_order['status'] != 2);
+															}
+															if ( $show_row ) {
+																?>
+																<tr>
+																	<td><a href="<?php echo $link ?>"><?php echo $record_order['order_number'] ?></a></td>
+																	<td><a href="<?php echo $link ?>"><?php echo strtoupper($record_order['item_name']) ?></a></td>
+																	<td><?php echo date('d/m/Y', strtotime($record_order['date_start'])) ?></td>
+																	<td align="center"><?php echo date('d/m/Y', strtotime($record_order['date_stop'])) ?></td>
+																	<td><?php echo $total_order_money > 0 ? number_format($total_order_money) : 0 ?></td>
+																	<td align="center"><span class="status_pay status_pay-<?php echo $record_order[ 'payment_status' ] ?>"><?php echo $record_order['payment_status_name'] ?></span></td>
+																	<td align="center" class="status-order">
 																		<span class="status_order status_order-<?php echo $record_order[ 'status' ] ?>"><?php echo $record_order[ 'status_name' ] ?></span>
-																	<?php }
-																	else { ?>
-																		<span class="status_order status_order-1">Đang dùng</span>
-																	<?php }
-																} else { ?>
-																	<span class="status_order status_order-<?php echo $record_order[ 'status' ] ?>"><?php echo $record_order[ 'status_name' ] ?></span>
-																<?php } ?>
-															</td>
-														</tr>
-														<?php
+																	
+																	</td>
+																</tr>
+																<?php
+															}
 														} else {
 															echo "Không tìm thấy dữ liệu!\n";
 														}
