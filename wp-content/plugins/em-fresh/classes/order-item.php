@@ -135,6 +135,120 @@ class EM_Order_Item extends EF_Default
         return parent::filter_item($item, $type);
     }
 
+    function get_meal_product($item = [], $product = [])
+    {
+        if (empty($item['quantity']) || empty($item['days']) || empty($item['type']) || empty($product['id'])) {
+            return [];
+        }
+
+        $meal = 'meal_w_';
+        $quantity = (int) $item['quantity'];
+        if($quantity < 1) {
+            $quantity = 1;
+        }
+        $days = (int) $item['days'];
+        $meal_number = 0;
+        $amount = 0;
+        $price = 0;
+        $type = strtoupper($item['type']);
+
+		if ($item['type'] == 'D') {
+			// Gia goi an = gia goi tuan 1 bua/ngay*SL/5 + 5k*SL (day la phu thu)
+
+			$meal .= '1';
+			$meal_number = 1;
+
+			if (!empty($product[$meal])) {
+				$price = intval($product[$meal]);
+
+				// debug.push(`Gia goi tuan 1 bua/ngay: gia = ` + format_money(price));
+
+				$amount = $price * $quantity / 5 + 5000 * $quantity;
+
+				// debug.push(`Cong thuc: gia * quantity / 5 + 5,000 * so luong`);
+				// debug.push(`Thanh tien: ${format_money(price)} * ${quantity} / 5 + 5,000 * ${quantity} = ` + format_money(amount));
+			}
+		} else if ($item['type'] == 'W') {
+
+			if ($days <= 5) {
+				// Gia goi an = gia goi tuan có tong so phan an tiem can/ tong so phan an tuong ung cua goi nay * SL
+				if ($quantity < 8) {
+					$meal_number = 1;
+				} else if ($quantity <= 12) {
+					$meal_number = 2;
+				} else {
+					$meal_number = 3;
+				}
+				$meal .= $meal_number;
+
+				if (!empty($product[$meal])) {
+					$price = intval($product[$meal]);
+
+					// debug.push(`Gia goi tuan ${$meal_number} bua/ngay: gia = ` + format_money($));
+
+					// price / (5 * so bua) * so phan an
+					$amount = $price / (5 * $meal_number) * $quantity;
+
+					// debug.push(`Cong thuc: gia / (5 * ${meal_number}) * so luong`);
+					// debug.push(`Thanh tien: ${format_money(price)} / (5 * ${meal_number}) ${quantity} = ` + format_money(amount));
+				}
+			} else {
+				// Gia goi an = gia goi co so bua/ngay tuong ung tuan/5 * so ngay khach dat
+                $total = $quantity / $days;
+				$meal_number = intval($total);
+                if($total > $meal_number) {
+                    $meal_number++;
+                }
+				if ($meal_number > 3) {
+					$meal_number = 3;
+				}
+				$meal += $meal_number;
+
+				if (!empty($product[$meal])) {
+					$price = intval($product[$meal]);
+
+					// debug.push(`Gia goi tuan ${meal_number} bua/ngay: gia = ` + format_money(price));
+
+					// price / 5 * so ngay
+					$amount = $price / 5 * $days;
+
+					// debug.push(`Cong thuc: gia / 5 * so ngay`);
+					// debug.push(`Thanh tien: ${format_money(price)} / 5 * ${days} = ` + format_money(amount));
+				}
+			}
+		} else if ($item['type'] == 'M') {
+			if ($quantity < 15) {
+				$quantity = 15;
+			}
+
+			$quydoi = 0;
+
+			if ($quantity <= 30) {
+				$quydoi = 20;
+				$meal_number = 1;
+			} else if ($quantity <= 50) {
+				$quydoi = 40;
+				$meal_number = 2;
+			} else {
+				$quydoi = 60;
+				$meal_number = 3;
+			}
+
+            if (!empty($product[$meal])) {
+                $price = intval($product['meal_m_' + $meal_number]);
+
+                $amount = $price / $quydoi * $quantity;
+            }
+		}
+
+        $product['meal_number'] = $meal_number;
+        $product['product_price'] = $price;
+        $product['ship_price'] = $price * $days;
+        $product['amount'] = $amount;
+        
+        return $product;
+    }
+
     function get_meal_plan($item = [])
     {
         if (is_numeric($item)) {

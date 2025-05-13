@@ -424,7 +424,15 @@ class EF_Default
 
     function get_item_by($args = [])
     {
-        global $wpdb;
+        global $wpdb, $em_db_cache;
+
+        $cache_key = $this->get_tbl_name() . '_' . md5(http_build_query($args, '', '&'));
+
+        if(empty($em_db_cache)) {
+            $em_db_cache = [];
+        } else if(isset($em_db_cache[$cache_key])) {
+            return $em_db_cache[$cache_key];
+        }
 
         $query = "SELECT * FROM %i WHERE 1";
 
@@ -438,7 +446,11 @@ class EF_Default
 
         $item = $wpdb->get_row($query, ARRAY_A);
 
-        return is_array($item) ? $this->filter_item($item, 'detail') : [];
+        $item = is_array($item) ? $this->filter_item($item, 'detail') : [];
+
+        $em_db_cache[$cache_key] = $item;
+
+        return $item;
     }
 
     function get_field_by($field = '', $args = [])

@@ -431,30 +431,36 @@ class EM_Order extends EF_Default
             }
 
             $meal_plan_items = $em_order_item->get_meal_plan($order_item);
+            if(count($meal_plan_items) == 0) continue;
+
+            $order_status = 2;
+
+            // check meal select to set order status
             $meal_select_items = $em_order_item->get_meal_select($order_item);
+            if(count($meal_select_items) == 0 || array_sum($meal_select_items) == 0) {
+                $order_status = 3; // Di mon
 
-            if(count($meal_plan_items) > 0) {
-                $order_status = 2;
+                $is_dat_don = false;
+                break;
+            }
 
-                // check meal select to set order status
-                foreach($meal_select_items as $day => $meal_select) {
-                    $meal_plan_total = $meal_plan_items[$day];
-                    if($meal_plan_total == 0) continue;
+            foreach($meal_select_items as $day => $meal_select) {
+                $meal_plan_total = $meal_plan_items[$day];
+                if($meal_plan_total == 0) continue;
 
-                    $meal_select_count = 0;
+                $meal_select_count = 0;
 
-                    foreach($meal_select as $menu_id) {
-                        if($menu_id > 0) {
-                            $meal_select_count++;
-                        }
+                foreach($meal_select as $menu_id) {
+                    if($menu_id > 0) {
+                        $meal_select_count++;
                     }
+                }
 
-                    if($meal_select_count < $meal_plan_total) {
-                        $order_status = 3; // Di mon
-    
-                        $is_dat_don = false;
-                        break;
-                    }
+                if($meal_select_count < $meal_plan_total) {
+                    $order_status = 3; // Di mon
+
+                    $is_dat_don = false;
+                    break;
                 }
             }
         }

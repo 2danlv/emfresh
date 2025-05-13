@@ -39,7 +39,6 @@ class EM_Customer_Group extends EF_Default
         $fields = array(
             'group_id' => 0,
             'customer_id' => 0,
-            'location_id' => 0,
             'bag' => 0,
             'order' => 0,
         );
@@ -52,7 +51,6 @@ class EM_Customer_Group extends EF_Default
         $filters = [
             'group_id' => '=',
             'customer_id' => '=',
-            'location_id' => '=',
             'bag' => '=',
         ];
 
@@ -64,13 +62,15 @@ class EM_Customer_Group extends EF_Default
         $item = [];
 
         if (is_array($data)) {
-            global $em_customer, $em_location;
+            global $em_customer;
             
             $customer = $em_customer->get_item($data['customer_id']);
             
-            $item = array_merge($customer, $data);
+            if(empty($customer['id'])) {
+                $customer = $em_customer->get_fields();
+            }
 
-            $item['location_name'] = $em_location->get_fullname($data['location_id']);
+            $item = array_merge($customer, $data);
 
             $item['is_main'] = !empty($data['order']) && $data['order'] == 1 ? 1 : 0;
         }

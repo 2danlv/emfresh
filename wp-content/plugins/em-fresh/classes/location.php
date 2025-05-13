@@ -114,6 +114,54 @@ class EM_Location extends EF_Default
         return $rules;
     }
 
+    function get_items($args = [])
+    {
+        global $em_customer_group, $em_group;
+        
+        $list = parent::get_items($args);
+
+        if(count($list) > 0) {
+            $first = $list[0];
+
+            $group = $em_group->get_fields();
+
+            if(!empty($first['customer_id'])) {
+                $group_id = (int) $em_customer_group->get_field_by('group_id', ['customer_id' => $first['customer_id']]);
+                $group_data = $group_id > 0 ? $em_group->get_item($group_id) : [];
+                if(!empty($group_data['location_id'])) {
+                    $group = $group_data;
+                }
+            }
+
+            $group_count = 0;
+
+            foreach($list as $i => $item) {
+                $item['group_id'] = 0;
+                $item['group_name'] = '';
+
+                if($item['id'] == $group['location_id']) {
+                    $item['group_id'] = $group['id'];
+                    $item['group_name'] = $group['name'];
+
+                    $group_count++;
+                }
+
+                $list[$i] = $item;
+            }
+
+            if($group_count == 0 && !empty($group['id'])) {
+                $item = $this->get_item($group['location_id']);
+
+                $item['group_id'] = $group['id'];
+                $item['group_name'] = $group['name'];
+
+                $list = array_merge([$item], $list);
+            }
+        }
+
+        return $list;
+    }
+
     function filter_item($data = [], $type = '')
     {
         $item = [];
