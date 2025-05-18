@@ -208,7 +208,7 @@ get_header();
 <div class="row row-note mb-16">
 	<div class="col-4">
 		<select name="note_name" class="form-control input-note_name">
-            <option value="" disable selected>-</option>
+            <option value="" disabled selected>-</option>
 			<?php
 				foreach ($list_notes as $name => $note_item) {
 					printf('<option value="%s">%s</option>', $name, $note_item['name']);

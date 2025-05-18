@@ -207,9 +207,10 @@ function format_money(number) {
 function format_money_round(number) {
   number = parseFloat(number);
   if (isNaN(number)) return '0';
-  number = Math.round(number / 1000) * 1000;
+  number = Math.floor(number / 1000) * 1000;
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
+
 
 function show_order_item(btn) {
 	btn = $(btn);
