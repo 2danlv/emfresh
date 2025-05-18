@@ -46,28 +46,44 @@ function site_statistic_get_group($group_id = 0)
     $today = current_time('Y-m-d');
 
     $statistics = [];
-
-    $customers = $em_customer_group->get_items(['group_id' => $group_id]);
-
-    $statistics['member_total'] = count($customers);
-
+    
     $order_total = 0;
     $order_status = "0";
 
-    foreach($customers as $customer) {
-        $order_total += $em_order->count(['customer_id' => $customer['id']]);
+    $list = $em_customer_group->get_items([
+        'group_id' => $group_id,
+        'orderby' => 'id ASC',
+        'limit' => -1,
+    ]);
 
-        $args = [
-            'customer_id' => $customer['id'],
-            'check_date_start' => $today,
-            'check_date_stop' => $today
-        ];
+    $statistics['member_total'] = count($list);
 
-        if($order_status == 0 && $em_order->count($args) > 0) {
-            $order_status = 1;
+    if($statistics['member_total'] > 0) {
+        foreach($list as $i => $item) {
+            $order_total += $em_order->count([
+                'customer_id' => $item['customer_id'],
+                'order_type' => 'group',
+            ]);
+            
+            $args = [
+                'customer_id' => $item['customer_id'],
+                'order_type' => 'group',
+                'check_date_start' => $today,
+                'check_date_stop' => $today
+            ];
+
+            $item['order_status'] = $em_order->count($args) > 0 ? "1" : "0";
+            $item['order_status_name'] = $em_order->get_statuses($item['order_status']);
+
+            if($item['order_status'] > 0) {
+                $order_status = 1;
+            }
+
+            $list[$i] = $item;
         }
     }
 
+    $statistics['customers'] = $list;
     $statistics['order_total'] = $order_total;
     $statistics['order_status'] = $order_status;
     $statistics['order_status_name'] = $em_order->get_statuses($order_status);

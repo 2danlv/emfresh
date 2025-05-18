@@ -5,15 +5,23 @@
                 <div class="ttl">
                     Thông tin đơn hàng
                 </div>
+                <?php if(!empty($group['id']) && $order_detail['order_type'] == 'group') : ?>
                 <div class="info-customer line-dots">
                     <p class="pt-16"><?php echo $order_detail['customer_name'] ?></p>
-                    <?php 
-                    if ($order_detail['customer_name_2nd'] != '') { ?>
+                    <p class="pt-8">Người nhận: <?php echo $group['name']; ?></p>
+                    <p class="copy modal-button pt-8" data-target="#modal-copy" title="Copy: <?php echo $group['phone'] ?>"><?php echo $group['phone'] ?></p>
+                    <p class="pt-8 pb-16 text-ellipsis address"><?php echo $group['location_name']; ?></p>
+                </div>
+                <?php else : ?>
+                <div class="info-customer line-dots">
+                    <p class="pt-16"><?php echo $order_detail['customer_name'] ?></p>
+                    <?php if ($order_detail['customer_name_2nd'] != '') { ?>
                     <p class="pt-8">Người nhận: <?php echo $order_detail['customer_name_2nd']; ?></p>
                     <?php } ?>
                     <p class="copy modal-button pt-8" data-target="#modal-copy" title="Copy: <?php echo $order_detail['phone'] ?>"><?php echo $order_detail['phone'] ?></p>
                     <p class="pt-8 pb-16 text-ellipsis address"><?php echo $order_detail['location_name']; ?></p>
                 </div>
+                <?php endif ?>
                 <div class="order-details show">
                     <div class="order-wapper">
                         <?php foreach ($order_items as $i => $order_item) : extract($order_item); ?>

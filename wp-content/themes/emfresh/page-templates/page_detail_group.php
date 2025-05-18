@@ -17,7 +17,7 @@ $delete_url = add_query_arg([
     'delete_group' => $group_id, 
     'delnonce' => wp_create_nonce('delnonce')], 
     '../'
-    );
+);
 
 $group_detail = $em_group->get_fields();
 $group_order_status = "0";
@@ -34,32 +34,13 @@ if ($group_id > 0) {
     if ($response['code'] == 200) {
         $group_detail = $response['data'];
 
-        $list = $em_customer_group->get_items([
-            'group_id' => $group_id,
-            'orderby' => 'id ASC',
-            'limit' => -1,
-        ]);
+        $statistics = site_statistic_get_group($group_id);
 
+        $list = $statistics['customers'];
         if(count($list) > 0) {
             $leader = $list[0];
 
-            foreach($list as $i => $item) {
-                $args = [
-                    'customer_id' => $item['customer_id'],
-                    'order_type' => 'group',
-                    'check_date_start' => $today,
-                    'check_date_stop' => $today
-                ];
-
-                $item['order_status'] = $em_order->count($args) > 0 ? "1" : "0";
-                $item['order_status_name'] = $em_order->get_statuses($item['order_status']);
-
-                if($item['order_status'] > 0) {
-                    $group_order_status = 1;
-                }
-
-                $list[$i] = $item;
-            }
+            $group_order_status = $statistics['order_status'];
 
             $locations = $em_location->get_items(['customer_id' => $leader['customer_id']]);
         }
@@ -107,6 +88,7 @@ get_header();
                 <form method="post" action="">
                 <input type="hidden" name="save_group" value="<?php echo uniqid() ?>" />
                 <input type="hidden" name="group_id" value="<?php echo $group_id ?>" />
+                <input type="hidden" name="remove_customers" class="remove_customers" value="" />
                 <h1 class="pt-8 pb-16 d-f jc-b ai-center">Nhóm <?php echo $name ?><a data-target="#modal-delete-member" data_href="<?php echo $delete_url ?>" class="btn btn-danger btn-remove_group openmodal" >Xóa nhóm</a></h1>
                 
                 <div class="row row32 tab-pane" id="info">
@@ -199,7 +181,6 @@ get_header();
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        
                                         <?php foreach($list as $i => $item) : ?>
                                         <tr data-member="<?php echo $item['id'] ?>" data-customer_id="<?php echo $item['customer_id'] ?>">
                                             <td class="text-center" width="80">

@@ -6,10 +6,6 @@ $js_duplicate_url = add_query_arg(['dupnonce' => wp_create_nonce('dupnonce')], g
 <script src="<?php site_the_assets(); ?>js/tag-input/tag-input.js"></script>
 <div class="flex flex-col">
 	<div style="padding:20px">
-		<select name="" id="select-mode" style="display:inline-block;width:120px">
-			<option value="default" selected>Mặc định</option>
-			<option value="detail">Chi tiết</option>
-		</select>
 		<div class="menu" style="padding:20px 0;">
 			<?php
 			for ($i = 0; $i < 5; $i++) {
@@ -26,43 +22,10 @@ $js_duplicate_url = add_query_arg(['dupnonce' => wp_create_nonce('dupnonce')], g
 										<option value="default" selected>Món 1</option>
 										<option value="detail">Món 2</option>
 									</select>
-									<input type="text" class="detail-mode detail-input input-control input-highlight"
-										style="margin-top:10px" value="Vietnamese Broken Rice" placeholder="Tên Tiếng Anh">
-									<div class="tb detail-mode relative">
-										<span data-target="#modal-nf"
-											class="detail-input detail-input-hide modal-button btn btn-v2 btn-icon btn-secondary absolute top-0 right-0"
-											style="background:#E5E5E5 !important;border:none !important;margin:3px;display:none"><img
-												src="<?php echo site_get_template_directory_assets(); ?>/img/icon/pen-square.svg" /></span>
-										<table class="w-full table-input table-grid" style="margin-top:10px">
-											<tbody>
-												<tr>
-													<td class="label" style="width:70px">EM:</td>
-													<td colspan="3"><input class="detail-input" style="padding-right:42px"
-															type="text"></td>
-												</tr>
-												<tr>
-													<td class="label" style="width:70px">EL:</td>
-													<td colspan="3"><input class="detail-input" type="text"></td>
-												</tr>
-												<tr>
-													<td class="label" style="width:70px">SM:</td>
-													<td colspan="3"><input class="detail-input" type="text"></td>
-												</tr>
-												<tr>
-													<td class="label" style="width:70px">SL:</td>
-													<td colspan="3"><input class="detail-input" type="text"></td>
-												</tr>
-												<tr>
-													<td class="label" style="width:70px">PM:</td>
-													<td colspan="3"><input class="detail-input" type="text"></td>
-												</tr>
-												<tr>
-													<td class="label" style="width:70px">PL:</td>
-													<td colspan="3"><input class="detail-input" type="text"></td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
+									<select type="text" class="detail-input input-control input-line">
+										<option value="default" selected>Món 1</option>
+										<option value="detail">Món 2</option>
+									</select>
 									<div class="flex items-center" style="padding: 10px 0">
 										<p>Tag: </p>
 										<div id="tag-<?php echo $i + 1 ?>-<?php echo $j + 1 ?>"

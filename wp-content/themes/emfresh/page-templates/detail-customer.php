@@ -274,7 +274,7 @@ $response_order = em_api_request('order/list', [
 $statuses              = array_column( $response_order[ 'data' ], 'status_name' );
 $allCompleted          = true;
 $admin_role            = wp_get_current_user()->roles;
-if ( count( $statuses ) > 0 ) {
+if ( count( $statuses ) > 0 || !empty( $admin_role ) && $admin_role[ 0 ] == 'administrator') {
 	foreach ( $statuses as $value ) {
 		if ( $value !== 'Hoàn tất' ) {
 			$allCompleted = false;
@@ -363,19 +363,22 @@ get_header();
 								<?php //var_dump($response_order['data']); ?>
 								<div class="d-f jc-b pt-8">
 									<span>Trạng thái khách hàng:</span>
-									<?php 
-									$statuses = array_column($response_order['data'], 'status_name');
-									$allCompleted = true;
-									foreach ($statuses as $value) {
-										if ($value !== 'Hoàn tất') {
-											$allCompleted = false;
-											break;
+									<?php
+									if ( count( $statuses ) > 0 ) {
+										foreach ( $statuses as $value ) {
+											if ( $value !== 'Hoàn tất' ) {
+												$allCompleted = false;
+												break;
+											}
 										}
-									}
-									if ($allCompleted) {
-										echo "<span>Hết dùng</span>";
+										if ( $allCompleted ) {
+											echo "<span>Hết dùng</span>";
+										}
+										else {
+											echo "<span>Đang dùng</span>";
+										}
 									} else {
-										echo "<span>Đang dùng</span>";
+										echo "-";
 									}
 									?>
 								</div>

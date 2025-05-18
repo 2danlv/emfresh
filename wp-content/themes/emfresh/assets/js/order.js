@@ -212,7 +212,7 @@ $(document).ready(function() {
         deliveryNewItem.find('.note-shipper').addClass('hidden');
         $(".card-ship-item").last().after(deliveryNewItem);
         deliveryNewItem.find('.js-calendar.date').each(function() {
-            initializeDatePicker($(this), getMinDate(),getMaxDate(),null);
+          initializeDatePicker($(this), getMinDate(),getMaxDate(),null);
         });
         deliveryNewItem.find('.js-calendar.date').val('');
         count_card_ship_item++;

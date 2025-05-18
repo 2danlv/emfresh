@@ -12,51 +12,57 @@
 //     wp_enqueue_script('importer', get_template_directory_uri() . '/assets/js/importer.js', ['jquery'], time(), true);
 // });
 
-$hide_errer = 'display:none;';
-if (isset($_GET['change']) && trim($_GET['change']) == 'error') {
-    $hide_errer = '';
+$data = wp_unslash($_GET);
+
+$list = [
+    'customer',
+    'order',
+];
+
+$data_name = !empty($data['data_name']) ? trim($data['data_name']) : 'customer';
+if(!in_array($data_name, $list)) {
+    $url = home_url();
+
+    wp_redirect($url);
+    exit();
 }
 
 get_header();
 
 // Start the Loop.
-while (have_posts()) : the_post();
-?>
-    <div class="content-import">
-        <!-- Main content -->
-        <section class="card-import">
-                    
-        <div class="card-header">
+// while (have_posts()) : the_post();
 
-                            <form class="em-importer" data-name="customer" action="<?php the_permalink() ?>" method="post">
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <div class="custom-file">
-                                            <input type="file" name="file" class="custom-file-input js-file" id="exampleInputFile" accept="xls, xlsx">
-                                            <label class="custom-file-label" for="exampleInputFile">Chọn file .xlsx hoặc .csv</label>
-                                        </div>
-                                        <div class="input-group-append">
-                                        <button type="button" name="action" value="import" class="js-import input-group-text"><img src="<?php echo site_get_template_directory_assets();?>img/icon/upload.svg" alt=""> Import</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    
-                                    <!-- <button type="button" name="action" value="export" class="btn btn-success js-export">Export</button> -->
-                                </div>
-                                <?php wp_nonce_field('importoken', 'importoken', false); ?>
-                            </form>
-                        
-                    
-             
-        </section>
-        <section class="content">
-            <table class="table table-striped js-table-excel">
-            </table>
-        </section>
-    </div>
+// endwhile;
+?>
+<div class="content-import">
+    <!-- Main content -->
+    <section class="card-import">
+        <div class="card-header">
+            <form class="em-importer" data-name="<?Php echo $data_name ?>" action="<?php the_permalink() ?>" method="post">
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="custom-file">
+                            <input type="file" name="file" class="custom-file-input js-file" id="exampleInputFile" accept="xls, xlsx">
+                            <label class="custom-file-label" for="exampleInputFile">Chọn file .xlsx hoặc .csv</label>
+                        </div>
+                        <div class="input-group-append">
+                            <button type="button" name="action" value="import" class="js-import input-group-text"><img src="<?php echo site_get_template_directory_assets(); ?>img/icon/upload.svg" alt=""> Import</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <!-- <button type="button" name="action" value="export" class="btn btn-success js-export">Export</button> -->
+                </div>
+                <?php wp_nonce_field('importoken', 'importoken', false); ?>
+            </form>
+        </div>
+    </section>
+    <section class="content">
+        <table class="table table-striped js-table-excel">
+        </table>
+    </section>
+</div>
 <?php
-endwhile;
 
 global $site_scripts;
 

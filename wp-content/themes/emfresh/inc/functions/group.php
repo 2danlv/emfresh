@@ -2,7 +2,7 @@
 
 function site_group_submit()
 {
-    global $em_group, $em_customer_group, $em_log;
+    global $em_group, $em_customer_group, $em_customer, $em_log;
 
     if (!empty($_POST['save_group'])) {
 
@@ -22,13 +22,13 @@ function site_group_submit()
 
         $data = wp_unslash($_POST);
 
-        $customers = isset($data['customers']) ? (array) $data['customers'] : [];
-        
         $errors = [];
 
         $group_data = shortcode_atts($group_default, $data);
 
         $group_id = isset($data['group_id']) ? intval($data['group_id']) : 0;
+
+        $customer_id = isset($data['customer_id']) ? (int) $data['customer_id'] : 0;
 
         if($group_id == 0) {
             $response = em_api_request('group/add', $group_data);
@@ -39,6 +39,12 @@ function site_group_submit()
             $before = $em_group->get_item($group_id);
 
             $group_data['id'] = $group_id;
+
+            if($customer_id > 0 && $customer_id != $before['customer_id']) {
+                $group_data['customer_id'] = $customer_id;
+            } else {
+                $customer_id = 0;
+            }
 
             $response = em_api_request('group/update', $group_data);
             if ($response['code'] == 200) {
@@ -75,11 +81,27 @@ function site_group_submit()
         if($group_id > 0) {
             $customers = isset($data['customers']) ? (array) $data['customers'] : [];
 
+            $start = 1;
+
+            if($customer_id > 0) {
+                $start = 0;
+
+                foreach ($customers as $i => $customer) {
+                    $customer['order'] = (int) $customer['order'];
+
+                    if ($customer['id'] == $customer_id && $customer['order'] != 1) {
+                        $customer['order'] = 0;
+                    }
+
+                    $customers[$i] = $customer;
+                }
+            }
+
             // Sort by order
             $n = count($customers);
-            for($i = 1; $i < $n - 1; $i++) {
-                for($j = 2; $j < $n; $j++) {
-                    if($customers[$j]['order'] < $customers[$i]['order']) {
+            for($i = $start; $i < $n - 1; $i++) {
+                for($j = $i + 1; $j < $n; $j++) {
+                    if($customers[$i]['order'] > $customers[$j]['order']) {
                         $tmp = $customers[$j];
                         $customers[$j] = $customers[$i];
                         $customers[$i] = $tmp;
@@ -90,13 +112,39 @@ function site_group_submit()
             $customer_groups = $em_customer_group->get_items([
                 'group_id' => $group_id,
                 'orderby' => 'id ASC',
+                'limit' => -1,
             ]);
+
+            $remove_customers = !empty($data['remove_customers']) ? explode(',', $data['remove_customers']) : [];
+            if(count($remove_customers) > 0 && count($customer_groups) > 0) {
+                $log_delete = [];
+
+                $list = [];
+
+                foreach($customer_groups as $i => $item) {
+                    if(in_array($item['id'], $remove_customers) && $em_customer_group->delete($item['id'])) {
+                        $log_delete[] = 'Thành viên ' . $item['customer_name'];
+                    } else {
+                        $list[] = $item;
+                    }
+                }
+
+                $customer_groups = $list;
+
+                if(count($log_delete) > 0) {
+                    // Log update
+                    $em_log->insert([
+                        'action'        => 'Xóa',
+                        'module'        => 'em_group',
+                        'module_id'     => $group_id,
+                        'content'       => implode(' ', $log_delete)
+                    ]);
+                }
+            }
 
             $log_content = [];
             
             $log_insert = [];
-
-            $label = 'Thành viên';
 
             $count = 0;
 
@@ -117,18 +165,18 @@ function site_group_submit()
 
                     $group_data['id'] = $before['id'];
 
-                    if($customer_id != $before['customer_id']) {
-                        $log_update[] = $label . ' ' . $before['customer_name'];
+                    if($em_customer_group->update($group_data)) {
+                        if($customer_id != $before['customer_id']) {
+                            $log_content[] = 'Thành viên ' . $before['customer_name'];
+                        }
                     }
-
-                    $em_customer_group->update($group_data);
                 } else {
                     $insert_id = $em_customer_group->insert($group_data);
 
                     if($insert_id > 0) {
                         $after = $em_customer_group->get_item($insert_id);
 
-                        $log_insert[] = $label . ' ' . $after['customer_name'];
+                        $log_insert[] = 'Thành viên ' . $after['customer_name'];
                     }
                 }
 
@@ -152,26 +200,6 @@ function site_group_submit()
                     'module'        => 'em_group',
                     'module_id'     => $group_id,
                     'content'       => implode(' ', $log_insert)
-                ]);
-            }
-
-            $log_content = [];
-
-            for ($i = $count; $i < count($customer_groups); $i++) {
-                $before = $customer_groups[$i];
-
-                $log_content[] = $label . ' ' . $before['customer_name'];
-
-                $em_customer_group->delete($before['id']);
-            }
-
-            if(count($log_content) > 0) {
-                // Log update
-                $em_log->insert([
-                    'action'        => 'Xóa',
-                    'module'        => 'em_group',
-                    'module_id'     => $group_id,
-                    'content'       => implode(' ', $log_content)
                 ]);
             }
         }

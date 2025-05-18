@@ -196,132 +196,142 @@ get_header();
             $order_date_from = isset($_GET['order_date_from']) ? trim($_GET['order_date_from']) : '';
             $order_date_to = isset($_GET['order_date_to']) ? trim($_GET['order_date_to']) : '';
             
+            $admin_role      = wp_get_current_user()->roles;
           if (isset($response['data']) && is_array($response['data'])) {
             // Loop through the data array and print each entry
             foreach ($response['data'] as $record) {
               if (is_array($record)) { // Check if each record is an array
-                if ($record['active'] != '0') { 
-                  $response_order = em_api_request('order/list', [
-                    'paged' => 1,
-                    'customer_id' => $record['id'],
-                    'date_from' => $order_date_from,
-                    'date_to' => $order_date_to,
-                    'limit' => -1,
-                    ]);
-                  
-                    if(count($response_order['data']) > 0) {
-                      $list_orders = array_merge($list_orders,$response_order['data']);
+                if ( $record[ 'active' ] != '0' ) {
+                  $response_order = em_api_request( 'order/list', [ 
+                    'paged'       => 1,
+                    'customer_id' => $record[ 'id' ],
+                    'date_from'   => $order_date_from,
+                    'date_to'     => $order_date_to,
+                    'limit'       => -1,
+                    ] );
+                  if ( count( $response_order[ 'data' ] ) > 0 ) {
+                    $list_orders = array_merge( $list_orders, $response_order[ 'data' ] );
+                  }
+
+                  $total_order_days  = array_sum( array_column( $response_order[ 'data' ], 'ship_days' ) );
+                  $total_quantity    = array_sum( array_column( $response_order[ 'data' ], 'total_quantity' ) );
+                  $total_ship        = array_sum( array_column( $response_order[ 'data' ], 'ship_amount' ) );
+                  $total_amount      = array_sum( array_column( $response_order[ 'data' ], 'total_amount' ) );
+                  $total_order_money = $total_amount + $total_ship;
+                  $dateStarts        = array_column( $response_order[ 'data' ], 'date_start' );
+                  $statuses          = array_column( $response_order[ 'data' ], 'status_name' );
+                  $allCompleted      = true;
+                  if ( !empty( $dateStarts ) ) {
+                    $max_date = date( 'd/m/Y', strtotime( max( $dateStarts ) ) );
+                  }
+                  else {
+                    // Xử lý khi không có giá trị date_start nào (ví dụ: gán giá trị mặc định hoặc thông báo lỗi)
+                    $max_date = null; // Hoặc giá trị phù hợp khác
+                  }
+                  if ( count( $statuses ) > 0 || !empty( $admin_role ) && $admin_role[ 0 ] == 'administrator') {
+                    foreach ( $statuses as $value ) {
+                      if ( $value == 'Hoàn tất' ) {
+                        $allCompleted = false;
+                        break;
+                      }
+                      else {
+                        $allCompleted = true;
+                        break;
+                      }
                     }
 
-                    $total_order_days = array_sum(array_column($response_order['data'], 'ship_days'));
-                    $total_quantity = array_sum(array_column($response_order['data'], 'total_quantity')); 
-                    $total_ship = array_sum(array_column($response_order['data'], 'ship_amount'));
-                    $total_amount = array_sum(array_column($response_order['data'], 'total_amount'));
-                    $total_order_money = $total_amount + $total_ship;
-                    $dateStarts = array_column($response_order['data'], 'date_start');
-                    
-                    if (!empty($dateStarts)) {
-                      $max_date = date('d/m/Y', strtotime(max($dateStarts)));
-                    } else {
-                      // Xử lý khi không có giá trị date_start nào (ví dụ: gán giá trị mặc định hoặc thông báo lỗi)
-                      $max_date = null; // Hoặc giá trị phù hợp khác
-                    }
-                  $statuses     = array_column( $response_order[ 'data' ], 'status_name' );
-                  $allCompleted = true;
-                  $admin_role   = wp_get_current_user()->roles;
-                  foreach ( $statuses as $value ) {
-                    if ( $value !== 'Hoàn tất') {
-                      $allCompleted = true;
-                      break;
-                    } else {
-                      $allCompleted = false;
-                      break;
-                    }
-                  }
-                  if ( count( $statuses ) > 0 && $allCompleted ) {
-                  ?>
+                    if ( $allCompleted ) {
+                      ?>
                   <tr>
-                    <td data-number="0" class="text-center"><input type="checkbox" class="checkbox-element" data-number="<?php echo $record['phone']; ?>" value="<?php echo $record['id'] ?>"></td>
-                    <td data-number="1" class="text-capitalize nowrap wrap-td"><div class="ellipsis"><a href="detail-customer/?customer_id=<?php echo $record['id'] ?>"><?php echo $record['customer_name']; ?></a></div></td>
-                    <td data-number="2" class="text-left"><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $record['phone']; ?>"><?php echo $record['phone']; ?></span></td>
+                    <td data-number="0" class="text-center"><input type="checkbox" class="checkbox-element" data-number="<?php echo $record[ 'phone' ]; ?>" value="<?php echo $record[ 'id' ] ?>"></td>
+                    <td data-number="1" class="text-capitalize nowrap wrap-td"><div class="ellipsis"><a href="detail-customer/?customer_id=<?php echo $record[ 'id' ] ?>"><?php echo $record[ 'customer_name' ]; ?></a></div></td>
+                    <td data-number="2" class="text-left"><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $record[ 'phone' ]; ?>"><?php echo $record[ 'phone' ]; ?></span></td>
                     <td data-number="3" class="text-capitalize wrap-td" style="min-width: 300px;">
-                      <div class="nowrap ellipsis"><?php echo $record['address']; echo $record['address'] ? ', ' : ''; ?> <?php echo $record['ward'];  echo $record['ward'] ? ', ' : ''; echo $record['district'] ?></div>
+                      <div class="nowrap ellipsis"><?php echo $record[ 'address' ];
+                      echo $record[ 'address' ] ? ', ' : ''; ?> <?php echo $record[ 'ward' ];
+                      echo $record[ 'ward' ] ? ', ' : '';
+                      echo $record[ 'district' ] ?></div>
                     </td>
                     <td data-number="4" class="text-capitalize">
-                      <?php echo $record['district']; ?>
+                      <?php echo $record[ 'district' ]; ?>
                     </td>
                     <td data-number="5">
-                    <?php 
-                      foreach ($statuses as $value) {
-                        if ($value !== 'Hoàn tất') {
+                    <?php
+                    if ( count( $statuses ) > 0 ) {
+                      foreach ( $statuses as $value ) {
+                        if ( $value !== 'Hoàn tất' ) {
                           $allCompleted = false;
                           break;
                         }
                       }
-                      if ($allCompleted && !empty($admin_role) && $admin_role[ 0 ] == 'administrator') {?>
+                      if ( $allCompleted && !empty( $admin_role ) && $admin_role[ 0 ] == 'administrator' ) { ?>
                         <span class="tag btn btn-sm status_2">Hết dùng</span>
-                      <?php } else { ?>
+                      <?php }
+                      else { ?>
                         <span class="tag btn btn-sm status_1">Đang dùng</span>
                       <?php }
-                      ?>  
+                    }
+                    ?>  
                     
                   </td>
                     <?php
-                      $customer_tags = $em_customer_tag->get_items(['customer_id' => $record['id']]);
-                      $html = [];
-                      $html_tag = [];
-                      $title = [];
-                      $count = 0;
+                    $customer_tags = $em_customer_tag->get_items( [ 'customer_id' => $record[ 'id' ] ] );
+                    $html          = [];
+                    $html_tag      = [];
+                    $title         = [];
+                    $count         = 0;
 
-                      $remainingTag = array_slice($customer_tags, 2);
-                      $countRemainingTag = count($remainingTag);
-                      $firstItemTag = true;
-                      foreach ($customer_tags as $item) {
-                          $html[] = '<span class="tag btn btn-sm tag_' . $item['tag_id'] . '">' . $em_customer->get_tags($item['tag_id']) . '</span>';
+                    $remainingTag      = array_slice( $customer_tags, 2 );
+                    $countRemainingTag = count( $remainingTag );
+                    $firstItemTag      = true;
+                    foreach ( $customer_tags as $item ) {
+                      $html[] = '<span class="tag btn btn-sm tag_' . $item[ 'tag_id' ] . '">' . $em_customer->get_tags( $item[ 'tag_id' ] ) . '</span>';
+                    }
+
+                    echo '<td data-number="6">' . implode( '', $html ) . '</td>';
+
+                    echo '<td data-number="7"><div class="wrap-tags">';
+                    foreach ( $customer_tags as $item_limit ) {
+                      $html_tag[] = '<span class="tag btn btn-sm tag_' . $item_limit[ 'tag_id' ] . '">' . $em_customer->get_tags( $item_limit[ 'tag_id' ] ) . '</span>';
+                      $count++;
+                      if ( $count == 2 ) {
+                        break;
                       }
+                    }
 
-                      echo '<td data-number="6">' . implode('', $html) . '</td>';
-
-                      echo '<td data-number="7"><div class="wrap-tags">';
-                      foreach ($customer_tags as $item_limit) {
-                          $html_tag[] = '<span class="tag btn btn-sm tag_' . $item_limit['tag_id'] . '">' . $em_customer->get_tags($item_limit['tag_id']) . '</span>';
-                          $count++;
-                          if ($count == 2) {
-                              break;
-                          }
+                    echo implode( '', $html_tag );
+                    if ( $countRemainingTag > 0 ) {
+                      echo '<span class="badge tooltip" title="';
+                      foreach ( $remainingTag as $items_ ) {
+                        if ( $firstItemTag ) {
+                          $title[] .= $em_customer->get_tags( $items_[ 'tag_id' ] );
+                          $firstItemTag = false;
+                        }
+                        else {
+                          $title[] .= ', ' . $em_customer->get_tags( $items_[ 'tag_id' ] );
+                        }
                       }
+                      echo implode( '', $title ) . '">+' . $countRemainingTag . '</span>';
+                    }
+                    echo '</div></td>';
+                    ?>
 
-                      echo implode('', $html_tag);
-                      if ($countRemainingTag > 0) {
-                          echo '<span class="badge tooltip" title="';
-                          foreach ($remainingTag as $items_) {
-                              if ($firstItemTag) {
-                                  $title[] .= $em_customer->get_tags($items_['tag_id']);
-                                  $firstItemTag = false;
-                              } else {
-                                  $title[] .= ', ' . $em_customer->get_tags($items_['tag_id']);
-                              }
-                          }
-                          echo implode('', $title) . '">+' . $countRemainingTag . '</span>';
-                      }
-                      echo '</div></td>';
-                      ?>
-
-                    <td data-number="8" class="text-center"><?php echo $record['gender_name']; ?></td>
-                    <td data-number="9" class="text-center"><?php echo $record['note_cook']; ?></td>
-                    <td data-number="10" class="text-left"><?php echo count($response_order['data']); ?></td>
+                    <td data-number="8" class="text-center"><?php echo $record[ 'gender_name' ]; ?></td>
+                    <td data-number="9" class="text-center"><?php echo $record[ 'note_cook' ]; ?></td>
+                    <td data-number="10" class="text-left"><?php echo count( $response_order[ 'data' ] ); ?></td>
                     <td data-number="11" class="text-left"><?php echo $total_order_days; ?></td>
                     <td data-number="12" class="text-left"><?php echo $total_quantity; ?></td>
-                    <td data-number="13" class="text-left"><?php echo number_format($total_order_money); ?></td>
+                    <td data-number="13" class="text-left"><?php echo number_format( $total_order_money ); ?></td>
                     <td data-number="14" class="text-left"><?php echo $total_order_days; ?></td>
                     <td data-number="15"><?php echo $max_date; ?></td>
-                    <td data-number="16" class="text-right"><span class="avatar"><img src="<?php echo get_avatar_url($record['modified_at']); ?>" width="24" alt="<?php echo get_the_author_meta('display_name', $record['modified_at']); ?>"></span></td>
-                    <td data-number="17"><?php echo get_the_author_meta('display_name', $record['modified_at']); ?></td>
-                    <td data-number="18" style="min-width: 146px;"><?php echo date('H:i d/m/Y', strtotime($record['modified'])); ?></td>
-                    <td data-number="19"><?php echo date('Y/m/d', strtotime($record['modified'])); ?></td>
-                    <td data-number="20"><?php echo date('d/m/Y', strtotime($record['modified'])); ?></td>
+                    <td data-number="16" class="text-right"><span class="avatar"><img src="<?php echo get_avatar_url( $record[ 'modified_at' ] ); ?>" width="24" alt="<?php echo get_the_author_meta( 'display_name', $record[ 'modified_at' ] ); ?>"></span></td>
+                    <td data-number="17"><?php echo get_the_author_meta( 'display_name', $record[ 'modified_at' ] ); ?></td>
+                    <td data-number="18" style="min-width: 146px;"><?php echo date( 'H:i d/m/Y', strtotime( $record[ 'modified' ] ) ); ?></td>
+                    <td data-number="19"><?php echo date( 'Y/m/d', strtotime( $record[ 'modified' ] ) ); ?></td>
+                    <td data-number="20"><?php echo date( 'd/m/Y', strtotime( $record[ 'modified' ] ) ); ?></td>
                   </tr>
-          <?php  }
+          <?php }
+                  }
                 }
               } else {
                 echo "Không tìm thấy dữ liệu!\n";

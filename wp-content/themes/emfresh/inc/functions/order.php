@@ -39,15 +39,11 @@ function site_order_save_order()
 
         $order_id = isset($_POST['order_id']) ? intval($_POST['order_id']) : 0;
 
-        // if($order_id > 0) {
-        //     file_put_contents(ABSPATH . "/wp-content/uploads/order-{$order_id}.json", json_encode($_POST, JSON_UNESCAPED_UNICODE));
-        // }
-
         $order_data = shortcode_atts($order_default, $_POST);
 
-        // if(isset($_POST['order_note'])) {
-        //     $order_data['note'] = sanitize_text_field($_POST['order_note']);
-        // }
+        if($order_data['order_type'] == '') {
+            $order_data['order_type'] = 'single';
+        }
 
         $order_data['total'] = intval($order_data['ship_amount'] + $order_data['total_amount']);
 
@@ -270,6 +266,176 @@ function site_order_save_order()
     }
 }
 add_action('wp', 'site_order_save_order');
+
+function site_order_log($before = [], $after = [])
+{
+    if (empty($after['id'])) return;
+
+    global $em_order, $em_log;
+
+    $payment_labels = [
+        'ship_days' => 'Số ngày phát sinh phí ship',
+        'discount'  => 'Giảm giá',
+        'payment_status' => 'Phương thức thanh toán',
+        'payment_method' => 'Trạng thái thanh toán',
+        'paid' => 'Đã thanh toán',
+    ];
+
+    $log_content = [];
+
+    foreach ($payment_labels as $key => $label) {
+        $before_value = isset($before[$key]) ? $before[$key] : '';
+        $value = isset($after[$key]) ? $after[$key] : '';
+        
+        if ($value != $before_value && $value > 0) {
+            if ($key == 'payment_method') {
+                $value = $em_order->get_payment_methods($value);
+                if(is_string($value)) {
+                    $log_content[] = $label . ' ' . $value;
+                }
+            } else if ($key == 'payment_status') {
+                $value = $em_order->get_payment_statuses($value);
+                if(is_string($value)) {
+                    $log_content[] = $label . ' ' . $value;
+                }
+            } else if ($key == 'discount' || $key == 'paid') {
+                $value = number_format($value);
+
+                $log_content[] = $label . ' ' . $value;
+            } else {
+                $log_content[] = $label . ' ' . $value;
+            }
+        }
+    }
+
+    if (count($log_content) > 0) {
+        $em_log->insert([
+            'action'        => 'Cập nhật - Thanh toán',
+            'module'        => 'em_order',
+            'module_id'     => $after['id'],
+            'content'       => implode(' ', $log_content)
+        ]);
+    }
+
+    if ($before['params'] != $after['params']) {
+        $before_ships   = $em_order->get_ships($before);
+        $after_ships    = $em_order->get_ships($after);
+
+        $ship_labels = [
+            'calendar' => 'Đặt lịch',
+            'location_name' => 'Địa chỉ giao',
+            'note_shipper' => 'Note shipper theo ngày',
+            'note_admin' => 'Note admin theo ngày',
+        ];
+
+        foreach ($after_ships as $i => $ship) {
+            $log_content = [];
+
+            if (empty($before_ships[$i])) {
+                $action = 'Thêm';                            
+                $before_ship = [];
+            } else {
+                $action = 'Cập nhật';
+                $before_ship = $before_ships[$i];
+            }
+
+            foreach ($ship_labels as $key => $label) {
+                $before_value = isset($before_ship[$key]) ? $before_ship[$key] : '';
+                $value = isset($ship[$key]) ? $ship[$key] : '';
+
+                if ($value != '' && $value != $before_value) {
+                    $log_content[] = $label . ' ' . $value;
+                }
+            }
+
+            $before_value = implode(', ', isset($before_ship['days']) ? (array) $before_ship['days'] : []);
+            $value = implode(', ', isset($ship['days']) ? (array) $ship['days'] : []);
+
+            if ($value != '' && $value != $before_value) {
+                $log_content[] = 'Đặt lịch ' . $value;
+            }
+
+            if (count($log_content) > 0) {
+                $em_log->insert([
+                    'action'        => $action . ' - Giao hàng',
+                    'module'        => 'em_order',
+                    'module_id'     => $after['id'],
+                    'content'       => implode(' ', $log_content)
+                ]);
+            }
+        }
+    }
+}
+
+function site_order_payment_log($before = [], $after = [])
+{
+    if (empty($after['id'])) return;
+
+    global $em_order, $em_log;
+
+    $log_content = [];
+    $action = '';
+    $module = 'em_order_payment';
+
+    // $data = [date('Ymd-His'), $before , $after];
+    // file_put_contents(ABSPATH . '/wp-content/uploads/order_payment_log.json', json_encode($data, JSON_UNESCAPED_UNICODE));
+
+    if (empty($before['id'])) {
+        $action = 'Tạo đơn hàng';
+
+        if ($after['payment_status'] == 1) {
+            // roi
+            $log_content[] = '-' . number_format($after['total']);
+            $log_content[] = 0;
+        } else if ($after['payment_status'] == 2) {
+            // chua
+            $log_content[] = '+' . number_format($after['total']);
+            $log_content[] = '+' . number_format($after['total']);
+        } else if ($after['payment_status'] == 3) {
+            // 1 phan
+            $log_content[] = $after['paid'] > 0 ? '-' . number_format($after['paid']) : 0;
+            $log_content[] = $after['remaining_amount'] > 0 ? '+' . number_format($after['remaining_amount']) : 0;
+        }
+    } else if ($before['total'] < $after['total']) {
+        $action = 'Bổ sung đơn hàng';
+
+        $total = $after['total'] - $before['total'];
+        if($total > 0) {
+            $log_content[] = '+' . number_format($total);
+            $log_content[] = $after['remaining_amount'] > 0 ? '+' . number_format($after['remaining_amount']) : 0;    
+        }
+    } else if ($before['payment_status'] != $after['payment_status']) {
+        $action = $em_order->get_payment_methods($after['payment_method']);
+
+        if ($after['payment_status'] == 1) {
+            // roi
+            $log_content[] = '-' . number_format($after['total']);
+            $log_content[] = 0;
+        } else if ($after['payment_status'] == 3) {
+            $paid = $after['paid'] - $before['paid'];
+            
+            // 1 phan
+            $log_content[] = $paid > 0 ? '-' . number_format($paid) : 0;
+            $log_content[] = $after['remaining_amount'] > 0 ? '+' . number_format($after['remaining_amount']) : 0;
+        }
+    }
+
+    if ($action != '' && count($log_content) > 0) {
+        if ($module == 'em_order_payment') {
+            $content = implode('|', $log_content);
+        } else {
+            $content = implode(', ', $log_content);
+        }
+
+        // Add Log 
+        $em_log->insert([
+            'action'        => $action,
+            'module'        => $module,
+            'module_id'     => $after['id'],
+            'content'       => $content
+        ]);
+    }
+}
 
 function site_order_reserve_order()
 {
@@ -688,45 +854,49 @@ function site_order_save_meal_plan()
         if(is_array($list) && count($list) > 0) {
             // $today = current_time('Y-m-d');
 
+            $count_update = 0;
+            $order_id = 0;
+            $order_date_stop = '1000-01-01';
+
             foreach($list as $item) {
-                $order_id = !empty($item['order_id']) ? (int) $item['order_id'] : 0;
+                if($order_id == 0) {
+                    $order_id = !empty($item['order_id']) ? (int) $item['order_id'] : 0;
+                }
+
                 $order_item_id = !empty($item['order_item_id']) ? (int) $item['order_item_id'] : 0;
                 $meal_plan = !empty($item['meal_plan']) ? $item['meal_plan'] : [];
                 
                 if($order_id == 0 || $order_item_id == 0 || count($meal_plan) == 0) continue;
-                                
-                $order_item = $em_order_item->get_item($order_item_id);
-                // $my_meal_plan = json_decode($order_item['meal_plan'], true);
-                $total = $order_item['meal_number'] * $order_item['days'];
-
-                if(array_sum($meal_plan) != $total) {
-                    $errors[] = "Order $order_id - Item $order_item_id - Error.";
-
-                    continue;
-                }
-
-                $em_order_data = [
-                    'meal_plan' => json_encode($meal_plan)
-                ];
-
+                
                 $keys = array_keys($meal_plan);
                 $date_stop = end($keys);
-                
-                if($date_stop > $order_item['date_stop']) {
-                    $em_order_data['date_stop'] = $date_stop;
-                }
 
-                $updated = $em_order_item->update($em_order_data, ['id' => $order_item_id]);
+                $order_item_data = [
+                    'meal_plan' => json_encode($meal_plan),
+                    'date_stop' => $date_stop,
+                ];
 
-                if($updated && isset($em_order_data['date_stop'])) {
-                    $order = $em_order->get_item($order_id);
-
-                    if($date_stop > $order['date_stop']) {
-                        $em_order->update([
-                            'date_stop' => $date_stop
-                        ], ['id' => $order_id]);
+                $updated = $em_order_item->update($order_item_data, ['id' => $order_item_id]);
+                if($updated) {
+                    $count_update++;
+                    
+                    if($order_date_stop < $date_stop) {
+                        $order_date_stop = $date_stop;
                     }
                 }
+            }
+
+            if($count_update > 0 && $order_id > 0) {
+                $order = $em_order->get_item($order_id);
+
+                $order_status = $em_order->get_current_order_status($order);
+
+                $order_data = [
+                    'order_status' => $order_status,
+                    'date_stop' => $order_date_stop,
+                ];
+
+                $em_order->update($order_data, ['id' => $order_id]);
             }
         }
 
@@ -746,176 +916,6 @@ function site_order_save_meal_plan()
     }
 }
 add_action('wp', 'site_order_save_meal_plan');
-
-function site_order_log($before = [], $after = [])
-{
-    if (empty($after['id'])) return;
-
-    global $em_order, $em_log;
-
-    $payment_labels = [
-        'ship_days' => 'Số ngày phát sinh phí ship',
-        'discount'  => 'Giảm giá',
-        'payment_status' => 'Phương thức thanh toán',
-        'payment_method' => 'Trạng thái thanh toán',
-        'paid' => 'Đã thanh toán',
-    ];
-
-    $log_content = [];
-
-    foreach ($payment_labels as $key => $label) {
-        $before_value = isset($before[$key]) ? $before[$key] : '';
-        $value = isset($after[$key]) ? $after[$key] : '';
-        
-        if ($value != $before_value && $value > 0) {
-            if ($key == 'payment_method') {
-                $value = $em_order->get_payment_methods($value);
-                if(is_string($value)) {
-                    $log_content[] = $label . ' ' . $value;
-                }
-            } else if ($key == 'payment_status') {
-                $value = $em_order->get_payment_statuses($value);
-                if(is_string($value)) {
-                    $log_content[] = $label . ' ' . $value;
-                }
-            } else if ($key == 'discount' || $key == 'paid') {
-                $value = number_format($value);
-
-                $log_content[] = $label . ' ' . $value;
-            } else {
-                $log_content[] = $label . ' ' . $value;
-            }
-        }
-    }
-
-    if (count($log_content) > 0) {
-        $em_log->insert([
-            'action'        => 'Cập nhật - Thanh toán',
-            'module'        => 'em_order',
-            'module_id'     => $after['id'],
-            'content'       => implode(' ', $log_content)
-        ]);
-    }
-
-    if ($before['params'] != $after['params']) {
-        $before_ships   = $em_order->get_ships($before);
-        $after_ships    = $em_order->get_ships($after);
-
-        $ship_labels = [
-            'calendar' => 'Đặt lịch',
-            'location_name' => 'Địa chỉ giao',
-            'note_shipper' => 'Note shipper theo ngày',
-            'note_admin' => 'Note admin theo ngày',
-        ];
-
-        foreach ($after_ships as $i => $ship) {
-            $log_content = [];
-
-            if (empty($before_ships[$i])) {
-                $action = 'Thêm';                            
-                $before_ship = [];
-            } else {
-                $action = 'Cập nhật';
-                $before_ship = $before_ships[$i];
-            }
-
-            foreach ($ship_labels as $key => $label) {
-                $before_value = isset($before_ship[$key]) ? $before_ship[$key] : '';
-                $value = isset($ship[$key]) ? $ship[$key] : '';
-
-                if ($value != '' && $value != $before_value) {
-                    $log_content[] = $label . ' ' . $value;
-                }
-            }
-
-            $before_value = implode(', ', isset($before_ship['days']) ? (array) $before_ship['days'] : []);
-            $value = implode(', ', isset($ship['days']) ? (array) $ship['days'] : []);
-
-            if ($value != '' && $value != $before_value) {
-                $log_content[] = 'Đặt lịch ' . $value;
-            }
-
-            if (count($log_content) > 0) {
-                $em_log->insert([
-                    'action'        => $action . ' - Giao hàng',
-                    'module'        => 'em_order',
-                    'module_id'     => $after['id'],
-                    'content'       => implode(' ', $log_content)
-                ]);
-            }
-        }
-    }
-}
-
-function site_order_payment_log($before = [], $after = [])
-{
-    if (empty($after['id'])) return;
-
-    global $em_order, $em_log;
-
-    $log_content = [];
-    $action = '';
-    $module = 'em_order_payment';
-
-    // $data = [date('Ymd-His'), $before , $after];
-    // file_put_contents(ABSPATH . '/html/log-2.json', json_encode($data, JSON_UNESCAPED_UNICODE));
-
-    if (empty($before['id'])) {
-        $action = 'Tạo đơn hàng';
-
-        if ($after['payment_status'] == 1) {
-            // roi
-            $log_content[] = '-' . number_format($after['total']);
-            $log_content[] = 0;
-        } else if ($after['payment_status'] == 2) {
-            // chua
-            $log_content[] = '+' . number_format($after['total']);
-            $log_content[] = '+' . number_format($after['total']);
-        } else if ($after['payment_status'] == 3) {
-            // 1 phan
-            $log_content[] = $after['paid'] > 0 ? '-' . number_format($after['paid']) : 0;
-            $log_content[] = $after['remaining_amount'] > 0 ? '+' . number_format($after['remaining_amount']) : 0;
-        }
-    } else if ($before['total'] != $after['total']) {
-        $action = 'Bổ sung đơn hàng';
-
-        $total = $after['total'] - $before['total'];
-        if($total > 0) {
-            $log_content[] = '+' . number_format($total);
-            $log_content[] = $after['remaining_amount'] > 0 ? '+' . number_format($after['remaining_amount']) : 0;    
-        }
-    } else if ($before['remaining_amount'] != $after['remaining_amount']) {
-        $action = $em_order->get_payment_methods($after['payment_method']);
-
-        if ($after['payment_status'] == 1) {
-            // roi
-            $log_content[] = '-' . number_format($after['total']);
-            $log_content[] = 0;
-        } else if ($after['payment_status'] == 3) {
-            $paid = $after['paid'] - $before['paid'];
-            
-            // 1 phan
-            $log_content[] = $paid > 0 ? '-' . number_format($paid) : 0;
-            $log_content[] = $after['remaining_amount'] > 0 ? '+' . number_format($after['remaining_amount']) : 0;
-        }
-    }
-
-    if ($action != '' && count($log_content) > 0) {
-        if ($module == 'em_order_payment') {
-            $content = implode('|', $log_content);
-        } else {
-            $content = implode(', ', $log_content);
-        }
-
-        // Add Log 
-        $em_log->insert([
-            'action'        => $action,
-            'module'        => $module,
-            'module_id'     => $after['id'],
-            'content'       => $content
-        ]);
-    }
-}
 
 function site_order_get_date_value($date_start = '', $days = 0)
 {
@@ -964,6 +964,7 @@ function site_order_get_meal_plans($args = [])
     $customer_id = !empty($args['customer_id']) ? intval($args['customer_id']) : 0;
     $group_id = !empty($args['group_id']) ? intval($args['group_id']) : 0;
     $groupby = !empty($args['groupby']) ? sanitize_text_field($args['groupby']) : '';
+    $order_type = !empty($args['order_type']) ? sanitize_text_field($args['order_type']) : '';
     $date_from = !empty($args['date_from']) ? trim($args['date_from']) : '';
     $meal_select_number = isset($args['meal_select_number']) ? intval($args['meal_select_number']) : 0;
 
@@ -989,7 +990,17 @@ function site_order_get_meal_plans($args = [])
 
         $orders = [$order_detail];
     } else {
-        $q_args = ['limit' => -1];
+        $q_args = [
+            'limit' => -1
+        ];
+
+        if(in_array($order_type, ['single', 'group'])) {
+            $q_args['order_type'] = $order_type;
+
+            if($order_type == 'group') {
+                $groupby = 'group';
+            }
+        }
 
         if($customer_id > 0) {
             $q_args['customer_id'] = $customer_id;
@@ -1001,6 +1012,8 @@ function site_order_get_meal_plans($args = [])
             } else {
                 $q_args['customer_id'] = [];
             }
+
+            $q_args['order_type'] = 'group';
         } else if($groupby == 'group') {
             $items = $em_group->get_items();
 
@@ -1025,6 +1038,7 @@ function site_order_get_meal_plans($args = [])
             }
             
             $q_args['customer_id'] = $customer_ids;
+            $q_args['order_type'] = 'group';
         }
 
         if($date_from != '') {
@@ -1042,7 +1056,8 @@ function site_order_get_meal_plans($args = [])
         $schedule_meal_plan_items = [];
         $schedule_meal_select_items = [];
 
-        $static_days = site_get_days_week_by('this-week');
+        $this_day = !empty($args['this_day']) ? trim($args['this_day']) : 'this-week';
+        $static_days = site_get_days_week_by($this_day);
 
         $statistics = [
             'dat_don' => [],
@@ -1063,12 +1078,10 @@ function site_order_get_meal_plans($args = [])
         $today = current_time('Y-m-d');
 
         foreach($orders as $i => $order) {
-            $q_args = [
+            $order_items = $em_order_item->get_items([
                 'limit' => -1,
                 'order_id' => $order['id'],
-            ];
-
-            $order_items = $em_order_item->get_items($q_args);
+            ]);
 
             $order_date_stop = $order['date_stop'];
 
@@ -1080,14 +1093,17 @@ function site_order_get_meal_plans($args = [])
                 $order_item['meal_select_items'] = $em_order_item->get_meal_select($order_item, $meal_select_number);
 
                 if(count($order_item['meal_plan_items']) > 0) {
-                    $keys = array_keys($order_item['meal_plan_items']);
+                    $meal_plan_items    = $order_item['meal_plan_items'];
+                    $meal_select_items  = $order_item['meal_select_items'];
+
+                    $keys = array_keys($meal_plan_items);
                     $order_item['date_stop'] = end($keys);
 
                     if ($order_date_stop < $order_item['date_stop']) {
                         $order_date_stop = $order_item['date_stop'];
                     }
 
-                    foreach($order_item['meal_plan_items'] as $day => $value) {
+                    foreach($meal_plan_items as $day => $value) {
                         if(empty($order_meal_plan_items[$day])) {
                             $order_meal_plan_items[$day] = 0;
                         }
@@ -1101,7 +1117,7 @@ function site_order_get_meal_plans($args = [])
                         $schedule_meal_plan_items[$day] += $value;
                     }
 
-                    foreach($order_item['meal_select_items'] as $day => $meal_select) {
+                    foreach($meal_select_items as $day => $meal_select) {
                         if(empty($order_meal_select_items[$day])) {
                             $order_meal_select_items[$day] = [];
                         }
@@ -1122,27 +1138,52 @@ function site_order_get_meal_plans($args = [])
 
                     $dam_rate = site_get_dam_rate($code);
 
+                    $static_statuses = [
+                        'chua_ro',
+                        'di_mon',
+                        'dat_don',
+                    ];
+
                     foreach($static_days as $day) {
-                        if($day < $order_item['date_start']) {
-                            $status = 'di_mon';
-                            $count = array_sum($order_item['meal_plan_items']);
-                        } else if($day > $order_item['date_stop']) {
+                        $meal_plan_total = !empty($meal_plan_items[$day]) ? $meal_plan_items[$day] : 0;
+
+                        $meal_select_count = 0;
+                        
+                        if($meal_plan_total > 0 && !empty($meal_select_items[$day])) {
+                            foreach($meal_select_items[$day] as $menu_id) {
+                                if($menu_id > 0) {
+                                    $meal_select_count++;
+                                }
+                            }
+                        }
+
+                        // set value all status
+                        foreach($static_statuses as $status) {
+                            $item = $statistics[$status];
+
+                            if(empty($item[$code])) {
+                                $item[$code] = [];
+                            }
+
+                            if(empty($item[$code][$day])) {
+                                $item[$code][$day] = 0;
+                            }
+
+                            $statistics[$status] = $item;
+                        }
+
+                        if($meal_plan_total == 0) {
                             $status = 'chua_ro';
-                            $count = array_sum($order_item['meal_plan_items']);
+                            $count = 0;
+                        } else if($meal_select_count < $meal_plan_total) {
+                            $status = 'di_mon';
+                            $count = $meal_plan_total - $meal_select_count;
                         } else {
-                            $status = 'dat_don';    
-                            $count = isset($order_item['meal_plan_items'][$day]) ? $order_item['meal_plan_items'][$day] : 0;
+                            $status = 'dat_don';
+                            $count = $meal_plan_total;
                         }
 
                         $item = $statistics[$status];
-
-                        if(empty($item[$code])) {
-                            $item[$code] = [];
-                        }
-
-                        if(empty($item[$code][$day])) {
-                            $item[$code][$day] = 0;
-                        }
 
                         $item[$code][$day] += $count;
 
@@ -1182,6 +1223,17 @@ function site_order_get_meal_plans($args = [])
                             $statistics[$tong_name][$type] += $count;
                         }
                     }
+
+                    // check null
+                    foreach($static_statuses as $status) {
+                        $item = $statistics[$status];
+
+                        if(array_sum($item[$code]) == 0) {
+                            unset($item[$code]);
+                        }
+
+                        $statistics[$status] = $item;
+                    }
                 }
 
                 $order_items[$j] = $order_item;
@@ -1190,20 +1242,6 @@ function site_order_get_meal_plans($args = [])
             $order['order_items'] = $order_items;
             $order['meal_plan_items'] = $order_meal_plan_items;
             $order['meal_select_items'] = $order_meal_select_items;
-
-            // Sort order status [2 => Chưa rõ, 3 => Dí món, 1 => Đặt đơn]
-            if($today < $order['date_start']) {
-                // $status = 'di_mon';
-                $order['order_status'] = 3;
-            } else if($today > $order_date_stop) {
-                // $status = 'chua_ro';
-                $order['order_status'] = 2;
-            } else {
-                // $status = 'dat_don';
-                $order['order_status'] = 1;
-            }
-
-            $order['order_status_name'] = $em_order->get_order_statuses($order['order_status']);
 
             if ($date_start == '0000-00-00' || $date_start > $order['date_start']) {
                 $date_start = $order['date_start'];
@@ -1405,6 +1443,75 @@ function site_order_get_meal_plans($args = [])
     }
 
     return $data;
+}
+
+function site_order_statistics_item($statistics = [], $args = [])
+{
+    extract(shortcode_atts([
+        'order_item' => [],
+        'status' => '',
+        'day' => '',
+        'count' => 0,
+    ], $args));
+
+    $product_codes = site_get_product_codes();
+
+    $parts = explode('-', $order_item['product_name']);
+    $code = trim($parts[0]);
+
+    $type = in_array($code, $product_codes) ? 'chinh' : 'phu';
+
+    $dam_rate = site_get_dam_rate($code);
+
+    $item = $statistics[$status];
+
+    if(empty($item[$code])) {
+        $item[$code] = [];
+    }
+
+    if(empty($item[$code][$day])) {
+        $item[$code][$day] = 0;
+    }
+
+    $item[$code][$day] += $count;
+
+    $statistics[$status] = $item;
+
+    if(empty($statistics['tong'][$day])) {
+        $statistics['tong'][$day] = 0;
+    }
+
+    $statistics['tong'][$day] += $count;
+
+    $tong_name = 'tong_' . $status;
+
+    if(empty($statistics[$tong_name][$day])) {
+        $statistics[$tong_name][$day] = 0;
+
+        if($status == 'di_mon') {
+            $statistics[$tong_name . '_chinh'][$day] = 0;
+            $statistics[$tong_name . '_dam'][$day] = 0;
+            $statistics[$tong_name . '_nuoc'][$day] = 0;
+        }
+    }
+
+    $statistics[$tong_name][$day] += $count;
+
+    if($status == 'di_mon') {
+        if($type == 'chinh') {
+            $statistics[$tong_name . '_chinh'][$day] += $count;
+            $statistics[$tong_name . '_dam'][$day] += $dam_rate * $count;
+        }
+        if(in_array($code, site_get_water_codes())) {
+            $statistics[$tong_name . '_nuoc'][$day] += $count;
+        }
+    }
+    
+    if(isset($statistics[$tong_name][$type])) {
+        $statistics[$tong_name][$type] += $count;
+    }
+
+    return $statistics;
 }
 
 function site_order_sort_types($types = [])

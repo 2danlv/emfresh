@@ -710,5 +710,13 @@ add_action('admin_head', 'fix_svg');
 function site_response_json($data)
 {
     header('Content-type: application/json');
-    die(json_encode($data));
+    die(json_encode($data, JSON_UNESCAPED_UNICODE));
 }
+
+function site_uksort_list($list = [])
+{
+    uksort($list, function($a,$b){ if($a > $b) { return -1;} else if($a < $b){ return 1;} return 0;});
+
+	return $list;
+}
+

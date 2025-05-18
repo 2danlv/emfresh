@@ -22,6 +22,8 @@ $args = [
 
 $data = site_order_get_meal_plans($args);
 
+$schedule_meal_plan_items = $data['meal_plan_items'];
+
 if(isset($_GET['abs'])) {
   header('Content-type: application/json');
   die(json_encode($data['orders']));
@@ -156,7 +158,7 @@ get_header();
                   </span></td>
                 <td class="wrap-date">
                   <ul class="d-f date-group">
-                    <?php foreach ($data[ 'schedule' ] as $date) :
+                    <?php foreach ($data['schedule'] as $date) :
                       $value = isset($meal_plan_items[ $date ]) ? $meal_plan_items[ $date ] : '';
                       if ( $value != '' ) {
                         $class_date = '';

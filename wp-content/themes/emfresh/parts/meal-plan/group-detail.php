@@ -111,6 +111,13 @@
       } else {
         $('.navigation-bottom .btn-primary').show();
       }
+
+      var ids = $('.remove_customers').val();
+      ids = ids != '' ? ids.split(',') : [];
+      if(ids.includes(removeMember) == false) {
+        ids.push(removeMember);
+      }
+      $('.remove_customers').val(ids.join(','));
     });
     $(document).on('click', '.btn-remove_group', function (e) {
       var removeGroup = $(this).attr('data_href');
@@ -118,8 +125,6 @@
       $('#modal-delete-member .delete_group').show();
       $('#modal-delete-member .modal-body .delete_group p').text('Bạn có chắc muốn xóa nhóm không?');
       $('#modal-delete-member .modal-footer .delete_group a').attr('href',removeGroup);
-      
-      
     });
     $(document).on('click', '.group-locations .location_field', function (e) {
       var resultItem_length = $(this).closest('.group-locations').find(".location_id");
@@ -153,28 +158,7 @@
       $('.create-group input.customer_id').val(customer_id);
       $('.create-group .phone').val(phone);
       $('.create-group .txt_phone').text(phone);
-
-      console.log('change', 
-        customer_name,
-customer_id,
-phone
-      );
-
-      // var selected_row = $('.table-member tr[data-customer_id="' + customer_id + '"]');
-      // var selected_order_input = selected_row.find('.input-order');
-      // var selected_old_order = selected_order_input.val();
-
-      // var current_first_row = $('.table-member .input-order[value="1"]').closest('tr');
-      // var current_first_customer_id = current_first_row.data('customer_id');
-
-      // if (parseInt(selected_old_order) !== 1) {
-      //     selected_order_input.val(1);
-
-      //     if (current_first_customer_id != customer_id) {
-      //         current_first_row.find('.input-order').val(selected_old_order);
-      //     }
-      // }
-  });
+    });
 
   });
   $('.box-search .search-cus').keyup(function () {
