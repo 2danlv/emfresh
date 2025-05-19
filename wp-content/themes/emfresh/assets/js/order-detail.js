@@ -171,7 +171,7 @@ function update_order_item_info(order_item) {
 
 	order_item.find('.input-product_price').val(price);
 	order_item.find('.text-amount').text(format_money_round(amount));
-	order_item.find('.input-amount').val(Math.floor(amount / 1000) * 1000);
+	order_item.find('.input-amount').val(Math.round(amount / 1000) * 1000);
 	order_item.find('.input-meal_number').val(meal_number);
 	order_item.find('.input-date_stop').val(get_date_value(date_start, days - 1));
 	order_item.find('.input-ship_price').val(ship_price);
@@ -207,7 +207,7 @@ function format_money(number) {
 function format_money_round(number) {
   number = parseFloat(number);
   if (isNaN(number)) return '0';
-  number = Math.floor(number / 1000) * 1000;
+  number = Math.round(number / 1000) * 1000;
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 

@@ -123,7 +123,7 @@ foreach($days as $day) {
           <div class="col-6">
             <ul class="d-f jc-end right-action ai-center">
               <li class="mr-16 group-icon"><span class="btn btn-fillter">&nbsp;</span></li>
-              <li class="mr-16 group-icon"><span class="btn btn-copy">&nbsp;</span></li>
+              <li class="mr-16 group-icon"><span class="btn btn-copy copyAllphone" data-target="#modal-copy">&nbsp;</span></li>
               <li class="mr-16 group-icon"><span class="btn btn-alert">&nbsp;</span></li>
               <li><span class="btn btn-primary disable js-save-meal-select">Lưu chọn món</span></li>
             </ul>

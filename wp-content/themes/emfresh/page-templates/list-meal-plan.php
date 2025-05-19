@@ -22,6 +22,7 @@ if(isset($args['days'])) {
 $data = site_order_get_meal_plans($args);
 
 $group_id = !empty($args['group_id']) ? intval($args['group_id']) : 0;
+$order_type = !empty($args['order_type']) ? trim($args['order_type']) : '';
 
 if(isset($_GET['customers'])) {
   header('Content-type: application/json');
@@ -121,6 +122,9 @@ get_header();
                 $link = add_query_arg($params, site_meal_plan_group_link());
               } else {
                 $params = ['customer_id' => $order['id']];
+                if($order_type == 'single') {
+                  $params['order_type'] = $order_type;
+                }
                 $phone = $order['phone'];
                 $link = add_query_arg($params, site_meal_plan_detail_link());
               }
