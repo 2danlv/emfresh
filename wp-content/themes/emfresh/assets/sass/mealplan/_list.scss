@@ -121,3 +121,17 @@ table.table-list-meal-plan {
 .list-order table.table tbody tr td.wrap-date .date-group li,table.table tr.accordion-content_table.d-table-row td.wrap-date .date-group li {
     border-top: none;
 }
+.list-select-meal {
+    .em-importer .tabNavigation .nav-item {
+        .btn {
+            padding-top: 4px;
+            padding-bottom: 4px;
+        }
+        &.selected {
+            .btn {
+                background-color: var(--button-solid-background-default, #208046);
+                color: #fff;
+            }
+        }
+    } 
+}

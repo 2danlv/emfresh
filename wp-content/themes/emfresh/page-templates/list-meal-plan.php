@@ -115,16 +115,13 @@ get_header();
             foreach ($data[ 'customers' ] as $index => $order) :
               $meal_plan_items = $order[ 'meal_plan_items' ];
               $class = ($i % 2 == 0) ? 'green' : 'orange';
-              if ( isset( $order[ 'order_type' ] ) && $order[ 'order_type' ] == "group") {
-                $group = 'Nhóm ';
-              } else {
-                $group = '';
-              }
               if(isset($order['group_name'])) {
+                $group = 'Nhóm ';
                 $params = ['group_id' => $order['id']];
                 $phone = $order['group_phone'];
                 $link = add_query_arg($params, site_meal_plan_group_link());
               } else {
+                $group = '';
                 $params = ['customer_id' => $order['id']];
                 if($order_type == 'single') {
                   $params['order_type'] = $order_type;

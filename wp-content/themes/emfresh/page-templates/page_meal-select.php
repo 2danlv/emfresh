@@ -50,8 +50,7 @@ foreach([-7, 0, 7] as $day) {
 $list_copy = [
   'Danh sách chính',
   'Bản sao 1',
-  'Bản sao 2',
-  'Bản sao 3',
+  'Bản sao 2'
 ];
 
 $list_logs = $em_log->get_items([
@@ -148,132 +147,144 @@ foreach($days as $day) {
             </ul>
           </div>
           <div class="col-7">
-            <ul class="d-f">
+            <ul class="d-f nav tabNavigation">
               <?php
               $i = 0;
               foreach($list_copy as $number => $name) :?>
-              <li class="mr-16 <?php echo $meal_select_number >= $i ? ' ' : 'dn' ?>">
-                <a href="<?php echo add_query_arg(['order_id' => $order_id,'meal_select_number' => $number,'week' => $week,
-                ], $detail_menu_select_url) ?>" class="btn<?php echo $meal_select_number == $number ? ' btn-primary ' : '' ?>"><?php echo $name ?></a>
+              <li class="mr-16 nav-item  <?php echo $meal_select_number >= $i ? ' defaulttab' : 'dn' ?>" rel="tab_<?php echo $number; ?>">
+                <!-- <a href="<?php echo add_query_arg(['order_id' => $order_id,'meal_select_number' => $number,'week' => $week, 
+                ], $detail_menu_select_url) ?>" class="btn<?php echo $meal_select_number == $number ? ' btn-primary ' : '' ?>">-->
+                <span class="btn"><?php echo $name ?></span>
+                <!-- </a> -->
               </li>
               <?php
               $i++;
               endforeach ?>
               <?php if ( $meal_select_number < 3 ) { ?>
-                <li class="add" style="width: 32px; height: 32px; line-height: 32px; cursor: pointer;"><img src="<?php echo site_get_template_directory_assets(); ?>img/icon/plus-svgrepo-com.svg" alt=""></li>
+                <li class="add" rel="" style="width: 32px; height: 32px; line-height: 32px; cursor: pointer;"><img src="<?php echo site_get_template_directory_assets(); ?>img/icon/plus-svgrepo-com.svg" alt=""></li>
               <?php } ?>
             </ul>
           </div>
         </div>
         <?php wp_nonce_field('importoken', 'importoken', false); ?>
       </form>
-      <form id="meal_select_form" action="<?php the_permalink() ?>" method="post">
-        <input type="hidden" name="save_meal_select" value="1"/>
-        <input type="hidden" name="meal_select_number" value="<?php echo $meal_select_number ?>"/>
-        <input type="hidden" name="order_id" value="<?php echo $order_id ?>"/>
-        <input type="hidden" name="week" value="<?php echo $week ?>"/>
-        <table id="list-select-meal" class="table table-select-meal" style="width:100%">
-          <thead>
-            <tr class="nowrap">
-              <th data-number="0" class="text-center"><input type="checkbox" name="checkall" id="checkall" /></th>
-              <th data-number="1"><span class="nowrap">Tên người nhận</span></th>
-              <th data-number="2" class="text-left">SĐT</th>
-              <th data-number="3">Mã</th>
-              <?php foreach($days as $i => $day) : $time = strtotime($day); ?>
-              <th class="text-center" data-number="<?php echo $i + 4 ?>">
-                Thứ <?php echo $i + 2 ?> <br>
-                (<?php echo date('d/m', $time) ?>)
-              </th>
-              <?php endforeach ?>
-            </tr>
-          </thead>
-          <tbody>
-            <?php
-              foreach ($data['orders'] as $i => $order) :
-                $link = add_query_arg([
-                  'order_id' => $order['id'],
-                  'meal_select_number' => $meal_select_number,
-                  'week' => $week,
-                ], $detail_menu_select_url);
+      
+      <div class="tab-content">
+        <form id="meal_select_form" action="<?php the_permalink() ?>" method="post">
+          <input type="hidden" name="save_meal_select" value="1"/>
+          <input type="hidden" name="order_id" value="<?php echo $order_id ?>"/>
+          <input type="hidden" name="week" value="<?php echo $week ?>"/>
+            <?php $i2 = 0; 
+            foreach($list_copy as $number => $name) :?>
+            <div class="tab-pane" id="tab_<?php echo $i2; ?>">
+            <input type="hidden" name="meal_select_number" value="<?php echo $number ?>"/>
+              <table id="list-select-meal<?php echo $number ?>" class="table table-select-meal" style="width:100%">
+                <thead>
+                  <tr class="nowrap">
+                    <th data-number="0" class="text-center"><input type="checkbox" name="checkall" id="checkall" /></th>
+                    <th data-number="1"><span class="nowrap">Tên người nhận</span></th>
+                    <th data-number="2" class="text-left">SĐT</th>
+                    <th data-number="3">Mã</th>
+                    <?php foreach($days as $i => $day) : $time = strtotime($day); ?>
+                    <th class="text-center" data-number="<?php echo $i + 4 ?>">
+                      Thứ <?php echo $i + 2 ?> <br>
+                      (<?php echo date('d/m', $time) ?>)
+                    </th>
+                    <?php endforeach ?>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php
+                    foreach ($data['orders'] as $i => $order) :
+                      $link = add_query_arg([
+                        'order_id' => $order['id'],
+                        'meal_select_number' => $meal_select_number,
+                        'week' => $week,
+                      ], $detail_menu_select_url);
 
-                foreach($order['order_items'] as $order_item) :
-                  if(empty($order_item['meal_select_items']) || count($order_item['meal_select_items']) == 0) continue;
+                      foreach($order['order_items'] as $order_item) :
+                        if(empty($order_item['meal_select_items']) || count($order_item['meal_select_items']) == 0) continue;
 
-                  $meal_select_items = $order_item['meal_select_items'];
-                  $count = 0;
-                  foreach($days as $i => $day) {
-                    if(isset($meal_select_items[$day])) {
-                      $count++;
-                      break;
-                    }
-                  }
+                        $meal_select_items = $order_item['meal_select_items'];
+                        $count = 0;
+                        foreach($days as $i => $day) {
+                          if(isset($meal_select_items[$day])) {
+                            $count++;
+                            break;
+                          }
+                        }
 
-                  if($count==0) continue;
+                        if($count==0) continue;
 
-                  $meal_plan_items = $order_item['meal_plan_items'];
-                  $product_name = explode('-', $order_item['product_name']);
-                  $cell_max = 0;
+                        $meal_plan_items = $order_item['meal_plan_items'];
+                        $product_name = explode('-', $order_item['product_name']);
+                        $cell_max = 0;
 
-                  $export_rows[$row] = shortcode_atts($default_columns, [
-                    'Tên người nhận' => $order['customer_name'],
-                    'SĐT' => $order['phone'],
-                    'Mã' => trim($product_name[0]),
-                  ]);
-            ?>
-              <tr class="nowrap" data-order-id="<?php echo $order['id'] ?>" data-order-item-id="<?php echo $order_item['id'] ?>">
-                <td data-number="0" class="text-center"><input type="checkbox" tabindex="-1" class="checkbox-element" data-number="<?php echo $order['phone']; ?>" value="<?php echo $order['id'] ?>"></td>
-                <td data-number="1" class="text-capitalize nowrap wrap-td">
-                  <div class="ellipsis"><a href="<?php echo $link ?>" tabindex="-1"><?php echo $order['customer_name'] ?></a></div>
-                </td>
-                <td data-number="2" class="text-left"><span tabindex="-1"class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $order['phone']; ?>"><?php echo $order['phone']; ?></span></td>
-                <td data-number="3"><?php echo trim($product_name[0]) ?></td>
-                <?php foreach($days as $i => $day) : 
-                  $meal_select = empty($meal_select_items[$day]) ? [] : $meal_select_items[$day];
-                  $meal_plan_value = empty($meal_plan_items[$day]) ? 0 : $meal_plan_items[$day];
-
-                  $count = count($meal_select);
-                  if($cell_max < $count) {
-                    $cell_max = $count;
-                  }
-                ?>
-                <td data-number="<?php echo $i + 4 ?>" class="wrap-td" style="min-width: 140px;">
-                  <?php foreach($meal_select as $k => $menu_id) :
-
-                    $row_k = ($row + $k);
-
-                    $columns = isset($export_rows[$row_k]) ? $export_rows[$row_k] : $default_columns;
-
-                    $columns[site_get_meal_week($day)] = $menu_id > 0 && !empty($menu_select[$menu_id]) ? $menu_select[$menu_id] : '';
-
-                    $export_rows[$row_k] = $columns;
-
+                        $export_rows[$row] = shortcode_atts($default_columns, [
+                          'Tên người nhận' => $order['customer_name'],
+                          'SĐT' => $order['phone'],
+                          'Mã' => trim($product_name[0]),
+                        ]);
                   ?>
-                  <div class="mb-6">
-                    <select name="list_meal_select[<?php echo $order_item['id'] ?>][<?php echo $day ?>][<?php echo $k ?>]" 
-                      class="meal_select<?php echo $k >= $meal_plan_value ? ' meal-plan-waring' : '' ?>" data-old="<?php echo $menu_id ?>"
-                    ><?php
-                      foreach($menu_select as $value => $name) {
-                        echo '<option value="'.$value.'"'.($value == $menu_id ? ' selected' :'').'>' . $name . '</option>';
-                      }
-                    ?></select>
-                  </div>
-                  <?php endforeach ?>
-                </td>
-                <?php endforeach;
-                  $row += $cell_max;
-                ?>
-              </tr>
-            <?php endforeach;
-            endforeach; ?>
-          </tbody>
-        </table>
-      </form>
+                    <tr class="nowrap" data-order-id="<?php echo $order['id'] ?>" data-order-item-id="<?php echo $order_item['id'] ?>">
+                      <td data-number="0" class="text-center"><input type="checkbox" tabindex="-1" class="checkbox-element" data-number="<?php echo $order['phone']; ?>" value="<?php echo $order['id'] ?>"></td>
+                      <td data-number="1" class="text-capitalize nowrap wrap-td">
+                        <div class="ellipsis"><a href="<?php echo $link ?>" tabindex="-1"><?php echo $order['customer_name'] ?></a></div>
+                      </td>
+                      <td data-number="2" class="text-left"><span tabindex="-1"class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $order['phone']; ?>"><?php echo $order['phone']; ?></span></td>
+                      <td data-number="3"><?php echo trim($product_name[0]) ?></td>
+                      <?php foreach($days as $i => $day) : 
+                        $meal_select = empty($meal_select_items[$day]) ? [] : $meal_select_items[$day];
+                        $meal_plan_value = empty($meal_plan_items[$day]) ? 0 : $meal_plan_items[$day];
+
+                        $count = count($meal_select);
+                        if($cell_max < $count) {
+                          $cell_max = $count;
+                        }
+                      ?>
+                      <td data-number="<?php echo $i + 4 ?>" class="wrap-td" style="min-width: 140px;">
+                        <?php foreach($meal_select as $k => $menu_id) :
+
+                          $row_k = ($row + $k);
+
+                          $columns = isset($export_rows[$row_k]) ? $export_rows[$row_k] : $default_columns;
+
+                          $columns[site_get_meal_week($day)] = $menu_id > 0 && !empty($menu_select[$menu_id]) ? $menu_select[$menu_id] : '';
+
+                          $export_rows[$row_k] = $columns;
+
+                        ?>
+                        <div class="mb-6">
+                          <select name="list_meal_select[<?php echo $order_item['id'] ?>][<?php echo $day ?>][<?php echo $k ?>]" 
+                            class="meal_select<?php echo $k >= $meal_plan_value ? ' meal-plan-waring' : '' ?>" data-old="<?php echo $menu_id ?>"
+                          ><?php
+                            foreach($menu_select as $value => $name) {
+                              echo '<option value="'.$value.'"'.($value == $menu_id ? ' selected' :'').'>' . $name . '</option>';
+                            }
+                          ?></select>
+                        </div>
+                        <?php endforeach ?>
+                      </td>
+                      <?php endforeach;
+                        $row += $cell_max;
+                      ?>
+                    </tr>
+                  <?php endforeach;
+                  endforeach; ?>
+                </tbody>
+              </table>
+            </div>
+            <?php $i2++;
+            endforeach ?>
+        </form>
+      </div>
+        
     </div>
   <div class="navigation-bottom d-f jc-b ai-center pl-16 pr-16">
 	<span class="btn btn-secondary openmodal" data-target="#modal-plan-history">Lịch sử thao tác</span>
 </div>
 </div>
-<!-- /.card-body -->
+<!-- /.card-body --> 
 </section>
 <div class="modal fade modal-warning" id="modal-warning-edit">
   <div class="overlay"></div>

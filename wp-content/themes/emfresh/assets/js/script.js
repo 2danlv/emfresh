@@ -758,7 +758,7 @@ jQuery(document).ready(function () {
 			},
 		}
 	});
-	jQuery('ul.tabNavigation li').click(function() {
+	jQuery('ul.tabNavigation li.nav-item').click(function () {
 		switch_tabs(jQuery(this));
 		$('.card-primary').removeClass('width-100');
 		$('.scroll-menu .btn-save_edit').hide();
@@ -766,6 +766,7 @@ jQuery(document).ready(function () {
 		setTimeout(() => {
 			table_regular.columns.adjust();
 			table_regular_pay.columns.adjust();
+			table_select_meal.columns.adjust();
 		}, 100);
 	});
 	switch_tabs(jQuery('.defaulttab'));

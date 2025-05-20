@@ -7,7 +7,7 @@ function switch_tabs_order(obj) {
 }
 $(document).ready(function () {
 	switch_tabs_order($('ul.tab-nav li.defaulttab'))
-	$("ul.tab-nav li").click(function () {
-		switch_tabs_order($(this))
-	});
+	$('ul.tab-nav li.nav-item').click(function () {
+    switch_tabs_order($(this));
+  });
 })
