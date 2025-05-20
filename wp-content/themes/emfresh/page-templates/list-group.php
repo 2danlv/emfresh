@@ -90,7 +90,7 @@ get_header();
                 ?>
                   <tr class="nowrap">
                     <td data-number="0" class="text-center"><input type="checkbox" class="checkbox-element" data-number="<?php echo $record['phone']; ?>" value="<?php echo $record['id'] ?>"></td>
-                    <td data-number="1" class="text-capitalize nowrap wrap-td"><div class="ellipsis"><a href="<?php echo $link ?>"><?php echo $record['name']; ?></a></div></td>
+                    <td data-number="1" class="text-capitalize nowrap wrap-td"><div class="ellipsis"><a href="<?php echo $link ?>">Nhóm <?php echo $record['name']; ?></a></div></td>
                     <td data-number="2" class="text-left"><span class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $record['phone']; ?>"><?php echo $record['phone']; ?></span></td>
                     <td data-number="3" class="text-capitalize wrap-td" style="min-width: 300px;">
                       <div class="nowrap ellipsis"><?php echo $record['location_name'] ?></div>

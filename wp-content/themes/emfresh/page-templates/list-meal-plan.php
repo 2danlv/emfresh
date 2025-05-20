@@ -53,7 +53,7 @@ get_header();
             <div class="col-8">
               <ul class="d-f ai-center">
                 <li class="group-icon mr-8"><span class="btn btn-fillter">&nbsp;</span></li>
-                <li class="group-icon mr-8"><span class="btn btn-copy">&nbsp;</span></li>
+                <li class="group-icon mr-8"><span class="btn btn-copy copyAllphone" data-target="#modal-copy">&nbsp;</span></li>
                 <li class="has-child mr-8">
                   <span class="btn btn-action">Thao tác</span>
                   <ul>
@@ -64,7 +64,7 @@ get_header();
                     </li>
                     <li>
                       <div class="d-f ai-center">
-                        <i class="fas fa-layer"></i><span class="openmodal pl-10" data-target="#modal-warning-edit">Cập nhật nhanh</span>
+                        <i class="fas fa-layer"></i><span class="pl-10">Cập nhật nhanh</span>
                       </div>
                     <li>
                       <div class="d-f ai-center">
@@ -115,7 +115,11 @@ get_header();
             foreach ($data[ 'customers' ] as $index => $order) :
               $meal_plan_items = $order[ 'meal_plan_items' ];
               $class = ($i % 2 == 0) ? 'green' : 'orange';
-              
+              if ( isset( $order[ 'order_type' ] ) && $order[ 'order_type' ] == "group") {
+                $group = 'Nhóm ';
+              } else {
+                $group = '';
+              }
               if(isset($order['group_name'])) {
                 $params = ['group_id' => $order['id']];
                 $phone = $order['group_phone'];
@@ -132,11 +136,11 @@ get_header();
             ?>
               <tr class="order-<?php echo $order[ 'id' ] ?>" data-order_id="<?php echo $order[ 'id' ] ?>">
                 <td data-number="0"><input type="checkbox" class="checkbox-element"
-                    data-number="<?php echo $order[ 'order_number' ]; ?>" value="<?php echo $order[ 'order_number' ] ?>"></td>
+                    data-number="<?php echo $phone; ?>" value="<?php echo $order[ 'order_number' ] ?>"></td>
                 <td data-number="1" class=" nowrap wrap-td">
                   <div class="ellipsis">
                     <a href="<?php echo $link ?>" <?php echo $group_id > 0 ? 'target="_blank"' : '' ?>>
-                      <?php
+                      <?php echo $group;
                         echo isset($order['group_name']) ? $order['group_name'] : $order['customer_name']
                       ?>
                     </a>
