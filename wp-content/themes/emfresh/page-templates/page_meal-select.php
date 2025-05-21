@@ -608,6 +608,8 @@ foreach($export_rows as $i => $row) {
 }
 
 ?>
+<script src="<?php site_the_assets(); ?>js/assistant.js"></script>
+<script src="<?php site_the_assets(); ?>js/location.js"></script>
 <script src="<?php site_the_assets(); ?>js/order.js"></script>
 <script>
   var $rows = <?php echo json_encode($rows, JSON_UNESCAPED_UNICODE) ?>;
