@@ -32,7 +32,9 @@ $week = isset($args['week']) ? trim($args['week']) : date('Y-m-d', $nowtime);
 
 // $args['groupby'] = 'customer';
 
-$data = site_order_get_meal_plans($args);
+// $data = site_order_get_meal_plans($args);
+
+$data = [];
 
 $days = site_get_days_week_by($week);
 
@@ -53,9 +55,7 @@ $list_copy = [
   'Bản sao 2'
 ];
 
-$list_logs = $em_log->get_items([
-  'module' => $meal_select_key,
-]);
+$list_logs = [];
 
 // Tu dong xoa sau 7 ngay
 $time_to_delete = strtotime('-7 days');
@@ -168,16 +168,26 @@ foreach($days as $day) {
         </div>
         <?php wp_nonce_field('importoken', 'importoken', false); ?>
       </form>
-      
       <div class="tab-content">
-        <form id="meal_select_form" action="<?php the_permalink() ?>" method="post">
+      <?php
+      $i2 = 0;
+      $tab_args = $args;
+      foreach($list_copy as $number => $name) :
+        $tab_args['meal_select_number'] = $number;
+        $data = site_order_get_meal_plans($tab_args);
+        $meal_select_key = 'meal_select' . ($number > 0 ? '_' . $number : '');
+        $tab_logs = $em_log->get_items([
+          'module' => $meal_select_key,
+        ]);
+
+        $list_logs = array_merge($list_logs, $tab_logs);
+      ?>
+      <div class="tab-pane" id="tab_<?php echo $i2; ?>">
+        <form id="meal_select_form<?php echo $i2; ?>" action="<?php the_permalink() ?>" method="post">
           <input type="hidden" name="save_meal_select" value="1"/>
+          <input type="hidden" name="meal_select_number" value="0"/>
           <input type="hidden" name="order_id" value="<?php echo $order_id ?>"/>
           <input type="hidden" name="week" value="<?php echo $week ?>"/>
-            <?php $i2 = 0; 
-            foreach($list_copy as $number => $name) :?>
-            <div class="tab-pane" id="tab_<?php echo $i2; ?>">
-            <input type="hidden" name="meal_select_number" value="<?php echo $number ?>"/>
               <table id="list-select-meal<?php echo $number ?>" class="table table-select-meal" style="width:100%">
                 <thead>
                   <tr class="nowrap">
@@ -273,12 +283,11 @@ foreach($days as $day) {
                   endforeach; ?>
                 </tbody>
               </table>
-            </div>
-            <?php $i2++;
-            endforeach ?>
         </form>
       </div>
-        
+      <?php $i2++;
+      endforeach ?>
+      </div>
     </div>
   <div class="navigation-bottom d-f jc-b ai-center pl-16 pr-16">
 	<span class="btn btn-secondary openmodal" data-target="#modal-plan-history">Lịch sử thao tác</span>
@@ -665,6 +674,8 @@ foreach($export_rows as $i => $row) {
         $('.meal_select.changed').removeClass('c-red');
       }
     });
-
+    $('.meal_select').on('change', function () {
+      $('.list-customer .em-importer ul li.group-icon .btn.btn-alert,.meal-plan-waring').removeClass('c-red');
+    });
   });
 </script>
