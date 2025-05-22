@@ -58,7 +58,7 @@ function site_importer_customer_export()
 			"address",
 			"ward",
 			"district",
-			"city"
+			// "city"
 		];
 
 		$items = $response['data'];
@@ -173,7 +173,7 @@ function site_importer_customer_import()
 				}
 
 				if ($field == 'address') {
-					$address = $value;
+					$address = sanitize_textarea_field($columns[$index]);
 				} else if ($field == 'tag') {
 					$tag = $value;
 				} else {
@@ -326,6 +326,7 @@ function site_importer_order_export()
 			'auto_choose' 	=> 'Tự chọn món',
 			'ship_days' 	=> 'Số ngày phát sinh phí ship',
 			'ship_amount' 	=> 'Tổng tiền phí ship',
+			'note' 			=> 'Yêu cầu đặc biệt',
 		];
 
 		$rows = [];
@@ -379,6 +380,8 @@ function site_importer_order_export()
 
 					if($field == 'type') {
 						$value = strtoupper($value);
+					} else if($field == 'type') {
+						$value = str_replace("\n", '. ', $value) . '.';
 					}
 
 					$columns[$label] = $value;

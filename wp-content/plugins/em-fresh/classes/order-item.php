@@ -135,6 +135,13 @@ class EM_Order_Item extends EF_Default
         return parent::filter_item($item, $type);
     }
 
+    /*
+     * Cong thuc tinh toan se copy y chang va chuyen qua code php
+     * 
+     * File script: function update_order_item_info
+     * wp-content/themes/emfresh/assets/js/order-detail.js
+     * 
+     */
     function get_meal_product($item = [], $product = [])
     {
         if (empty($item['quantity']) || empty($item['days']) || empty($item['type']) || empty($product['id'])) {
@@ -152,7 +159,7 @@ class EM_Order_Item extends EF_Default
         $price = 0;
         $type = strtoupper($item['type']);
 
-		if ($item['type'] == 'D') {
+		if ($type == 'D') {
 			// Gia goi an = gia goi tuan 1 bua/ngay*SL/5 + 5k*SL (day la phu thu)
 
 			$meal .= '1';
@@ -168,7 +175,7 @@ class EM_Order_Item extends EF_Default
 				// debug.push(`Cong thuc: gia * quantity / 5 + 5,000 * so luong`);
 				// debug.push(`Thanh tien: ${format_money(price)} * ${quantity} / 5 + 5,000 * ${quantity} = ` + format_money(amount));
 			}
-		} else if ($item['type'] == 'W') {
+		} else if ($type == 'W') {
 
 			if ($days <= 5) {
 				// Gia goi an = gia goi tuan có tong so phan an tiem can/ tong so phan an tuong ung cua goi nay * SL
@@ -216,7 +223,7 @@ class EM_Order_Item extends EF_Default
 					// debug.push(`Thanh tien: ${format_money(price)} / 5 * ${days} = ` + format_money(amount));
 				}
 			}
-		} else if ($item['type'] == 'M') {
+		} else if ($type == 'M') {
 			if ($quantity < 15) {
 				$quantity = 15;
 			}
@@ -361,6 +368,23 @@ class EM_Order_Item extends EF_Default
         }
 
         return $list;
+    }
+
+    function count_meal_plan_not_use($item = [])
+    {
+        $un_used_count = 0;
+
+        $today = current_time('Y-m-d');
+
+        $meal_plan = $this->get_meal_plan($item);
+
+        foreach($meal_plan as $day => $meal_plan_value) {
+            if($day > $today) {
+                $un_used_count += $meal_plan_value;
+            }
+        }
+
+        return $un_used_count;
     }
 
     function auto_delete_by_order($id = 0, $deleted = false)

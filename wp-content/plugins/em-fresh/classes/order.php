@@ -415,8 +415,8 @@ class EM_Order extends EF_Default
         }
 
         global $em_order_item;
-
-        $order_status = 4;
+        
+        $order_status = 4; // Rong
 
         $is_dat_don = true;
 
@@ -433,7 +433,7 @@ class EM_Order extends EF_Default
             $meal_plan_items = $em_order_item->get_meal_plan($order_item);
             if(count($meal_plan_items) == 0) continue;
 
-            $order_status = 2;
+            $order_status = 2; // Chua ro
 
             // check meal select to set order status
             $meal_select_items = $em_order_item->get_meal_select($order_item);
@@ -466,7 +466,7 @@ class EM_Order extends EF_Default
         }
 
         if($is_dat_don) {
-            $order_status = 1;
+            $order_status = 1;  // Dat don
         }
 
         return $order_status;

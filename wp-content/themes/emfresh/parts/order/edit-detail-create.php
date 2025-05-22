@@ -17,17 +17,23 @@
     </div>
     <div class="tab-products">
         <div id="tabContents" class="js-order-items">
-            <?php foreach ($order_items as $i => $order_item) : extract($order_item); ?>
-            <?php
-                if (!empty($date_start) && $date_start <= $current_date_format && $date_start !='0000-00-00') {
-                    //echo "Ngày " . $min_date->format('Y-m-d') . " đã bắt đầu";
-                    $day_start = $date_start ;
-                    $class_disable ="disable_edit";
-                } else {
-                    //echo "Ngày " . $min_date->format('Y-m-d') . " chưa bắt đầu";
-                    $day_start = $current_date_format;
-                    $class_disable =""; ?>
-            <?php } ?>
+            <?php 
+                foreach ($order_items as $i => $order_item) : 
+                    extract($order_item);
+
+                    if (!empty($date_start) && $date_start <= $current_date_format && $date_start !='0000-00-00') {
+                        //echo "Ngày " . $min_date->format('Y-m-d') . " đã bắt đầu";
+                        $day_start = $date_start ;
+                        $class_disable ="disable_edit";
+                    } else {
+                        //echo "Ngày " . $min_date->format('Y-m-d') . " chưa bắt đầu";
+                        $day_start = $current_date_format;
+                        $class_disable ="";
+                    }
+
+                    $meal_plan_not_use_count = $em_order_item->count_meal_plan_not_use($order_item);
+
+                ?>
                 <div class="js-order-item" id="order_item_<?php echo $i + 1 ?>" <?php echo $i > 0 ? 'style="display: none;"' : '' ?>>
                     <div class="tab-content">
                         <input type="hidden" class="mindate_start" value="<?php echo $day_start; ?>">
@@ -115,7 +121,7 @@
                                         </div>
                                     </div>
                                     <?php if($order_id > 0) { ?>
-                                    <p class="note note-no-use pl-8 pt-4">Chưa dùng: <span>0</span></p>
+                                    <p class="note note-no-use pl-8 pt-4">Chưa dùng: <span><?php echo $meal_plan_not_use_count ?></span></p>
                                     <?php } ?>
                                     <p class="console-product pl-8 pt-4"></p>
                                     <div class="d-f gap-12 ai-center">

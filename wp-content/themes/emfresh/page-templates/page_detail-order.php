@@ -236,13 +236,7 @@ get_header();
 </div><!-- /.container-fluid -->
 <div class="navigation-bottom d-f jc-b ai-center pl-16 pr-16">
 	<div class="total-cost txt d-f gap-16 ai-center fw-bold">Cần thanh toán: <span class="cost-txt red fw-bold"><?php echo ($total_money - $order_detail['paid']) > 0 ? number_format($total_money - $order_detail['paid']) : 0; ?></span></div>
-<?php echo $order_detail[ 'order_type' ];
-	if ( $order_detail['order_type'] == 'group') { ?>
-		<a href="#" class="btn btn-primary btn-next">Đi đến Meal Plan chi tiết</a>
-	<?php } else { ?>
 	<a href="<?php echo add_query_arg(['customer_id' => $order_detail['customer_id']], site_meal_plan_detail_link()) ?>" class="btn btn-primary btn-next">Đi đến Meal Plan chi tiết</a>
-	<?php }
-	?>
 </div>
 </section>
 <!-- /.content -->

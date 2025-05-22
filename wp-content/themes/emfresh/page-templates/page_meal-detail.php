@@ -13,11 +13,15 @@ global $em_group;
 $customer_id = !empty($_GET['customer_id']) ? intval($_GET['customer_id']) : 0;
 $order_id    = !empty($_GET['order_id']) ? intval($_GET['order_id']) : 0;
 $group_id    = !empty($_GET['group_id']) ? intval($_GET['group_id']) : 0;
+$order_type  = !empty($_GET['order_type']) ? trim($_GET['order_type']) : '';
 
 $args = [];
 
 if ($order_id > 0) {
   $args['order_id'] = $order_id;
+}
+if ($order_type == 'single') {
+  $args['order_type'] = $order_type;
 }
 
 if ($customer_id > 0) {
@@ -36,9 +40,11 @@ if ($customer_id > 0) {
 
 $data = site_order_get_meal_plans($args);
 
-if(isset($_GET['abs'])) {
-  site_response_json($data);
-}
+$time_to_delete = strtotime('-7 days');
+
+$list_logs = $em_log->get_items([
+  'module' => 'meal_plan',
+]);
 
 get_header();
 // Start the Loop.
@@ -65,7 +71,6 @@ if (count($data) > 0 && isset($data['orders'])) :
       //     .'</div>';
     }
     ?>
-
     <!-- Default box -->
     <div class="card list-customer detail-meal">
       <div class="card-body">
@@ -358,41 +363,54 @@ if (count($data) > 0 && isset($data['orders'])) :
     <div class="overlay"></div>
     <div class="modal-dialog modal-wide">
       <div class="modal-header">
-        <h4 class="modal-title">Vy (Vy Vy)</h4>
-        <span class="modal-close"><img
-            src="<?php echo site_get_template_directory_assets(); ?>/img/icon/delete-svgrepo-com.svg" alt=""></span>
+        <h4 class="modal-title">Lịch sử thao tác</h4>
+        <span class="modal-close"><img src="<?php echo site_get_template_directory_assets(); ?>/img/icon/delete-svgrepo-com.svg" alt=""></span>
       </div>
       <div class="modal-content">
         <div class="modal-body pb-16">
           <table class="table regular_pay">
             <thead class="text-left">
               <tr>
-                <th>
-                  Người thực hiện
-                </th>
-                <th>
-                  Trang
-                </th>
-                <th>
-                  Hành động
-                </th>
-                <th>
-                  Đối tượng
-                </th>
-                <th>
-                  Mô tả
-                </th>
-                <th class="text-center">
-                  Thời gian
-                </th>
-                <th class="text-center">
-                  Ngày
-                </th>
+                <th>Người thực hiện</th>
+                <th>Trang</th>
+                <th>Hành động</th>
+                <th>Đối tượng</th>
+                <th>Mô tả</th>
+                <th class="text-center">Thời gian</th>
+                <th class="text-center">Ngày</th>
               </tr>
             </thead>
             <tbody>
+              <?php 
+                foreach ($list_logs as $item) :
+                  $item_time = strtotime($item['created']);
+
+                  if($item_time < $time_to_delete) {
+                    $em_log->delete($item['id']);
+
+                    continue;
+                  }
+
+                  $item_content = explode('|', $item['content']);
+              ?>
+              <tr data-id="<?php echo $item['id'] ?>">
+                  <td class="wrap-td" style="max-width: 160px;">
+                      <div class="nowrap ellipsis">
+                          <img class="avatar" src="<?php echo get_avatar_url($item['created_at']) ?>" width="24" alt="">
+                          <?php echo $item['created_author'] ?>
+                      </div>
+                  </td>
+                  <td>Chi tiết</td>
+                  <td><?php echo $item['action'] ?></td>
+                  <td><?php echo $item_content[0] ?></td>
+                  <td><?php $brString = nl2br($item_content[1]); ?>
+                  <?php echo str_replace('<br />', '<hr>', $brString) ?></td>
+                  <td><?php echo date('H:i', $item_time) ?></td>
+                  <td><?php echo date('d/m/Y', $item_time) ?></td>
+              </tr>
+              <?php endforeach ?>
               <?php
-                for ($i=0; $i < 10; $i++) { ?>
+                for ($i=0; $i < 0; $i++) { ?>
                 <tr>
                   <td class="text-left"><img class="avatar"
                       src="<?php echo esc_url(get_avatar_url(get_current_user_id())); ?>" width="24"

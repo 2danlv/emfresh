@@ -752,6 +752,7 @@ function site_order_save_meal_select()
         $errors = [];
 
         $list = isset($data['list_meal_select']) ? (array) $data['list_meal_select'] : [];
+
         $meal_select_number = isset($data['meal_select_number']) ? (int) $data['meal_select_number'] : 0;
         $order_id = isset($data['order_id']) ? (int) $data['order_id'] : 0;
         $week = isset($data['week']) ? $data['week'] : '';
@@ -770,8 +771,6 @@ function site_order_save_meal_select()
 
                 $log_content = [];
 
-                $update = false;
-
                 foreach($meal_select as $day => $values) {
                     if(empty($order_item_data[$day])) continue;
 
@@ -779,30 +778,25 @@ function site_order_save_meal_select()
                     
                     foreach($values as $i => $value) {
                         if(isset($meal_select_data[$i])) {
+                            $value = (int) $value;
                             $new = (int) $meal_select_data[$i];
 
-                            if($value != $new) {
-                                $update = true;
+                            if($new != $value) {
+                                $text = ' từ ' . $menu_select[$value].' thành ' . $menu_select[$new];
+                                
+                                $log_content[] = site_get_meal_week($day) . $text;
 
-                                if($value > 0) {
-                                    $log_content[] = site_get_meal_week($day) . ' ' . $menu_select[$value];
-                                }
+                                $values[$i] = $new;
                             }
-
-                            $value = $new;
                         }
-
-                        $values[$i] = $value;
                     }
 
                     $meal_select[$day] = $values;
                 }
 
-                if($update) {
-                    $em_order_item->update_field($order_item_id, $meal_select_key, json_encode($meal_select));
-                }
-                
                 if(count($log_content) > 0) {
+                    $em_order_item->update_field($order_item_id, $meal_select_key, json_encode($meal_select));
+
                     $order = $em_order->get_item($order_item['order_id']);
                 
                     $product_name = explode('-', $order_item['product_name']);
@@ -866,22 +860,66 @@ function site_order_save_meal_plan()
                 $order_item_id = !empty($item['order_item_id']) ? (int) $item['order_item_id'] : 0;
                 $meal_plan = !empty($item['meal_plan']) ? $item['meal_plan'] : [];
                 
-                if($order_id == 0 || $order_item_id == 0 || count($meal_plan) == 0) continue;
-                
+                $order_item = $em_order_item->get_item($order_item_id);
+
+                if($order_id == 0 || count($meal_plan) == 0) {
+                    $errors[] = "Order $order_id - item $order_item_id - data fail!";
+                    $errors[] = $order_item;
+                    $errors[] = $meal_plan;
+
+                    continue;
+                }
+
+                $before_meal_plan = $em_order_item->get_meal_plan($order_item);
+
+                $log_content = [];
+
                 $keys = array_keys($meal_plan);
                 $date_stop = end($keys);
 
-                $order_item_data = [
-                    'meal_plan' => json_encode($meal_plan),
-                    'date_stop' => $date_stop,
-                ];
+                foreach($before_meal_plan as $day => $value) {
+                    $new = isset($meal_plan[$day]) ? (int) $meal_plan[$day] : 0;
+                    if($value != $new) {
+                        $log_content[] = site_get_meal_week($day). " - Từ $value Thành $new";
+                    }
+                }
 
-                $updated = $em_order_item->update($order_item_data, ['id' => $order_item_id]);
-                if($updated) {
-                    $count_update++;
-                    
-                    if($order_date_stop < $date_stop) {
-                        $order_date_stop = $date_stop;
+                foreach($meal_plan as $day => $new) {
+                    if($new > 0 && empty($before_meal_plan[$day])) {
+                        $log_content[] = site_get_meal_week($day). " - Từ 0 Thành $new";
+                    }
+                }
+
+                // var_dump($log_content);
+                // die();
+
+                if(count($log_content) > 0) {
+                    $order_item_data = [
+                        'meal_plan' => json_encode($meal_plan),
+                        'date_stop' => $date_stop,
+                    ];
+
+                    $updated = $em_order_item->update($order_item_data, ['id' => $order_item_id]);
+                    if($updated) {
+                        $count_update++;
+                        
+                        if($order_date_stop < $date_stop) {
+                            $order_date_stop = $date_stop;
+                        }
+
+                        $order = $em_order->get_item($order_item['order_id']);
+
+                        $product_name = explode('-', $order_item['product_name']);
+
+                        $change_label = '#'. $order['order_number'] .' - ' . $product_name[0];
+
+                        // Log update
+                        $em_log->insert([
+                            'action'        => 'Cập nhật',
+                            'module'        => 'meal_plan',
+                            'module_id'     => $order_item_id,
+                            'content'       => $change_label . '|' . implode("\n", $log_content)
+                        ]);
                     }
                 }
             }
@@ -903,8 +941,12 @@ function site_order_save_meal_plan()
         $query_args = [
             'code' => count($errors) > 0 ? 500 : 200,
             'expires' => time() + 3,
-            'message' => count($errors) > 0 ? implode(' ', $errors) : 'Update+success'
+            'message' => count($errors) > 0 ? 'Update+fail' : 'Update+success'
         ];
+
+        if(count($errors) > 0) {
+            $query_args['errors'] = $errors;
+        }
 
         if(!empty($_POST['ajax'])) {
             echo json_encode($query_args);

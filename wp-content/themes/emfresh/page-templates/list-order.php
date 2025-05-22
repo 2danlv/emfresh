@@ -69,7 +69,7 @@ get_header();
                     <span class="copyAllphone" data-target="#modal-copy">Sao chép nhanh SĐT</span>
                   </li>
                   <li>
-                    <a href="/import/" class="upload">Nhập dữ liệu</a>
+                    <a href="<?php echo home_url('import?data_name=order')?>" class="upload">Nhập dữ liệu</a>
                   </li>
                   <li><button type="button" name="action" value="export" class="js-export">Xuất dữ liệu</button></li>
                 </ul>

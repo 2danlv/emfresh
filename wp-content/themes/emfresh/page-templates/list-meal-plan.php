@@ -113,7 +113,7 @@ get_header();
             <?php
             $i = 0;
             foreach ($data[ 'customers' ] as $index => $order) :
-              $meal_plan_items = $order[ 'meal_plan_items' ];
+              $meal_plan_items = $order['meal_plan_items'];
               $class = ($i % 2 == 0) ? 'green' : 'orange';
               if(isset($order['group_name'])) {
                 $group = 'Nhóm ';
