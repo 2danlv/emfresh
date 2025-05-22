@@ -246,7 +246,13 @@ foreach($days as $day) {
                 <tr class="nowrap" data-order-id="<?php echo $order['id'] ?>" data-order-item-id="<?php echo $order_item['id'] ?>">
                   <td data-number="0" class="text-center"><input type="checkbox" tabindex="-1" class="checkbox-element" data-number="<?php echo $order['phone']; ?>" value="<?php echo $order['id'] ?>"></td>
                   <td data-number="1" class="text-capitalize nowrap wrap-td">
-                    <div class="ellipsis"><a href="<?php echo $link ?>" tabindex="-1"><?php echo $order['customer_name'] ?></a></div>
+                    <div class="ellipsis"><p href="<?php echo $link ?>" tabindex="-1">
+                      <?php if ( $order[ 'customer_name_2nd' ] != '') {
+                        echo $order[ 'customer_name_2nd' ]; 
+                        } else {
+                        echo $order[ 'customer_name' ];
+                        } ?>
+                      </a></div>
                   </td>
                   <td data-number="2" class="text-left"><span tabindex="-1"class="copy modal-button" data-target="#modal-copy" title="Copy: <?php echo $order['phone']; ?>"><?php echo $order['phone']; ?></span></td>
                   <td data-number="3"><?php echo trim($product_name[0]) ?></td>

@@ -310,16 +310,6 @@ function getLocation(customer_id, location_id) {
                     const hasGroup = location.group_id > 0;
                     const groupInfoHtml = hasGroup ? `
                     <p class="fs-14 fw-regular color-gray">(Đã đăng ký chung nhóm ship: ${location.group_name})</p>
-                    <span class="fas tooltip-icon fa-info-gray"></span>
-                    <div class="tooltip-content">
-                        <div class="close fas fa-trash"></div>
-                        <ul>
-                            <li>Thien Phuong Bui</li>
-                            <li>Dieu Linh (zalo)</li>
-                            <li>Nguyen Hai Minh Thi</li>
-                            <li>Dinh Thi Hien Ly</li>
-                        </ul>
-                    </div>
                 ` : '';
                 const groupInfolink = hasGroup ? `
                     <a class="management-link" href="/quan-ly-nhom/detail-group/?group_id=${location.group_id}">Đi đến Quản lý nhóm</a>
