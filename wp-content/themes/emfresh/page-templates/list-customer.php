@@ -100,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_post'])) {
   ], get_permalink()));
   exit();
 }
-
+$admin_role = wp_get_current_user()->roles;
 get_header();
 // Start the Loop.
 // while ( have_posts() ) : the_post();
@@ -130,16 +130,18 @@ get_header();
               <li class="ml-8 mr-8"><span class="btn btn-fillter">Bộ lọc</span></li>
               <li class="mr-8"><span class="btn quick-edit" data-target="#modal-edit">Cập nhật nhanh</span></li>
 
-              <li class="has-child">
+              <li class="has-child mr-8">
                 <span class="btn btn-action">Thao tác</span>
                 <ul>
                   <li>
                     <span class="copyAllphone" data-target="#modal-copy">Sao chép nhanh SĐT</span>
                   </li>
+                  <?php if ( !empty( $admin_role ) && $admin_role[ 0 ] == 'administrator' ) { ?>
                   <li>
                     <a href="/import/" class="upload">Nhập dữ liệu</a>
                   </li>
                   <li><button type="button" name="action" value="export" class="js-export">Xuất dữ liệu</button></li>
+                  <?php } ?>
                 </ul>
               </li>
               <li class="status"><span class="btn btn-status"><span class="count-checked"></span> đã chọn</span></li>
@@ -196,7 +198,6 @@ get_header();
             $order_date_from = isset($_GET['order_date_from']) ? trim($_GET['order_date_from']) : '';
             $order_date_to = isset($_GET['order_date_to']) ? trim($_GET['order_date_to']) : '';
             
-            $admin_role      = wp_get_current_user()->roles;
           if (isset($response['data']) && is_array($response['data'])) {
             // Loop through the data array and print each entry
             foreach ($response['data'] as $record) {

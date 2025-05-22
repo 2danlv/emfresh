@@ -59,7 +59,7 @@ $list_logs = $em_log->get_items([
 
 // Tu dong xoa sau 7 ngay
 $time_to_delete = strtotime('-7 days');
-
+$admin_role     = wp_get_current_user()->roles;
 get_header();
 // Start the Loop.
 // while ( have_posts() ) : the_post();
@@ -89,7 +89,11 @@ get_header();
                 <input type="hidden" name="save_group" value="<?php echo uniqid() ?>" />
                 <input type="hidden" name="group_id" value="<?php echo $group_id ?>" />
                 <input type="hidden" name="remove_customers" class="remove_customers" value="" />
-                <h1 class="pt-8 pb-16 d-f jc-b ai-center">Nhóm <?php echo $name ?><a data-target="#modal-delete-member" data_href="<?php echo $delete_url ?>" class="btn btn-danger btn-remove_group openmodal" >Xóa nhóm</a></h1>
+                <h1 class="pt-8 pb-16 d-f jc-b ai-center">Nhóm <?php echo $name ?>
+                <?php if ( !empty( $admin_role ) && $admin_role[ 0 ] == 'administrator' ) { ?>
+                <a data-target="#modal-delete-member" data_href="<?php echo $delete_url ?>" class="btn btn-danger btn-remove_group openmodal" >Xóa nhóm</a>
+                <?php } ?>
+                </h1>
                 
                 <div class="row row32 tab-pane" id="info">
                     <div class="col-8">

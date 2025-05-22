@@ -28,7 +28,7 @@ if(isset($_GET['customers'])) {
   header('Content-type: application/json');
   die(json_encode($data['customers']));
 }
-
+$admin_role = wp_get_current_user()->roles;
 get_header();
 // Start the Loop.
 // while ( have_posts() ) : the_post();
@@ -72,7 +72,9 @@ get_header();
                           data-target="#modal-static">Thống kê trạng thái</span>
                       </div>
                     </li>
+                    <?php if ( !empty( $admin_role ) && $admin_role[ 0 ] == 'administrator' ) { ?>
                     <li><button type="button" name="action" value="export" class="js-export-table">Xuất dữ liệu</button></li>
+                    <?php } ?>
                   </ul>
                 </li>
                 <li class="status"><span class="btn btn-status"><span class="count-checked"></span> đã chọn</span></li>

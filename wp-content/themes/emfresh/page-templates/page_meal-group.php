@@ -26,7 +26,7 @@ if(isset($_GET['abs'])) {
   header('Content-type: application/json');
   die(json_encode($data['orders']));
 }
-
+$admin_role = wp_get_current_user()->roles;
 get_header();
 // Start the Loop.
 // while ( have_posts() ) : the_post();

@@ -12,7 +12,7 @@ global $em_customer, $em_group, $em_location, $em_customer_group;
 
 $detail_group_url = site_group_edit_link();
 
-
+$admin_role = wp_get_current_user()->roles;
 get_header();
 // Start the Loop.
 // while ( have_posts() ) : the_post();
@@ -40,7 +40,9 @@ get_header();
             <ul class="d-f ai-center">
               <li class="add"><a href="<?php echo home_url('/add-group') ?>"><img src="<?php echo site_get_template_directory_assets(); ?>/img/icon/plus-svgrepo-com.svg" alt=""></a></li>
               <li class="group-icon ml-8 mr-8"><span class="btn btn-fillter">Bộ lọc</span></li>
-              <li class="group-icon mr-8"><span class="btn btn-export">Bộ lọc</span></li>
+              <?php if ( !empty( $admin_role ) && $admin_role[ 0 ] == 'administrator' ) { ?>
+              <li class="group-icon mr-8"><span class="btn btn-export">Xuất dữ liệu</span></li>
+              <?php } ?>
               <li class="status"><span class="btn btn-status"><span class="count-checked"></span> đã chọn</span></li>
             </ul>
           </div>

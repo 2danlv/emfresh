@@ -70,6 +70,7 @@ if ( !isset($_GET[ 'week' ]) && $isFridayAfterNoon ) {
   header('Location: ' . $redirectUrl);
   exit;
 }
+$admin_role = wp_get_current_user()->roles;
 get_header();
 // Start the Loop.
 // while ( have_posts() ) : the_post();
@@ -141,7 +142,9 @@ foreach($days as $day) {
                   <li>
                     <span class="openmodal btn-split" data-target="#modal-split-order">Tách đơn khẩn</span>
                   </li>
+                  <?php if ( !empty( $admin_role ) && $admin_role[ 0 ] == 'administrator' ) { ?>
                   <li><button type="button" name="action" value="export" class="js-export-table">Xuất dữ liệu</button></li>
+                  <?php } ?>
                 </ul>
               </li>
             </ul>

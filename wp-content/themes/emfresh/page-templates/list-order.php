@@ -68,10 +68,12 @@ get_header();
                   <li>
                     <span class="copyAllphone" data-target="#modal-copy">Sao chép nhanh SĐT</span>
                   </li>
+                  <?php if ( !empty( $admin_role ) && $admin_role[ 0 ] == 'administrator' ) { ?>
                   <li>
-                    <a href="<?php echo home_url('import?data_name=order')?>" class="upload">Nhập dữ liệu</a>
+                    <a href="<?php echo home_url( 'import?data_name=order' ) ?>" class="upload">Nhập dữ liệu</a>
                   </li>
                   <li><button type="button" name="action" value="export" class="js-export">Xuất dữ liệu</button></li>
+                  <?php } ?>
                 </ul>
               </li>
               <li class="ml-8"><span class="btn quick-print" data-target="#modal-print">In đơn</span></li>
