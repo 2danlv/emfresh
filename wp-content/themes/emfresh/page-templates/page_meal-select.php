@@ -672,6 +672,25 @@ foreach($export_rows as $i => $row) {
     // if (now.getDay() === 4 && now.getHours() >= 21 && params.get('week') !== lastWeekValue) {
     //     window.location.href = '?week=' + lastWeekValue;
     // }
+    
+    $('.tab-pane').each(function() {
+      var wrapper = $(this);
+      var hasOld = false;
+      
+      wrapper.find('[data-old]').each(function() {
+        if ($(this).data('old') != 0) {
+          hasOld = true;
+          return false;
+        }
+      });
+      
+      if (hasOld) {
+        var wrapperId = wrapper.attr('id');
+        $('.nav li[rel="' + wrapperId + '"]').removeClass('dn');
+      }
+    });
+
+    
     $('.list-customer .em-importer ul li.add').click(function(){
       // Tìm phần tử .hidden đầu tiên và hiện nó
       let nextHidden = $('.list-customer .em-importer ul li.dn').first();

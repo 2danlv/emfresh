@@ -92,8 +92,8 @@ get_header();
               <th data-number="0" class="text-center"><input type="checkbox" name="checkall" id="checkall" /></th>
               <th data-number="1"><span class="nowrap">Tên khách hàng</span></th>
               <th data-number="2" class="text-left">SĐT</th>
-              <th data-number="3" class="text-center">Số đơn</th>
-              <th data-number="4">Mã sản phẩm</th>
+              <th data-number="3">Mã sản phẩm</th>
+              <th data-number="4" class="text-center">Số đơn</th>
               <th data-number="5" class="text-center">Phân loại</th>
               <th data-number="6">Trạng thái <br>đặt đơn</th>
               <th data-number="7" class="text-center">Hình thức <br>thanh toán</th>
@@ -149,14 +149,14 @@ get_header();
                     title="Copy: <?php echo $phone ?>">
                     <?php echo $phone ?>
                   </span></td>
-                <td data-number="3" class="text-center">
-                  <?php echo $order[ 'count_order' ] // $order['order_number'] ?>
-                </td>
-                <td data-number="4" class="nowrap">
+                <td data-number="3" class="nowrap">
                 <?php 
                   $result = site_order_group_item_name($order['item_name']);
                   echo implode('+', $result);
                 ?>
+                </td>
+                <td data-number="4" class="text-center">
+                  <?php echo $order[ 'count_order' ] // $order['order_number'] ?>
                 </td>
                 <td data-number="5">
                   <?php echo $order['type_name']; ?>

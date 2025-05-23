@@ -967,7 +967,7 @@ jQuery(document).ready(function () {
 		responsive: true,
 		autoWidth: true,
 		fixedColumns: {
-			start: 3
+			start: 4
 		},
 		"stateSave": false,
 		searchBuilder: {
@@ -1117,7 +1117,7 @@ jQuery(document).ready(function () {
 		responsive: true,
 		autoWidth: true,
 		fixedColumns: {
-			start: 3
+			start: 4
 		},
 		"stateSave": false,
 		searchBuilder: {
