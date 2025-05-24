@@ -1,4 +1,44 @@
 	<?php
+		global $wpdb;
+		function get_first_and_last_day_of_week( $year_number, $week_number ) {
+			$today = new DateTime( 'today' );
+
+			return (object) [
+				'first_day' => clone $today->setISODate( $year_number, $week_number, 0 ),
+				'last_day'  => clone $today->setISODate( $year_number, $week_number, 6 )
+			];
+		}
+		$date = new DateTime($ddate);
+		$week = $date->format("W");
+		$year = date("Y");
+		$week_day = get_first_and_last_day_of_week($year,$week);
+		
+		if(isset($_POST['action']) && $_POST['action'] == "add_week")
+		{	
+			$wpdb->show_errors = 1;
+			$results = $wpdb->get_results( "SELECT tuan,nam FROM {$wpdb->prefix}em_menu_week ORDER BY id DESC LIMIT 1", OBJECT );
+			if(null != $results){
+				$week = $results[0]->tuan + 1;
+				$year = $results[0]->nam;
+				if($week>52) {
+					$week = 1;
+					$year = $year + 1;
+				}
+			}	
+			$week_day = get_first_and_last_day_of_week($year,$week);
+			$table = $wpdb->prefix.'em_menu_week';
+			$data = array(
+				'name' => "Menu Tuần ".$week.' ( '.$week_day->first_day->format("d/m").' - '.$week_day->last_day->format("d/m").' )',
+				'create_at' => strtotime("now"),
+				'tuan' => $week,
+				'nam' => $year
+			);
+			$format = array('%s','%s');
+			$wpdb->insert($table,$data,$format);
+		}
+	?>
+
+	<?php
 
 	/**
 	 * Template Name: Weekly Menu
@@ -14,25 +54,31 @@
 	?>
 
 	<!-- Main content -->
+	<?php
+		//var_dump($_POST);
+		//var_dump($wpdb);
+	?>
 	<section class="content page-content">
 		<!-- Default box -->
 		<div class="datatable datatable-v2 weekly-menu">
 			<div class="toolbar">
-				<form class="em-importer" data-name="customer" action="<?php the_permalink() ?>" method="post">
+				<form class="em-importer" id="form-submit" data-name="customer" action="<?php the_permalink() ?>" method="post">
 					<div class="row ai-center">
 						<div class="col-8">
 							<ul class="d-f ai-center">
-								<li><span class="add btn btn-v2 btn-primary btn-icon btn-plus"><a
-											href="<?php echo home_url('/kitchen/meal-list/create-new-meal') ?>"><img
+								<li><span value="add_week" class="add btn btn-v2 btn-primary btn-icon btn-plus"><a
+											href="#"><img
 												class="icon"
 												src="<?php echo site_get_template_directory_assets(); ?>/img/icon/plus.svg"
-												alt=""></a></span></li>
+												alt=""></a></span>
+								</li>
 							</ul>
+							<input type="hidden" id="action" name="action" value="">
 						</div>
 						<div class="col-4">
 							<ul class="d-f ai-center jc-end">
 								<li class="status">
-									<span class="btn btn-v2 btn-status"><span class="count-checked"></span>
+									<span class="btn btn-v2 btn-status" style="display:none"><span class="count-checked"></span>
 										<span>đã chọn</span>
 										<img class="icon"
 											src="<?php echo site_get_template_directory_assets(); ?>/img/icon/x.svg" alt="">
@@ -55,13 +101,14 @@
 				</thead>
 				<tbody>
 					<?php
-					for ($i = 0; $i < 20; $i++) {
+					$results = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}em_menu_week ORDER BY id DESC", OBJECT );
+					
+					foreach ($results as $data) {
 						?>
 						<tr>
 
 							<td data-number="1" class="text-capitalize nowrap wrap-td" style="min-width: 300px;">
-								<div class="ellipsis"><span class="modal-button text-link" data-target="#modal-detail">Menu tuần
-										10 (03/02 - 07/02)</span>
+								<div class="ellipsis"><span class="modal-button text-link" data-target="#modal-detail" value="<?=$data->id;?>"><?=$data->name;?></span>
 								</div>
 							</td>
 							<td data-number="2" class="text-center" style="width:200px">
@@ -69,7 +116,7 @@
 								<!-- <span class="badge block badge-status-1">ĐANG DIỄN RA</span>
 								<span class="badge block badge-status-2">ĐÃ XONG</span> -->
 							</td>
-							<td data-number="3" class="text-left">01:30 25/10/24</td>
+							<td data-number="3" class="text-left"><?=date("H:i d/m/Y",$data->create_at);?></td>
 						</tr>
 						<?php
 					}
@@ -178,7 +225,7 @@
 					<!-- <button type="button" class="button btn btn-v2 btn-outline btn-destructive  modal-close">Xoá
 						Menu</button> -->
 					<span></span>
-					<a href="<?php echo home_url('/kitchen/weekly-menu/detail') ?>" class="button btn btn-v2 btn-primary"
+					<a href="<?php echo home_url('/menu-tuan/chi-tiet/') ?>" class="arrived-detail button btn btn-v2 btn-primary"
 						name="add_post">
 						<img src="<?php echo site_get_template_directory_assets(); ?>/img/icon/square-arrow-out-up-right.svg"
 							alt="">
@@ -201,6 +248,9 @@
 	?>
 	<script src="<?php site_the_assets(); ?>js/weekly-menu.js"></script>
 	<script>
+		if ( window.history.replaceState ) {
+			window.history.replaceState( null, null, window.location.href );
+		}
 		// Function to save checkbox states to localStorage
 		function saveCheckboxState() {
 			$('.filter input[type="checkbox"]').each(function () {
@@ -226,7 +276,11 @@
 		}
 
 		$(document).ready(function () {
-
+			$('.btn-plus').click(function(e){
+				e.preventDefault();
+				$('#action').val($(this).attr('value'));
+				$('#form-submit').submit();
+			})
 			// Load checkbox states when the page loads
 			loadCheckboxState();
 
@@ -259,5 +313,8 @@
 					$modalBody.find('.row.' + rel).show();
 				}
 			});
+			$('[data-target="#modal-detail"]').click(function(){
+				$('.arrived-detail').attr('href',"/menu-tuan/chi-tiet?t="+$(this).attr("value"))
+			})
 		});
 	</script>

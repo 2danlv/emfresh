@@ -1,7 +1,46 @@
 <?php
+		global $wpdb;
+		$js_duplicate_url = add_query_arg(['dupnonce' => wp_create_nonce('dupnonce')], get_permalink());
+		function get_first_and_last_day_of_week( $year_number, $week_number ) {
+			$today = new DateTime( 'today' );
 
-$js_duplicate_url = add_query_arg(['dupnonce' => wp_create_nonce('dupnonce')], get_permalink());
-// var_dump($response_customer);
+			return (object) [
+				'0' => clone $today->setISODate( $year_number, $week_number, 0 ),
+				'1' => clone $today->setISODate( $year_number, $week_number, 1 ),
+				'2' => clone $today->setISODate( $year_number, $week_number, 2 ),
+				'3' => clone $today->setISODate( $year_number, $week_number, 3 ),
+				'4' => clone $today->setISODate( $year_number, $week_number, 4 ),
+			];
+		}
+		$date = new DateTime($ddate);
+		$week = $date->format("W");
+		$year = date("Y");
+		$array_meal_mon_man = [];
+		$array_meal_mon_tinh_bot = [];
+		if(isset($_POST['action']) && $_POST['action'] == "add_mon_chinh"){
+			$data_mon = explode('@',$_POST['data_mon']);			
+			$data = [ 
+				'thu_2' => join('-',array_filter(explode('-',$data_mon[0]))),
+				'thu_3' => join('-',array_filter(explode('-',$data_mon[1]))),
+				'thu_4' => join('-',array_filter(explode('-',$data_mon[2]))),
+				'thu_5' => join('-',array_filter(explode('-',$data_mon[3]))),
+				'thu_6' => join('-',array_filter(explode('-',$data_mon[4]))),
+			]; 
+			$where = [ 'id' => $_GET['t'] ];
+			$wpdb->update( $wpdb->prefix . 'em_menu_week', $data, $where );
+		}
+		$results = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}em_menu_week where id=".$_GET['t'], OBJECT );
+		$array_meal_load = array(
+			$results[0]->thu_2,
+			$results[0]->thu_3,
+			$results[0]->thu_4,
+			$results[0]->thu_5,
+			$results[0]->thu_6,
+		);
+		$list_id = array_filter(explode('-',$results[0]->menu_id));
+		$week_day = get_first_and_last_day_of_week($year,$results[0]->tuan);
+
+
 ?>
 <script src="<?php site_the_assets(); ?>js/tag-input/tag-input.js"></script>
 <div class="flex flex-col">
@@ -10,25 +49,24 @@ $js_duplicate_url = add_query_arg(['dupnonce' => wp_create_nonce('dupnonce')], g
 			<option value="default" selected>Mặc định</option>
 			<option value="detail">Chi tiết</option>
 		</select>
-		<div class="menu" style="padding:20px 0;">
+		<div class="menu mon-man-menu" style="padding:20px 0;">
 			<?php
 			for ($i = 0; $i < 5; $i++) {
 				?>
 				<div class="day-section">
-					<p class="day-title">THỨ <?php echo $i + 2 ?> <br /> (0<?php echo $i + 3 ?>/02)</p>
+					<p class="day-title">THỨ <?php echo $i + 2 ?> <br /> (<?=$week_day->$i->format('d/m');?>)</p>
 					<div class="meal-list">
 						<?php
 						for ($j = 0; $j < 3; $j++) {
+							$results_menu = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}em_menu where id=".$_GET['t'], OBJECT );
 							?>
 							<div class="flex flex-col" style="gap:10px">
 								<div class="meal-item">
-									<select type="text" class="detail-input input-control input-line">
-										<option value="default" selected>Món 1</option>
-										<option value="detail">Món 2</option>
+									<select type="text" class="detail-input input-control mon-man input-line">
+										<option value="" selected>Món mặn</option>
 									</select>
-									<select type="text" class="detail-input input-control input-line">
-										<option value="default" selected>Món 1</option>
-										<option value="detail">Món 2</option>
+									<select type="text" class="detail-input input-control tinh-bot input-line">
+										<option value="" selected>Món tinh bột</option>
 									</select>
 									<input type="text" class="detail-mode detail-input input-control input-highlight"
 										style="margin-top:10px" value="Vietnamese Broken Rice" placeholder="Tên Tiếng Anh">
@@ -74,8 +112,6 @@ $js_duplicate_url = add_query_arg(['dupnonce' => wp_create_nonce('dupnonce')], g
 
 											<input type="text" class="detail-input detail-input-hide tag-input flex-1"
 												style="width:1%;min-width:100px" placeholder="Nhập thẻ..." hidden>
-			
-											</select>
 											<input type="text" class="input-value" value="tag1,tag2"
 												style="width:1px;height:1;position:absolute;z-index:-1;visibility:hidden" />
 										</div>
@@ -109,25 +145,46 @@ $js_duplicate_url = add_query_arg(['dupnonce' => wp_create_nonce('dupnonce')], g
 					</tr>
 				</thead>
 				<tbody>
-					<?php
-					for ($i = 0; $i < 20; $i++) {
-						?>
-						<tr>
-							<td class="text-capitalize nowrap wrap-td" style="min-width: 300px;">
-								<span class="ellipsis">Cơm tấm sườn trứng eatlean
-								</span>
-							</td>
-							<td class="text-left"><span>Món mặn</span></td>
-							<td class="text-left">
-								<span>Cá</span>
-							</td>
-							<td class="text-left">Base</td>
-							<td class="text-right">10</td>
-							<td class="text-right">Tuần 52</td>
-						</tr>
 						<?php
-					}
-					?>
+						if(count($list_id)){
+							foreach($list_id as $id)
+							{
+								$meal = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}em_menu where id=".$id, OBJECT )[0];
+								if($meal->group == 'mon-man'){
+									array_push($array_meal_mon_man,array(
+										'id' => $meal->id,
+										'name' => $meal->name,
+										'type' => $meal->group,
+										'tag' => $meal->tag,
+										'status' => 0
+									));	
+								} elseif ($meal->group == 'tinh-bot'){
+									array_push($array_meal_mon_tinh_bot,array(
+										'id' => $meal->id,
+										'name' => $meal->name,
+										'type' => $meal->group,
+										'tag' => $meal->tag
+									));	
+								}
+								
+															
+								?>
+									<tr>
+								<td class="text-capitalize nowrap wrap-td" style="min-width: 300px;">
+									<span class="ellipsis"><?=$meal->name;?></span>
+									</td>
+									<td class="text-left"><span>Món mặn</span></td>
+									<td class="text-left">
+										<span>Cá</span>
+									</td>
+									<td class="text-left">Base</td>
+									<td class="text-right">10</td>
+									<td class="text-right"><?=$results[0]->name;?></td>
+								</tr>
+								<?php
+							}
+						}
+						?>
 				</tbody>
 
 			</table>
@@ -264,8 +321,15 @@ $js_duplicate_url = add_query_arg(['dupnonce' => wp_create_nonce('dupnonce')], g
 		</div>
 	</div>
 </div>
+<form id="edit_mon_chinh" method="POST">
+	<input type="hidden" name="action" value="add_mon_chinh">
+	<input type="hidden" name="data_mon" id="data_mon">
+</form>
 <script>
 	$(document).ready(function () {
+		if ( window.history.replaceState ) {
+			window.history.replaceState( null, null, window.location.href );
+		}
 		disableInputs();
 		$("select#select-mode").change(function () {
 			if ($(this).val() === "detail") {
@@ -274,6 +338,93 @@ $js_duplicate_url = add_query_arg(['dupnonce' => wp_create_nonce('dupnonce')], g
 				$(".detail-mode").hide();
 			}
 		}).trigger("change"); // Gọi ngay khi trang tải để áp dụng trạng thái ban đầu
+		
+		$('.btn-add-file').click(function(){
+
+		})
+		$('#menu_tuan_name').text('<?=$results[0]->name;?>');
+		
+		var data_meal_mon_man = <?=json_encode(array_reverse($array_meal_mon_man));?>;
+		var data_meal_mon_tinh_bot = <?=json_encode(array_reverse($array_meal_mon_tinh_bot));?>;
+		var load_meal_mon_man = <?=json_encode($array_meal_load);?>;
+		
+		console.log(load_meal_mon_man);
+		console.log(data_meal_mon_man);
+		console.log(data_meal_mon_tinh_bot);
+// 		console.log(data_meal_mon_man.find(x => x.id == 3));
+		
+		function load_mon_man(){
+			$.each(load_meal_mon_man,function(index,value){
+				if(value!=""){
+					var data = value.split('-');
+					$.each(data,function(index1,value1){
+						var data_1 = value1.split(',');
+						if(data_1[0] != ""){
+							var lay_mon_man = data_meal_mon_man.find(x => x.id == data_1[0]);
+							var get_input_mon_man = $('.mon-man-menu .day-section').eq(index).find('.meal-item').eq(index1).find('.mon-man');
+							get_input_mon_man.empty();
+							get_input_mon_man.append($('<option>').val(lay_mon_man["id"]).text(lay_mon_man["name"]));
+							update_state(data_meal_mon_man,"id",lay_mon_man["id"],1);
+						}
+						if(data_1.length == 2){
+							var lay_mon_tinh_bot = data_meal_mon_tinh_bot.find(x => x.id == data_1[1]);
+							var get_input_tinh_bot = $('.mon-man-menu .day-section').eq(index).find('.meal-item').eq(index1).find('.tinh-bot');
+							get_input_tinh_bot.empty();
+							get_input_tinh_bot.append($('<option>').val(lay_mon_tinh_bot["id"]).text(lay_mon_tinh_bot["name"]));
+						}
+					})
+				}
+			})
+		}
+		
+		load_mon_man()
+		
+		$('.detail-input.input-control.mon-man').on('focus',function(){
+			var temp_id = $(this).val();
+			if(temp_id) update_state(data_meal_mon_man,"id",temp_id,0);
+			var temp = $(this);
+			temp.empty();
+			temp.append($('<option>').val("").text("Chưa chọn"));
+			$.each(data_meal_mon_man,function(index,value){
+				if(value['status']==0){
+					temp.append($('<option>').val(value['id']).text(value['name']));
+				}
+			})					
+		}).focusout(function(){
+			update_state(data_meal_mon_man,"id",$(this).val(),1);
+		})	
+		
+		$.each(data_meal_mon_tinh_bot,function(index,value){
+			$('.detail-input.input-control.tinh-bot').append($('<option>').val(value['id']).text(value['name']));
+		})	
+		
+		function update_state(array,state,value_check,value_update){
+			$.each(array,function(index,value){
+				if(value[state]==value_check){
+					value['status'] = value_update;
+				}
+			})
+		}
+		$('.btn-save-data').click(function(){
+			var array_ketqua = [];
+			var mon_mam,tinh_bot;
+			var string_temp = "";
+			$.each($('.mon-man-menu .meal-item'),function(index,value){
+				mon_mam = $(value).find('.mon-man').val();
+				tinh_bot = $(value).find('.tinh-bot').val();
+				if(tinh_bot){
+					string_temp += mon_mam+","+tinh_bot+"-";
+				}else if(mon_mam){
+					string_temp += mon_mam+"-";
+				}
+				if((index+1)%3 == 0 && index!=0){
+					array_ketqua.push(string_temp);
+					string_temp = "";
+				}
+			})
+			$('#data_mon').val(array_ketqua.join("@"));
+			$('#edit_mon_chinh').submit();
+		})
 	});
 
 </script>

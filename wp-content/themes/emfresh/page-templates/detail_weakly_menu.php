@@ -1,4 +1,6 @@
 <?php
+
+global $wpdb;
 /**
  * Template Name: Detail Weekly Menu
  *
@@ -16,7 +18,7 @@ get_header();
 		<div class="container-fluid">
 			<div class="card-primary">
 				<div class="flex justify-between align-center" style="padding-bottom:20px">
-					<h4 class="text-xl font-bold">Menu tuần 10 (03/02 - 07/02)</h4>
+					<h4 class="text-xl font-bold" id="menu_tuan_name">Menu tuần 10 (03/02 - 07/02)</h4>
 					<div class="flex" style="gap:10px">
 						<span class="btn btn-v2 btn-add-file btn-primary btn-edit"><img class="icon"
 								src="<?php echo site_get_template_directory_assets(); ?>/img/icon/pencil.svg"
@@ -57,7 +59,7 @@ get_header();
 	<span></span>
 	<div class="flex" style="gap:10px">
 		<span class="btn btn-v2 btn-secondary btn-cancel">Huỷ</span>
-		<span class="btn btn-v2 btn-primary">Lưu thay đổi</span>
+		<span class="btn btn-v2 btn-primary btn-save-data">Lưu thay đổi</span>
 	</div>
 </div>
 </section>
@@ -108,22 +110,25 @@ get_header();
 					</thead>
 					<tbody>
 						<?php
-						for ($i = 0; $i < 20; $i++) {
-							?>
-							<tr>
-								<td class="text-capitalize nowrap wrap-td" style="min-width: 300px;">
-									<span class="ellipsis"><a href="detail-customer/?customer_id">Cơm
-											tấm sườn trứng eatlean</a>
-									</span>
-								</td>
-								<td class="text-left"><span>Món mặn</span></td>
-								<td class="text-left">
-									<span>Heo</span>
-								</td>
-								<td class="text-left">Cốt lết</td>
-							</tr>
-							<?php
-						}
+// 						$results = $wpdb->get_results( "SELECT menu_id FROM {$wpdb->prefix}em_menu_week where id=".$_GET['t'], OBJECT );
+// 						$list_id = explode('-',$results[0]->menu_id);
+// 						foreach($list_id as $id)
+// 						{
+// 							$meal = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}em_menu where id=".$id, OBJECT )[0];
+// 							?>
+// 								<tr>
+// 									<td class="text-capitalize nowrap wrap-td" style="min-width: 300px;">
+// 										<span class="ellipsis"><a href="detail-customer/?<?=$meal->id;?>"><?=$meal->name;?></a>
+// 										</span>
+// 									</td>
+// 									<td class="text-left"><span>Món mặn</span></td>
+// 									<td class="text-left">
+// 										<span>Heo</span>
+// 									</td>
+// 									<td class="text-left">Cốt lết</td>
+// 								</tr>
+// 							<?php
+// 						}
 						?>
 					</tbody>
 

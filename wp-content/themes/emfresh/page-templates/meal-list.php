@@ -1,5 +1,17 @@
 <?php
-
+global $wpdb;
+if(isset($_POST['action']) && $_POST['action'] == "add_meal")
+{	
+	$wpdb->show_errors = 1;
+	$week = addslashes($_POST['week']);
+	$menu_id = explode('-',$_POST['list-id']);
+	$results = $wpdb->get_results( "SELECT menu_id FROM {$wpdb->prefix}em_menu_week where id=".$week, OBJECT );
+	$menu_item = explode('-',$results[0]->menu_id);
+	$menu_final = array_filter(array_unique(array_merge($menu_id,$menu_item)));
+	$data = [ 'menu_id' => join('-',$menu_final)];
+	$where = [ 'id' => $week ];
+	$wpdb->update( $wpdb->prefix . 'em_menu_week', $data, $where );
+}
 /**
  * Template Name: Meal-List
  *
@@ -22,6 +34,11 @@ get_header();
 <!-- Main content -->
 <section class="content page-content">
 	<?php
+	var_dump($_POST);
+	var_dump(explode('-',$_POST['list-id']));
+	var_dump($menu_id);
+	var_dump($menu_item);
+	var_dump($menu_final);
 	if (isset($_GET['message']) && $_GET['message'] == 'Delete Success' && !empty($_GET['expires']) && intval($_GET['expires']) > time()) {
 		echo '<div class="alert alert-success mt-3 mb-16" role="alert">Xóa khách hàng thành công</div>';
 	}
@@ -194,44 +211,36 @@ get_header();
 						</tr>
 					</thead>
 					<tbody>
-						<?php
-						for ($i = 0; $i < 20; $i++) {
-							?>
-							<tr>
-								<td class="text-capitalize nowrap wrap-td" style="min-width: 300px;">
-									<span class="ellipsis"><a href="detail-customer/?customer_id">Cơm
-											tấm sườn trứng eatlean</a>
-									</span>
-								</td>
-								<td class="text-left"><span>Món mặn</span></td>
-								<td class="text-left">
-									<span>Heo</span>
-								</td>
-								<td class="text-left">Cốt lết</td>
-							</tr>
-							<?php
-						}
-						?>
 					</tbody>
 
 				</table>
 				<div style="margin-top:20px">
 					<label for="" class="input-label">Chọn danh sách bạn muốn thêm vào</label>
 					<select name="note_name" class="input-control form-control input-note_name" style="width:100%">
-						<option value="">
-							Menu tuần 10 (03/02 - 07/02)
-						</option>
+						<?php
+							$date = new DateTime($ddate);
+							$week = $date->format("W");
+							$results = $wpdb->get_results( "SELECT id,name FROM {$wpdb->prefix}em_menu_week where tuan >= ".$week." ORDER BY id DESC", OBJECT );
+							foreach($results as $data){
+								echo '<option value="'.$data->id.'">'.$data->name.'</option>';
+							}
+						?>
 					</select>
 				</div>
 			</div>
 			<div class="form-group pt-16 text-right">
 				<!-- <button type="button" class="button btn-default modal-close">Huỷ</button> -->
 				<button type="button" class="btn btn-v2 btn-secondary modal-close">Huỷ</button>
-				<button type="button" class="btn btn-v2 btn-primary modal-close">Thêm</button>
+				<button type="button" class="btn btn-v2 btn-them-mon btn-primary modal-close">Thêm</button>
 			</div>
 		</div>
 	</div>
 </div>
+<form method="POST" id="add_meal_menu">
+	<input type="hidden" value="" name="list-id" id="list-id">
+	<input type="hidden" value="" name="week" id="week">
+	<input type="hidden" name="action" value="add_meal">
+</form>
 <?php
 
 get_template_part('parts/popup/result', 'update');
@@ -282,7 +291,9 @@ get_footer('customer');
 	}
 
 	$(document).ready(function () {
-
+		if ( window.history.replaceState ) {
+			window.history.replaceState( null, null, window.location.href );
+		}
 		// Load checkbox states when the page loads
 		loadCheckboxState();
 
@@ -315,5 +326,33 @@ get_footer('customer');
 				$modalBody.find('.row.' + rel).show();
 			}
 		});
+		
+		var list_chon = "";
+		
+		$('.btn-add-file').click(function(){
+			const table = new DataTable('.table-print');
+			table.clear().draw(false);
+			$('.table .checkbox-element[type="checkbox"]:checked').each(function() {
+				var tenmon, nhom, nguyenlieu, loai;
+				list_chon += $(this).val() + "-";
+				tenmon = $(this).parent().parent().find('[data-number="1"]').text()
+				nhom = $(this).parent().parent().find('[data-number="2"]').text()
+				nguyenlieu = $(this).parent().parent().find('[data-number="3"]').text()
+				loai = $(this).parent().parent().find('[data-number="4"]').text()
+				table.row
+						.add([
+							tenmon,
+							nhom,
+							nguyenlieu,
+							loai
+						])
+						.draw(false);
+			});
+		});
+		$('.btn-them-mon').click(function(){
+			$('#list-id').val(list_chon);
+			$('#week').val($('[name="note_name"]').val());
+			$('#add_meal_menu').submit();
+		})
 	});
 </script>
